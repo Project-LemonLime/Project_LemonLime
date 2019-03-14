@@ -1,4 +1,4 @@
-# Project_LemonPt
+# Project_LemonPt (不稳定版)
 A tiny judging environment for OI contest based on Project_LemonPlus
 
 ## Windows 支持被咕了
