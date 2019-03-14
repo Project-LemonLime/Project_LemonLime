@@ -2039,7 +2039,7 @@
     <message>
         <location filename="lemon.cpp" line="713"/>
         <source>Be Careful : May Cause SEVERE FILE DAMAGES.</source>
-        <translation type="unfinished">为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。
+        <translation>为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。
 当心使用：原有的子文件夹的本来的文件会丢失。</translation>
     </message>
     <message>
@@ -2084,11 +2084,45 @@
     </message>
     <message>
         <location filename="lemon.cpp" line="737"/>
-        <source>Just see this sample.</source>
-        <translation>Lemon Pt 的SPJ标准和所有Lemon族的测试器的标准是一样的。下面的SPJ样例展示了接口的编号对应的内容。</translation>
+        <source>The special judge should take 6 arguments below:</source>
+        <translation>你的校验器需要接收6个参数流：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="750"/>
+        <location filename="lemon.cpp" line="738"/>
+        <source>argv[1] : (in) Standard Input</source>
+        <translation>argv[1] : （输入）标准输入文件</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="739"/>
+        <source>argv[2] : (in) Participant&apos;s Answer</source>
+        <translation>argv[2] : （输入）选手的输出文件</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="740"/>
+        <source>argv[3] : (in) Jury&apos;s Answer</source>
+        <translation>argv[3] : （输入）答案文件</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="741"/>
+        <source>argv[4] : (in) Full score of this task</source>
+        <translation>argv[4] : （输入）这个测试点的满分</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="742"/>
+        <source>argv[5] : (out) The score (A integer only)</source>
+        <translation>argv[5] : （输出）得到的分数（一个整数）</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="743"/>
+        <source>argv[6] : (out) Notes</source>
+        <translation>argv[6] : （输出）额外信息</translation>
+    </message>
+    <message>
+        <source>Just see this sample.</source>
+        <translation type="vanished">Lemon Pt 的SPJ标准和所有Lemon族的测试器的标准是一样的。下面的SPJ样例展示了接口的编号对应的内容。</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="744"/>
         <source>About Special Judge</source>
         <translation>关于 自定义校验器(SPJ)</translation>
     </message>

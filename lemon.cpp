@@ -734,19 +734,13 @@ void Lemon::actionSpecial_Judge()
 {
     QString text;
     text += "<h3>" + tr("What is Special Judge") + "</h3>";
-    text += tr("Just see this sample.") + "<br>";
-	text += "ifstream fin,fout,fstd,fper;<br>";
-	text += "ofstream fsco,fre;<br>";
-	text += "int main(int ag,char *ar[])<br>";
-	text += "{<br>";
-	text += "	fin.open(ar[1]),fout.open(ar[2]),fstd.open(ar[3]),fper.open(ar[4]),fsco.open(ar[5]),fre.open(ar[6]);<br>";
-	text += "	int scr;double a,b,x;scr=atoi(ar[4]);fout>>a,fstd>>b;<br>";
-	text += "	x=fabs(a-b)*100;x=x/(b+1e-7);<br>";
-	text += "	if(x&gt;1.00)scr*=0.0,fsco&lt;&lt;scr,fre&lt;&lt;\"The diff has reached \"&lt;&lt;setprecision(2)&lt;&lt;fixed&lt;&lt;x&lt;&lt;\"%. Ni fan che la!\";<br>";
-	text += "	else scr*=1.0,fsco&lt;&lt;scr,fre&lt;&lt;\"The diff is \"&lt;&lt;setprecision(2)&lt;&lt;fixed&lt;&lt;x&lt;&lt;\"%. Deja vu!\";<br>";
-	text += "	fin.close(),fout.close(),fstd.close(),fper.close(),fsco.close(),fre.close();<br>";
-	text += "	return 0;<br>";
-	text += "}<br>";
+    text += tr("The special judge should take 6 arguments below:") + "<br>";
+	text += tr("argv[1] : (in) Standard Input") + "<br>";
+	text += tr("argv[2] : (in) Participant's Answer") + "<br>";
+	text += tr("argv[3] : (in) Jury's Answer") + "<br>";
+	text += tr("argv[4] : (in) Full score of this task") + "<br>";
+	text += tr("argv[5] : (out) The score (A integer only)") + "<br>";
+	text += tr("argv[6] : (out) Notes") + "<br>";
     QMessageBox::about(this, tr("About Special Judge"), text);
 }
 
