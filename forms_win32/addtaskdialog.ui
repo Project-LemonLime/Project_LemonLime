@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddTaskDialog</class>
+ <widget class="QDialog" name="AddTaskDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>261</width>
+    <height>177</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>197</width>
+    <height>164</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Add Task</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="horizontalSpacing">
+    <number>9</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>10</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="taskLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Task</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QComboBox" name="taskBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="fullScoreLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Full Score</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="fullScore">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="timeLimitLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Time Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="timeLimit">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLabel" name="msLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size: 10pt;</string>
+     </property>
+     <property name="text">
+      <string>ms</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="memoryLimitLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Memory Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="memoryLimit">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="mbLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size: 10pt;</string>
+     </property>
+     <property name="text">
+      <string>MB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>33</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>33</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AddTaskDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>AddTaskDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

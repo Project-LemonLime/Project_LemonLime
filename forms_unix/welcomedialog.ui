@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WelcomeDialog</class>
+ <widget class="QDialog" name="WelcomeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>470</width>
+    <height>350</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Welcome</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true">font-size: 11pt;</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="openTab">
+      <attribute name="title">
+       <string>Open</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="OpenContestWidget" name="openContestWidget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="newTab">
+      <attribute name="title">
+       <string>New</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="NewContestWidget" name="newContestWidget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;</string>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OpenContestWidget</class>
+   <extends>QWidget</extends>
+   <header>opencontestwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NewContestWidget</class>
+   <extends>QWidget</extends>
+   <header>newcontestwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>WelcomeDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>324</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>WelcomeDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>324</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

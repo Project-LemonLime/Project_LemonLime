@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddCompilerWizard</class>
+ <widget class="QWizard" name="AddCompilerWizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>470</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>470</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Add Compilers Wizard</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font-size:9pt;</string>
+  </property>
+  <widget class="QWizardPage" name="selectTypePage">
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <property name="spacing">
+     <number>8</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepOneLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler's configuration.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>8</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="customRadioButton">
+          <property name="styleSheet">
+           <string notr="true">font-size:9pt;</string>
+          </property>
+          <property name="text">
+           <string>Custom Configuration</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="builtinRadioButton">
+            <property name="styleSheet">
+             <string notr="true">font-size:9pt;</string>
+            </property>
+            <property name="text">
+             <string>Built-in Configuration (Tick the compilers you want to add)</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QFrame" name="compilersCollection">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QCheckBox" name="gccCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">gcc</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="gppCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">g++</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="fpcCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">fpc</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="fbcCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">fbc</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="jdkCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">jdk</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="pythonCheck">
+                 <property name="styleSheet">
+                  <string notr="true">font-size:9pt;</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">python</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>26</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="customPage">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="spacing">
+     <number>9</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepTwoLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step II: Select compiler's location to configure it.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <property name="horizontalSpacing">
+       <number>10</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>9</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="compilerNameLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Compiler Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="compilerName">
+        <property name="minimumSize">
+         <size>
+          <width>61</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="compilerTypeLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Compiler Type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QComboBox" name="typeSelect">
+        <property name="minimumSize">
+         <size>
+          <width>211</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Typical (Generate executable file)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Interpretive (Generate byte-code file)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Interpretive (Run source code directly)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="compilerLocationLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Compiler's Location</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="compilerLocation">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QToolButton" name="compilerSelectButton">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="interpreterLocationLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Interpreter's Location</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="interpreterLocation">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QToolButton" name="interpreterSelectButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="sourceFileExtensionsLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Source File Extensions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="sourceFileExtensions">
+        <property name="minimumSize">
+         <size>
+          <width>61</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>81</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="bytecodeFileExtensionsLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Byte-code File Extensions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="bytecodeFileExtensions">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>61</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>81</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="defaultCompilerArgumentsLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Default Compiler's Arguments</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" colspan="2">
+       <widget class="QLineEdit" name="defaultCompilerArguments">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="defaultInterpreterArgumentsLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Default Interpreter's Arguments</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1" colspan="2">
+       <widget class="QLineEdit" name="defaultInterpreterArguments">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>110</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="builtinCompilersPage">
+   <layout class="QVBoxLayout" name="verticalLayout_12">
+    <property name="spacing">
+     <number>8</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepTwoLabel_2">
+      <property name="styleSheet">
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step II: Select compilers' locations to configure them.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="spacing">
+       <number>9</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="gccGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">gcc</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="gccPath"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="gccSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="gccO2Check">
+           <property name="styleSheet">
+            <string notr="true">font-size:9pt;</string>
+           </property>
+           <property name="text">
+            <string>Enable O2 Optimization</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QGroupBox" name="gppGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">g++</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="gppPath"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="gppSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="gppO2Check">
+           <property name="styleSheet">
+            <string notr="true">font-size:9pt;</string>
+           </property>
+           <property name="text">
+            <string>Enable O2 Optimization</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="fpcGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">fpc</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="fpcPath"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="fpcSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="fpcO2Check">
+           <property name="styleSheet">
+            <string notr="true">font-size:9pt;</string>
+           </property>
+           <property name="text">
+            <string>Enable O2 Optimization</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="fbcGroupBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">fbc</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="fbcPath"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="fbcSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>24</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="javaGroupBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">Java</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <property name="horizontalSpacing">
+            <number>8</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="styleSheet">
+              <string notr="true">font-size:9pt;</string>
+             </property>
+             <property name="text">
+              <string notr="true">javac</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="javacPath"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QToolButton" name="javacSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="styleSheet">
+              <string notr="true">font-size:9pt;</string>
+             </property>
+             <property name="text">
+              <string notr="true">java</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="javaPath"/>
+           </item>
+           <item row="1" column="2">
+            <widget class="QToolButton" name="javaSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="javaMemoryLimitLabel">
+             <property name="styleSheet">
+              <string notr="true">font-size:9pt;</string>
+             </property>
+             <property name="text">
+              <string>Memory Limit</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="javaMemoryLimit">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string notr="true">512</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="javaMbLabel">
+             <property name="styleSheet">
+              <string notr="true">font-size:9pt;</string>
+             </property>
+             <property name="text">
+              <string>MB</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QGroupBox" name="pythonGroupBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="title">
+         <string notr="true">Python</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="pythonPath"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="pythonSelectButton">
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>53</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_7">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>17</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="finishPage">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepThreeLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step III: Check the result and finish the wizard.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="logViewer">
+      <property name="minimumSize">
+       <size>
+        <width>310</width>
+        <height>220</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font-size:10pt;</string>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>builtinRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>compilersCollection</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gccCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>gccGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>116</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gppCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>gppGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>118</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fpcCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>fpcGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>116</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fbcCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>fbcGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>jdkCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>javaGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>116</x>
+     <y>268</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pythonCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pythonGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>317</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

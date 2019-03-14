@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>rod.png</file>
+        <file>downarrow.png</file>
+        <file>uparrow.png</file>
+        <file>add.png</file>
+        <file>cross.png</file>
+        <file>icon.png</file>
+    </qresource>
+    <qresource prefix="/translation">
+        <file>lemon_zh_CN.qm</file>
+        <file>qt_zh_CN.qm</file>
+    </qresource>
+    <qresource prefix="/judge">
+        <file>realjudge_win32.exe</file>
+        <file>realjudge_linux</file>
+    </qresource>
+    <qresource prefix="/watcher">
+        <file>watcher_unix</file>
+    </qresource>
+</RCC>

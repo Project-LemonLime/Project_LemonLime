@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TaskEditWidget</class>
+ <widget class="QWidget" name="TaskEditWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>577</width>
+    <height>522</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="8" column="0">
+    <widget class="QLabel" name="interactorNameLabel">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Interactor Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="problemTitleLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Problem Title</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="problemTitle"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="taskTypeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Task Type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="inputFileNameLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Input File Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <item>
+      <widget class="QRadioButton" name="traditionalButton">
+       <property name="styleSheet">
+        <string notr="true">font-size: 11pt;</string>
+       </property>
+       <property name="text">
+        <string>&amp;Traditional</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="answersOnlyButton">
+       <property name="styleSheet">
+        <string notr="true">font-size: 11pt;</string>
+       </property>
+       <property name="text">
+        <string>&amp;Answers Only</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="interactionButton">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>&amp;Interaction</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="sourceFileNameLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Source File Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="outputFileName"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="inputFileName"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="outputFileNameLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Output File Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QCheckBox" name="standardInputCheck">
+     <property name="styleSheet">
+      <string notr="true">font-size: 11pt;</string>
+     </property>
+     <property name="text">
+      <string>Standard input</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="comparisonModeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Comparison Mode</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QCheckBox" name="standardOutputCheck">
+     <property name="styleSheet">
+      <string notr="true">font-size: 11pt;</string>
+     </property>
+     <property name="text">
+      <string>Standard output</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="2">
+    <widget class="QComboBox" name="comparisonMode">
+     <property name="styleSheet">
+      <string notr="true">font-size: 11pt;</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Line-by-line mode</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Line-by-line mode (ignore extra spaces and tabs)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>External tool mode (diff)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real number mode</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Special judge mode</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLabel" name="compilerSettingsLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>143</width>
+         <height>18</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>143</width>
+         <height>18</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       </property>
+       <property name="text">
+        <string>Compiler Settings</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="1" colspan="2">
+    <widget class="QStackedWidget" name="comparisonSetting">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="lineByLineMode"/>
+     <widget class="QWidget" name="ignoreSpacesMode"/>
+     <widget class="QWidget" name="externalToolMode">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="argumentsLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:10pt;</string>
+         </property>
+         <property name="text">
+          <string>Arguments:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="diffArguments"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="realNumberMode">
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLabel" name="precisionLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:10pt;</string>
+         </property>
+         <property name="text">
+          <string>Real Number Precision:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="realPrecision">
+         <property name="maximum">
+          <number>18</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="digitsLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:10pt;</string>
+         </property>
+         <property name="text">
+          <string>digits</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>96</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="specialJudgeMode">
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="FileLineEdit" name="specialJudge"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="10" column="1" colspan="2">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <item>
+      <widget class="QListWidget" name="compilersList"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <property name="spacing">
+        <number>15</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="configurationLabel">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:10pt;</string>
+         </property>
+         <property name="text">
+          <string>Configuration:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="configurationSelect">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:10pt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="11" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="answerFileExtensionLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       </property>
+       <property name="text">
+        <string>Extension of Contestant's Answer File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="answerFileExtension">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>61</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>61</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="7" column="1" colspan="2">
+    <widget class="FileLineEdit" name="interactorPath"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="interactorPathLabel">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Interactor Path</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="sourceFileName"/>
+   </item>
+   <item row="2" column="2">
+    <widget class="QCheckBox" name="subFolderCheck">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Subfolder</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="graderPathLabel">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Grader Path</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1" colspan="2">
+    <widget class="QLineEdit" name="interactorName"/>
+   </item>
+   <item row="9" column="1" colspan="2">
+    <widget class="FileLineEdit" name="graderPath"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>filelineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>problemTitle</tabstop>
+  <tabstop>sourceFileName</tabstop>
+  <tabstop>inputFileName</tabstop>
+  <tabstop>standardInputCheck</tabstop>
+  <tabstop>outputFileName</tabstop>
+  <tabstop>standardOutputCheck</tabstop>
+  <tabstop>comparisonMode</tabstop>
+  <tabstop>compilersList</tabstop>
+  <tabstop>configurationSelect</tabstop>
+  <tabstop>specialJudge</tabstop>
+  <tabstop>realPrecision</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>comparisonMode</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>comparisonSetting</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>329</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>329</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

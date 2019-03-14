@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddTestCasesWizard</class>
+ <widget class="QWizard" name="AddTestCasesWizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>459</width>
+    <height>372</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>459</width>
+    <height>372</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Add Test Cases</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font-size:10pt;</string>
+  </property>
+  <widget class="QWizardPage" name="wizardPage1">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepOneLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step I: Input the full score, time limit and memory limit for each new test case.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="fullScoreLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+        <property name="text">
+         <string>Full Score</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLineEdit" name="fullScore">
+          <property name="minimumSize">
+           <size>
+            <width>73</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>73</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="timeLimitLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+        <property name="text">
+         <string>Time Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="timeLimit">
+          <property name="minimumSize">
+           <size>
+            <width>58</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>58</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="msLabel">
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
+          <property name="text">
+           <string>ms</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="memoryLimitLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+        <property name="text">
+         <string>Memory Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="memoryLimit">
+          <property name="minimumSize">
+           <size>
+            <width>58</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>58</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="mbLabel">
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
+          <property name="text">
+           <string>MB</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>141</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage2">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepTwoLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>9</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="inputFilesPatternLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+        <property name="text">
+         <string>Input Files Pattern</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="inputFilesPattern">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="outputFilesPatternLabel">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+        <property name="text">
+         <string>Output Files Pattern</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="outputFilesPattern">
+        <property name="styleSheet">
+         <string notr="true">font-size:11pt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QTableWidget" name="argumentList">
+        <property name="styleSheet">
+         <string notr="true">font-size: 11pt;</string>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>70</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>25</number>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>25</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Argument</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Regular Expression</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="addArgumentButton">
+          <property name="minimumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="deleteArgumentButton">
+          <property name="minimumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage3">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="stepThreeLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      </property>
+      <property name="text">
+       <string>Step III: Preview the result and finish the wizard.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTreeWidget" name="testCasesViewer">
+      <property name="columnCount">
+       <number>2</number>
+      </property>
+      <attribute name="headerVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string notr="true">2</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
