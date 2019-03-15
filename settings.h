@@ -30,74 +30,74 @@ class Compiler;
 
 class Settings : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit Settings(QObject *parent = 0);
-    
-    int getDefaultFullScore() const;
-    int getDefaultTimeLimit() const;
-    int getDefaultMemoryLimit() const;
-    int getCompileTimeLimit() const;
-    int getSpecialJudgeTimeLimit() const;
-    int getFileSizeLimit() const;
-    int getRejudgeTimes() const;
-    const QString& getDefaultInputFileExtension() const;
-    const QString& getDefaultOutputFileExtension() const;
-    const QStringList& getInputFileExtensions() const;
-    const QStringList& getOutputFileExtensions() const;
-    const QStringList& getRecentContest() const;
-    const QList<Compiler*>& getCompilerList() const;
-    const QString& getUiLanguage() const;
-    const QString& getDiffPath() const;
-    
-    void setDefaultFullScore(int);
-    void setDefaultTimeLimit(int);
-    void setDefaultMemoryLimit(int);
-    void setCompileTimeLimit(int);
-    void setSpecialJudgeTimeLimit(int);
-    void setFileSizeLimit(int);
-    void setRejudgeTimes(int);
-    void setDefaultInputFileExtension(const QString&);
-    void setDefaultOutputFileExtension(const QString&);
-    void setInputFileExtensions(const QString&);
-    void setOutputFileExtensions(const QString&);
-    void setRecentContest(const QStringList&);
-    void setUiLanguage(const QString&);
-    
-    void addCompiler(Compiler*);
-    void deleteCompiler(int);
-    Compiler* getCompiler(int);
-    void swapCompiler(int, int);
-    void copyFrom(Settings*);
-    void saveSettings();
-    void loadSettings();
-    
-    static int upperBoundForFullScore();
-    static int upperBoundForTimeLimit();
-    static int upperBoundForMemoryLimit();
-    static int upperBoundForFileSizeLimit();
-    static int upperBoundForRejudgeTimes();
-    static QString dataPath();
-    static QString sourcePath();
-    static QString temporaryPath();
-    static QString selfTestPath();
+	explicit Settings(QObject *parent = 0);
+
+	int getDefaultFullScore() const;
+	int getDefaultTimeLimit() const;
+	int getDefaultMemoryLimit() const;
+	int getCompileTimeLimit() const;
+	int getSpecialJudgeTimeLimit() const;
+	int getFileSizeLimit() const;
+	int getRejudgeTimes() const;
+	const QString& getDefaultInputFileExtension() const;
+	const QString& getDefaultOutputFileExtension() const;
+	const QStringList& getInputFileExtensions() const;
+	const QStringList& getOutputFileExtensions() const;
+	const QStringList& getRecentContest() const;
+	const QList<Compiler*>& getCompilerList() const;
+	const QString& getUiLanguage() const;
+	const QString& getDiffPath() const;
+
+	void setDefaultFullScore(int);
+	void setDefaultTimeLimit(int);
+	void setDefaultMemoryLimit(int);
+	void setCompileTimeLimit(int);
+	void setSpecialJudgeTimeLimit(int);
+	void setFileSizeLimit(int);
+	void setRejudgeTimes(int);
+	void setDefaultInputFileExtension(const QString&);
+	void setDefaultOutputFileExtension(const QString&);
+	void setInputFileExtensions(const QString&);
+	void setOutputFileExtensions(const QString&);
+	void setRecentContest(const QStringList&);
+	void setUiLanguage(const QString&);
+
+	void addCompiler(Compiler*);
+	void deleteCompiler(int);
+	Compiler* getCompiler(int);
+	void swapCompiler(int, int);
+	void copyFrom(Settings*);
+	void saveSettings();
+	void loadSettings();
+
+	static int upperBoundForFullScore();
+	static int upperBoundForTimeLimit();
+	static int upperBoundForMemoryLimit();
+	static int upperBoundForFileSizeLimit();
+	static int upperBoundForRejudgeTimes();
+	static QString dataPath();
+	static QString sourcePath();
+	static QString temporaryPath();
+	static QString selfTestPath();
 
 private:
-    QList<Compiler*> compilerList;
-    int defaultFullScore;
-    int defaultTimeLimit;
-    int defaultMemoryLimit;
-    int compileTimeLimit;
-    int specialJudgeTimeLimit;
-    int fileSizeLimit;
-    int rejudgeTimes;
-    QString defaultInputFileExtension;
-    QString defaultOutputFileExtension;
-    QStringList inputFileExtensions;
-    QStringList outputFileExtensions;
-    QStringList recentContest;
-    QString uiLanguage;
-    QString diffPath;
+	QList<Compiler*> compilerList;
+	int defaultFullScore;
+	int defaultTimeLimit;
+	int defaultMemoryLimit;
+	int compileTimeLimit;
+	int specialJudgeTimeLimit;
+	int fileSizeLimit;
+	int rejudgeTimes;
+	QString defaultInputFileExtension;
+	QString defaultOutputFileExtension;
+	QStringList inputFileExtensions;
+	QStringList outputFileExtensions;
+	QStringList recentContest;
+	QString uiLanguage;
+	QString diffPath;
 };
 
 #endif // SETTINGS_H

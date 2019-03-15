@@ -31,33 +31,33 @@ class Contest;
 
 class ResultViewer : public QTableWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit ResultViewer(QWidget *parent = 0);
-    void changeEvent(QEvent*);
-    void contextMenuEvent(QContextMenuEvent*);
-    void setContest(Contest*);
+	explicit ResultViewer(QWidget *parent = 0);
+	void changeEvent(QEvent*);
+	void contextMenuEvent(QContextMenuEvent*);
+	void setContest(Contest*);
 
 public slots:
-    void refreshViewer();
-    void judgeSelected();
-    void judgeAll();
-    void judgeSingleTask(int);
+	void refreshViewer();
+	void judgeSelected();
+	void judgeAll();
+	void judgeSingleTask(int);
 
 private:
-    Contest *curContest;
-    QAction *deleteContestantAction;
-    QAction *detailInformationAction;
-    QAction *judgeSelectedAction;
-    QAction *deleteContestantKeyAction;
-    void clearPath(const QString&);
+	Contest *curContest;
+	QAction *deleteContestantAction;
+	QAction *detailInformationAction;
+	QAction *judgeSelectedAction;
+	QAction *deleteContestantKeyAction;
+	void clearPath(const QString&);
 
 private slots:
-    void deleteContestant();
-    void detailInformation();
+	void deleteContestant();
+	void detailInformation();
 
 signals:
-    void contestantDeleted();
+	void contestantDeleted();
 };
 
 #endif // RESULTVIEWER_H

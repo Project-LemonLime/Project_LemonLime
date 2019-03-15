@@ -23,179 +23,183 @@
 #include "compiler.h"
 
 Compiler::Compiler(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {
-    compilerType = Typical;
-    timeLimitRatio = 1;
-    memoryLimitRatio = 1;
-    disableMemoryLimitCheck = false;
+	compilerType = Typical;
+	timeLimitRatio = 1;
+	memoryLimitRatio = 1;
+	disableMemoryLimitCheck = false;
 }
 
 Compiler::CompilerType Compiler::getCompilerType() const
 {
-    return compilerType;
+	return compilerType;
 }
 
 const QString& Compiler::getCompilerName() const
 {
-    return compilerName;
+	return compilerName;
 }
 
 const QStringList& Compiler::getSourceExtensions() const
 {
-    return sourceExtensions;
+	return sourceExtensions;
 }
 
 const QString& Compiler::getCompilerLocation() const
 {
-    return compilerLocation;
+	return compilerLocation;
 }
 
 const QString& Compiler::getInterpreterLocation() const
 {
-    return interpreterLocation;
+	return interpreterLocation;
 }
 
 const QStringList& Compiler::getBytecodeExtensions() const
 {
-    return bytecodeExtensions;
+	return bytecodeExtensions;
 }
 
 const QStringList& Compiler::getConfigurationNames() const
 {
-    return configurationNames;
+	return configurationNames;
 }
 
 const QStringList& Compiler::getCompilerArguments() const
 {
-    return compilerArguments;
+	return compilerArguments;
 }
 
 const QStringList& Compiler::getInterpreterArguments() const
 {
-    return interpreterArguments;
+	return interpreterArguments;
 }
 
 const QProcessEnvironment& Compiler::getEnvironment() const
 {
-    return environment;
+	return environment;
 }
 
 double Compiler::getTimeLimitRatio() const
 {
-    return timeLimitRatio;
+	return timeLimitRatio;
 }
 
 double Compiler::getMemoryLimitRatio() const
 {
-    return memoryLimitRatio;
+	return memoryLimitRatio;
 }
 
 bool Compiler::getDisableMemoryLimitCheck() const
 {
-    return disableMemoryLimitCheck;
+	return disableMemoryLimitCheck;
 }
 
 void Compiler::setCompilerType(Compiler::CompilerType type)
 {
-    compilerType = type;
+	compilerType = type;
 }
 
 void Compiler::setCompilerName(const QString &name)
 {
-    compilerName = name;
+	compilerName = name;
 }
 
 void Compiler::setSourceExtensions(const QString &extensions)
 {
-    sourceExtensions = extensions.split(";", QString::SkipEmptyParts);
+	sourceExtensions = extensions.split(";", QString::SkipEmptyParts);
 }
 
 void Compiler::setCompilerLocation(const QString &location)
 {
-    compilerLocation = location;
+	compilerLocation = location;
 }
 
 void Compiler::setInterpreterLocation(const QString &location)
 {
-    interpreterLocation = location;
+	interpreterLocation = location;
 }
 
 void Compiler::setBytecodeExtensions(const QString &extensions)
 {
-    bytecodeExtensions = extensions.split(";", QString::SkipEmptyParts);
+	bytecodeExtensions = extensions.split(";", QString::SkipEmptyParts);
 }
 
 void Compiler::setEnvironment(const QProcessEnvironment &env)
 {
-    environment = env;
+	environment = env;
 }
 
 void Compiler::setTimeLimitRatio(double ratio)
 {
-    timeLimitRatio = ratio;
+	timeLimitRatio = ratio;
 }
 
 void Compiler::setMemoryLimitRatio(double ratio)
 {
-    memoryLimitRatio = ratio;
+	memoryLimitRatio = ratio;
 }
 
 void Compiler::setDisableMemoryLimitCheck(bool check)
 {
-    disableMemoryLimitCheck = check;
+	disableMemoryLimitCheck = check;
 }
 
 void Compiler::addConfiguration(const QString &name, const QString &arguments1, const QString &arguments2)
 {
-    configurationNames.append(name);
-    compilerArguments.append(arguments1);
-    interpreterArguments.append(arguments2);
+	configurationNames.append(name);
+	compilerArguments.append(arguments1);
+	interpreterArguments.append(arguments2);
 }
 
 void Compiler::setConfigName(int index, const QString &name)
 {
-    if (0 <= index && index < configurationNames.size()) {
-        configurationNames[index] = name;
-    }
+	if(0 <= index && index < configurationNames.size())
+	{
+		configurationNames[index] = name;
+	}
 }
 
 void Compiler::setCompilerArguments(int index, const QString &arguments)
 {
-    if (0 <= index && index < compilerArguments.size()) {
-        compilerArguments[index] = arguments;
-    }
+	if(0 <= index && index < compilerArguments.size())
+	{
+		compilerArguments[index] = arguments;
+	}
 }
 
 void Compiler::setInterpreterArguments(int index, const QString &arguments)
 {
-    if (0 <= index && index < interpreterArguments.size()) {
-        interpreterArguments[index] = arguments;
-    }
+	if(0 <= index && index < interpreterArguments.size())
+	{
+		interpreterArguments[index] = arguments;
+	}
 }
 
 void Compiler::deleteConfiguration(int index)
 {
-    if (0 <= index && index < configurationNames.size()) {
-        configurationNames.removeAt(index);
-        compilerArguments.removeAt(index);
-        interpreterArguments.removeAt(index);
-    }
+	if(0 <= index && index < configurationNames.size())
+	{
+		configurationNames.removeAt(index);
+		compilerArguments.removeAt(index);
+		interpreterArguments.removeAt(index);
+	}
 }
 
 void Compiler::copyFrom(Compiler *other)
 {
-    compilerType = other->getCompilerType();
-    compilerName = other->getCompilerName();
-    sourceExtensions = other->getSourceExtensions();
-    compilerLocation = other->getCompilerLocation();
-    interpreterLocation = other->getInterpreterLocation();
-    bytecodeExtensions = other->getBytecodeExtensions();
-    configurationNames = other->getConfigurationNames();
-    compilerArguments = other->getCompilerArguments();
-    interpreterArguments = other->getInterpreterArguments();
-    environment = other->getEnvironment();
-    timeLimitRatio = other->getTimeLimitRatio();
-    memoryLimitRatio = other->getMemoryLimitRatio();
-    disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
+	compilerType = other->getCompilerType();
+	compilerName = other->getCompilerName();
+	sourceExtensions = other->getSourceExtensions();
+	compilerLocation = other->getCompilerLocation();
+	interpreterLocation = other->getInterpreterLocation();
+	bytecodeExtensions = other->getBytecodeExtensions();
+	configurationNames = other->getConfigurationNames();
+	compilerArguments = other->getCompilerArguments();
+	interpreterArguments = other->getInterpreterArguments();
+	environment = other->getEnvironment();
+	timeLimitRatio = other->getTimeLimitRatio();
+	memoryLimitRatio = other->getMemoryLimitRatio();
+	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
 }

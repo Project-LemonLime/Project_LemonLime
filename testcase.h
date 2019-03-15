@@ -28,37 +28,37 @@
 
 class TestCase : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit TestCase(QObject *parent = 0);
-    int getFullScore() const;
-    int getTimeLimit() const;
-    int getMemoryLimit() const;
-    const QStringList& getInputFiles() const;
-    const QStringList& getOutputFiles() const;
-    const QList<int>& getDependenceSubtask() const;
-    void setIndex(int);
-    void setFullScore(int);
-    void setTimeLimit(int);
-    void setMemoryLimit(int);
-    void setInputFiles(int, const QString&);
-    void setOutputFiles(int, const QString&);
-    void setDependenceSubtask(const QStringList&);
-    bool checkDependenceSubtask(const QStringList&);
-    void addSingleCase(const QString&, const QString&);
-    void deleteSingleCase(int);
-    void writeToStream(QDataStream&);
-    void readFromStream(QDataStream&);
-    void clearDependenceSubtask();
+	explicit TestCase(QObject *parent = 0);
+	int getFullScore() const;
+	int getTimeLimit() const;
+	int getMemoryLimit() const;
+	const QStringList& getInputFiles() const;
+	const QStringList& getOutputFiles() const;
+	const QList<int>& getDependenceSubtask() const;
+	void setIndex(int);
+	void setFullScore(int);
+	void setTimeLimit(int);
+	void setMemoryLimit(int);
+	void setInputFiles(int, const QString&);
+	void setOutputFiles(int, const QString&);
+	void setDependenceSubtask(const QStringList&);
+	bool checkDependenceSubtask(const QStringList&);
+	void addSingleCase(const QString&, const QString&);
+	void deleteSingleCase(int);
+	void writeToStream(QDataStream&);
+	void readFromStream(QDataStream&);
+	void clearDependenceSubtask();
 
 private:
-    QStringList inputFiles;
-    QStringList outputFiles;
-    QList<int>  dependenceSubtask;
-    int index;
-    int fullScore;
-    int timeLimit;
-    int memoryLimit;
+	QStringList inputFiles;
+	QStringList outputFiles;
+	QList<int>  dependenceSubtask;
+	int index;
+	int fullScore;
+	int timeLimit;
+	int memoryLimit;
 };
 
 #endif // TESTCASE_H

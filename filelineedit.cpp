@@ -24,48 +24,61 @@
 #include "settings.h"
 
 FileLineEdit::FileLineEdit(QWidget *parent) :
-    QLineEdit(parent)
+	QLineEdit(parent)
 {
-    completer = 0;
+	completer = 0;
 }
 
 void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
 {
-    QDir dir(curDir);
-    if (! nameFilters.isEmpty()) {
-        dir.setNameFilters(nameFilters);
-    }
-    QStringList list = dir.entryList(filters);
-    for (int i = 0; i < list.size(); i ++) {
-        list[i] = prefix + list[i];
-    }
-    files.append(list);
-    list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    for (int i = 0; i < list.size(); i ++) {
-        getFiles(curDir + list[i] + QDir::separator(),
-                 prefix + list[i] + QDir::separator(), files);
-    }
+	QDir dir(curDir);
+
+	if(! nameFilters.isEmpty())
+	{
+		dir.setNameFilters(nameFilters);
+	}
+
+	QStringList list = dir.entryList(filters);
+
+	for(int i = 0; i < list.size(); i ++)
+	{
+		list[i] = prefix + list[i];
+	}
+
+	files.append(list);
+	list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+
+	for(int i = 0; i < list.size(); i ++)
+	{
+		getFiles(curDir + list[i] + QDir::separator(),
+		         prefix + list[i] + QDir::separator(), files);
+	}
 }
 
 void FileLineEdit::setFilters(QDir::Filters _filters)
 {
-    filters = _filters;
+	filters = _filters;
 }
 
 void FileLineEdit::setFileExtensions(const QStringList &extensions)
 {
-    nameFilters.clear();
-    for (int i = 0; i < extensions.size(); i ++) {
-        nameFilters.append("*." + extensions[i]);
-    }
-    refreshFileList();
+	nameFilters.clear();
+
+	for(int i = 0; i < extensions.size(); i ++)
+	{
+		nameFilters.append("*." + extensions[i]);
+	}
+
+	refreshFileList();
 }
 
 void FileLineEdit::refreshFileList()
 {
-    QStringList files;
-    getFiles(Settings::dataPath(), "", files);
-    if (completer) delete completer;
-    completer = new QCompleter(files, this);
-    setCompleter(completer);
+	QStringList files;
+	getFiles(Settings::dataPath(), "", files);
+
+	if(completer) delete completer;
+
+	completer = new QCompleter(files, this);
+	setCompleter(completer);
 }

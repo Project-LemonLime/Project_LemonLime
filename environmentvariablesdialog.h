@@ -27,28 +27,29 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class EnvironmentVariablesDialog;
+namespace Ui
+{
+class EnvironmentVariablesDialog;
 }
 
 class EnvironmentVariablesDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit EnvironmentVariablesDialog(QWidget *parent = 0);
-    ~EnvironmentVariablesDialog();
-    void setProcessEnvironment(const QProcessEnvironment&);
-    QProcessEnvironment getProcessEnvironment() const;
+	explicit EnvironmentVariablesDialog(QWidget *parent = 0);
+	~EnvironmentVariablesDialog();
+	void setProcessEnvironment(const QProcessEnvironment&);
+	QProcessEnvironment getProcessEnvironment() const;
 
 private:
-    Ui::EnvironmentVariablesDialog *ui;
+	Ui::EnvironmentVariablesDialog *ui;
 
 private slots:
-    void addButtonClicked();
-    void editButtonClicked();
-    void deleteButtonClicked();
-    void viewerSelectionChanged();
+	void addButtonClicked();
+	void editButtonClicked();
+	void deleteButtonClicked();
+	void viewerSelectionChanged();
 };
 
 #endif // ENVIRONMENTVARIABLESDIALOG_H

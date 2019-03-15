@@ -27,8 +27,9 @@
 #include <QtGui>
 #include <QWidget>
 
-namespace Ui {
-    class TaskEditWidget;
+namespace Ui
+{
+class TaskEditWidget;
 }
 
 class Settings;
@@ -36,47 +37,47 @@ class Task;
 
 class TaskEditWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit TaskEditWidget(QWidget *parent = 0);
-    ~TaskEditWidget();
-    void changeEvent(QEvent*);
-    void setEditTask(Task*);
-    void setSettings(Settings*);
+	explicit TaskEditWidget(QWidget *parent = 0);
+	~TaskEditWidget();
+	void changeEvent(QEvent*);
+	void setEditTask(Task*);
+	void setSettings(Settings*);
 
 private:
-    Ui::TaskEditWidget *ui;
-    Settings *settings;
-    Task *editTask;
-    void refreshWidgetState();
+	Ui::TaskEditWidget *ui;
+	Settings *settings;
+	Task *editTask;
+	void refreshWidgetState();
 
 private slots:
-    void problemTitleChanged(const QString&);
-    void setToTraditional(bool);
-    void setToAnswersOnly(bool);
-    void setToInteraction(bool);
-    void sourceFileNameChanged(const QString&);
-    void subFolderCheckChanged();
-    void inputFileNameChanged(const QString&);
-    void outputFileNameChanged(const QString&);
-    void standardInputCheckChanged();
-    void standardOutputCheckChanged();
-    void comparisonModeChanged();
-    void diffArgumentsChanged(const QString&);
-    void realPrecisionChanged(int);
-    void specialJudgeChanged(const QString&);
-    void interactorChanged(const QString&);
-    void interactorNameChanged(const QString&);
-    void graderChanged(const QString&);
-    void refreshProblemTitle(const QString&);
-    void refreshCompilerConfiguration();
-    void compilerSelectionChanged();
-    void configurationSelectionChanged();
-    void answerFileExtensionChanged(const QString&);
+	void problemTitleChanged(const QString&);
+	void setToTraditional(bool);
+	void setToAnswersOnly(bool);
+	void setToInteraction(bool);
+	void sourceFileNameChanged(const QString&);
+	void subFolderCheckChanged();
+	void inputFileNameChanged(const QString&);
+	void outputFileNameChanged(const QString&);
+	void standardInputCheckChanged();
+	void standardOutputCheckChanged();
+	void comparisonModeChanged();
+	void diffArgumentsChanged(const QString&);
+	void realPrecisionChanged(int);
+	void specialJudgeChanged(const QString&);
+	void interactorChanged(const QString&);
+	void interactorNameChanged(const QString&);
+	void graderChanged(const QString&);
+	void refreshProblemTitle(const QString&);
+	void refreshCompilerConfiguration();
+	void compilerSelectionChanged();
+	void configurationSelectionChanged();
+	void answerFileExtensionChanged(const QString&);
 
 signals:
-    void dataPathChanged();
+	void dataPathChanged();
 };
 
 #endif // TASKEDITWIDGET_H

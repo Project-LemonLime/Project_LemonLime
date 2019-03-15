@@ -27,8 +27,9 @@
 #include <QtGui>
 #include <QWidget>
 
-namespace Ui {
-    class CompilerSettings;
+namespace Ui
+{
+class CompilerSettings;
 }
 
 class Settings;
@@ -36,31 +37,31 @@ class Compiler;
 
 class CompilerSettings : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit CompilerSettings(QWidget *parent = 0);
-    ~CompilerSettings();
-    void resetEditSettings(Settings*);
-    bool checkValid();
+	explicit CompilerSettings(QWidget *parent = 0);
+	~CompilerSettings();
+	void resetEditSettings(Settings*);
+	bool checkValid();
 
 private:
-    Ui::CompilerSettings *ui;
-    Settings *editSettings;
-    Compiler *curCompiler;
-    QAction *deleteCompilerKeyAction;
-    void setCurrentCompiler(Compiler*);
-    void refreshItemState();
+	Ui::CompilerSettings *ui;
+	Settings *editSettings;
+	Compiler *curCompiler;
+	QAction *deleteCompilerKeyAction;
+	void setCurrentCompiler(Compiler*);
+	void refreshItemState();
 
 private slots:
-    void moveUpCompiler();
-    void moveDownCompiler();
-    void addCompiler();
-    void deleteCompiler();
-    void compilerNameChanged(const QString&);
-    void sourceExtensionsChanged(const QString&);
-    void compilerListCurrentRowChanged();
-    void advancedButtonClicked();
+	void moveUpCompiler();
+	void moveDownCompiler();
+	void addCompiler();
+	void deleteCompiler();
+	void compilerNameChanged(const QString&);
+	void sourceExtensionsChanged(const QString&);
+	void compilerListCurrentRowChanged();
+	void advancedButtonClicked();
 };
 
 #endif // COMPILERSETTINGS_H

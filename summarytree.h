@@ -36,40 +36,40 @@ class Contest;
 
 class SummaryTree : public QTreeWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit SummaryTree(QWidget *parent = 0);
-    void changeEvent(QEvent*);
-    void setContest(Contest*);
-    void setSettings(Settings*);
-    void contextMenuEvent(QContextMenuEvent*);
+	explicit SummaryTree(QWidget *parent = 0);
+	void changeEvent(QEvent*);
+	void setContest(Contest*);
+	void setSettings(Settings*);
+	void contextMenuEvent(QContextMenuEvent*);
 
 private:
-    int addCount;
-    Contest *curContest;
-    Settings *settings;
-    QAction *addTaskAction;
-    QAction *addTestCaseAction;
-    QAction *addTestCasesAction;
-    QAction *addTaskKeyAction;
-    QAction *addTestCaseKeyAction;
-    QAction *deleteTaskAction;
-    QAction *deleteTestCaseAction;
-    QAction *deleteTaskKeyAction;
-    QAction *deleteTestCaseKeyAction;
+	int addCount;
+	Contest *curContest;
+	Settings *settings;
+	QAction *addTaskAction;
+	QAction *addTestCaseAction;
+	QAction *addTestCasesAction;
+	QAction *addTaskKeyAction;
+	QAction *addTestCaseKeyAction;
+	QAction *deleteTaskAction;
+	QAction *deleteTestCaseAction;
+	QAction *deleteTaskKeyAction;
+	QAction *deleteTestCaseKeyAction;
 
 private slots:
-    void addTask();
-    void addTestCase();
-    void addTestCases();
-    void deleteTask();
-    void deleteTestCase();
-    void selectionChanged();
-    void itemChanged(QTreeWidgetItem*);
-    void titleChanged(const QString&);
+	void addTask();
+	void addTestCase();
+	void addTestCases();
+	void deleteTask();
+	void deleteTestCase();
+	void selectionChanged();
+	void itemChanged(QTreeWidgetItem*);
+	void titleChanged(const QString&);
 
 signals:
-    void taskChanged();
+	void taskChanged();
 };
 
 #endif // SUMMARYTREE_H

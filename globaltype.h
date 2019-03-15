@@ -24,12 +24,14 @@
 #define GLOBALTYPE_H
 
 enum CompileState { CompileSuccessfully, NoValidSourceFile, CompileError,
-                    CompileTimeLimitExceeded, InvalidCompiler};
+                    CompileTimeLimitExceeded, InvalidCompiler
+                  };
 
 enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
                    TimeLimitExceeded, MemoryLimitExceeded,
                    CannotStartProgram, FileError, RunTimeError,
                    InvalidSpecialJudge, SpecialJudgeTimeLimitExceeded,
-                   SpecialJudgeRunTimeError, Skipped, InteractorError };
+                   SpecialJudgeRunTimeError, Skipped, InteractorError
+                 };
 
 #endif // GLOBALTYPE_H

@@ -1,7 +1,13 @@
 *.o
+*.orig
 
 moc_*.cpp
 moc_*.h
 
 ui_*.cpp
 ui_*.h
+
+Makefile
+lemon
+.qmake.stash
+default.desktop

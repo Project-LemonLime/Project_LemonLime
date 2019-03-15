@@ -30,44 +30,45 @@
 
 class Contest;
 
-namespace Ui {
-    class JudgingDialog;
+namespace Ui
+{
+class JudgingDialog;
 }
 
 class JudgingDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit JudgingDialog(QWidget *parent = 0);
-    ~JudgingDialog();
-    void setContest(Contest*);
-    void judge(const QStringList&);
-    void judge(const QString&, int);
-    void judgeSingleTask(int);
-    void judgeAll();
-    void reject();
+	explicit JudgingDialog(QWidget *parent = 0);
+	~JudgingDialog();
+	void setContest(Contest*);
+	void judge(const QStringList&);
+	void judge(const QString&, int);
+	void judgeSingleTask(int);
+	void judgeAll();
+	void reject();
 
 private slots:
-    void stopJudgingSlot();
+	void stopJudgingSlot();
 	void banJudging();
 
 private:
-    Ui::JudgingDialog *ui;
-    Contest *curContest;
-    QTextCursor *cursor;
-    bool stopJudging;
+	Ui::JudgingDialog *ui;
+	Contest *curContest;
+	QTextCursor *cursor;
+	bool stopJudging;
 
 public slots:
-    void singleCaseFinished(int, int, int, int);
-    void singleSubtaskDependenceFinished(int, int, double);
-    void taskJudgingStarted(const QString&);
-    void contestantJudgingStart(const QString&);
-    void contestantJudgingFinished();
-    void compileError(int, int);
+	void singleCaseFinished(int, int, int, int);
+	void singleSubtaskDependenceFinished(int, int, double);
+	void taskJudgingStarted(const QString&);
+	void contestantJudgingStart(const QString&);
+	void contestantJudgingFinished();
+	void compileError(int, int);
 
 signals:
-    void stopJudgingSignal();
+	void stopJudgingSignal();
 };
 
 #endif // JUDGINGDIALOG_H

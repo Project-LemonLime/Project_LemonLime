@@ -30,8 +30,9 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 
-namespace Ui {
-    class TestCaseEditWidget;
+namespace Ui
+{
+class TestCaseEditWidget;
 }
 
 class Settings;
@@ -39,35 +40,35 @@ class TestCase;
 
 class TestCaseEditWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit TestCaseEditWidget(QWidget *parent = 0);
-    ~TestCaseEditWidget();
-    void changeEvent(QEvent*);
-    void setEditTestCase(TestCase*, bool);
-    void setSettings(Settings*);
+	explicit TestCaseEditWidget(QWidget *parent = 0);
+	~TestCaseEditWidget();
+	void changeEvent(QEvent*);
+	void setEditTestCase(TestCase*, bool);
+	void setSettings(Settings*);
 
 private:
-    Ui::TestCaseEditWidget *ui;
-    TestCase *editTestCase;
-    Settings *settings;
-    QAction *deleteAction;
-    void refreshFileList();
+	Ui::TestCaseEditWidget *ui;
+	TestCase *editTestCase;
+	Settings *settings;
+	QAction *deleteAction;
+	void refreshFileList();
 
 private slots:
-    void addSingleCase();
-    void deleteSingleCase();
-    void fullScoreChanged(const QString&);
-    void timeLimitChanged(const QString&);
-    void memoryLimitChanged(const QString&);
-    void subtaskDependenceChanged();
-    void subtaskDependenceClear();
-    void fileListSelectionChanged();
-    void fileListItemChanged(QTableWidgetItem*);
+	void addSingleCase();
+	void deleteSingleCase();
+	void fullScoreChanged(const QString&);
+	void timeLimitChanged(const QString&);
+	void memoryLimitChanged(const QString&);
+	void subtaskDependenceChanged();
+	void subtaskDependenceClear();
+	void fileListSelectionChanged();
+	void fileListItemChanged(QTableWidgetItem*);
 
 signals:
-    void dataPathChanged();
+	void dataPathChanged();
 };
 
 #endif // TESTCASEEDITWIDGET_H

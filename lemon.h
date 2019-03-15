@@ -27,8 +27,9 @@
 #include <QtGui>
 #include <QMainWindow>
 
-namespace Ui {
-    class Lemon;
+namespace Ui
+{
+class Lemon;
 }
 
 class Contest;
@@ -37,65 +38,65 @@ class OptionsDialog;
 
 class Lemon : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit Lemon(QWidget *parent = 0);
-    ~Lemon();
-    void changeEvent(QEvent*);
-    void closeEvent(QCloseEvent*);
-    void welcome();
+	explicit Lemon(QWidget *parent = 0);
+	~Lemon();
+	void changeEvent(QEvent*);
+	void closeEvent(QCloseEvent*);
+	void welcome();
 
 private:
-    Ui::Lemon *ui;
-    Contest *curContest;
-    Settings *settings;
-    QFileSystemWatcher *dataDirWatcher;
-    QString curFile;
-    QList<QAction*> languageActions;
-    QTranslator *appTranslator;
-    QTranslator *qtTranslator;
-    QSignalMapper *signalMapper;
-    QMenu *TaskMenu;
-    QList<QAction *> TaskList;
-    void loadUiLanguage();
-    void insertWatchPath(const QString&, QFileSystemWatcher*);
-    void newContest(const QString&, const QString&, const QString&);
-    void saveContest(const QString&);
-    void loadContest(const QString&);
-    void getFiles(const QString&, const QStringList&, QMap<QString, QString>&);
-    void addTask(const QString&, const QList< QPair<QString, QString> >&, int, int, int);
-    static bool compareFileName(const QPair<QString, QString>&, const QPair<QString, QString>&);
+	Ui::Lemon *ui;
+	Contest *curContest;
+	Settings *settings;
+	QFileSystemWatcher *dataDirWatcher;
+	QString curFile;
+	QList<QAction*> languageActions;
+	QTranslator *appTranslator;
+	QTranslator *qtTranslator;
+	QSignalMapper *signalMapper;
+	QMenu *TaskMenu;
+	QList<QAction *> TaskList;
+	void loadUiLanguage();
+	void insertWatchPath(const QString&, QFileSystemWatcher*);
+	void newContest(const QString&, const QString&, const QString&);
+	void saveContest(const QString&);
+	void loadContest(const QString&);
+	void getFiles(const QString&, const QStringList&, QMap<QString, QString>&);
+	void addTask(const QString&, const QList< QPair<QString, QString> >&, int, int, int);
+	static bool compareFileName(const QPair<QString, QString>&, const QPair<QString, QString>&);
 
 private slots:
-    void summarySelectionChanged();
-    void resetDataWatcher();
-    void showOptionsDialog();
-    void refreshButtonClicked();
-    void arrangeButtonClicked();
-    void tabIndexChanged(int);
-    void viewerSelectionChanged();
-    void contestantDeleted();
-    void newAction();
-    void saveAction();
-    void openFolderAction();
-    void closeAction();
-    void loadAction();
-    void addTasksAction();
-    void exportResult();
-    void aboutLemon();
-    void actionCompile_Features();
-    void actionInteraction();
-    void actionSubTasks();
-    void actionArrange_Files();
-    void actionBan();
-    void actionSingle_Judge();
-    void actionSpecial_Judge();
-    void setUiLanguage();
-    void refreshTaskList();
+	void summarySelectionChanged();
+	void resetDataWatcher();
+	void showOptionsDialog();
+	void refreshButtonClicked();
+	void arrangeButtonClicked();
+	void tabIndexChanged(int);
+	void viewerSelectionChanged();
+	void contestantDeleted();
+	void newAction();
+	void saveAction();
+	void openFolderAction();
+	void closeAction();
+	void loadAction();
+	void addTasksAction();
+	void exportResult();
+	void aboutLemon();
+	void actionCompile_Features();
+	void actionInteraction();
+	void actionSubTasks();
+	void actionArrange_Files();
+	void actionBan();
+	void actionSingle_Judge();
+	void actionSpecial_Judge();
+	void setUiLanguage();
+	void refreshTaskList();
 
 signals:
-    void dataPathChanged();
+	void dataPathChanged();
 };
 
 #endif // LEMON_H

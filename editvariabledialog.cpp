@@ -25,48 +25,51 @@
 #include <QPushButton>
 
 EditVariableDialog::EditVariableDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::EditVariableDialog)
+	QDialog(parent),
+	ui(new Ui::EditVariableDialog)
 {
-    ui->setupUi(this);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    
-    connect(ui->variableName, SIGNAL(textChanged(QString)),
-            this, SLOT(textChanged()));
-    connect(ui->variableValue, SIGNAL(textChanged(QString)),
-            this, SLOT(textChanged()));
+	ui->setupUi(this);
+	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+	connect(ui->variableName, SIGNAL(textChanged(QString)),
+	        this, SLOT(textChanged()));
+	connect(ui->variableValue, SIGNAL(textChanged(QString)),
+	        this, SLOT(textChanged()));
 }
 
 EditVariableDialog::~EditVariableDialog()
 {
-    delete ui;
+	delete ui;
 }
 
 void EditVariableDialog::setVariableName(const QString &variable)
 {
-    ui->variableName->setText(variable);
+	ui->variableName->setText(variable);
 }
 
 void EditVariableDialog::setVariableValue(const QString &value)
 {
-    ui->variableValue->setText(value);
+	ui->variableValue->setText(value);
 }
 
 QString EditVariableDialog::getVariableName() const
 {
-    return ui->variableName->text();
+	return ui->variableName->text();
 }
 
 QString EditVariableDialog::getVariableValue() const
 {
-    return ui->variableValue->text();
+	return ui->variableValue->text();
 }
 
 void EditVariableDialog::textChanged()
 {
-    if (! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty()) {
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-    } else {
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    }
+	if(! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty())
+	{
+		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+	}
+	else
+	{
+		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	}
 }

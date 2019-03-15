@@ -1,9 +1,14 @@
 # Project_LemonPt (不稳定版)
+
 A tiny judging environment for OI contest based on Project_LemonPlus
+
+---
 
 ## Windows 支持被咕了
 
-## Ubuntu 16 及以下的系统有严重的兼容性问题，我们正在处理
+## Ubuntu 16 及以下的系统可能存在兼容性问题
+
+---
 
 # 和 Lemon 的不同
 
@@ -33,3 +38,40 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 - 图标和启动横幅
 - 评测详情窗口的各种评测结果有了不同的颜色。
 
+---
+
+# 附件
+
+## 把 LemonPt 打包！
+
+在 linux 下，我们可以把整个 LemonPt 打包成一个可执行文件，使其在任何地方都可以不须依赖地运行。
+
+为了实现这个功能，我们准备了 ``patchelf`` 和 ``linuxdeployqt`` 。
+
+### linuxdeployqt
+
+把 ``linuxdeployqt`` 复制到你的 ``/usr/local/bin`` 下，并给它运行权限。
+
+### patchelf
+
+在终端下，按顺序执行：
+
+```plain
+./configure
+make
+```
+
+然后去 ``/usr/local/bin`` 下看一看是否有一个 ``patchelf`` 出现了。
+
+### 准备就绪...
+
+在你的 LemonPt 目录下，执行：
+
+```plain
+linuxdeployqt lemon -appimage
+```
+
+这可能需要很长时间。
+之后，你可以发现一个以 ``appimage`` 为后缀的文件，而它是可以直接运行的。
+把这个文件放到任何地方都可以运行。
+那么 LemonPt 就打包完成了。Congratulations!

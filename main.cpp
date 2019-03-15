@@ -25,8 +25,8 @@
  **/
 
 #include <QApplication>
-#include <QSplashScreen>  
-#include <QPixmap>  
+#include <QSplashScreen>
+#include <QPixmap>
 #include <iostream>
 #include "qtsingleapplication/qtsingleapplication.h"
 #include "lemon.h"
@@ -34,33 +34,37 @@
 int main(int argc, char *argv[])
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); //High DPI supported
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); //High DPI supported
 #endif
 
-    QtSingleApplication a(argc, argv);
-    
-    if (a.sendMessage("")) {
-        a.activateWindow();
-        return 0;
-    }
+	QtSingleApplication a(argc, argv);
+
+	if(a.sendMessage(""))
+	{
+		a.activateWindow();
+		return 0;
+	}
 
 	Q_INIT_RESOURCE(resource);
-	
-    QPixmap pixmap(":/logo/proj.png");  
-    QSplashScreen screen(pixmap);  
-    screen.show();  
 
-    qint64 startTime = QDateTime::currentMSecsSinceEpoch();
-    do{  
-        a.processEvents();  
-    } while (QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
+	QPixmap pixmap(":/logo/proj.png");
+	QSplashScreen screen(pixmap);
+	screen.show();
 
-    Lemon w;
-    a.setActivationWindow(&w);
-    
-    w.show();
-    screen.finish(&w);
-    w.welcome();
-    
-    return a.exec();
+	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
+
+	do
+	{
+		a.processEvents();
+	}
+	while(QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
+
+	Lemon w;
+	a.setActivationWindow(&w);
+
+	w.show();
+	screen.finish(&w);
+	w.welcome();
+
+	return a.exec();
 }

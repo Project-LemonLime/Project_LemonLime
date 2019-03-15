@@ -27,31 +27,32 @@
 #include <QtGui>
 #include <QWidget>
 
-namespace Ui {
-    class NewContestWidget;
+namespace Ui
+{
+class NewContestWidget;
 }
 
 class NewContestWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit NewContestWidget(QWidget *parent = 0);
-    ~NewContestWidget();
-    QString getContestTitle();
-    QString getSavingName();
-    QString getContestPath();
-    bool checkReady() const;
+	explicit NewContestWidget(QWidget *parent = 0);
+	~NewContestWidget();
+	QString getContestTitle();
+	QString getSavingName();
+	QString getContestPath();
+	bool checkReady() const;
 
 private:
-    Ui::NewContestWidget *ui;
+	Ui::NewContestWidget *ui;
 
 signals:
-    void informationChanged();
+	void informationChanged();
 
 private slots:
-    void selectContestPath();
-    void savingNameChanged();
+	void selectContestPath();
+	void savingNameChanged();
 };
 
 #endif // NEWCONTESTWIDGET_H

@@ -26,323 +26,355 @@
 #include "compiler.h"
 
 Task::Task(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {
-    taskType = Traditional;
-    comparisonMode = IgnoreSpacesMode;
-    diffArguments = "--ignore-space-change --text --brief";
-    realPrecision = 3;
-    standardInputCheck = false;
-    standardOutputCheck = false;
-    subFolderCheck = false;
+	taskType = Traditional;
+	comparisonMode = IgnoreSpacesMode;
+	diffArguments = "--ignore-space-change --text --brief";
+	realPrecision = 3;
+	standardInputCheck = false;
+	standardOutputCheck = false;
+	subFolderCheck = false;
 }
 
 const QList<TestCase*>& Task::getTestCaseList() const
 {
-    return testCaseList;
+	return testCaseList;
 }
 
 const QString& Task::getProblemTile() const
 {
-    return problemTitle;
+	return problemTitle;
 }
 
 bool Task::getSubFolderCheck() const
 {
-    return subFolderCheck;
+	return subFolderCheck;
 }
 
 const QString& Task::getSourceFileName() const
 {
-    return sourceFileName;
+	return sourceFileName;
 }
 
 const QString& Task::getInputFileName() const
 {
-    return inputFileName;
+	return inputFileName;
 }
 
 const QString& Task::getOutputFileName() const
 {
-    return outputFileName;
+	return outputFileName;
 }
 
 bool Task::getStandardInputCheck() const
 {
-    return standardInputCheck;
+	return standardInputCheck;
 }
 
 bool Task::getStandardOutputCheck() const
 {
-    return standardOutputCheck;
+	return standardOutputCheck;
 }
 
 Task::TaskType Task::getTaskType() const
 {
-    return taskType;
+	return taskType;
 }
 
 Task::ComparisonMode Task::getComparisonMode() const
 {
-    return comparisonMode;
+	return comparisonMode;
 }
 
 const QString& Task::getDiffArguments() const
 {
-    return diffArguments;
+	return diffArguments;
 }
 
 int Task::getRealPrecision() const
 {
-    return realPrecision;
+	return realPrecision;
 }
 
 const QString& Task::getSpecialJudge() const
 {
-    return specialJudge;
+	return specialJudge;
 }
 
 const QString& Task::getInteractor() const
 {
-    return interactor;
+	return interactor;
 }
 
 const QString& Task::getInteractorName() const
 {
-    return interactorName;
+	return interactorName;
 }
 
 const QString& Task::getGrader() const
 {
-    return grader;
+	return grader;
 }
 
 QString Task::getCompilerConfiguration(const QString &compilerName) const
 {
-    return compilerConfiguration.value(compilerName);
+	return compilerConfiguration.value(compilerName);
 }
 
 const QString& Task::getAnswerFileExtension() const
 {
-    return answerFileExtension;
+	return answerFileExtension;
 }
 
 void Task::setProblemTitle(const QString &title)
 {
-    bool changed = problemTitle != title;
-    problemTitle = title;
-    if (changed) emit problemTitleChanged(title);
+	bool changed = problemTitle != title;
+	problemTitle = title;
+
+	if(changed) emit problemTitleChanged(title);
 }
 
 void Task::setSubFolderCheck(bool check)
 {
-    subFolderCheck = check;
+	subFolderCheck = check;
 }
 
 void Task::setSourceFileName(const QString &fileName)
 {
-    sourceFileName = fileName;
+	sourceFileName = fileName;
 }
 
 void Task::setInputFileName(const QString &fileName)
 {
-    inputFileName = fileName;
+	inputFileName = fileName;
 }
 
 void Task::setOutputFileName(const QString &fileName)
 {
-    outputFileName = fileName;
+	outputFileName = fileName;
 }
 
 void Task::setStandardInputCheck(bool check)
 {
-    standardInputCheck = check;
+	standardInputCheck = check;
 }
 
 void Task::setStandardOutputCheck(bool check)
 {
-    standardOutputCheck = check;
+	standardOutputCheck = check;
 }
 
 void Task::setTaskType(Task::TaskType type)
 {
-    taskType = type;
+	taskType = type;
 }
 
 void Task::setComparisonMode(Task::ComparisonMode mode)
 {
-    comparisonMode = mode;
+	comparisonMode = mode;
 }
 
 void Task::setDiffArguments(const QString &argumentsList)
 {
-    diffArguments = argumentsList;
+	diffArguments = argumentsList;
 }
 
 void Task::setRealPrecision(int precision)
 {
-    realPrecision = precision;
+	realPrecision = precision;
 }
 
 void Task::setSpecialJudge(const QString &fileName)
 {
-    specialJudge = fileName;
+	specialJudge = fileName;
 }
 
 void Task::setInteractor(const QString& fileName)
 {
-    interactor = fileName;
+	interactor = fileName;
 }
 
 void Task::setInteractorName(const QString& fileName)
 {
-    interactorName = fileName;
+	interactorName = fileName;
 }
 
 void Task::setGrader(const QString& fileName)
 {
-    grader = fileName;
+	grader = fileName;
 }
 
 void Task::setCompilerConfiguration(const QString &compiler, const QString &configuration)
 {
-    compilerConfiguration.insert(compiler, configuration);
+	compilerConfiguration.insert(compiler, configuration);
 }
 
 void Task::setAnswerFileExtension(const QString &extension)
 {
-    answerFileExtension = extension;
+	answerFileExtension = extension;
 }
 
 void Task::addTestCase(TestCase *testCase)
 {
-    testCase->setParent(this);
-    testCase->setIndex(testCaseList.size() + 1);
-    testCaseList.append(testCase);
+	testCase->setParent(this);
+	testCase->setIndex(testCaseList.size() + 1);
+	testCaseList.append(testCase);
 }
 
 TestCase* Task::getTestCase(int index) const
 {
-    if (0 <= index && index < testCaseList.size()) {
-        return testCaseList[index];
-    } else {
-        return 0;
-    }
+	if(0 <= index && index < testCaseList.size())
+	{
+		return testCaseList[index];
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void Task::deleteTestCase(int index)
 {
-    if (0 <= index && index < testCaseList.size()) {
-        for(int i = index; i < testCaseList.size(); ++i)
-            testCaseList[i]->clearDependenceSubtask();
-        delete testCaseList[index];
-        testCaseList.removeAt(index);
-    }
+	if(0 <= index && index < testCaseList.size())
+	{
+		for(int i = index; i < testCaseList.size(); ++i)
+			testCaseList[i]->clearDependenceSubtask();
+
+		delete testCaseList[index];
+		testCaseList.removeAt(index);
+	}
 }
 
 void Task::refreshCompilerConfiguration(Settings *settings)
 {
-    QList<Compiler*> compilerList = settings->getCompilerList();
-    QStringList compilerNames;
-    for (int i = 0; i < compilerList.size(); i ++)
-        compilerNames.append(compilerList[i]->getCompilerName());
-    QMap<QString, QString>::iterator p;
-    for (p = compilerConfiguration.begin(); p != compilerConfiguration.end(); ) {
-        if (! compilerNames.contains(p.key())) {
-            p = compilerConfiguration.erase(p);
-        } else {
-            p ++;
-        }
-    }
-    for (int i = 0; i < compilerList.size(); i ++) {
-        if (compilerConfiguration.contains(compilerList[i]->getCompilerName())) {
-            const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
-            const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
-            if (! configurationNames.contains(config)) {
-                compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
-            }
-        } else {
-            compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
-        }
-    }
-    emit compilerConfigurationRefreshed();
+	QList<Compiler*> compilerList = settings->getCompilerList();
+	QStringList compilerNames;
+
+	for(int i = 0; i < compilerList.size(); i ++)
+		compilerNames.append(compilerList[i]->getCompilerName());
+
+	QMap<QString, QString>::iterator p;
+
+	for(p = compilerConfiguration.begin(); p != compilerConfiguration.end();)
+	{
+		if(! compilerNames.contains(p.key()))
+		{
+			p = compilerConfiguration.erase(p);
+		}
+		else
+		{
+			p ++;
+		}
+	}
+
+	for(int i = 0; i < compilerList.size(); i ++)
+	{
+		if(compilerConfiguration.contains(compilerList[i]->getCompilerName()))
+		{
+			const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
+			const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
+
+			if(! configurationNames.contains(config))
+			{
+				compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+			}
+		}
+		else
+		{
+			compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+		}
+	}
+
+	emit compilerConfigurationRefreshed();
 }
 
 int Task::getTotalTimeLimit() const
 {
-    int total = 0;
-    for (int i = 0; i < testCaseList.size(); i ++) {
-        total += testCaseList[i]->getTimeLimit() * testCaseList[i]->getInputFiles().size();
-    }
-    return total;
+	int total = 0;
+
+	for(int i = 0; i < testCaseList.size(); i ++)
+	{
+		total += testCaseList[i]->getTimeLimit() * testCaseList[i]->getInputFiles().size();
+	}
+
+	return total;
 }
 
 void Task::writeToStream(QDataStream &out)
 {
-    out << problemTitle;
-    out << sourceFileName;
-    out << inputFileName;
-    out << outputFileName;
-    out << standardInputCheck;
-    out << standardOutputCheck;
-    out << (int(taskType) | (((int) subFolderCheck) << 8));
-    out << int(comparisonMode);
-    out << diffArguments;
-    out << realPrecision;
-    QString _specialJudge = specialJudge;
-    _specialJudge.replace(QDir::separator(), '/');
-    out << _specialJudge;
-    if (taskType== Task::Interaction)
-    {
-        QString _temp = interactor;
-        _temp.replace(QDir::separator(), '/');
-        out << _temp;
-        _temp = grader;
-        _temp.replace(QDir::separator(), '/');
-        out << _temp;
-        out << interactorName;
-    }
-    out << compilerConfiguration;
-    out << answerFileExtension;
-    out << testCaseList.size();
-    for (int i = 0; i < testCaseList.size(); i ++) {
-        testCaseList[i]->writeToStream(out);
-    }
+	out << problemTitle;
+	out << sourceFileName;
+	out << inputFileName;
+	out << outputFileName;
+	out << standardInputCheck;
+	out << standardOutputCheck;
+	out << (int(taskType) | (((int) subFolderCheck) << 8));
+	out << int(comparisonMode);
+	out << diffArguments;
+	out << realPrecision;
+	QString _specialJudge = specialJudge;
+	_specialJudge.replace(QDir::separator(), '/');
+	out << _specialJudge;
+
+	if(taskType == Task::Interaction)
+	{
+		QString _temp = interactor;
+		_temp.replace(QDir::separator(), '/');
+		out << _temp;
+		_temp = grader;
+		_temp.replace(QDir::separator(), '/');
+		out << _temp;
+		out << interactorName;
+	}
+
+	out << compilerConfiguration;
+	out << answerFileExtension;
+	out << testCaseList.size();
+
+	for(int i = 0; i < testCaseList.size(); i ++)
+	{
+		testCaseList[i]->writeToStream(out);
+	}
 }
 
 void Task::readFromStream(QDataStream &in)
 {
-    int tmp, count;
-    in >> problemTitle;
-    in >> sourceFileName;
-    in >> inputFileName;
-    in >> outputFileName;
-    in >> standardInputCheck;
-    in >> standardOutputCheck;
-    in >> tmp;
-    taskType = TaskType(tmp & 0xFF);
-    subFolderCheck = tmp >> 8;
-    in >> tmp;
-    comparisonMode = ComparisonMode(tmp);
-    in >> diffArguments;
-    in >> realPrecision;
-    in >> specialJudge;
-    specialJudge.replace('/', QDir::separator());
-    if (taskType == Task::Interaction)
-    {
-        in >> interactor;
-        interactor.replace('/', QDir::separator());
-        in >> grader;
-        grader.replace('/', QDir::separator());
-        in >> interactorName;
-    }
-    in >> compilerConfiguration;
-    in >> answerFileExtension;
-    in >> count;
-    for (int i = 0; i < count; i ++) {
-        TestCase *newTestCase = new TestCase(this);
-        newTestCase->readFromStream(in);
-        newTestCase->setIndex(testCaseList.size() + 1);
-        testCaseList.append(newTestCase);
-    }
+	int tmp, count;
+	in >> problemTitle;
+	in >> sourceFileName;
+	in >> inputFileName;
+	in >> outputFileName;
+	in >> standardInputCheck;
+	in >> standardOutputCheck;
+	in >> tmp;
+	taskType = TaskType(tmp & 0xFF);
+	subFolderCheck = tmp >> 8;
+	in >> tmp;
+	comparisonMode = ComparisonMode(tmp);
+	in >> diffArguments;
+	in >> realPrecision;
+	in >> specialJudge;
+	specialJudge.replace('/', QDir::separator());
+
+	if(taskType == Task::Interaction)
+	{
+		in >> interactor;
+		interactor.replace('/', QDir::separator());
+		in >> grader;
+		grader.replace('/', QDir::separator());
+		in >> interactorName;
+	}
+
+	in >> compilerConfiguration;
+	in >> answerFileExtension;
+	in >> count;
+
+	for(int i = 0; i < count; i ++)
+	{
+		TestCase *newTestCase = new TestCase(this);
+		newTestCase->readFromStream(in);
+		newTestCase->setIndex(testCaseList.size() + 1);
+		testCaseList.append(newTestCase);
+	}
 }

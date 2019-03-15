@@ -27,36 +27,37 @@
 #include <QtGui>
 #include <QWidget>
 
-namespace Ui {
-    class GeneralSettings;
+namespace Ui
+{
+class GeneralSettings;
 }
 
 class Settings;
 
 class GeneralSettings : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit GeneralSettings(QWidget *parent = 0);
-    ~GeneralSettings();
-    void resetEditSettings(Settings*);
-    bool checkValid();
+	explicit GeneralSettings(QWidget *parent = 0);
+	~GeneralSettings();
+	void resetEditSettings(Settings*);
+	bool checkValid();
 
 private:
-    Ui::GeneralSettings *ui;
-    Settings *editSettings;
+	Ui::GeneralSettings *ui;
+	Settings *editSettings;
 
 private slots:
-    void defaultFullScoreChanged(const QString&);
-    void defaultTimeLimitChanged(const QString&);
-    void defaultMemoryLimitChanged(const QString&);
-    void compileTimeLimitChanged(const QString&);
-    void specialJudgeTimeLimitChanged(const QString&);
-    void fileSizeLimitChanged(const QString&);
-    void rejudgeTimesChanged(const QString&);
-    void inputFileExtensionsChanged(const QString&);
-    void outputFileExtensionsChanged(const QString&);
+	void defaultFullScoreChanged(const QString&);
+	void defaultTimeLimitChanged(const QString&);
+	void defaultMemoryLimitChanged(const QString&);
+	void compileTimeLimitChanged(const QString&);
+	void specialJudgeTimeLimitChanged(const QString&);
+	void fileSizeLimitChanged(const QString&);
+	void rejudgeTimesChanged(const QString&);
+	void inputFileExtensionsChanged(const QString&);
+	void outputFileExtensionsChanged(const QString&);
 };
 
 #endif // GENERALSETTINGS_H

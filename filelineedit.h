@@ -30,20 +30,20 @@
 
 class FileLineEdit : public QLineEdit
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit FileLineEdit(QWidget *parent = 0);
-    void setFilters(QDir::Filters);
-    void setFileExtensions(const QStringList&);
-    void getFiles(const QString&, const QString&, QStringList&);
+	explicit FileLineEdit(QWidget *parent = 0);
+	void setFilters(QDir::Filters);
+	void setFileExtensions(const QStringList&);
+	void getFiles(const QString&, const QString&, QStringList&);
 
 private:
-    QCompleter *completer;
-    QStringList nameFilters;
-    QDir::Filters filters;
+	QCompleter *completer;
+	QStringList nameFilters;
+	QDir::Filters filters;
 
 public slots:
-    void refreshFileList();
+	void refreshFileList();
 };
 
 #endif // FILELINEEDIT_H

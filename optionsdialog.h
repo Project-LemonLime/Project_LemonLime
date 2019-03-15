@@ -27,28 +27,29 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class OptionsDialog;
+namespace Ui
+{
+class OptionsDialog;
 }
 
 class Settings;
 
 class OptionsDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit OptionsDialog(QWidget *parent = 0);
-    ~OptionsDialog();
-    void resetEditSettings(Settings*);
-    Settings* getEditSettings();
+	explicit OptionsDialog(QWidget *parent = 0);
+	~OptionsDialog();
+	void resetEditSettings(Settings*);
+	Settings* getEditSettings();
 
 private:
-    Ui::OptionsDialog *ui;
-    Settings *editSettings;
+	Ui::OptionsDialog *ui;
+	Settings *editSettings;
 
 private slots:
-    void okayButtonClicked();
+	void okayButtonClicked();
 };
 
 #endif // OPTIONSDIALOG_H

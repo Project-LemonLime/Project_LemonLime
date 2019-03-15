@@ -34,55 +34,55 @@ class Contestant;
 
 class Contest : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit Contest(QObject *parent = 0);
-    void setSettings(Settings*);
-    void setContestTitle(const QString&);
-    const QString& getContestTitle() const;
-    Task* getTask(int) const;
-    const QList<Task*>& getTaskList() const;
-    Contestant* getContestant(const QString&) const;
-    QList<Contestant*> getContestantList() const;
-    int getTotalTimeLimit() const;
-    void addTask(Task*);
-    void deleteTask(int);
-    void refreshContestantList();
-    void deleteContestant(const QString&);
-    void writeToStream(QDataStream&);
-    void readFromStream(QDataStream&);
+	explicit Contest(QObject *parent = 0);
+	void setSettings(Settings*);
+	void setContestTitle(const QString&);
+	const QString& getContestTitle() const;
+	Task* getTask(int) const;
+	const QList<Task*>& getTaskList() const;
+	Contestant* getContestant(const QString&) const;
+	QList<Contestant*> getContestantList() const;
+	int getTotalTimeLimit() const;
+	void addTask(Task*);
+	void deleteTask(int);
+	void refreshContestantList();
+	void deleteContestant(const QString&);
+	void writeToStream(QDataStream&);
+	void readFromStream(QDataStream&);
 
 private:
-    QString contestTitle;
-    Settings *settings;
-    QList<Task*> taskList;
-    QMap<QString, Contestant*> contestantList;
-    bool stopJudging;
-    void judge(Contestant*);
-    void judge(Contestant*, int);
-    void clearPath(const QString&);
+	QString contestTitle;
+	Settings *settings;
+	QList<Task*> taskList;
+	QMap<QString, Contestant*> contestantList;
+	bool stopJudging;
+	void judge(Contestant*);
+	void judge(Contestant*, int);
+	void clearPath(const QString&);
 
 public slots:
-    void judge(const QString&);
-    void judge(const QString&, int);
-    void judgeAll();
-    void judgeSingleTask(int);
-    void stopJudgingSlot();
+	void judge(const QString&);
+	void judge(const QString&, int);
+	void judgeAll();
+	void judgeSingleTask(int);
+	void stopJudgingSlot();
 
 signals:
-    void taskAddedForContestant();
-    void taskDeletedForContestant(int);
-    void taskAddedForViewer();
-    void taskDeletedForViewer(int);
-    void problemTitleChanged();
-    void singleCaseFinished(int, int, int, int);
-    void singleSubtaskDependenceFinished(int, int, double);
-    void taskJudgingStarted(QString);
-    void taskJudgingFinished();
-    void contestantJudgingStart(QString);
-    void contestantJudgingFinished();
-    void compileError(int, int);
-    void stopJudgingSignal();
+	void taskAddedForContestant();
+	void taskDeletedForContestant(int);
+	void taskAddedForViewer();
+	void taskDeletedForViewer(int);
+	void problemTitleChanged();
+	void singleCaseFinished(int, int, int, int);
+	void singleSubtaskDependenceFinished(int, int, double);
+	void taskJudgingStarted(QString);
+	void taskJudgingFinished();
+	void contestantJudgingStart(QString);
+	void contestantJudgingFinished();
+	void compileError(int, int);
+	void stopJudgingSignal();
 };
 
 #endif // CONTEST_H

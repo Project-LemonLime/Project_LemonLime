@@ -30,30 +30,31 @@
 class Contestant;
 class Contest;
 
-namespace Ui {
-    class DetailDialog;
+namespace Ui
+{
+class DetailDialog;
 }
 
 class DetailDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit DetailDialog(QWidget *parent = 0);
-    ~DetailDialog();
-    void refreshViewer(Contest*, Contestant*);
-    void showDialog();
+	explicit DetailDialog(QWidget *parent = 0);
+	~DetailDialog();
+	void refreshViewer(Contest*, Contestant*);
+	void showDialog();
 
 private:
-    Ui::DetailDialog *ui;
-    Contest *contest;
-    Contestant *contestant;
+	Ui::DetailDialog *ui;
+	Contest *contest;
+	Contestant *contestant;
 
 private slots:
-    void anchorClicked(const QUrl&);
+	void anchorClicked(const QUrl&);
 
 signals:
-    void rejudgeSignal();
+	void rejudgeSignal();
 };
 
 #endif // DETAILDIALOG_H

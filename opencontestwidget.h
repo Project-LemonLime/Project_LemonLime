@@ -28,34 +28,35 @@
 #include <QWidget>
 #include <QMessageBox>
 
-namespace Ui {
-    class OpenContestWidget;
+namespace Ui
+{
+class OpenContestWidget;
 }
 
 class OpenContestWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit OpenContestWidget(QWidget *parent = 0);
-    ~OpenContestWidget();
-    void setRecentContest(const QStringList&);
-    const QStringList& getRecentContest() const;
-    int getCurrentRow() const;
+	explicit OpenContestWidget(QWidget *parent = 0);
+	~OpenContestWidget();
+	void setRecentContest(const QStringList&);
+	const QStringList& getRecentContest() const;
+	int getCurrentRow() const;
 
 private:
-    Ui::OpenContestWidget *ui;
-    QStringList recentContest;
-    void refreshContestList();
+	Ui::OpenContestWidget *ui;
+	QStringList recentContest;
+	void refreshContestList();
 
 private slots:
-    void addContest();
-    void deleteContest();
-    void currentRowChanged();
+	void addContest();
+	void deleteContest();
+	void currentRowChanged();
 
 signals:
-    void selectionChanged();
-    void rowDoubleClicked();
+	void selectionChanged();
+	void rowDoubleClicked();
 };
 
 #endif // OPENCONTESTWIDGET_H

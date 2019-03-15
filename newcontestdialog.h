@@ -27,26 +27,27 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class NewContestDialog;
+namespace Ui
+{
+class NewContestDialog;
 }
 
 class NewContestDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit NewContestDialog(QWidget *parent = 0);
-    ~NewContestDialog();
-    QString getContestTitle();
-    QString getSavingName();
-    QString getContestPath();
+	explicit NewContestDialog(QWidget *parent = 0);
+	~NewContestDialog();
+	QString getContestTitle();
+	QString getSavingName();
+	QString getContestPath();
 
 private:
-    Ui::NewContestDialog *ui;
+	Ui::NewContestDialog *ui;
 
 private slots:
-    void informationChanged();
+	void informationChanged();
 };
 
 #endif // NEWCONTESTDIALOG_H

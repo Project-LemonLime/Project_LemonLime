@@ -27,32 +27,33 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class WelcomeDialog;
+namespace Ui
+{
+class WelcomeDialog;
 }
 
 class WelcomeDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit WelcomeDialog(QWidget *parent = 0);
-    ~WelcomeDialog();
-    void setRecentContest(const QStringList&);
-    QString getContestTitle();
-    QString getSavingName();
-    QString getContestPath();
-    const QStringList& getRecentContest() const;
-    QString getSelectedContest();
-    int getCurrentTab() const;
+	explicit WelcomeDialog(QWidget *parent = 0);
+	~WelcomeDialog();
+	void setRecentContest(const QStringList&);
+	QString getContestTitle();
+	QString getSavingName();
+	QString getContestPath();
+	const QStringList& getRecentContest() const;
+	QString getSelectedContest();
+	int getCurrentTab() const;
 
 private:
-    Ui::WelcomeDialog *ui;
+	Ui::WelcomeDialog *ui;
 
 private slots:
-    void selectionChanged();
-    void informationChanged();
-    void tabIndexChanged(int);
+	void selectionChanged();
+	void informationChanged();
+	void tabIndexChanged(int);
 };
 
 #endif // WELCOMEDIALOG_H

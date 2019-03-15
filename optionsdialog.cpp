@@ -27,38 +27,42 @@
 #include <QtWidgets>
 
 OptionsDialog::OptionsDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::OptionsDialog)
+	QDialog(parent),
+	ui(new Ui::OptionsDialog)
 {
-    ui->setupUi(this);
-    editSettings = new Settings(this);
-    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-            this, SLOT(okayButtonClicked()));
+	ui->setupUi(this);
+	editSettings = new Settings(this);
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
+	        this, SLOT(okayButtonClicked()));
 }
 
 OptionsDialog::~OptionsDialog()
 {
-    delete ui;
+	delete ui;
 }
 
 Settings* OptionsDialog::getEditSettings()
 {
-    return editSettings;
+	return editSettings;
 }
 
 void OptionsDialog::resetEditSettings(Settings *settings)
 {
-    editSettings->copyFrom(settings);
-    ui->generalSettings->resetEditSettings(editSettings);
-    ui->compilerSettings->resetEditSettings(editSettings);
-    ui->tabWidget->setCurrentIndex(0);
+	editSettings->copyFrom(settings);
+	ui->generalSettings->resetEditSettings(editSettings);
+	ui->compilerSettings->resetEditSettings(editSettings);
+	ui->tabWidget->setCurrentIndex(0);
 }
 
 void OptionsDialog::okayButtonClicked()
 {
-    ui->tabWidget->setCurrentIndex(0);
-    if (! ui->generalSettings->checkValid()) return;
-    ui->tabWidget->setCurrentIndex(1);
-    if (! ui->compilerSettings->checkValid()) return;
-    accept();
+	ui->tabWidget->setCurrentIndex(0);
+
+	if(! ui->generalSettings->checkValid()) return;
+
+	ui->tabWidget->setCurrentIndex(1);
+
+	if(! ui->compilerSettings->checkValid()) return;
+
+	accept();
 }

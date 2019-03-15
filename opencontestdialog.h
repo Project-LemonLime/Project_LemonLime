@@ -27,26 +27,27 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class OpenContestDialog;
+namespace Ui
+{
+class OpenContestDialog;
 }
 
 class OpenContestDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit OpenContestDialog(QWidget *parent = 0);
-    ~OpenContestDialog();
-    void setRecentContest(const QStringList&);
-    const QStringList& getRecentContest() const;
-    QString getSelectedContest();
+	explicit OpenContestDialog(QWidget *parent = 0);
+	~OpenContestDialog();
+	void setRecentContest(const QStringList&);
+	const QStringList& getRecentContest() const;
+	QString getSelectedContest();
 
 private:
-    Ui::OpenContestDialog *ui;
+	Ui::OpenContestDialog *ui;
 
 private slots:
-    void selectionChanged();
+	void selectionChanged();
 };
 
 #endif // OPENCONTESTDIALOG_H

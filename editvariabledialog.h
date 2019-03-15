@@ -27,27 +27,28 @@
 #include <QtGui>
 #include <QDialog>
 
-namespace Ui {
-    class EditVariableDialog;
+namespace Ui
+{
+class EditVariableDialog;
 }
 
 class EditVariableDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit EditVariableDialog(QWidget *parent = 0);
-    ~EditVariableDialog();
-    void setVariableName(const QString&);
-    void setVariableValue(const QString&);
-    QString getVariableName() const;
-    QString getVariableValue() const;
+	explicit EditVariableDialog(QWidget *parent = 0);
+	~EditVariableDialog();
+	void setVariableName(const QString&);
+	void setVariableValue(const QString&);
+	QString getVariableName() const;
+	QString getVariableValue() const;
 
 private:
-    Ui::EditVariableDialog *ui;
+	Ui::EditVariableDialog *ui;
 
 private slots:
-    void textChanged();
+	void textChanged();
 };
 
 #endif // EDITVARIABLEDIALOG_H

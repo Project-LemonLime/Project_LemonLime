@@ -25,33 +25,34 @@
 
 #include <QDialog>
 
-namespace Ui {
-    class AddTaskDialog;
+namespace Ui
+{
+class AddTaskDialog;
 }
 
 class AddTaskDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit AddTaskDialog(QWidget *parent = 0);
-    ~AddTaskDialog();
-    void addTask(const QString&, int, int, int);
-    int getFullScore(int) const;
-    int getTimeLimit(int) const;
-    int getMemoryLimit(int) const;
+	explicit AddTaskDialog(QWidget *parent = 0);
+	~AddTaskDialog();
+	void addTask(const QString&, int, int, int);
+	int getFullScore(int) const;
+	int getTimeLimit(int) const;
+	int getMemoryLimit(int) const;
 
 private:
-    Ui::AddTaskDialog *ui;
-    QList<int> fullScore;
-    QList<int> timeLimit;
-    QList<int> memoryLimit;
+	Ui::AddTaskDialog *ui;
+	QList<int> fullScore;
+	QList<int> timeLimit;
+	QList<int> memoryLimit;
 
 private slots:
-    void taskBoxIndexChanged();
-    void fullScoreChanged();
-    void timeLimitChanged();
-    void memoryLimitChanged();
+	void taskBoxIndexChanged();
+	void fullScoreChanged();
+	void timeLimitChanged();
+	void memoryLimitChanged();
 };
 
 #endif // ADDTASKDIALOG_H

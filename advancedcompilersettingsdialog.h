@@ -29,42 +29,43 @@
 
 class Compiler;
 
-namespace Ui {
-    class AdvancedCompilerSettingsDialog;
+namespace Ui
+{
+class AdvancedCompilerSettingsDialog;
 }
 
 class AdvancedCompilerSettingsDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit AdvancedCompilerSettingsDialog(QWidget *parent = 0);
-    ~AdvancedCompilerSettingsDialog();
-    void resetEditCompiler(Compiler*);
-    Compiler* getEditCompiler() const;
+	explicit AdvancedCompilerSettingsDialog(QWidget *parent = 0);
+	~AdvancedCompilerSettingsDialog();
+	void resetEditCompiler(Compiler*);
+	Compiler* getEditCompiler() const;
 
 private:
-    Ui::AdvancedCompilerSettingsDialog *ui;
-    Compiler *editCompiler;
-    int configCount;
+	Ui::AdvancedCompilerSettingsDialog *ui;
+	Compiler *editCompiler;
+	int configCount;
 
 private slots:
-    void okayButtonClicked();
-    void compilerTypeChanged();
-    void compilerLocationChanged();
-    void interpreterLocationChanged();
-    void selectCompilerLocation();
-    void selectInterpreterLocation();
-    void bytecodeExtensionsChanged();
-    void timeLimitRatioChanged();
-    void memoryLimitRatioChanged();
-    void disableMemoryLimitCheckChanged();
-    void configurationIndexChanged();
-    void configurationTextChanged();
-    void deleteConfiguration();
-    void compilerArgumentsChanged();
-    void interpreterArgumentsChanged();
-    void environmentVariablesButtonClicked();
+	void okayButtonClicked();
+	void compilerTypeChanged();
+	void compilerLocationChanged();
+	void interpreterLocationChanged();
+	void selectCompilerLocation();
+	void selectInterpreterLocation();
+	void bytecodeExtensionsChanged();
+	void timeLimitRatioChanged();
+	void memoryLimitRatioChanged();
+	void disableMemoryLimitCheckChanged();
+	void configurationIndexChanged();
+	void configurationTextChanged();
+	void deleteConfiguration();
+	void compilerArgumentsChanged();
+	void interpreterArgumentsChanged();
+	void environmentVariablesButtonClicked();
 };
 
 #endif // ADVANCEDCOMPILERSETTINGSDIALOG_H
