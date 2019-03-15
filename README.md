@@ -3,6 +3,8 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ## Windows 支持被咕了
 
+## Ubuntu 16 及以下的系统有严重的兼容性问题，我们正在处理
+
 # 和 Lemon 的不同
 
 - Subtask Skip

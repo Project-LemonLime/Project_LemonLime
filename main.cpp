@@ -19,6 +19,10 @@
  * main.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * main.cpp @Project Lemon+
+ * Update 2019 iotang
+ **/
 
 #include <QApplication>
 #include <QSplashScreen>  
@@ -40,6 +44,8 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+	Q_INIT_RESOURCE(resource);
+	
     QPixmap pixmap(":/logo/proj.png");  
     QSplashScreen screen(pixmap);  
     screen.show();  
@@ -47,7 +53,7 @@ int main(int argc, char *argv[])
     qint64 startTime = QDateTime::currentMSecsSinceEpoch();
     do{  
         a.processEvents();  
-    } while (QDateTime::currentMSecsSinceEpoch() - startTime <= 800);//5为需要延时的秒数  
+    } while (QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
 
     Lemon w;
     a.setActivationWindow(&w);

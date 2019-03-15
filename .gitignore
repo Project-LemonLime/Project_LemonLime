@@ -1,5 +1,7 @@
 *.o
+
 moc_*.cpp
 moc_*.h
+
 ui_*.cpp
 ui_*.h
