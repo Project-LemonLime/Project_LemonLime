@@ -19,6 +19,10 @@
  * resultviewer.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * resultviewer.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #include "resultviewer.h"
 #include "judgingdialog.h"
@@ -132,7 +136,7 @@ void ResultViewer::refreshViewer()
 	if(! curContest) return;
 
 	QStringList headerList;
-	headerList << tr("Name") << tr("Rank");
+	headerList << tr("Rank") << tr("Name") << tr("Total Score");
 	QList<Task*> taskList = curContest->getTaskList();
 
 	for(int i = 0; i < taskList.size(); i ++)
@@ -140,7 +144,7 @@ void ResultViewer::refreshViewer()
 		headerList << taskList[i]->getProblemTile();
 	}
 
-	headerList << tr("Total Score") << tr("Total Used Time (s)") << tr("Judging Time");
+	headerList << tr("Total Used Time (s)") << tr("Judging Time");
 	setColumnCount(taskList.size() + 5);
 	setHorizontalHeaderLabels(headerList);
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -151,25 +155,25 @@ void ResultViewer::refreshViewer()
 
 	for(int i = 0; i < contestantList.size(); i ++)
 	{
-		setItem(i, 0, new QTableWidgetItem(contestantList[i]->getContestantName()));
-		setItem(i, 1, new QTableWidgetItem());
+		setItem(i, 0, new QTableWidgetItem());
+		setItem(i, 1, new QTableWidgetItem(contestantList[i]->getContestantName()));
+		setItem(i, 2, new QTableWidgetItem());
 
 		for(int j = 0; j < taskList.size(); j ++)
 		{
-			setItem(i, j + 2, new QTableWidgetItem());
+			setItem(i, j + 3, new QTableWidgetItem());
 			int score = contestantList[i]->getTaskScore(j);
 
 			if(score != -1)
 			{
-				item(i, j + 2)->setData(Qt::DisplayRole, score);
+				item(i, j + 3)->setData(Qt::DisplayRole, score);
 			}
 			else
 			{
-				item(i, j + 2)->setText(tr("Invalid"));
+				item(i, j + 3)->setText(tr("Invalid"));
 			}
 		}
 
-		setItem(i, taskList.size() + 2, new QTableWidgetItem());
 		setItem(i, taskList.size() + 3, new QTableWidgetItem());
 		setItem(i, taskList.size() + 4, new QTableWidgetItem());
 		int totalScore = contestantList[i]->getTotalScore();
@@ -178,14 +182,14 @@ void ResultViewer::refreshViewer()
 
 		if(totalScore != -1)
 		{
-			item(i, taskList.size() + 2)->setData(Qt::DisplayRole, totalScore);
+			item(i, 2)->setData(Qt::DisplayRole, totalScore);
 			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double(totalUsedTime) / 1000);
 			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime);
 			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
 		}
 		else
 		{
-			item(i, taskList.size() + 2)->setText(tr("Invalid"));
+			item(i, 2)->setText(tr("Invalid"));
 			item(i, taskList.size() + 3)->setText(tr("Invalid"));
 			item(i, taskList.size() + 4)->setText(tr("Invalid"));
 		}
@@ -210,11 +214,11 @@ void ResultViewer::refreshViewer()
 	{
 		if(rankList.contains(contestantList[i]->getContestantName()))
 		{
-			item(i, 1)->setData(Qt::DisplayRole, rankList[contestantList[i]->getContestantName()] + 1);
+			item(i, 0)->setData(Qt::DisplayRole, rankList[contestantList[i]->getContestantName()] + 1);
 		}
 		else
 		{
-			item(i, 1)->setText(tr("Invalid"));
+			item(i, 0)->setText(tr("Invalid"));
 		}
 	}
 
@@ -225,6 +229,8 @@ void ResultViewer::refreshViewer()
 			item(i, j)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 		}
 	}
+
+	sortByColumn(0,Qt::AscendingOrder);
 }
 
 void ResultViewer::judgeSelected()
@@ -236,7 +242,7 @@ void ResultViewer::judgeSelected()
 	{
 		for(int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
 		{
-			nameList.append(item(j, 0)->text());
+			nameList.append(item(j, 1)->text());
 		}
 	}
 
@@ -335,7 +341,7 @@ void ResultViewer::detailInformation()
 	int index = selectionRange[0].topRow();
 	DetailDialog *dialog = new DetailDialog(this);
 	dialog->setModal(true);
-	dialog->refreshViewer(curContest, curContest->getContestant(item(index, 0)->text()));
+	dialog->refreshViewer(curContest, curContest->getContestant(item(index, 1)->text()));
 	connect(dialog, SIGNAL(rejudgeSignal()), this, SLOT(refreshViewer()));
 	dialog->showDialog();
 	delete dialog;

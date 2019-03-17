@@ -1,3 +1,8 @@
+doc/*
+lib/*
+plugins/*
+translations/*
+
 *.o
 *.orig
 
@@ -7,7 +12,9 @@ moc_*.h
 ui_*.cpp
 ui_*.h
 
+AppRun
+default.desktop
 Makefile
 lemon
+.DirIcon
 .qmake.stash
-default.desktop

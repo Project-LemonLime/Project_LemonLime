@@ -15,6 +15,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
+/**
+ * lemon.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
+
 
 #include <sys/types.h>
 #include <sys/time.h>
@@ -102,7 +107,7 @@ int main(int argc, char *argv[])
 		}
 		else setrlimit(RLIMIT_STACK, &(struct rlimit)
 		{
-			2147483647, 2147483647
+			RLIM_INFINITY, RLIM_INFINITY
 		});
 		setrlimit(RLIMIT_CPU, &(struct rlimit)
 		{

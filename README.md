@@ -6,7 +6,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ## Windows 支持被咕了
 
-## Ubuntu 16 及以下的系统可能存在兼容性问题
+## Ubuntu 14 及以下的系统可能存在兼容性问题
 
 ---
 
@@ -28,15 +28,44 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 # 和 LemonPlus 的不同
 
+- 自带的实数比较模式判断了nan和inf。来自某出题人的提醒
 - 增加整理文件功能：使所有的选手的子文件夹内外都有答案文件。
 - 增加 帮助 > 指南：一个大坑（有哪位英语好的大佬帮忙中译英一下啊？）
 - 默认的栈空间设置为和内存限制相同。
-- 界面的小修改。
+- 测试的时候选手表格每次刷新会按照排名而不是名字排序。看起来像滚榜。
+- 界面的修改。
 
 # 其它更新
 
 - 图标和启动横幅
 - 评测详情窗口的各种评测结果有了不同的颜色。
+
+---
+
+# 构建
+
+## Windows
+
+咕咕咕
+
+## Linux
+
+### 依赖环境
+
+```bash
+sudo apt-get install g++ gcc qt5-default make
+```
+
+### 下载源代码，在源代码目录中依次执行
+
+```bash
+gcc watcher_unix.c -o watcher_unix -O2
+gcc realjudge.c -o realjudge_linux -O2
+qmake lemon.pro
+make
+```
+
+获得可执行文件 ``lemon`` 。
 
 ---
 
@@ -59,6 +88,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 ```plain
 ./configure
 make
+sudo make install
 ```
 
 然后去 ``/usr/local/bin`` 下看一看是否有一个 ``patchelf`` 出现了。
@@ -75,3 +105,4 @@ linuxdeployqt lemon -appimage
 之后，你可以发现一个以 ``appimage`` 为后缀的文件，而它是可以直接运行的。
 把这个文件放到任何地方都可以运行。
 那么 LemonPt 就打包完成了。Congratulations!
+

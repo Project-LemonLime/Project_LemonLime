@@ -19,6 +19,10 @@
  * judgingdialog.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * judgingdialog.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #include "judgingdialog.h"
 #include "ui_judgingdialog.h"

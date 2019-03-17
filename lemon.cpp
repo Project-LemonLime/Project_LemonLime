@@ -19,6 +19,11 @@
  * lemon.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * lemon.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
+
 
 #include "lemon.h"
 #include "ui_lemon.h"
@@ -525,7 +530,7 @@ void Lemon::loadContest(const QString &filePath)
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
-	setWindowTitle(tr("Lemon - %1").arg(curContest->getContestTitle()));
+	setWindowTitle(tr("LemonPt - %1").arg(curContest->getContestTitle()));
 
 	QApplication::restoreOverrideCursor();
 	ui->tabWidget->setCurrentIndex(0);
@@ -545,7 +550,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	curContest = new Contest(this);
 	curContest->setSettings(settings);
 	curContest->setContestTitle(title);
-	setWindowTitle(tr("Lemon - %1").arg(title));
+	setWindowTitle(tr("LemonPt - %1").arg(title));
 	QDir::setCurrent(path);
 	QDir().mkdir(Settings::dataPath());
 	QDir().mkdir(Settings::sourcePath());
@@ -594,7 +599,7 @@ void Lemon::closeAction()
 	ui->saveAction->setEnabled(false);
 	ui->addTasksAction->setEnabled(false);
 	ui->exportAction->setEnabled(false);
-	setWindowTitle(tr("Lemon"));
+	setWindowTitle(tr("LemonPt"));
 }
 
 void Lemon::saveAction()
@@ -744,7 +749,7 @@ void Lemon::addTasksAction()
 
 	if(nameList.isEmpty())
 	{
-		QMessageBox::warning(this, tr("Lemon"), tr("No task found"), QMessageBox::Ok);
+		QMessageBox::warning(this, tr("LemonPt"), tr("No task found"), QMessageBox::Ok);
 		return;
 	}
 
@@ -782,7 +787,7 @@ void Lemon::aboutLemon()
 	text += tr("A tiny judging environment for OI contest based on Project Lemon") + "<br>";
 	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
 	text += tr("Build Date: %1").arg(__DATE__) + "<br>";
-	text += tr("Preview version") + "<br>";
+	text += tr("UNSTABLE VERISON") + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")
 	        + "<br>";
 	text += tr("Update by Dust1404") + "</a><br>";
