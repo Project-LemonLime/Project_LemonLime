@@ -28,6 +28,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 # 和 LemonPlus 的不同
 
+- 自带的实数比较模式判断了nan和inf。来自某出题人的提醒
 - 增加整理文件功能：使所有的选手的子文件夹内外都有答案文件。
 - 增加 帮助 > 指南：一个大坑（有哪位英语好的大佬帮忙中译英一下啊？）
 - 默认的栈空间设置为和内存限制相同。
