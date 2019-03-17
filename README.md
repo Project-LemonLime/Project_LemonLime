@@ -6,7 +6,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ## Windows 支持被咕了
 
-## Ubuntu 16 及以下的系统可能存在兼容性问题
+## Ubuntu 14 及以下的系统可能存在兼容性问题
 
 ---
 
@@ -40,6 +40,33 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ---
 
+# 构建
+
+## Windows
+
+咕咕咕
+
+## Linux
+
+### 依赖环境
+
+```bash
+sudo apt-get install g++ gcc qt5-default make
+```
+
+### 下载源代码，在源代码目录中依次执行
+
+```bash
+gcc watcher_unix.c -o watcher_unix -O2
+gcc realjudge.c -o realjudge_linux -O2
+qmake lemon.pro
+make
+```
+
+获得可执行文件 ``lemon`` 。
+
+---
+
 # 附件
 
 ## 把 LemonPt 打包！
@@ -59,6 +86,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 ```plain
 ./configure
 make
+sudo make install
 ```
 
 然后去 ``/usr/local/bin`` 下看一看是否有一个 ``patchelf`` 出现了。
