@@ -18,6 +18,7 @@
 
 QT       += core gui network
 QT       += core gui widgets
+QMAKE_CXXFLAGS += -std=c++11
 
 TARGET = lemon
 TEMPLATE = app

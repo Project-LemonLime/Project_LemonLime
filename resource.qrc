@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/logo">
-        <file>proj.png</file>
+        <file>splash.png</file>
     </qresource>
     <qresource prefix="/icon">
         <file>rod.png</file>

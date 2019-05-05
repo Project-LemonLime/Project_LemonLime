@@ -79,6 +79,8 @@ void JudgingDialog::judge(const QStringList &nameList)
 		if(stopJudging) break;
 	}
 
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QProcess::execute(text);
 	accept();
 }
 
@@ -87,6 +89,9 @@ void JudgingDialog::judge(const QString &name, int index)
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTask(index)->getTotalTimeLimit());
 	curContest->judge(name, index);
+
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QProcess::execute(text);
 	accept();
 }
 
@@ -95,6 +100,9 @@ void JudgingDialog::judgeAll()
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * curContest->getContestantList().size());
 	curContest->judgeAll();
+	
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QProcess::execute(text);
 	accept();
 }
 
@@ -103,6 +111,9 @@ void JudgingDialog::judgeSingleTask(int taskID)
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getContestantList().size() * curContest->getTask(taskID)->getTotalTimeLimit());
 	curContest->judgeSingleTask(taskID);
+	
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QProcess::execute(text);
 	accept();
 }
 
@@ -208,7 +219,7 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 	cursor->insertText(tr("Subtask Dependence %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
 
 	QString text;
-	int     percentage = ratio * 10000;
+	int percentage = ratio * 10000;
 	text = QString("%1.%2%3").arg(percentage / 100).arg(percentage % 100).arg('%');
 
 	if(percentage == 10000)

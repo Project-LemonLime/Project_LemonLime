@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
 	Q_INIT_RESOURCE(resource);
 
-	QPixmap pixmap(":/logo/proj.png");
+	QPixmap pixmap(":/logo/splash.png");
 	QSplashScreen screen(pixmap);
 	screen.show();
 

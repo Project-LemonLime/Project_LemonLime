@@ -2,17 +2,17 @@
 cd "source"
 for file in ./*/*.*
 do
-	mulu=${file%/*}
+	coder=${file%/*}
 	name=${file##*/}
 	sourcename=${name%.*}
-	if [ -a "$mulu/$sourcename" ]; then
-		if [ ! -d "$mulu/$sourcename" ];then
-			rm "$mulu/$sourcename"
-			mkdir "$mulu/$sourcename"
+	if [ -a "$coder/$sourcename" ]; then
+		if [ ! -d "$coder/$sourcename" ];then
+			rm "$coder/$sourcename"
+			mkdir "$coder/$sourcename"
 		fi
-	else mkdir "$mulu/$sourcename"
+	else mkdir "$coder/$sourcename"
 	fi
-	if [ ! -a "$mulu/$sourcename/$name" ];then
-		cp "$file" "$mulu/$sourcename/$name"
+	if [ ! -a "$coder/$sourcename/$name" ];then
+		cp "$file" "$coder/$sourcename/$name"
 	fi
 done

@@ -359,10 +359,27 @@ void Lemon::refreshButtonClicked()
 
 void Lemon::arrangeButtonClicked()
 {
-	QFile::copy(":/tools/shin.sh", Settings::sourcePath() + "shin.sh");
-	QFile::copy(":/tools/shout.sh", Settings::sourcePath() + "shout.sh");
-	QProcess::execute("bash " + Settings::sourcePath() + "shin.sh");
-	QProcess::execute("bash " + Settings::sourcePath() + "shout.sh");
+	QString text;
+	text += tr("Are you sure to Clean up Files?") + "<br>";
+	text += tr("Reading guide are recommended.") + "<br>";
+	QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+	if(res == QMessageBox::Yes)
+	{
+		QFile::copy(":/tools/shin.sh", Settings::sourcePath() + "shin.sh");
+		QFile::copy(":/tools/shout.sh", Settings::sourcePath() + "shout.sh");
+		QProcess::execute("chmod 777 " + Settings::sourcePath() + "shin.sh");
+		QProcess::execute("chmod 777 " + Settings::sourcePath() + "shout.sh");
+		QProcess::execute("bash " + Settings::sourcePath() + "shin.sh");
+		QProcess::execute("bash " + Settings::sourcePath() + "shout.sh");
+		QProcess::execute("rm " + Settings::sourcePath() + "shin.sh");
+		QProcess::execute("rm " + Settings::sourcePath() + "shout.sh");
+		text = tr("Finished.") + "<br>";
+		QMessageBox::about(this, tr("Clean up Files"), text);
+	}
+	else
+	{
+		QMessageBox::about(this, tr("Clean up Files"), tr("Aborted"));	
+	}
 }
 
 
@@ -807,10 +824,10 @@ void Lemon::actionInteraction()
 {
 	QString text;
 	text += "<h3>" + tr("Interaction") + "</h3>";
-	text += tr("There is a example of how to use Interaction type tasks.") + "<br>";
-	text += tr("Interactor Path martix/martix.h") + "<br>";
-	text += tr("Interactor Name martix.h") + "<br>";
-	text += tr("Grader Path martix/grader.cpp") + "<br>";
+	text += tr("There is a example of how to use Interaction type tasks:") + "<br>";
+	text += tr("Interactor Path: martix/martix.h") + "<br>";
+	text += tr("Interactor Name: martix.h") + "<br>";
+	text += tr("Grader Path: martix/grader.cpp") + "<br>";
 	QMessageBox::about(this, tr("About Interaction"), text);
 }
 
@@ -821,15 +838,21 @@ void Lemon::actionSubTasks()
 	text += tr("Regular Expression:") + "<br>";
 	text += tr("Numbers : \\d*") + "<br>";
 	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
+	text += tr("There is a example of how to use regular expressions to make subtasks:") + "<br>";
+	text += tr("Data(in): martix/martix<1>.in") + "<br>";
+	text += tr("Data(out): martix/martix<1>.out") + "<br>";
+	text += tr("And the \"<1>\" is \"\\d*\".") + "<br>";
+
 	QMessageBox::about(this, tr("About Subtasks"), text);
 }
 
 void Lemon::actionArrange_Files()
 {
 	QString text;
-	text += "<h3>" + tr("What is Arrange Files") + "</h3>";
-	text += tr("Be Careful : May Cause SEVERE FILE DAMAGES.") + "<br>";
-	QMessageBox::about(this, tr("About Arrange Files"), text);
+	text += "<h3>" + tr("What is Clean Up Files") + "</h3>";
+	text += tr("It can make all of the source files have a copy in the subdirs.") + "<br>";
+	text += tr("Be Careful : May Cause SEVERE FILE DAMAGE.") + "<br>";
+	QMessageBox::about(this, tr("About Clean Up Files"), text);
 }
 
 void Lemon::actionBan()
@@ -837,6 +860,8 @@ void Lemon::actionBan()
 	QString text;
 	text += "<h3>" + tr("What is Ban") + "</h3>";
 	text += tr("It can stop a judging task.") + "<br>";
+	text += tr("The tasks which are not tested will be displayed as \"Time Limit Exceeded\".") + "<br>";
+	text += tr("Use it when you have no time.") + "<br>";
 	QMessageBox::about(this, tr("About Ban"), text);
 }
 
@@ -844,14 +869,14 @@ void Lemon::actionSingle_Judge()
 {
 	QString text;
 	text += "<h3>" + tr("What is Single Judge") + "</h3>";
-	text += tr("It can judge one task instead of all.") + "<br>";
+	text += tr("It can judge one task only instead of \"Judge all\".") + "<br>";
 	QMessageBox::about(this, tr("About Single Judge"), text);
 }
 
 void Lemon::actionSpecial_Judge()
 {
 	QString text;
-	text += "<h3>" + tr("What is Special Judge") + "</h3>";
+	text += "<h3>" + tr("How to make a Special Judge for Lemon") + "</h3>";
 	text += tr("The special judge should take 6 arguments below:") + "<br>";
 	text += tr("argv[1] : (in) Standard Input") + "<br>";
 	text += tr("argv[2] : (in) Participant's Answer") + "<br>";
