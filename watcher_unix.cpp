@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 /**
- * lemon.cpp @Project LemonPt
+ * watcher_unix.cpp @Project LemonPt
  * Update 2019 iotang
  **/
 
@@ -33,7 +33,7 @@
 
 int pid;
 
-void cleanUp()
+void cleanUp(int dummy)
 {
 	kill(pid, SIGKILL);
 	exit(0);
@@ -94,25 +94,39 @@ int main(int argc, char *argv[])
 
 		if(strlen(argv[4]) > 0) freopen(argv[4], "w", stderr);
 
+		rlimit memlim, stalim, timlim;
+
 		if(memoryLimit > 0)
 		{
-			setrlimit(RLIMIT_AS, &(struct rlimit)
+			memlim = (rlimit)
 			{
-				memoryLimit, memoryLimit
-			});
-			setrlimit(RLIMIT_STACK, &(struct rlimit)
+				(rlim_t)memoryLimit, (rlim_t)memoryLimit
+			};
+			stalim = (rlimit)
 			{
-				memoryLimit, memoryLimit
-			});
+				(rlim_t)memoryLimit, (rlim_t)memoryLimit
+			};
 		}
-		else setrlimit(RLIMIT_STACK, &(struct rlimit)
+		else
 		{
-			RLIM_INFINITY, RLIM_INFINITY
-		});
-		setrlimit(RLIMIT_CPU, &(struct rlimit)
+			memlim = (rlimit)
+			{
+				RLIM_INFINITY, RLIM_INFINITY
+			};
+			stalim = (rlimit)
+			{
+				RLIM_INFINITY, RLIM_INFINITY
+			};
+		}
+
+		timlim = (rlimit)
 		{
-			timeLimit, timeLimit + 1
-		});
+			(rlim_t)timeLimit, (rlim_t)(timeLimit + 1)
+		};
+
+		setrlimit(RLIMIT_AS, &memlim);
+		setrlimit(RLIMIT_STACK, &stalim);
+		setrlimit(RLIMIT_CPU, &timlim);
 
 		if(execlp("bash", "bash", "-c", argv[1], NULL) == -1) return 1;
 	}

@@ -230,7 +230,7 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	sortByColumn(0,Qt::AscendingOrder);
+	sortByColumn(0, Qt::AscendingOrder);
 }
 
 void ResultViewer::judgeSelected()

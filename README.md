@@ -60,8 +60,8 @@ sudo apt-get install g++ gcc qt5-default make
 ### 下载源代码，在源代码目录中依次执行
 
 ```bash
-gcc watcher_unix.c -o watcher_unix -O2
-gcc realjudge.c -o realjudge_linux -O2
+g++ watcher_unix.cpp -o watcher_unix -O2
+g++ realjudge.cpp -o realjudge_linux -O2
 qmake lemon.pro
 make
 ```

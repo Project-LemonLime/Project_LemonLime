@@ -15,8 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
+/**
+ * realjudge.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
 
-#include <stdio.h>
+#include <cstdio>
 #include <math.h>
 
 int main(int argc, char *argv[])

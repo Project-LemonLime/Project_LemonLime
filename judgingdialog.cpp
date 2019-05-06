@@ -100,7 +100,7 @@ void JudgingDialog::judgeAll()
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * curContest->getContestantList().size());
 	curContest->judgeAll();
-	
+
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
 	accept();
@@ -111,7 +111,7 @@ void JudgingDialog::judgeSingleTask(int taskID)
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getContestantList().size() * curContest->getTask(taskID)->getTotalTimeLimit());
 	curContest->judgeSingleTask(taskID);
-	
+
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
 	accept();

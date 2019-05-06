@@ -363,6 +363,7 @@ void Lemon::arrangeButtonClicked()
 	text += tr("Are you sure to Clean up Files?") + "<br>";
 	text += tr("Reading guide are recommended.") + "<br>";
 	QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+
 	if(res == QMessageBox::Yes)
 	{
 		QFile::copy(":/tools/shin.sh", Settings::sourcePath() + "shin.sh");
@@ -378,7 +379,7 @@ void Lemon::arrangeButtonClicked()
 	}
 	else
 	{
-		QMessageBox::about(this, tr("Clean up Files"), tr("Aborted"));	
+		QMessageBox::about(this, tr("Clean up Files"), tr("Aborted"));
 	}
 }
 
