@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>306</width>
+    <width>288</width>
     <height>193</height>
    </rect>
   </property>
@@ -26,23 +26,6 @@
    <property name="verticalSpacing">
     <number>10</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="taskLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
-     </property>
-     <property name="text">
-      <string>Task</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="QComboBox" name="taskBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="fullScoreLabel">
      <property name="styleSheet">
@@ -50,52 +33,6 @@
      </property>
      <property name="text">
       <string>Full Score</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="fullScore">
-     <property name="maximumSize">
-      <size>
-       <width>75</width>
-       <height>22</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="timeLimitLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
-     </property>
-     <property name="text">
-      <string>Time Limit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="timeLimit">
-     <property name="maximumSize">
-      <size>
-       <width>75</width>
-       <height>22</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLabel" name="msLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-     <property name="text">
-      <string>ms</string>
      </property>
     </widget>
    </item>
@@ -109,26 +46,13 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="memoryLimit">
-     <property name="maximumSize">
-      <size>
-       <width>75</width>
-       <height>22</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QLabel" name="mbLabel">
+   <item row="2" column="2">
+    <widget class="QLabel" name="msLabel">
      <property name="styleSheet">
       <string notr="true">font-size:11pt;</string>
      </property>
      <property name="text">
-      <string>MB</string>
+      <string>ms</string>
      </property>
     </widget>
    </item>
@@ -145,18 +69,15 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="3" column="2">
+    <widget class="QLabel" name="mbLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>33</width>
-       <height>20</height>
-      </size>
+     <property name="text">
+      <string>MB</string>
      </property>
-    </spacer>
+    </widget>
    </item>
    <item row="3" column="3">
     <spacer name="horizontalSpacer_2">
@@ -170,6 +91,85 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>33</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="timeLimit">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="fullScore">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QComboBox" name="taskBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="memoryLimit">
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="taskLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Task</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="timeLimitLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Time Limit</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>358</width>
-    <height>600</height>
+    <width>575</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>358</width>
-    <height>600</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,13 @@
        <property name="minimumSize">
         <size>
          <width>211</width>
-         <height>0</height>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>32</height>
         </size>
        </property>
        <property name="styleSheet">
@@ -66,221 +72,231 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="locationGroup">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-     <property name="title">
-      <string>Location</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QGroupBox" name="locationGroup">
+       <property name="styleSheet">
+        <string notr="true">font-size:11pt;</string>
+       </property>
+       <property name="title">
+        <string>Location</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="horizontalSpacing">
+           <number>9</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="compilerLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font-size:11pt;font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Compiler</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="compilerLocation"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QToolButton" name="compilerSelectButton">
+            <property name="text">
+             <string notr="true">...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="interpreterLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font-size:11pt;font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Interpreter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="interpreterLocation"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QToolButton" name="interpreterSelectButton">
+            <property name="text">
+             <string notr="true">...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>9</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="bytecodeExtensionLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font-size:11pt;font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Byte-code File Extensions</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="bytecodeExtension">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="limitGroup">
+       <property name="styleSheet">
+        <string notr="true">font-size:11pt;</string>
+       </property>
+       <property name="title">
+        <string>Time and Memory Limit</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
         <property name="horizontalSpacing">
-         <number>9</number>
+         <number>8</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="compilerLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <property name="verticalSpacing">
+         <number>6</number>
+        </property>
+        <item row="1" column="2">
+         <widget class="QDoubleSpinBox" name="memoryLimitRatio">
+          <property name="decimals">
+           <number>1</number>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;font-weight:bold;</string>
+          <property name="minimum">
+           <double>0.100000000000000</double>
           </property>
-          <property name="text">
-           <string>Compiler</string>
+          <property name="maximum">
+           <double>999.899999999999977</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="compilerLocation"/>
-        </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="compilerSelectButton">
+        <item row="0" column="0">
+         <widget class="QLabel" name="timeLimitRationLabel">
+          <property name="styleSheet">
+           <string notr="true">font-size:11pt;</string>
+          </property>
           <property name="text">
-           <string notr="true">...</string>
+           <string>Time Limit Ration</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="interpreterLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="memoryLimitRatioLabel">
           <property name="styleSheet">
-           <string notr="true">font-size:11pt;font-weight:bold;</string>
+           <string notr="true">font-size:11pt;</string>
           </property>
           <property name="text">
-           <string>Interpreter</string>
+           <string>Memory Limit Ration</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="interpreterLocation"/>
-        </item>
-        <item row="1" column="2">
-         <widget class="QToolButton" name="interpreterSelectButton">
-          <property name="text">
-           <string notr="true">...</string>
+        <item row="0" column="2">
+         <widget class="QDoubleSpinBox" name="timeLimitRatio">
+          <property name="decimals">
+           <number>1</number>
+          </property>
+          <property name="minimum">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.899999999999977</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
           </property>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <property name="spacing">
-         <number>9</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="bytecodeExtensionLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="disableMemoryLimit">
           <property name="styleSheet">
-           <string notr="true">font-size:11pt;font-weight:bold;</string>
+           <string notr="true">font-size:10pt;font-weight:bold;</string>
           </property>
           <property name="text">
-           <string>Byte-code File Extensions</string>
+           <string>Disable Memory Limit</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="bytecodeExtension">
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_5">
+        <item row="0" column="1">
+         <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
+            <width>57</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="1">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>57</width>
             <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="limitGroup">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
-     </property>
-     <property name="title">
-      <string>Time and Memory Limit</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="horizontalSpacing">
-       <number>8</number>
-      </property>
-      <property name="verticalSpacing">
-       <number>6</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="timeLimitRationLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;font-weight:bold;</string>
-        </property>
-        <property name="text">
-         <string>Time Limit Ration</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="timeLimitRatio">
-        <property name="decimals">
-         <number>1</number>
-        </property>
-        <property name="minimum">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>57</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="memoryLimitRatioLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;font-weight:bold;</string>
-        </property>
-        <property name="text">
-         <string>Memory Limit Ration</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="memoryLimitRatio">
-        <property name="decimals">
-         <number>1</number>
-        </property>
-        <property name="minimum">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>57</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="disableMemoryLimit">
-        <property name="styleSheet">
-         <string notr="true">font-size:10pt;</string>
-        </property>
-        <property name="text">
-         <string>Disable Memory Limit</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QGroupBox" name="argumentsGroup">
@@ -297,6 +313,25 @@
       <property name="verticalSpacing">
        <number>6</number>
       </property>
+      <item row="3" column="0">
+       <widget class="QLabel" name="interpreterArgumentsLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+        <property name="text">
+         <string>Interpreter's Arguments</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="configurationSelect"/>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="configurationLabel">
         <property name="sizePolicy">
@@ -312,9 +347,6 @@
          <string>Configuration</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="configurationSelect"/>
       </item>
       <item row="0" column="2">
        <widget class="QToolButton" name="deleteConfigurationButton">
@@ -342,33 +374,17 @@
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:11pt;font-weight:bold;</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Compiler's Arguments</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
+      <item row="2" column="0" colspan="3">
        <widget class="QLineEdit" name="compilerArguments"/>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="interpreterArgumentsLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;font-weight:bold;</string>
-        </property>
-        <property name="text">
-         <string>Interpreter's Arguments</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="2">
+      <item row="4" column="0" colspan="3">
        <widget class="QLineEdit" name="interpreterArguments"/>
       </item>
      </layout>
@@ -376,6 +392,13 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="environmentVariablesButton">
+       <property name="text">
+        <string>Environment Variables</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
@@ -390,26 +413,19 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="environmentVariablesButton">
-       <property name="text">
-        <string>Environment Variables</string>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="styleSheet">
+        <string notr="true">font-size:10pt;</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:10pt;</string>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

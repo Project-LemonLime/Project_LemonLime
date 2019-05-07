@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>577</width>
-    <height>522</height>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -209,6 +209,9 @@
     <widget class="QComboBox" name="comparisonMode">
      <property name="styleSheet">
       <string notr="true">font-size: 11pt;</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
      </property>
      <item>
       <property name="text">

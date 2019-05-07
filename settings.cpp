@@ -19,6 +19,10 @@
  * settings.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * settings.cpp @Project Lemon+
+ * Update 2019 iotang
+ **/
 
 #include "settings.h"
 #include "compiler.h"
@@ -315,7 +319,7 @@ void Settings::loadSettings()
 	settings.beginGroup("GeneralSettings");
 	defaultFullScore = settings.value("DefaultFullScore", 10).toInt();
 	defaultTimeLimit = settings.value("DefaultTimeLimit", 1000).toInt();
-	defaultMemoryLimit = settings.value("DefaultMemoryLimit", 256).toInt();
+	defaultMemoryLimit = settings.value("DefaultMemoryLimit", 512).toInt();
 	compileTimeLimit = settings.value("CompileTimeLimit", 10000).toInt();
 	specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
 	fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();
@@ -399,17 +403,17 @@ int Settings::upperBoundForTimeLimit()
 
 int Settings::upperBoundForMemoryLimit()
 {
-	return 1048576;
+	return 16777216;
 }
 
 int Settings::upperBoundForFileSizeLimit()
 {
-	return 10 * 1024;
+	return 256 * 1024;
 }
 
 int Settings::upperBoundForRejudgeTimes()
 {
-	return 10;
+	return 12;
 }
 
 QString Settings::dataPath()
