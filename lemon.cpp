@@ -840,9 +840,9 @@ void Lemon::actionSubTasks()
 	text += tr("Numbers : \\d*") + "<br>";
 	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
 	text += tr("There is a example of how to use regular expressions to make subtasks:") + "<br>";
-	text += tr("Data(in): martix/martix<1>.in") + "<br>";
-	text += tr("Data(out): martix/martix<1>.out") + "<br>";
-	text += tr("And the \"<1>\" is \"\\d*\".") + "<br>";
+	text += tr("Data(in): martix/martix&lt;1&gt;.in") + "<br>";
+	text += tr("Data(out): martix/martix&lt;1&gt;.out") + "<br>";
+	text += tr("And the \"&lt;1&gt;\" is \"\\d*\".") + "<br>";
 
 	QMessageBox::about(this, tr("About Subtasks"), text);
 }
