@@ -202,7 +202,7 @@ void CompilerSettings::addCompiler()
 
 void CompilerSettings::deleteCompiler()
 {
-	if(QMessageBox::question(this, tr("Lemon"), tr("Are you sure to delete compiler %1?")
+	if(QMessageBox::question(this, tr("LemonPt"), tr("Are you sure to delete compiler %1?")
 	                         .arg(curCompiler->getCompilerName()),
 	                         QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
 	{

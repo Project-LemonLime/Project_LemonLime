@@ -100,6 +100,9 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 					htmlCode += "</p>";
 					break;
+
+				case CompileSuccessfully:
+					break;
 				}
 
 				continue;

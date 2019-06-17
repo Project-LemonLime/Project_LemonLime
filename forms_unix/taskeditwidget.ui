@@ -90,7 +90,7 @@
         <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="text">
-        <string>&amp;Traditional</string>
+        <string>Traditional</string>
        </property>
       </widget>
      </item>
@@ -100,7 +100,7 @@
         <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="text">
-        <string>&amp;Answers Only</string>
+        <string>Answers Only</string>
        </property>
       </widget>
      </item>
@@ -112,7 +112,7 @@
         </font>
        </property>
        <property name="text">
-        <string>&amp;Interaction</string>
+        <string>Interaction</string>
        </property>
       </widget>
      </item>

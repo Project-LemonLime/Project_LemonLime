@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Lemon</string>
+   <string>LemonPt</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resource.qrc">
@@ -50,7 +50,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -201,7 +201,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QPushButton" name="arrangeButton">
+           <widget class="QPushButton" name="cleanupButton">
             <property name="minimumSize">
              <size>
               <width>96</width>
@@ -254,7 +254,7 @@
              </size>
             </property>
             <property name="text">
-             <string>SingleJudge</string>
+             <string>&amp;Single Judge</string>
             </property>
            </widget>
           </item>
@@ -355,8 +355,8 @@
       <string>&amp;Guides</string>
      </property>
      <addaction name="actionCompile_Features"/>
-     <addaction name="actionArrange_Files"/>
-     <addaction name="actionBan"/>
+     <addaction name="actionCleanup_Files"/>
+     <addaction name="actionSkip"/>
      <addaction name="actionSingle_Judge"/>
      <addaction name="separator"/>
      <addaction name="actionSubTasks"/>
@@ -464,27 +464,27 @@
   </action>
   <action name="actionInteraction">
    <property name="text">
-    <string>&amp;Interaction</string>
+    <string>Interaction</string>
    </property>
   </action>
   <action name="actionSubTasks">
    <property name="text">
-    <string>&amp;Subtasks</string>
+    <string>Subtasks</string>
    </property>
   </action>
-  <action name="actionArrange_Files">
+  <action name="actionCleanup_Files">
    <property name="text">
-    <string>&amp;Clean up Files</string>
+    <string>Clean up Files</string>
    </property>
   </action>
   <action name="actionCompile_Features">
    <property name="text">
-    <string>&amp;Compile Features</string>
+    <string>Compile Features</string>
    </property>
   </action>
-  <action name="actionBan">
+  <action name="actionSkip">
    <property name="text">
-    <string>&amp;Ban</string>
+    <string>Skip</string>
    </property>
   </action>
   <action name="actionSpecial_Judge">

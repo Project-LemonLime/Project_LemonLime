@@ -268,12 +268,38 @@ void ResultViewer::judgeAll()
 
 void ResultViewer::judgeSingleTask(int taskID)
 {
-	//qDebug() << taskID;
 	JudgingDialog *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judgeSingleTask(taskID);
+	delete dialog;
+	refreshViewer();
+}
+
+void ResultViewer::judgeSelectedSingleTask(int taskID)
+{
+	QStringList nameList;
+	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
+
+	for(int i = 0; i < selectionRange.size(); i ++)
+	{
+		for(int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+		{
+			nameList.append(item(j, 1)->text());
+		}
+	}
+
+	JudgingDialog *dialog = new JudgingDialog(this);
+	dialog->setModal(true);
+	dialog->setContest(curContest);
+	dialog->show();
+
+	if(selectionRange.size() > 0)
+		dialog->judgeSelectedSingleTask(nameList, taskID);
+	else
+		dialog->judgeSingleTask(taskID);
+
 	delete dialog;
 	refreshViewer();
 }
@@ -299,12 +325,12 @@ void ResultViewer::clearPath(const QString &curDir)
 
 void ResultViewer::deleteContestant()
 {
-	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("Lemon"),
+	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonPt"),
 	        QString("<span style=\"font-size:large\">")
 	        + tr("Are you sure to delete selected contestant(s)?") + "</span>",
 	        QMessageBox::Ok | QMessageBox::Cancel, this);
 	//QHBoxLayout *layout = new QHBoxLayout;
-	QCheckBox *checkBox = new QCheckBox(tr("Delete directories in the hard disk as well"));
+	QCheckBox *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
 	//layout->addWidget(checkBox);
 	//layout->setAlignment(checkBox, Qt::AlignHCenter);
 	//dynamic_cast<QGridLayout*>(messageBox->layout())->addLayout(layout, 1, 1);
@@ -319,12 +345,12 @@ void ResultViewer::deleteContestant()
 	{
 		for(int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
 		{
-			curContest->deleteContestant(item(j, 0)->text());
+			curContest->deleteContestant(item(j, 1)->text());
 
 			if(checkBox->isChecked())
 			{
-				clearPath(Settings::sourcePath() + item(j, 0)->text() + QDir::separator());
-				QDir(Settings::sourcePath()).rmdir(item(j, 0)->text());
+				clearPath(Settings::sourcePath() + item(j, 1)->text() + QDir::separator());
+				QDir(Settings::sourcePath()).rmdir(item(j, 1)->text());
 			}
 		}
 	}

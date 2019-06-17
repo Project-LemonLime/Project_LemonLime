@@ -43,6 +43,7 @@ public slots:
 	void judgeSelected();
 	void judgeAll();
 	void judgeSingleTask(int);
+	void judgeSelectedSingleTask(int);
 
 private:
 	Contest *curContest;

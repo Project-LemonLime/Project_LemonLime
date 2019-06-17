@@ -812,14 +812,14 @@ void JudgingThread::specialJudge(const QString &fileName)
 	messageFile.remove();
 }
 
-extern int ST_B;
+extern int skipEnabled;
 
 void JudgingThread::runProgram()
 {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
 
-	if(ST_B)
+	if(skipEnabled)
 	{
 		result = TimeLimitExceeded;
 		score = 0;

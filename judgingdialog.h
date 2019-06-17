@@ -46,12 +46,13 @@ public:
 	void judge(const QStringList&);
 	void judge(const QString&, int);
 	void judgeSingleTask(int);
+	void judgeSelectedSingleTask(const QStringList&, int);
 	void judgeAll();
 	void reject();
 
 private slots:
 	void stopJudgingSlot();
-	void banJudging();
+	void skipJudging();
 
 private:
 	Ui::JudgingDialog *ui;

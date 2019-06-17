@@ -69,7 +69,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 	if(! QDir(Settings::selfTestPath()).exists() && ! QDir().mkdir(Settings::selfTestPath()))
 	{
 		QApplication::restoreOverrideCursor();
-		QMessageBox::warning(widget, tr("Lemon"), tr("Cannot make directory"), QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot make directory"), QMessageBox::Ok);
 		return;
 	}
 
@@ -85,7 +85,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 		if(! file.open(QFile::WriteOnly | QFile::Text))
 		{
 			QApplication::restoreOverrideCursor();
-			QMessageBox::warning(widget, tr("Lemon"), tr("Cannot write check.bat"), QMessageBox::Ok);
+			QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot write check.bat"), QMessageBox::Ok);
 			return;
 		}
 
@@ -94,7 +94,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 		if(! dummy.open(QFile::WriteOnly | QFile::Text))
 		{
 			QApplication::restoreOverrideCursor();
-			QMessageBox::warning(widget, tr("Lemon"), tr("Cannot write enter"), QMessageBox::Ok);
+			QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot write enter"), QMessageBox::Ok);
 			return;
 		}
 
@@ -108,7 +108,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 		if(! file.open(QFile::WriteOnly | QFile::Text))
 		{
 			QApplication::restoreOverrideCursor();
-			QMessageBox::warning(widget, tr("Lemon"), tr("Cannot write check.sh"), QMessageBox::Ok);
+			QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot write check.sh"), QMessageBox::Ok);
 			return;
 		}
 
@@ -146,7 +146,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 			                 + QFileInfo(taskList[i]->getSpecialJudge()).fileName()))
 			{
 				QApplication::restoreOverrideCursor();
-				QMessageBox::warning(widget, tr("Lemon"),
+				QMessageBox::warning(widget, tr("LemonPt"),
 				                     tr("Cannot copy %1").arg(QFileInfo(taskList[i]->getSpecialJudge()).fileName()),
 				                     QMessageBox::Ok);
 				return;
@@ -183,7 +183,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 				                 + inputFile))
 				{
 					QApplication::restoreOverrideCursor();
-					QMessageBox::warning(widget, tr("Lemon"),
+					QMessageBox::warning(widget, tr("LemonPt"),
 					                     tr("Cannot copy %1").arg(QFileInfo(inputFiles[k]).fileName()),
 					                     QMessageBox::Ok);
 					return;
@@ -194,7 +194,7 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 				                 + outputFile))
 				{
 					QApplication::restoreOverrideCursor();
-					QMessageBox::warning(widget, tr("Lemon"),
+					QMessageBox::warning(widget, tr("LemonPt"),
 					                     tr("Cannot copy %1").arg(QFileInfo(outputFiles[k]).fileName()),
 					                     QMessageBox::Ok);
 					return;
@@ -444,5 +444,5 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
 	}
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("Lemon"), tr("Self-test folder has been made"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonPt"), tr("Self-test folder has been made"), QMessageBox::Ok);
 }

@@ -73,7 +73,7 @@ private slots:
 	void resetDataWatcher();
 	void showOptionsDialog();
 	void refreshButtonClicked();
-	void arrangeButtonClicked();
+	void cleanupButtonClicked();
 	void tabIndexChanged(int);
 	void viewerSelectionChanged();
 	void contestantDeleted();
@@ -88,8 +88,8 @@ private slots:
 	void actionCompile_Features();
 	void actionInteraction();
 	void actionSubTasks();
-	void actionArrange_Files();
-	void actionBan();
+	void actionCleanup_Files();
+	void actionSkip();
 	void actionSingle_Judge();
 	void actionSpecial_Judge();
 	void setUiLanguage();

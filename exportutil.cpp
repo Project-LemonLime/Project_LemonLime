@@ -259,7 +259,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	if(! file.open(QFile::WriteOnly))
 	{
-		QMessageBox::warning(widget, tr("Lemon"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+		QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
 		                     QMessageBox::Ok);
 		return;
 	}
@@ -375,7 +375,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "</body></html>";
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("Lemon"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
 }
 
 void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fileName)
@@ -384,7 +384,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	if(! file.open(QFile::WriteOnly))
 	{
-		QMessageBox::warning(widget, tr("Lemon"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+		QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
 		                     QMessageBox::Ok);
 		return;
 	}
@@ -474,7 +474,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	}
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("Lemon"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
 }
 
 void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fileName)
@@ -485,7 +485,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	{
 		if(! QFile(fileName).remove())
 		{
-			QMessageBox::warning(widget, tr("Lemon"), tr("Cannot open file %1").arg(QFileInfo(fileName).fileName()),
+			QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(fileName).fileName()),
 			                     QMessageBox::Ok);
 			return;
 		}
@@ -587,7 +587,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	delete excel;
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("Lemon"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
 #endif
 }
 
@@ -598,13 +598,13 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	if(contestantList.isEmpty())
 	{
-		QMessageBox::warning(widget, tr("Lemon"), tr("No contestant in current contest"), QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonPt"), tr("No contestant in current contest"), QMessageBox::Ok);
 		return;
 	}
 
 	if(taskList.isEmpty())
 	{
-		QMessageBox::warning(widget, tr("Lemon"), tr("No task in current contest"), QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonPt"), tr("No task in current contest"), QMessageBox::Ok);
 		return;
 	}
 

@@ -114,7 +114,7 @@ void EnvironmentVariablesDialog::deleteButtonClicked()
 	int index = ui->valueViewer->currentRow();
 	QString variable = ui->valueViewer->item(index, 0)->text();
 
-	if(QMessageBox::question(this, tr("Lemon"), tr("Are you sure to delete variable %1?").arg(variable),
+	if(QMessageBox::question(this, tr("LemonPt"), tr("Are you sure to delete variable %1?").arg(variable),
 	                         QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok)
 	{
 		return;

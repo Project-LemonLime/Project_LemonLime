@@ -37,7 +37,7 @@
         <bool>false</bool>
        </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
-        <number>25</number>
+        <number>27</number>
        </attribute>
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
@@ -158,7 +158,7 @@
           </size>
          </property>
          <property name="text">
-          <string>&amp;Add</string>
+          <string>Add</string>
          </property>
         </widget>
        </item>

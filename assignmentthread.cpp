@@ -322,7 +322,7 @@ bool AssignmentThread::traditionalTaskPrepare()
 	return true;
 }
 
-int ST_B;
+int skipEnabled;
 void AssignmentThread::run()
 {
 	if(task->getTaskType() != Task::AnswersOnly)
@@ -352,7 +352,7 @@ void AssignmentThread::run()
 	}
 
 
-	ST_B = 0;
+	skipEnabled = 0;
 
 	assign();
 

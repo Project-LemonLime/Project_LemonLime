@@ -283,7 +283,7 @@ void SummaryTree::addTestCases()
 
 void SummaryTree::deleteTask()
 {
-	if(QMessageBox::warning(this, tr("Lemon"), tr("Are you sure to delete this task?"),
+	if(QMessageBox::warning(this, tr("LemonPt"), tr("Are you sure to delete this task?"),
 	                        QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Cancel)
 	{
 		return;

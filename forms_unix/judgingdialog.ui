@@ -37,7 +37,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>18</height>
+         <height>20</height>
         </size>
        </property>
        <property name="font">
@@ -73,7 +73,7 @@
         <enum>QProgressBar::TopToBottom</enum>
        </property>
        <property name="format">
-        <string>%v / %m ms (%p%)</string>
+        <string>%v / %m ms, %p%</string>
        </property>
       </widget>
      </item>
@@ -82,9 +82,18 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <widget class="QPushButton" name="banButton">
+      <widget class="QPushButton" name="skipButton">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>ArrowCursor</cursorShape>
+       </property>
        <property name="text">
-        <string>Ban</string>
+        <string>Skip</string>
        </property>
        <property name="flat">
         <bool>false</bool>

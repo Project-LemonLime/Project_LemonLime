@@ -76,8 +76,8 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(summarySelectionChanged()));
 	connect(ui->optionsAction, SIGNAL(triggered()),
 	        this, SLOT(showOptionsDialog()));
-	connect(ui->arrangeButton, SIGNAL(clicked()),
-	        this, SLOT(arrangeButtonClicked()));
+	connect(ui->cleanupButton, SIGNAL(clicked()),
+	        this, SLOT(cleanupButtonClicked()));
 	connect(ui->refreshButton, SIGNAL(clicked()),
 	        this, SLOT(refreshButtonClicked()));
 	connect(ui->judgeButton, SIGNAL(clicked()),
@@ -113,10 +113,10 @@ Lemon::Lemon(QWidget *parent) :
 
 	connect(ui->actionCompile_Features, SIGNAL(triggered()),
 	        this, SLOT(actionCompile_Features()));
-	connect(ui->actionArrange_Files, SIGNAL(triggered()),
-	        this, SLOT(actionArrange_Files()));
-	connect(ui->actionBan, SIGNAL(triggered()),
-	        this, SLOT(actionBan()));
+	connect(ui->actionCleanup_Files, SIGNAL(triggered()),
+	        this, SLOT(actionCleanup_Files()));
+	connect(ui->actionSkip, SIGNAL(triggered()),
+	        this, SLOT(actionSkip()));
 	connect(ui->actionSingle_Judge, SIGNAL(triggered()),
 	        this, SLOT(actionSingle_Judge()));
 	connect(ui->actionSubTasks, SIGNAL(triggered()),
@@ -357,7 +357,7 @@ void Lemon::refreshButtonClicked()
 }
 
 
-void Lemon::arrangeButtonClicked()
+void Lemon::cleanupButtonClicked()
 {
 	QString text;
 	text += tr("Are you sure to Clean up Files?") + "<br>";
@@ -375,11 +375,11 @@ void Lemon::arrangeButtonClicked()
 		QProcess::execute("rm " + Settings::sourcePath() + "shin.sh");
 		QProcess::execute("rm " + Settings::sourcePath() + "shout.sh");
 		text = tr("Finished.") + "<br>";
-		QMessageBox::about(this, tr("Clean up Files"), text);
+		QMessageBox::information(this, tr("Clean up Files"), text);
 	}
 	else
 	{
-		QMessageBox::about(this, tr("Clean up Files"), tr("Aborted"));
+		QMessageBox::information(this, tr("Clean up Files"), tr("Aborted"));
 	}
 }
 
@@ -825,45 +825,51 @@ void Lemon::actionInteraction()
 {
 	QString text;
 	text += "<h3>" + tr("Interaction") + "</h3>";
+	text += tr("The paths are based on your \"/data\".") + "<br>";
 	text += tr("There is a example of how to use Interaction type tasks:") + "<br>";
-	text += tr("Interactor Path: martix/martix.h") + "<br>";
-	text += tr("Interactor Name: martix.h") + "<br>";
-	text += tr("Grader Path: martix/grader.cpp") + "<br>";
+	text += tr("Interactor Path: matrix/matrix.h") + "<br>";
+	text += tr("Interactor Name: matrix.h") + "<br>";
+	text += tr("Grader Path: matrix/grader.cpp") + "<br>";
 	QMessageBox::about(this, tr("About Interaction"), text);
 }
 
 void Lemon::actionSubTasks()
 {
 	QString text;
-	text += "<h3>" + tr("How to make Subtasks") + "</h3>";
-	text += tr("Regular Expression:") + "<br>";
-	text += tr("Numbers : \\d*") + "<br>";
-	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
+	text += "<h3>" + tr("Something about how to make Subtasks") + "</h3>";
+	text += tr("How to make a valid Regular Expression:") + "<br>";
 	text += tr("There is a example of how to use regular expressions to make subtasks:") + "<br>";
-	text += tr("Data(in): martix/martix&lt;1&gt;.in") + "<br>";
-	text += tr("Data(out): martix/martix&lt;1&gt;.out") + "<br>";
+	text += tr("Data(in): matrix/matrix&lt;1&gt;.in") + "<br>";
+	text += tr("Data(out): matrix/matrix&lt;1&gt;.out") + "<br>";
 	text += tr("And the \"&lt;1&gt;\" is \"\\d*\".") + "<br>";
+	text += tr("Numbers: \\d*") + "<br>";
+	text += tr("Notes:") + "<br>";
+	text += tr("\"\\d\" means a number.") + "<br>";
+	text += tr("\".\" means a character.") + "<br>";
+	text += tr("\"*\" means repeat previous order 0~inf times.") + "<br>";
+	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
 
 	QMessageBox::about(this, tr("About Subtasks"), text);
 }
 
-void Lemon::actionArrange_Files()
+void Lemon::actionCleanup_Files()
 {
 	QString text;
 	text += "<h3>" + tr("What is Clean Up Files") + "</h3>";
 	text += tr("It can make all of the source files have a copy in the subdirs.") + "<br>";
-	text += tr("Be Careful : May Cause SEVERE FILE DAMAGE.") + "<br>";
+	text += tr("When there are files both inside the subdirs and outside of subdirs, the one outside will cover another one.") + "<br>";
+	text += tr("Be Careful : May Cause Unexpected File Damage.") + "<br>";
 	QMessageBox::about(this, tr("About Clean Up Files"), text);
 }
 
-void Lemon::actionBan()
+void Lemon::actionSkip()
 {
 	QString text;
-	text += "<h3>" + tr("What is Ban") + "</h3>";
+	text += "<h3>" + tr("What is Skip") + "</h3>";
 	text += tr("It can stop a judging task.") + "<br>";
 	text += tr("The tasks which are not tested will be displayed as \"Time Limit Exceeded\".") + "<br>";
-	text += tr("Use it when you have no time.") + "<br>";
-	QMessageBox::about(this, tr("About Ban"), text);
+	text += tr("Use it when you have no time ONLY.") + "<br>";
+	QMessageBox::about(this, tr("About Skip"), text);
 }
 
 void Lemon::actionSingle_Judge()
@@ -871,6 +877,7 @@ void Lemon::actionSingle_Judge()
 	QString text;
 	text += "<h3>" + tr("What is Single Judge") + "</h3>";
 	text += tr("It can judge one task only instead of \"Judge all\".") + "<br>";
+	text += tr("You can choose some contestants and judge their answers only as well.");
 	QMessageBox::about(this, tr("About Single Judge"), text);
 }
 
@@ -924,7 +931,7 @@ void Lemon::refreshTaskList()
 		//qDebug() << taskList[i]->getProblemTile() << " connect done";
 	}
 
-	connect(signalMapper, SIGNAL(mapped(int)), ui->resultViewer, SLOT(judgeSingleTask(int)));
+	connect(signalMapper, SIGNAL(mapped(int)), ui->resultViewer, SLOT(judgeSelectedSingleTask(int)));
 	TaskMenu->addActions(TaskList);
 	ui->judgeSingleTaskButton->setMenu(TaskMenu);
 	ui->judgeSingleTaskAction->setMenu(TaskMenu);

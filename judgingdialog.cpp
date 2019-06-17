@@ -38,8 +38,8 @@ JudgingDialog::JudgingDialog(QWidget *parent) :
 	cursor = new QTextCursor(ui->logViewer->document());
 	connect(ui->cancelButton, SIGNAL(clicked()),
 	        this, SLOT(stopJudgingSlot()));
-	connect(ui->banButton, SIGNAL(clicked()),
-	        this, SLOT(banJudging()));
+	connect(ui->skipButton, SIGNAL(clicked()),
+	        this, SLOT(skipJudging()));
 }
 
 JudgingDialog::~JudgingDialog()
@@ -79,8 +79,10 @@ void JudgingDialog::judge(const QStringList &nameList)
 		if(stopJudging) break;
 	}
 
+#ifdef Q_OS_LINUX
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
+#endif
 	accept();
 }
 
@@ -90,8 +92,10 @@ void JudgingDialog::judge(const QString &name, int index)
 	ui->progressBar->setMaximum(curContest->getTask(index)->getTotalTimeLimit());
 	curContest->judge(name, index);
 
+#ifdef Q_OS_LINUX
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
+#endif
 	accept();
 }
 
@@ -101,8 +105,10 @@ void JudgingDialog::judgeAll()
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * curContest->getContestantList().size());
 	curContest->judgeAll();
 
+#ifdef Q_OS_LINUX
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
+#endif
 	accept();
 }
 
@@ -112,8 +118,29 @@ void JudgingDialog::judgeSingleTask(int taskID)
 	ui->progressBar->setMaximum(curContest->getContestantList().size() * curContest->getTask(taskID)->getTotalTimeLimit());
 	curContest->judgeSingleTask(taskID);
 
+#ifdef Q_OS_LINUX
 	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
 	QProcess::execute(text);
+#endif
+	accept();
+}
+
+void JudgingDialog::judgeSelectedSingleTask(const QStringList &nameList, int taskID)
+{
+	stopJudging = false;
+	ui->progressBar->setMaximum(curContest->getTask(taskID)->getTotalTimeLimit() * nameList.size());
+
+	for(int i = 0; i < nameList.size(); i++)
+	{
+		curContest->judge(nameList[i], taskID);
+
+		if(stopJudging)break;
+	}
+
+#ifdef Q_OS_LINUX
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QProcess::execute(text);
+#endif
 	accept();
 }
 
@@ -327,10 +354,10 @@ void JudgingDialog::stopJudgingSlot()
 	emit stopJudgingSignal();
 }
 
-extern int ST_B;
-void JudgingDialog::banJudging()
+extern int skipEnabled;
+void JudgingDialog::skipJudging()
 {
-	ST_B = 1;
+	skipEnabled = 1;
 }
 
 void JudgingDialog::reject()
