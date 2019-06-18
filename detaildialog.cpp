@@ -295,7 +295,7 @@ void DetailDialog::anchorClicked(const QUrl &url)
 	{
 		QList<QStringList> message = contestant->getMessage(list[1].toInt());
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
-		            QString("<code>%1</code>").arg(message[list[2].toInt()][list[3].toInt()]),
+		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
 		            QMessageBox::Close, this).exec();
 	}
 }

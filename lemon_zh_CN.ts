@@ -771,7 +771,7 @@
     <message>
         <location filename="detaildialog.cpp" line="86"/>
         <location filename="detaildialog.cpp" line="95"/>
-        <location filename="detaildialog.cpp" line="108"/>
+        <location filename="detaildialog.cpp" line="111"/>
         <source>Source file: </source>
         <translation>源程序： </translation>
     </message>
@@ -792,118 +792,118 @@
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="112"/>
+        <location filename="detaildialog.cpp" line="115"/>
         <source>Test Case</source>
         <translation>测试点</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="113"/>
+        <location filename="detaildialog.cpp" line="116"/>
         <source>Input File</source>
         <translation>输入文件</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="114"/>
+        <location filename="detaildialog.cpp" line="117"/>
         <source>Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="115"/>
+        <location filename="detaildialog.cpp" line="118"/>
         <source>Time Used</source>
         <translation>运行用时</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="116"/>
+        <location filename="detaildialog.cpp" line="119"/>
         <source>Memory Used</source>
         <translation>内存消耗</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="117"/>
+        <location filename="detaildialog.cpp" line="120"/>
         <source>Score</source>
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="139"/>
+        <location filename="detaildialog.cpp" line="142"/>
         <source>Subtask Dependence Score</source>
         <translation>子任务依赖得分</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="149"/>
+        <location filename="detaildialog.cpp" line="152"/>
         <source>Correct Answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="153"/>
+        <location filename="detaildialog.cpp" line="156"/>
         <source>Wrong Answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="157"/>
+        <location filename="detaildialog.cpp" line="160"/>
         <source>Partly Correct</source>
         <translation>部分正确</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="161"/>
+        <location filename="detaildialog.cpp" line="164"/>
         <source>Time Limit Exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="165"/>
+        <location filename="detaildialog.cpp" line="168"/>
         <source>Memory Limit Exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="169"/>
+        <location filename="detaildialog.cpp" line="172"/>
         <source>Cannot Start Program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="173"/>
+        <location filename="detaildialog.cpp" line="176"/>
         <source>File Error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="177"/>
+        <location filename="detaildialog.cpp" line="180"/>
         <source>Run Time Error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="181"/>
+        <location filename="detaildialog.cpp" line="184"/>
         <source>Invalid Special Judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="185"/>
+        <location filename="detaildialog.cpp" line="188"/>
         <source>Special Judge Time Limit Exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="189"/>
+        <location filename="detaildialog.cpp" line="192"/>
         <source>Special Judge Run Time Error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="193"/>
+        <location filename="detaildialog.cpp" line="196"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="197"/>
+        <location filename="detaildialog.cpp" line="200"/>
         <source>Interactor Error</source>
         <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="218"/>
-        <location filename="detaildialog.cpp" line="231"/>
+        <location filename="detaildialog.cpp" line="221"/>
+        <location filename="detaildialog.cpp" line="234"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="286"/>
+        <location filename="detaildialog.cpp" line="289"/>
         <source>Compile Message</source>
         <translation>编译信息</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="294"/>
+        <location filename="detaildialog.cpp" line="297"/>
         <source>Message</source>
         <translation>信息</translation>
     </message>
@@ -1535,7 +1535,7 @@
         <location filename="judgingthread.cpp" line="541"/>
         <location filename="judgingthread.cpp" line="663"/>
         <source>Read %1 but expect %2</source>
-        <translation>读取到 %1，但期望 %2</translation>
+        <translation>读取到 %1 ，但期望 %2</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="621"/>
@@ -2299,22 +2299,22 @@
         <translation>打开比赛</translation>
     </message>
     <message>
-        <location filename="forms_unix/opencontestwidget.ui" line="65"/>
+        <location filename="forms_unix/opencontestwidget.ui" line="89"/>
         <source>Title</source>
         <translation>比赛标题</translation>
     </message>
     <message>
-        <location filename="forms_unix/opencontestwidget.ui" line="77"/>
+        <location filename="forms_unix/opencontestwidget.ui" line="101"/>
         <source>Location</source>
         <translation>位置</translation>
     </message>
     <message>
-        <location filename="forms_unix/opencontestwidget.ui" line="113"/>
+        <location filename="forms_unix/opencontestwidget.ui" line="137"/>
         <source>&amp;Add</source>
         <translation>添加(&amp;A)</translation>
     </message>
     <message>
-        <location filename="forms_unix/opencontestwidget.ui" line="136"/>
+        <location filename="forms_unix/opencontestwidget.ui" line="160"/>
         <source>&amp;Purge</source>
         <translation>隐藏(&amp;P)</translation>
     </message>
