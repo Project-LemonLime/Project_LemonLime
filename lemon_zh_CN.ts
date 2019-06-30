@@ -839,7 +839,7 @@
     <message>
         <location filename="detaildialog.cpp" line="160"/>
         <source>Partly Correct</source>
-        <translation>部分正确</translation>
+        <translation>答案部分正确</translation>
     </message>
     <message>
         <location filename="detaildialog.cpp" line="164"/>
@@ -1067,7 +1067,7 @@
     <message>
         <location filename="exportutil.cpp" line="151"/>
         <source>Partly Correct</source>
-        <translation>部分正确</translation>
+        <translation>答案部分正确</translation>
     </message>
     <message>
         <location filename="exportutil.cpp" line="155"/>
@@ -1403,7 +1403,7 @@
     <message>
         <location filename="judgingdialog.cpp" line="166"/>
         <source>Partly correct</source>
-        <translation>部分正确</translation>
+        <translation>答案部分正确</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="176"/>
@@ -1443,7 +1443,7 @@
     <message>
         <location filename="judgingdialog.cpp" line="226"/>
         <source>Special judge run time error</source>
-        <translation>检验器运行时错误</translation>
+        <translation>校验器运行时错误</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="191"/>
@@ -1479,37 +1479,37 @@
         <translation>检查子任务依赖 %1.%2: </translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="278"/>
+        <location filename="judgingdialog.cpp" line="274"/>
         <source>Start judging task %1</source>
         <translation>开始测试试题 %1</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="288"/>
+        <location filename="judgingdialog.cpp" line="284"/>
         <source>Start judging contestant %1</source>
         <translation>开始测试选手 %1</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="315"/>
+        <location filename="judgingdialog.cpp" line="311"/>
         <source>Cannot find valid source file</source>
         <translation>未找到选手程序</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="321"/>
+        <location filename="judgingdialog.cpp" line="317"/>
         <source>Compile error</source>
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="327"/>
+        <location filename="judgingdialog.cpp" line="323"/>
         <source>Compile time limit exceeded</source>
         <translation>编译超时</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="333"/>
+        <location filename="judgingdialog.cpp" line="329"/>
         <source>Invalid compiler</source>
         <translation>编译器不可用</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="339"/>
+        <location filename="judgingdialog.cpp" line="335"/>
         <source>Compile Successfully</source>
         <translation>编译完成</translation>
     </message>

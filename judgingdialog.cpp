@@ -195,37 +195,37 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result)
 	case CannotStartProgram:
 		text = tr("Cannot start program");
 		charFormat.setForeground(QBrush(Qt::darkRed));
-		charFormat.setForeground(QBrush(Qt::lightGray));
+		charFormat.setBackground(QBrush(Qt::lightGray));
 		break;
 
 	case FileError:
 		text = tr("File error");
 		charFormat.setForeground(QBrush(Qt::darkYellow));
-		charFormat.setForeground(QBrush(Qt::lightGray));
+		charFormat.setBackground(QBrush(Qt::lightGray));
 		break;
 
 	case InteractorError:
 		text = tr("Interactor error");
-		charFormat.setForeground(QBrush(Qt::darkCyan));
-		charFormat.setBackground(QBrush(Qt::lightGray));
+		charFormat.setForeground(QBrush(Qt::white));
+		charFormat.setBackground(QBrush(Qt::darkBlue));
 		break;
 
 	case InvalidSpecialJudge:
 		text = tr("Invalid special judge");
-		charFormat.setForeground(QBrush(Qt::red));
-		charFormat.setBackground(QBrush(Qt::lightGray));
+		charFormat.setForeground(QBrush(Qt::white));
+		charFormat.setBackground(QBrush(Qt::darkRed));
 		break;
 
 	case SpecialJudgeTimeLimitExceeded:
 		text = tr("Special judge time limit exceeded");
-		charFormat.setForeground(QBrush(Qt::yellow));
-		charFormat.setBackground(QBrush(Qt::darkGray));
+		charFormat.setForeground(QBrush(Qt::white));
+		charFormat.setBackground(QBrush(Qt::darkYellow));
 		break;
 
 	case SpecialJudgeRunTimeError:
 		text = tr("Special judge run time error");
-		charFormat.setForeground(QBrush(Qt::magenta));
-		charFormat.setBackground(QBrush(Qt::darkGray));
+		charFormat.setForeground(QBrush(Qt::white));
+		charFormat.setBackground(QBrush(Qt::darkMagenta));
 		break;
 	}
 
@@ -256,11 +256,7 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 		charFormat.setForeground(QBrush(Qt::red));
 		charFormat.setFontWeight(QFont::Bold);
 	}
-	else
-	{
-		charFormat.setForeground(QBrush(Qt::darkYellow));
-		charFormat.setFontWeight(QFont::Bold);
-	}
+	else charFormat.setForeground(QBrush(Qt::darkCyan));
 
 	cursor->insertText(text, charFormat);
 
@@ -313,26 +309,26 @@ void JudgingDialog::compileError(int progress, int compileState)
 	{
 	case NoValidSourceFile:
 		text = tr("Cannot find valid source file");
-		charFormat.setForeground(QBrush(Qt::black));
-		charFormat.setBackground(QBrush(Qt::red));
+		charFormat.setForeground(QBrush(Qt::white));
+		charFormat.setBackground(QBrush(Qt::black));
 		break;
 
 	case CompileError:
 		text = tr("Compile error");
-		charFormat.setForeground(QBrush(Qt::black));
-		charFormat.setBackground(QBrush(Qt::yellow));
+		charFormat.setForeground(QBrush(Qt::red));
+		charFormat.setBackground(QBrush(Qt::black));
 		break;
 
 	case CompileTimeLimitExceeded:
 		text = tr("Compile time limit exceeded");
-		charFormat.setForeground(QBrush(Qt::black));
-		charFormat.setBackground(QBrush(Qt::darkYellow));
+		charFormat.setForeground(QBrush(Qt::yellow));
+		charFormat.setBackground(QBrush(Qt::black));
 		break;
 
 	case InvalidCompiler:
 		text = tr("Invalid compiler");
-		charFormat.setForeground(QBrush(Qt::black));
-		charFormat.setBackground(QBrush(Qt::lightGray));
+		charFormat.setForeground(QBrush(Qt::magenta));
+		charFormat.setBackground(QBrush(Qt::black));
 		break;
 
 	case CompileSuccessfully:
