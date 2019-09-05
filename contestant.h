@@ -33,37 +33,37 @@ class Contestant : public QObject
 public:
 	explicit Contestant(QObject *parent = 0);
 
-	const QString& getContestantName() const;
+	const QString &getContestantName() const;
 	bool getCheckJudged(int) const;
 	CompileState getCompileState(int) const;
-	const QString& getSourceFile(int) const;
-	const QString& getCompileMessage(int) const;
-	const QList<QStringList>& getInputFiles(int) const;
-	const QList< QList<ResultState> >& getResult(int) const;
-	const QList<QStringList>& getMessage(int) const;
-	const QList< QList<int> >& getSocre(int) const;
-	const QList< QList<int> >& getTimeUsed(int) const;
-	const QList< QList<int> >& getMemoryUsed(int) const;
+	const QString &getSourceFile(int) const;
+	const QString &getCompileMessage(int) const;
+	const QList<QStringList> &getInputFiles(int) const;
+	const QList< QList<ResultState> > &getResult(int) const;
+	const QList<QStringList> &getMessage(int) const;
+	const QList< QList<int> > &getSocre(int) const;
+	const QList< QList<int> > &getTimeUsed(int) const;
+	const QList< QList<int> > &getMemoryUsed(int) const;
 	QDateTime getJudingTime() const;
 	int getTaskScore(int) const;
 	int getTotalScore() const;
 	int getTotalUsedTime() const;
 
-	void setContestantName(const QString&);
+	void setContestantName(const QString &);
 	void setCheckJudged(int, bool);
 	void setCompileState(int, CompileState);
-	void setSourceFile(int, const QString&);
-	void setCompileMessage(int, const QString&);
-	void setInputFiles(int, const QList<QStringList>&);
-	void setResult(int, const QList< QList<ResultState> >&);
-	void setMessage(int, const QList<QStringList>&);
-	void setScore(int, const QList< QList<int> >&);
-	void setTimeUsed(int, const QList< QList<int> >&);
-	void setMemoryUsed(int, const QList< QList<int> >&);
+	void setSourceFile(int, const QString &);
+	void setCompileMessage(int, const QString &);
+	void setInputFiles(int, const QList<QStringList> &);
+	void setResult(int, const QList< QList<ResultState> > &);
+	void setMessage(int, const QList<QStringList> &);
+	void setScore(int, const QList< QList<int> > &);
+	void setTimeUsed(int, const QList< QList<int> > &);
+	void setMemoryUsed(int, const QList< QList<int> > &);
 	void setJudgingTime(QDateTime);
 
-	void writeToStream(QDataStream&);
-	void readFromStream(QDataStream&);
+	void writeToStream(QDataStream &);
+	void readFromStream(QDataStream &);
 
 private:
 	QString contestantName;

@@ -39,13 +39,13 @@ class ExportUtil : public QObject
 	Q_OBJECT
 public:
 	explicit ExportUtil(QObject *parent = 0);
-	static void exportResult(QWidget*, Contest*);
+	static void exportResult(QWidget *, Contest *);
 
 private:
-	static QString getContestantHtmlCode(Contest*, Contestant*);
-	static void exportHtml(QWidget*, Contest*, const QString&);
-	static void exportCsv(QWidget*, Contest*, const QString&);
-	static void exportXls(QWidget*, Contest*, const QString&);
+	static QString getContestantHtmlCode(Contest *, Contestant *);
+	static void exportHtml(QWidget *, Contest *, const QString &);
+	static void exportCsv(QWidget *, Contest *, const QString &);
+	static void exportXls(QWidget *, Contest *, const QString &);
 
 signals:
 

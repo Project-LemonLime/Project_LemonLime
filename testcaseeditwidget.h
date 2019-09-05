@@ -32,7 +32,7 @@
 
 namespace Ui
 {
-class TestCaseEditWidget;
+	class TestCaseEditWidget;
 }
 
 class Settings;
@@ -45,9 +45,9 @@ class TestCaseEditWidget : public QWidget
 public:
 	explicit TestCaseEditWidget(QWidget *parent = 0);
 	~TestCaseEditWidget();
-	void changeEvent(QEvent*);
-	void setEditTestCase(TestCase*, bool);
-	void setSettings(Settings*);
+	void changeEvent(QEvent *);
+	void setEditTestCase(TestCase *, bool);
+	void setSettings(Settings *);
 
 private:
 	Ui::TestCaseEditWidget *ui;
@@ -59,13 +59,13 @@ private:
 private slots:
 	void addSingleCase();
 	void deleteSingleCase();
-	void fullScoreChanged(const QString&);
-	void timeLimitChanged(const QString&);
-	void memoryLimitChanged(const QString&);
+	void fullScoreChanged(const QString &);
+	void timeLimitChanged(const QString &);
+	void memoryLimitChanged(const QString &);
 	void subtaskDependenceChanged();
 	void subtaskDependenceClear();
 	void fileListSelectionChanged();
-	void fileListItemChanged(QTableWidgetItem*);
+	void fileListItemChanged(QTableWidgetItem *);
 
 signals:
 	void dataPathChanged();

@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class OpenContestDialog;
+	class OpenContestDialog;
 }
 
 class OpenContestDialog : public QDialog
@@ -39,8 +39,8 @@ class OpenContestDialog : public QDialog
 public:
 	explicit OpenContestDialog(QWidget *parent = 0);
 	~OpenContestDialog();
-	void setRecentContest(const QStringList&);
-	const QStringList& getRecentContest() const;
+	void setRecentContest(const QStringList &);
+	const QStringList &getRecentContest() const;
 	QString getSelectedContest();
 
 private:

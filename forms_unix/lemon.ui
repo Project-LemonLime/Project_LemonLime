@@ -167,7 +167,7 @@
            <enum>QAbstractItemView::ExtendedSelection</enum>
           </property>
           <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
+           <enum>QAbstractItemView::SelectItems</enum>
           </property>
           <property name="verticalScrollMode">
            <enum>QAbstractItemView::ScrollPerPixel</enum>
@@ -209,7 +209,7 @@
              </size>
             </property>
             <property name="text">
-             <string>&amp;Clean up Files</string>
+             <string>Clean up Files</string>
             </property>
            </widget>
           </item>
@@ -235,14 +235,14 @@
              </size>
             </property>
             <property name="text">
-             <string>&amp;Refresh</string>
+             <string>Refresh</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="judgeSingleTaskButton">
+           <widget class="QPushButton" name="judgeUnjudgedButton">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -254,7 +254,7 @@
              </size>
             </property>
             <property name="text">
-             <string>&amp;Single Judge</string>
+             <string>Judge Unjudged</string>
             </property>
            </widget>
           </item>
@@ -270,7 +270,7 @@
              </size>
             </property>
             <property name="text">
-             <string>&amp;Judge Selected</string>
+             <string>Judge Selected</string>
             </property>
            </widget>
           </item>
@@ -286,7 +286,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Judge &amp;All</string>
+             <string>Judge All</string>
             </property>
            </widget>
           </item>
@@ -328,7 +328,7 @@
     </property>
     <addaction name="judgeAction"/>
     <addaction name="judgeAllAction"/>
-    <addaction name="judgeSingleTaskAction"/>
+    <addaction name="judgeUnjudgedAction"/>
     <addaction name="separator"/>
     <addaction name="addTasksAction"/>
     <addaction name="exportAction"/>
@@ -357,7 +357,6 @@
      <addaction name="actionCompile_Features"/>
      <addaction name="actionCleanup_Files"/>
      <addaction name="actionSkip"/>
-     <addaction name="actionSingle_Judge"/>
      <addaction name="separator"/>
      <addaction name="actionSubTasks"/>
      <addaction name="actionSpecial_Judge"/>
@@ -447,7 +446,7 @@
     <string>&amp;Export Result</string>
    </property>
   </action>
-  <action name="judgeSingleTaskAction">
+  <action name="judgeUnjudgedAction">
    <property name="text">
     <string>Judge &amp;Single Task</string>
    </property>
@@ -464,37 +463,37 @@
   </action>
   <action name="actionInteraction">
    <property name="text">
-    <string>Interaction</string>
+    <string>&amp;Interaction</string>
    </property>
   </action>
   <action name="actionSubTasks">
    <property name="text">
-    <string>Subtasks</string>
+    <string>Su&amp;btasks</string>
    </property>
   </action>
   <action name="actionCleanup_Files">
    <property name="text">
-    <string>Clean up Files</string>
+    <string>Clean &amp;up Files</string>
    </property>
   </action>
   <action name="actionCompile_Features">
    <property name="text">
-    <string>Compile Features</string>
+    <string>&amp;Compile Features</string>
    </property>
   </action>
   <action name="actionSkip">
    <property name="text">
-    <string>Skip</string>
+    <string>&amp;Skip</string>
    </property>
   </action>
   <action name="actionSpecial_Judge">
    <property name="text">
-    <string>Special Judge</string>
+    <string>S&amp;pecial Judge</string>
    </property>
   </action>
   <action name="actionSingle_Judge">
    <property name="text">
-    <string>Single Judge</string>
+    <string>Single &amp;Judge</string>
    </property>
   </action>
  </widget>

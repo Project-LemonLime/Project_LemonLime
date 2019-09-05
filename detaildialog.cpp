@@ -19,6 +19,10 @@
  * detaildialog.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * detaildialog.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #include "detaildialog.h"
 #include "ui_detaildialog.h"
@@ -37,7 +41,7 @@ DetailDialog::DetailDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->detailViewer, SIGNAL(anchorClicked(QUrl)),
-	        this, SLOT(anchorClicked(QUrl)));
+			  this, SLOT(anchorClicked(QUrl)));
 }
 
 DetailDialog::~DetailDialog()
@@ -58,13 +62,13 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	htmlCode += "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}</style>";
 	htmlCode += "</head><body>";
 
-	QList<Task*> taskList = contest->getTaskList();
+	QList<Task *> taskList = contest->getTaskList();
 
 	for(int i = 0; i < taskList.size(); i ++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode += QString("%1 %2 <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span><br>")
-		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge"));
+						.arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge"));
 
 		if(! contestant->getCheckJudged(i))
 		{
@@ -78,31 +82,31 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			{
 				switch(contestant->getCompileState(i))
 				{
-				case NoValidSourceFile:
-					htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
-					break;
+					case NoValidSourceFile:
+						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
+						break;
 
-				case CompileTimeLimitExceeded:
-					htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
-					htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
-					break;
+					case CompileTimeLimitExceeded:
+						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
+						break;
 
-				case InvalidCompiler:
-					htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
-					break;
+					case InvalidCompiler:
+						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
+						break;
 
-				case CompileError:
-					htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
-					htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
+					case CompileError:
+						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
-					if(! contestant->getCompileMessage(i).isEmpty())
-						htmlCode += QString("<a href=\"CompileMessage %1\" style=\"text-decoration: none\"> (...)").arg(i);
+						if(! contestant->getCompileMessage(i).isEmpty())
+							htmlCode += QString("<a href=\"CompileMessage %1\" style=\"text-decoration: none\"> (...)").arg(i);
 
-					htmlCode += "</p>";
-					break;
+						htmlCode += "</p>";
+						break;
 
-				case CompileSuccessfully:
-					break;
+					case CompileSuccessfully:
+						break;
 				}
 
 				continue;
@@ -136,10 +140,10 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				{
 					if(score[j].size() == inputFiles[j].size())
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1);
+										.arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+										.arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
 				}
 
 				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">%1</td>").arg(inputFiles[j][k]);
@@ -148,57 +152,57 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				switch(result[j][k])
 				{
-				case CorrectAnswer:
-					text = tr("Correct Answer");
-					break;
+					case CorrectAnswer:
+						text = tr("Correct Answer");
+						break;
 
-				case WrongAnswer:
-					text = tr("Wrong Answer");
-					break;
+					case WrongAnswer:
+						text = tr("Wrong Answer");
+						break;
 
-				case PartlyCorrect:
-					text = tr("Partly Correct");
-					break;
+					case PartlyCorrect:
+						text = tr("Partly Correct");
+						break;
 
-				case TimeLimitExceeded:
-					text = tr("Time Limit Exceeded");
-					break;
+					case TimeLimitExceeded:
+						text = tr("Time Limit Exceeded");
+						break;
 
-				case MemoryLimitExceeded:
-					text = tr("Memory Limit Exceeded");
-					break;
+					case MemoryLimitExceeded:
+						text = tr("Memory Limit Exceeded");
+						break;
 
-				case CannotStartProgram:
-					text = tr("Cannot Start Program");
-					break;
+					case CannotStartProgram:
+						text = tr("Cannot Start Program");
+						break;
 
-				case FileError:
-					text = tr("File Error");
-					break;
+					case FileError:
+						text = tr("File Error");
+						break;
 
-				case RunTimeError:
-					text = tr("Run Time Error");
-					break;
+					case RunTimeError:
+						text = tr("Run Time Error");
+						break;
 
-				case InvalidSpecialJudge:
-					text = tr("Invalid Special Judge");
-					break;
+					case InvalidSpecialJudge:
+						text = tr("Invalid Special Judge");
+						break;
 
-				case SpecialJudgeTimeLimitExceeded:
-					text = tr("Special Judge Time Limit Exceeded");
-					break;
+					case SpecialJudgeTimeLimitExceeded:
+						text = tr("Special Judge Time Limit Exceeded");
+						break;
 
-				case SpecialJudgeRunTimeError:
-					text = tr("Special Judge Run Time Error");
-					break;
+					case SpecialJudgeRunTimeError:
+						text = tr("Special Judge Run Time Error");
+						break;
 
-				case Skipped:
-					text = tr("Skipped");
-					break;
+					case Skipped:
+						text = tr("Skipped");
+						break;
 
-				case InteractorError:
-					text = tr("Interactor Error");
-					break;
+					case InteractorError:
+						text = tr("Interactor Error");
+						break;
 				}
 
 				htmlCode += QString("<td align=\"center\" valign=\"middle\">%1").arg(text);
@@ -214,7 +218,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if(timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+					htmlCode += QString("").sprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
 				}
 				else
 				{
@@ -227,7 +231,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if(memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").sprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
 				}
 				else
 				{
@@ -287,15 +291,15 @@ void DetailDialog::anchorClicked(const QUrl &url)
 	if(list[0] == "CompileMessage")
 	{
 		QMessageBox(QMessageBox::NoIcon, tr("Compile Message"),
-		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
-		            QMessageBox::Close, this).exec();
+						QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
+						QMessageBox::Close, this).exec();
 	}
 
 	if(list[0] == "Message")
 	{
 		QList<QStringList> message = contestant->getMessage(list[1].toInt());
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
-		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
-		            QMessageBox::Close, this).exec();
+						QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
+						QMessageBox::Close, this).exec();
 	}
 }

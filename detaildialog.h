@@ -32,7 +32,7 @@ class Contest;
 
 namespace Ui
 {
-class DetailDialog;
+	class DetailDialog;
 }
 
 class DetailDialog : public QDialog
@@ -42,7 +42,7 @@ class DetailDialog : public QDialog
 public:
 	explicit DetailDialog(QWidget *parent = 0);
 	~DetailDialog();
-	void refreshViewer(Contest*, Contestant*);
+	void refreshViewer(Contest *, Contestant *);
 	void showDialog();
 
 private:
@@ -51,7 +51,7 @@ private:
 	Contestant *contestant;
 
 private slots:
-	void anchorClicked(const QUrl&);
+	void anchorClicked(const QUrl &);
 
 signals:
 	void rejudgeSignal();

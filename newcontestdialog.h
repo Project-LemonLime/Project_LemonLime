@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class NewContestDialog;
+	class NewContestDialog;
 }
 
 class NewContestDialog : public QDialog

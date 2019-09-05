@@ -34,8 +34,8 @@ class FileLineEdit : public QLineEdit
 public:
 	explicit FileLineEdit(QWidget *parent = 0);
 	void setFilters(QDir::Filters);
-	void setFileExtensions(const QStringList&);
-	void getFiles(const QString&, const QString&, QStringList&);
+	void setFileExtensions(const QStringList &);
+	void getFiles(const QString &, const QString &, QStringList &);
 
 private:
 	QCompleter *completer;

@@ -33,7 +33,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 	ui->setupUi(this);
 	editSettings = new Settings(this);
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-	        this, SLOT(okayButtonClicked()));
+			  this, SLOT(okayButtonClicked()));
 }
 
 OptionsDialog::~OptionsDialog()
@@ -41,7 +41,7 @@ OptionsDialog::~OptionsDialog()
 	delete ui;
 }
 
-Settings* OptionsDialog::getEditSettings()
+Settings *OptionsDialog::getEditSettings()
 {
 	return editSettings;
 }

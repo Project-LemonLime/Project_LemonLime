@@ -30,7 +30,7 @@
 
 namespace Ui
 {
-class OpenContestWidget;
+	class OpenContestWidget;
 }
 
 class OpenContestWidget : public QWidget
@@ -40,8 +40,8 @@ class OpenContestWidget : public QWidget
 public:
 	explicit OpenContestWidget(QWidget *parent = 0);
 	~OpenContestWidget();
-	void setRecentContest(const QStringList&);
-	const QStringList& getRecentContest() const;
+	void setRecentContest(const QStringList &);
+	const QStringList &getRecentContest() const;
 	int getCurrentRow() const;
 
 private:

@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class NewContestWidget;
+	class NewContestWidget;
 }
 
 class NewContestWidget : public QWidget

@@ -36,47 +36,47 @@ Compiler::CompilerType Compiler::getCompilerType() const
 	return compilerType;
 }
 
-const QString& Compiler::getCompilerName() const
+const QString &Compiler::getCompilerName() const
 {
 	return compilerName;
 }
 
-const QStringList& Compiler::getSourceExtensions() const
+const QStringList &Compiler::getSourceExtensions() const
 {
 	return sourceExtensions;
 }
 
-const QString& Compiler::getCompilerLocation() const
+const QString &Compiler::getCompilerLocation() const
 {
 	return compilerLocation;
 }
 
-const QString& Compiler::getInterpreterLocation() const
+const QString &Compiler::getInterpreterLocation() const
 {
 	return interpreterLocation;
 }
 
-const QStringList& Compiler::getBytecodeExtensions() const
+const QStringList &Compiler::getBytecodeExtensions() const
 {
 	return bytecodeExtensions;
 }
 
-const QStringList& Compiler::getConfigurationNames() const
+const QStringList &Compiler::getConfigurationNames() const
 {
 	return configurationNames;
 }
 
-const QStringList& Compiler::getCompilerArguments() const
+const QStringList &Compiler::getCompilerArguments() const
 {
 	return compilerArguments;
 }
 
-const QStringList& Compiler::getInterpreterArguments() const
+const QStringList &Compiler::getInterpreterArguments() const
 {
 	return interpreterArguments;
 }
 
-const QProcessEnvironment& Compiler::getEnvironment() const
+const QProcessEnvironment &Compiler::getEnvironment() const
 {
 	return environment;
 }

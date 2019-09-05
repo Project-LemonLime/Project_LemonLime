@@ -31,15 +31,15 @@ OpenContestWidget::OpenContestWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->recentContest, SIGNAL(itemSelectionChanged()),
-	        this, SIGNAL(selectionChanged()));
+			  this, SIGNAL(selectionChanged()));
 	connect(ui->recentContest, SIGNAL(cellDoubleClicked(int, int)),
-	        this, SIGNAL(rowDoubleClicked()));
+			  this, SIGNAL(rowDoubleClicked()));
 	connect(ui->addButton, SIGNAL(clicked()),
-	        this, SLOT(addContest()));
+			  this, SLOT(addContest()));
 	connect(ui->deleteButton, SIGNAL(clicked()),
-	        this, SLOT(deleteContest()));
+			  this, SLOT(deleteContest()));
 	connect(ui->recentContest, SIGNAL(currentCellChanged(int, int, int, int)),
-	        this, SLOT(currentRowChanged()));
+			  this, SLOT(currentRowChanged()));
 }
 
 OpenContestWidget::~OpenContestWidget()
@@ -93,7 +93,7 @@ void OpenContestWidget::refreshContestList()
 		QByteArray data(raw, len);
 		delete[] raw;
 		data = qUncompress(data);
-		QDataStream in(data);
+		QDataStream in (data);
 		QString title;
 		in >> title;
 		ui->recentContest->setRowCount(i + 1);
@@ -110,7 +110,7 @@ void OpenContestWidget::refreshContestList()
 void OpenContestWidget::addContest()
 {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Add Contest"), QDir::homePath(),
-	                   tr("Lemon contest data file (*.cdf)"));
+							 tr("Lemon contest data file (*.cdf)"));
 
 	if(fileName.isEmpty()) return;
 
@@ -123,7 +123,7 @@ void OpenContestWidget::addContest()
 		return;
 	}
 
-	QDataStream in(&file);
+	QDataStream in (&file);
 	unsigned checkNumber;
 	in >> checkNumber;
 
@@ -172,7 +172,7 @@ void OpenContestWidget::currentRowChanged()
 	}
 }
 
-const QStringList& OpenContestWidget::getRecentContest() const
+const QStringList &OpenContestWidget::getRecentContest() const
 {
 	return recentContest;
 }

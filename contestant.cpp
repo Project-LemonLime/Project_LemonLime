@@ -28,7 +28,7 @@ Contestant::Contestant(QObject *parent) :
 {
 }
 
-const QString& Contestant::getContestantName() const
+const QString &Contestant::getContestantName() const
 {
 	return contestantName;
 }
@@ -43,42 +43,42 @@ CompileState Contestant::getCompileState(int index) const
 	return compileState[index];
 }
 
-const QString& Contestant::getSourceFile(int index) const
+const QString &Contestant::getSourceFile(int index) const
 {
 	return sourceFile[index];
 }
 
-const QString& Contestant::getCompileMessage(int index) const
+const QString &Contestant::getCompileMessage(int index) const
 {
 	return compileMesaage[index];
 }
 
-const QList<QStringList>& Contestant::getInputFiles(int index) const
+const QList<QStringList> &Contestant::getInputFiles(int index) const
 {
 	return inputFiles[index];
 }
 
-const QList< QList<ResultState> >& Contestant::getResult(int index) const
+const QList< QList<ResultState> > &Contestant::getResult(int index) const
 {
 	return result[index];
 }
 
-const QList<QStringList>& Contestant::getMessage(int index) const
+const QList<QStringList> &Contestant::getMessage(int index) const
 {
 	return message[index];
 }
 
-const QList< QList<int> >& Contestant::getSocre(int index) const
+const QList< QList<int> > &Contestant::getSocre(int index) const
 {
 	return score[index];
 }
 
-const QList< QList<int> >& Contestant::getTimeUsed(int index) const
+const QList< QList<int> > &Contestant::getTimeUsed(int index) const
 {
 	return timeUsed[index];
 }
 
-const QList< QList<int> >& Contestant::getMemoryUsed(int index) const
+const QList< QList<int> > &Contestant::getMemoryUsed(int index) const
 {
 	return memoryUsed[index];
 }
@@ -123,7 +123,7 @@ void Contestant::setResult(int index, const QList< QList<ResultState> > &_result
 	result[index] = _result;
 }
 
-void Contestant::setMessage(int index, const QList<QStringList>&_message)
+void Contestant::setMessage(int index, const QList<QStringList> &_message)
 {
 	message[index] = _message;
 }
@@ -263,7 +263,7 @@ void Contestant::writeToStream(QDataStream &out)
 
 	for(int i = 0; i < compileState.size(); i ++)
 	{
-		out << int(compileState[i]);
+		out << int (compileState[i]);
 	}
 
 	out << result.size();
@@ -278,7 +278,7 @@ void Contestant::writeToStream(QDataStream &out)
 
 			for(int k = 0; k < result[i][j].size(); k ++)
 			{
-				out << int(result[i][j][k]);
+				out << int (result[i][j][k]);
 			}
 		}
 	}

@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class AddTestCasesWizard;
+	class AddTestCasesWizard;
 }
 
 class Settings;
@@ -41,12 +41,12 @@ class AddTestCasesWizard : public QWizard
 public:
 	explicit AddTestCasesWizard(QWidget *parent = 0);
 	~AddTestCasesWizard();
-	void setSettings(Settings*, bool);
+	void setSettings(Settings *, bool);
 	int getFullScore() const;
 	int getTimeLimit() const;
 	int getMemoryLimit() const;
-	const QList<QStringList>& getMatchedInputFiles() const;
-	const QList<QStringList>& getMatchedOutputFiles() const;
+	const QList<QStringList> &getMatchedInputFiles() const;
+	const QList<QStringList> &getMatchedOutputFiles() const;
 
 private:
 	Ui::AddTestCasesWizard *ui;
@@ -59,19 +59,19 @@ private:
 	QList<QStringList> matchedInputFiles;
 	QList<QStringList> matchedOutputFiles;
 	void refreshButtonState();
-	void getFiles(const QString&, const QString&, QStringList&);
-	QString getFullRegExp(const QString&);
-	QStringList getMatchedPart(const QString&, const QString&);
+	void getFiles(const QString &, const QString &, QStringList &);
+	QString getFullRegExp(const QString &);
+	QStringList getMatchedPart(const QString &, const QString &);
 	void searchMatchedFiles();
 	bool validateCurrentPage();
-	static bool compareFileName(const QString&, const QString&);
+	static bool compareFileName(const QString &, const QString &);
 
 private slots:
-	void fullScoreChanged(const QString&);
-	void timeLimitChanged(const QString&);
-	void memoryLimitChanged(const QString&);
-	void inputFilesPatternChanged(const QString&);
-	void outputFilesPatternChanged(const QString&);
+	void fullScoreChanged(const QString &);
+	void timeLimitChanged(const QString &);
+	void memoryLimitChanged(const QString &);
+	void inputFilesPatternChanged(const QString &);
+	void outputFilesPatternChanged(const QString &);
 	void addArgument();
 	void deleteArgument();
 };

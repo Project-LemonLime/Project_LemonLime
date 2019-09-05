@@ -68,68 +68,68 @@ Lemon::Lemon(QWidget *parent) :
 	ui->testCaseEdit->setSettings(settings);
 
 	connect(this, SIGNAL(dataPathChanged()),
-	        ui->taskEdit, SIGNAL(dataPathChanged()));
+			  ui->taskEdit, SIGNAL(dataPathChanged()));
 	connect(this, SIGNAL(dataPathChanged()),
-	        ui->testCaseEdit, SIGNAL(dataPathChanged()));
+			  ui->testCaseEdit, SIGNAL(dataPathChanged()));
 
-	connect(ui->summary, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)),
-	        this, SLOT(summarySelectionChanged()));
+	connect(ui->summary, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
+			  this, SLOT(summarySelectionChanged()));
 	connect(ui->optionsAction, SIGNAL(triggered()),
-	        this, SLOT(showOptionsDialog()));
+			  this, SLOT(showOptionsDialog()));
 	connect(ui->cleanupButton, SIGNAL(clicked()),
-	        this, SLOT(cleanupButtonClicked()));
+			  this, SLOT(cleanupButtonClicked()));
 	connect(ui->refreshButton, SIGNAL(clicked()),
-	        this, SLOT(refreshButtonClicked()));
+			  this, SLOT(refreshButtonClicked()));
 	connect(ui->judgeButton, SIGNAL(clicked()),
-	        ui->resultViewer, SLOT(judgeSelected()));
+			  ui->resultViewer, SLOT(judgeSelected()));
 	connect(ui->judgeAllButton, SIGNAL(clicked()),
-	        ui->resultViewer, SLOT(judgeAll()));
+			  ui->resultViewer, SLOT(judgeAll()));
+	connect(ui->judgeUnjudgedButton, SIGNAL(clicked()),
+			  ui->resultViewer, SLOT(judgeUnjudged()));
 	connect(ui->judgeAction, SIGNAL(triggered()),
-	        ui->resultViewer, SLOT(judgeSelected()));
+			  ui->resultViewer, SLOT(judgeSelected()));
 	connect(ui->judgeAllAction, SIGNAL(triggered()),
-	        ui->resultViewer, SLOT(judgeAll()));
+			  ui->resultViewer, SLOT(judgeAll()));
+	connect(ui->judgeUnjudgedAction, SIGNAL(triggered()),
+			  ui->resultViewer, SLOT(judgeUnjudged()));
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)),
-	        this, SLOT(tabIndexChanged(int)));
+			  this, SLOT(tabIndexChanged(int)));
 	connect(ui->resultViewer, SIGNAL(itemSelectionChanged()),
-	        this, SLOT(viewerSelectionChanged()));
+			  this, SLOT(viewerSelectionChanged()));
 	connect(ui->resultViewer, SIGNAL(contestantDeleted()),
-	        this, SLOT(contestantDeleted()));
+			  this, SLOT(contestantDeleted()));
 	connect(ui->newAction, SIGNAL(triggered()),
-	        this, SLOT(newAction()));
+			  this, SLOT(newAction()));
 	connect(ui->openAction, SIGNAL(triggered()),
-	        this, SLOT(loadAction()));
+			  this, SLOT(loadAction()));
 	connect(ui->saveAction, SIGNAL(triggered()),
-	        this, SLOT(saveAction()));
+			  this, SLOT(saveAction()));
 	connect(ui->openFolderAction, SIGNAL(triggered()),
-	        this, SLOT(openFolderAction()));
+			  this, SLOT(openFolderAction()));
 	connect(ui->closeAction, SIGNAL(triggered()),
-	        this, SLOT(closeAction()));
+			  this, SLOT(closeAction()));
 	connect(ui->addTasksAction, SIGNAL(triggered()),
-	        this, SLOT(addTasksAction()));
+			  this, SLOT(addTasksAction()));
 	connect(ui->exportAction, SIGNAL(triggered()),
-	        this, SLOT(exportResult()));
+			  this, SLOT(exportResult()));
 	connect(ui->aboutAction, SIGNAL(triggered()),
-	        this, SLOT(aboutLemon()));
+			  this, SLOT(aboutLemon()));
 
 	connect(ui->actionCompile_Features, SIGNAL(triggered()),
-	        this, SLOT(actionCompile_Features()));
+			  this, SLOT(actionCompile_Features()));
 	connect(ui->actionCleanup_Files, SIGNAL(triggered()),
-	        this, SLOT(actionCleanup_Files()));
+			  this, SLOT(actionCleanup_Files()));
 	connect(ui->actionSkip, SIGNAL(triggered()),
-	        this, SLOT(actionSkip()));
-	connect(ui->actionSingle_Judge, SIGNAL(triggered()),
-	        this, SLOT(actionSingle_Judge()));
+			  this, SLOT(actionSkip()));
 	connect(ui->actionSubTasks, SIGNAL(triggered()),
-	        this, SLOT(actionSubTasks()));
+			  this, SLOT(actionSubTasks()));
 	connect(ui->actionSpecial_Judge, SIGNAL(triggered()),
-	        this, SLOT(actionSpecial_Judge()));
+			  this, SLOT(actionSpecial_Judge()));
 	connect(ui->actionInteraction, SIGNAL(triggered()),
-	        this, SLOT(actionInteraction()));
+			  this, SLOT(actionInteraction()));
 
 	connect(ui->exitAction, SIGNAL(triggered()),
-	        this, SLOT(close()));
-	connect(ui->summary, SIGNAL(taskChanged()),
-	        this, SLOT(refreshTaskList()));
+			  this, SLOT(close()));
 
 	appTranslator = new QTranslator(this);
 	qtTranslator = new QTranslator(this);
@@ -147,7 +147,7 @@ Lemon::Lemon(QWidget *parent) :
 		language.remove(0, language.indexOf('_') + 1);
 		newLanguage->setData(language);
 		connect(newLanguage, SIGNAL(triggered()),
-		        this, SLOT(setUiLanguage()));
+				  this, SLOT(setUiLanguage()));
 		languageActions.append(newLanguage);
 	}
 
@@ -155,7 +155,7 @@ Lemon::Lemon(QWidget *parent) :
 	ui->setEnglishAction->setData("en");
 	ui->setEnglishAction->setCheckable(true);
 	connect(ui->setEnglishAction, SIGNAL(triggered()),
-	        this, SLOT(setUiLanguage()));
+			  this, SLOT(setUiLanguage()));
 	loadUiLanguage();
 
 	QSettings settings("Crash", "Lemon");
@@ -195,7 +195,7 @@ void Lemon::welcome()
 
 		if(wizard->exec() == QDialog::Accepted)
 		{
-			QList<Compiler*> compilerList = wizard->getCompilerList();
+			QList<Compiler *> compilerList = wizard->getCompilerList();
 
 			for(int i = 0; i < compilerList.size(); i ++)
 				settings->addCompiler(compilerList[i]);
@@ -273,11 +273,11 @@ void Lemon::resetDataWatcher()
 	dataDirWatcher = new QFileSystemWatcher(this);
 	insertWatchPath(Settings::dataPath(), dataDirWatcher);
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
-	        this, SLOT(resetDataWatcher()));
+			  this, SLOT(resetDataWatcher()));
 	connect(dataDirWatcher, SIGNAL(fileChanged(QString)),
-	        this, SIGNAL(dataPathChanged()));
+			  this, SIGNAL(dataPathChanged()));
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
-	        this, SIGNAL(dataPathChanged()));
+			  this, SIGNAL(dataPathChanged()));
 	emit dataPathChanged();
 }
 
@@ -325,7 +325,7 @@ void Lemon::showOptionsDialog()
 
 		if(curContest)
 		{
-			const QList<Task*> &taskList = curContest->getTaskList();
+			const QList<Task *> &taskList = curContest->getTaskList();
 
 			for(int i = 0; i < taskList.size(); i ++)
 				taskList[i]->refreshCompilerConfiguration(settings);
@@ -344,15 +344,15 @@ void Lemon::refreshButtonClicked()
 	{
 		ui->judgeAllButton->setEnabled(true);
 		ui->judgeAllAction->setEnabled(true);
-		ui->judgeSingleTaskButton->setEnabled(true);
-		ui->judgeSingleTaskAction->setEnabled(true);
+		ui->judgeUnjudgedButton->setEnabled(true);
+		ui->judgeUnjudgedAction->setEnabled(true);
 	}
 	else
 	{
 		ui->judgeAllButton->setEnabled(false);
 		ui->judgeAllAction->setEnabled(false);
-		ui->judgeSingleTaskButton->setEnabled(false);
-		ui->judgeSingleTaskAction->setEnabled(false);
+		ui->judgeUnjudgedButton->setEnabled(false);
+		ui->judgeUnjudgedAction->setEnabled(false);
 	}
 }
 
@@ -392,8 +392,8 @@ void Lemon::tabIndexChanged(int index)
 		ui->judgeButton->setEnabled(false);
 		ui->judgeAllAction->setEnabled(false);
 		ui->judgeAllButton->setEnabled(false);
-		ui->judgeSingleTaskAction->setEnabled(false);
-		ui->judgeSingleTaskButton->setEnabled(false);
+		ui->judgeUnjudgedAction->setEnabled(false);
+		ui->judgeUnjudgedButton->setEnabled(false);
 	}
 	else
 	{
@@ -414,15 +414,15 @@ void Lemon::tabIndexChanged(int index)
 		{
 			ui->judgeAllAction->setEnabled(true);
 			ui->judgeAllButton->setEnabled(true);
-			ui->judgeSingleTaskButton->setEnabled(true);
-			ui->judgeSingleTaskAction->setEnabled(true);
+			ui->judgeUnjudgedButton->setEnabled(true);
+			ui->judgeUnjudgedAction->setEnabled(true);
 		}
 		else
 		{
 			ui->judgeAllAction->setEnabled(false);
 			ui->judgeAllButton->setEnabled(false);
-			ui->judgeSingleTaskButton->setEnabled(false);
-			ui->judgeSingleTaskAction->setEnabled(false);
+			ui->judgeUnjudgedButton->setEnabled(false);
+			ui->judgeUnjudgedAction->setEnabled(false);
 		}
 	}
 }
@@ -449,15 +449,15 @@ void Lemon::contestantDeleted()
 	{
 		ui->judgeAllButton->setEnabled(true);
 		ui->judgeAllAction->setEnabled(true);
-		ui->judgeSingleTaskButton->setEnabled(true);
-		ui->judgeSingleTaskAction->setEnabled(true);
+		ui->judgeUnjudgedButton->setEnabled(true);
+		ui->judgeUnjudgedAction->setEnabled(true);
 	}
 	else
 	{
 		ui->judgeAllButton->setEnabled(false);
 		ui->judgeAllAction->setEnabled(false);
-		ui->judgeSingleTaskButton->setEnabled(false);
-		ui->judgeSingleTaskAction->setEnabled(false);
+		ui->judgeUnjudgedButton->setEnabled(false);
+		ui->judgeUnjudgedAction->setEnabled(false);
 	}
 }
 
@@ -468,7 +468,7 @@ void Lemon::saveContest(const QString &fileName)
 	if(! file.open(QFile::WriteOnly))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(fileName),
-		                     QMessageBox::Close);
+									QMessageBox::Close);
 		return;
 	}
 
@@ -494,7 +494,7 @@ void Lemon::loadContest(const QString &filePath)
 	if(! file.open(QFile::ReadOnly))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(QFileInfo(filePath).fileName()),
-		                     QMessageBox::Close);
+									QMessageBox::Close);
 		return;
 	}
 
@@ -505,7 +505,7 @@ void Lemon::loadContest(const QString &filePath)
 	if(checkNumber != unsigned(MagicNumber))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-		                     QMessageBox::Close);
+									QMessageBox::Close);
 		return;
 	}
 
@@ -518,7 +518,7 @@ void Lemon::loadContest(const QString &filePath)
 	if(qChecksum(raw, len) != checksum)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-		                     QMessageBox::Close);
+									QMessageBox::Close);
 		delete[] raw;
 		return;
 	}
@@ -526,7 +526,7 @@ void Lemon::loadContest(const QString &filePath)
 	QByteArray data(raw, len);
 	delete[] raw;
 	data = qUncompress(data);
-	QDataStream in(data);
+	QDataStream in (data);
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -559,7 +559,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	if(! QDir(path).exists() && ! QDir().mkpath(path))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot make contest path"),
-		                     QMessageBox::Close);
+									QMessageBox::Close);
 		return;
 	}
 
@@ -672,7 +672,7 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
 }
 
 void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > &testCases,
-                    int fullScore, int timeLimit, int memoryLimit)
+						  int fullScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
@@ -690,7 +690,7 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 		newTestCase->setTimeLimit(timeLimit);
 		newTestCase->setMemoryLimit(memoryLimit);
 		newTestCase->addSingleCase(title + QDir::separator() + testCases[i].first,
-		                           title + QDir::separator() + testCases[i].second);
+											title + QDir::separator() + testCases[i].second);
 		newTask->addTestCase(newTestCase);
 	}
 }
@@ -698,14 +698,14 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 bool Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b)
 {
 	return (a.first.length() < b.first.length())
-	       || (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
+			 || (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
 
 void Lemon::addTasksAction()
 {
 	QStringList list = QDir(Settings::dataPath()).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	QSet<QString> nameSet;
-	QList<Task*> taskList = curContest->getTaskList();
+	QList<Task *> taskList = curContest->getTaskList();
 
 	for(int i = 0; i < taskList.size(); i ++)
 	{
@@ -786,7 +786,7 @@ void Lemon::addTasksAction()
 		for(int i = 0; i < nameList.size(); i ++)
 		{
 			addTask(nameList[i], testCases[i], dialog->getFullScore(i) / testCases[i].size(),
-			        dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
+					  dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
 		}
 	}
 
@@ -807,7 +807,7 @@ void Lemon::aboutLemon()
 	text += tr("Build Date: %1").arg(__DATE__) + "<br>";
 	text += tr("UNSTABLE VERISON") + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")
-	        + "<br>";
+			  + "<br>";
 	text += tr("Update by Dust1404") + "</a><br>";
 	text += tr("Featured by iotang") + "</a><br>";
 	QMessageBox::about(this, tr("About LemonPt"), text);
@@ -872,15 +872,6 @@ void Lemon::actionSkip()
 	QMessageBox::about(this, tr("About Skip"), text);
 }
 
-void Lemon::actionSingle_Judge()
-{
-	QString text;
-	text += "<h3>" + tr("What is Single Judge") + "</h3>";
-	text += tr("It can judge one task only instead of \"Judge all\".") + "<br>";
-	text += tr("You can choose some contestants and judge their answers only as well.");
-	QMessageBox::about(this, tr("About Single Judge"), text);
-}
-
 void Lemon::actionSpecial_Judge()
 {
 	QString text;
@@ -897,42 +888,7 @@ void Lemon::actionSpecial_Judge()
 
 void Lemon::setUiLanguage()
 {
-	QAction *language = dynamic_cast<QAction*>(sender());
+	QAction *language = dynamic_cast<QAction *>(sender());
 	settings->setUiLanguage(language->data().toString());
 	loadUiLanguage();
-}
-
-void Lemon::refreshTaskList()
-{
-	for(int i = 0; i != TaskList.size(); ++i)
-	{
-		disconnect(TaskList[i]);
-		delete TaskList[i];
-	}
-
-	TaskList.clear();
-	TaskMenu->clear();
-	delete signalMapper;
-	ui->judgeSingleTaskButton->setMenu(TaskMenu);
-	ui->judgeSingleTaskAction->setMenu(TaskMenu);
-
-	if(!curContest)
-		return;
-
-	signalMapper = new QSignalMapper();
-	const QList<Task*> &taskList = curContest->getTaskList();
-
-	for(int i = 0; i != taskList.size(); ++i)
-	{
-		TaskList.push_back(new QAction(NULL));
-		TaskList[i]->setText(taskList[i]->getProblemTile());
-		connect(TaskList[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
-		signalMapper->setMapping(TaskList[i], i);
-		//qDebug() << taskList[i]->getProblemTile() << " connect done";
-	}
-
-	connect(signalMapper, SIGNAL(mapped(int)), ui->resultViewer, SLOT(judgeSelectedSingleTask(int)));
-	TaskMenu->addActions(TaskList);
-	ui->judgeSingleTaskButton->setMenu(TaskMenu);
-	ui->judgeSingleTaskAction->setMenu(TaskMenu);
 }

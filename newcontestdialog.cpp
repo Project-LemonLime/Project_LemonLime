@@ -31,7 +31,7 @@ NewContestDialog::NewContestDialog(QWidget *parent) :
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->newContestWidget, SIGNAL(informationChanged()),
-	        this, SLOT(informationChanged()));
+			  this, SLOT(informationChanged()));
 }
 
 NewContestDialog::~NewContestDialog()

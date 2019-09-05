@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class GeneralSettings;
+	class GeneralSettings;
 }
 
 class Settings;
@@ -41,7 +41,7 @@ class GeneralSettings : public QWidget
 public:
 	explicit GeneralSettings(QWidget *parent = 0);
 	~GeneralSettings();
-	void resetEditSettings(Settings*);
+	void resetEditSettings(Settings *);
 	bool checkValid();
 
 private:
@@ -49,15 +49,15 @@ private:
 	Settings *editSettings;
 
 private slots:
-	void defaultFullScoreChanged(const QString&);
-	void defaultTimeLimitChanged(const QString&);
-	void defaultMemoryLimitChanged(const QString&);
-	void compileTimeLimitChanged(const QString&);
-	void specialJudgeTimeLimitChanged(const QString&);
-	void fileSizeLimitChanged(const QString&);
-	void rejudgeTimesChanged(const QString&);
-	void inputFileExtensionsChanged(const QString&);
-	void outputFileExtensionsChanged(const QString&);
+	void defaultFullScoreChanged(const QString &);
+	void defaultTimeLimitChanged(const QString &);
+	void defaultMemoryLimitChanged(const QString &);
+	void compileTimeLimitChanged(const QString &);
+	void specialJudgeTimeLimitChanged(const QString &);
+	void fileSizeLimitChanged(const QString &);
+	void rejudgeTimesChanged(const QString &);
+	void inputFileExtensionsChanged(const QString &);
+	void outputFileExtensionsChanged(const QString &);
 };
 
 #endif // GENERALSETTINGS_H

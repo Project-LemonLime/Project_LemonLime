@@ -19,6 +19,10 @@
  * assignmentthread.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * assignmentthread.h @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #ifndef ASSIGNMENTTHREAD_H
 #define ASSIGNMENTTHREAD_H
@@ -37,19 +41,19 @@ class AssignmentThread : public QThread
 public:
 	explicit AssignmentThread(QObject *parent = 0);
 	//void setCheckRejudgeMode(bool);
-	void setNeedRejudge(const QList< QPair<int, int> >&);
-	void setSettings(Settings*);
-	void setTask(Task*);
-	void setContestantName(const QString&);
+	void setNeedRejudge(const QList< QPair<int, int> > &);
+	void setSettings(Settings *);
+	void setTask(Task *);
+	void setContestantName(const QString &);
 	CompileState getCompileState() const;
-	const QString& getCompileMessage() const;
-	const QString& getSourceFile() const;
-	const QList< QList<int> >& getScore() const;
-	const QList< QList<int> >& getTimeUsed() const;
-	const QList< QList<int> >& getMemoryUsed() const;
-	const QList< QList<ResultState> >& getResult() const;
-	const QList<QStringList>& getMessage() const;
-	const QList<QStringList>& getInputFiles() const;
+	const QString &getCompileMessage() const;
+	const QString &getSourceFile() const;
+	const QList< QList<int> > &getScore() const;
+	const QList< QList<int> > &getTimeUsed() const;
+	const QList< QList<int> > &getMemoryUsed() const;
+	const QList< QList<ResultState> > &getResult() const;
+	const QList<QStringList> &getMessage() const;
+	const QList<QStringList> &getInputFiles() const;
 	//const QList< QPair<int, int> >& getNeedRejudge() const;
 	void run();
 
@@ -57,7 +61,7 @@ private:
 	//bool checkRejudgeMode;
 	bool interpreterFlag;
 	Settings *settings;
-	Task* task;
+	Task *task;
 	QString contestantName;
 	CompileState compileState;
 	QString compileMessage;
@@ -81,11 +85,11 @@ private:
 	int curSingleCaseIndex;
 	int countFinished;
 	int totalSingleCase;
-	QMap< JudgingThread*, QPair<int, int> > running;
+	QMap< JudgingThread *, QPair<int, int> > running;
 	bool stopJudging;
 	bool traditionalTaskPrepare();
 	void assign();
-	void taskSkipped(const QPair<int, int>&);
+	void taskSkipped(const QPair<int, int> &);
 
 private slots:
 	void threadFinished();
@@ -94,7 +98,7 @@ public slots:
 	void stopJudgingSlot();
 
 signals:
-	void singleCaseFinished(int, int, int, int);
+	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, double);
 	void compileError(int, int);
 	void stopJudgingSignal();

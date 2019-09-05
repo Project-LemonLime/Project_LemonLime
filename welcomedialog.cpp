@@ -31,13 +31,13 @@ WelcomeDialog::WelcomeDialog(QWidget *parent) :
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->openContestWidget, SIGNAL(selectionChanged()),
-	        this, SLOT(selectionChanged()));
+			  this, SLOT(selectionChanged()));
 	connect(ui->newContestWidget, SIGNAL(informationChanged()),
-	        this, SLOT(informationChanged()));
+			  this, SLOT(informationChanged()));
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)),
-	        this, SLOT(tabIndexChanged(int)));
+			  this, SLOT(tabIndexChanged(int)));
 	connect(ui->openContestWidget, SIGNAL(rowDoubleClicked()),
-	        this, SLOT(accept()));
+			  this, SLOT(accept()));
 }
 
 WelcomeDialog::~WelcomeDialog()
@@ -65,7 +65,7 @@ QString WelcomeDialog::getContestPath()
 	return ui->newContestWidget->getContestPath();
 }
 
-const QStringList& WelcomeDialog::getRecentContest() const
+const QStringList &WelcomeDialog::getRecentContest() const
 {
 	return ui->openContestWidget->getRecentContest();
 }

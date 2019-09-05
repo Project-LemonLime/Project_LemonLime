@@ -41,14 +41,14 @@ public:
 	int getSpecialJudgeTimeLimit() const;
 	int getFileSizeLimit() const;
 	int getRejudgeTimes() const;
-	const QString& getDefaultInputFileExtension() const;
-	const QString& getDefaultOutputFileExtension() const;
-	const QStringList& getInputFileExtensions() const;
-	const QStringList& getOutputFileExtensions() const;
-	const QStringList& getRecentContest() const;
-	const QList<Compiler*>& getCompilerList() const;
-	const QString& getUiLanguage() const;
-	const QString& getDiffPath() const;
+	const QString &getDefaultInputFileExtension() const;
+	const QString &getDefaultOutputFileExtension() const;
+	const QStringList &getInputFileExtensions() const;
+	const QStringList &getOutputFileExtensions() const;
+	const QStringList &getRecentContest() const;
+	const QList<Compiler *> &getCompilerList() const;
+	const QString &getUiLanguage() const;
+	const QString &getDiffPath() const;
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
@@ -57,18 +57,18 @@ public:
 	void setSpecialJudgeTimeLimit(int);
 	void setFileSizeLimit(int);
 	void setRejudgeTimes(int);
-	void setDefaultInputFileExtension(const QString&);
-	void setDefaultOutputFileExtension(const QString&);
-	void setInputFileExtensions(const QString&);
-	void setOutputFileExtensions(const QString&);
-	void setRecentContest(const QStringList&);
-	void setUiLanguage(const QString&);
+	void setDefaultInputFileExtension(const QString &);
+	void setDefaultOutputFileExtension(const QString &);
+	void setInputFileExtensions(const QString &);
+	void setOutputFileExtensions(const QString &);
+	void setRecentContest(const QStringList &);
+	void setUiLanguage(const QString &);
 
-	void addCompiler(Compiler*);
+	void addCompiler(Compiler *);
 	void deleteCompiler(int);
-	Compiler* getCompiler(int);
+	Compiler *getCompiler(int);
 	void swapCompiler(int, int);
-	void copyFrom(Settings*);
+	void copyFrom(Settings *);
 	void saveSettings();
 	void loadSettings();
 
@@ -83,7 +83,7 @@ public:
 	static QString selfTestPath();
 
 private:
-	QList<Compiler*> compilerList;
+	QList<Compiler *> compilerList;
 	int defaultFullScore;
 	int defaultTimeLimit;
 	int defaultMemoryLimit;

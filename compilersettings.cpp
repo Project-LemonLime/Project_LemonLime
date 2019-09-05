@@ -43,23 +43,23 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
 	ui->compilerList->addAction(deleteCompilerKeyAction);
 
 	connect(ui->moveUpButton, SIGNAL(clicked()),
-	        this, SLOT(moveUpCompiler()));
+			  this, SLOT(moveUpCompiler()));
 	connect(ui->moveDownButton, SIGNAL(clicked()),
-	        this, SLOT(moveDownCompiler()));
+			  this, SLOT(moveDownCompiler()));
 	connect(ui->addCompilerButton, SIGNAL(clicked()),
-	        this, SLOT(addCompiler()));
+			  this, SLOT(addCompiler()));
 	connect(ui->deleteCompilerButton, SIGNAL(clicked()),
-	        this, SLOT(deleteCompiler()));
+			  this, SLOT(deleteCompiler()));
 	connect(ui->compilerName, SIGNAL(textChanged(QString)),
-	        this, SLOT(compilerNameChanged(QString)));
+			  this, SLOT(compilerNameChanged(QString)));
 	connect(ui->sourceExtensions, SIGNAL(textChanged(QString)),
-	        this, SLOT(sourceExtensionsChanged(QString)));
+			  this, SLOT(sourceExtensionsChanged(QString)));
 	connect(ui->compilerList, SIGNAL(currentRowChanged(int)),
-	        this, SLOT(compilerListCurrentRowChanged()));
+			  this, SLOT(compilerListCurrentRowChanged()));
 	connect(ui->advancedButton, SIGNAL(clicked()),
-	        this, SLOT(advancedButtonClicked()));
+			  this, SLOT(advancedButtonClicked()));
 	connect(deleteCompilerKeyAction, SIGNAL(triggered()),
-	        this, SLOT(deleteCompiler()));
+			  this, SLOT(deleteCompiler()));
 }
 
 CompilerSettings::~CompilerSettings()
@@ -71,7 +71,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 {
 	editSettings = settings;
 
-	const QList<Compiler*> &compilerList = editSettings->getCompilerList();
+	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	ui->compilerList->clear();
 
 	for(int i = 0; i < compilerList.size(); i ++)
@@ -94,7 +94,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 
 bool CompilerSettings::checkValid()
 {
-	const QList<Compiler*> &compilerList = editSettings->getCompilerList();
+	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	QStringList compilerNames;
 
 	for(int i = 0; i < compilerList.size(); i ++)
@@ -109,8 +109,8 @@ bool CompilerSettings::checkValid()
 			ui->compilerList->setFocus();
 			ui->compilerList->setCurrentRow(i);
 			QMessageBox::warning(this, tr("Error"),
-			                     tr("Compiler %1 appears more than once!").arg(compilerNames[i]),
-			                     QMessageBox::Close);
+										tr("Compiler %1 appears more than once!").arg(compilerNames[i]),
+										QMessageBox::Close);
 			return false;
 		}
 	}
@@ -165,7 +165,7 @@ void CompilerSettings::addCompiler()
 
 	if(wizard->exec() == QDialog::Accepted)
 	{
-		QList<Compiler*> compilerList = editSettings->getCompilerList();
+		QList<Compiler *> compilerList = editSettings->getCompilerList();
 		QStringList compilerNames;
 
 		for(int i = 0; i < compilerList.size(); i ++)
@@ -203,8 +203,8 @@ void CompilerSettings::addCompiler()
 void CompilerSettings::deleteCompiler()
 {
 	if(QMessageBox::question(this, tr("LemonPt"), tr("Are you sure to delete compiler %1?")
-	                         .arg(curCompiler->getCompilerName()),
-	                         QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
+									 .arg(curCompiler->getCompilerName()),
+									 QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
 	{
 		return;
 	}

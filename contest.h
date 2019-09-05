@@ -19,6 +19,10 @@
  * contest.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * contest.h @Project Lemon+
+ * Update 2019 iotang
+ **/
 
 #ifndef CONTEST_H
 #define CONTEST_H
@@ -37,36 +41,37 @@ class Contest : public QObject
 	Q_OBJECT
 public:
 	explicit Contest(QObject *parent = 0);
-	void setSettings(Settings*);
-	void setContestTitle(const QString&);
-	const QString& getContestTitle() const;
-	Task* getTask(int) const;
-	const QList<Task*>& getTaskList() const;
-	Contestant* getContestant(const QString&) const;
-	QList<Contestant*> getContestantList() const;
+	void setSettings(Settings *);
+	void setContestTitle(const QString &);
+	const QString &getContestTitle() const;
+	Task *getTask(int) const;
+	const QList<Task *> &getTaskList() const;
+	Contestant *getContestant(const QString &) const;
+	QList<Contestant *> getContestantList() const;
 	int getTotalTimeLimit() const;
-	void addTask(Task*);
+	void addTask(Task *);
 	void deleteTask(int);
 	void refreshContestantList();
-	void deleteContestant(const QString&);
-	void writeToStream(QDataStream&);
-	void readFromStream(QDataStream&);
+	void deleteContestant(const QString &);
+	void writeToStream(QDataStream &);
+	void readFromStream(QDataStream &);
 
 private:
 	QString contestTitle;
 	Settings *settings;
-	QList<Task*> taskList;
-	QMap<QString, Contestant*> contestantList;
+	QList<Task *> taskList;
+	QMap<QString, Contestant *> contestantList;
 	bool stopJudging;
-	void judge(Contestant*);
-	void judge(Contestant*, int);
-	void clearPath(const QString&);
+	void judge(Contestant *);
+	void judge(Contestant *, int);
+	void judge(Contestant *, QSet<int>);
+	void clearPath(const QString &);
 
 public slots:
-	void judge(const QString&);
-	void judge(const QString&, int);
+	void judge(const QString &);
+	void judge(const QString &, int);
+	void judge(const QString &, QSet<int>);
 	void judgeAll();
-	void judgeSingleTask(int);
 	void stopJudgingSlot();
 
 signals:
@@ -75,7 +80,7 @@ signals:
 	void taskAddedForViewer();
 	void taskDeletedForViewer(int);
 	void problemTitleChanged();
-	void singleCaseFinished(int, int, int, int);
+	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, double);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();

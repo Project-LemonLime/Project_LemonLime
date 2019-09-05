@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class OptionsDialog;
+	class OptionsDialog;
 }
 
 class Settings;
@@ -41,8 +41,8 @@ class OptionsDialog : public QDialog
 public:
 	explicit OptionsDialog(QWidget *parent = 0);
 	~OptionsDialog();
-	void resetEditSettings(Settings*);
-	Settings* getEditSettings();
+	void resetEditSettings(Settings *);
+	Settings *getEditSettings();
 
 private:
 	Ui::OptionsDialog *ui;

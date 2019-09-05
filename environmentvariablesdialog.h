@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class EnvironmentVariablesDialog;
+	class EnvironmentVariablesDialog;
 }
 
 class EnvironmentVariablesDialog : public QDialog
@@ -39,7 +39,7 @@ class EnvironmentVariablesDialog : public QDialog
 public:
 	explicit EnvironmentVariablesDialog(QWidget *parent = 0);
 	~EnvironmentVariablesDialog();
-	void setProcessEnvironment(const QProcessEnvironment&);
+	void setProcessEnvironment(const QProcessEnvironment &);
 	QProcessEnvironment getProcessEnvironment() const;
 
 private:

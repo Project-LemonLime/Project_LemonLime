@@ -19,6 +19,10 @@
  * resultviewer.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * resultviewer.h @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #ifndef RESULTVIEWER_H
 #define RESULTVIEWER_H
@@ -34,16 +38,15 @@ class ResultViewer : public QTableWidget
 	Q_OBJECT
 public:
 	explicit ResultViewer(QWidget *parent = 0);
-	void changeEvent(QEvent*);
-	void contextMenuEvent(QContextMenuEvent*);
-	void setContest(Contest*);
+	void changeEvent(QEvent *);
+	void contextMenuEvent(QContextMenuEvent *);
+	void setContest(Contest *);
 
 public slots:
 	void refreshViewer();
 	void judgeSelected();
 	void judgeAll();
-	void judgeSingleTask(int);
-	void judgeSelectedSingleTask(int);
+	void judgeUnjudged();
 
 private:
 	Contest *curContest;
@@ -51,7 +54,7 @@ private:
 	QAction *detailInformationAction;
 	QAction *judgeSelectedAction;
 	QAction *deleteContestantKeyAction;
-	void clearPath(const QString&);
+	void clearPath(const QString &);
 
 private slots:
 	void deleteContestant();

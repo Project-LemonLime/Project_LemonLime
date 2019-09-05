@@ -27,7 +27,7 @@
 
 namespace Ui
 {
-class AddTaskDialog;
+	class AddTaskDialog;
 }
 
 class AddTaskDialog : public QDialog
@@ -37,7 +37,7 @@ class AddTaskDialog : public QDialog
 public:
 	explicit AddTaskDialog(QWidget *parent = 0);
 	~AddTaskDialog();
-	void addTask(const QString&, int, int, int);
+	void addTask(const QString &, int, int, int);
 	int getFullScore(int) const;
 	int getTimeLimit(int) const;
 	int getMemoryLimit(int) const;

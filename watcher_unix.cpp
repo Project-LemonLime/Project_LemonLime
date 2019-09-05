@@ -100,11 +100,11 @@ int main(int argc, char *argv[])
 		{
 			memlim = (rlimit)
 			{
-				(rlim_t)memoryLimit, (rlim_t)memoryLimit
+				(rlim_t) memoryLimit, (rlim_t) memoryLimit
 			};
 			stalim = (rlimit)
 			{
-				(rlim_t)memoryLimit, (rlim_t)memoryLimit
+				(rlim_t) memoryLimit, (rlim_t) memoryLimit
 			};
 		}
 		else
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 		timlim = (rlimit)
 		{
-			(rlim_t)timeLimit, (rlim_t)(timeLimit + 1)
+			(rlim_t) timeLimit, (rlim_t)(timeLimit + 1)
 		};
 
 		setrlimit(RLIMIT_AS, &memlim);

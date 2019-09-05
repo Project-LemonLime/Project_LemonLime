@@ -43,17 +43,17 @@ int TestCase::getMemoryLimit() const
 	return memoryLimit;
 }
 
-const QStringList& TestCase::getInputFiles() const
+const QStringList &TestCase::getInputFiles() const
 {
 	return inputFiles;
 }
 
-const QStringList& TestCase::getOutputFiles() const
+const QStringList &TestCase::getOutputFiles() const
 {
 	return outputFiles;
 }
 
-const QList<int>& TestCase::getDependenceSubtask() const
+const QList<int> &TestCase::getDependenceSubtask() const
 {
 	return dependenceSubtask;
 }

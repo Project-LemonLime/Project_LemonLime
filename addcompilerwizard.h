@@ -12,7 +12,7 @@
 
 namespace Ui
 {
-class AddCompilerWizard;
+	class AddCompilerWizard;
 }
 
 class Compiler;
@@ -25,11 +25,11 @@ public:
 	explicit AddCompilerWizard(QWidget *parent = 0);
 	~AddCompilerWizard();
 	void accept();
-	const QList<Compiler*>& getCompilerList() const;
+	const QList<Compiler *> &getCompilerList() const;
 
 private:
 	Ui::AddCompilerWizard *ui;
-	QList<Compiler*> compilerList;
+	QList<Compiler *> compilerList;
 	int nextId() const;
 	bool validateCurrentPage();
 

@@ -31,7 +31,7 @@ class Compiler;
 
 namespace Ui
 {
-class AdvancedCompilerSettingsDialog;
+	class AdvancedCompilerSettingsDialog;
 }
 
 class AdvancedCompilerSettingsDialog : public QDialog
@@ -41,8 +41,8 @@ class AdvancedCompilerSettingsDialog : public QDialog
 public:
 	explicit AdvancedCompilerSettingsDialog(QWidget *parent = 0);
 	~AdvancedCompilerSettingsDialog();
-	void resetEditCompiler(Compiler*);
-	Compiler* getEditCompiler() const;
+	void resetEditCompiler(Compiler *);
+	Compiler *getEditCompiler() const;
 
 private:
 	Ui::AdvancedCompilerSettingsDialog *ui;

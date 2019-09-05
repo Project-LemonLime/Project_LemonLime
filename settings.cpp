@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * settings.cpp @Project Lemon+
+ * settings.cpp @Project LemonPt
  * Update 2019 iotang
  **/
 
@@ -67,42 +67,42 @@ int Settings::getRejudgeTimes() const
 	return rejudgeTimes;
 }
 
-const QString& Settings::getDefaultInputFileExtension() const
+const QString &Settings::getDefaultInputFileExtension() const
 {
 	return defaultInputFileExtension;
 }
 
-const QString& Settings::getDefaultOutputFileExtension() const
+const QString &Settings::getDefaultOutputFileExtension() const
 {
 	return defaultOutputFileExtension;
 }
 
-const QStringList& Settings::getInputFileExtensions() const
+const QStringList &Settings::getInputFileExtensions() const
 {
 	return inputFileExtensions;
 }
 
-const QStringList& Settings::getOutputFileExtensions() const
+const QStringList &Settings::getOutputFileExtensions() const
 {
 	return outputFileExtensions;
 }
 
-const QStringList& Settings::getRecentContest() const
+const QStringList &Settings::getRecentContest() const
 {
 	return recentContest;
 }
 
-const QList<Compiler*>& Settings::getCompilerList() const
+const QList<Compiler *> &Settings::getCompilerList() const
 {
 	return compilerList;
 }
 
-const QString& Settings::getUiLanguage() const
+const QString &Settings::getUiLanguage() const
 {
 	return uiLanguage;
 }
 
-const QString& Settings::getDiffPath() const
+const QString &Settings::getDiffPath() const
 {
 	return diffPath;
 }
@@ -187,7 +187,7 @@ void Settings::deleteCompiler(int index)
 	}
 }
 
-Compiler* Settings::getCompiler(int index)
+Compiler *Settings::getCompiler(int index)
 {
 	if(0 <= index && index < compilerList.size())
 	{
@@ -230,7 +230,7 @@ void Settings::copyFrom(Settings *other)
 	}
 
 	compilerList.clear();
-	const QList<Compiler*> &list = other->getCompilerList();
+	const QList<Compiler *> &list = other->getCompilerList();
 
 	for(int i = 0; i < list.size(); i ++)
 	{
@@ -265,7 +265,7 @@ void Settings::saveSettings()
 	for(int i = 0; i < compilerList.size(); i ++)
 	{
 		settings.setArrayIndex(i);
-		settings.setValue("CompilerType", (int)compilerList[i]->getCompilerType());
+		settings.setValue("CompilerType", (int) compilerList[i]->getCompilerType());
 		settings.setValue("CompilerName", compilerList[i]->getCompilerName());
 		settings.setValue("SourceExtensions", compilerList[i]->getSourceExtensions());
 		settings.setValue("CompilerLocation", compilerList[i]->getCompilerLocation());
@@ -336,7 +336,7 @@ void Settings::loadSettings()
 	{
 		settings.setArrayIndex(i);
 		Compiler *compiler = new Compiler;
-		compiler->setCompilerType((Compiler::CompilerType)settings.value("CompilerType").toInt());
+		compiler->setCompilerType((Compiler::CompilerType) settings.value("CompilerType").toInt());
 		compiler->setCompilerName(settings.value("CompilerName").toString());
 		compiler->setSourceExtensions(settings.value("SourceExtensions").toStringList().join(";"));
 		compiler->setCompilerLocation(settings.value("CompilerLocation").toString());
@@ -351,8 +351,8 @@ void Settings::loadSettings()
 		{
 			settings.setArrayIndex(j);
 			compiler->addConfiguration(settings.value("Name").toString(),
-			                           settings.value("CompilerArguments").toString(),
-			                           settings.value("InterpreterArguments").toString());
+												settings.value("CompilerArguments").toString(),
+												settings.value("InterpreterArguments").toString());
 		}
 
 		QStringList values = settings.value("EnvironmentVariables").toStringList();
@@ -393,7 +393,7 @@ void Settings::loadSettings()
 
 int Settings::upperBoundForFullScore()
 {
-	return 2147483647;
+	return 10000000;
 }
 
 int Settings::upperBoundForTimeLimit()

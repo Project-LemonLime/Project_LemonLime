@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class EditVariableDialog;
+	class EditVariableDialog;
 }
 
 class EditVariableDialog : public QDialog
@@ -39,8 +39,8 @@ class EditVariableDialog : public QDialog
 public:
 	explicit EditVariableDialog(QWidget *parent = 0);
 	~EditVariableDialog();
-	void setVariableName(const QString&);
-	void setVariableValue(const QString&);
+	void setVariableName(const QString &);
+	void setVariableValue(const QString &);
 	QString getVariableName() const;
 	QString getVariableValue() const;
 

@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class WelcomeDialog;
+	class WelcomeDialog;
 }
 
 class WelcomeDialog : public QDialog
@@ -39,11 +39,11 @@ class WelcomeDialog : public QDialog
 public:
 	explicit WelcomeDialog(QWidget *parent = 0);
 	~WelcomeDialog();
-	void setRecentContest(const QStringList&);
+	void setRecentContest(const QStringList &);
 	QString getContestTitle();
 	QString getSavingName();
 	QString getContestPath();
-	const QStringList& getRecentContest() const;
+	const QStringList &getRecentContest() const;
 	QString getSelectedContest();
 	int getCurrentTab() const;
 

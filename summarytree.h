@@ -39,10 +39,10 @@ class SummaryTree : public QTreeWidget
 	Q_OBJECT
 public:
 	explicit SummaryTree(QWidget *parent = 0);
-	void changeEvent(QEvent*);
-	void setContest(Contest*);
-	void setSettings(Settings*);
-	void contextMenuEvent(QContextMenuEvent*);
+	void changeEvent(QEvent *);
+	void setContest(Contest *);
+	void setSettings(Settings *);
+	void contextMenuEvent(QContextMenuEvent *);
 
 private:
 	int addCount;
@@ -65,8 +65,8 @@ private slots:
 	void deleteTask();
 	void deleteTestCase();
 	void selectionChanged();
-	void itemChanged(QTreeWidgetItem*);
-	void titleChanged(const QString&);
+	void itemChanged(QTreeWidgetItem *);
+	void titleChanged(const QString &);
 
 signals:
 	void taskChanged();

@@ -90,9 +90,9 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if(fabs(a - b) > eps || (isinf(a)^isinf(b)) || (isnan(a)^isnan(b)))
+		if(fabs(a - b) > eps || (isinf(a) ^isinf(b)) || (isnan(a) ^isnan(b)))
 		{
-			printf("Wrong answer\nRead %.10lf but expect %.10lf\n", a, b);
+			printf("Wrong answer\nRead \"%.10lf\" but expect \"%.10lf\"\n", a, b);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return 0;

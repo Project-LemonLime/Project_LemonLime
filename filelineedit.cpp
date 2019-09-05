@@ -51,7 +51,7 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 	for(int i = 0; i < list.size(); i ++)
 	{
 		getFiles(curDir + list[i] + QDir::separator(),
-		         prefix + list[i] + QDir::separator(), files);
+					prefix + list[i] + QDir::separator(), files);
 	}
 }
 

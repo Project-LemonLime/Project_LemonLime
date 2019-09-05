@@ -19,6 +19,10 @@
  * judgingdialog.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * judgingdialog.h @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #ifndef JUDGINGDIALOG_H
 #define JUDGINGDIALOG_H
@@ -32,7 +36,7 @@ class Contest;
 
 namespace Ui
 {
-class JudgingDialog;
+	class JudgingDialog;
 }
 
 class JudgingDialog : public QDialog
@@ -42,11 +46,10 @@ class JudgingDialog : public QDialog
 public:
 	explicit JudgingDialog(QWidget *parent = 0);
 	~JudgingDialog();
-	void setContest(Contest*);
-	void judge(const QStringList&);
-	void judge(const QString&, int);
-	void judgeSingleTask(int);
-	void judgeSelectedSingleTask(const QStringList&, int);
+	void setContest(Contest *);
+	void judge(const QStringList &);
+	void judge(const QString &, int);
+	void judge(const QList<QPair<QString, QSet<int> > > &);
 	void judgeAll();
 	void reject();
 
@@ -61,10 +64,10 @@ private:
 	bool stopJudging;
 
 public slots:
-	void singleCaseFinished(int, int, int, int);
+	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, double);
-	void taskJudgingStarted(const QString&);
-	void contestantJudgingStart(const QString&);
+	void taskJudgingStarted(const QString &);
+	void contestantJudgingStart(const QString &);
 	void contestantJudgingFinished();
 	void compileError(int, int);
 

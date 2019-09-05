@@ -19,6 +19,10 @@
  * task.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * task.cpp @Project LemonPt
+ * Update 2019 iotang
+ **/
 
 #include "task.h"
 #include "testcase.h"
@@ -37,12 +41,12 @@ Task::Task(QObject *parent) :
 	subFolderCheck = false;
 }
 
-const QList<TestCase*>& Task::getTestCaseList() const
+const QList<TestCase *> &Task::getTestCaseList() const
 {
 	return testCaseList;
 }
 
-const QString& Task::getProblemTile() const
+const QString &Task::getProblemTile() const
 {
 	return problemTitle;
 }
@@ -52,17 +56,17 @@ bool Task::getSubFolderCheck() const
 	return subFolderCheck;
 }
 
-const QString& Task::getSourceFileName() const
+const QString &Task::getSourceFileName() const
 {
 	return sourceFileName;
 }
 
-const QString& Task::getInputFileName() const
+const QString &Task::getInputFileName() const
 {
 	return inputFileName;
 }
 
-const QString& Task::getOutputFileName() const
+const QString &Task::getOutputFileName() const
 {
 	return outputFileName;
 }
@@ -87,7 +91,7 @@ Task::ComparisonMode Task::getComparisonMode() const
 	return comparisonMode;
 }
 
-const QString& Task::getDiffArguments() const
+const QString &Task::getDiffArguments() const
 {
 	return diffArguments;
 }
@@ -97,22 +101,22 @@ int Task::getRealPrecision() const
 	return realPrecision;
 }
 
-const QString& Task::getSpecialJudge() const
+const QString &Task::getSpecialJudge() const
 {
 	return specialJudge;
 }
 
-const QString& Task::getInteractor() const
+const QString &Task::getInteractor() const
 {
 	return interactor;
 }
 
-const QString& Task::getInteractorName() const
+const QString &Task::getInteractorName() const
 {
 	return interactorName;
 }
 
-const QString& Task::getGrader() const
+const QString &Task::getGrader() const
 {
 	return grader;
 }
@@ -122,7 +126,7 @@ QString Task::getCompilerConfiguration(const QString &compilerName) const
 	return compilerConfiguration.value(compilerName);
 }
 
-const QString& Task::getAnswerFileExtension() const
+const QString &Task::getAnswerFileExtension() const
 {
 	return answerFileExtension;
 }
@@ -190,17 +194,17 @@ void Task::setSpecialJudge(const QString &fileName)
 	specialJudge = fileName;
 }
 
-void Task::setInteractor(const QString& fileName)
+void Task::setInteractor(const QString &fileName)
 {
 	interactor = fileName;
 }
 
-void Task::setInteractorName(const QString& fileName)
+void Task::setInteractorName(const QString &fileName)
 {
 	interactorName = fileName;
 }
 
-void Task::setGrader(const QString& fileName)
+void Task::setGrader(const QString &fileName)
 {
 	grader = fileName;
 }
@@ -222,7 +226,7 @@ void Task::addTestCase(TestCase *testCase)
 	testCaseList.append(testCase);
 }
 
-TestCase* Task::getTestCase(int index) const
+TestCase *Task::getTestCase(int index) const
 {
 	if(0 <= index && index < testCaseList.size())
 	{
@@ -248,7 +252,7 @@ void Task::deleteTestCase(int index)
 
 void Task::refreshCompilerConfiguration(Settings *settings)
 {
-	QList<Compiler*> compilerList = settings->getCompilerList();
+	QList<Compiler *> compilerList = settings->getCompilerList();
 	QStringList compilerNames;
 
 	for(int i = 0; i < compilerList.size(); i ++)
@@ -301,6 +305,18 @@ int Task::getTotalTimeLimit() const
 	return total;
 }
 
+int Task::getTotalScore() const
+{
+	int total = 0;
+
+	for(int i = 0; i < testCaseList.size(); i ++)
+	{
+		total += testCaseList[i]->getFullScore();
+	}
+
+	return total;
+}
+
 void Task::writeToStream(QDataStream &out)
 {
 	out << problemTitle;
@@ -309,8 +325,8 @@ void Task::writeToStream(QDataStream &out)
 	out << outputFileName;
 	out << standardInputCheck;
 	out << standardOutputCheck;
-	out << (int(taskType) | (((int) subFolderCheck) << 8));
-	out << int(comparisonMode);
+	out << (int (taskType) | (((int) subFolderCheck) << 8));
+	out << int (comparisonMode);
 	out << diffArguments;
 	out << realPrecision;
 	QString _specialJudge = specialJudge;

@@ -184,7 +184,7 @@ ResultState JudgingThread::getResult() const
 	return result;
 }
 
-const QString& JudgingThread::getMessage() const
+const QString &JudgingThread::getMessage() const
 {
 	return message;
 }
@@ -317,7 +317,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read %1 but expect %2").arg(str1).arg(str2);
+			message = tr("Read \"%1\" but expect \"%2\"").arg(str1).arg(str2);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -538,7 +538,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read %1 but expect %2").arg(str1).arg(str2);
+			message = tr("Read \"%1\" but expect \"%2\"").arg(str1).arg(str2);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -565,7 +565,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
 	QString cmd = QString("\"%1\" %2 \"%3\" \"%4\"").arg(diffPath, task->getDiffArguments())
-	              .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
+					  .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
 
 	if(QProcess::execute(cmd) != 0)
 	{
@@ -660,7 +660,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read %1 but expect %2").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18);
+			message = tr("Read \"%1\" but expect \"%2\"").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -842,27 +842,27 @@ void JudgingThread::runProgram()
 
 	if(task->getStandardInputCheck())
 	{
-		si.hStdInput = CreateFile((const WCHAR*)(inputFile.utf16()), GENERIC_READ,
-		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-		                          OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		si.hStdInput = CreateFile((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
+										  FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+										  OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if(task->getStandardOutputCheck())
 	{
-		si.hStdOutput = CreateFile((const WCHAR*)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-		                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		si.hStdOutput = CreateFile((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
+											FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+											CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
-	si.hStdError = CreateFile((const WCHAR*)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-	                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	si.hStdError = CreateFile((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
+									  FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+									  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	QString values = environment.toStringList().join('\0') + '\0';
 
-	if(! CreateProcess(NULL, (WCHAR*)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
-	                   TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
-	                   (const WCHAR*)(workingDirectory.utf16()), &si, &pi))
+	if(! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
+							 TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
+							 (const WCHAR *)(workingDirectory.utf16()), &si, &pi))
 	{
 		if(task->getStandardInputCheck()) CloseHandle(si.hStdInput);
 
@@ -880,7 +880,7 @@ void JudgingThread::runProgram()
 
 	if(memoryLimit != -1)
 	{
-		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, sizeof(info));
+		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
 
 		if(qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024)
 		{
@@ -914,7 +914,7 @@ void JudgingThread::runProgram()
 
 		if(memoryLimit != -1)
 		{
-			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, sizeof(info));
+			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
 
 			if(qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024U * 1024)
 			{
@@ -1004,11 +1004,11 @@ void JudgingThread::runProgram()
 	FileTimeToSystemTime(&userTime, &realTime);
 
 	timeUsed = realTime.wMilliseconds
-	           + realTime.wSecond * 1000
-	           + realTime.wMinute * 60 * 1000
-	           + realTime.wHour * 60 * 60 * 1000;
+				  + realTime.wSecond * 1000
+				  + realTime.wMinute * 60 * 1000
+				  + realTime.wHour * 60 * 60 * 1000;
 
-	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, sizeof(info));
+	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
 	memoryUsed = info.PeakWorkingSetSize;
 
 	if(task->getStandardInputCheck()) CloseHandle(si.hStdInput);
@@ -1169,25 +1169,25 @@ void JudgingThread::judgeOutput()
 
 	switch(task->getComparisonMode())
 	{
-	case Task::LineByLineMode:
-		compareLineByLine(fileName);
-		break;
+		case Task::LineByLineMode:
+			compareLineByLine(fileName);
+			break;
 
-	case Task::IgnoreSpacesMode:
-		compareIgnoreSpaces(fileName);
-		break;
+		case Task::IgnoreSpacesMode:
+			compareIgnoreSpaces(fileName);
+			break;
 
-	case Task::ExternalToolMode:
-		compareWithDiff(fileName);
-		break;
+		case Task::ExternalToolMode:
+			compareWithDiff(fileName);
+			break;
 
-	case Task::RealNumberMode:
-		compareRealNumbers(fileName);
-		break;
+		case Task::RealNumberMode:
+			compareRealNumbers(fileName);
+			break;
 
-	case Task::SpecialJudgeMode:
-		specialJudge(fileName);
-		break;
+		case Task::SpecialJudgeMode:
+			specialJudge(fileName);
+			break;
 	}
 }
 
@@ -1242,7 +1242,7 @@ void JudgingThread::judgeTraditionalTask()
 	if(timeUsed > timeLimit)
 	{
 		if(score > 0 && (timeUsed <= timeLimit * (1 + extraTimeRatio)
-		                 || timeUsed <= timeLimit + 1000 * extraTimeRatio))
+							  || timeUsed <= timeLimit + 1000 * extraTimeRatio))
 		{
 			needRejudge = true;
 		}
@@ -1271,25 +1271,25 @@ void JudgingThread::judgeAnswersOnlyTask()
 {
 	switch(task->getComparisonMode())
 	{
-	case Task::LineByLineMode:
-		compareLineByLine(answerFile);
-		break;
+		case Task::LineByLineMode:
+			compareLineByLine(answerFile);
+			break;
 
-	case Task::IgnoreSpacesMode:
-		compareIgnoreSpaces(answerFile);
-		break;
+		case Task::IgnoreSpacesMode:
+			compareIgnoreSpaces(answerFile);
+			break;
 
-	case Task::ExternalToolMode:
-		compareWithDiff(answerFile);
-		break;
+		case Task::ExternalToolMode:
+			compareWithDiff(answerFile);
+			break;
 
-	case Task::RealNumberMode:
-		compareRealNumbers(answerFile);
-		break;
+		case Task::RealNumberMode:
+			compareRealNumbers(answerFile);
+			break;
 
-	case Task::SpecialJudgeMode:
-		specialJudge(answerFile);
-		break;
+		case Task::SpecialJudgeMode:
+			specialJudge(answerFile);
+			break;
 	}
 }
 /*
@@ -1404,13 +1404,13 @@ void JudgingThread::run()
 
 	switch(task->getTaskType())
 	{
-	case Task::Interaction:
-	case Task::Traditional:
-		judgeTraditionalTask();
-		break;
+		case Task::Interaction:
+		case Task::Traditional:
+			judgeTraditionalTask();
+			break;
 
-	case Task::AnswersOnly:
-		judgeAnswersOnlyTask();
-		break;
+		case Task::AnswersOnly:
+			judgeAnswersOnlyTask();
+			break;
 	}
 }

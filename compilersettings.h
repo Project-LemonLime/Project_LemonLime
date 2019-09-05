@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class CompilerSettings;
+	class CompilerSettings;
 }
 
 class Settings;
@@ -42,7 +42,7 @@ class CompilerSettings : public QWidget
 public:
 	explicit CompilerSettings(QWidget *parent = 0);
 	~CompilerSettings();
-	void resetEditSettings(Settings*);
+	void resetEditSettings(Settings *);
 	bool checkValid();
 
 private:
@@ -50,7 +50,7 @@ private:
 	Settings *editSettings;
 	Compiler *curCompiler;
 	QAction *deleteCompilerKeyAction;
-	void setCurrentCompiler(Compiler*);
+	void setCurrentCompiler(Compiler *);
 	void refreshItemState();
 
 private slots:
@@ -58,8 +58,8 @@ private slots:
 	void moveDownCompiler();
 	void addCompiler();
 	void deleteCompiler();
-	void compilerNameChanged(const QString&);
-	void sourceExtensionsChanged(const QString&);
+	void compilerNameChanged(const QString &);
+	void sourceExtensionsChanged(const QString &);
 	void compilerListCurrentRowChanged();
 	void advancedButtonClicked();
 };
