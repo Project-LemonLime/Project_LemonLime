@@ -30,15 +30,15 @@ NewContestWidget::NewContestWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->selectButton, SIGNAL(clicked()),
-			  this, SLOT(selectContestPath()));
+	        this, SLOT(selectContestPath()));
 	connect(ui->savingName, SIGNAL(textChanged(QString)),
-			  this, SLOT(savingNameChanged()));
+	        this, SLOT(savingNameChanged()));
 	connect(ui->contestTitle, SIGNAL(textChanged(QString)),
-			  this, SIGNAL(informationChanged()));
+	        this, SIGNAL(informationChanged()));
 	connect(ui->savingName, SIGNAL(textChanged(QString)),
-			  this, SIGNAL(informationChanged()));
+	        this, SIGNAL(informationChanged()));
 	connect(ui->contestPath, SIGNAL(textChanged(QString)),
-			  this, SIGNAL(informationChanged()));
+	        this, SIGNAL(informationChanged()));
 }
 
 NewContestWidget::~NewContestWidget()

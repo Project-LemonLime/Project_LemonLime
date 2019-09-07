@@ -1,6 +1,6 @@
 # 自定义校验器 (Special Judge)
 
-LemonPt 的校验器和其它版本的 Lemon 通用。
+LemonLime 的校验器和其它版本的 Lemon 通用。
 
 你的校验器需要接收6个参数流：
 
@@ -47,7 +47,7 @@ int main(int argc,char *argv[])
 
 ## testlib
 
-在 LemonPt 源代码可以找到 `testlib_for_lemons.h` 。
+在 LemonLime 源代码可以找到 `testlib_for_lemons.h` 。
 
 具体使用参照其它的资料。
 

@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>LemonPt</string>
+   <string>LemonLime</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resource.qrc">
@@ -448,7 +448,7 @@
   </action>
   <action name="judgeUnjudgedAction">
    <property name="text">
-    <string>Judge &amp;Single Task</string>
+    <string>Judge &amp;Unjudged</string>
    </property>
   </action>
   <action name="openFolderAction">

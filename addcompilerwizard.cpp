@@ -42,25 +42,25 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 #endif
 
 	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
-			  this, SLOT(compilerTypeChanged()));
+	        this, SLOT(compilerTypeChanged()));
 	connect(ui->compilerSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectCompilerLocation()));
+	        this, SLOT(selectCompilerLocation()));
 	connect(ui->interpreterSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectInterpreterLocation()));
+	        this, SLOT(selectInterpreterLocation()));
 	connect(ui->gccSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectGccPath()));
+	        this, SLOT(selectGccPath()));
 	connect(ui->gppSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectGppPath()));
+	        this, SLOT(selectGppPath()));
 	connect(ui->fpcSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectFpcPath()));
+	        this, SLOT(selectFpcPath()));
 	connect(ui->fbcSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectFbcPath()));
+	        this, SLOT(selectFbcPath()));
 	connect(ui->javacSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectJavacPath()));
+	        this, SLOT(selectJavacPath()));
 	connect(ui->javaSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectJavaPath()));
+	        this, SLOT(selectJavaPath()));
 	connect(ui->pythonSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectPythonPath()));
+	        this, SLOT(selectPythonPath()));
 }
 
 AddCompilerWizard::~AddCompilerWizard()
@@ -339,12 +339,12 @@ void AddCompilerWizard::selectCompilerLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.exe)"));
+	                   QDir::rootPath(), tr("Executable files (*.exe)"));
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.*)"));
+	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if(! location.isEmpty())
@@ -358,12 +358,12 @@ void AddCompilerWizard::selectInterpreterLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.exe)"));
+	                   QDir::rootPath(), tr("Executable files (*.exe)"));
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.*)"));
+	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if(! location.isEmpty())
@@ -377,12 +377,12 @@ void AddCompilerWizard::selectGccPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "gcc (gcc.exe)");
+	                   QDir::rootPath(), "gcc (gcc.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "gcc (gcc)");
+	                   QDir::rootPath(), "gcc (gcc)");
 #endif
 
 	if(! location.isEmpty())
@@ -396,12 +396,12 @@ void AddCompilerWizard::selectGppPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "g++ (g++.exe)");
+	                   QDir::rootPath(), "g++ (g++.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "g++ (g++)");
+	                   QDir::rootPath(), "g++ (g++)");
 #endif
 
 	if(! location.isEmpty())
@@ -415,12 +415,12 @@ void AddCompilerWizard::selectFpcPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "fpc (fpc.exe)");
+	                   QDir::rootPath(), "fpc (fpc.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "fpc (fpc)");
+	                   QDir::rootPath(), "fpc (fpc)");
 #endif
 
 	if(! location.isEmpty())
@@ -434,12 +434,12 @@ void AddCompilerWizard::selectFbcPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "fbc (fbc.exe)");
+	                   QDir::rootPath(), "fbc (fbc.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "fbc (fbc)");
+	                   QDir::rootPath(), "fbc (fbc)");
 #endif
 
 	if(! location.isEmpty())
@@ -453,12 +453,12 @@ void AddCompilerWizard::selectJavacPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "javac (javac.exe)");
+	                   QDir::rootPath(), "javac (javac.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), "javac (javac)");
+	                   QDir::rootPath(), "javac (javac)");
 #endif
 
 	if(! location.isEmpty())
@@ -472,12 +472,12 @@ void AddCompilerWizard::selectJavaPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), "java (java.exe)");
+	                   QDir::rootPath(), "java (java.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), "java (java)");
+	                   QDir::rootPath(), "java (java)");
 #endif
 
 	if(! location.isEmpty())
@@ -491,12 +491,12 @@ void AddCompilerWizard::selectPythonPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), "python (python.exe)");
+	                   QDir::rootPath(), "python (python.exe)");
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), "python (python)");
+	                   QDir::rootPath(), "python (python)");
 #endif
 
 	if(! location.isEmpty())
@@ -518,8 +518,8 @@ void AddCompilerWizard::accept()
 		compiler->setSourceExtensions(ui->sourceFileExtensions->text());
 		compiler->setBytecodeExtensions(ui->bytecodeFileExtensions->text());
 		compiler->addConfiguration("default",
-											ui->defaultCompilerArguments->text(),
-											ui->defaultInterpreterArguments->text());
+		                           ui->defaultCompilerArguments->text(),
+		                           ui->defaultInterpreterArguments->text());
 		compilerList.append(compiler);
 	}
 

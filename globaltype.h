@@ -19,6 +19,10 @@
  * globaltype.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * globaltype.h @Project LemonLime
+ * Update 2019 iotang
+ **/
 
 #ifndef GLOBALTYPE_H
 #define GLOBALTYPE_H
@@ -33,5 +37,29 @@ enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
                    InvalidSpecialJudge, SpecialJudgeTimeLimitExceeded,
                    SpecialJudgeRunTimeError, Skipped, InteractorError
                  };
+
+const int oriBaseColorHI = 120;
+const double oriBaseColorHF = 1.00 / 3.00;
+const double oriBaseColorSF = 0.30;
+
+const int nofBaseColorHI = 0;
+const double nofBaseColorHF = 0.00;
+const double nofBaseColorSF = 0.00;
+const double nofBaseColorLF = 5.00 / 6.00;
+
+const int cmeBaseColorHI = 300;
+const double cmeBaseColorHF = 5.00 / 6.00;
+const double cmeBaseColorSF = 1.00;
+const double cmeBaseColorLF = 5.00 / 6.00;
+
+inline double oriBaseColorLF(int score, int mxscore, double rem = 0.30)
+{
+	return 1.00 - rem * score / mxscore
+	       - 0.10 * (score > 0)
+	       - 0.02 * (score >= mxscore);
+}
+
+
+
 
 #endif // GLOBALTYPE_H

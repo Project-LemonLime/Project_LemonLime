@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * assignmentthread.h @Project LemonPt
+ * assignmentthread.h @Project LemonLime
  * Update 2019 iotang
  **/
 

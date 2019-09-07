@@ -38,37 +38,37 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent) 
 	ui->configurationSelect->setLineEdit(new QLineEdit(this));
 
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-			  this, SLOT(okayButtonClicked()));
+	        this, SLOT(okayButtonClicked()));
 	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
-			  this, SLOT(compilerTypeChanged()));
+	        this, SLOT(compilerTypeChanged()));
 	connect(ui->compilerLocation, SIGNAL(textChanged(QString)),
-			  this, SLOT(compilerLocationChanged()));
+	        this, SLOT(compilerLocationChanged()));
 	connect(ui->interpreterLocation, SIGNAL(textChanged(QString)),
-			  this, SLOT(interpreterLocationChanged()));
+	        this, SLOT(interpreterLocationChanged()));
 	connect(ui->compilerSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectCompilerLocation()));
+	        this, SLOT(selectCompilerLocation()));
 	connect(ui->interpreterSelectButton, SIGNAL(clicked()),
-			  this, SLOT(selectInterpreterLocation()));
+	        this, SLOT(selectInterpreterLocation()));
 	connect(ui->bytecodeExtension, SIGNAL(textChanged(QString)),
-			  this, SLOT(bytecodeExtensionsChanged()));
+	        this, SLOT(bytecodeExtensionsChanged()));
 	connect(ui->timeLimitRatio, SIGNAL(valueChanged(double)),
-			  this, SLOT(timeLimitRatioChanged()));
+	        this, SLOT(timeLimitRatioChanged()));
 	connect(ui->memoryLimitRatio, SIGNAL(valueChanged(double)),
-			  this, SLOT(memoryLimitRatioChanged()));
+	        this, SLOT(memoryLimitRatioChanged()));
 	connect(ui->disableMemoryLimit, SIGNAL(stateChanged(int)),
-			  this, SLOT(disableMemoryLimitCheckChanged()));
+	        this, SLOT(disableMemoryLimitCheckChanged()));
 	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)),
-			  this, SLOT(configurationIndexChanged()));
+	        this, SLOT(configurationIndexChanged()));
 	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)),
-			  this, SLOT(configurationTextChanged()));
+	        this, SLOT(configurationTextChanged()));
 	connect(ui->deleteConfigurationButton, SIGNAL(clicked()),
-			  this, SLOT(deleteConfiguration()));
+	        this, SLOT(deleteConfiguration()));
 	connect(ui->compilerArguments, SIGNAL(textChanged(QString)),
-			  this, SLOT(compilerArgumentsChanged()));
+	        this, SLOT(compilerArgumentsChanged()));
 	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)),
-			  this, SLOT(interpreterArgumentsChanged()));
+	        this, SLOT(interpreterArgumentsChanged()));
 	connect(ui->environmentVariablesButton, SIGNAL(clicked()),
-			  this, SLOT(environmentVariablesButtonClicked()));
+	        this, SLOT(environmentVariablesButtonClicked()));
 }
 
 AdvancedCompilerSettingsDialog::~AdvancedCompilerSettingsDialog()
@@ -148,8 +148,8 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 			ui->configurationSelect->setCurrentIndex(j);
 			ui->configurationSelect->setFocus();
 			QMessageBox::warning(this, tr("Error"),
-										tr("Configuration %1 appears more than once!").arg(configurationNames[j]),
-										QMessageBox::Close);
+			                     tr("Configuration %1 appears more than once!").arg(configurationNames[j]),
+			                     QMessageBox::Close);
 			return;
 		}
 
@@ -229,12 +229,12 @@ void AdvancedCompilerSettingsDialog::selectCompilerLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.exe)"));
+	                   QDir::rootPath(), tr("Executable files (*.exe)"));
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.*)"));
+	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if(! location.isEmpty())
@@ -248,12 +248,12 @@ void AdvancedCompilerSettingsDialog::selectInterpreterLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.exe)"));
+	                   QDir::rootPath(), tr("Executable files (*.exe)"));
 #endif
 
 #ifdef Q_OS_LINUX
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-							 QDir::rootPath(), tr("Executable files (*.*)"));
+	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if(! location.isEmpty())
@@ -327,9 +327,9 @@ void AdvancedCompilerSettingsDialog::configurationTextChanged()
 	else
 	{
 		ui->configurationSelect->setItemText(ui->configurationSelect->currentIndex(),
-														 ui->configurationSelect->lineEdit()->text());
+		                                     ui->configurationSelect->lineEdit()->text());
 		editCompiler->setConfigName(ui->configurationSelect->currentIndex(),
-											 ui->configurationSelect->lineEdit()->text());
+		                            ui->configurationSelect->lineEdit()->text());
 	}
 }
 

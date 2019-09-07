@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * judgingdialog.cpp @Project LemonPt
+ * judgingdialog.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -37,9 +37,9 @@ JudgingDialog::JudgingDialog(QWidget *parent) :
 	ui->setupUi(this);
 	cursor = new QTextCursor(ui->logViewer->document());
 	connect(ui->cancelButton, SIGNAL(clicked()),
-			  this, SLOT(stopJudgingSlot()));
+	        this, SLOT(stopJudgingSlot()));
 	connect(ui->skipButton, SIGNAL(clicked()),
-			  this, SLOT(skipJudging()));
+	        this, SLOT(skipJudging()));
 }
 
 JudgingDialog::~JudgingDialog()
@@ -52,19 +52,19 @@ void JudgingDialog::setContest(Contest *contest)
 {
 	curContest = contest;
 	connect(curContest, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-			  this, SLOT(singleCaseFinished(int, int, int, int, int, int, int)));
+	        this, SLOT(singleCaseFinished(int, int, int, int, int, int, int)));
 	connect(curContest, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-			  this, SLOT(singleSubtaskDependenceFinished(int, int, double)));
+	        this, SLOT(singleSubtaskDependenceFinished(int, int, double)));
 	connect(curContest, SIGNAL(taskJudgingStarted(QString)),
-			  this, SLOT(taskJudgingStarted(QString)));
+	        this, SLOT(taskJudgingStarted(QString)));
 	connect(curContest, SIGNAL(contestantJudgingStart(QString)),
-			  this, SLOT(contestantJudgingStart(QString)));
+	        this, SLOT(contestantJudgingStart(QString)));
 	connect(curContest, SIGNAL(contestantJudgingFinished()),
-			  this, SLOT(contestantJudgingFinished()));
+	        this, SLOT(contestantJudgingFinished()));
 	connect(curContest, SIGNAL(compileError(int, int)),
-			  this, SLOT(compileError(int, int)));
+	        this, SLOT(compileError(int, int)));
 	connect(this, SIGNAL(stopJudgingSignal()),
-			  curContest, SLOT(stopJudgingSlot()));
+	        curContest, SLOT(stopJudgingSlot()));
 }
 
 void JudgingDialog::judge(const QStringList &nameList)
@@ -80,7 +80,7 @@ void JudgingDialog::judge(const QStringList &nameList)
 	}
 
 #ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
 	QProcess::execute(text);
 #endif
 	accept();
@@ -93,7 +93,7 @@ void JudgingDialog::judge(const QString &name, int index)
 	curContest->judge(name, index);
 
 #ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
 	QProcess::execute(text);
 #endif
 	accept();
@@ -125,7 +125,7 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 	}
 
 #ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
 	QProcess::execute(text);
 #endif
 }
@@ -137,7 +137,7 @@ void JudgingDialog::judgeAll()
 	curContest->judgeAll();
 
 #ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonPt") + "\"";
+	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
 	QProcess::execute(text);
 #endif
 	accept();

@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * exportutil.cpp @Project LemonPt
+ * exportutil.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -29,6 +29,7 @@
 #include "task.h"
 #include "testcase.h"
 #include "contestant.h"
+#include "globaltype.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QApplication>
@@ -67,7 +68,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 					case CompileTimeLimitExceeded:
 						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
-										.arg(contestant->getSourceFile(i));
+						            .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
 						break;
 
@@ -77,7 +78,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 					case CompileError:
 						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
-										.arg(contestant->getSourceFile(i));
+						            .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
 						if(! contestant->getCompileMessage(i).isEmpty())
@@ -131,10 +132,10 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 				{
 					if(score[j].size() == inputFiles[j].size())
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2</td>")
-										.arg(inputFiles[j].size()).arg(j + 1);
+						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
-										.arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
 				}
 
 				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(inputFiles[j][k]);
@@ -202,9 +203,9 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 				{
 					QString tmp = message[j][k];
 					tmp.replace("\n", "\\n");
-					tmp.replace("\"", "\\");
+					tmp.replace("\"", "\\&quot;");
 					htmlCode += QString("<a href=\"javascript:alert(&quot;%1&quot;)\"> (...)")
-									.arg(tmp);
+					            .arg(tmp);
 				}
 
 				htmlCode += "</td>";
@@ -263,8 +264,8 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	if(! file.open(QFile::WriteOnly))
 	{
-		QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
-									QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonLime"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+		                     QMessageBox::Ok);
 		return;
 	}
 
@@ -330,13 +331,22 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Total Score"));
 
+	QList<int> fullScore;
+	int sfullScore = 0;
+
+	for(int i = 0; i < taskList.size(); i++)
+	{
+		int a = taskList[i]->getTotalScore();
+		fullScore.append(a), sfullScore += a;
+	}
+
 	for(int i = 0; i < sortList.size(); i ++)
 	{
 		Contestant *contestant = contest->getContestant(sortList[i].second);
 		out << QString("<tr><td nowrap=\"nowrap\" align=\"center\">%1</td>")
-			 .arg(rankList[contestant->getContestantName()] + 1);
+		    .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString("<td nowrap=\"nowrap\" align=\"center\"><a href=\"#c%1\">%2</a></td>")
-			 .arg(loc[contestant]).arg(sortList[i].second);
+		    .arg(loc[contestant]).arg(sortList[i].second);
 
 		for(int j = 0; j < taskList.size(); j ++)
 		{
@@ -344,7 +354,18 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 			if(score != -1)
 			{
-				out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score);
+				int basCol = oriBaseColorHI;
+				double colFix = oriBaseColorSF * 100;
+				double colLevel = oriBaseColorLF(score, fullScore[j], 0.30) * 100;
+
+				if(contestant->getCompileState(j) != CompileSuccessfully)
+				{
+					if(contestant->getCompileState(j) == NoValidSourceFile)
+						basCol = nofBaseColorHI, colFix = nofBaseColorSF * 100, colLevel = nofBaseColorLF * 100;
+					else basCol = cmeBaseColorHI, colFix = cmeBaseColorSF * 100, colLevel = cmeBaseColorLF * 100;
+				}
+
+				out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%);\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
 			}
 			else
 			{
@@ -356,11 +377,15 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 		if(score != -1)
 		{
-			out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score);
+			int basCol = oriBaseColorHI;
+			double colFix = oriBaseColorSF * 100;
+			double colLevel = oriBaseColorLF(score, sfullScore, 0.40) * 100;
+
+			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
 		}
 		else
 		{
-			out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+			out << QString("<td style=\"font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
 		}
 	}
 
@@ -379,7 +404,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "</body></html>";
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
 void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fileName)
@@ -388,8 +413,8 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	if(! file.open(QFile::WriteOnly))
 	{
-		QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
-									QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonLime"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+		                     QMessageBox::Ok);
 		return;
 	}
 
@@ -478,7 +503,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	}
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
 void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fileName)
@@ -489,8 +514,8 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	{
 		if(! QFile(fileName).remove())
 		{
-			QMessageBox::warning(widget, tr("LemonPt"), tr("Cannot open file %1").arg(QFileInfo(fileName).fileName()),
-										QMessageBox::Ok);
+			QMessageBox::warning(widget, tr("LemonLime"), tr("Cannot open file %1").arg(QFileInfo(fileName).fileName()),
+			                     QMessageBox::Ok);
 			return;
 		}
 	}
@@ -557,7 +582,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	{
 		Contestant *contestant = contest->getContestant(sortList[i].second);
 		sheet->querySubObject("Cells(int, int)", 2 + i, 1)->setProperty("Value",
-				rankList[contestant->getContestantName()] + 1);
+		        rankList[contestant->getContestantName()] + 1);
 		sheet->querySubObject("Cells(int, int)", 2 + i, 2)->setProperty("Value", sortList[i].second);
 
 		for(int j = 0; j < taskList.size(); j ++)
@@ -591,7 +616,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	delete excel;
 
 	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("LemonPt"), tr("Export is done"), QMessageBox::Ok);
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 #endif
 }
 
@@ -602,13 +627,13 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	if(contestantList.isEmpty())
 	{
-		QMessageBox::warning(widget, tr("LemonPt"), tr("No contestant in current contest"), QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonLime"), tr("No contestant in current contest"), QMessageBox::Ok);
 		return;
 	}
 
 	if(taskList.isEmpty())
 	{
-		QMessageBox::warning(widget, tr("LemonPt"), tr("No task in current contest"), QMessageBox::Ok);
+		QMessageBox::warning(widget, tr("LemonLime"), tr("No task in current contest"), QMessageBox::Ok);
 		return;
 	}
 
@@ -623,7 +648,7 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 #endif
 
 	QString fileName = QFileDialog::getSaveFileName(widget, tr("Export Result"),
-							 QDir::currentPath() + QDir::separator() + "result.html", filter);
+	                   QDir::currentPath() + QDir::separator() + "result.html", filter);
 
 	if(fileName.isEmpty()) return;
 

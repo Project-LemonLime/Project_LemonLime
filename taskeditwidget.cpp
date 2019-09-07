@@ -38,11 +38,11 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	ui->interactorPath->setFilters(QDir::Files);
 	ui->graderPath->setFilters(QDir::Files);
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->specialJudge, SLOT(refreshFileList()));
+	        ui->specialJudge, SLOT(refreshFileList()));
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->interactorPath, SLOT(refreshFileList()));
+	        ui->interactorPath, SLOT(refreshFileList()));
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->graderPath, SLOT(refreshFileList()));
+	        ui->graderPath, SLOT(refreshFileList()));
 
 	ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
 	ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
@@ -53,45 +53,45 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	//ui->interactionButton->setVisible(false); //rebuilding interaction, remove it temporarily
 
 	connect(ui->problemTitle, SIGNAL(textChanged(QString)),
-			  this, SLOT(problemTitleChanged(QString)));
+	        this, SLOT(problemTitleChanged(QString)));
 	connect(ui->traditionalButton, SIGNAL(toggled(bool)),
-			  this, SLOT(setToTraditional(bool)));
+	        this, SLOT(setToTraditional(bool)));
 	connect(ui->answersOnlyButton, SIGNAL(toggled(bool)),
-			  this, SLOT(setToAnswersOnly(bool)));
+	        this, SLOT(setToAnswersOnly(bool)));
 	connect(ui->interactionButton, SIGNAL(toggled(bool)),
-			  this, SLOT(setToInteraction(bool)));
+	        this, SLOT(setToInteraction(bool)));
 	connect(ui->sourceFileName, SIGNAL(textChanged(QString)),
-			  this, SLOT(sourceFileNameChanged(QString)));
+	        this, SLOT(sourceFileNameChanged(QString)));
 	connect(ui->subFolderCheck, SIGNAL(stateChanged(int)),
-			  this, SLOT(subFolderCheckChanged()));
+	        this, SLOT(subFolderCheckChanged()));
 	connect(ui->inputFileName, SIGNAL(textChanged(QString)),
-			  this, SLOT(inputFileNameChanged(QString)));
+	        this, SLOT(inputFileNameChanged(QString)));
 	connect(ui->outputFileName, SIGNAL(textChanged(QString)),
-			  this, SLOT(outputFileNameChanged(QString)));
+	        this, SLOT(outputFileNameChanged(QString)));
 	connect(ui->standardInputCheck, SIGNAL(stateChanged(int)),
-			  this, SLOT(standardInputCheckChanged()));
+	        this, SLOT(standardInputCheckChanged()));
 	connect(ui->standardOutputCheck, SIGNAL(stateChanged(int)),
-			  this, SLOT(standardOutputCheckChanged()));
+	        this, SLOT(standardOutputCheckChanged()));
 	connect(ui->comparisonMode, SIGNAL(currentIndexChanged(int)),
-			  this, SLOT(comparisonModeChanged()));
+	        this, SLOT(comparisonModeChanged()));
 	connect(ui->diffArguments, SIGNAL(textChanged(QString)),
-			  this, SLOT(diffArgumentsChanged(QString)));
+	        this, SLOT(diffArgumentsChanged(QString)));
 	connect(ui->realPrecision, SIGNAL(valueChanged(int)),
-			  this, SLOT(realPrecisionChanged(int)));
+	        this, SLOT(realPrecisionChanged(int)));
 	connect(ui->specialJudge, SIGNAL(textChanged(QString)),
-			  this, SLOT(specialJudgeChanged(QString)));
+	        this, SLOT(specialJudgeChanged(QString)));
 	connect(ui->interactorPath, SIGNAL(textChanged(QString)),
-			  this, SLOT(interactorChanged(QString)));
+	        this, SLOT(interactorChanged(QString)));
 	connect(ui->interactorName, SIGNAL(textChanged(QString)),
-			  this, SLOT(interactorNameChanged(QString)));
+	        this, SLOT(interactorNameChanged(QString)));
 	connect(ui->graderPath, SIGNAL(textChanged(QString)),
-			  this, SLOT(graderChanged(QString)));
+	        this, SLOT(graderChanged(QString)));
 	connect(ui->compilersList, SIGNAL(currentRowChanged(int)),
-			  this, SLOT(compilerSelectionChanged()));
+	        this, SLOT(compilerSelectionChanged()));
 	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)),
-			  this, SLOT(configurationSelectionChanged()));
+	        this, SLOT(configurationSelectionChanged()));
 	connect(ui->answerFileExtension, SIGNAL(textChanged(QString)),
-			  this, SLOT(answerFileExtensionChanged(QString)));
+	        this, SLOT(answerFileExtensionChanged(QString)));
 }
 
 TaskEditWidget::~TaskEditWidget()
@@ -115,9 +115,9 @@ void TaskEditWidget::setEditTask(Task *task)
 	if(editTask)
 	{
 		disconnect(editTask, SIGNAL(problemTitleChanged(QString)),
-					  this, SLOT(refreshProblemTitle(QString)));
+		           this, SLOT(refreshProblemTitle(QString)));
 		disconnect(editTask, SIGNAL(compilerConfigurationRefreshed()),
-					  this, SLOT(refreshCompilerConfiguration()));
+		           this, SLOT(refreshCompilerConfiguration()));
 	}
 
 	editTask = task;
@@ -125,9 +125,9 @@ void TaskEditWidget::setEditTask(Task *task)
 	if(! task) return;
 
 	connect(editTask, SIGNAL(problemTitleChanged(QString)),
-			  this, SLOT(refreshProblemTitle(QString)));
+	        this, SLOT(refreshProblemTitle(QString)));
 	connect(editTask, SIGNAL(compilerConfigurationRefreshed()),
-			  this, SLOT(refreshCompilerConfiguration()));
+	        this, SLOT(refreshCompilerConfiguration()));
 	ui->problemTitle->setText(editTask->getProblemTile());
 	ui->sourceFileName->setEnabled(false);
 	ui->sourceFileName->setText(editTask->getSourceFileName());
@@ -410,7 +410,7 @@ void TaskEditWidget::configurationSelectionChanged()
 	if(! ui->configurationSelect->isEnabled()) return;
 
 	editTask->setCompilerConfiguration(ui->compilersList->currentItem()->text(),
-												  ui->configurationSelect->currentText());
+	                                   ui->configurationSelect->currentText());
 }
 
 void TaskEditWidget::answerFileExtensionChanged(const QString &extension)

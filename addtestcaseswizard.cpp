@@ -36,11 +36,11 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
 
 	connect(ui->fullScore, SIGNAL(textChanged(QString)),
-			  this, SLOT(fullScoreChanged(QString)));
+	        this, SLOT(fullScoreChanged(QString)));
 	connect(ui->timeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(timeLimitChanged(QString)));
+	        this, SLOT(timeLimitChanged(QString)));
 	connect(ui->memoryLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(memoryLimitChanged(QString)));
+	        this, SLOT(memoryLimitChanged(QString)));
 
 	QHeaderView *header = ui->argumentList->horizontalHeader();
 
@@ -50,13 +50,13 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 	}
 
 	connect(ui->inputFilesPattern, SIGNAL(textChanged(QString)),
-			  this, SLOT(inputFilesPatternChanged(QString)));
+	        this, SLOT(inputFilesPatternChanged(QString)));
 	connect(ui->outputFilesPattern, SIGNAL(textChanged(QString)),
-			  this, SLOT(outputFilesPatternChanged(QString)));
+	        this, SLOT(outputFilesPatternChanged(QString)));
 	connect(ui->addArgumentButton, SIGNAL(clicked()),
-			  this, SLOT(addArgument()));
+	        this, SLOT(addArgument()));
 	connect(ui->deleteArgumentButton, SIGNAL(clicked()),
-			  this, SLOT(deleteArgument()));
+	        this, SLOT(deleteArgument()));
 }
 
 AddTestCasesWizard::~AddTestCasesWizard()
@@ -196,7 +196,7 @@ void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, 
 	for(int i = 0; i < list.size(); i ++)
 	{
 		getFiles(curDir + list[i] + QDir::separator(),
-					prefix + list[i] + QDir::separator(), files);
+		         prefix + list[i] + QDir::separator(), files);
 	}
 }
 
@@ -432,8 +432,8 @@ bool AddTestCasesWizard::validateCurrentPage()
 			{
 				ui->inputFilesPattern->setFocus();
 				QMessageBox::warning(this, tr("Error"),
-											tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
-											QMessageBox::Close);
+				                     tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
+				                     QMessageBox::Close);
 				return false;
 			}
 
@@ -441,8 +441,8 @@ bool AddTestCasesWizard::validateCurrentPage()
 			{
 				ui->outputFilesPattern->setFocus();
 				QMessageBox::warning(this, tr("Error"),
-											tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
-											QMessageBox::Close);
+				                     tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
+				                     QMessageBox::Close);
 				return false;
 			}
 

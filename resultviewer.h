@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * resultviewer.h @Project LemonPt
+ * resultviewer.h @Project LemonLime
  * Update 2019 iotang
  **/
 

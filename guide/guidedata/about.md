@@ -1,4 +1,4 @@
-# 关于 LemonPt
+# 关于 LemonLime
 
 ## 协议
 
@@ -10,4 +10,4 @@ Lemon v1.2 by Zhipeng Jia, 2011
 
 LemonPlus by Dust1404, 2018 ~ 
 
-LemonPt by iotang, 2019 ~ 
+LemonLime by iotang, 2019 ~ 

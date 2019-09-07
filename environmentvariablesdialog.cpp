@@ -32,13 +32,13 @@ EnvironmentVariablesDialog::EnvironmentVariablesDialog(QWidget *parent) :
 	ui->setupUi(this);
 
 	connect(ui->addButton, SIGNAL(clicked()),
-			  this, SLOT(addButtonClicked()));
+	        this, SLOT(addButtonClicked()));
 	connect(ui->editButton, SIGNAL(clicked()),
-			  this, SLOT(editButtonClicked()));
+	        this, SLOT(editButtonClicked()));
 	connect(ui->deleteButton, SIGNAL(clicked()),
-			  this, SLOT(deleteButtonClicked()));
+	        this, SLOT(deleteButtonClicked()));
 	connect(ui->valueViewer, SIGNAL(itemSelectionChanged()),
-			  this, SLOT(viewerSelectionChanged()));
+	        this, SLOT(viewerSelectionChanged()));
 }
 
 EnvironmentVariablesDialog::~EnvironmentVariablesDialog()
@@ -84,9 +84,9 @@ void EnvironmentVariablesDialog::addButtonClicked()
 	{
 		ui->valueViewer->setRowCount(ui->valueViewer->rowCount() + 1);
 		ui->valueViewer->setItem(ui->valueViewer->rowCount() - 1, 0,
-										 new QTableWidgetItem(dialog->getVariableName()));
+		                         new QTableWidgetItem(dialog->getVariableName()));
 		ui->valueViewer->setItem(ui->valueViewer->rowCount() - 1, 1,
-										 new QTableWidgetItem(dialog->getVariableValue()));
+		                         new QTableWidgetItem(dialog->getVariableValue()));
 	}
 
 	delete dialog;
@@ -114,8 +114,8 @@ void EnvironmentVariablesDialog::deleteButtonClicked()
 	int index = ui->valueViewer->currentRow();
 	QString variable = ui->valueViewer->item(index, 0)->text();
 
-	if(QMessageBox::question(this, tr("LemonPt"), tr("Are you sure to delete variable %1?").arg(variable),
-									 QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok)
+	if(QMessageBox::question(this, tr("LemonLime"), tr("Are you sure to delete variable %1?").arg(variable),
+	                         QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok)
 	{
 		return;
 	}

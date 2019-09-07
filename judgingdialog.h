@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * judgingdialog.h @Project LemonPt
+ * judgingdialog.h @Project LemonLime
  * Update 2019 iotang
  **/
 

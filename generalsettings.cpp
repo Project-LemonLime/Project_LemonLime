@@ -42,23 +42,23 @@ GeneralSettings::GeneralSettings(QWidget *parent) :
 	ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 
 	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)),
-			  this, SLOT(defaultFullScoreChanged(QString)));
+	        this, SLOT(defaultFullScoreChanged(QString)));
 	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(defaultTimeLimitChanged(QString)));
+	        this, SLOT(defaultTimeLimitChanged(QString)));
 	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(defaultMemoryLimitChanged(QString)));
+	        this, SLOT(defaultMemoryLimitChanged(QString)));
 	connect(ui->compileTimeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(compileTimeLimitChanged(QString)));
+	        this, SLOT(compileTimeLimitChanged(QString)));
 	connect(ui->specialJudgeTimeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(specialJudgeTimeLimitChanged(QString)));
+	        this, SLOT(specialJudgeTimeLimitChanged(QString)));
 	connect(ui->fileSizeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(fileSizeLimitChanged(QString)));
+	        this, SLOT(fileSizeLimitChanged(QString)));
 	connect(ui->rejudgeTimes, SIGNAL(textChanged(QString)),
-			  this, SLOT(rejudgeTimesChanged(QString)));
+	        this, SLOT(rejudgeTimesChanged(QString)));
 	connect(ui->inputFileExtensions, SIGNAL(textChanged(QString)),
-			  this, SLOT(inputFileExtensionsChanged(QString)));
+	        this, SLOT(inputFileExtensionsChanged(QString)));
 	connect(ui->outputFileExtensions, SIGNAL(textChanged(QString)),
-			  this, SLOT(outputFileExtensionsChanged(QString)));
+	        this, SLOT(outputFileExtensionsChanged(QString)));
 }
 
 GeneralSettings::~GeneralSettings()

@@ -20,12 +20,13 @@
  * Update 2018 Dust1404
  **/
 /**
- * resultviewer.cpp @Project LemonPt
+ * resultviewer.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
 #include "resultviewer.h"
 #include "judgingdialog.h"
+#include "globaltype.h"
 #include "contestant.h"
 #include "settings.h"
 #include "contest.h"
@@ -51,15 +52,15 @@ ResultViewer::ResultViewer(QWidget *parent) :
 	deleteContestantKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	addAction(deleteContestantKeyAction);
 	connect(deleteContestantAction, SIGNAL(triggered()),
-			  this, SLOT(deleteContestant()));
+	        this, SLOT(deleteContestant()));
 	connect(detailInformationAction, SIGNAL(triggered()),
-			  this, SLOT(detailInformation()));
+	        this, SLOT(detailInformation()));
 	connect(judgeSelectedAction, SIGNAL(triggered()),
-			  this, SLOT(judgeSelected()));
+	        this, SLOT(judgeSelected()));
 	connect(deleteContestantKeyAction, SIGNAL(triggered()),
-			  this, SLOT(deleteContestant()));
+	        this, SLOT(deleteContestant()));
 	connect(this, SIGNAL(cellDoubleClicked(int, int)),
-			  this, SLOT(detailInformation()));
+	        this, SLOT(detailInformation()));
 }
 
 void ResultViewer::changeEvent(QEvent *event)
@@ -67,11 +68,11 @@ void ResultViewer::changeEvent(QEvent *event)
 	if(event->type() == QEvent::LanguageChange)
 	{
 		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete",
-												  0));
+		                                0));
 		detailInformationAction->setText(QApplication::translate("ResultViewer", "Details",
-													0));
+		                                 0));
 		judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge",
-											  0));
+		                             0));
 	}
 }
 
@@ -104,13 +105,13 @@ void ResultViewer::setContest(Contest *contest)
 	if(curContest)
 	{
 		disconnect(curContest, SIGNAL(taskAddedForViewer()),
-					  this, SLOT(refreshViewer()));
+		           this, SLOT(refreshViewer()));
 		disconnect(curContest, SIGNAL(taskDeletedForViewer(int)),
-					  this, SLOT(refreshViewer()));
+		           this, SLOT(refreshViewer()));
 		disconnect(curContest, SIGNAL(problemTitleChanged()),
-					  this, SLOT(refreshViewer()));
+		           this, SLOT(refreshViewer()));
 		disconnect(curContest, SIGNAL(taskJudgingFinished()),
-					  this, SLOT(refreshViewer()));
+		           this, SLOT(refreshViewer()));
 	}
 
 	curContest = contest;
@@ -118,13 +119,13 @@ void ResultViewer::setContest(Contest *contest)
 	if(! curContest) return;
 
 	connect(curContest, SIGNAL(taskAddedForViewer()),
-			  this, SLOT(refreshViewer()));
+	        this, SLOT(refreshViewer()));
 	connect(curContest, SIGNAL(taskDeletedForViewer(int)),
-			  this, SLOT(refreshViewer()));
+	        this, SLOT(refreshViewer()));
 	connect(curContest, SIGNAL(problemTitleChanged()),
-			  this, SLOT(refreshViewer()));
+	        this, SLOT(refreshViewer()));
 	connect(curContest, SIGNAL(taskJudgingFinished()),
-			  this, SLOT(refreshViewer()));
+	        this, SLOT(refreshViewer()));
 }
 
 void ResultViewer::refreshViewer()
@@ -182,13 +183,10 @@ void ResultViewer::refreshViewer()
 				if(contestantList[i]->getCompileState(j) != CompileSuccessfully)
 				{
 					if(contestantList[i]->getCompileState(j) == NoValidSourceFile)
-						bg = QColor::fromHsl(0, 0, 160);
-					else bg = QColor::fromHsl(300, 255, 212);
+						bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
+					else bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
-				else bg = QColor::fromHsl(120, 77,
-													  255 - (int)(96.00 * score / fullScore[j])
-													  - 16 * (score > 0)
-													  - 16 * (score >= fullScore[j]));
+				else bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
 				item(i, j + 3)->setBackgroundColor(bg);
 			}
@@ -207,16 +205,14 @@ void ResultViewer::refreshViewer()
 		if(totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackgroundColor(QColor::fromHsl(120, 77,
-													 255 - (int)(128.00 * totalScore / sfullScore)
-													 - 16 * (totalScore >= sfullScore)));
+			item(i, 2)->setBackgroundColor(QColor::fromHslF(oriBaseColorHF, oriBaseColorHF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
 
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);
 
 			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double (totalUsedTime) / 1000);
-			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime);
+			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
 			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
 		}
 		else
@@ -372,10 +368,10 @@ void ResultViewer::clearPath(const QString &curDir)
 
 void ResultViewer::deleteContestant()
 {
-	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonPt"),
-			QString("<span style=\"font-size:large\">")
-			+ tr("Are you sure to delete selected contestant(s)?") + "</span>",
-			QMessageBox::Ok | QMessageBox::Cancel, this);
+	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
+	        QString("<span style=\"font-size:large\">")
+	        + tr("Are you sure to delete selected contestant(s)?") + "</span>",
+	        QMessageBox::Ok | QMessageBox::Cancel, this);
 	//QHBoxLayout *layout = new QHBoxLayout;
 	QCheckBox *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
 	//layout->addWidget(checkBox);

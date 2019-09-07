@@ -56,8 +56,7 @@ int main(int argc, char *argv[])
 	do
 	{
 		a.processEvents();
-	}
-	while(QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
+	} while(QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
 
 	Lemon w;
 	a.setActivationWindow(&w);

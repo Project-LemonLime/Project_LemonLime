@@ -52,28 +52,28 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) :
 	ui->inputFileEdit->setFilters(QDir::Files);
 	ui->outputFileEdit->setFilters(QDir::Files);
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->inputFileEdit, SLOT(refreshFileList()));
+	        ui->inputFileEdit, SLOT(refreshFileList()));
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->outputFileEdit, SLOT(refreshFileList()));
+	        ui->outputFileEdit, SLOT(refreshFileList()));
 	connect(ui->subtaskDependecne, SIGNAL(editingFinished()),
-			  this, SLOT(subtaskDependenceChanged()));    //auto save subtaskDependence
+	        this, SLOT(subtaskDependenceChanged()));    //auto save subtaskDependence
 
 	connect(ui->addButton, SIGNAL(clicked()),
-			  this, SLOT(addSingleCase()));
+	        this, SLOT(addSingleCase()));
 	connect(deleteAction, SIGNAL(triggered()),
-			  this, SLOT(deleteSingleCase()));
+	        this, SLOT(deleteSingleCase()));
 	connect(ui->fullScore, SIGNAL(textChanged(QString)),
-			  this, SLOT(fullScoreChanged(QString)));
+	        this, SLOT(fullScoreChanged(QString)));
 	connect(ui->timeLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(timeLimitChanged(QString)));
+	        this, SLOT(timeLimitChanged(QString)));
 	connect(ui->memoryLimit, SIGNAL(textChanged(QString)),
-			  this, SLOT(memoryLimitChanged(QString)));
+	        this, SLOT(memoryLimitChanged(QString)));
 	connect(ui->subtaskDependenceClearButton, SIGNAL(clicked()),
-			  this, SLOT(subtaskDependenceClear()));
+	        this, SLOT(subtaskDependenceClear()));
 	connect(ui->fileList, SIGNAL(itemSelectionChanged()),
-			  this, SLOT(fileListSelectionChanged()));
+	        this, SLOT(fileListSelectionChanged()));
 	connect(ui->fileList, SIGNAL(itemChanged(QTableWidgetItem *)),
-			  this, SLOT(fileListItemChanged(QTableWidgetItem *)));
+	        this, SLOT(fileListItemChanged(QTableWidgetItem *)));
 }
 
 TestCaseEditWidget::~TestCaseEditWidget()
@@ -162,9 +162,9 @@ void TestCaseEditWidget::addSingleCase()
 	ui->fileList->setRowCount(ui->fileList->rowCount() + 1);
 	editTestCase->addSingleCase(ui->inputFileEdit->text(), ui->outputFileEdit->text());
 	ui->fileList->setItem(ui->fileList->rowCount() - 1, 0,
-								 new QTableWidgetItem(ui->inputFileEdit->text()));
+	                      new QTableWidgetItem(ui->inputFileEdit->text()));
 	ui->fileList->setItem(ui->fileList->rowCount() - 1, 1,
-								 new QTableWidgetItem(ui->outputFileEdit->text()));
+	                      new QTableWidgetItem(ui->outputFileEdit->text()));
 	ui->inputFileEdit->clear();
 	ui->outputFileEdit->clear();
 	ui->subtaskDependecne->clear();

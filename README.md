@@ -1,6 +1,10 @@
-# Project_LemonPt (不稳定版)
+# Project_LemonLime (不稳定版)
 
 A tiny judging environment for OI contest based on Project_LemonPlus
+
+![LemonLimeLogo](icon.png)
+
+## ~~Lemon 绿了！~~
 
 ---
 
@@ -10,25 +14,28 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ---
 
+
+
+
 # 和 Lemon 的不同
 
+- 任意选手的任意题目评测
 - Subtask Skip
 - 子任务依赖
-- 支持高 DPI
 - 新增手动保存比赛、打开比赛目录（在 `文件` 菜单栏中）
 - 支持选择子文件夹还是非子文件夹
 - 自定义最大重新评测次数
-- 任意选手的任意题目评测
 - 全新的交互式试题（使用更加通用的方式，目前只支持 C++）
   - 交互库路径：交互使用的头文件。
   - 交互库名称：选手引用头文件的名称。
   - 接口实现路径：实现接口的源文件（grader.cpp）。
+- 支持高 DPI
 - 移除了自定义测试
 - 移除了多线程评测
 
 # 和 LemonPlus 的不同
 
-- 选手名单上的成绩将会有背景颜色，随着分数变化而变化。
+- 选手名单上的成绩将会有背景颜色，随着分数变化而变化。导出的 html 文件也有颜色。配色方案来自 IOI。
 - 移除了单题测试。这将成为历史
 - 增加整理文件功能：使所有的选手的子文件夹内外都有答案文件。
 - 增加 帮助 > 指南：一个大坑（有哪位英语好的大佬帮忙中译英一下啊？）

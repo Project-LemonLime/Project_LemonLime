@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * settings.cpp @Project LemonPt
+ * settings.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -351,8 +351,8 @@ void Settings::loadSettings()
 		{
 			settings.setArrayIndex(j);
 			compiler->addConfiguration(settings.value("Name").toString(),
-												settings.value("CompilerArguments").toString(),
-												settings.value("InterpreterArguments").toString());
+			                           settings.value("CompilerArguments").toString(),
+			                           settings.value("InterpreterArguments").toString());
 		}
 
 		QStringList values = settings.value("EnvironmentVariables").toStringList();

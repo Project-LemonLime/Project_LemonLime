@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 /**
- * watcher_unix.cpp @Project LemonPt
+ * watcher_unix.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 

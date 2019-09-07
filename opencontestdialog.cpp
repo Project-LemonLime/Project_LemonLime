@@ -31,9 +31,9 @@ OpenContestDialog::OpenContestDialog(QWidget *parent) :
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->openContestWidget, SIGNAL(selectionChanged()),
-			  this, SLOT(selectionChanged()));
+	        this, SLOT(selectionChanged()));
 	connect(ui->openContestWidget, SIGNAL(rowDoubleClicked()),
-			  this, SLOT(accept()));
+	        this, SLOT(accept()));
 }
 
 OpenContestDialog::~OpenContestDialog()

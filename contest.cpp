@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * contest.cpp @Project LemonPt
+ * contest.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -110,7 +110,7 @@ void Contest::addTask(Task *task)
 	task->setParent(this);
 	taskList.append(task);
 	connect(task, SIGNAL(problemTitleChanged(QString)),
-			  this, SIGNAL(problemTitleChanged()));
+	        this, SIGNAL(problemTitleChanged()));
 	emit taskAddedForContestant();
 	emit taskAddedForViewer();
 }
@@ -155,9 +155,9 @@ void Contest::refreshContestantList()
 
 			contestantList.insert(nameList[i], newContestant);
 			connect(this, SIGNAL(taskAddedForContestant()),
-					  newContestant, SLOT(addTask()));
+			        newContestant, SLOT(addTask()));
 			connect(this, SIGNAL(taskDeletedForContestant(int)),
-					  newContestant, SLOT(deleteTask(int)));
+			        newContestant, SLOT(deleteTask(int)));
 		}
 	}
 }
@@ -209,13 +209,13 @@ void Contest::judge(Contestant *contestant)
 
 		AssignmentThread *thread = new AssignmentThread();
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-				  this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-				  this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
 		connect(thread, SIGNAL(compileError(int, int)),
-				  this, SIGNAL(compileError(int, int)));
+		        this, SIGNAL(compileError(int, int)));
 		connect(this, SIGNAL(stopJudgingSignal()),
-				  thread, SLOT(stopJudgingSlot()));
+		        thread, SLOT(stopJudgingSlot()));
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
@@ -320,13 +320,13 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 
 		AssignmentThread *thread = new AssignmentThread();
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-				  this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-				  this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
 		connect(thread, SIGNAL(compileError(int, int)),
-				  this, SIGNAL(compileError(int, int)));
+		        this, SIGNAL(compileError(int, int)));
 		connect(this, SIGNAL(stopJudgingSignal()),
-				  thread, SLOT(stopJudgingSlot()));
+		        thread, SLOT(stopJudgingSlot()));
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
@@ -427,13 +427,13 @@ void Contest::judge(Contestant *contestant, int index)
 
 	AssignmentThread *thread = new AssignmentThread();
 	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-			  this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+	        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-			  this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+	        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
 	connect(thread, SIGNAL(compileError(int, int)),
-			  this, SIGNAL(compileError(int, int)));
+	        this, SIGNAL(compileError(int, int)));
 	connect(this, SIGNAL(stopJudgingSignal()),
-			  thread, SLOT(stopJudgingSlot()));
+	        thread, SLOT(stopJudgingSlot()));
 	thread->setSettings(settings);
 	thread->setTask(taskList[index]);
 	thread->setContestantName(contestant->getContestantName());
@@ -605,9 +605,9 @@ void Contest::readFromStream(QDataStream &in)
 		Contestant *newContestant = new Contestant(this);
 		newContestant->readFromStream(in);
 		connect(this, SIGNAL(taskAddedForContestant()),
-				  newContestant, SLOT(addTask()));
+		        newContestant, SLOT(addTask()));
 		connect(this, SIGNAL(taskDeletedForContestant(int)),
-				  newContestant, SLOT(deleteTask(int)));
+		        newContestant, SLOT(deleteTask(int)));
 		contestantList.insert(newContestant->getContestantName(), newContestant);
 	}
 }

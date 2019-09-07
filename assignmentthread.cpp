@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * assignmentthread.cpp @Project LemonPt
+ * assignmentthread.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -154,7 +154,7 @@ bool AssignmentThread::traditionalTaskPrepare()
 		{
 			QDir(Settings::temporaryPath()).mkdir(contestantName);
 			QFile::copy(Settings::sourcePath() + contestantName + (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName() : QString("")) + QDir::separator() + sourceFile,
-							Settings::temporaryPath() + contestantName + QDir::separator() + sourceFile);
+			            Settings::temporaryPath() + contestantName + QDir::separator() + sourceFile);
 
 			if(task->getTaskType() == Task::Interaction)
 			{
@@ -187,8 +187,8 @@ bool AssignmentThread::traditionalTaskPrepare()
 
 						if(environment.contains(variable))
 							environment.insert(variable,
-													 environment.value(variable) + ";"
-													 + QProcessEnvironment::systemEnvironment().value(variable));
+							                   environment.value(variable) + ";"
+							                   + QProcessEnvironment::systemEnvironment().value(variable));
 						else
 							environment.insert(variable, QProcessEnvironment::systemEnvironment().value(variable));
 					}
@@ -292,7 +292,7 @@ bool AssignmentThread::traditionalTaskPrepare()
 								}
 
 								if(QDir(Settings::temporaryPath() + contestantName)
-										.entryList(filters, QDir::Files).size() == 0)
+								        .entryList(filters, QDir::Files).size() == 0)
 								{
 									compileState = InvalidCompiler;
 								}
@@ -424,7 +424,7 @@ void AssignmentThread::assign()
 	totalSingleCase ++;
 	curTestCase = task->getTestCase(curTestCaseIndex);
 	inputFiles[curTestCaseIndex][curSingleCaseIndex]
-		= QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).fileName();
+	    = QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).fileName();
 
 	if(testCaseScore[curTestCaseIndex] == 0)
 	{
@@ -435,8 +435,8 @@ void AssignmentThread::assign()
 	JudgingThread *thread = new JudgingThread();
 	thread->setExtraTimeRatio(0.1);
 	QString workingDirectory = QDir::toNativeSeparators(QDir(Settings::temporaryPath()
-										+ QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
-										.absolutePath()) + QDir::separator();
+	                           + QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
+	                           .absolutePath()) + QDir::separator();
 	thread->setWorkingDirectory(workingDirectory);
 	QDir(Settings::temporaryPath()).mkdir(QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex));
 	QStringList entryList = QDir(Settings::temporaryPath() + contestantName).entryList(QDir::Files);
@@ -444,7 +444,7 @@ void AssignmentThread::assign()
 	for(int i = 0; i < entryList.size(); i ++)
 	{
 		QFile::copy(Settings::temporaryPath() + contestantName + QDir::separator() + entryList[i],
-						workingDirectory + entryList[i]);
+		            workingDirectory + entryList[i]);
 	}
 
 	thread->setSpecialJudgeTimeLimit(settings->getSpecialJudgeTimeLimit());
@@ -508,10 +508,10 @@ void AssignmentThread::taskSkipped(const QPair<int, int> &cur)
 {
 	++countFinished;
 	emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(),
-									cur.first,
-									cur.second,
-									int (result[cur.first][cur.second]),
-									0, 0, 0);
+	                        cur.first,
+	                        cur.second,
+	                        int (result[cur.first][cur.second]),
+	                        0, 0, 0);
 	assign();
 }
 
@@ -548,13 +548,13 @@ void AssignmentThread::threadFinished()
 		countFinished ++;
 		delete thread;
 		emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(),
-										cur.first,
-										cur.second,
-										int (result[cur.first][cur.second]),
-										score[cur.first][cur.second],
-										timeUsed[cur.first][cur.second],
-										memoryUsed[cur.first][cur.second]
-									  );
+		                        cur.first,
+		                        cur.second,
+		                        int (result[cur.first][cur.second]),
+		                        score[cur.first][cur.second],
+		                        timeUsed[cur.first][cur.second],
+		                        memoryUsed[cur.first][cur.second]
+		                       );
 
 		if(score[cur.first][cur.second] < testCaseScore[cur.first])
 			testCaseScore[cur.first] = score[cur.first][cur.second];

@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * detaildialog.cpp @Project LemonPt
+ * detaildialog.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -41,7 +41,7 @@ DetailDialog::DetailDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->detailViewer, SIGNAL(anchorClicked(QUrl)),
-			  this, SLOT(anchorClicked(QUrl)));
+	        this, SLOT(anchorClicked(QUrl)));
 }
 
 DetailDialog::~DetailDialog()
@@ -68,7 +68,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode += QString("%1 %2 <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span><br>")
-						.arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge"));
+		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge"));
 
 		if(! contestant->getCheckJudged(i))
 		{
@@ -140,10 +140,10 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				{
 					if(score[j].size() == inputFiles[j].size())
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2</td>")
-										.arg(inputFiles[j].size()).arg(j + 1);
+						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
-										.arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
 				}
 
 				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">%1</td>").arg(inputFiles[j][k]);
@@ -291,15 +291,15 @@ void DetailDialog::anchorClicked(const QUrl &url)
 	if(list[0] == "CompileMessage")
 	{
 		QMessageBox(QMessageBox::NoIcon, tr("Compile Message"),
-						QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
-						QMessageBox::Close, this).exec();
+		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
+		            QMessageBox::Close, this).exec();
 	}
 
 	if(list[0] == "Message")
 	{
 		QList<QStringList> message = contestant->getMessage(list[1].toInt());
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
-						QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
-						QMessageBox::Close, this).exec();
+		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
+		            QMessageBox::Close, this).exec();
 	}
 }

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 /**
- * realjudge.cpp @Project LemonPt
+ * realjudge.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 

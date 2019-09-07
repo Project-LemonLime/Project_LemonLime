@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * judgingthread.cpp @Project LemonPt
+ * judgingthread.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 
@@ -565,7 +565,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
 	QString cmd = QString("\"%1\" %2 \"%3\" \"%4\"").arg(diffPath, task->getDiffArguments())
-					  .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
+	              .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
 
 	if(QProcess::execute(cmd) != 0)
 	{
@@ -843,26 +843,26 @@ void JudgingThread::runProgram()
 	if(task->getStandardInputCheck())
 	{
 		si.hStdInput = CreateFile((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
-										  FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-										  OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+		                          OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if(task->getStandardOutputCheck())
 	{
 		si.hStdOutput = CreateFile((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-											FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-											CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+		                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	si.hStdError = CreateFile((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-									  FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-									  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+	                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	QString values = environment.toStringList().join('\0') + '\0';
 
 	if(! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
-							 TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
-							 (const WCHAR *)(workingDirectory.utf16()), &si, &pi))
+	                   TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
+	                   (const WCHAR *)(workingDirectory.utf16()), &si, &pi))
 	{
 		if(task->getStandardInputCheck()) CloseHandle(si.hStdInput);
 
@@ -1004,9 +1004,9 @@ void JudgingThread::runProgram()
 	FileTimeToSystemTime(&userTime, &realTime);
 
 	timeUsed = realTime.wMilliseconds
-				  + realTime.wSecond * 1000
-				  + realTime.wMinute * 60 * 1000
-				  + realTime.wHour * 60 * 60 * 1000;
+	           + realTime.wSecond * 1000
+	           + realTime.wMinute * 60 * 1000
+	           + realTime.wHour * 60 * 60 * 1000;
 
 	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
 	memoryUsed = info.PeakWorkingSetSize;
@@ -1242,7 +1242,7 @@ void JudgingThread::judgeTraditionalTask()
 	if(timeUsed > timeLimit)
 	{
 		if(score > 0 && (timeUsed <= timeLimit * (1 + extraTimeRatio)
-							  || timeUsed <= timeLimit + 1000 * extraTimeRatio))
+		                 || timeUsed <= timeLimit + 1000 * extraTimeRatio))
 		{
 			needRejudge = true;
 		}
