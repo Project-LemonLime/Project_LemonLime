@@ -356,6 +356,26 @@ void Lemon::refreshButtonClicked()
 	}
 }
 
+void removePath(const QString &path)
+{
+	if(path.isEmpty())return;
+
+	QDir dir(path);
+
+	if(!dir.exists())return;
+
+	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+
+	QFileInfoList fileList = dir.entryInfoList();
+
+	foreach(QFileInfo fi, fileList)
+	{
+		if(fi.isFile())fi.dir().remove(fi.fileName());
+		else removePath(fi.absoluteFilePath());
+	}
+
+	dir.rmpath(dir.absolutePath());
+}
 
 void Lemon::cleanupButtonClicked()
 {
@@ -366,14 +386,81 @@ void Lemon::cleanupButtonClicked()
 
 	if(res == QMessageBox::Yes)
 	{
-		QFile::copy(":/tools/shin.sh", Settings::sourcePath() + "shin.sh");
-		QFile::copy(":/tools/shout.sh", Settings::sourcePath() + "shout.sh");
-		QProcess::execute("chmod 777 " + Settings::sourcePath() + "shin.sh");
-		QProcess::execute("chmod 777 " + Settings::sourcePath() + "shout.sh");
-		QProcess::execute("bash " + Settings::sourcePath() + "shin.sh");
-		QProcess::execute("bash " + Settings::sourcePath() + "shout.sh");
-		QProcess::execute("rm " + Settings::sourcePath() + "shin.sh");
-		QProcess::execute("rm " + Settings::sourcePath() + "shout.sh");
+		QSet<QString> nameSet;
+		QList<Task *> taskList = curContest->getTaskList();
+
+		for(int i = 0; i < taskList.size(); i ++)
+		{
+			nameSet.insert(taskList[i]->getSourceFileName());
+		}
+
+		QDir basDir(Settings::sourcePath());
+		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+
+		QFileInfoList basDirLis = basDir.entryInfoList();
+
+		foreach(QFileInfo conDirWho, basDirLis)
+		{
+			QDir conDir(conDirWho.filePath());
+
+			conDir.setFilter(QDir::Files);
+			QFileInfoList conDirLis = conDir.entryInfoList();
+
+			foreach(QFileInfo proFilWho, conDirLis)
+				if(proFilWho.suffix().length() <= 0 || proFilWho.suffix() == "exe" ||  proFilWho.suffix() == "EXE")
+					QFile::remove(proFilWho.filePath());
+
+			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+			conDirLis = conDir.entryInfoList();
+
+			foreach(QFileInfo proDirWho, conDirLis)
+			{
+				QDir proDir(proDirWho.filePath());
+
+				proDir.setFilter(QDir::Files);
+
+				foreach(QFileInfo sorFilWho, proDir.entryInfoList())
+				{
+					if(sorFilWho.suffix().length() <= 0 || sorFilWho.suffix() == "exe" || sorFilWho.suffix() == "EXE")
+						QFile::remove(sorFilWho.filePath());
+					else QFile::copy(sorFilWho.filePath(), conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
+				}
+
+				removePath(proDirWho.absoluteFilePath());
+			}
+
+			for(auto proName : nameSet)
+			{
+				conDir.mkpath(proName);
+
+				conDir.setFilter(QDir::Files);
+				QFileInfoList conDirLis = conDir.entryInfoList();
+
+				foreach(QFileInfo proFilWho, conDirLis)
+					if(proFilWho.fileName().indexOf(proName) >= 0)
+						QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + proName + QDir::separator() + proFilWho.fileName());
+			}
+
+			conDir.setFilter(QDir::Files);
+			conDirLis = conDir.entryInfoList();
+
+			foreach(QFileInfo proFilWho, conDirLis)
+				QFile::remove(proFilWho.filePath());
+
+			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+			conDirLis = conDir.entryInfoList();
+
+			foreach(QFileInfo proDirWho, conDirLis)
+			{
+				QDir proDir(proDirWho.filePath());
+
+				proDir.setFilter(QDir::Files);
+
+				foreach(QFileInfo sorFilWho, proDir.entryInfoList())
+					QFile::copy(sorFilWho.filePath(), conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
+			}
+		}
+
 		text = tr("Finished.") + "<br>";
 		QMessageBox::information(this, tr("Clean up Files"), text);
 	}
@@ -857,7 +944,7 @@ void Lemon::actionCleanup_Files()
 	QString text;
 	text += "<h3>" + tr("What is Clean Up Files") + "</h3>";
 	text += tr("It can make all of the source files have a copy in the subdirs.") + "<br>";
-	text += tr("When there are files both inside the subdirs and outside of subdirs, the one outside will cover another one.") + "<br>";
+	text += tr("When there are files both inside the subdirs and outside of subdirs, the one INSIDE will cover another one.") + "<br>";
 	text += tr("Be Careful : May Cause Unexpected File Damage.") + "<br>";
 	QMessageBox::about(this, tr("About Clean Up Files"), text);
 }

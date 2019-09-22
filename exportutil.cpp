@@ -322,14 +322,16 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
-	out << "<p><table border=\"1\" cellpadding=\"1\"><tr>";
+	out << "<p><table cellpadding=\"1\" style=\"border-style: solid;\"><tr>";
 	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Name"));
+
+	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Total Score"));
 
 	for(int i = 0; i < taskList.size(); i ++)
 		out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(taskList[i]->getProblemTile());
 
-	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Total Score"));
+	out << "</tr>";
 
 	QList<int> fullScore;
 	int sfullScore = 0;
@@ -347,6 +349,21 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		    .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString("<td nowrap=\"nowrap\" align=\"center\"><a href=\"#c%1\">%2</a></td>")
 		    .arg(loc[contestant]).arg(sortList[i].second);
+
+		int score = contestant->getTotalScore();
+
+		if(score != -1)
+		{
+			int basCol = oriBaseColorHI;
+			double colFix = oriBaseColorSF * 100;
+			double colLevel = oriBaseColorLF(score, sfullScore, 0.40) * 100;
+
+			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
+		}
+		else
+		{
+			out << QString("<td style=\"font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+		}
 
 		for(int j = 0; j < taskList.size(); j ++)
 		{
@@ -371,21 +388,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 			{
 				out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
 			}
-		}
-
-		int score = contestant->getTotalScore();
-
-		if(score != -1)
-		{
-			int basCol = oriBaseColorHI;
-			double colFix = oriBaseColorSF * 100;
-			double colLevel = oriBaseColorLF(score, sfullScore, 0.40) * 100;
-
-			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
-		}
-		else
-		{
-			out << QString("<td style=\"font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
 		}
 	}
 

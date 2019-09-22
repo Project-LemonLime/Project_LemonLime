@@ -21,8 +21,4 @@
     <qresource prefix="/watcher">
         <file>watcher_unix</file>
     </qresource>
-    <qresource prefix="/tools">
-        <file>shin.sh</file>
-        <file>shout.sh</file>
-    </qresource>
 </RCC>

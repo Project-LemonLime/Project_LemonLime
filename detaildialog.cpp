@@ -64,11 +64,20 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 	QList<Task *> taskList = contest->getTaskList();
 
+	for(int i = 0; i < taskList.size(); i++)
+	{
+		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
+		htmlCode += QString("%1 %2 (%5 / %6) <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span>")
+		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
+	}
+
+	htmlCode += "<HR>";
+
 	for(int i = 0; i < taskList.size(); i ++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString("%1 %2 <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span><br>")
-		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge"));
+		htmlCode += QString("%1 %2 (%5 / %6) <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span><br>")
+		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
 
 		if(! contestant->getCheckJudged(i))
 		{
