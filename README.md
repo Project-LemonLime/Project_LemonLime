@@ -8,7 +8,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ---
 
-## Windows 支持被咕了
+## Windows 支持不咕了！
 
 ## Ubuntu 14 及以下的系统可能存在兼容性问题
 
@@ -43,7 +43,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 # 微小的贡献
 
-- 评测完后会通知
+- 评测完后会通知（Linux Only）
 - 自带的实数比较模式判断了 nan 和 inf。来自某出题人的提醒
 - 图标和启动横幅
 - 评测详情窗口的各种评测结果有了不同的颜色。
@@ -57,7 +57,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ## Windows
 
-等 iotang 退役（快了）再说吧
+去 `Releases` 下载可执行文件就可以了。
 
 ## Linux
 
