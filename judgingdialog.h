@@ -67,8 +67,10 @@ public slots:
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, double);
 	void taskJudgingStarted(const QString &);
+	void taskJudgedDisplay(const QString &, const QList< QList<int> > &, const int);
 	void contestantJudgingStart(const QString &);
 	void contestantJudgingFinished();
+	void contestantJudgedDisplay(const QString &, const int, const int);
 	void compileError(int, int);
 
 signals:

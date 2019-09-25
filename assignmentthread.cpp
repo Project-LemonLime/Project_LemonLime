@@ -42,16 +42,6 @@ AssignmentThread::AssignmentThread(QObject *parent) :
 	stopJudging = false;
 }
 
-//void AssignmentThread::setCheckRejudgeMode(bool check)
-//{
-//    checkRejudgeMode = check;
-//}
-
-/*void AssignmentThread::setNeedRejudge(const QList<QPair<int, int> > &list)
-{
-    needRejudge = list;
-}*/
-
 void AssignmentThread::setSettings(Settings *_settings)
 {
 	settings = _settings;
@@ -111,11 +101,6 @@ const QList<QStringList> &AssignmentThread::getInputFiles() const
 {
 	return inputFiles;
 }
-
-/*const QList< QPair<int, int> >& AssignmentThread::getNeedRejudge() const
-{
-    return needRejudge;
-}*/
 
 bool AssignmentThread::traditionalTaskPrepare()
 {
@@ -365,7 +350,6 @@ void AssignmentThread::run()
 
 void AssignmentThread::assign()
 {
-	//if (! checkRejudgeMode) {
 	if(curTestCaseIndex == task->getTestCaseList().size())
 	{
 		if(countFinished == totalSingleCase) quit();
@@ -410,16 +394,6 @@ void AssignmentThread::assign()
 		if(! dependenceSubtask.empty())
 			score[curTestCaseIndex].push_back(testCaseScore[curTestCaseIndex]);
 	}
-
-	/*} else {
-	    if (needRejudge.size() == 0) {
-	        if (countFinished == totalSingleCase) quit();
-	        return;
-	    }
-	    curTestCaseIndex = needRejudge[0].first;
-	    curSingleCaseIndex = needRejudge[0].second;
-	    needRejudge.removeFirst();
-	}*/
 
 	totalSingleCase ++;
 	curTestCase = task->getTestCase(curTestCaseIndex);
@@ -541,9 +515,6 @@ void AssignmentThread::threadFinished()
 		score[cur.first][cur.second] = thread->getScore();
 		result[cur.first][cur.second] = thread->getResult();
 		message[cur.first][cur.second] = thread->getMessage();
-		//if (! checkRejudgeMode && thread->getNeedRejudge()) {
-		//    needRejudge.append(cur);
-		//}
 		running.remove(thread);
 		countFinished ++;
 		delete thread;
@@ -551,7 +522,7 @@ void AssignmentThread::threadFinished()
 		                        cur.first,
 		                        cur.second,
 		                        int (result[cur.first][cur.second]),
-		                        score[cur.first][cur.second],
+		                        (cur.second == task->getTestCase(cur.first)->getInputFiles().size() - 1 ? 1 : -1) * score[cur.first][cur.second],
 		                        timeUsed[cur.first][cur.second],
 		                        memoryUsed[cur.first][cur.second]
 		                       );

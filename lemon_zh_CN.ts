@@ -5,86 +5,105 @@
     <name>AddCompilerWizard</name>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="20"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="20"/>
         <source>Add Compilers Wizard</source>
         <translation>添加编译器</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="36"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="36"/>
         <source>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler&apos;s configuration.</source>
         <translation>步骤 1/3：选择自定义编译器，或是使用预制的编译器配置。</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="56"/>
-        <source>Custom Configuration</source>
-        <translation>自定义编译器</translation>
+        <location filename="forms_win32/addcompilerwizard.ui" line="56"/>
+        <source>&amp;Custom Configuration</source>
+        <oldsource>Custom Configuration</oldsource>
+        <translation>自定义编译器(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="71"/>
-        <source>Built-in Configuration (Tick the compilers you want to add)</source>
-        <translation>预制编译器配置（选择你要添加的编译器）</translation>
+        <location filename="forms_win32/addcompilerwizard.ui" line="71"/>
+        <source>Built-&amp;in Configuration (Tick the compilers you want to add)</source>
+        <oldsource>Built-in Configuration (Tick the compilers you want to add)</oldsource>
+        <translation>预制编译器配置（选择你要添加的编译器）(&amp;I)</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="224"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="224"/>
         <source>Step II: Select compiler&apos;s location to configure it.</source>
         <translation>步骤2/3：选择编译器目录进行配置。</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="245"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="245"/>
         <source>Compiler Name</source>
         <translation>编译器名称</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="274"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="274"/>
         <source>Compiler Type</source>
         <translation>编译器类型</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="285"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="285"/>
         <source>Typical (Generate executable file)</source>
         <translation>传统型（生成可执行文件）</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="290"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="290"/>
         <source>Interpretive (Generate byte-code file)</source>
         <translation>解释型（生成中间字节码）</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="295"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="295"/>
         <source>Interpretive (Run source code directly)</source>
         <translation>解释型（直接运行源代码）</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="306"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="306"/>
         <source>Compiler&apos;s Location</source>
         <translation>编译器位置</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="336"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="336"/>
         <source>Interpreter&apos;s Location</source>
         <translation>解释器位置</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="369"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="369"/>
         <source>Source File Extensions</source>
         <translation>源程序扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="401"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="401"/>
         <source>Byte-code File Extensions</source>
         <translation>中间字节码扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="433"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="433"/>
         <source>Default Compiler&apos;s Arguments</source>
         <translation>默认编译器参数</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="453"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="453"/>
         <source>Default Interpreter&apos;s Arguments</source>
         <translation>默认解释器参数</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="495"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="495"/>
         <source>Step II: Select compilers&apos; locations to configure them.</source>
         <translation>步骤 2/3：选择编译器路径进行配置。</translation>
     </message>
@@ -92,253 +111,263 @@
         <location filename="forms_unix/addcompilerwizard.ui" line="548"/>
         <location filename="forms_unix/addcompilerwizard.ui" line="599"/>
         <location filename="forms_unix/addcompilerwizard.ui" line="647"/>
-        <location filename="addcompilerwizard.cpp" line="230"/>
-        <location filename="addcompilerwizard.cpp" line="243"/>
-        <location filename="addcompilerwizard.cpp" line="256"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="548"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="599"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="647"/>
+        <location filename="addcompilerwizard.cpp" line="251"/>
+        <location filename="addcompilerwizard.cpp" line="264"/>
+        <location filename="addcompilerwizard.cpp" line="277"/>
+        <source>Add recommended configurations</source>
+        <translation>添加建议配置</translation>
+    </message>
+    <message>
         <source>Enable O2 Optimization</source>
-        <translation>在编译命令中添加&quot;-O2&quot;</translation>
+        <translation type="vanished">在编译命令中添加&quot;-O2&quot;</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="787"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="787"/>
         <source>Memory Limit</source>
         <translation>空间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="816"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="816"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="917"/>
+        <location filename="forms_win32/addcompilerwizard.ui" line="917"/>
         <source>Step III: Check the result and finish the wizard.</source>
         <translation>步骤 3/3：检查结果，确认无误后完成向导。</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="103"/>
-        <location filename="addcompilerwizard.cpp" line="110"/>
-        <location filename="addcompilerwizard.cpp" line="117"/>
         <location filename="addcompilerwizard.cpp" line="124"/>
         <location filename="addcompilerwizard.cpp" line="131"/>
-        <location filename="addcompilerwizard.cpp" line="175"/>
-        <location filename="addcompilerwizard.cpp" line="182"/>
-        <location filename="addcompilerwizard.cpp" line="189"/>
+        <location filename="addcompilerwizard.cpp" line="138"/>
+        <location filename="addcompilerwizard.cpp" line="145"/>
+        <location filename="addcompilerwizard.cpp" line="152"/>
         <location filename="addcompilerwizard.cpp" line="196"/>
         <location filename="addcompilerwizard.cpp" line="203"/>
         <location filename="addcompilerwizard.cpp" line="210"/>
         <location filename="addcompilerwizard.cpp" line="217"/>
+        <location filename="addcompilerwizard.cpp" line="224"/>
+        <location filename="addcompilerwizard.cpp" line="231"/>
+        <location filename="addcompilerwizard.cpp" line="238"/>
         <source>Error</source>
         <translation>出错了</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="103"/>
+        <location filename="addcompilerwizard.cpp" line="124"/>
         <source>Empty compiler name!</source>
         <translation>编译器名称为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="110"/>
+        <location filename="addcompilerwizard.cpp" line="131"/>
         <source>Empty compiler location!</source>
         <translation>编译器位置为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="117"/>
+        <location filename="addcompilerwizard.cpp" line="138"/>
         <source>Empty interpreter location!</source>
         <translation>解释器位置为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="124"/>
+        <location filename="addcompilerwizard.cpp" line="145"/>
         <source>Empty source file extensions!</source>
         <translation>源程序扩展名为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="131"/>
+        <location filename="addcompilerwizard.cpp" line="152"/>
         <source>Empty byte-code file extensions!</source>
         <translation>中间字节码扩展名为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="136"/>
+        <location filename="addcompilerwizard.cpp" line="157"/>
         <source>[Custom Compiler]</source>
         <translation>【自定义编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="137"/>
+        <location filename="addcompilerwizard.cpp" line="158"/>
         <source>Compiler Name: </source>
         <translation>编译器名称： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="138"/>
+        <location filename="addcompilerwizard.cpp" line="159"/>
         <source>Compiler Type: </source>
         <translation>编译器类型： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="142"/>
+        <location filename="addcompilerwizard.cpp" line="163"/>
         <source>Compiler&apos;s Location: </source>
         <translation>编译器位置： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="147"/>
+        <location filename="addcompilerwizard.cpp" line="168"/>
         <source>Interpreter&apos;s Location: </source>
         <translation>解释器位置： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="150"/>
+        <location filename="addcompilerwizard.cpp" line="171"/>
         <source>Source File Extensions: </source>
         <translation>源程序扩展名： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="154"/>
+        <location filename="addcompilerwizard.cpp" line="175"/>
         <source>Byte-code File Extensions: </source>
         <translation>中间字节码扩展名： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="159"/>
+        <location filename="addcompilerwizard.cpp" line="180"/>
         <source>Default Compiler&apos;s Arguments: </source>
         <translation>默认编译器参数： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="164"/>
+        <location filename="addcompilerwizard.cpp" line="185"/>
         <source>Default Interpreter&apos;s Arguments: </source>
         <translation>默认解释器参数： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="175"/>
+        <location filename="addcompilerwizard.cpp" line="196"/>
         <source>Empty gcc path!</source>
         <translation>gcc 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="182"/>
+        <location filename="addcompilerwizard.cpp" line="203"/>
         <source>Empty g++ path!</source>
         <translation>g++ 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="189"/>
+        <location filename="addcompilerwizard.cpp" line="210"/>
         <source>Empty fpc path!</source>
         <translation>fpc 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="196"/>
+        <location filename="addcompilerwizard.cpp" line="217"/>
         <source>Empty fbc path!</source>
         <translation>fbc 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="203"/>
+        <location filename="addcompilerwizard.cpp" line="224"/>
         <source>Empty javac path!</source>
         <translation>javac 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="210"/>
+        <location filename="addcompilerwizard.cpp" line="231"/>
         <source>Empty java path!</source>
         <translation>java 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="217"/>
+        <location filename="addcompilerwizard.cpp" line="238"/>
         <source>Empty python path!</source>
         <translation>python 路径为空！</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="225"/>
+        <location filename="addcompilerwizard.cpp" line="246"/>
         <source>[gcc Compiler]</source>
         <translation>【gcc 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="226"/>
+        <location filename="addcompilerwizard.cpp" line="247"/>
         <source>gcc Path: </source>
         <translation>gcc 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="238"/>
+        <location filename="addcompilerwizard.cpp" line="259"/>
         <source>[g++ Compiler]</source>
         <translation>【g++ 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="239"/>
+        <location filename="addcompilerwizard.cpp" line="260"/>
         <source>g++ Path: </source>
         <translation>g++ 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="251"/>
+        <location filename="addcompilerwizard.cpp" line="272"/>
         <source>[fpc Compiler]</source>
         <translation>【fpc 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="252"/>
+        <location filename="addcompilerwizard.cpp" line="273"/>
         <source>fpc Path: </source>
         <translation>fpc 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="264"/>
+        <location filename="addcompilerwizard.cpp" line="285"/>
         <source>[fbc Compiler]</source>
         <translation>【fbc 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="265"/>
+        <location filename="addcompilerwizard.cpp" line="286"/>
         <source>fbc Path: </source>
         <translation>fbc 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="270"/>
+        <location filename="addcompilerwizard.cpp" line="291"/>
         <source>[Java Compiler]</source>
         <translation>【Java 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="271"/>
+        <location filename="addcompilerwizard.cpp" line="292"/>
         <source>javac Path: </source>
         <translation>javac 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="272"/>
+        <location filename="addcompilerwizard.cpp" line="293"/>
         <source>java Path: </source>
         <translation>java 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="273"/>
+        <location filename="addcompilerwizard.cpp" line="294"/>
         <source>Memory Limit: %1 MB</source>
         <translation>内存限制：%1 MB</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="279"/>
+        <location filename="addcompilerwizard.cpp" line="300"/>
         <source>[Python Compiler]</source>
         <translation>【Python 编译器】</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="280"/>
+        <location filename="addcompilerwizard.cpp" line="301"/>
         <source>python Path: </source>
         <translation>python 路径： </translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="341"/>
-        <location filename="addcompilerwizard.cpp" line="346"/>
-        <location filename="addcompilerwizard.cpp" line="379"/>
-        <location filename="addcompilerwizard.cpp" line="384"/>
-        <location filename="addcompilerwizard.cpp" line="398"/>
-        <location filename="addcompilerwizard.cpp" line="403"/>
-        <location filename="addcompilerwizard.cpp" line="417"/>
-        <location filename="addcompilerwizard.cpp" line="422"/>
-        <location filename="addcompilerwizard.cpp" line="436"/>
-        <location filename="addcompilerwizard.cpp" line="441"/>
-        <location filename="addcompilerwizard.cpp" line="455"/>
-        <location filename="addcompilerwizard.cpp" line="460"/>
+        <location filename="addcompilerwizard.cpp" line="362"/>
+        <location filename="addcompilerwizard.cpp" line="367"/>
+        <location filename="addcompilerwizard.cpp" line="400"/>
+        <location filename="addcompilerwizard.cpp" line="405"/>
+        <location filename="addcompilerwizard.cpp" line="419"/>
+        <location filename="addcompilerwizard.cpp" line="424"/>
+        <location filename="addcompilerwizard.cpp" line="438"/>
+        <location filename="addcompilerwizard.cpp" line="443"/>
+        <location filename="addcompilerwizard.cpp" line="457"/>
+        <location filename="addcompilerwizard.cpp" line="462"/>
+        <location filename="addcompilerwizard.cpp" line="476"/>
+        <location filename="addcompilerwizard.cpp" line="481"/>
         <source>Select Compiler&apos;s Location</source>
         <translation>选择编译器位置</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="342"/>
-        <location filename="addcompilerwizard.cpp" line="361"/>
+        <location filename="addcompilerwizard.cpp" line="363"/>
+        <location filename="addcompilerwizard.cpp" line="382"/>
         <source>Executable files (*.exe)</source>
         <translation>可执行文件 (*.exe)</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="347"/>
-        <location filename="addcompilerwizard.cpp" line="366"/>
+        <location filename="addcompilerwizard.cpp" line="368"/>
+        <location filename="addcompilerwizard.cpp" line="387"/>
         <source>Executable files (*.*)</source>
         <translation>可执行文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.cpp" line="360"/>
-        <location filename="addcompilerwizard.cpp" line="365"/>
-        <location filename="addcompilerwizard.cpp" line="474"/>
-        <location filename="addcompilerwizard.cpp" line="479"/>
-        <location filename="addcompilerwizard.cpp" line="493"/>
-        <location filename="addcompilerwizard.cpp" line="498"/>
+        <location filename="addcompilerwizard.cpp" line="381"/>
+        <location filename="addcompilerwizard.cpp" line="386"/>
+        <location filename="addcompilerwizard.cpp" line="495"/>
+        <location filename="addcompilerwizard.cpp" line="500"/>
+        <location filename="addcompilerwizard.cpp" line="514"/>
+        <location filename="addcompilerwizard.cpp" line="519"/>
         <source>Select Interpreter&apos;s Location</source>
         <translation>选择解释器位置</translation>
     </message>
@@ -347,36 +376,43 @@
     <name>AddTaskDialog</name>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="20"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="20"/>
         <source>Add Task</source>
         <translation>添加试题</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="160"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="160"/>
         <source>Task</source>
         <translation>试题</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="35"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="35"/>
         <source>Full Score</source>
         <translation>试题分值</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="170"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="170"/>
         <source>Time Limit</source>
         <translation>时间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="55"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="55"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="45"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="45"/>
         <source>Memory Limit</source>
         <translation>空间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/addtaskdialog.ui" line="78"/>
+        <location filename="forms_win32/addtaskdialog.ui" line="78"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
@@ -385,66 +421,79 @@
     <name>AddTestCasesWizard</name>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="20"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="20"/>
         <source>Add Test Cases</source>
         <translation>添加多组测试点</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="36"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="36"/>
         <source>Step I: Input the full score, time limit and memory limit for each new test case.</source>
         <translation>步骤 1/3：输入将被加入测试点的分值、时间限制和空间限制。</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="57"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="57"/>
         <source>Full Score</source>
         <translation>分值</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="103"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="103"/>
         <source>Time Limit</source>
         <translation>时间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="137"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="137"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="162"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="162"/>
         <source>Memory Limit</source>
         <translation>空间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="196"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="196"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="243"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="243"/>
         <source>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</source>
         <translation>步骤 2/3：为输入输出文件指定格式。你可以使用诸如&lt;1&gt;, &lt;2&gt;...这样的参数来表示一个正则表达式。打钩的表达式匹配内容相同的输入输出文件将会在一个测试点中。</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="438"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="438"/>
         <source>Step III: Preview the result and finish the wizard.</source>
         <translation>步骤 3/3：预览结果，确认无误后完成向导。</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="264"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="264"/>
         <source>Input Files Pattern</source>
         <translation>输入文件格式</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="281"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="281"/>
         <source>Output Files Pattern</source>
         <translation>输出文件格式</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="327"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="327"/>
         <source>Argument</source>
         <translation>参数</translation>
     </message>
     <message>
         <location filename="forms_unix/addtestcaseswizard.ui" line="337"/>
+        <location filename="forms_win32/addtestcaseswizard.ui" line="337"/>
         <source>Regular Expression</source>
         <translation>正则表达式</translation>
     </message>
@@ -510,91 +559,109 @@
     <name>AdvancedCompilerSettingsDialog</name>
     <message>
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="20"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="20"/>
         <source>Compiler Settings</source>
         <translation>编译器设置</translation>
     </message>
     <message>
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="44"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="44"/>
         <source>Typical (Generate executable file)</source>
         <translation>传统型（生成可执行文件）</translation>
     </message>
     <message>
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="49"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="49"/>
         <source>Interpretive (Generate byte-code file)</source>
         <translation>解释型（生成中间字节码）</translation>
     </message>
     <message>
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="54"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="54"/>
         <source>Interpretive (Run source code directly)</source>
         <translation>解释型（直接运行源代码）</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="82"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="69"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="69"/>
         <source>Location</source>
         <translation>位置</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="102"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="89"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="89"/>
         <source>Compiler</source>
         <translation>编译器</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="128"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="115"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="115"/>
         <source>Interpreter</source>
         <translation>解释器</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="161"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="148"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="148"/>
         <source>Byte-code File Extensions</source>
         <translation>中间字节码扩展名</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="199"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="186"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="186"/>
         <source>Time and Memory Limit</source>
         <translation>时间、内存限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="230"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="217"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="217"/>
         <source>Time Limit Ration</source>
         <translation>时间限制比率</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="240"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="227"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="227"/>
         <source>Memory Limit Ration</source>
         <translation>内存限制比率</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="266"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="253"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="253"/>
         <source>Disable Memory Limit</source>
         <translation>取消内存限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="307"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="294"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="294"/>
         <source>Arguments</source>
         <translation>参数</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="347"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="334"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="334"/>
         <source>Configuration</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="360"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="347"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="347"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="380"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="367"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="367"/>
         <source>Compiler&apos;s Arguments</source>
         <translation>编译器参数</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="328"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="315"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="315"/>
         <source>Interpreter&apos;s Arguments</source>
         <translation>解释器参数</translation>
     </message>
     <message>
-        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="398"/>
+        <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="385"/>
+        <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="385"/>
         <source>Environment Variables</source>
         <translation>环境变量</translation>
     </message>
@@ -678,21 +745,25 @@
     <name>CompilerSettings</name>
     <message>
         <location filename="forms_unix/compilersettings.ui" line="20"/>
+        <location filename="forms_win32/compilersettings.ui" line="20"/>
         <source>Form</source>
         <translation>编译器设置</translation>
     </message>
     <message>
         <location filename="forms_unix/compilersettings.ui" line="216"/>
+        <location filename="forms_win32/compilersettings.ui" line="216"/>
         <source>Compiler Name</source>
         <translation>编译器名称</translation>
     </message>
     <message>
         <location filename="forms_unix/compilersettings.ui" line="233"/>
+        <location filename="forms_win32/compilersettings.ui" line="233"/>
         <source>Source Extensions</source>
         <translation>源程序扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/compilersettings.ui" line="264"/>
+        <location filename="forms_win32/compilersettings.ui" line="264"/>
         <source>Advanced</source>
         <oldsource>&amp;Advanced</oldsource>
         <translation>高级选项</translation>
@@ -735,11 +806,13 @@
     <name>DetailDialog</name>
     <message>
         <location filename="forms_unix/detaildialog.ui" line="14"/>
+        <location filename="forms_win32/detaildialog.ui" line="14"/>
         <source>Details</source>
         <translation>详情</translation>
     </message>
     <message>
         <location filename="forms_unix/detaildialog.ui" line="45"/>
+        <location filename="forms_win32/detaildialog.ui" line="45"/>
         <source>&amp;Close</source>
         <translation>关闭(&amp;C)</translation>
     </message>
@@ -824,88 +897,88 @@
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="155"/>
+        <location filename="detaildialog.cpp" line="156"/>
         <source>Subtask Dependence Score</source>
         <translation>子任务依赖得分</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="165"/>
+        <location filename="detaildialog.cpp" line="166"/>
         <source>Correct Answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="169"/>
+        <location filename="detaildialog.cpp" line="171"/>
         <source>Wrong Answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="173"/>
+        <location filename="detaildialog.cpp" line="176"/>
         <source>Partly Correct</source>
         <translation>答案部分正确</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="177"/>
+        <location filename="detaildialog.cpp" line="181"/>
         <source>Time Limit Exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="181"/>
+        <location filename="detaildialog.cpp" line="186"/>
         <source>Memory Limit Exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="185"/>
+        <location filename="detaildialog.cpp" line="191"/>
         <source>Cannot Start Program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="189"/>
+        <location filename="detaildialog.cpp" line="197"/>
         <source>File Error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="193"/>
+        <location filename="detaildialog.cpp" line="203"/>
         <source>Run Time Error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="197"/>
+        <location filename="detaildialog.cpp" line="208"/>
         <source>Invalid Special Judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="201"/>
+        <location filename="detaildialog.cpp" line="214"/>
         <source>Special Judge Time Limit Exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="205"/>
+        <location filename="detaildialog.cpp" line="220"/>
         <source>Special Judge Run Time Error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="209"/>
+        <location filename="detaildialog.cpp" line="226"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="213"/>
+        <location filename="detaildialog.cpp" line="232"/>
         <source>Interactor Error</source>
         <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="234"/>
-        <location filename="detaildialog.cpp" line="247"/>
+        <location filename="detaildialog.cpp" line="255"/>
+        <location filename="detaildialog.cpp" line="268"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="302"/>
+        <location filename="detaildialog.cpp" line="326"/>
         <source>Compile Message</source>
         <translation>编译信息</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="310"/>
+        <location filename="detaildialog.cpp" line="334"/>
         <source>Message</source>
         <translation>信息</translation>
     </message>
@@ -914,16 +987,19 @@
     <name>EditVariableDialog</name>
     <message>
         <location filename="forms_unix/editvariabledialog.ui" line="26"/>
+        <location filename="forms_win32/editvariabledialog.ui" line="26"/>
         <source>Dialog</source>
         <translation>设定</translation>
     </message>
     <message>
         <location filename="forms_unix/editvariabledialog.ui" line="46"/>
+        <location filename="forms_win32/editvariabledialog.ui" line="46"/>
         <source>Variable Name</source>
         <translation>变量名称</translation>
     </message>
     <message>
         <location filename="forms_unix/editvariabledialog.ui" line="63"/>
+        <location filename="forms_win32/editvariabledialog.ui" line="63"/>
         <source>Variable Value</source>
         <translation>变量的值</translation>
     </message>
@@ -932,31 +1008,37 @@
     <name>EnvironmentVariablesDialog</name>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="20"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="20"/>
         <source>Extra Environment Variables</source>
         <translation>额外的环境变量</translation>
     </message>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="60"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="60"/>
         <source>Variable</source>
         <translation>变量</translation>
     </message>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="65"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="65"/>
         <source>Value</source>
         <translation>值</translation>
     </message>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="75"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="75"/>
         <source>&amp;Add</source>
         <translation>添加(&amp;A)</translation>
     </message>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="85"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="85"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
         <location filename="forms_unix/environmentvariablesdialog.ui" line="95"/>
+        <location filename="forms_win32/environmentvariablesdialog.ui" line="95"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
@@ -1052,140 +1134,145 @@
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="138"/>
+        <location filename="exportutil.cpp" line="139"/>
         <source>Subtask Dependence Score</source>
         <translation>子任务依赖得分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="148"/>
+        <location filename="exportutil.cpp" line="149"/>
         <source>Correct Answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="152"/>
+        <location filename="exportutil.cpp" line="154"/>
         <source>Wrong Answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="156"/>
+        <location filename="exportutil.cpp" line="159"/>
         <source>Partly Correct</source>
         <translation>答案部分正确</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="160"/>
+        <location filename="exportutil.cpp" line="164"/>
         <source>Time Limit Exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="164"/>
+        <location filename="exportutil.cpp" line="169"/>
         <source>Memory Limit Exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="168"/>
+        <location filename="exportutil.cpp" line="174"/>
         <source>Cannot Start Program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="172"/>
+        <location filename="exportutil.cpp" line="180"/>
         <source>File Error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="176"/>
+        <location filename="exportutil.cpp" line="186"/>
         <source>Run Time Error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="180"/>
+        <location filename="exportutil.cpp" line="191"/>
         <source>Invalid Special Judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="184"/>
+        <location filename="exportutil.cpp" line="197"/>
         <source>Special Judge Time Limit Exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="188"/>
+        <location filename="exportutil.cpp" line="203"/>
         <source>Special Judge Run Time Error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="192"/>
+        <location filename="exportutil.cpp" line="209"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="196"/>
+        <location filename="exportutil.cpp" line="215"/>
         <source>Interactor Error</source>
         <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="221"/>
-        <location filename="exportutil.cpp" line="234"/>
-        <location filename="exportutil.cpp" line="372"/>
-        <location filename="exportutil.cpp" line="388"/>
-        <location filename="exportutil.cpp" line="489"/>
-        <location filename="exportutil.cpp" line="501"/>
-        <location filename="exportutil.cpp" line="598"/>
-        <location filename="exportutil.cpp" line="610"/>
+        <location filename="exportutil.cpp" line="242"/>
+        <location filename="exportutil.cpp" line="255"/>
+        <location filename="exportutil.cpp" line="389"/>
+        <location filename="exportutil.cpp" line="413"/>
+        <location filename="exportutil.cpp" line="512"/>
+        <location filename="exportutil.cpp" line="524"/>
+        <location filename="exportutil.cpp" line="621"/>
+        <location filename="exportutil.cpp" line="633"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="257"/>
+        <location filename="exportutil.cpp" line="281"/>
         <source>Return to top</source>
         <translation>返回顶部</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="267"/>
-        <location filename="exportutil.cpp" line="407"/>
-        <location filename="exportutil.cpp" line="416"/>
-        <location filename="exportutil.cpp" line="506"/>
-        <location filename="exportutil.cpp" line="517"/>
-        <location filename="exportutil.cpp" line="619"/>
-        <location filename="exportutil.cpp" line="630"/>
-        <location filename="exportutil.cpp" line="636"/>
+        <location filename="exportutil.cpp" line="291"/>
+        <location filename="exportutil.cpp" line="430"/>
+        <location filename="exportutil.cpp" line="439"/>
+        <location filename="exportutil.cpp" line="529"/>
+        <location filename="exportutil.cpp" line="540"/>
+        <location filename="exportutil.cpp" line="642"/>
+        <location filename="exportutil.cpp" line="653"/>
+        <location filename="exportutil.cpp" line="659"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="267"/>
-        <location filename="exportutil.cpp" line="416"/>
-        <location filename="exportutil.cpp" line="517"/>
+        <location filename="exportutil.cpp" line="291"/>
+        <location filename="exportutil.cpp" line="439"/>
+        <location filename="exportutil.cpp" line="540"/>
         <source>Cannot open file %1</source>
         <translation>无法打开%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="282"/>
+        <location filename="exportutil.cpp" line="306"/>
         <source>Contest Result</source>
         <translation>比赛结果</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="324"/>
+        <location filename="exportutil.cpp" line="348"/>
         <source>Rank List</source>
         <translation>排名表</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="326"/>
-        <location filename="exportutil.cpp" line="464"/>
-        <location filename="exportutil.cpp" line="570"/>
+        <location filename="exportutil.cpp" line="349"/>
+        <source>Click names or task scores to jump to details. Judged By LemonLime</source>
+        <translation>点击姓名或单题分数跳转到详细信息。LemonLime 提供测试</translation>
+    </message>
+    <message>
+        <location filename="exportutil.cpp" line="351"/>
+        <location filename="exportutil.cpp" line="487"/>
+        <location filename="exportutil.cpp" line="593"/>
         <source>Rank</source>
         <translation>排名</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="327"/>
-        <location filename="exportutil.cpp" line="464"/>
-        <location filename="exportutil.cpp" line="571"/>
+        <location filename="exportutil.cpp" line="352"/>
+        <location filename="exportutil.cpp" line="487"/>
+        <location filename="exportutil.cpp" line="594"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="332"/>
-        <location filename="exportutil.cpp" line="471"/>
-        <location filename="exportutil.cpp" line="576"/>
+        <location filename="exportutil.cpp" line="354"/>
+        <location filename="exportutil.cpp" line="494"/>
+        <location filename="exportutil.cpp" line="599"/>
         <source>Total Score</source>
         <translation>总分</translation>
     </message>
@@ -1198,39 +1285,39 @@
         <translation type="obsolete">项目地址: </translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="400"/>
+        <location filename="exportutil.cpp" line="423"/>
         <source>Contestant: %1</source>
         <translation>选手：%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="407"/>
-        <location filename="exportutil.cpp" line="506"/>
-        <location filename="exportutil.cpp" line="619"/>
+        <location filename="exportutil.cpp" line="430"/>
+        <location filename="exportutil.cpp" line="529"/>
+        <location filename="exportutil.cpp" line="642"/>
         <source>Export is done</source>
         <translation>导出完成</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="630"/>
+        <location filename="exportutil.cpp" line="653"/>
         <source>No contestant in current contest</source>
         <translation>不存在选手</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="636"/>
+        <location filename="exportutil.cpp" line="659"/>
         <source>No task in current contest</source>
         <translation>不存在试题</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="640"/>
+        <location filename="exportutil.cpp" line="663"/>
         <source>HTML Document (*.html);;CSV (*.csv)</source>
         <translation>HTML文档 (*.html);;逗号分隔符 (*.csv)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="645"/>
+        <location filename="exportutil.cpp" line="668"/>
         <source>;;Excel Workbook (*.xls)</source>
         <translation>;;Excel工作簿 (*.xls)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="650"/>
+        <location filename="exportutil.cpp" line="673"/>
         <source>Export Result</source>
         <translation>导出成绩</translation>
     </message>
@@ -1239,53 +1326,65 @@
     <name>GeneralSettings</name>
     <message>
         <location filename="forms_unix/generalsettings.ui" line="20"/>
+        <location filename="forms_win32/generalsettings.ui" line="20"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="57"/>
+        <location filename="forms_unix/generalsettings.ui" line="570"/>
+        <location filename="forms_win32/generalsettings.ui" line="570"/>
         <source>Default Full Score</source>
         <translation>默认分值</translation>
     </message>
     <message>
         <location filename="forms_unix/generalsettings.ui" line="41"/>
+        <location filename="forms_win32/generalsettings.ui" line="41"/>
         <source>Default Time Limit</source>
         <translation>默认时间限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="139"/>
-        <location filename="forms_unix/generalsettings.ui" line="287"/>
-        <location filename="forms_unix/generalsettings.ui" line="345"/>
+        <location filename="forms_unix/generalsettings.ui" line="123"/>
+        <location filename="forms_unix/generalsettings.ui" line="271"/>
+        <location filename="forms_unix/generalsettings.ui" line="329"/>
+        <location filename="forms_win32/generalsettings.ui" line="123"/>
+        <location filename="forms_win32/generalsettings.ui" line="271"/>
+        <location filename="forms_win32/generalsettings.ui" line="329"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="170"/>
+        <location filename="forms_unix/generalsettings.ui" line="154"/>
+        <location filename="forms_win32/generalsettings.ui" line="154"/>
         <source>Default Memory Limit</source>
         <translation>默认空间限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="213"/>
+        <location filename="forms_unix/generalsettings.ui" line="197"/>
+        <location filename="forms_win32/generalsettings.ui" line="197"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="244"/>
+        <location filename="forms_unix/generalsettings.ui" line="228"/>
+        <location filename="forms_win32/generalsettings.ui" line="228"/>
         <source>Compile Time Limit</source>
         <translation>编译时间限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="376"/>
+        <location filename="forms_unix/generalsettings.ui" line="360"/>
+        <location filename="forms_win32/generalsettings.ui" line="360"/>
         <source>Special Judge Time Limit</source>
         <translation>校验器时间限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="392"/>
+        <location filename="forms_unix/generalsettings.ui" line="376"/>
+        <location filename="forms_win32/generalsettings.ui" line="376"/>
         <source>Source File Size Limit</source>
         <translation>源程序大小限制</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="435"/>
+        <location filename="forms_unix/generalsettings.ui" line="419"/>
+        <location filename="forms_win32/generalsettings.ui" line="419"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
@@ -1294,17 +1393,20 @@
         <translation type="obsolete">测试线程数</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="460"/>
+        <location filename="forms_unix/generalsettings.ui" line="444"/>
+        <location filename="forms_win32/generalsettings.ui" line="444"/>
         <source>Input File Extensions</source>
         <translation>输入文件扩展名</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="470"/>
+        <location filename="forms_unix/generalsettings.ui" line="454"/>
+        <location filename="forms_win32/generalsettings.ui" line="454"/>
         <source>Output File Extensions</source>
         <translation>输出文件扩展名</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="500"/>
+        <location filename="forms_unix/generalsettings.ui" line="484"/>
+        <location filename="forms_win32/generalsettings.ui" line="484"/>
         <source>(separated by &quot;;&quot;. Empty means no limitation.)</source>
         <translation>（用&quot;;&quot;分隔，空表示无限制。）</translation>
     </message>
@@ -1359,7 +1461,8 @@
         <translation>最大重测次数为空！</translation>
     </message>
     <message>
-        <location filename="forms_unix/generalsettings.ui" line="517"/>
+        <location filename="forms_unix/generalsettings.ui" line="501"/>
+        <location filename="forms_win32/generalsettings.ui" line="501"/>
         <source>Maximum Rejudge Times</source>
         <translation>最大重测次数</translation>
     </message>
@@ -1368,154 +1471,190 @@
     <name>JudgingDialog</name>
     <message>
         <location filename="forms_unix/judgingdialog.ui" line="23"/>
+        <location filename="forms_win32/judgingdialog.ui" line="23"/>
         <source>Judging</source>
         <translation>测试中</translation>
     </message>
     <message>
         <location filename="forms_unix/judgingdialog.ui" line="76"/>
+        <location filename="forms_win32/judgingdialog.ui" line="76"/>
         <source>%v / %m ms, %p%</source>
         <oldsource>%v / %m ms (%p%)</oldsource>
         <translation>%v / %m ms, %p%</translation>
     </message>
     <message>
         <location filename="forms_unix/judgingdialog.ui" line="96"/>
+        <location filename="forms_win32/judgingdialog.ui" line="96"/>
         <source>Skip</source>
         <translation>跳过这一题</translation>
     </message>
     <message>
         <location filename="forms_unix/judgingdialog.ui" line="119"/>
+        <location filename="forms_win32/judgingdialog.ui" line="119"/>
         <source>Cancel</source>
         <translation>停止测试</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="153"/>
+        <location filename="judgingdialog.cpp" line="157"/>
         <source>Test case %1.%2: </source>
         <translation>测试点 %1.%2： </translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="162"/>
+        <location filename="judgingdialog.cpp" line="169"/>
         <source>Correct answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="174"/>
+        <location filename="judgingdialog.cpp" line="185"/>
         <source>Wrong answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="168"/>
+        <location filename="judgingdialog.cpp" line="178"/>
         <source>Partly correct</source>
         <translation>答案部分正确</translation>
     </message>
     <message>
+        <location filename="judgingdialog.cpp" line="170"/>
         <location filename="judgingdialog.cpp" line="179"/>
+        <source>  %1 ms  %2 MB</source>
+        <translation>  %1 ms  %2 MB</translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="172"/>
+        <source>  %1 Pt</source>
+        <translation>  %1 Pt</translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="180"/>
+        <source>  (%1 Pt)</source>
+        <translation>  (%1 Pt)</translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="190"/>
         <source>Time limit exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="184"/>
+        <location filename="judgingdialog.cpp" line="195"/>
         <source>Memory limit exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="199"/>
+        <location filename="judgingdialog.cpp" line="210"/>
         <source>Cannot start program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="205"/>
+        <location filename="judgingdialog.cpp" line="216"/>
         <source>File error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="189"/>
+        <location filename="judgingdialog.cpp" line="200"/>
         <source>Run time error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="217"/>
+        <location filename="judgingdialog.cpp" line="228"/>
         <source>Invalid special judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="223"/>
+        <location filename="judgingdialog.cpp" line="234"/>
         <source>Special judge time limit exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="229"/>
+        <location filename="judgingdialog.cpp" line="240"/>
         <source>Special judge run time error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="194"/>
+        <location filename="judgingdialog.cpp" line="205"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="83"/>
-        <location filename="judgingdialog.cpp" line="96"/>
-        <location filename="judgingdialog.cpp" line="128"/>
-        <location filename="judgingdialog.cpp" line="140"/>
+        <location filename="judgingdialog.cpp" line="87"/>
+        <location filename="judgingdialog.cpp" line="100"/>
+        <location filename="judgingdialog.cpp" line="132"/>
+        <location filename="judgingdialog.cpp" line="144"/>
         <source>Finished</source>
         <translation>测试终了</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="83"/>
-        <location filename="judgingdialog.cpp" line="96"/>
-        <location filename="judgingdialog.cpp" line="128"/>
-        <location filename="judgingdialog.cpp" line="140"/>
+        <location filename="judgingdialog.cpp" line="87"/>
+        <location filename="judgingdialog.cpp" line="100"/>
+        <location filename="judgingdialog.cpp" line="132"/>
+        <location filename="judgingdialog.cpp" line="144"/>
         <source>Judge Finished - LemonLime</source>
         <translation>测试完成 - LemonLime</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="163"/>
-        <location filename="judgingdialog.cpp" line="169"/>
         <source>+%1 Pt, %2 ms, %3 MB</source>
-        <translation>+%1 Pt, %2 ms, %3 MB</translation>
+        <translation type="vanished">+%1 Pt, %2 ms, %3 MB</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="211"/>
+        <location filename="judgingdialog.cpp" line="222"/>
         <source>Interactor error</source>
         <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="252"/>
+        <location filename="judgingdialog.cpp" line="288"/>
         <source>Subtask Dependence %1.%2: </source>
         <translation>检查子任务依赖 %1.%2: </translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="280"/>
+        <location filename="judgingdialog.cpp" line="302"/>
         <source>Start judging task %1</source>
         <translation>开始测试试题 %1</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="290"/>
+        <location filename="judgingdialog.cpp" line="334"/>
+        <source>Score of Task %1 : </source>
+        <translation>题目 %1 分数： </translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="335"/>
+        <location filename="judgingdialog.cpp" line="371"/>
+        <source>%1 / %2
+</source>
+        <translation>%1 / %2
+</translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="345"/>
         <source>Start judging contestant %1</source>
         <translation>开始测试选手 %1</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="317"/>
+        <location filename="judgingdialog.cpp" line="370"/>
+        <source>Total score of %1 : </source>
+        <translation>选手 %1 总分： </translation>
+    </message>
+    <message>
+        <location filename="judgingdialog.cpp" line="390"/>
         <source>Cannot find valid source file</source>
         <translation>未找到选手程序</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="323"/>
+        <location filename="judgingdialog.cpp" line="396"/>
         <source>Compile error</source>
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="329"/>
+        <location filename="judgingdialog.cpp" line="402"/>
         <source>Compile time limit exceeded</source>
         <translation>编译超时</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="335"/>
+        <location filename="judgingdialog.cpp" line="408"/>
         <source>Invalid compiler</source>
         <translation>编译器不可用</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="341"/>
+        <location filename="judgingdialog.cpp" line="414"/>
         <source>Compile Successfully</source>
         <translation>编译完成</translation>
     </message>
@@ -1613,6 +1752,7 @@
     <name>Lemon</name>
     <message>
         <location filename="forms_unix/lemon.ui" line="20"/>
+        <location filename="forms_win32/lemon.ui" line="20"/>
         <location filename="lemon.cpp" line="707"/>
         <location filename="lemon.cpp" line="857"/>
         <source>LemonLime</source>
@@ -1621,21 +1761,25 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="72"/>
+        <location filename="forms_win32/lemon.ui" line="72"/>
         <source>Tasks</source>
         <translation>试题</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="93"/>
+        <location filename="forms_win32/lemon.ui" line="93"/>
         <source>Summary</source>
         <translation>概要</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="129"/>
+        <location filename="forms_win32/lemon.ui" line="129"/>
         <source>Detail</source>
         <translation>详情</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="152"/>
+        <location filename="forms_win32/lemon.ui" line="152"/>
         <source>Contestants</source>
         <translation>选手</translation>
     </message>
@@ -1645,30 +1789,35 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="238"/>
+        <location filename="forms_win32/lemon.ui" line="238"/>
         <source>Refresh</source>
         <oldsource>&amp;Refresh</oldsource>
         <translation>刷新</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="466"/>
+        <location filename="forms_win32/lemon.ui" line="466"/>
         <source>&amp;Interaction</source>
-        <translation>交互题</translation>
+        <translation>交互题(&amp;I)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="476"/>
+        <location filename="forms_win32/lemon.ui" line="476"/>
         <source>Clean &amp;up Files</source>
-        <translation>整理文件</translation>
+        <translation>整理文件(&amp;U)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="481"/>
+        <location filename="forms_win32/lemon.ui" line="481"/>
         <source>&amp;Compile Features</source>
-        <translation>编译选项</translation>
+        <translation>编译选项(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="496"/>
+        <location filename="forms_win32/lemon.ui" line="496"/>
         <source>Single &amp;Judge</source>
         <oldsource>Single Judge</oldsource>
-        <translation>测试某一题</translation>
+        <translation>测试某一题(&amp;J)</translation>
     </message>
     <message>
         <source>&amp;Judge</source>
@@ -1676,58 +1825,69 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="412"/>
+        <location filename="forms_win32/lemon.ui" line="412"/>
         <source>Judge &amp;All</source>
         <translation>测试全部(&amp;A)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="315"/>
+        <location filename="forms_win32/lemon.ui" line="315"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="273"/>
+        <location filename="forms_win32/lemon.ui" line="273"/>
         <source>Judge Selected</source>
         <translation>测试选中</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="289"/>
+        <location filename="forms_win32/lemon.ui" line="289"/>
         <source>Judge All</source>
         <translation>测试全部</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="327"/>
+        <location filename="forms_win32/lemon.ui" line="327"/>
         <source>&amp;Control</source>
         <translation>控制(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="338"/>
+        <location filename="forms_win32/lemon.ui" line="338"/>
         <source>&amp;Tools</source>
         <translation>工具(&amp;T)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="342"/>
+        <location filename="forms_win32/lemon.ui" line="342"/>
         <source>&amp;UI Language</source>
         <translation>设置语言(&amp;U)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="355"/>
+        <location filename="forms_win32/lemon.ui" line="355"/>
         <source>&amp;Guides</source>
         <oldsource>Guides</oldsource>
         <translation>指南(&amp;G)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="451"/>
+        <location filename="forms_win32/lemon.ui" line="451"/>
         <source>Judge &amp;Unjudged</source>
         <oldsource>Judge &amp;Single Task</oldsource>
         <translation>测试未测试(&amp;U)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="456"/>
+        <location filename="forms_win32/lemon.ui" line="456"/>
         <source>Open Current Contest &amp;Folder</source>
         <translation>打开当前比赛的目录(&amp;F)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="461"/>
+        <location filename="forms_win32/lemon.ui" line="461"/>
         <source>&amp;Save Current Contest</source>
         <translation>保存比赛文件(&amp;S)</translation>
     </message>
@@ -1745,21 +1905,24 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="486"/>
+        <location filename="forms_win32/lemon.ui" line="486"/>
         <source>&amp;Skip</source>
         <oldsource>Skip</oldsource>
-        <translation>跳过这一题</translation>
+        <translation>跳过这一题(&amp;S)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="491"/>
+        <location filename="forms_win32/lemon.ui" line="491"/>
         <source>S&amp;pecial Judge</source>
         <oldsource>Special Judge</oldsource>
-        <translation>自定义校验器(SPJ)</translation>
+        <translation>自定义校验器(SPJ) (&amp;P)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="471"/>
+        <location filename="forms_win32/lemon.ui" line="471"/>
         <source>Su&amp;btasks</source>
         <oldsource>Subtasks</oldsource>
-        <translation>打包的测试点</translation>
+        <translation>打包的测试点(&amp;B)</translation>
     </message>
     <message>
         <source>UI Language</source>
@@ -1767,41 +1930,49 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="351"/>
+        <location filename="forms_win32/lemon.ui" line="351"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="376"/>
+        <location filename="forms_win32/lemon.ui" line="376"/>
         <source>&amp;New Contest</source>
         <translation>新建比赛(&amp;N)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="381"/>
+        <location filename="forms_win32/lemon.ui" line="381"/>
         <source>&amp;Open Existing Contest</source>
         <translation>打开已有的比赛(&amp;O)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="386"/>
+        <location filename="forms_win32/lemon.ui" line="386"/>
         <source>E&amp;xit</source>
         <translation>退出(&amp;X)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="391"/>
+        <location filename="forms_win32/lemon.ui" line="391"/>
         <source>&amp;Options</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="396"/>
+        <location filename="forms_win32/lemon.ui" line="396"/>
         <source>&amp;About</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="404"/>
+        <location filename="forms_win32/lemon.ui" line="404"/>
         <source>&amp;Judge Selected</source>
         <translation>测试选中选手(&amp;J)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="212"/>
+        <location filename="forms_win32/lemon.ui" line="212"/>
         <location filename="lemon.cpp" line="385"/>
         <location filename="lemon.cpp" line="465"/>
         <location filename="lemon.cpp" line="469"/>
@@ -1811,27 +1982,32 @@
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="257"/>
+        <location filename="forms_win32/lemon.ui" line="257"/>
         <source>Judge Unjudged</source>
         <oldsource>&amp;Single Judge</oldsource>
         <translation>测试未测试</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="417"/>
+        <location filename="forms_win32/lemon.ui" line="417"/>
         <source>&amp;Close Current Contest</source>
         <translation>关闭当前的比赛(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="430"/>
+        <location filename="forms_win32/lemon.ui" line="430"/>
         <source>Add &amp;Tasks Automatically</source>
         <translation>自动添加试题(&amp;T)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="438"/>
+        <location filename="forms_win32/lemon.ui" line="438"/>
         <source>&amp;Make Self-testing Folder</source>
         <translation>创建批处理测试目录(&amp;M)</translation>
     </message>
     <message>
         <location filename="forms_unix/lemon.ui" line="446"/>
+        <location filename="forms_win32/lemon.ui" line="446"/>
         <source>&amp;Export Result</source>
         <translation>导出成绩(&amp;E)</translation>
     </message>
@@ -1974,7 +2150,7 @@
     <message>
         <location filename="lemon.cpp" line="948"/>
         <source>Be Careful : May Cause Unexpected File Damage.</source>
-        <translation type="unfinished">当心使用：原有的子文件夹外的本来的文件会丢失。</translation>
+        <translation>当心使用：原有的子文件夹内的本来的文件会丢失。</translation>
     </message>
     <message>
         <source>Be Careful : May Cause SEVERE FILE DAMAGE.</source>
@@ -2279,6 +2455,7 @@
     <name>NewContestDialog</name>
     <message>
         <location filename="forms_unix/newcontestdialog.ui" line="20"/>
+        <location filename="forms_win32/newcontestdialog.ui" line="20"/>
         <source>New Contest</source>
         <translation>新建比赛</translation>
     </message>
@@ -2287,21 +2464,25 @@
     <name>NewContestWidget</name>
     <message>
         <location filename="forms_unix/newcontestwidget.ui" line="14"/>
+        <location filename="forms_win32/newcontestwidget.ui" line="14"/>
         <source>Form</source>
         <translation>新建比赛</translation>
     </message>
     <message>
         <location filename="forms_unix/newcontestwidget.ui" line="31"/>
+        <location filename="forms_win32/newcontestwidget.ui" line="31"/>
         <source>Contest Title</source>
         <translation>比赛标题</translation>
     </message>
     <message>
         <location filename="forms_unix/newcontestwidget.ui" line="44"/>
+        <location filename="forms_win32/newcontestwidget.ui" line="44"/>
         <source>Saving Name</source>
         <translation>保存文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/newcontestwidget.ui" line="57"/>
+        <location filename="forms_win32/newcontestwidget.ui" line="57"/>
         <source>Contest Path</source>
         <translation>比赛目录</translation>
     </message>
@@ -2315,6 +2496,7 @@
     <name>OpenContestDialog</name>
     <message>
         <location filename="forms_unix/opencontestdialog.ui" line="20"/>
+        <location filename="forms_win32/opencontestdialog.ui" line="20"/>
         <source>Open an Existing Contest</source>
         <translation>打开比赛</translation>
     </message>
@@ -2323,26 +2505,31 @@
     <name>OpenContestWidget</name>
     <message>
         <location filename="forms_unix/opencontestwidget.ui" line="14"/>
+        <location filename="forms_win32/opencontestwidget.ui" line="14"/>
         <source>Form</source>
         <translation>打开比赛</translation>
     </message>
     <message>
         <location filename="forms_unix/opencontestwidget.ui" line="89"/>
+        <location filename="forms_win32/opencontestwidget.ui" line="89"/>
         <source>Title</source>
         <translation>比赛标题</translation>
     </message>
     <message>
         <location filename="forms_unix/opencontestwidget.ui" line="101"/>
+        <location filename="forms_win32/opencontestwidget.ui" line="101"/>
         <source>Location</source>
         <translation>位置</translation>
     </message>
     <message>
         <location filename="forms_unix/opencontestwidget.ui" line="137"/>
+        <location filename="forms_win32/opencontestwidget.ui" line="137"/>
         <source>&amp;Add</source>
         <translation>添加(&amp;A)</translation>
     </message>
     <message>
         <location filename="forms_unix/opencontestwidget.ui" line="160"/>
+        <location filename="forms_win32/opencontestwidget.ui" line="160"/>
         <source>&amp;Purge</source>
         <translation>隐藏(&amp;P)</translation>
     </message>
@@ -2379,16 +2566,19 @@
     <name>OptionsDialog</name>
     <message>
         <location filename="forms_unix/optionsdialog.ui" line="20"/>
+        <location filename="forms_win32/optionsdialog.ui" line="20"/>
         <source>Options</source>
         <translation>选项</translation>
     </message>
     <message>
         <location filename="forms_unix/optionsdialog.ui" line="33"/>
+        <location filename="forms_win32/optionsdialog.ui" line="33"/>
         <source>General</source>
         <translation>常规</translation>
     </message>
     <message>
         <location filename="forms_unix/optionsdialog.ui" line="38"/>
+        <location filename="forms_win32/optionsdialog.ui" line="38"/>
         <source>Compiler</source>
         <translation>编译器</translation>
     </message>
@@ -2439,28 +2629,28 @@
         <translation>测试时间</translation>
     </message>
     <message>
-        <location filename="resultviewer.cpp" line="195"/>
+        <location filename="resultviewer.cpp" line="194"/>
+        <location filename="resultviewer.cpp" line="219"/>
         <location filename="resultviewer.cpp" line="220"/>
         <location filename="resultviewer.cpp" line="221"/>
-        <location filename="resultviewer.cpp" line="222"/>
-        <location filename="resultviewer.cpp" line="249"/>
-        <location filename="resultviewer.cpp" line="327"/>
+        <location filename="resultviewer.cpp" line="248"/>
+        <location filename="resultviewer.cpp" line="326"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="resultviewer.cpp" line="371"/>
+        <location filename="resultviewer.cpp" line="370"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
     </message>
     <message>
-        <location filename="resultviewer.cpp" line="373"/>
+        <location filename="resultviewer.cpp" line="372"/>
         <source>Are you sure to delete selected contestant(s)?</source>
         <translation>确定删除选定的选手吗？</translation>
     </message>
     <message>
-        <location filename="resultviewer.cpp" line="376"/>
+        <location filename="resultviewer.cpp" line="375"/>
         <source>Delete data in the disk as well</source>
         <oldsource>Delete directories in the hard disk as well</oldsource>
         <translation>同时从硬盘中删除选手数据</translation>
@@ -2558,137 +2748,164 @@
     <name>TaskEditWidget</name>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="14"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="14"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="43"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="43"/>
         <source>Problem Title</source>
         <translation>试题标题</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="146"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="146"/>
         <source>Source File Name</source>
         <translation>源文件名称</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="78"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="78"/>
         <source>Input File Name</source>
         <translation>输入文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="168"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="168"/>
         <source>Output File Name</source>
         <translation>输出文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="178"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="178"/>
         <source>Standard input</source>
         <translation>定义到标准输入</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="62"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="62"/>
         <source>Task Type</source>
         <translation>试题类型</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="93"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="93"/>
         <source>Traditional</source>
         <translation>传统型</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="103"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="103"/>
         <source>Answers Only</source>
         <translation>答案提交型</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="204"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="204"/>
         <source>Standard output</source>
         <translation>定义到标准输出</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="194"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="194"/>
         <source>Comparison Mode</source>
         <translation>比较模式</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="115"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="115"/>
         <source>Interaction</source>
         <oldsource>&amp;Interaction</oldsource>
         <translation>交互题</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="218"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="218"/>
         <source>Line-by-line mode</source>
         <translation>逐行比较模式</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="223"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="223"/>
         <source>Line-by-line mode (ignore extra spaces and tabs)</source>
         <translation>逐行比较模式（忽略多余空格和制表符）</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="228"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="228"/>
         <source>External tool mode (diff)</source>
         <translation>外部工具模式（diff）</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="233"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="233"/>
         <source>Real number mode</source>
         <translation>实数比较模式</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="238"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="238"/>
         <source>Special judge mode</source>
         <translation>自定义校验器模式</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="315"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="315"/>
         <source>Arguments:</source>
         <translation>参数：</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="338"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="338"/>
         <source>Real Number Precision:</source>
         <translation>实数精度：</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="364"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="364"/>
         <source>digits</source>
         <translation>位</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="509"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="509"/>
         <source>Interactor Path</source>
         <translation>交互库路径</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="524"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="524"/>
         <source>Subfolder</source>
         <translation>在子文件夹寻找</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="269"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="269"/>
         <source>Compiler Settings</source>
         <translation>编译器设置</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="420"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="420"/>
         <source>Configuration:</source>
         <translation>配置：</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="455"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="455"/>
         <source>Extension of Contestant&apos;s Answer File</source>
         <translation>选手答案文件扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="538"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="538"/>
         <source>Grader Path</source>
         <translation>接口实现(grader)路径</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="27"/>
+        <location filename="forms_win32/taskeditwidget.ui" line="27"/>
         <source>Interactor Name</source>
         <translation>交互库名称</translation>
     </message>
@@ -2697,62 +2914,74 @@
     <name>TestCaseEditWidget</name>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="14"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="14"/>
         <source>Form</source>
         <translation>测试点详情</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="50"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="50"/>
         <source>Input Files</source>
         <translation>输入文件</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="60"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="60"/>
         <source>Output Files</source>
         <translation>输出文件</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="91"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="91"/>
         <source>Input File Name</source>
         <translation>输入文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="133"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="133"/>
         <source>Output File Name</source>
         <translation>输出文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="161"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="161"/>
         <source>Add</source>
         <oldsource>&amp;Add</oldsource>
         <translation>添加</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="191"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="191"/>
         <source>seperate by &quot;,&quot;</source>
         <translation>用半角逗号(&quot;,&quot;)隔开</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="242"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="242"/>
         <source>Full Score</source>
         <translation>分值</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="287"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="287"/>
         <source>Time Limit</source>
         <translation>时间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="321"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="321"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="352"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="352"/>
         <source>Memory Limit</source>
         <translation>空间限制</translation>
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="386"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="386"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
@@ -2780,6 +3009,7 @@
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="184"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="184"/>
         <source>Subtask Dependence</source>
         <translation>子任务依赖</translation>
     </message>
@@ -2789,6 +3019,7 @@
     </message>
     <message>
         <location filename="forms_unix/testcaseeditwidget.ui" line="210"/>
+        <location filename="forms_win32/testcaseeditwidget.ui" line="210"/>
         <source>Clear</source>
         <translation>清空</translation>
     </message>
@@ -2801,16 +3032,19 @@
     <name>WelcomeDialog</name>
     <message>
         <location filename="forms_unix/welcomedialog.ui" line="14"/>
+        <location filename="forms_win32/welcomedialog.ui" line="14"/>
         <source>Welcome</source>
         <translation>欢迎</translation>
     </message>
     <message>
         <location filename="forms_unix/welcomedialog.ui" line="27"/>
+        <location filename="forms_win32/welcomedialog.ui" line="27"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
         <location filename="forms_unix/welcomedialog.ui" line="37"/>
+        <location filename="forms_win32/welcomedialog.ui" line="37"/>
         <source>New</source>
         <translation>新建</translation>
     </message>

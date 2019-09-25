@@ -57,10 +57,14 @@ void JudgingDialog::setContest(Contest *contest)
 	        this, SLOT(singleSubtaskDependenceFinished(int, int, double)));
 	connect(curContest, SIGNAL(taskJudgingStarted(QString)),
 	        this, SLOT(taskJudgingStarted(QString)));
+	connect(curContest, SIGNAL(taskJudgedDisplay(QString, QList<QList<int> >, int)),
+	        this, SLOT(taskJudgedDisplay(QString, QList<QList<int> >, int)));
 	connect(curContest, SIGNAL(contestantJudgingStart(QString)),
 	        this, SLOT(contestantJudgingStart(QString)));
 	connect(curContest, SIGNAL(contestantJudgingFinished()),
 	        this, SLOT(contestantJudgingFinished()));
+	connect(curContest, SIGNAL(contestantJudgedDisplay(QString, int, int)),
+	        this, SLOT(contestantJudgedDisplay(QString, int, int)));
 	connect(curContest, SIGNAL(compileError(int, int)),
 	        this, SLOT(compileError(int, int)));
 	connect(this, SIGNAL(stopJudgingSignal()),
@@ -148,25 +152,32 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat, addcharFormat;
+	QTextCharFormat charFormat, addcharFormat, scorecharFormat;
 	charFormat.setFontPointSize(9);
 	cursor->insertText(tr("Test case %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
 	addcharFormat.setFontPointSize(7);
 	addcharFormat.setForeground(QBrush(Qt::darkGray));
+	scorecharFormat.setFontPointSize(8);
+	scorecharFormat.setForeground(QBrush(Qt::darkCyan));
+	scorecharFormat.setFontWeight(QFont::Bold);
 
-	QString text, addtext = "";
+	QString text, addtext = "", scoretext = "";
 
 	switch(ResultState(result))
 	{
 		case CorrectAnswer:
 			text = tr("Correct answer");
-			addtext = tr("+%1 Pt, %2 ms, %3 MB").arg(scoreGot).arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+
+			if(scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
+
 			charFormat.setForeground(QBrush(Qt::darkGreen));
 			break;
 
 		case PartlyCorrect:
 			text = tr("Partly correct");
-			addtext = tr("+%1 Pt, %2 ms, %3 MB").arg(scoreGot).arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+			scoretext = tr("  (%1 Pt)").arg(abs(scoreGot));
 			charFormat.setForeground(QBrush(Qt::darkCyan));
 			break;
 
@@ -236,6 +247,8 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 
 	if(addtext.length() > 0)cursor->insertText(addtext, addcharFormat);
 
+	if(scoretext.length() > 0)cursor->insertText(scoretext, scorecharFormat);
+
 	ui->progressBar->setValue(ui->progressBar->value() + progress);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
@@ -247,24 +260,33 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat;
+	QTextCharFormat charFormat, ratioFormat;
 	charFormat.setFontPointSize(9);
-	cursor->insertText(tr("Subtask Dependence %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
+	ratioFormat.setFontPointSize(9);
 
 	QString text;
 	int percentage = ratio * 10000;
 	text = QString("%1.%2%3").arg(percentage / 100).arg(percentage % 100).arg('%');
 
 	if(percentage == 10000)
-		charFormat.setForeground(QBrush(Qt::darkGreen));
+	{
+		charFormat.setForeground(QBrush(Qt::lightGray));
+		ratioFormat.setForeground(QBrush(Qt::green));
+	}
 	else if(percentage == 0)
 	{
 		charFormat.setForeground(QBrush(Qt::red));
-		charFormat.setFontWeight(QFont::Bold);
+		ratioFormat.setForeground(QBrush(Qt::red));
+		ratioFormat.setFontWeight(QFont::Bold);
 	}
-	else charFormat.setForeground(QBrush(Qt::darkCyan));
+	else
+	{
+		charFormat.setForeground(QBrush(Qt::lightGray));
+		ratioFormat.setForeground(QBrush(Qt::cyan));
+	}
 
-	cursor->insertText(text, charFormat);
+	cursor->insertText(tr("Subtask Dependence %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
+	cursor->insertText(text, ratioFormat);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
 	bar->setValue(bar->maximum());
@@ -276,8 +298,41 @@ void JudgingDialog::taskJudgingStarted(const QString &taskName)
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
 	QTextCharFormat charFormat;
-	charFormat.setFontPointSize(9);
+	charFormat.setFontPointSize(10);
 	cursor->insertText(tr("Start judging task %1").arg(taskName), charFormat);
+	QScrollBar *bar = ui->logViewer->verticalScrollBar();
+	bar->setValue(bar->maximum());
+}
+
+void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QList<int> > &scoreList, const int mxScore)
+{
+	QTextBlockFormat blockFormat;
+	blockFormat.setLeftMargin(15);
+	cursor->insertBlock(blockFormat);
+	QTextCharFormat charFormat, scoreFormat;
+	charFormat.setFontPointSize(10);
+	scoreFormat.setFontPointSize(10);
+	scoreFormat.setFontWeight(QFont::Bold);
+	scoreFormat.setForeground(QBrush(Qt::darkCyan));
+
+	int allScore = 0;
+
+	for(auto i : scoreList)
+	{
+		int miScore = 2147483647;
+
+		for(auto j : i)
+		{
+			miScore = qMin(miScore, j);
+
+			if(miScore <= 0)break;
+		}
+
+		allScore += miScore;
+	}
+
+	cursor->insertText(tr("Score of Task %1 : ").arg(taskName), charFormat);
+	cursor->insertText(tr("%1 / %2\n").arg(allScore).arg(mxScore), scoreFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
 	bar->setValue(bar->maximum());
 }
@@ -285,7 +340,7 @@ void JudgingDialog::taskJudgingStarted(const QString &taskName)
 void JudgingDialog::contestantJudgingStart(const QString &contestantName)
 {
 	QTextCharFormat charFormat;
-	charFormat.setFontPointSize(10);
+	charFormat.setFontPointSize(12);
 	charFormat.setFontWeight(QFont::Bold);
 	cursor->insertText(tr("Start judging contestant %1").arg(contestantName), charFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
@@ -300,6 +355,24 @@ void JudgingDialog::contestantJudgingFinished()
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
 	bar->setValue(bar->maximum());
 }
+
+void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const int score, const int mxScore)
+{
+	QTextBlockFormat blockFormat;
+	blockFormat.setLeftMargin(15);
+	cursor->insertBlock(blockFormat);
+	QTextCharFormat charFormat, scoreFormat;
+	charFormat.setFontPointSize(12);
+	scoreFormat.setFontPointSize(12);
+	scoreFormat.setFontWeight(QFont::Bold);
+	scoreFormat.setForeground(QBrush(Qt::darkCyan));
+
+	cursor->insertText(tr("Total score of %1 : ").arg(contestantName), charFormat);
+	cursor->insertText(tr("%1 / %2\n").arg(score).arg(mxScore), scoreFormat);
+	QScrollBar *bar = ui->logViewer->verticalScrollBar();
+	bar->setValue(bar->maximum());
+}
+
 
 void JudgingDialog::compileError(int progress, int compileState)
 {

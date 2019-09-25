@@ -153,12 +153,11 @@ void ResultViewer::refreshViewer()
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList< QPair<int, QString> > sortList;
 	QList<int> fullScore;
-	int sfullScore = 0;
+	int sfullScore = curContest->getTotalScore();
 
 	for(int i = 0; i < taskList.size(); i++)
 	{
-		int a = taskList[i]->getTotalScore();
-		fullScore.append(a), sfullScore += a;
+		fullScore.append(taskList[i]->getTotalScore());
 	}
 
 	setRowCount(contestantList.size());
@@ -205,7 +204,7 @@ void ResultViewer::refreshViewer()
 		if(totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackgroundColor(QColor::fromHslF(oriBaseColorHF, oriBaseColorHF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
+			item(i, 2)->setBackgroundColor(QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
 
 			QFont font;
 			font.setBold(true);

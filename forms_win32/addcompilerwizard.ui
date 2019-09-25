@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>688</width>
     <height>540</height>
    </rect>
   </property>
@@ -53,7 +53,7 @@
            <string notr="true">font-size:11pt;</string>
           </property>
           <property name="text">
-           <string>Custom Configuration</string>
+           <string>&amp;Custom Configuration</string>
           </property>
          </widget>
         </item>
@@ -68,7 +68,7 @@
              <string notr="true">font-size:11pt;</string>
             </property>
             <property name="text">
-             <string>Built-in Configuration (Tick the compilers you want to add)</string>
+             <string>Built-&amp;in Configuration (Tick the compilers you want to add)</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -540,12 +540,12 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="gccO2Check">
+          <widget class="QCheckBox" name="gccRecommendedCheck">
            <property name="styleSheet">
             <string notr="true">font-size:10pt;</string>
            </property>
            <property name="text">
-            <string>Enable O2 Optimization</string>
+            <string>Add recommended configurations</string>
            </property>
           </widget>
          </item>
@@ -591,12 +591,12 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="gppO2Check">
+          <widget class="QCheckBox" name="gppRecommendedCheck">
            <property name="styleSheet">
             <string notr="true">font-size:10pt;</string>
            </property>
            <property name="text">
-            <string>Enable O2 Optimization</string>
+            <string>Add recommended configurations</string>
            </property>
           </widget>
          </item>
@@ -639,12 +639,12 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="fpcO2Check">
+          <widget class="QCheckBox" name="fpcRecommendedCheck">
            <property name="styleSheet">
             <string notr="true">font-size:10pt;</string>
            </property>
            <property name="text">
-            <string>Enable O2 Optimization</string>
+            <string>Add recommended configurations</string>
            </property>
           </widget>
          </item>
@@ -803,7 +803,7 @@
               </size>
              </property>
              <property name="text">
-              <string notr="true">512</string>
+              <string notr="true">1024</string>
              </property>
             </widget>
            </item>

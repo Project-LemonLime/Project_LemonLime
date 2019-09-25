@@ -39,7 +39,7 @@ ExportUtil::ExportUtil(QObject *parent) :
 {
 }
 
-QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant)
+QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num)
 {
 	QString htmlCode;
 
@@ -47,12 +47,12 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 	for(int i = 0; i < taskList.size(); i ++)
 	{
-		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
+		htmlCode += QString("<a name=\"c%1p%2\"><p><span style=\"font-weight:bold; font-size:large;\">").arg(num).arg(i);
 		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTile());
 
 		if(! contestant->getCheckJudged(i))
 		{
-			htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Not judged"));
+			htmlCode += QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Not judged"));
 			continue;
 		}
 
@@ -63,17 +63,17 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 				switch(contestant->getCompileState(i))
 				{
 					case NoValidSourceFile:
-						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
+						htmlCode += QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Cannot find valid source file"));
 						break;
 
 					case CompileTimeLimitExceeded:
 						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
 						            .arg(contestant->getSourceFile(i));
-						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
+						htmlCode += QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Compile time limit exceeded"));
 						break;
 
 					case InvalidCompiler:
-						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
+						htmlCode += QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Cannot run given compiler"));
 						break;
 
 					case CompileError:
@@ -97,7 +97,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 							htmlCode += "</code></td></tr></table>";
 						}
 
-						htmlCode += "</p>";
+						htmlCode += "</p></a>";
 						break;
 				}
 
@@ -107,14 +107,15 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
-		htmlCode += "<table border=\"1\" cellpadding=\"1\"><tr>";
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Test Case"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Input File"));
-		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Time Used"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Memory Used"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Score"));
+		htmlCode += "<table style=\"border: solid;\"><tr>";
+		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Test Case"));
+		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Input File"));
+		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Result"));
+		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Time Used"));
+		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Memory Used"));
+		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th></tr>").arg(tr("Score"));
 
+		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList< QList<ResultState> > result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
@@ -131,73 +132,93 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 				if(k == 0)
 				{
 					if(score[j].size() == inputFiles[j].size())
-						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2</td>")
+						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">#%2</td>")
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
-						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
+						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">#%2<br>%3:%4</td>")
 						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
 				}
 
-				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(inputFiles[j][k]);
+				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>").arg(inputFiles[j][k]);
 
-				QString text;
+				QString text, bgColor = "rgb(255, 255, 255)", FrColor = "rgb(0, 0, 0)";
 
 				switch(result[j][k])
 				{
 					case CorrectAnswer:
 						text = tr("Correct Answer");
+						bgColor = "rgb(192, 255, 192)";
 						break;
 
 					case WrongAnswer:
 						text = tr("Wrong Answer");
+						bgColor = "rgb(255, 192, 192)";
 						break;
 
 					case PartlyCorrect:
 						text = tr("Partly Correct");
+						bgColor = "rgb(192, 255, 255)";
 						break;
 
 					case TimeLimitExceeded:
 						text = tr("Time Limit Exceeded");
+						bgColor = "rgb(255, 255, 192)";
 						break;
 
 					case MemoryLimitExceeded:
 						text = tr("Memory Limit Exceeded");
+						bgColor = "rgb(192, 192, 255)";
 						break;
 
 					case CannotStartProgram:
 						text = tr("Cannot Start Program");
+						FrColor = "rgb(255, 64, 64)";
+						bgColor = "rgb(192, 192, 192)";
 						break;
 
 					case FileError:
 						text = tr("File Error");
+						FrColor = "rgb(255, 255, 64)";
+						bgColor = "rgb(192, 192, 192)";
 						break;
 
 					case RunTimeError:
 						text = tr("Run Time Error");
+						bgColor = "rgb(255, 192, 255)";
 						break;
 
 					case InvalidSpecialJudge:
 						text = tr("Invalid Special Judge");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 0, 0)";
 						break;
 
 					case SpecialJudgeTimeLimitExceeded:
 						text = tr("Special Judge Time Limit Exceeded");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 128, 0)";
 						break;
 
 					case SpecialJudgeRunTimeError:
 						text = tr("Special Judge Run Time Error");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 0, 128)";
 						break;
 
 					case Skipped:
 						text = tr("Skipped");
+						FrColor = "rgb(192, 192, 192)";
+						bgColor = "rgb(255, 255, 255)";
 						break;
 
 					case InteractorError:
 						text = tr("Interactor Error");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(0, 0, 128)";
 						break;
 				}
 
-				htmlCode += QString("<td align=\"center\">%1").arg(text);
+				htmlCode += QString("<td align=\"center\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2; color: %3;\">%1").arg(text).arg(bgColor).arg(FrColor);
 
 				if(! message[j][k].isEmpty())
 				{
@@ -210,7 +231,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				htmlCode += "</td>";
 
-				htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
+				htmlCode += "<td nowrap=\"nowrap\" align=\"center\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">";
 
 				if(timeUsed[j][k] != -1)
 				{
@@ -223,7 +244,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				htmlCode += "</td>";
 
-				htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
+				htmlCode += "<td nowrap=\"nowrap\" align=\"center\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">";
 
 				if(memoryUsed[j][k] != -1)
 				{
@@ -238,13 +259,17 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				if(k == 0)
 				{
-					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\">").arg(inputFiles[j].size());
-					int minv = 1000000000;
+					int minv = 2147483647, maxv = testCases[j]->getFullScore();
 
 					for(int t = 0; t < inputFiles[j].size(); t ++)
 						if(score[j][t] < minv) minv = score[j][t];
 
-					htmlCode += QString("%1</td>").arg(minv);
+					QString bgColor = "rgb(255, 192, 192)";
+
+					if(minv >= maxv) bgColor = "rgb(192, 255, 192)";
+					else if(minv > 0) bgColor = "rgb(192, 255, 255)";
+
+					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;\"><a style=\"font-weight: bold; font-size: 20px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -322,32 +347,32 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
+	out << "<p style=\"font-size: 12px;\">" << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
 	out << "<p><table cellpadding=\"1\" style=\"border-style: solid;\"><tr>";
-	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Rank"));
-	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Name"));
+	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 3px; border-color: #000;\" scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Rank"));
+	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 3px; border-color: #000;\" scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Name"));
 
-	out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Total Score"));
+	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 2px; border-color: #000;\" scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Total Score"));
 
 	for(int i = 0; i < taskList.size(); i ++)
-		out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(taskList[i]->getProblemTile());
+		out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 2px; border-color: #000;\" scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(taskList[i]->getProblemTile());
 
 	out << "</tr>";
 
 	QList<int> fullScore;
-	int sfullScore = 0;
+	int sfullScore = contest->getTotalScore();
 
 	for(int i = 0; i < taskList.size(); i++)
 	{
-		int a = taskList[i]->getTotalScore();
-		fullScore.append(a), sfullScore += a;
+		fullScore.append(taskList[i]->getTotalScore());
 	}
 
 	for(int i = 0; i < sortList.size(); i ++)
 	{
 		Contestant *contestant = contest->getContestant(sortList[i].second);
-		out << QString("<tr><td nowrap=\"nowrap\" align=\"center\">%1</td>")
+		out << QString("<tr><td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\" nowrap=\"nowrap\" align=\"center\">%1</td>")
 		    .arg(rankList[contestant->getContestantName()] + 1);
-		out << QString("<td nowrap=\"nowrap\" align=\"center\"><a href=\"#c%1\">%2</a></td>")
+		out << QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\" nowrap=\"nowrap\" align=\"center\"><a href=\"#c%1\" style=\"color: black; text-decoration: none;\">%2</a></td>")
 		    .arg(loc[contestant]).arg(sortList[i].second);
 
 		int score = contestant->getTotalScore();
@@ -358,11 +383,11 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 			double colFix = oriBaseColorSF * 100;
 			double colLevel = oriBaseColorLF(score, sfullScore, 0.40) * 100;
 
-			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
+			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); border-radius: 5px; font-weight: bold; border: 2px solid hsl(%2,%3\%,%5\%);\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(colLevel - 20);
 		}
 		else
 		{
-			out << QString("<td style=\"font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+			out << QString("<td style=\"border-radius: 5px; font-weight: bold;\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
 		}
 
 		for(int j = 0; j < taskList.size(); j ++)
@@ -382,25 +407,22 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 					else basCol = cmeBaseColorHI, colFix = cmeBaseColorSF * 100, colLevel = cmeBaseColorLF * 100;
 				}
 
-				out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%);\" nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score).arg(basCol).arg(colFix).arg(colLevel);
+				out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); border-radius: 5px;\" nowrap=\"nowrap\" align=\"center\"><a href=\"#c%5p%6\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(loc[contestant]).arg(j);
 			}
 			else
 			{
-				out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+				out << QString("<td stle=\"border-radius: 5px;\" nowrap=\"nowrap\" align=\"center\"><a href=\"#c%2p%3\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(tr("Invalid")).arg(loc[contestant]).arg(j);
 			}
 		}
 	}
 
 	out << "</table></p>";
-	//out << "<p>" << tr("Judge with LemonPlus") << "</p>";
-	//out << "<p>" << tr("Github Page: ") << QString("<a href=\"https://github.com/Dust1404/Project_LemonPlus\">https://github.com/Dust1404/Project_LemonPlus</a>") << "</p>";
-	//remove project info in result.html
 
 	for(int i = 0; i < contestantList.size(); i ++)
 	{
 		out << QString("<a name=\"c%1\"><hr><a>").arg(i) << "<span style=\"font-size:x-large; font-weight:bold;\">";
 		out << tr("Contestant: %1").arg(contestantList[i]->getContestantName()) << "</span>";
-		out << getContestantHtmlCode(contest, contestantList[i]);
+		out << getContestantHtmlCode(contest, contestantList[i], i);
 	}
 
 	out << "</body></html>";

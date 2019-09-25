@@ -437,7 +437,7 @@ void Lemon::cleanupButtonClicked()
 				QFileInfoList conDirLis = conDir.entryInfoList();
 
 				foreach(QFileInfo proFilWho, conDirLis)
-					if(proFilWho.fileName().indexOf(proName)==0)
+					if(proFilWho.fileName().indexOf(proName) == 0)
 						QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + proName + QDir::separator() + proFilWho.fileName());
 			}
 

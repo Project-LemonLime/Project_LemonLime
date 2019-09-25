@@ -49,6 +49,7 @@ public:
 	Contestant *getContestant(const QString &) const;
 	QList<Contestant *> getContestantList() const;
 	int getTotalTimeLimit() const;
+	int getTotalScore() const;
 	void addTask(Task *);
 	void deleteTask(int);
 	void refreshContestantList();
@@ -84,8 +85,10 @@ signals:
 	void singleSubtaskDependenceFinished(int, int, double);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();
+	void taskJudgedDisplay(const QString &, const QList< QList<int> > &, const int);
 	void contestantJudgingStart(QString);
 	void contestantJudgingFinished();
+	void contestantJudgedDisplay(const QString &, const int, const int);
 	void compileError(int, int);
 	void stopJudgingSignal();
 };

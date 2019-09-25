@@ -1,6 +1,27 @@
+/***************************************************************************
+    This file is part of Project Lemon
+    Copyright (C) 2011 Zhipeng Jia
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***************************************************************************/
 /**
  * addcompilerwizard.cpp @Project Lemon+
  * Update 2018 Dust1404
+ **/
+/**
+ * addcompilerwizard.cpp @Project LemonLime
+ * Update 2019 iotang
  **/
 
 #include "addcompilerwizard.h"
@@ -225,9 +246,9 @@ bool AddCompilerWizard::validateCurrentPage()
 			text += tr("[gcc Compiler]") + "\n";
 			text += tr("gcc Path: ") + ui->gccPath->text() + "\n";
 
-			if(ui->gccO2Check->isChecked())
+			if(ui->gccRecommendedCheck->isChecked())
 			{
-				text += tr("Enable O2 Optimization") + "\n";
+				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
@@ -238,9 +259,9 @@ bool AddCompilerWizard::validateCurrentPage()
 			text += tr("[g++ Compiler]") + "\n";
 			text += tr("g++ Path: ") + ui->gppPath->text() + "\n";
 
-			if(ui->gppO2Check->isChecked())
+			if(ui->gppRecommendedCheck->isChecked())
 			{
-				text += tr("Enable O2 Optimization") + "\n";
+				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
@@ -251,9 +272,9 @@ bool AddCompilerWizard::validateCurrentPage()
 			text += tr("[fpc Compiler]") + "\n";
 			text += tr("fpc Path: ") + ui->fpcPath->text() + "\n";
 
-			if(ui->fpcO2Check->isChecked())
+			if(ui->fpcRecommendedCheck->isChecked())
 			{
-				text += tr("Enable O2 Optimization") + "\n";
+				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
@@ -532,13 +553,24 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerLocation(ui->gccPath->text());
 			compiler->setSourceExtensions("c");
 
-			if(ui->gccO2Check->isChecked())
+			QString stackArg = "";
+#ifdef Q_OS_WIN32
+			stackArg = " -Wl,--stack=2147483647";
+#endif
+
+			compiler->addConfiguration("default", "-o %s %s.* -lm -static" + stackArg, "");
+
+			if(ui->gccRecommendedCheck->isChecked())
 			{
-				compiler->addConfiguration("default", "-o %s %s.* -O2", "");
-			}
-			else
-			{
-				compiler->addConfiguration("default", "-o %s %s.*", "");
+				compiler->addConfiguration("C89", "-o %s %s.* -lm -static -std=c89" + stackArg, "");
+				compiler->addConfiguration("C89 O2", "-o %s %s.* -lm -static -std=c89 -O2" + stackArg, "");
+				compiler->addConfiguration("C99", "-o %s %s.* -lm -static -std=c99" + stackArg, "");
+				compiler->addConfiguration("C99 O2", "-o %s %s.* -lm -static -std=c99 -O2" + stackArg, "");
+				compiler->addConfiguration("C11", "-o %s %s.* -lm -static -std=c11" + stackArg, "");
+				compiler->addConfiguration("C11 O2", "-o %s %s.* -lm -static -std=c11 -O2" + stackArg, "");
+				compiler->addConfiguration("C17", "-o %s %s.* -lm -static -std=c17" + stackArg, "");
+				compiler->addConfiguration("C17 O2", "-o %s %s.* -lm -static -std=c17 -O2" + stackArg, "");
+				compiler->addConfiguration("C17 O3", "-o %s %s.* -lm -static -std=c17 -O3" + stackArg, "");
 			}
 
 #ifdef Q_OS_WIN32
@@ -558,13 +590,24 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerLocation(ui->gppPath->text());
 			compiler->setSourceExtensions("cpp;cc;cxx");
 
-			if(ui->gppO2Check->isChecked())
+			QString stackArg = "";
+#ifdef Q_OS_WIN32
+			stackArg = " -Wl,--stack=2147483647";
+#endif
+
+			compiler->addConfiguration("default", "-o %s %s.* -lm -static" + stackArg, "");
+
+			if(ui->gppRecommendedCheck->isChecked())
 			{
-				compiler->addConfiguration("default", "-o %s %s.* -O2", "");
-			}
-			else
-			{
-				compiler->addConfiguration("default", "-o %s %s.*", "");
+				compiler->addConfiguration("C++98", "-o %s %s.* -lm -static -std=c++98" + stackArg, "");
+				compiler->addConfiguration("C++98 O2", "-o %s %s.* -lm -static -std=c++98 -O2" + stackArg, "");
+				compiler->addConfiguration("C++11", "-o %s %s.* -lm -static -std=c++11" + stackArg, "");
+				compiler->addConfiguration("C++11 O2", "-o %s %s.* -lm -static -std=c++11 -O2" + stackArg, "");
+				compiler->addConfiguration("C++14", "-o %s %s.* -lm -static -std=c++14" + stackArg, "");
+				compiler->addConfiguration("C++14 O2", "-o %s %s.* -lm -static -std=c++14 -O2" + stackArg, "");
+				compiler->addConfiguration("C++17", "-o %s %s.* -lm -static -std=c++17" + stackArg, "");
+				compiler->addConfiguration("C++17 O2", "-o %s %s.* -lm -static -std=c++17 -O2" + stackArg, "");
+				compiler->addConfiguration("C++17 O3", "-o %s %s.* -lm -static -std=c++17 -O3" + stackArg, "");
 			}
 
 #ifdef Q_OS_WIN32
@@ -584,13 +627,11 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerLocation(ui->fpcPath->text());
 			compiler->setSourceExtensions("pas;pp;inc");
 
-			if(ui->fpcO2Check->isChecked())
+			compiler->addConfiguration("default", "%s.*", "");
+
+			if(ui->fpcRecommendedCheck->isChecked())
 			{
-				compiler->addConfiguration("default", "%s.* -O2", "");
-			}
-			else
-			{
-				compiler->addConfiguration("default", "%s.*", "");
+				compiler->addConfiguration("O2", "%s.* -O2", "");
 			}
 
 			compilerList.append(compiler);

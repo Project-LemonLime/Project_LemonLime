@@ -124,7 +124,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
-		htmlCode += "<table width=\"100%\" border=\"1\" cellpadding=\"1\"><tr>";
+		htmlCode += "<table width=\"100%\" cellpadding=\"1\" border=\"0.4\"><tr>";
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Test Case"));
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Input File"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
@@ -132,6 +132,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Memory Used"));
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Score"));
 
+		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList< QList<ResultState> > result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
@@ -157,64 +158,84 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">%1</td>").arg(inputFiles[j][k]);
 
-				QString text;
+				QString text, bgColor = "rgb(255, 255, 255)", FrColor = "rgb(0, 0, 0)";
 
 				switch(result[j][k])
 				{
 					case CorrectAnswer:
 						text = tr("Correct Answer");
+						bgColor = "rgb(192, 255, 192)";
 						break;
 
 					case WrongAnswer:
 						text = tr("Wrong Answer");
+						bgColor = "rgb(255, 192, 192)";
 						break;
 
 					case PartlyCorrect:
 						text = tr("Partly Correct");
+						bgColor = "rgb(192, 255, 255)";
 						break;
 
 					case TimeLimitExceeded:
 						text = tr("Time Limit Exceeded");
+						bgColor = "rgb(255, 255, 192)";
 						break;
 
 					case MemoryLimitExceeded:
 						text = tr("Memory Limit Exceeded");
+						bgColor = "rgb(192, 192, 255)";
 						break;
 
 					case CannotStartProgram:
 						text = tr("Cannot Start Program");
+						FrColor = "rgb(255, 64, 64)";
+						bgColor = "rgb(192, 192, 192)";
 						break;
 
 					case FileError:
 						text = tr("File Error");
+						FrColor = "rgb(255, 255, 64)";
+						bgColor = "rgb(192, 192, 192)";
 						break;
 
 					case RunTimeError:
 						text = tr("Run Time Error");
+						bgColor = "rgb(255, 192, 255)";
 						break;
 
 					case InvalidSpecialJudge:
 						text = tr("Invalid Special Judge");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 0, 0)";
 						break;
 
 					case SpecialJudgeTimeLimitExceeded:
 						text = tr("Special Judge Time Limit Exceeded");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 128, 0)";
 						break;
 
 					case SpecialJudgeRunTimeError:
 						text = tr("Special Judge Run Time Error");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(128, 0, 128)";
 						break;
 
 					case Skipped:
 						text = tr("Skipped");
+						FrColor = "rgb(192, 192, 192)";
+						bgColor = "rgb(255, 255, 255)";
 						break;
 
 					case InteractorError:
 						text = tr("Interactor Error");
+						FrColor = "rgb(255, 255, 255)";
+						bgColor = "rgb(0, 0, 128)";
 						break;
 				}
 
-				htmlCode += QString("<td align=\"center\" valign=\"middle\">%1").arg(text);
+				htmlCode += QString("<td align=\"center\" valign=\"middle\" style=\"background-color: %2; color: %3;\">%1").arg(text).arg(bgColor).arg(FrColor);
 
 				if(! message[j][k].isEmpty())
 				{
@@ -251,13 +272,17 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if(k == 0)
 				{
-					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\">").arg(inputFiles[j].size());
-					int minv = 1000000000;
+					int minv = 2147483647, maxv = testCases[j]->getFullScore();
 
 					for(int t = 0; t < inputFiles[j].size(); t ++)
 						if(score[j][t] < minv) minv = score[j][t];
 
-					htmlCode += QString("%1</td>").arg(minv);
+					QString bgColor = "rgb(255, 192, 192)";
+
+					if(minv >= maxv) bgColor = "rgb(192, 255, 192)";
+					else if(minv > 0) bgColor = "rgb(192, 255, 255)";
+
+					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"background-color: %2;\"><a style=\"font-weight: bold; font-size: 16px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";

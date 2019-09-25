@@ -20,7 +20,7 @@
  * Update 2018 Dust1404
  **/
 /**
- * main.cpp @Project Lemon+
+ * main.cpp @Project LemonLime
  * Update 2019 iotang
  **/
 

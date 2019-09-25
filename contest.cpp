@@ -105,6 +105,18 @@ int Contest::getTotalTimeLimit() const
 	return total;
 }
 
+int Contest::getTotalScore() const
+{
+	int total = 0;
+
+	for(int i = 0; i < taskList.size(); i ++)
+	{
+		total += taskList[i]->getTotalScore();
+	}
+
+	return total;
+}
+
 void Contest::addTask(Task *task)
 {
 	task->setParent(this);
@@ -242,68 +254,19 @@ void Contest::judge(Contestant *contestant)
 		contestant->setScore(i, thread->getScore());
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-		//QList< QPair<int, int> > needRejudge = thread->getNeedRejudge();
+
+		contestant->setCheckJudged(i, true);
+		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
+		emit taskJudgingFinished();
 
 		delete thread;
 		clearPath(Settings::temporaryPath());
-
-		/*if (needRejudge.size() > 0) {
-		    AssignmentThread *thread = new AssignmentThread();
-		    connect(thread, SIGNAL(singleCaseFinished(int, int, int, int)),
-		            this, SIGNAL(singleCaseFinished(int, int, int, int)));
-		    connect(thread, SIGNAL(compileError(int, int)),
-		            this, SIGNAL(compileError(int, int)));
-		    connect(this, SIGNAL(stopJudgingSignal()),
-		            thread, SLOT(stopJudgingSlot()));
-		    //thread->setCheckRejudgeMode(true);
-		    thread->setNeedRejudge(needRejudge);
-		    thread->setSettings(settings);
-		    thread->setTask(taskList[i]);
-		    thread->setContestantName(contestant->getContestantName());
-		    QEventLoop *eventLoop = new QEventLoop(this);
-		    connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
-		    thread->start();
-		    eventLoop->exec();
-		    delete eventLoop;
-
-		    if (stopJudging) {
-		        delete thread;
-		        clearPath(Settings::temporaryPath());
-		        QDir().rmdir(Settings::temporaryPath());
-		        return;
-		    }
-
-		    QList< QList<ResultState> > result = contestant->getResult(i);
-		    QList<QStringList> message = contestant->getMessage(i);
-		    QList< QList<int> > score = contestant->getSocre(i);
-		    QList< QList<int> > timeUsed = contestant->getTimeUsed(i);
-		    QList< QList<int> > memoryUsed = contestant->getMemoryUsed(i);
-
-		    for (int j = 0; j < needRejudge.size(); j ++) {
-		        int a = needRejudge[j].first, b = needRejudge[j].second;
-		        result[a][b] = thread->getResult()[a][b];
-		        message[a][b] = thread->getMessage()[a][b];
-		        score[a][b] = thread->getScore()[a][b];
-		        timeUsed[a][b] = thread->getTimeUsed()[a][b];
-		        memoryUsed[a][b] = thread->getMemoryUsed()[a][b];
-		    }
-
-		    contestant->setResult(i, result);
-		    contestant->setMessage(i, message);
-		    contestant->setScore(i, score);
-		    contestant->setTimeUsed(i, timeUsed);
-		    contestant->setMemoryUsed(i, memoryUsed);
-
-		    delete thread;
-		    clearPath(Settings::temporaryPath());
-		}*/
-
-		contestant->setCheckJudged(i, true);
-		emit taskJudgingFinished();
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
+
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }
 
@@ -353,68 +316,19 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 		contestant->setScore(i, thread->getScore());
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-		//QList< QPair<int, int> > needRejudge = thread->getNeedRejudge();
+
+		contestant->setCheckJudged(i, true);
+		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
+		emit taskJudgingFinished();
 
 		delete thread;
 		clearPath(Settings::temporaryPath());
-
-		/*if (needRejudge.size() > 0) {
-		    AssignmentThread *thread = new AssignmentThread();
-		    connect(thread, SIGNAL(singleCaseFinished(int, int, int, int)),
-		            this, SIGNAL(singleCaseFinished(int, int, int, int)));
-		    connect(thread, SIGNAL(compileError(int, int)),
-		            this, SIGNAL(compileError(int, int)));
-		    connect(this, SIGNAL(stopJudgingSignal()),
-		            thread, SLOT(stopJudgingSlot()));
-		    //thread->setCheckRejudgeMode(true);
-		    thread->setNeedRejudge(needRejudge);
-		    thread->setSettings(settings);
-		    thread->setTask(taskList[i]);
-		    thread->setContestantName(contestant->getContestantName());
-		    QEventLoop *eventLoop = new QEventLoop(this);
-		    connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
-		    thread->start();
-		    eventLoop->exec();
-		    delete eventLoop;
-
-		    if (stopJudging) {
-		        delete thread;
-		        clearPath(Settings::temporaryPath());
-		        QDir().rmdir(Settings::temporaryPath());
-		        return;
-		    }
-
-		    QList< QList<ResultState> > result = contestant->getResult(i);
-		    QList<QStringList> message = contestant->getMessage(i);
-		    QList< QList<int> > score = contestant->getSocre(i);
-		    QList< QList<int> > timeUsed = contestant->getTimeUsed(i);
-		    QList< QList<int> > memoryUsed = contestant->getMemoryUsed(i);
-
-		    for (int j = 0; j < needRejudge.size(); j ++) {
-		        int a = needRejudge[j].first, b = needRejudge[j].second;
-		        result[a][b] = thread->getResult()[a][b];
-		        message[a][b] = thread->getMessage()[a][b];
-		        score[a][b] = thread->getScore()[a][b];
-		        timeUsed[a][b] = thread->getTimeUsed()[a][b];
-		        memoryUsed[a][b] = thread->getMemoryUsed()[a][b];
-		    }
-
-		    contestant->setResult(i, result);
-		    contestant->setMessage(i, message);
-		    contestant->setScore(i, score);
-		    contestant->setTimeUsed(i, timeUsed);
-		    contestant->setMemoryUsed(i, memoryUsed);
-
-		    delete thread;
-		    clearPath(Settings::temporaryPath());
-		}*/
-
-		contestant->setCheckJudged(i, true);
-		emit taskJudgingFinished();
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
+
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }
 
@@ -460,67 +374,18 @@ void Contest::judge(Contestant *contestant, int index)
 	contestant->setScore(index, thread->getScore());
 	contestant->setTimeUsed(index, thread->getTimeUsed());
 	contestant->setMemoryUsed(index, thread->getMemoryUsed());
-	//QList< QPair<int, int> > needRejudge = thread->getNeedRejudge();
+
+	contestant->setCheckJudged(index, true);
+	emit taskJudgedDisplay(taskList[index]->getProblemTile(), thread->getScore(), taskList[index]->getTotalScore());
+	emit taskJudgingFinished();
 
 	delete thread;
 	clearPath(Settings::temporaryPath());
 
-	/*if (needRejudge.size() > 0) {
-	    AssignmentThread *thread = new AssignmentThread();
-	    connect(thread, SIGNAL(singleCaseFinished(int, int, int, int)),
-	            this, SIGNAL(singleCaseFinished(int, int, int, int)));
-	    connect(thread, SIGNAL(compileError(int, int)),
-	            this, SIGNAL(compileError(int, int)));
-	    connect(this, SIGNAL(stopJudgingSignal()),
-	            thread, SLOT(stopJudgingSlot()));
-	    //thread->setCheckRejudgeMode(true);
-	    thread->setNeedRejudge(needRejudge);
-	    thread->setSettings(settings);
-	    thread->setTask(taskList[index]);
-	    thread->setContestantName(contestant->getContestantName());
-	    QEventLoop *eventLoop = new QEventLoop(this);
-	    connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
-	    thread->start();
-	    eventLoop->exec();
-	    delete eventLoop;
-
-	    if (stopJudging) {
-	        delete thread;
-	        clearPath(Settings::temporaryPath());
-	        QDir().rmdir(Settings::temporaryPath());
-	        return;
-	    }
-
-	    QList< QList<ResultState> > result = contestant->getResult(index);
-	    QList<QStringList> message = contestant->getMessage(index);
-	    QList< QList<int> > score = contestant->getSocre(index);
-	    QList< QList<int> > timeUsed = contestant->getTimeUsed(index);
-	    QList< QList<int> > memoryUsed = contestant->getMemoryUsed(index);
-
-	    for (int i = 0; i < needRejudge.size(); i ++) {
-	        int a = needRejudge[i].first, b = needRejudge[i].second;
-	        result[a][b] = thread->getResult()[a][b];
-	        message[a][b] = thread->getMessage()[a][b];
-	        score[a][b] = thread->getScore()[a][b];
-	        timeUsed[a][b] = thread->getTimeUsed()[a][b];
-	        memoryUsed[a][b] = thread->getMemoryUsed()[a][b];
-	    }
-
-	    contestant->setResult(index, result);
-	    contestant->setMessage(index, message);
-	    contestant->setScore(index, score);
-	    contestant->setTimeUsed(index, timeUsed);
-	    contestant->setMemoryUsed(index, memoryUsed);
-
-	    delete thread;
-	    clearPath(Settings::temporaryPath());
-	}*/
-
-	contestant->setCheckJudged(index, true);
-	emit taskJudgingFinished();
-
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
+
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }
 
