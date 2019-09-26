@@ -42,6 +42,8 @@
 #include "detaildialog.h"
 #include "exportutil.h"
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
 
 Lemon::Lemon(QWidget *parent) :
 	QMainWindow(parent),
@@ -121,12 +123,16 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(actionCleanup_Files()));
 	connect(ui->actionSkip, SIGNAL(triggered()),
 	        this, SLOT(actionSkip()));
+	connect(ui->actionExport_Result, SIGNAL(triggered()),
+	        this, SLOT(actionExport_Result()));
 	connect(ui->actionSubTasks, SIGNAL(triggered()),
 	        this, SLOT(actionSubTasks()));
 	connect(ui->actionSpecial_Judge, SIGNAL(triggered()),
 	        this, SLOT(actionSpecial_Judge()));
 	connect(ui->actionInteraction, SIGNAL(triggered()),
 	        this, SLOT(actionInteraction()));
+	connect(ui->actionMore, SIGNAL(triggered()),
+	        this, SLOT(actionMore()));
 
 	connect(ui->exitAction, SIGNAL(triggered()),
 	        this, SLOT(close()));
@@ -935,8 +941,19 @@ void Lemon::actionSubTasks()
 	text += tr("\".\" means a character.") + "<br>";
 	text += tr("\"*\" means repeat previous order 0~inf times.") + "<br>";
 	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
-
 	QMessageBox::about(this, tr("About Subtasks"), text);
+}
+
+void Lemon::actionExport_Result()
+{
+	QString text;
+	text += "<h3>" + tr("Something about Exporting Result") + "</h3>";
+	text += tr("HTML, CSV, XLS (Windows only) are supported.") + "<br><br>";
+	text += tr("There are two modes of exported HTML: Full and Compressed.") + "<br>";
+	text += tr("Full HTML has more hrefs and color;") + "<br>";
+	text += tr("Compressed HTML has smaller size.") + "<br>";
+	text += tr("Enable Full mode with suffix *.html and enable Compressed mode with suffix *.htm.") + "<br>";
+	QMessageBox::about(this, tr("About Exporting Result"), text);
 }
 
 void Lemon::actionCleanup_Files()
@@ -971,6 +988,11 @@ void Lemon::actionSpecial_Judge()
 	text += tr("argv[5] : (out) The score (A integer only)") + "<br>";
 	text += tr("argv[6] : (out) Notes") + "<br>";
 	QMessageBox::about(this, tr("About Special Judge"), text);
+}
+
+void Lemon::actionMore()
+{
+	QDesktopServices::openUrl(QUrl(QString("https://github.com/iotang/Project_LemonLime/wiki")));
 }
 
 void Lemon::setUiLanguage()

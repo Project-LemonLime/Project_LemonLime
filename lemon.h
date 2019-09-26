@@ -88,9 +88,11 @@ private slots:
 	void actionCompile_Features();
 	void actionInteraction();
 	void actionSubTasks();
+	void actionExport_Result();
 	void actionCleanup_Files();
 	void actionSkip();
 	void actionSpecial_Judge();
+	void actionMore();
 	void setUiLanguage();
 
 signals:
