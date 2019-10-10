@@ -572,10 +572,10 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C17 O2", "-o %s %s.* -lm -static -std=c17 -O2" + stackArg, "");
 				compiler->addConfiguration("C17 O3", "-o %s %s.* -lm -static -std=c17 -O3" + stackArg, "");
 #ifdef Q_OS_LINUX
-				compiler->addConfiguration("C89 UB Catching", "-o %s %s.* -lm -static -std=c89 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C99 UB Catching", "-o %s %s.* -lm -static -std=c99 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C11 UB Catching", "-o %s %s.* -lm -static -std=c11 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C17 UB Catching", "-o %s %s.* -lm -static -std=c17 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C89 UB Catching", "-o %s %s.* -lm -static -std=c89 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C99 UB Catching", "-o %s %s.* -lm -static -std=c99 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C11 UB Catching", "-o %s %s.* -lm -static -std=c11 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C17 UB Catching", "-o %s %s.* -lm -static -std=c17 -fsanitize=undefined" + stackArg, "");
 #endif
 			}
 
@@ -617,11 +617,11 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C++17 O2", "-o %s %s.* -lm -static -std=c++17 -O2" + stackArg, "");
 				compiler->addConfiguration("C++17 O3", "-o %s %s.* -lm -static -std=c++17 -O3" + stackArg, "");
 #ifdef Q_OS_LINUX
-				compiler->addConfiguration("C++98 UB Catching", "-o %s %s.* -lm -static -std=c++98 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C++03 UB Catching", "-o %s %s.* -lm -static -std=c++03 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C++11 UB Catching", "-o %s %s.* -lm -static -std=c++11 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C++14 UB Catching", "-o %s %s.* -lm -static -std=c++14 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
-				compiler->addConfiguration("C++17 UB Catching", "-o %s %s.* -lm -static -std=c++17 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C++98 UB Catching", "-o %s %s.* -lm -static -std=c++98 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++03 UB Catching", "-o %s %s.* -lm -static -std=c++03 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++11 UB Catching", "-o %s %s.* -lm -static -std=c++11 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++14 UB Catching", "-o %s %s.* -lm -static -std=c++14 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++17 UB Catching", "-o %s %s.* -lm -static -std=c++17 -fsanitize=undefined" + stackArg, "");
 #endif
 			}
 
