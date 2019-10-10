@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 			};
 			stalim = (rlimit)
 			{
-				RLIM_INFINITY, RLIM_INFINITY
+				(rlim_t) 2147483647ll, (rlim_t) 2147483647ll
 			};
 		}
 

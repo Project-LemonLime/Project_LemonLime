@@ -571,6 +571,12 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C17", "-o %s %s.* -lm -static -std=c17" + stackArg, "");
 				compiler->addConfiguration("C17 O2", "-o %s %s.* -lm -static -std=c17 -O2" + stackArg, "");
 				compiler->addConfiguration("C17 O3", "-o %s %s.* -lm -static -std=c17 -O3" + stackArg, "");
+#ifdef Q_OS_LINUX
+				compiler->addConfiguration("C89 UB Catching", "-o %s %s.* -lm -static -std=c89 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C99 UB Catching", "-o %s %s.* -lm -static -std=c99 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C11 UB Catching", "-o %s %s.* -lm -static -std=c11 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C17 UB Catching", "-o %s %s.* -lm -static -std=c17 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+#endif
 			}
 
 #ifdef Q_OS_WIN32
@@ -601,6 +607,8 @@ void AddCompilerWizard::accept()
 			{
 				compiler->addConfiguration("C++98", "-o %s %s.* -lm -static -std=c++98" + stackArg, "");
 				compiler->addConfiguration("C++98 O2", "-o %s %s.* -lm -static -std=c++98 -O2" + stackArg, "");
+				compiler->addConfiguration("C++03", "-o %s %s.* -lm -static -std=c++03" + stackArg, "");
+				compiler->addConfiguration("C++03 O2", "-o %s %s.* -lm -static -std=c++03 -O2" + stackArg, "");
 				compiler->addConfiguration("C++11", "-o %s %s.* -lm -static -std=c++11" + stackArg, "");
 				compiler->addConfiguration("C++11 O2", "-o %s %s.* -lm -static -std=c++11 -O2" + stackArg, "");
 				compiler->addConfiguration("C++14", "-o %s %s.* -lm -static -std=c++14" + stackArg, "");
@@ -608,6 +616,13 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C++17", "-o %s %s.* -lm -static -std=c++17" + stackArg, "");
 				compiler->addConfiguration("C++17 O2", "-o %s %s.* -lm -static -std=c++17 -O2" + stackArg, "");
 				compiler->addConfiguration("C++17 O3", "-o %s %s.* -lm -static -std=c++17 -O3" + stackArg, "");
+#ifdef Q_OS_LINUX
+				compiler->addConfiguration("C++98 UB Catching", "-o %s %s.* -lm -static -std=c++98 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C++03 UB Catching", "-o %s %s.* -lm -static -std=c++03 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C++11 UB Catching", "-o %s %s.* -lm -static -std=c++11 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C++14 UB Catching", "-o %s %s.* -lm -static -std=c++14 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+				compiler->addConfiguration("C++17 UB Catching", "-o %s %s.* -lm -static -std=c++17 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector" + stackArg, "");
+#endif
 			}
 
 #ifdef Q_OS_WIN32
