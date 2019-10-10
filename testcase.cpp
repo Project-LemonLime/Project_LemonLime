@@ -80,7 +80,7 @@ void TestCase::setMemoryLimit(int limit)
 
 void TestCase::setInputFiles(int index, const QString &fileName)
 {
-	if(0 <= index && index < inputFiles.size())
+	if (0 <= index && index < inputFiles.size())
 	{
 		inputFiles[index] = fileName;
 	}
@@ -88,7 +88,7 @@ void TestCase::setInputFiles(int index, const QString &fileName)
 
 void TestCase::setOutputFiles(int index, const QString &fileName)
 {
-	if(0 <= index && index < outputFiles.size())
+	if (0 <= index && index < outputFiles.size())
 	{
 		outputFiles[index] = fileName;
 	}
@@ -98,7 +98,7 @@ void TestCase::setDependenceSubtask(const QStringList &list)
 {
 	dependenceSubtask.clear();
 
-	for(int i = 0; i != list.size(); ++i)
+	for (int i = 0; i != list.size(); ++i)
 		dependenceSubtask.push_back(list[i].toInt());
 }
 
@@ -106,16 +106,16 @@ bool TestCase::checkDependenceSubtask(const QStringList &list)
 {
 	QList<int> temp;
 
-	for(int i = 0; i != list.size(); ++i)
+	for (int i = 0; i != list.size(); ++i)
 	{
 		int     t;
 		t = list[i].toInt();
 
-		if(t <= 0 || t >= index)
+		if (t <= 0 || t >= index)
 			return false;
 
-		for(int j = 0; j != temp.size(); ++j)
-			if(temp[j] == t)
+		for (int j = 0; j != temp.size(); ++j)
+			if (temp[j] == t)
 				return false;
 
 		temp.push_back(t);
@@ -143,19 +143,19 @@ void TestCase::writeToStream(QDataStream &out)
 	out << memoryLimit;
 	QStringList _inputFiles(inputFiles);
 
-	for(int i = 0; i < _inputFiles.size(); i ++)
+	for (int i = 0; i < _inputFiles.size(); i ++)
 	{
 		_inputFiles[i].replace(QDir::separator(), '/');
 	}
 
-	for(int i = 0; i < dependenceSubtask.size(); ++i)
+	for (int i = 0; i < dependenceSubtask.size(); ++i)
 	{
 		_inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(dependenceSubtask[i]));
 	}
 
 	QStringList _outputFiles(outputFiles);
 
-	for(int i = 0; i < _outputFiles.size(); i ++)
+	for (int i = 0; i < _outputFiles.size(); i ++)
 	{
 		_outputFiles[i].replace(QDir::separator(), '/');
 	}
@@ -175,13 +175,13 @@ void TestCase::readFromStream(QDataStream &in)
 	inputFiles.clear();
 	dependenceSubtask.clear();
 
-	for(int i = 0; i < _inputFiles.size(); i ++)
+	for (int i = 0; i < _inputFiles.size(); i ++)
 	{
-		if(_inputFiles[i].endsWith("_lemon_SUbtaskDEPENDENCE_fLAg"))
+		if (_inputFiles[i].endsWith("_lemon_SUbtaskDEPENDENCE_fLAg"))
 		{
 			int temp(0);
 
-			for(QString::iterator itr = _inputFiles[i].begin(); *itr != '_'; ++itr)
+			for (QString::iterator itr = _inputFiles[i].begin(); *itr != '_'; ++itr)
 				(temp *= 10) += itr->toLatin1() ^ '0';
 
 			dependenceSubtask.push_back(temp);
@@ -193,7 +193,7 @@ void TestCase::readFromStream(QDataStream &in)
 		}
 	}
 
-	for(int i = 0; i < outputFiles.size(); i ++)
+	for (int i = 0; i < outputFiles.size(); i ++)
 	{
 		outputFiles[i].replace('/', QDir::separator());
 	}

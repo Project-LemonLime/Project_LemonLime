@@ -56,7 +56,7 @@ const QString &Contest::getContestTitle() const
 
 Task *Contest::getTask(int index) const
 {
-	if(0 <= index && index < taskList.size())
+	if (0 <= index && index < taskList.size())
 	{
 		return taskList[index];
 	}
@@ -73,7 +73,7 @@ const QList<Task *> &Contest::getTaskList() const
 
 Contestant *Contest::getContestant(const QString &name) const
 {
-	if(contestantList.contains(name))
+	if (contestantList.contains(name))
 	{
 		return contestantList.value(name);
 	}
@@ -92,11 +92,11 @@ int Contest::getTotalTimeLimit() const
 {
 	int total = 0;
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		QList<TestCase *> testCaseList = taskList[i]->getTestCaseList();
 
-		for(int j = 0; j < testCaseList.size(); j ++)
+		for (int j = 0; j < testCaseList.size(); j ++)
 		{
 			total += testCaseList[j]->getTimeLimit() * testCaseList[j]->getInputFiles().size();
 		}
@@ -109,7 +109,7 @@ int Contest::getTotalScore() const
 {
 	int total = 0;
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		total += taskList[i]->getTotalScore();
 	}
@@ -129,7 +129,7 @@ void Contest::addTask(Task *task)
 
 void Contest::deleteTask(int index)
 {
-	if(0 <= index && index < taskList.size())
+	if (0 <= index && index < taskList.size())
 	{
 		delete taskList[index];
 		taskList.removeAt(index);
@@ -144,23 +144,23 @@ void Contest::refreshContestantList()
 	QStringList nameList = QDir(Settings::sourcePath()).entryList(QStringList(), QDir::Dirs | QDir::NoDotAndDotDot);
 	QStringList curNameList = contestantList.keys();
 
-	for(int i = 0; i < curNameList.size(); i ++)
+	for (int i = 0; i < curNameList.size(); i ++)
 	{
-		if(! nameList.contains(curNameList[i]))
+		if (! nameList.contains(curNameList[i]))
 		{
 			delete contestantList[curNameList[i]];
 			contestantList.remove(curNameList[i]);
 		}
 	}
 
-	for(int i = 0; i < nameList.size(); i ++)
+	for (int i = 0; i < nameList.size(); i ++)
 	{
-		if(! contestantList.contains(nameList[i]))
+		if (! contestantList.contains(nameList[i]))
 		{
 			Contestant *newContestant = new Contestant(this);
 			newContestant->setContestantName(nameList[i]);
 
-			for(int j = 0; j < taskList.size(); j ++)
+			for (int j = 0; j < taskList.size(); j ++)
 			{
 				newContestant->addTask();
 			}
@@ -176,7 +176,7 @@ void Contest::refreshContestantList()
 
 void Contest::deleteContestant(const QString &name)
 {
-	if(! contestantList.contains(name)) return;
+	if (! contestantList.contains(name)) return;
 
 	delete contestantList[name];
 	contestantList.remove(name);
@@ -187,9 +187,9 @@ void Contest::clearPath(const QString &curDir)
 	QDir dir(curDir);
 	QStringList fileList = dir.entryList(QDir::Files);
 
-	for(int i = 0; i < fileList.size(); i ++)
+	for (int i = 0; i < fileList.size(); i ++)
 	{
-		if(! dir.remove(fileList[i]))
+		if (! dir.remove(fileList[i]))
 		{
 #ifdef Q_OS_WIN32
 			QProcess::execute(QString("attrib -R \"") + curDir + fileList[i] + "\"");
@@ -203,7 +203,7 @@ void Contest::clearPath(const QString &curDir)
 
 	QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for(int i = 0; i < dirList.size(); i ++)
+	for (int i = 0; i < dirList.size(); i ++)
 	{
 		clearPath(curDir + dirList[i] + QDir::separator());
 		dir.rmdir(dirList[i]);
@@ -215,7 +215,7 @@ void Contest::judge(Contestant *contestant)
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
@@ -237,7 +237,7 @@ void Contest::judge(Contestant *contestant)
 		eventLoop->exec();
 		delete eventLoop;
 
-		if(stopJudging)
+		if (stopJudging)
 		{
 			delete thread;
 			clearPath(Settings::temporaryPath());
@@ -275,9 +275,9 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
-		if(!index.contains(i)) continue;
+		if (!index.contains(i)) continue;
 
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
@@ -299,7 +299,7 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 		eventLoop->exec();
 		delete eventLoop;
 
-		if(stopJudging)
+		if (stopJudging)
 		{
 			delete thread;
 			clearPath(Settings::temporaryPath());
@@ -357,7 +357,7 @@ void Contest::judge(Contestant *contestant, int index)
 	eventLoop->exec();
 	delete eventLoop;
 
-	if(stopJudging)
+	if (stopJudging)
 	{
 		delete thread;
 		clearPath(Settings::temporaryPath());
@@ -416,11 +416,11 @@ void Contest::judgeAll()
 	stopJudging = false;
 	QList<Contestant *> contestants = contestantList.values();
 
-	for(int i = 0; i < contestants.size(); i ++)
+	for (int i = 0; i < contestants.size(); i ++)
 	{
 		judge(contestants[i]);
 
-		if(stopJudging) break;
+		if (stopJudging) break;
 	}
 }
 
@@ -435,7 +435,7 @@ void Contest::writeToStream(QDataStream &out)
 	out << contestTitle;
 	out << taskList.size();
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		taskList[i]->writeToStream(out);
 	}
@@ -443,7 +443,7 @@ void Contest::writeToStream(QDataStream &out)
 	out << contestantList.size();
 	QList<Contestant *> list = contestantList.values();
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		list[i]->writeToStream(out);
 	}
@@ -455,7 +455,7 @@ void Contest::readFromStream(QDataStream &in)
 	in >> contestTitle;
 	in >> count;
 
-	for(int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i ++)
 	{
 		Task *newTask = new Task(this);
 		newTask->readFromStream(in);
@@ -465,7 +465,7 @@ void Contest::readFromStream(QDataStream &in)
 
 	in >> count;
 
-	for(int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i ++)
 	{
 		Contestant *newContestant = new Contestant(this);
 		newContestant->readFromStream(in);

@@ -44,7 +44,7 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 
 	QHeaderView *header = ui->argumentList->horizontalHeader();
 
-	for(int i = 0; i < 3; i ++)
+	for (int i = 0; i < 3; i ++)
 	{
 		header->resizeSection(i, header->sectionSizeHint(i));
 	}
@@ -149,7 +149,7 @@ void AddTestCasesWizard::deleteArgument()
 {
 	int index = ui->argumentList->currentRow();
 
-	for(int i = index; i + 1 < ui->argumentList->rowCount(); i ++)
+	for (int i = index; i + 1 < ui->argumentList->rowCount(); i ++)
 	{
 		ui->argumentList->item(i, 0)->setCheckState(ui->argumentList->item(i + 1, 0)->checkState());
 		delete ui->argumentList->item(i, 1);
@@ -162,7 +162,7 @@ void AddTestCasesWizard::deleteArgument()
 
 void AddTestCasesWizard::refreshButtonState()
 {
-	if(ui->argumentList->rowCount() < 9)
+	if (ui->argumentList->rowCount() < 9)
 	{
 		ui->addArgumentButton->setEnabled(true);
 	}
@@ -171,7 +171,7 @@ void AddTestCasesWizard::refreshButtonState()
 		ui->addArgumentButton->setEnabled(false);
 	}
 
-	if(ui->argumentList->currentRow() == -1)
+	if (ui->argumentList->currentRow() == -1)
 	{
 		ui->deleteArgumentButton->setEnabled(false);
 	}
@@ -185,7 +185,7 @@ void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, 
 {
 	QStringList list = QDir(curDir).entryList(QDir::Files);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		list[i] = prefix + list[i];
 	}
@@ -193,7 +193,7 @@ void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, 
 	files.append(list);
 	list = QDir(curDir).entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		getFiles(curDir + list[i] + QDir::separator(),
 		         prefix + list[i] + QDir::separator(), files);
@@ -216,7 +216,7 @@ QString AddTestCasesWizard::getFullRegExp(const QString &pattern)
 	result.replace("{", "\\{");
 	result.replace("|", "\\|");
 
-	for(int i = 0; i < ui->argumentList->rowCount(); i ++)
+	for (int i = 0; i < ui->argumentList->rowCount(); i ++)
 	{
 		QString text = ui->argumentList->item(i, 1)->text();
 		result.replace(QString("<%1>").arg(i + 1), QString("(%1)").arg(text));
@@ -229,23 +229,23 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
 {
 	QStringList result;
 
-	for(int i = 0; i < ui->argumentList->rowCount(); i ++)
+	for (int i = 0; i < ui->argumentList->rowCount(); i ++)
 		result.append("");
 
-	for(int pos = 0, i = 0; pos < pattern.length(); i ++, pos ++)
+	for (int pos = 0, i = 0; pos < pattern.length(); i ++, pos ++)
 	{
-		if(pos + 2 < pattern.length())
+		if (pos + 2 < pattern.length())
 		{
-			if(pattern[pos] == '<' && pattern[pos + 1].isDigit() && pattern[pos + 1] != '0' && pattern[pos + 2] == '>')
+			if (pattern[pos] == '<' && pattern[pos + 1].isDigit() && pattern[pos + 1] != '0' && pattern[pos + 2] == '>')
 			{
 				int index = pattern[pos + 1].toLatin1() - 49;
 				QString regExp = ui->argumentList->item(index, 1)->text();
 
-				for(int j = i; j < str.length(); j ++)
+				for (int j = i; j < str.length(); j ++)
 				{
-					if(QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
+					if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
 					{
-						if(QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1)))
+						if (QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1)))
 						{
 							result[index] = str.mid(i, j - i + 1);
 							i = j;
@@ -270,9 +270,9 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	QString regExp = getFullRegExp(inputFilesPattern);
 
-	for(int i = 0; i < inputFiles.size(); i ++)
+	for (int i = 0; i < inputFiles.size(); i ++)
 	{
-		if(! QRegExp(regExp).exactMatch(inputFiles[i]))
+		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
 		{
 			inputFiles.removeAt(i);
 			i --;
@@ -281,9 +281,9 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	regExp = getFullRegExp(outputFilesPattern);
 
-	for(int i = 0; i < outputFiles.size(); i ++)
+	for (int i = 0; i < outputFiles.size(); i ++)
 	{
-		if(! QRegExp(regExp).exactMatch(outputFiles[i]))
+		if (! QRegExp(regExp).exactMatch(outputFiles[i]))
 		{
 			outputFiles.removeAt(i);
 			i --;
@@ -296,12 +296,12 @@ void AddTestCasesWizard::searchMatchedFiles()
 	QList<QStringList> inputFilesMatchedPart;
 	QList<QStringList> outputFilesMatchedPart;
 
-	for(int i = 0; i < inputFiles.size(); i ++)
+	for (int i = 0; i < inputFiles.size(); i ++)
 	{
 		inputFilesMatchedPart.append(getMatchedPart(inputFiles[i], inputFilesPattern));
 	}
 
-	for(int i = 0; i < outputFiles.size(); i ++)
+	for (int i = 0; i < outputFiles.size(); i ++)
 	{
 		outputFilesMatchedPart.append(getMatchedPart(outputFiles[i], outputFilesPattern));
 	}
@@ -311,14 +311,14 @@ void AddTestCasesWizard::searchMatchedFiles()
 	QList< QStringList > matchedPart;
 
 	//if(ui->outputFilesPattern->isEnabled()) {
-	for(int i = 0; i < inputFiles.size(); i ++)
+	for (int i = 0; i < inputFiles.size(); i ++)
 	{
 		loc[inputFilesMatchedPart[i].join("*")] = i;
 	}
 
-	for(int i = 0; i < outputFiles.size(); i ++)
+	for (int i = 0; i < outputFiles.size(); i ++)
 	{
-		if(loc.count(outputFilesMatchedPart[i].join("*")) > 0)
+		if (loc.count(outputFilesMatchedPart[i].join("*")) > 0)
 		{
 			int partner = loc[outputFilesMatchedPart[i].join("*")];
 			singleCases.append(qMakePair(inputFiles[partner], outputFiles[i]));
@@ -335,13 +335,13 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	loc.clear();
 
-	for(int i = 0; i < singleCases.size(); i ++)
+	for (int i = 0; i < singleCases.size(); i ++)
 	{
 		QStringList key;
 
-		for(int j = 0; j < ui->argumentList->rowCount(); j ++)
+		for (int j = 0; j < ui->argumentList->rowCount(); j ++)
 		{
-			if(ui->argumentList->item(j, 0)->checkState() == Qt::Checked)
+			if (ui->argumentList->item(j, 0)->checkState() == Qt::Checked)
 			{
 				key.append(matchedPart[i][j]);
 			}
@@ -357,7 +357,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 	QList<QString> keys = loc.uniqueKeys();
 	qSort(keys.begin(), keys.end(), compareFileName);
 
-	for(int i = 0; i < keys.size(); i ++)
+	for (int i = 0; i < keys.size(); i ++)
 	{
 		QList<int> values = loc.values(keys[i]);
 		qSort(values.begin(), values.end());
@@ -365,7 +365,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 		QTreeWidgetItem *item = new QTreeWidgetItem(ui->testCasesViewer);
 		item->setText(0, tr("Test Case #%1").arg(i + 1));
 
-		for(int j = 0; j < values.size(); j ++)
+		for (int j = 0; j < values.size(); j ++)
 		{
 			inputFiles.append(singleCases[values[j]].first);
 			outputFiles.append(singleCases[values[j]].second);
@@ -384,23 +384,23 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 bool AddTestCasesWizard::validateCurrentPage()
 {
-	if(currentId() == 0)
+	if (currentId() == 0)
 	{
-		if(ui->fullScore->text().isEmpty())
+		if (ui->fullScore->text().isEmpty())
 		{
 			ui->fullScore->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty full score!"), QMessageBox::Close);
 			return false;
 		}
 
-		if(ui->timeLimit->text().isEmpty())
+		if (ui->timeLimit->text().isEmpty())
 		{
 			ui->timeLimit->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty time limit!"), QMessageBox::Close);
 			return false;
 		}
 
-		if(ui->memoryLimit->text().isEmpty())
+		if (ui->memoryLimit->text().isEmpty())
 		{
 			ui->memoryLimit->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty memory limit!"), QMessageBox::Close);
@@ -410,25 +410,25 @@ bool AddTestCasesWizard::validateCurrentPage()
 		return true;
 	}
 
-	if(currentId() == 1)
+	if (currentId() == 1)
 	{
-		if(ui->inputFilesPattern->text().isEmpty())
+		if (ui->inputFilesPattern->text().isEmpty())
 		{
 			ui->inputFilesPattern->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty input files pattern!"), QMessageBox::Close);
 			return false;
 		}
 
-		if(ui->outputFilesPattern->text().isEmpty())
+		if (ui->outputFilesPattern->text().isEmpty())
 		{
 			ui->outputFilesPattern->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty output files pattern!"), QMessageBox::Close);
 			return false;
 		}
 
-		for(int i = 0; i < ui->argumentList->rowCount(); i ++)
+		for (int i = 0; i < ui->argumentList->rowCount(); i ++)
 		{
-			if(inputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1)
+			if (inputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1)
 			{
 				ui->inputFilesPattern->setFocus();
 				QMessageBox::warning(this, tr("Error"),
@@ -437,7 +437,7 @@ bool AddTestCasesWizard::validateCurrentPage()
 				return false;
 			}
 
-			if(outputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1)
+			if (outputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1)
 			{
 				ui->outputFilesPattern->setFocus();
 				QMessageBox::warning(this, tr("Error"),
@@ -448,7 +448,7 @@ bool AddTestCasesWizard::validateCurrentPage()
 
 			QString regExp = ui->argumentList->item(i, 1)->text();
 
-			if(! QRegExp(regExp).isValid())
+			if (! QRegExp(regExp).isValid())
 			{
 				ui->argumentList->setCurrentCell(i, 1);
 				QMessageBox::warning(this, tr("Error"), tr("Invalid regular expression!"), QMessageBox::Close);

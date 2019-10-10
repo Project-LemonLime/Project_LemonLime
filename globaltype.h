@@ -54,11 +54,11 @@ const double cmeBaseColorLF = 5.00 / 6.00;
 
 inline double oriBaseColorLF(int score, int mxscore, double rem = 0.30)
 {
-	if(mxscore == 0)return 1.00;
+	if (mxscore == 0)return 1.00;
 
 	return 1.00 - 1.25 * rem * score / mxscore
-			 - 0.03 * (score > 0)
-			 - 0.02 * (score >= mxscore);
+	       - 0.03 * (score > 0)
+	       - 0.02 * (score >= mxscore);
 }
 
 

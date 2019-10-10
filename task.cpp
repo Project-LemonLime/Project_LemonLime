@@ -136,7 +136,7 @@ void Task::setProblemTitle(const QString &title)
 	bool changed = problemTitle != title;
 	problemTitle = title;
 
-	if(changed) emit problemTitleChanged(title);
+	if (changed) emit problemTitleChanged(title);
 }
 
 void Task::setSubFolderCheck(bool check)
@@ -228,7 +228,7 @@ void Task::addTestCase(TestCase *testCase)
 
 TestCase *Task::getTestCase(int index) const
 {
-	if(0 <= index && index < testCaseList.size())
+	if (0 <= index && index < testCaseList.size())
 	{
 		return testCaseList[index];
 	}
@@ -240,9 +240,9 @@ TestCase *Task::getTestCase(int index) const
 
 void Task::deleteTestCase(int index)
 {
-	if(0 <= index && index < testCaseList.size())
+	if (0 <= index && index < testCaseList.size())
 	{
-		for(int i = index; i < testCaseList.size(); ++i)
+		for (int i = index; i < testCaseList.size(); ++i)
 			testCaseList[i]->clearDependenceSubtask();
 
 		delete testCaseList[index];
@@ -255,14 +255,14 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 	QList<Compiler *> compilerList = settings->getCompilerList();
 	QStringList compilerNames;
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 		compilerNames.append(compilerList[i]->getCompilerName());
 
 	QMap<QString, QString>::iterator p;
 
-	for(p = compilerConfiguration.begin(); p != compilerConfiguration.end();)
+	for (p = compilerConfiguration.begin(); p != compilerConfiguration.end();)
 	{
-		if(! compilerNames.contains(p.key()))
+		if (! compilerNames.contains(p.key()))
 		{
 			p = compilerConfiguration.erase(p);
 		}
@@ -272,14 +272,14 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 		}
 	}
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 	{
-		if(compilerConfiguration.contains(compilerList[i]->getCompilerName()))
+		if (compilerConfiguration.contains(compilerList[i]->getCompilerName()))
 		{
 			const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
 			const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
 
-			if(! configurationNames.contains(config))
+			if (! configurationNames.contains(config))
 			{
 				compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
 			}
@@ -297,7 +297,7 @@ int Task::getTotalTimeLimit() const
 {
 	int total = 0;
 
-	for(int i = 0; i < testCaseList.size(); i ++)
+	for (int i = 0; i < testCaseList.size(); i ++)
 	{
 		total += testCaseList[i]->getTimeLimit() * testCaseList[i]->getInputFiles().size();
 	}
@@ -309,7 +309,7 @@ int Task::getTotalScore() const
 {
 	int total = 0;
 
-	for(int i = 0; i < testCaseList.size(); i ++)
+	for (int i = 0; i < testCaseList.size(); i ++)
 	{
 		total += testCaseList[i]->getFullScore();
 	}
@@ -333,7 +333,7 @@ void Task::writeToStream(QDataStream &out)
 	_specialJudge.replace(QDir::separator(), '/');
 	out << _specialJudge;
 
-	if(taskType == Task::Interaction)
+	if (taskType == Task::Interaction)
 	{
 		QString _temp = interactor;
 		_temp.replace(QDir::separator(), '/');
@@ -348,7 +348,7 @@ void Task::writeToStream(QDataStream &out)
 	out << answerFileExtension;
 	out << testCaseList.size();
 
-	for(int i = 0; i < testCaseList.size(); i ++)
+	for (int i = 0; i < testCaseList.size(); i ++)
 	{
 		testCaseList[i]->writeToStream(out);
 	}
@@ -373,7 +373,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> specialJudge;
 	specialJudge.replace('/', QDir::separator());
 
-	if(taskType == Task::Interaction)
+	if (taskType == Task::Interaction)
 	{
 		in >> interactor;
 		interactor.replace('/', QDir::separator());
@@ -386,7 +386,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> answerFileExtension;
 	in >> count;
 
-	for(int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i ++)
 	{
 		TestCase *newTestCase = new TestCase(this);
 		newTestCase->readFromStream(in);

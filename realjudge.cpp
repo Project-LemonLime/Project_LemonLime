@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 {
 	FILE *contestantOutputFile = fopen(argv[1], "r");
 
-	if(contestantOutputFile == NULL)
+	if (contestantOutputFile == NULL)
 	{
 		printf("Cannot open contestant\'s output file\n");
 		return 0;
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
 	FILE *standardOutputFile = fopen(argv[2], "r");
 
-	if(standardOutputFile == NULL)
+	if (standardOutputFile == NULL)
 	{
 		printf("Cannot open standard output file\n");
 		fclose(contestantOutputFile);
@@ -46,17 +46,17 @@ int main(int argc, char *argv[])
 	sscanf(argv[3], "%d", &realPrecision);
 	double eps = 1;
 
-	for(i = 0; i < realPrecision; i ++)
+	for (i = 0; i < realPrecision; i ++)
 		eps *= 0.1;
 
 	double a, b;
 
-	while(1)
+	while (1)
 	{
 		int cnt1 = fscanf(contestantOutputFile, "%lf", &a);
 		int cnt2 = fscanf(standardOutputFile, "%lf", &b);
 
-		if(cnt1 == 0)
+		if (cnt1 == 0)
 		{
 			printf("Wrong answer\nInvalid characters found\n");
 			fclose(contestantOutputFile);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if(cnt2 == 0)
+		if (cnt2 == 0)
 		{
 			printf("Invalid characters in standard output file\n");
 			fclose(contestantOutputFile);
@@ -72,9 +72,9 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if(cnt1 == EOF && cnt2 == EOF) break;
+		if (cnt1 == EOF && cnt2 == EOF) break;
 
-		if(cnt1 == EOF && cnt2 == 1)
+		if (cnt1 == EOF && cnt2 == 1)
 		{
 			printf("Wrong answer\nShorter than standard output\n");
 			fclose(contestantOutputFile);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if(cnt1 == 1 && cnt2 == EOF)
+		if (cnt1 == 1 && cnt2 == EOF)
 		{
 			printf("Wrong answer\nLonger than standard output\n");
 			fclose(contestantOutputFile);
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if(fabs(a - b) > eps || (isinf(a) ^isinf(b)) || (isnan(a) ^isnan(b)))
+		if (fabs(a - b) > eps || (isinf(a) ^isinf(b)) || (isnan(a) ^isnan(b)))
 		{
 			printf("Wrong answer\nRead \"%.10lf\" but expect \"%.10lf\"\n", a, b);
 			fclose(contestantOutputFile);

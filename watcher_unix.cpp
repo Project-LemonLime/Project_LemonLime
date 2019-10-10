@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	pid = fork();
 
-	if(pid > 0)
+	if (pid > 0)
 	{
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
@@ -57,46 +57,46 @@ int main(int argc, char *argv[])
 		struct rusage usage;
 		int status;
 
-		if(wait4(pid, &status, 0, &usage) == -1)
+		if (wait4(pid, &status, 0, &usage) == -1)
 			return 1;
 
-		if(WIFEXITED(status))
+		if (WIFEXITED(status))
 		{
-			if(WEXITSTATUS(status) == 1) return 1;
+			if (WEXITSTATUS(status) == 1) return 1;
 
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss) * 1024);
 
-			if(WEXITSTATUS(status) != 0) return 2;
+			if (WEXITSTATUS(status) != 0) return 2;
 
 			return 0;
 		}
 
-		if(WIFSIGNALED(status))
+		if (WIFSIGNALED(status))
 		{
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss) * 1024);
 
-			if(WTERMSIG(status) == SIGXCPU) return 3;
+			if (WTERMSIG(status) == SIGXCPU) return 3;
 
-			if(WTERMSIG(status) == SIGKILL) return 4;
+			if (WTERMSIG(status) == SIGKILL) return 4;
 
-			if(WTERMSIG(status) == SIGABRT) return 4;
+			if (WTERMSIG(status) == SIGABRT) return 4;
 
 			return 2;
 		}
 	}
 	else
 	{
-		if(strlen(argv[2]) > 0) freopen(argv[2], "r", stdin);
+		if (strlen(argv[2]) > 0) freopen(argv[2], "r", stdin);
 
-		if(strlen(argv[3]) > 0) freopen(argv[3], "w", stdout);
+		if (strlen(argv[3]) > 0) freopen(argv[3], "w", stdout);
 
-		if(strlen(argv[4]) > 0) freopen(argv[4], "w", stderr);
+		if (strlen(argv[4]) > 0) freopen(argv[4], "w", stderr);
 
 		rlimit memlim, stalim, timlim;
 
-		if(memoryLimit > 0)
+		if (memoryLimit > 0)
 		{
 			memlim = (rlimit)
 			{
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);
 
-		if(execlp("bash", "bash", "-c", argv[1], NULL) == -1) return 1;
+		if (execlp("bash", "bash", "-c", argv[1], NULL) == -1) return 1;
 	}
 
 	return 0;

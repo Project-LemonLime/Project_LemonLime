@@ -83,49 +83,49 @@ void GeneralSettings::resetEditSettings(Settings *settings)
 
 bool GeneralSettings::checkValid()
 {
-	if(ui->defaultFullScore->text().isEmpty())
+	if (ui->defaultFullScore->text().isEmpty())
 	{
 		ui->defaultFullScore->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default full score!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->defaultTimeLimit->text().isEmpty())
+	if (ui->defaultTimeLimit->text().isEmpty())
 	{
 		ui->defaultTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->defaultMemoryLimit->text().isEmpty())
+	if (ui->defaultMemoryLimit->text().isEmpty())
 	{
 		ui->defaultMemoryLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default memory limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->compileTimeLimit->text().isEmpty())
+	if (ui->compileTimeLimit->text().isEmpty())
 	{
 		ui->compileTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty compile time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->specialJudgeTimeLimit->text().isEmpty())
+	if (ui->specialJudgeTimeLimit->text().isEmpty())
 	{
 		ui->specialJudgeTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty special judge time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->fileSizeLimit->text().isEmpty())
+	if (ui->fileSizeLimit->text().isEmpty())
 	{
 		ui->fileSizeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty source file size limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if(ui->rejudgeTimes->text().isEmpty())
+	if (ui->rejudgeTimes->text().isEmpty())
 	{
 		ui->rejudgeTimes->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty maximum rejudge times!"), QMessageBox::Close);

@@ -64,7 +64,7 @@ QString EditVariableDialog::getVariableValue() const
 
 void EditVariableDialog::textChanged()
 {
-	if(! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty())
+	if (! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty())
 	{
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	}

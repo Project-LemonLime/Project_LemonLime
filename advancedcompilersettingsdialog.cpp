@@ -92,7 +92,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
 	QStringList configurationNames = editCompiler->getConfigurationNames();
 	ui->configurationSelect->setEnabled(false);
 
-	for(int i = 0; i < configurationNames.size(); i ++)
+	for (int i = 0; i < configurationNames.size(); i ++)
 	{
 		ui->configurationSelect->addItem(configurationNames[i]);
 	}
@@ -110,21 +110,21 @@ Compiler *AdvancedCompilerSettingsDialog::getEditCompiler() const
 
 void AdvancedCompilerSettingsDialog::okayButtonClicked()
 {
-	if(ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty())
+	if (ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty())
 	{
 		ui->compilerLocation->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty compiler\'s Location!"), QMessageBox::Close);
 		return;
 	}
 
-	if(ui->interpreterLocation->isEnabled() && ui->interpreterLocation->text().isEmpty())
+	if (ui->interpreterLocation->isEnabled() && ui->interpreterLocation->text().isEmpty())
 	{
 		ui->interpreterLocation->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty interpreter\'s Location!"), QMessageBox::Close);
 		return;
 	}
 
-	if(ui->bytecodeExtension->isEnabled() && ui->bytecodeExtension->text().isEmpty())
+	if (ui->bytecodeExtension->isEnabled() && ui->bytecodeExtension->text().isEmpty())
 	{
 		ui->bytecodeExtension->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty Byte-code Extensions!"), QMessageBox::Close);
@@ -133,9 +133,9 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 
 	const QStringList &configurationNames = editCompiler->getConfigurationNames();
 
-	for(int j = 0; j < configurationNames.size(); j ++)
+	for (int j = 0; j < configurationNames.size(); j ++)
 	{
-		if(configurationNames[j].isEmpty())
+		if (configurationNames[j].isEmpty())
 		{
 			ui->configurationSelect->setCurrentIndex(j);
 			ui->configurationSelect->setFocus();
@@ -143,7 +143,7 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 			return;
 		}
 
-		if(configurationNames.count(configurationNames[j]) > 1)
+		if (configurationNames.count(configurationNames[j]) > 1)
 		{
 			ui->configurationSelect->setCurrentIndex(j);
 			ui->configurationSelect->setFocus();
@@ -153,7 +153,7 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 			return;
 		}
 
-		if(configurationNames[j] == "disable")
+		if (configurationNames[j] == "disable")
 		{
 			ui->configurationSelect->setCurrentIndex(j);
 			ui->configurationSelect->setFocus();
@@ -169,7 +169,7 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged()
 {
 	editCompiler->setCompilerType((Compiler::CompilerType) ui->typeSelect->currentIndex());
 
-	if(editCompiler->getCompilerType() == Compiler::Typical)
+	if (editCompiler->getCompilerType() == Compiler::Typical)
 	{
 		ui->interpreterLabel->setEnabled(false);
 		ui->interpreterLocation->setEnabled(false);
@@ -186,7 +186,7 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged()
 		ui->interpreterArguments->setEnabled(true);
 	}
 
-	if(editCompiler->getCompilerType() == Compiler::InterpretiveWithByteCode)
+	if (editCompiler->getCompilerType() == Compiler::InterpretiveWithByteCode)
 	{
 		ui->bytecodeExtensionLabel->setEnabled(true);
 		ui->bytecodeExtension->setEnabled(true);
@@ -197,7 +197,7 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged()
 		ui->bytecodeExtension->setEnabled(false);
 	}
 
-	if(editCompiler->getCompilerType() == Compiler::InterpretiveWithoutByteCode)
+	if (editCompiler->getCompilerType() == Compiler::InterpretiveWithoutByteCode)
 	{
 		ui->compilerLabel->setEnabled(false);
 		ui->compilerLocation->setEnabled(false);
@@ -237,7 +237,7 @@ void AdvancedCompilerSettingsDialog::selectCompilerLocation()
 	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
-	if(! location.isEmpty())
+	if (! location.isEmpty())
 	{
 		location = location.replace('/', QDir::separator());
 		ui->compilerLocation->setText(location);
@@ -256,7 +256,7 @@ void AdvancedCompilerSettingsDialog::selectInterpreterLocation()
 	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
-	if(! location.isEmpty())
+	if (! location.isEmpty())
 	{
 		location = location.replace('/', QDir::separator());
 		ui->interpreterLocation->setText(location);
@@ -288,13 +288,13 @@ void AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged()
 
 void AdvancedCompilerSettingsDialog::configurationIndexChanged()
 {
-	if(! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled()) return;
 
 	int index = ui->configurationSelect->currentIndex();
 
-	if(index == -1) return;
+	if (index == -1) return;
 
-	if(index == ui->configurationSelect->count() - 1)
+	if (index == ui->configurationSelect->count() - 1)
 	{
 		ui->configurationSelect->setItemText(index, tr("New configuration %1").arg(++ configCount));
 		editCompiler->addConfiguration(ui->configurationSelect->currentText(), "", "");
@@ -315,11 +315,11 @@ void AdvancedCompilerSettingsDialog::configurationIndexChanged()
 
 void AdvancedCompilerSettingsDialog::configurationTextChanged()
 {
-	if(! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled()) return;
 
-	if(ui->configurationSelect->currentIndex() == 0)
+	if (ui->configurationSelect->currentIndex() == 0)
 	{
-		if(ui->configurationSelect->lineEdit()->text() != "default")
+		if (ui->configurationSelect->lineEdit()->text() != "default")
 		{
 			ui->configurationSelect->lineEdit()->setText("default");
 		}
@@ -337,7 +337,7 @@ void AdvancedCompilerSettingsDialog::deleteConfiguration()
 {
 	int index = ui->configurationSelect->currentIndex();
 
-	if(index + 1 < ui->configurationSelect->count() - 1)
+	if (index + 1 < ui->configurationSelect->count() - 1)
 	{
 		ui->configurationSelect->setCurrentIndex(index + 1);
 	}
@@ -352,7 +352,7 @@ void AdvancedCompilerSettingsDialog::deleteConfiguration()
 
 void AdvancedCompilerSettingsDialog::compilerArgumentsChanged()
 {
-	if(! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled()) return;
 
 	int index = ui->configurationSelect->currentIndex();
 	editCompiler->setCompilerArguments(index, ui->compilerArguments->text());
@@ -360,7 +360,7 @@ void AdvancedCompilerSettingsDialog::compilerArgumentsChanged()
 
 void AdvancedCompilerSettingsDialog::interpreterArgumentsChanged()
 {
-	if(! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled()) return;
 
 	int index = ui->configurationSelect->currentIndex();
 	editCompiler->setInterpreterArguments(index, ui->interpreterArguments->text());
@@ -371,7 +371,7 @@ void AdvancedCompilerSettingsDialog::environmentVariablesButtonClicked()
 	EnvironmentVariablesDialog *dialog = new EnvironmentVariablesDialog(this);
 	dialog->setProcessEnvironment(editCompiler->getEnvironment());
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		editCompiler->setEnvironment(dialog->getProcessEnvironment());
 	}

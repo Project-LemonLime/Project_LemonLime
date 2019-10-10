@@ -180,7 +180,7 @@ void Settings::addCompiler(Compiler *compiler)
 
 void Settings::deleteCompiler(int index)
 {
-	if(0 <= index && index < compilerList.size())
+	if (0 <= index && index < compilerList.size())
 	{
 		delete compilerList[index];
 		compilerList.removeAt(index);
@@ -189,7 +189,7 @@ void Settings::deleteCompiler(int index)
 
 Compiler *Settings::getCompiler(int index)
 {
-	if(0 <= index && index < compilerList.size())
+	if (0 <= index && index < compilerList.size())
 	{
 		return compilerList[index];
 	}
@@ -201,9 +201,9 @@ Compiler *Settings::getCompiler(int index)
 
 void Settings::swapCompiler(int a, int b)
 {
-	if(0 <= a && a < compilerList.size())
+	if (0 <= a && a < compilerList.size())
 	{
-		if(0 <= b && b < compilerList.size())
+		if (0 <= b && b < compilerList.size())
 		{
 			compilerList.swap(a, b);
 		}
@@ -224,7 +224,7 @@ void Settings::copyFrom(Settings *other)
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
 	setOutputFileExtensions(other->getOutputFileExtensions().join(";"));
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 	{
 		delete compilerList[i];
 	}
@@ -232,7 +232,7 @@ void Settings::copyFrom(Settings *other)
 	compilerList.clear();
 	const QList<Compiler *> &list = other->getCompilerList();
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		Compiler *compiler = new Compiler;
 		compiler->copyFrom(list[i]);
@@ -262,7 +262,7 @@ void Settings::saveSettings()
 
 	settings.beginWriteArray("v1.2/CompilerSettings");
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 	{
 		settings.setArrayIndex(i);
 		settings.setValue("CompilerType", (int) compilerList[i]->getCompilerType());
@@ -279,7 +279,7 @@ void Settings::saveSettings()
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
 		settings.beginWriteArray("Configuration");
 
-		for(int j = 0; j < configurationNames.size(); j ++)
+		for (int j = 0; j < configurationNames.size(); j ++)
 		{
 			settings.setArrayIndex(j);
 			settings.setValue("Name", configurationNames[j]);
@@ -295,7 +295,7 @@ void Settings::saveSettings()
 
 	settings.beginWriteArray("v1.2/RecentContest");
 
-	for(int i = 0; i < recentContest.size(); i ++)
+	for (int i = 0; i < recentContest.size(); i ++)
 	{
 		settings.setArrayIndex(i);
 		settings.setValue("Location", recentContest[i]);
@@ -306,7 +306,7 @@ void Settings::saveSettings()
 
 void Settings::loadSettings()
 {
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 		delete compilerList[i];
 
 	compilerList.clear();
@@ -332,7 +332,7 @@ void Settings::loadSettings()
 
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
 
-	for(int i = 0; i < compilerCount; i ++)
+	for (int i = 0; i < compilerCount; i ++)
 	{
 		settings.setArrayIndex(i);
 		Compiler *compiler = new Compiler;
@@ -347,7 +347,7 @@ void Settings::loadSettings()
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
 		int configurationCount = settings.beginReadArray("Configuration");
 
-		for(int j = 0; j < configurationCount; j ++)
+		for (int j = 0; j < configurationCount; j ++)
 		{
 			settings.setArrayIndex(j);
 			compiler->addConfiguration(settings.value("Name").toString(),
@@ -358,7 +358,7 @@ void Settings::loadSettings()
 		QStringList values = settings.value("EnvironmentVariables").toStringList();
 		QProcessEnvironment environment;
 
-		for(int i = 0; i < values.size(); i ++)
+		for (int i = 0; i < values.size(); i ++)
 		{
 			int tmp = values[i].indexOf('=');
 			QString variable = values[i].mid(0, tmp);
@@ -375,7 +375,7 @@ void Settings::loadSettings()
 
 	int listCount = settings.beginReadArray("v1.2/RecentContest");
 
-	for(int i = 0; i < listCount; i ++)
+	for (int i = 0; i < listCount; i ++)
 	{
 		settings.setArrayIndex(i);
 		recentContest.append(settings.value("Location").toString());

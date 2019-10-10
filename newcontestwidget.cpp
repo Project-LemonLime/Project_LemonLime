@@ -70,7 +70,7 @@ void NewContestWidget::selectContestPath()
 {
 	QString path = QFileDialog::getExistingDirectory(this, tr("Select Contest Path"), QDir::homePath());
 
-	if(! path.isEmpty()) ui->contestPath->setText(QDir::toNativeSeparators(path));
+	if (! path.isEmpty()) ui->contestPath->setText(QDir::toNativeSeparators(path));
 }
 
 void NewContestWidget::savingNameChanged()

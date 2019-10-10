@@ -57,11 +57,11 @@ void OpenContestWidget::refreshContestList()
 {
 	ui->recentContest->setRowCount(0);
 
-	for(int i = 0; i < recentContest.size();)
+	for (int i = 0; i < recentContest.size();)
 	{
 		QFile file(recentContest[i]);
 
-		if(! file.open(QFile::ReadOnly))
+		if (! file.open(QFile::ReadOnly))
 		{
 			recentContest.removeAt(i);
 			continue;
@@ -71,7 +71,7 @@ void OpenContestWidget::refreshContestList()
 		unsigned checkNumber;
 		_in >> checkNumber;
 
-		if(checkNumber != unsigned(MagicNumber))
+		if (checkNumber != unsigned(MagicNumber))
 		{
 			recentContest.removeAt(i);
 			continue;
@@ -83,7 +83,7 @@ void OpenContestWidget::refreshContestList()
 		char *raw = new char[len];
 		_in.readRawData(raw, len);
 
-		if(qChecksum(raw, len) != checksum)
+		if (qChecksum(raw, len) != checksum)
 		{
 			delete[] raw;
 			recentContest.removeAt(i);
@@ -112,12 +112,12 @@ void OpenContestWidget::addContest()
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Add Contest"), QDir::homePath(),
 	                   tr("Lemon contest data file (*.cdf)"));
 
-	if(fileName.isEmpty()) return;
+	if (fileName.isEmpty()) return;
 
 	fileName = fileName.replace('/', QDir::separator());
 	QFile file(fileName);
 
-	if(! file.open(QFile::ReadOnly))
+	if (! file.open(QFile::ReadOnly))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open selected file"), QMessageBox::Close);
 		return;
@@ -127,7 +127,7 @@ void OpenContestWidget::addContest()
 	unsigned checkNumber;
 	in >> checkNumber;
 
-	if(checkNumber != unsigned(MagicNumber))
+	if (checkNumber != unsigned(MagicNumber))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
 		return;
@@ -139,7 +139,7 @@ void OpenContestWidget::addContest()
 	char *raw = new char[len];
 	in.readRawData(raw, len);
 
-	if(qChecksum(raw, len) != checksum)
+	if (qChecksum(raw, len) != checksum)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
 		delete[] raw;
@@ -162,7 +162,7 @@ void OpenContestWidget::currentRowChanged()
 {
 	int index = ui->recentContest->currentRow();
 
-	if(index != -1)
+	if (index != -1)
 	{
 		ui->deleteButton->setEnabled(true);
 	}

@@ -58,11 +58,11 @@ void OptionsDialog::okayButtonClicked()
 {
 	ui->tabWidget->setCurrentIndex(0);
 
-	if(! ui->generalSettings->checkValid()) return;
+	if (! ui->generalSettings->checkValid()) return;
 
 	ui->tabWidget->setCurrentIndex(1);
 
-	if(! ui->compilerSettings->checkValid()) return;
+	if (! ui->compilerSettings->checkValid()) return;
 
 	accept();
 }

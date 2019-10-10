@@ -101,7 +101,7 @@ TaskEditWidget::~TaskEditWidget()
 
 void TaskEditWidget::changeEvent(QEvent *event)
 {
-	if(event->type() == QEvent::LanguageChange)
+	if (event->type() == QEvent::LanguageChange)
 	{
 		Task *bak = editTask;
 		setEditTask(0);
@@ -112,7 +112,7 @@ void TaskEditWidget::changeEvent(QEvent *event)
 
 void TaskEditWidget::setEditTask(Task *task)
 {
-	if(editTask)
+	if (editTask)
 	{
 		disconnect(editTask, SIGNAL(problemTitleChanged(QString)),
 		           this, SLOT(refreshProblemTitle(QString)));
@@ -122,7 +122,7 @@ void TaskEditWidget::setEditTask(Task *task)
 
 	editTask = task;
 
-	if(! task) return;
+	if (! task) return;
 
 	connect(editTask, SIGNAL(problemTitleChanged(QString)),
 	        this, SLOT(refreshProblemTitle(QString)));
@@ -151,17 +151,17 @@ void TaskEditWidget::setEditTask(Task *task)
 	ui->answerFileExtension->setText(editTask->getAnswerFileExtension());
 	refreshCompilerConfiguration();
 
-	if(editTask->getTaskType() == Task::Traditional)
+	if (editTask->getTaskType() == Task::Traditional)
 	{
 		ui->traditionalButton->setChecked(true);
 	}
 
-	if(editTask->getTaskType() == Task::AnswersOnly)
+	if (editTask->getTaskType() == Task::AnswersOnly)
 	{
 		ui->answersOnlyButton->setChecked(true);
 	}
 
-	if(editTask->getTaskType() == Task::Interaction)
+	if (editTask->getTaskType() == Task::Interaction)
 		ui->interactionButton->setChecked(true);
 
 	refreshWidgetState();
@@ -174,7 +174,7 @@ void TaskEditWidget::setSettings(Settings *_settings)
 
 void TaskEditWidget::refreshWidgetState()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	ui->interactorPathLabel->setVisible(editTask->getTaskType() == Task::Interaction);
 	ui->interactorPath->setVisible(editTask->getTaskType() == Task::Interaction);
@@ -203,14 +203,14 @@ void TaskEditWidget::refreshWidgetState()
 
 void TaskEditWidget::problemTitleChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setProblemTitle(text);
 }
 
 void TaskEditWidget::setToTraditional(bool check)
 {
-	if(! check || ! editTask) return;
+	if (! check || ! editTask) return;
 
 	editTask->setTaskType(Task::Traditional);
 	//editTask->setStandardOutputCheck(false); //fix stdout not save
@@ -220,7 +220,7 @@ void TaskEditWidget::setToTraditional(bool check)
 
 void TaskEditWidget::setToAnswersOnly(bool check)
 {
-	if(! check || ! editTask) return;
+	if (! check || ! editTask) return;
 
 	editTask->setTaskType(Task::AnswersOnly);
 	//editTask->setStandardOutputCheck(false);
@@ -230,7 +230,7 @@ void TaskEditWidget::setToAnswersOnly(bool check)
 
 void TaskEditWidget::setToInteraction(bool check)
 {
-	if(!check || !editTask) return;
+	if (!check || !editTask) return;
 
 	editTask->setTaskType(Task::Interaction);
 	//editTask->setStandardOutputCheck(true);
@@ -240,18 +240,18 @@ void TaskEditWidget::setToInteraction(bool check)
 
 void TaskEditWidget::sourceFileNameChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
-	if(! ui->sourceFileName->isEnabled()) return;
+	if (! ui->sourceFileName->isEnabled()) return;
 
 	editTask->setSourceFileName(text);
 
-	if(ui->inputFileName->isEnabled())
+	if (ui->inputFileName->isEnabled())
 	{
 		ui->inputFileName->setText(text + "." + settings->getDefaultInputFileExtension());
 	}
 
-	if(ui->outputFileName->isEnabled())
+	if (ui->outputFileName->isEnabled())
 	{
 		ui->outputFileName->setText(text + "." + settings->getDefaultOutputFileExtension());
 	}
@@ -259,7 +259,7 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
 
 void TaskEditWidget::subFolderCheckChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	bool check = ui->subFolderCheck->isChecked();
 	editTask->setSubFolderCheck(check);
@@ -267,21 +267,21 @@ void TaskEditWidget::subFolderCheckChanged()
 
 void TaskEditWidget::inputFileNameChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setInputFileName(text);
 }
 
 void TaskEditWidget::outputFileNameChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setOutputFileName(text);
 }
 
 void TaskEditWidget::standardInputCheckChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	bool check = ui->standardInputCheck->isChecked();
 	editTask->setStandardInputCheck(check);
@@ -290,7 +290,7 @@ void TaskEditWidget::standardInputCheckChanged()
 
 void TaskEditWidget::standardOutputCheckChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	bool check = ui->standardOutputCheck->isChecked();
 	editTask->setStandardOutputCheck(check);
@@ -299,42 +299,42 @@ void TaskEditWidget::standardOutputCheckChanged()
 
 void TaskEditWidget::comparisonModeChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setComparisonMode(Task::ComparisonMode(ui->comparisonMode->currentIndex()));
 }
 
 void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setDiffArguments(argumentsList);
 }
 
 void TaskEditWidget::realPrecisionChanged(int precision)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setRealPrecision(precision);
 }
 
 void TaskEditWidget::specialJudgeChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setSpecialJudge(text);
 }
 
 void TaskEditWidget::interactorChanged(const QString &text)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setInteractor(text);
 }
 
 void TaskEditWidget::interactorNameChanged(const QString &text)
 {
-	if(!editTask)
+	if (!editTask)
 		return;
 
 	editTask->setInteractorName(text);
@@ -342,21 +342,21 @@ void TaskEditWidget::interactorNameChanged(const QString &text)
 
 void TaskEditWidget::graderChanged(const QString &text)
 {
-	if(!editTask) return;
+	if (!editTask) return;
 
 	editTask->setGrader(text);
 }
 
 void TaskEditWidget::refreshProblemTitle(const QString &title)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	ui->problemTitle->setText(title);
 }
 
 void TaskEditWidget::refreshCompilerConfiguration()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	ui->compilersList->setEnabled(false);
 	ui->configurationSelect->setEnabled(false);
@@ -365,9 +365,9 @@ void TaskEditWidget::refreshCompilerConfiguration()
 	ui->configurationSelect->clear();
 	const QList<Compiler *> &compilerList = settings->getCompilerList();
 
-	if(compilerList.isEmpty()) return;
+	if (compilerList.isEmpty()) return;
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 	{
 		ui->compilersList->addItem(compilerList[i]->getCompilerName());
 	}
@@ -381,18 +381,18 @@ void TaskEditWidget::refreshCompilerConfiguration()
 
 void TaskEditWidget::compilerSelectionChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
-	if(! ui->compilersList->isEnabled()) return;
+	if (! ui->compilersList->isEnabled()) return;
 
 	ui->configurationSelect->setEnabled(false);
 	ui->configurationSelect->clear();
 	ui->configurationSelect->addItem("disable");
 	const QList<Compiler *> &compilerList = settings->getCompilerList();
 
-	for(int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i ++)
 	{
-		if(compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text())
+		if (compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text())
 		{
 			ui->configurationSelect->addItems(compilerList[i]->getConfigurationNames());
 		}
@@ -405,9 +405,9 @@ void TaskEditWidget::compilerSelectionChanged()
 
 void TaskEditWidget::configurationSelectionChanged()
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
-	if(! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled()) return;
 
 	editTask->setCompilerConfiguration(ui->compilersList->currentItem()->text(),
 	                                   ui->configurationSelect->currentText());
@@ -415,7 +415,7 @@ void TaskEditWidget::configurationSelectionChanged()
 
 void TaskEditWidget::answerFileExtensionChanged(const QString &extension)
 {
-	if(! editTask) return;
+	if (! editTask) return;
 
 	editTask->setAnswerFileExtension(extension);
 }

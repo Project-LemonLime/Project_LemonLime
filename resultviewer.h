@@ -47,6 +47,8 @@ public slots:
 	void judgeSelected();
 	void judgeAll();
 	void judgeUnjudged();
+	void judgeGrey();
+	void judgeMagenta();
 
 private:
 	Contest *curContest;

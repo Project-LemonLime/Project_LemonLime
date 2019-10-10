@@ -71,72 +71,76 @@ Lemon::Lemon(QWidget *parent) :
 	ui->testCaseEdit->setSettings(settings);
 
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->taskEdit, SIGNAL(dataPathChanged()));
+	        ui->taskEdit, SIGNAL(dataPathChanged()));
 	connect(this, SIGNAL(dataPathChanged()),
-			  ui->testCaseEdit, SIGNAL(dataPathChanged()));
+	        ui->testCaseEdit, SIGNAL(dataPathChanged()));
 
 	connect(ui->summary, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-			  this, SLOT(summarySelectionChanged()));
+	        this, SLOT(summarySelectionChanged()));
 	connect(ui->optionsAction, SIGNAL(triggered()),
-			  this, SLOT(showOptionsDialog()));
+	        this, SLOT(showOptionsDialog()));
 	connect(ui->cleanupButton, SIGNAL(clicked()),
-			  this, SLOT(cleanupButtonClicked()));
+	        this, SLOT(cleanupButtonClicked()));
 	connect(ui->refreshButton, SIGNAL(clicked()),
-			  this, SLOT(refreshButtonClicked()));
+	        this, SLOT(refreshButtonClicked()));
 	connect(ui->judgeButton, SIGNAL(clicked()),
-			  ui->resultViewer, SLOT(judgeSelected()));
+	        ui->resultViewer, SLOT(judgeSelected()));
 	connect(ui->judgeAllButton, SIGNAL(clicked()),
-			  ui->resultViewer, SLOT(judgeAll()));
+	        ui->resultViewer, SLOT(judgeAll()));
 	connect(ui->judgeUnjudgedButton, SIGNAL(clicked()),
-			  ui->resultViewer, SLOT(judgeUnjudged()));
+	        ui->resultViewer, SLOT(judgeUnjudged()));
 	connect(ui->judgeAction, SIGNAL(triggered()),
-			  ui->resultViewer, SLOT(judgeSelected()));
+	        ui->resultViewer, SLOT(judgeSelected()));
 	connect(ui->judgeAllAction, SIGNAL(triggered()),
-			  ui->resultViewer, SLOT(judgeAll()));
+	        ui->resultViewer, SLOT(judgeAll()));
 	connect(ui->judgeUnjudgedAction, SIGNAL(triggered()),
-			  ui->resultViewer, SLOT(judgeUnjudged()));
+	        ui->resultViewer, SLOT(judgeUnjudged()));
+	connect(ui->judgeGreyAction, SIGNAL(triggered()),
+	        ui->resultViewer, SLOT(judgeGrey()));
+	connect(ui->judgeMagentaAction, SIGNAL(triggered()),
+	        ui->resultViewer, SLOT(judgeMagenta()));
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)),
-			  this, SLOT(tabIndexChanged(int)));
+	        this, SLOT(tabIndexChanged(int)));
 	connect(ui->resultViewer, SIGNAL(itemSelectionChanged()),
-			  this, SLOT(viewerSelectionChanged()));
+	        this, SLOT(viewerSelectionChanged()));
 	connect(ui->resultViewer, SIGNAL(contestantDeleted()),
-			  this, SLOT(contestantDeleted()));
+	        this, SLOT(contestantDeleted()));
 	connect(ui->newAction, SIGNAL(triggered()),
-			  this, SLOT(newAction()));
+	        this, SLOT(newAction()));
 	connect(ui->openAction, SIGNAL(triggered()),
-			  this, SLOT(loadAction()));
+	        this, SLOT(loadAction()));
 	connect(ui->saveAction, SIGNAL(triggered()),
-			  this, SLOT(saveAction()));
+	        this, SLOT(saveAction()));
 	connect(ui->openFolderAction, SIGNAL(triggered()),
-			  this, SLOT(openFolderAction()));
+	        this, SLOT(openFolderAction()));
 	connect(ui->closeAction, SIGNAL(triggered()),
-			  this, SLOT(closeAction()));
+	        this, SLOT(closeAction()));
 	connect(ui->addTasksAction, SIGNAL(triggered()),
-			  this, SLOT(addTasksAction()));
+	        this, SLOT(addTasksAction()));
 	connect(ui->exportAction, SIGNAL(triggered()),
-			  this, SLOT(exportResult()));
+	        this, SLOT(exportResult()));
 	connect(ui->aboutAction, SIGNAL(triggered()),
-			  this, SLOT(aboutLemon()));
+	        this, SLOT(aboutLemon()));
 
 	connect(ui->actionCompile_Features, SIGNAL(triggered()),
-			  this, SLOT(actionCompile_Features()));
+	        this, SLOT(actionCompile_Features()));
 	connect(ui->actionCleanup_Files, SIGNAL(triggered()),
-			  this, SLOT(actionCleanup_Files()));
+	        this, SLOT(actionCleanup_Files()));
 	connect(ui->actionSkip, SIGNAL(triggered()),
-			  this, SLOT(actionSkip()));
+	        this, SLOT(actionSkip()));
 	connect(ui->actionExport_Result, SIGNAL(triggered()),
-			  this, SLOT(actionExport_Result()));
+	        this, SLOT(actionExport_Result()));
 	connect(ui->actionSubTasks, SIGNAL(triggered()),
-			  this, SLOT(actionSubTasks()));
+	        this, SLOT(actionSubTasks()));
 	connect(ui->actionSpecial_Judge, SIGNAL(triggered()),
-			  this, SLOT(actionSpecial_Judge()));
+	        this, SLOT(actionSpecial_Judge()));
 	connect(ui->actionInteraction, SIGNAL(triggered()),
-			  this, SLOT(actionInteraction()));
+	        this, SLOT(actionInteraction()));
 	connect(ui->actionMore, SIGNAL(triggered()),
-			  this, SLOT(actionMore()));
+	        this, SLOT(actionMore()));
 
 	connect(ui->exitAction, SIGNAL(triggered()),
-			  this, SLOT(close()));
+	        this, SLOT(close()));
 
 	appTranslator = new QTranslator(this);
 	qtTranslator = new QTranslator(this);
@@ -145,7 +149,7 @@ Lemon::Lemon(QWidget *parent) :
 
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "lemon_*.qm", QDir::Files);
 
-	for(int i = 0; i < fileList.size(); i ++)
+	for (int i = 0; i < fileList.size(); i ++)
 	{
 		appTranslator->load(QString(":/translation/%1").arg(fileList[i]));
 		QAction *newLanguage = new QAction(appTranslator->translate("Lemon", "English"), this);
@@ -154,7 +158,7 @@ Lemon::Lemon(QWidget *parent) :
 		language.remove(0, language.indexOf('_') + 1);
 		newLanguage->setData(language);
 		connect(newLanguage, SIGNAL(triggered()),
-				  this, SLOT(setUiLanguage()));
+		        this, SLOT(setUiLanguage()));
 		languageActions.append(newLanguage);
 	}
 
@@ -162,7 +166,7 @@ Lemon::Lemon(QWidget *parent) :
 	ui->setEnglishAction->setData("en");
 	ui->setEnglishAction->setCheckable(true);
 	connect(ui->setEnglishAction, SIGNAL(triggered()),
-			  this, SLOT(setUiLanguage()));
+	        this, SLOT(setUiLanguage()));
 	loadUiLanguage();
 
 	QSettings settings("Crash", "Lemon");
@@ -178,7 +182,7 @@ Lemon::~Lemon()
 
 void Lemon::changeEvent(QEvent *event)
 {
-	if(event->type() == QEvent::LanguageChange)
+	if (event->type() == QEvent::LanguageChange)
 	{
 		ui->retranslateUi(this);
 		ui->resultViewer->refreshViewer();
@@ -187,7 +191,7 @@ void Lemon::changeEvent(QEvent *event)
 
 void Lemon::closeEvent(QCloseEvent *event)
 {
-	if(curContest) saveContest(curFile);
+	if (curContest) saveContest(curFile);
 
 	settings->saveSettings();
 	QSettings settings("Crash", "Lemon");
@@ -196,15 +200,15 @@ void Lemon::closeEvent(QCloseEvent *event)
 
 void Lemon::welcome()
 {
-	if(settings->getCompilerList().size() == 0)
+	if (settings->getCompilerList().size() == 0)
 	{
 		AddCompilerWizard *wizard = new AddCompilerWizard(this);
 
-		if(wizard->exec() == QDialog::Accepted)
+		if (wizard->exec() == QDialog::Accepted)
 		{
 			QList<Compiler *> compilerList = wizard->getCompilerList();
 
-			for(int i = 0; i < compilerList.size(); i ++)
+			for (int i = 0; i < compilerList.size(); i ++)
 				settings->addCompiler(compilerList[i]);
 		}
 
@@ -214,11 +218,11 @@ void Lemon::welcome()
 	WelcomeDialog *dialog = new WelcomeDialog(this);
 	dialog->setRecentContest(settings->getRecentContest());
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		settings->setRecentContest(dialog->getRecentContest());
 
-		if(dialog->getCurrentTab() == 0)
+		if (dialog->getCurrentTab() == 0)
 		{
 			loadContest(dialog->getSelectedContest());
 		}
@@ -239,14 +243,14 @@ void Lemon::loadUiLanguage()
 {
 	ui->setEnglishAction->setChecked(false);
 
-	for(int i = 0; i < languageActions.size(); i ++)
+	for (int i = 0; i < languageActions.size(); i ++)
 	{
 		languageActions[i]->setChecked(false);
 	}
 
-	for(int i = 0; i < languageActions.size(); i ++)
+	for (int i = 0; i < languageActions.size(); i ++)
 	{
-		if(languageActions[i]->data().toString() == settings->getUiLanguage())
+		if (languageActions[i]->data().toString() == settings->getUiLanguage())
 		{
 			languageActions[i]->setChecked(true);
 			appTranslator->load(QString(":/translation/lemon_%1.qm").arg(settings->getUiLanguage()));
@@ -267,7 +271,7 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 	QDir dir(curDir);
 	QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		insertWatchPath(curDir + list[i] + QDir::separator(), watcher);
 	}
@@ -275,26 +279,26 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 
 void Lemon::resetDataWatcher()
 {
-	if(dataDirWatcher) delete dataDirWatcher;
+	if (dataDirWatcher) delete dataDirWatcher;
 
 	dataDirWatcher = new QFileSystemWatcher(this);
 	insertWatchPath(Settings::dataPath(), dataDirWatcher);
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
-			  this, SLOT(resetDataWatcher()));
+	        this, SLOT(resetDataWatcher()));
 	connect(dataDirWatcher, SIGNAL(fileChanged(QString)),
-			  this, SIGNAL(dataPathChanged()));
+	        this, SIGNAL(dataPathChanged()));
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
-			  this, SIGNAL(dataPathChanged()));
+	        this, SIGNAL(dataPathChanged()));
 	emit dataPathChanged();
 }
 
 void Lemon::summarySelectionChanged()
 {
-	if(! ui->summary->isEnabled()) return;
+	if (! ui->summary->isEnabled()) return;
 
 	QTreeWidgetItem *curItem = ui->summary->currentItem();
 
-	if(! curItem)
+	if (! curItem)
 	{
 		ui->taskEdit->setEditTask(0);
 		ui->editWidget->setCurrentIndex(0);
@@ -303,7 +307,7 @@ void Lemon::summarySelectionChanged()
 
 	int index = ui->summary->indexOfTopLevelItem(curItem);
 
-	if(index != -1)
+	if (index != -1)
 	{
 		ui->taskEdit->setEditTask(curContest->getTask(index));
 		ui->editWidget->setCurrentIndex(1);
@@ -325,16 +329,16 @@ void Lemon::showOptionsDialog()
 	OptionsDialog *dialog = new OptionsDialog(this);
 	dialog->resetEditSettings(settings);
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		settings->copyFrom(dialog->getEditSettings());
 		ui->testCaseEdit->setSettings(settings);
 
-		if(curContest)
+		if (curContest)
 		{
 			const QList<Task *> &taskList = curContest->getTaskList();
 
-			for(int i = 0; i < taskList.size(); i ++)
+			for (int i = 0; i < taskList.size(); i ++)
 				taskList[i]->refreshCompilerConfiguration(settings);
 		}
 	}
@@ -347,12 +351,14 @@ void Lemon::refreshButtonClicked()
 	curContest->refreshContestantList();
 	ui->resultViewer->refreshViewer();
 
-	if(ui->resultViewer->rowCount() > 0)
+	if (ui->resultViewer->rowCount() > 0)
 	{
 		ui->judgeAllButton->setEnabled(true);
 		ui->judgeAllAction->setEnabled(true);
 		ui->judgeUnjudgedButton->setEnabled(true);
 		ui->judgeUnjudgedAction->setEnabled(true);
+		ui->judgeGreyAction->setEnabled(true);
+		ui->judgeMagentaAction->setEnabled(true);
 	}
 	else
 	{
@@ -360,24 +366,26 @@ void Lemon::refreshButtonClicked()
 		ui->judgeAllAction->setEnabled(false);
 		ui->judgeUnjudgedButton->setEnabled(false);
 		ui->judgeUnjudgedAction->setEnabled(false);
+		ui->judgeGreyAction->setEnabled(false);
+		ui->judgeMagentaAction->setEnabled(false);
 	}
 }
 
 void removePath(const QString &path)
 {
-	if(path.isEmpty())return;
+	if (path.isEmpty())return;
 
 	QDir dir(path);
 
-	if(!dir.exists())return;
+	if (!dir.exists())return;
 
 	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
 
 	QFileInfoList fileList = dir.entryInfoList();
 
-	foreach(QFileInfo fi, fileList)
+	foreach (QFileInfo fi, fileList)
 	{
-		if(fi.isFile() || fi.isSymLink())fi.dir().remove(fi.fileName());
+		if (fi.isFile() || fi.isSymLink())fi.dir().remove(fi.fileName());
 		else removePath(fi.absoluteFilePath());
 	}
 
@@ -387,7 +395,7 @@ void removePath(const QString &path)
 void copyPath(const QString &fromPath, const QString &toPath)
 {
 	QDir dir(fromPath);
-	if(!dir.exists())return;
+	if (!dir.exists())return;
 
 	QString fpath = fromPath + QDir::separator();
 	QString tpath = toPath + QDir::separator();
@@ -396,17 +404,17 @@ void copyPath(const QString &fromPath, const QString &toPath)
 
 	QFileInfoList fileList = dir.entryInfoList();
 
-	foreach(QFileInfo fi, fileList)
+	foreach (QFileInfo fi, fileList)
 	{
 		QString fn = fpath + fi.fileName();
 		QString tn = tpath + fi.fileName();
 
-		if(fi.isFile() || fi.isSymLink())QFile::copy(fn,tn);
+		if (fi.isFile() || fi.isSymLink())QFile::copy(fn, tn);
 		else
 		{
 			QDir toDir(toPath);
 			toDir.mkpath(fi.fileName());
-			copyPath(fn,tn);
+			copyPath(fn, tn);
 		}
 	}
 }
@@ -419,7 +427,7 @@ void Lemon::cleanupButtonClicked()
 	text += tr("Reading guide are recommended.") + "<br>";
 	QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
 
-	if(res == QMessageBox::Yes)
+	if (res == QMessageBox::Yes)
 	{
 		QDir basDir(Settings::sourcePath());
 		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -430,22 +438,22 @@ void Lemon::cleanupButtonClicked()
 		text = tr("Making backup files to dir <br> `source.bak'?") + "<br>";
 		QMessageBox::StandardButton doBackup = QMessageBox::information(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::Yes);
 
-		if(doBackup == QMessageBox::Abort)
+		if (doBackup == QMessageBox::Abort)
 		{
 			QMessageBox::information(this, tr("Clean up Files"), tr("Aborted."));
 			return;
 		}
 
-		if(doBackup == QMessageBox::Yes)
+		if (doBackup == QMessageBox::Yes)
 		{
 			QDir bkLoca;
-			if(bkLoca.exists("source.bak"))
+			if (bkLoca.exists("source.bak"))
 			{
 				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: `source.bak' already exist."));
 				return;
 			}
 
-			if(!bkLoca.mkpath("source.bak"))
+			if (!bkLoca.mkpath("source.bak"))
 			{
 				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: Cannot make dir `source.bak'."));
 				return;
@@ -464,7 +472,7 @@ void Lemon::cleanupButtonClicked()
 
 			basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 			basDirLis = basDir.entryInfoList();
-			foreach(QFileInfo conDirWho, basDirLis)
+			foreach (QFileInfo conDirWho, basDirLis)
 			{
 				bkLoca.mkpath(conDirWho.fileName());
 				copyPath(conDirWho.path() + QDir::separator() + conDirWho.fileName(), bkLoca.path() + QDir::separator() + conDirWho.fileName());
@@ -486,7 +494,7 @@ void Lemon::cleanupButtonClicked()
 		process->setLabelText(tr("Working on it..."));
 		QCoreApplication::processEvents();
 
-		process->setRange(0,tarcnt + 5);
+		process->setRange(0, tarcnt + 5);
 		process->setValue(0);
 		process->setModal(true);
 
@@ -495,25 +503,25 @@ void Lemon::cleanupButtonClicked()
 
 		QSet<QString> tarNameSet;
 		QSet<QString> nameSet;
-		QMap<QString,int> typeSet;
-		QMap<QString,QString> origSet;
+		QMap<QString, int> typeSet;
+		QMap<QString, QString> origSet;
 		QList<Task *> taskList = curContest->getTaskList();
 
 		process->setValue(1);
 		process->setLabelText(tr("Initing..."));
 		QCoreApplication::processEvents();
 
-		for(int i = 0; i < taskList.size(); i ++)
+		for (int i = 0; i < taskList.size(); i ++)
 		{
 			QString taskName = taskList[i]->getSourceFileName();
-			typeSet[taskName]=i;
+			typeSet[taskName] = i;
 			nameSet.insert(taskName);
-			if(taskList[i]->getTaskType() == Task::AnswersOnly)
+			if (taskList[i]->getTaskType() == Task::AnswersOnly)
 			{
-				for(int j = 1, jj = taskList[i]->getTestCaseList().size(); j <= jj; j ++)
+				for (int j = 1, jj = taskList[i]->getTestCaseList().size(); j <= jj; j ++)
 				{
 					tarNameSet.insert(taskName + QString::number(j));
-					origSet[taskName + QString::number(j)]=taskName;
+					origSet[taskName + QString::number(j)] = taskName;
 				}
 			}
 			else tarNameSet.insert(taskName);
@@ -526,33 +534,33 @@ void Lemon::cleanupButtonClicked()
 		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 		basDirLis = basDir.entryInfoList();
 
-		foreach(QFileInfo conDirWho, basDirLis)
+		foreach (QFileInfo conDirWho, basDirLis)
 		{
 			QDir conDir(conDirWho.filePath());
 
 			conDir.setFilter(QDir::Files | QDir::Hidden);
 			QFileInfoList conDirLis = conDir.entryInfoList();
 
-			foreach(QFileInfo proFilWho, conDirLis)
+			foreach (QFileInfo proFilWho, conDirLis)
 			{
-				if(proFilWho.suffix().length() <= 0 || proFilWho.suffix().toUpper() == "EXE")
+				if (proFilWho.suffix().length() <= 0 || proFilWho.suffix().toUpper() == "EXE")
 					QFile::remove(proFilWho.absoluteFilePath());
 			}
 
 			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 			conDirLis = conDir.entryInfoList();
 
-			foreach(QFileInfo proDirWho, conDirLis)
+			foreach (QFileInfo proDirWho, conDirLis)
 			{
-				if(nameSet.contains(proDirWho.fileName()))
+				if (nameSet.contains(proDirWho.fileName()))
 				{
 					QDir proDir(proDirWho.filePath());
 
 					proDir.setFilter(QDir::Files | QDir::Hidden);
 
-					foreach(QFileInfo sorFilWho, proDir.entryInfoList())
+					foreach (QFileInfo sorFilWho, proDir.entryInfoList())
 					{
-						if(sorFilWho.suffix().length() > 0 && sorFilWho.suffix().toUpper() != "EXE")
+						if (sorFilWho.suffix().length() > 0 && sorFilWho.suffix().toUpper() != "EXE")
 							QFile::copy(sorFilWho.filePath(), conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
 					}
 				}
@@ -560,7 +568,7 @@ void Lemon::cleanupButtonClicked()
 				removePath(proDirWho.absoluteFilePath());
 			}
 
-			for(auto proName : nameSet)
+			for (auto proName : nameSet)
 			{
 				conDir.mkpath(proName);
 			}
@@ -568,25 +576,25 @@ void Lemon::cleanupButtonClicked()
 			conDir.setFilter(QDir::Files | QDir::Hidden);
 			conDirLis = conDir.entryInfoList();
 
-			foreach(QFileInfo proFilWho, conDirLis)
+			foreach (QFileInfo proFilWho, conDirLis)
 			{
 				QString proFilName = proFilWho.fileName();
 				QString proName = proFilName;
 				proName.truncate(proName.lastIndexOf("."));
 
-				if(tarNameSet.contains(proName))
+				if (tarNameSet.contains(proName))
 				{
 					int who = typeSet[proName];
 					int types = taskList[who]->getTaskType();
-					if(types == Task::Traditional || types == Task::Interaction)
+					if (types == Task::Traditional || types == Task::Interaction)
 					{
-						if(proFilName != taskList[who]->getInputFileName() && proFilName != taskList[who]->getOutputFileName())
-							QFile::copy(proFilWho.filePath(),conDirWho.filePath() + QDir::separator() + proName + QDir::separator() + proFilName);
+						if (proFilName != taskList[who]->getInputFileName() && proFilName != taskList[who]->getOutputFileName())
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + proName + QDir::separator() + proFilName);
 					}
-					else if(types == Task::AnswersOnly)
+					else if (types == Task::AnswersOnly)
 					{
-						if(proFilWho.suffix() == taskList[who]->getAnswerFileExtension())
-							QFile::copy(proFilWho.filePath(),conDirWho.filePath() + QDir::separator() + origSet[proName] + QDir::separator() + proFilName);
+						if (proFilWho.suffix() == taskList[who]->getAnswerFileExtension())
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + origSet[proName] + QDir::separator() + proFilName);
 					}
 				}
 
@@ -596,13 +604,13 @@ void Lemon::cleanupButtonClicked()
 			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 			conDirLis = conDir.entryInfoList();
 
-			foreach(QFileInfo proDirWho, conDirLis)
+			foreach (QFileInfo proDirWho, conDirLis)
 			{
 				QDir proDir(proDirWho.filePath());
 
 				proDir.setFilter(QDir::Files | QDir::Hidden);
 
-				foreach(QFileInfo sorFilWho, proDir.entryInfoList())
+				foreach (QFileInfo sorFilWho, proDir.entryInfoList())
 					QFile::copy(sorFilWho.filePath(), conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
 			}
 
@@ -624,7 +632,7 @@ void Lemon::cleanupButtonClicked()
 
 void Lemon::tabIndexChanged(int index)
 {
-	if(index == 0)
+	if (index == 0)
 	{
 		ui->judgeAction->setEnabled(false);
 		ui->judgeButton->setEnabled(false);
@@ -632,12 +640,14 @@ void Lemon::tabIndexChanged(int index)
 		ui->judgeAllButton->setEnabled(false);
 		ui->judgeUnjudgedAction->setEnabled(false);
 		ui->judgeUnjudgedButton->setEnabled(false);
+		ui->judgeGreyAction->setEnabled(false);
+		ui->judgeMagentaAction->setEnabled(false);
 	}
 	else
 	{
 		QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
-		if(selectionRange.size() > 0)
+		if (selectionRange.size() > 0)
 		{
 			ui->judgeAction->setEnabled(true);
 			ui->judgeButton->setEnabled(true);
@@ -648,12 +658,14 @@ void Lemon::tabIndexChanged(int index)
 			ui->judgeButton->setEnabled(false);
 		}
 
-		if(ui->resultViewer->rowCount() > 0)
+		if (ui->resultViewer->rowCount() > 0)
 		{
 			ui->judgeAllAction->setEnabled(true);
 			ui->judgeAllButton->setEnabled(true);
 			ui->judgeUnjudgedButton->setEnabled(true);
 			ui->judgeUnjudgedAction->setEnabled(true);
+			ui->judgeGreyAction->setEnabled(true);
+			ui->judgeMagentaAction->setEnabled(true);
 		}
 		else
 		{
@@ -661,6 +673,8 @@ void Lemon::tabIndexChanged(int index)
 			ui->judgeAllButton->setEnabled(false);
 			ui->judgeUnjudgedButton->setEnabled(false);
 			ui->judgeUnjudgedAction->setEnabled(false);
+			ui->judgeGreyAction->setEnabled(false);
+			ui->judgeMagentaAction->setEnabled(false);
 		}
 	}
 }
@@ -669,7 +683,7 @@ void Lemon::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
-	if(selectionRange.size() > 0)
+	if (selectionRange.size() > 0)
 	{
 		ui->judgeButton->setEnabled(true);
 		ui->judgeAction->setEnabled(true);
@@ -683,12 +697,14 @@ void Lemon::viewerSelectionChanged()
 
 void Lemon::contestantDeleted()
 {
-	if(ui->resultViewer->rowCount() > 0)
+	if (ui->resultViewer->rowCount() > 0)
 	{
 		ui->judgeAllButton->setEnabled(true);
 		ui->judgeAllAction->setEnabled(true);
 		ui->judgeUnjudgedButton->setEnabled(true);
 		ui->judgeUnjudgedAction->setEnabled(true);
+		ui->judgeGreyAction->setEnabled(true);
+		ui->judgeMagentaAction->setEnabled(true);
 	}
 	else
 	{
@@ -696,6 +712,8 @@ void Lemon::contestantDeleted()
 		ui->judgeAllAction->setEnabled(false);
 		ui->judgeUnjudgedButton->setEnabled(false);
 		ui->judgeUnjudgedAction->setEnabled(false);
+		ui->judgeGreyAction->setEnabled(false);
+		ui->judgeMagentaAction->setEnabled(false);
 	}
 }
 
@@ -703,10 +721,10 @@ void Lemon::saveContest(const QString &fileName)
 {
 	QFile file(fileName);
 
-	if(! file.open(QFile::WriteOnly))
+	if (! file.open(QFile::WriteOnly))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(fileName),
-									QMessageBox::Close);
+		                     QMessageBox::Close);
 		return;
 	}
 
@@ -725,14 +743,14 @@ void Lemon::saveContest(const QString &fileName)
 
 void Lemon::loadContest(const QString &filePath)
 {
-	if(curContest) closeAction();
+	if (curContest) closeAction();
 
 	QFile file(filePath);
 
-	if(! file.open(QFile::ReadOnly))
+	if (! file.open(QFile::ReadOnly))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(QFileInfo(filePath).fileName()),
-									QMessageBox::Close);
+		                     QMessageBox::Close);
 		return;
 	}
 
@@ -740,10 +758,10 @@ void Lemon::loadContest(const QString &filePath)
 	unsigned checkNumber;
 	_in >> checkNumber;
 
-	if(checkNumber != unsigned(MagicNumber))
+	if (checkNumber != unsigned(MagicNumber))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-									QMessageBox::Close);
+		                     QMessageBox::Close);
 		return;
 	}
 
@@ -753,10 +771,10 @@ void Lemon::loadContest(const QString &filePath)
 	char *raw = new char[len];
 	_in.readRawData(raw, len);
 
-	if(qChecksum(raw, len) != checksum)
+	if (qChecksum(raw, len) != checksum)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-									QMessageBox::Close);
+		                     QMessageBox::Close);
 		delete[] raw;
 		return;
 	}
@@ -794,14 +812,14 @@ void Lemon::loadContest(const QString &filePath)
 
 void Lemon::newContest(const QString &title, const QString &savingName, const QString &path)
 {
-	if(! QDir(path).exists() && ! QDir().mkpath(path))
+	if (! QDir(path).exists() && ! QDir().mkpath(path))
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot make contest path"),
-									QMessageBox::Close);
+		                     QMessageBox::Close);
 		return;
 	}
 
-	if(curContest) closeAction();
+	if (curContest) closeAction();
 
 	curContest = new Contest(this);
 	curContest->setSettings(settings);
@@ -832,7 +850,7 @@ void Lemon::newAction()
 {
 	NewContestDialog *dialog = new NewContestDialog(this);
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		newContest(dialog->getContestTitle(), dialog->getSavingName(), dialog->getContestPath());
 	}
@@ -874,13 +892,13 @@ void Lemon::loadAction()
 	dialog->setRecentContest(settings->getRecentContest());
 	QStringList recentContest = dialog->getRecentContest();
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
 		QString selectedContest = dialog->getSelectedContest();
 
-		for(int i = 0; i < recentContest.size(); i ++)
+		for (int i = 0; i < recentContest.size(); i ++)
 		{
-			if(recentContest[i] == selectedContest)
+			if (recentContest[i] == selectedContest)
 			{
 				recentContest.removeAt(i);
 				break;
@@ -899,18 +917,18 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
 {
 	QDir dir(path);
 
-	if(! filters.isEmpty()) dir.setNameFilters(filters);
+	if (! filters.isEmpty()) dir.setNameFilters(filters);
 
 	QFileInfoList list = dir.entryInfoList(QDir::Files);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		files.insert(list[i].completeBaseName(), list[i].fileName());
 	}
 }
 
 void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > &testCases,
-						  int fullScore, int timeLimit, int memoryLimit)
+                    int fullScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
@@ -921,14 +939,14 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
 	curContest->addTask(newTask);
 
-	for(int i = 0; i < testCases.size(); i ++)
+	for (int i = 0; i < testCases.size(); i ++)
 	{
 		TestCase *newTestCase = new TestCase;
 		newTestCase->setFullScore(fullScore);
 		newTestCase->setTimeLimit(timeLimit);
 		newTestCase->setMemoryLimit(memoryLimit);
 		newTestCase->addSingleCase(title + QDir::separator() + testCases[i].first,
-											title + QDir::separator() + testCases[i].second);
+		                           title + QDir::separator() + testCases[i].second);
 		newTask->addTestCase(newTestCase);
 	}
 }
@@ -936,7 +954,7 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 bool Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b)
 {
 	return (a.first.length() < b.first.length())
-			|| (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
+	       || (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
 
 void Lemon::addTasksAction()
@@ -945,7 +963,7 @@ void Lemon::addTasksAction()
 	QSet<QString> nameSet;
 	QList<Task *> taskList = curContest->getTaskList();
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		nameSet.insert(taskList[i]->getSourceFileName());
 	}
@@ -953,16 +971,16 @@ void Lemon::addTasksAction()
 	QStringList nameList;
 	QList< QList< QPair<QString, QString> > > testCases;
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
-		if(! nameSet.contains(list[i]))
+		if (! nameSet.contains(list[i]))
 		{
 			QStringList filters;
 			filters = settings->getInputFileExtensions();
 
-			if(filters.isEmpty()) filters << "in";
+			if (filters.isEmpty()) filters << "in";
 
-			for(int j = 0; j < filters.size(); j ++)
+			for (int j = 0; j < filters.size(); j ++)
 			{
 				filters[j] = QString("*.") + filters[j];
 			}
@@ -972,9 +990,9 @@ void Lemon::addTasksAction()
 
 			filters = settings->getOutputFileExtensions();
 
-			if(filters.isEmpty()) filters << "out" << "ans";
+			if (filters.isEmpty()) filters << "out" << "ans";
 
-			for(int j = 0; j < filters.size(); j ++)
+			for (int j = 0; j < filters.size(); j ++)
 			{
 				filters[j] = QString("*.") + filters[j];
 			}
@@ -985,9 +1003,9 @@ void Lemon::addTasksAction()
 			QList< QPair<QString, QString> > cases;
 			QStringList baseNameList = inputFiles.keys();
 
-			for(int j = 0; j < baseNameList.size(); j ++)
+			for (int j = 0; j < baseNameList.size(); j ++)
 			{
-				if(outputFiles.contains(baseNameList[j]))
+				if (outputFiles.contains(baseNameList[j]))
 				{
 					cases.append(qMakePair(inputFiles[baseNameList[j]], outputFiles[baseNameList[j]]));
 				}
@@ -995,7 +1013,7 @@ void Lemon::addTasksAction()
 
 			qSort(cases.begin(), cases.end(), compareFileName);
 
-			if(! cases.isEmpty())
+			if (! cases.isEmpty())
 			{
 				nameList.append(list[i]);
 				testCases.append(cases);
@@ -1003,7 +1021,7 @@ void Lemon::addTasksAction()
 		}
 	}
 
-	if(nameList.isEmpty())
+	if (nameList.isEmpty())
 	{
 		QMessageBox::warning(this, tr("LemonLime"), tr("No task found"), QMessageBox::Ok);
 		return;
@@ -1014,17 +1032,17 @@ void Lemon::addTasksAction()
 	dialog->setMaximumSize(dialog->sizeHint());
 	dialog->setMinimumSize(dialog->sizeHint());
 
-	for(int i = 0; i < nameList.size(); i ++)
+	for (int i = 0; i < nameList.size(); i ++)
 	{
 		dialog->addTask(nameList[i], 100, settings->getDefaultTimeLimit(), settings->getDefaultMemoryLimit());
 	}
 
-	if(dialog->exec() == QDialog::Accepted)
+	if (dialog->exec() == QDialog::Accepted)
 	{
-		for(int i = 0; i < nameList.size(); i ++)
+		for (int i = 0; i < nameList.size(); i ++)
 		{
 			addTask(nameList[i], testCases[i], dialog->getFullScore(i) / testCases[i].size(),
-					  dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
+			        dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
 		}
 	}
 
@@ -1045,7 +1063,7 @@ void Lemon::aboutLemon()
 	text += tr("Build Date: %1").arg(__DATE__) + "<br>";
 	text += tr("UNSTABLE VERISON") + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")
-			  + "<br>";
+	        + "<br>";
 	text += tr("Update by Dust1404") + "</a><br>";
 	text += tr("Featured by iotang") + "</a><br>";
 	QMessageBox::about(this, tr("About LemonLime"), text);

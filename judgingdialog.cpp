@@ -76,11 +76,11 @@ void JudgingDialog::judge(const QStringList &nameList)
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * nameList.size());
 
-	for(int i = 0; i < nameList.size(); i ++)
+	for (int i = 0; i < nameList.size(); i ++)
 	{
 		curContest->judge(nameList[i]);
 
-		if(stopJudging) break;
+		if (stopJudging) break;
 	}
 
 #ifdef Q_OS_LINUX
@@ -111,9 +111,9 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 
 	int listsSize = lists.size();
 
-	for(int i = 0; i < listsSize; i++)
+	for (int i = 0; i < listsSize; i++)
 	{
-		for(QSet<int>::const_iterator j = lists[i].second.begin(); j != lists[i].second.end(); j++)
+		for (QSet<int>::const_iterator j = lists[i].second.begin(); j != lists[i].second.end(); j++)
 		{
 			allTime += curContest->getTask(*j)->getTotalTimeLimit();
 		}
@@ -121,11 +121,11 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 
 	ui->progressBar->setMaximum(allTime);
 
-	for(int i = 0; i < listsSize; i++)
+	for (int i = 0; i < listsSize; i++)
 	{
 		curContest->judge(lists[i].first, lists[i].second);
 
-		if(stopJudging) break;
+		if (stopJudging) break;
 	}
 
 #ifdef Q_OS_LINUX
@@ -163,13 +163,13 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 
 	QString text, addtext = "", scoretext = "";
 
-	switch(ResultState(result))
+	switch (ResultState(result))
 	{
 		case CorrectAnswer:
 			text = tr("Correct answer");
 			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
 
-			if(scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
+			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
 
 			charFormat.setForeground(QBrush(Qt::darkGreen));
 			break;
@@ -245,9 +245,9 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 
 	cursor->insertText(text, charFormat);
 
-	if(addtext.length() > 0)cursor->insertText(addtext, addcharFormat);
+	if (addtext.length() > 0)cursor->insertText(addtext, addcharFormat);
 
-	if(scoretext.length() > 0)cursor->insertText(scoretext, scorecharFormat);
+	if (scoretext.length() > 0)cursor->insertText(scoretext, scorecharFormat);
 
 	ui->progressBar->setValue(ui->progressBar->value() + progress);
 
@@ -268,12 +268,12 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 	int percentage = ratio * 10000;
 	text = QString("%1.%2%3").arg(percentage / 100).arg(percentage % 100).arg('%');
 
-	if(percentage == 10000)
+	if (percentage == 10000)
 	{
 		charFormat.setForeground(QBrush(Qt::lightGray));
 		ratioFormat.setForeground(QBrush(Qt::green));
 	}
-	else if(percentage == 0)
+	else if (percentage == 0)
 	{
 		charFormat.setForeground(QBrush(Qt::red));
 		ratioFormat.setForeground(QBrush(Qt::red));
@@ -317,15 +317,15 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QLis
 
 	int allScore = 0;
 
-	for(auto i : scoreList)
+	for (auto i : scoreList)
 	{
 		int miScore = 2147483647;
 
-		for(auto j : i)
+		for (auto j : i)
 		{
 			miScore = qMin(miScore, j);
 
-			if(miScore <= 0)break;
+			if (miScore <= 0)break;
 		}
 
 		allScore += miScore;
@@ -384,7 +384,7 @@ void JudgingDialog::compileError(int progress, int compileState)
 
 	QString text;
 
-	switch(CompileState(compileState))
+	switch (CompileState(compileState))
 	{
 		case NoValidSourceFile:
 			text = tr("Cannot find valid source file");

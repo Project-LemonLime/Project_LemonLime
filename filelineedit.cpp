@@ -33,14 +33,14 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 {
 	QDir dir(curDir);
 
-	if(! nameFilters.isEmpty())
+	if (! nameFilters.isEmpty())
 	{
 		dir.setNameFilters(nameFilters);
 	}
 
 	QStringList list = dir.entryList(filters);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		list[i] = prefix + list[i];
 	}
@@ -48,7 +48,7 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 	files.append(list);
 	list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for(int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i ++)
 	{
 		getFiles(curDir + list[i] + QDir::separator(),
 		         prefix + list[i] + QDir::separator(), files);
@@ -64,7 +64,7 @@ void FileLineEdit::setFileExtensions(const QStringList &extensions)
 {
 	nameFilters.clear();
 
-	for(int i = 0; i < extensions.size(); i ++)
+	for (int i = 0; i < extensions.size(); i ++)
 	{
 		nameFilters.append("*." + extensions[i]);
 	}
@@ -77,7 +77,7 @@ void FileLineEdit::refreshFileList()
 	QStringList files;
 	getFiles(Settings::dataPath(), "", files);
 
-	if(completer) delete completer;
+	if (completer) delete completer;
 
 	completer = new QCompleter(files, this);
 	setCompleter(completer);

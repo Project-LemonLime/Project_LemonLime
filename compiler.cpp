@@ -155,7 +155,7 @@ void Compiler::addConfiguration(const QString &name, const QString &arguments1, 
 
 void Compiler::setConfigName(int index, const QString &name)
 {
-	if(0 <= index && index < configurationNames.size())
+	if (0 <= index && index < configurationNames.size())
 	{
 		configurationNames[index] = name;
 	}
@@ -163,7 +163,7 @@ void Compiler::setConfigName(int index, const QString &name)
 
 void Compiler::setCompilerArguments(int index, const QString &arguments)
 {
-	if(0 <= index && index < compilerArguments.size())
+	if (0 <= index && index < compilerArguments.size())
 	{
 		compilerArguments[index] = arguments;
 	}
@@ -171,7 +171,7 @@ void Compiler::setCompilerArguments(int index, const QString &arguments)
 
 void Compiler::setInterpreterArguments(int index, const QString &arguments)
 {
-	if(0 <= index && index < interpreterArguments.size())
+	if (0 <= index && index < interpreterArguments.size())
 	{
 		interpreterArguments[index] = arguments;
 	}
@@ -179,7 +179,7 @@ void Compiler::setInterpreterArguments(int index, const QString &arguments)
 
 void Compiler::deleteConfiguration(int index)
 {
-	if(0 <= index && index < configurationNames.size())
+	if (0 <= index && index < configurationNames.size())
 	{
 		configurationNames.removeAt(index);
 		compilerArguments.removeAt(index);

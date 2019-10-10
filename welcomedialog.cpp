@@ -82,7 +82,7 @@ int WelcomeDialog::getCurrentTab() const
 
 void WelcomeDialog::selectionChanged()
 {
-	if(ui->openContestWidget->getCurrentRow() != -1)
+	if (ui->openContestWidget->getCurrentRow() != -1)
 	{
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	}
@@ -99,9 +99,9 @@ void WelcomeDialog::informationChanged()
 
 void WelcomeDialog::tabIndexChanged(int index)
 {
-	if(index == 0)
+	if (index == 0)
 	{
-		if(ui->openContestWidget->getCurrentRow() != -1)
+		if (ui->openContestWidget->getCurrentRow() != -1)
 		{
 			ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 		}

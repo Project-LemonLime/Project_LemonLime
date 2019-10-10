@@ -329,6 +329,8 @@
     <addaction name="judgeAction"/>
     <addaction name="judgeAllAction"/>
     <addaction name="judgeUnjudgedAction"/>
+    <addaction name="judgeGreyAction"/>
+    <addaction name="judgeMagentaAction"/>
     <addaction name="separator"/>
     <addaction name="addTasksAction"/>
     <addaction name="exportAction"/>
@@ -450,6 +452,9 @@
    </property>
   </action>
   <action name="judgeUnjudgedAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Judge &amp;Unjudged</string>
    </property>
@@ -507,6 +512,22 @@
   <action name="actionMore">
    <property name="text">
     <string>&amp;More</string>
+   </property>
+  </action>
+  <action name="judgeGreyAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Judge &amp;Grey</string>
+   </property>
+  </action>
+  <action name="judgeMagentaAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Judge &amp;Magenta</string>
    </property>
   </action>
  </widget>

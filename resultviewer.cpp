@@ -1,19 +1,19 @@
 /***************************************************************************
-    This file is part of Project Lemon
-    Copyright (C) 2011 Zhipeng Jia
+	 This file is part of Project Lemon
+	 Copyright (C) 2011 Zhipeng Jia
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	 This program is free software: you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation, either version 3 of the License, or
+	 (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	 You should have received a copy of the GNU General Public License
+	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 /**
  * resultviewer.cpp @Project Lemon+
@@ -65,7 +65,7 @@ ResultViewer::ResultViewer(QWidget *parent) :
 
 void ResultViewer::changeEvent(QEvent *event)
 {
-	if(event->type() == QEvent::LanguageChange)
+	if (event->type() == QEvent::LanguageChange)
 	{
 		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete",
 		                                0));
@@ -80,17 +80,17 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	if(selectionRange.size() == 0) return;
+	if (selectionRange.size() == 0) return;
 
 	QMenu *contextMenu = new QMenu(this);
 
-	if(selectionRange.size() == 1 && selectionRange[0].rowCount() == 1)
+	if (selectionRange.size() == 1 && selectionRange[0].rowCount() == 1)
 	{
 		contextMenu->addAction(detailInformationAction);
 		contextMenu->setDefaultAction(detailInformationAction);
 	}
 
-	if(selectionRange.size() > 0)
+	if (selectionRange.size() > 0)
 	{
 		contextMenu->addAction(judgeSelectedAction);
 	}
@@ -102,7 +102,7 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
 
 void ResultViewer::setContest(Contest *contest)
 {
-	if(curContest)
+	if (curContest)
 	{
 		disconnect(curContest, SIGNAL(taskAddedForViewer()),
 		           this, SLOT(refreshViewer()));
@@ -116,7 +116,7 @@ void ResultViewer::setContest(Contest *contest)
 
 	curContest = contest;
 
-	if(! curContest) return;
+	if (! curContest) return;
 
 	connect(curContest, SIGNAL(taskAddedForViewer()),
 	        this, SLOT(refreshViewer()));
@@ -134,13 +134,13 @@ void ResultViewer::refreshViewer()
 	setRowCount(0);
 	setColumnCount(0);
 
-	if(! curContest) return;
+	if (! curContest) return;
 
 	QStringList headerList;
 	headerList << tr("Rank") << tr("Name") << tr("Total Score");
 	QList<Task *> taskList = curContest->getTaskList();
 
-	for(int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i ++)
 	{
 		headerList << taskList[i]->getProblemTile();
 	}
@@ -155,33 +155,33 @@ void ResultViewer::refreshViewer()
 	QList<int> fullScore;
 	int sfullScore = curContest->getTotalScore();
 
-	for(int i = 0; i < taskList.size(); i++)
+	for (int i = 0; i < taskList.size(); i++)
 	{
 		fullScore.append(taskList[i]->getTotalScore());
 	}
 
 	setRowCount(contestantList.size());
 
-	for(int i = 0; i < contestantList.size(); i ++)
+	for (int i = 0; i < contestantList.size(); i ++)
 	{
 		setItem(i, 0, new QTableWidgetItem());
 		setItem(i, 1, new QTableWidgetItem(contestantList[i]->getContestantName()));
 		setItem(i, 2, new QTableWidgetItem());
 
-		for(int j = 0; j < taskList.size(); j ++)
+		for (int j = 0; j < taskList.size(); j ++)
 		{
 			setItem(i, j + 3, new QTableWidgetItem());
 			int score = contestantList[i]->getTaskScore(j);
 
-			if(score != -1)
+			if (score != -1)
 			{
 				item(i, j + 3)->setData(Qt::DisplayRole, score);
 
 				QColor bg = QColor::fromHsl(0, 0, 255);
 
-				if(contestantList[i]->getCompileState(j) != CompileSuccessfully)
+				if (contestantList[i]->getCompileState(j) != CompileSuccessfully)
 				{
-					if(contestantList[i]->getCompileState(j) == NoValidSourceFile)
+					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
 						bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
 					else bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
@@ -201,7 +201,7 @@ void ResultViewer::refreshViewer()
 		int totalUsedTime = contestantList[i]->getTotalUsedTime();
 		QDateTime judgingTime = contestantList[i]->getJudingTime();
 
-		if(totalScore != -1)
+		if (totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
 			item(i, 2)->setBackgroundColor(QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
@@ -225,9 +225,9 @@ void ResultViewer::refreshViewer()
 	qSort(sortList);
 	QMap<QString, int> rankList;
 
-	for(int i = 0; i < sortList.size(); i ++)
+	for (int i = 0; i < sortList.size(); i ++)
 	{
-		if(i > 0 && sortList[i].first == sortList[i - 1].first)
+		if (i > 0 && sortList[i].first == sortList[i - 1].first)
 		{
 			rankList.insert(sortList[i].second, rankList[sortList[i - 1].second]);
 		}
@@ -237,9 +237,9 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	for(int i = 0; i < rowCount(); i ++)
+	for (int i = 0; i < rowCount(); i ++)
 	{
-		if(rankList.contains(contestantList[i]->getContestantName()))
+		if (rankList.contains(contestantList[i]->getContestantName()))
 		{
 			item(i, 0)->setData(Qt::DisplayRole, rankList[contestantList[i]->getContestantName()] + 1);
 		}
@@ -249,9 +249,9 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	for(int i = 0; i < rowCount(); i ++)
+	for (int i = 0; i < rowCount(); i ++)
 	{
-		for(int j = 0; j < columnCount(); j ++)
+		for (int j = 0; j < columnCount(); j ++)
 		{
 			item(i, j)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 		}
@@ -269,16 +269,16 @@ void ResultViewer::judgeSelected()
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
 
-	for(int i = 0; i < selectionRange.size(); i ++)
+	for (int i = 0; i < selectionRange.size(); i ++)
 	{
-		for(int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+		for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
 		{
-			for(int k = selectionRange[i].leftColumn(); k <= selectionRange[i].rightColumn(); k++)
+			for (int k = selectionRange[i].leftColumn(); k <= selectionRange[i].rightColumn(); k++)
 			{
-				if(3 <= k && k < 3 + taskSize) mapping[item(j, 1)->text()].insert(k - 3);
+				if (3 <= k && k < 3 + taskSize) mapping[item(j, 1)->text()].insert(k - 3);
 				else
 				{
-					for(int a = 0; a < taskSize; a++) mapping[item(j, 1)->text()].insert(a);
+					for (int a = 0; a < taskSize; a++) mapping[item(j, 1)->text()].insert(a);
 				}
 			}
 		}
@@ -286,7 +286,7 @@ void ResultViewer::judgeSelected()
 
 	QList<QPair<QString, QSet<int> > > judgeList;
 
-	for(QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
@@ -319,11 +319,11 @@ void ResultViewer::judgeUnjudged()
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size(), taskSize = taskList.size();
 
-	for(int i = 0; i < contestantSize; i++)
+	for (int i = 0; i < contestantSize; i++)
 	{
-		for(int j = 0; j < taskSize; j++)
+		for (int j = 0; j < taskSize; j++)
 		{
-			if(item(i, j + 3)->text() == tr("Invalid"))
+			if (item(i, j + 3)->text() == tr("Invalid"))
 			{
 				mapping[item(i, 1)->text()].insert(j);
 			}
@@ -332,7 +332,77 @@ void ResultViewer::judgeUnjudged()
 
 	QList<QPair<QString, QSet<int> > > judgeList;
 
-	for(QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	{
+		judgeList.append(qMakePair(i.key(), i.value()));
+	}
+
+	JudgingDialog *dialog = new JudgingDialog(this);
+	dialog->setModal(true);
+	dialog->setContest(curContest);
+	dialog->show();
+	dialog->judge(judgeList);
+	delete dialog;
+	refreshViewer();
+}
+
+void ResultViewer::judgeGrey()
+{
+	QMap<QString, QSet<int> > mapping;
+
+	QList<Contestant *> contestantList = curContest->getContestantList();
+	QList<Task *> taskList = curContest->getTaskList();
+	int contestantSize = contestantList.size(), taskSize = taskList.size();
+
+	for (int i = 0; i < contestantSize; i++)
+	{
+		for (int j = 0; j < taskSize; j++)
+		{
+			if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
+			{
+				mapping[contestantList[i]->getContestantName()].insert(j);
+			}
+		}
+	}
+
+	QList<QPair<QString, QSet<int> > > judgeList;
+
+	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	{
+		judgeList.append(qMakePair(i.key(), i.value()));
+	}
+
+	JudgingDialog *dialog = new JudgingDialog(this);
+	dialog->setModal(true);
+	dialog->setContest(curContest);
+	dialog->show();
+	dialog->judge(judgeList);
+	delete dialog;
+	refreshViewer();
+}
+
+void ResultViewer::judgeMagenta()
+{
+	QMap<QString, QSet<int> > mapping;
+
+	QList<Contestant *> contestantList = curContest->getContestantList();
+	QList<Task *> taskList = curContest->getTaskList();
+	int contestantSize = contestantList.size(), taskSize = taskList.size();
+
+	for (int i = 0; i < contestantSize; i++)
+	{
+		for (int j = 0; j < taskSize; j++)
+		{
+			if (contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
+			{
+				mapping[contestantList[i]->getContestantName()].insert(j);
+			}
+		}
+	}
+
+	QList<QPair<QString, QSet<int> > > judgeList;
+
+	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
@@ -351,14 +421,14 @@ void ResultViewer::clearPath(const QString &curDir)
 	QDir dir(curDir);
 	QStringList fileList = dir.entryList(QDir::Files);
 
-	for(int i = 0; i < fileList.size(); i ++)
+	for (int i = 0; i < fileList.size(); i ++)
 	{
 		dir.remove(fileList[i]);
 	}
 
 	QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for(int i = 0; i < dirList.size(); i ++)
+	for (int i = 0; i < dirList.size(); i ++)
 	{
 		clearPath(curDir + dirList[i] + QDir::separator());
 		dir.rmdir(dirList[i]);
@@ -368,9 +438,9 @@ void ResultViewer::clearPath(const QString &curDir)
 void ResultViewer::deleteContestant()
 {
 	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
-	        QString("<span style=\"font-size:large\">")
-	        + tr("Are you sure to delete selected contestant(s)?") + "</span>",
-	        QMessageBox::Ok | QMessageBox::Cancel, this);
+	      QString("<span style=\"font-size:large\">")
+	      + tr("Are you sure to delete selected contestant(s)?") + "</span>",
+	      QMessageBox::Ok | QMessageBox::Cancel, this);
 	//QHBoxLayout *layout = new QHBoxLayout;
 	QCheckBox *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
 	//layout->addWidget(checkBox);
@@ -379,17 +449,17 @@ void ResultViewer::deleteContestant()
 	//dynamic_cast<QGridLayout*>(messageBox->layout())->setVerticalSpacing(10);
 	messageBox->setCheckBox(checkBox);
 
-	if(messageBox->exec() != QMessageBox::Ok) return;
+	if (messageBox->exec() != QMessageBox::Ok) return;
 
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	for(int i = 0; i < selectionRange.size(); i ++)
+	for (int i = 0; i < selectionRange.size(); i ++)
 	{
-		for(int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+		for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
 		{
 			curContest->deleteContestant(item(j, 1)->text());
 
-			if(checkBox->isChecked())
+			if (checkBox->isChecked())
 			{
 				clearPath(Settings::sourcePath() + item(j, 1)->text() + QDir::separator());
 				QDir(Settings::sourcePath()).rmdir(item(j, 1)->text());
