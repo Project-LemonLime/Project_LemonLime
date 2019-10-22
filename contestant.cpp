@@ -176,6 +176,23 @@ void Contestant::deleteTask(int index)
 	memoryUsed.removeAt(index);
 }
 
+void Contestant::swapTask(int a, int b)
+{
+	if (a < 0 || a >= checkJudged.size())return;
+	if (b < 0 || b >= checkJudged.size())return;
+
+	checkJudged.swap(a, b);
+	compileState.swap(a, b);
+	sourceFile.swap(a, b);
+	compileMesaage.swap(a, b);
+	inputFiles.swap(a, b);
+	result.swap(a, b);
+	message.swap(a, b);
+	score.swap(a, b);
+	timeUsed.swap(a, b);
+	memoryUsed.swap(a, b);
+}
+
 int Contestant::getTaskScore(int index) const
 {
 	if (0 > index || index >= checkJudged.size()) return -1;

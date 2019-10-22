@@ -71,6 +71,20 @@ const QList<Task *> &Contest::getTaskList() const
 	return taskList;
 }
 
+void Contest::swapTask(int a, int b)
+{
+	if (0 <= a && a < taskList.size())
+	{
+		if (0 <= b && b < taskList.size())
+		{
+			taskList.swap(a, b);
+		}
+	}
+
+	for (auto &i : contestantList)
+		i->swapTask(a, b);
+}
+
 Contestant *Contest::getContestant(const QString &name) const
 {
 	if (contestantList.contains(name))

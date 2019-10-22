@@ -84,6 +84,7 @@ signals:
 public slots:
 	void addTask();
 	void deleteTask(int);
+	void swapTask(int, int);
 };
 
 #endif // CONTESTANT_H

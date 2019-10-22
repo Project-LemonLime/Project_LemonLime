@@ -50,7 +50,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -110,6 +110,45 @@
               </property>
              </column>
             </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QToolButton" name="moveDownButton">
+               <property name="text">
+                <string>Down</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resource.qrc">
+                 <normaloff>:/icon/downarrow.png</normaloff>:/icon/downarrow.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="moveUpButton">
+               <property name="text">
+                <string>Up</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resource.qrc">
+                 <normaloff>:/icon/uparrow.png</normaloff>:/icon/uparrow.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -318,7 +357,9 @@
     <addaction name="openAction"/>
     <addaction name="saveAction"/>
     <addaction name="closeAction"/>
+    <addaction name="separator"/>
     <addaction name="openFolderAction"/>
+    <addaction name="actionChange_Contest_Name"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
@@ -528,6 +569,11 @@
    </property>
    <property name="text">
     <string>Judge &amp;Magenta</string>
+   </property>
+  </action>
+  <action name="actionChange_Contest_Name">
+   <property name="text">
+    <string>C&amp;hange Contest Name</string>
    </property>
   </action>
  </widget>

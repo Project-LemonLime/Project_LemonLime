@@ -518,11 +518,19 @@ void AssignmentThread::threadFinished()
 		running.remove(thread);
 		countFinished ++;
 		delete thread;
+
+		int nowScore = score[cur.first][cur.second];
+		if (cur.second == task->getTestCase(cur.first)->getInputFiles().size())
+		{
+			for (int i = 0; i < cur.second; i++)
+				nowScore = qMin(nowScore, score[cur.first][i]);
+		}
+
 		emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(),
 		                        cur.first,
 		                        cur.second,
 		                        int (result[cur.first][cur.second]),
-		                        (cur.second == task->getTestCase(cur.first)->getInputFiles().size() - 1 ? 1 : -1) * score[cur.first][cur.second],
+		                        (cur.second + 1 == task->getTestCase(cur.first)->getInputFiles().size() ? 1 : -1) * nowScore,
 		                        timeUsed[cur.first][cur.second],
 		                        memoryUsed[cur.first][cur.second]
 		                       );

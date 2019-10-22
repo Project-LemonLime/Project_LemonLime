@@ -75,6 +75,8 @@ private slots:
 	void refreshButtonClicked();
 	void cleanupButtonClicked();
 	void tabIndexChanged(int);
+	void moveUpTask();
+	void moveDownTask();
 	void viewerSelectionChanged();
 	void contestantDeleted();
 	void newAction();
@@ -85,6 +87,7 @@ private slots:
 	void addTasksAction();
 	void exportResult();
 	void aboutLemon();
+	void actionChange_Contest_Name();
 	void actionCompile_Features();
 	void actionInteraction();
 	void actionSubTasks();

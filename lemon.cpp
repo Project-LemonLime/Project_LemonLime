@@ -44,7 +44,9 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QInputDialog>
 #include <QProgressDialog>
+#include <QLineEdit>
 
 Lemon::Lemon(QWidget *parent) :
 	QMainWindow(parent),
@@ -59,6 +61,7 @@ Lemon::Lemon(QWidget *parent) :
 	ui->closeAction->setEnabled(false);
 	ui->saveAction->setEnabled(false);
 	ui->openFolderAction->setEnabled(false);
+	ui->actionChange_Contest_Name->setEnabled(false);
 
 	dataDirWatcher = 0;
 	settings->loadSettings();
@@ -101,6 +104,10 @@ Lemon::Lemon(QWidget *parent) :
 	        ui->resultViewer, SLOT(judgeMagenta()));
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)),
 	        this, SLOT(tabIndexChanged(int)));
+	connect(ui->moveUpButton, SIGNAL(clicked()),
+	        this, SLOT(moveUpTask()));
+	connect(ui->moveDownButton, SIGNAL(clicked()),
+	        this, SLOT(moveDownTask()));
 	connect(ui->resultViewer, SIGNAL(itemSelectionChanged()),
 	        this, SLOT(viewerSelectionChanged()));
 	connect(ui->resultViewer, SIGNAL(contestantDeleted()),
@@ -122,6 +129,8 @@ Lemon::Lemon(QWidget *parent) :
 	connect(ui->aboutAction, SIGNAL(triggered()),
 	        this, SLOT(aboutLemon()));
 
+	connect(ui->actionChange_Contest_Name, SIGNAL(triggered()),
+	        this, SLOT(actionChange_Contest_Name()));
 	connect(ui->actionCompile_Features, SIGNAL(triggered()),
 	        this, SLOT(actionCompile_Features()));
 	connect(ui->actionCleanup_Files, SIGNAL(triggered()),
@@ -679,6 +688,38 @@ void Lemon::tabIndexChanged(int index)
 	}
 }
 
+void Lemon::moveUpTask()
+{
+	QTreeWidgetItem *curItem = ui->summary->currentItem();
+
+	if (! curItem)return;
+
+	int index = ui->summary->indexOfTopLevelItem(curItem);
+	curContest->swapTask(index - 1, index);
+	ui->summary->setContest(curContest);
+	ui->resultViewer->refreshViewer();
+
+	curItem = ui->summary->topLevelItem(index - 1);
+	if (!curItem)curItem = ui->summary->topLevelItem(index);
+	if (curItem)ui->summary->setCurrentItem(curItem);
+}
+
+void Lemon::moveDownTask()
+{
+	QTreeWidgetItem *curItem = ui->summary->currentItem();
+
+	if (! curItem)return;
+
+	int index = ui->summary->indexOfTopLevelItem(curItem);
+	curContest->swapTask(index + 1, index);
+	ui->summary->setContest(curContest);
+	ui->resultViewer->refreshViewer();
+
+	curItem = ui->summary->topLevelItem(index + 1);
+	if (!curItem)curItem = ui->summary->topLevelItem(index);
+	if (curItem)ui->summary->setCurrentItem(curItem);
+}
+
 void Lemon::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
@@ -804,6 +845,7 @@ void Lemon::loadContest(const QString &filePath)
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
+	ui->actionChange_Contest_Name->setEnabled(true);
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 
 	QApplication::restoreOverrideCursor();
@@ -840,6 +882,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
+	ui->actionChange_Contest_Name->setEnabled(true);
 	QStringList recentContest = settings->getRecentContest();
 	recentContest.append(QDir::toNativeSeparators((QDir().absoluteFilePath(curFile))));
 	settings->setRecentContest(recentContest);
@@ -873,6 +916,7 @@ void Lemon::closeAction()
 	ui->saveAction->setEnabled(false);
 	ui->addTasksAction->setEnabled(false);
 	ui->exportAction->setEnabled(false);
+	ui->actionChange_Contest_Name->setEnabled(false);
 	setWindowTitle(tr("LemonLime"));
 }
 
@@ -1067,6 +1111,20 @@ void Lemon::aboutLemon()
 	text += tr("Update by Dust1404") + "</a><br>";
 	text += tr("Featured by iotang") + "</a><br>";
 	QMessageBox::about(this, tr("About LemonLime"), text);
+}
+
+void Lemon::actionChange_Contest_Name()
+{
+	bool isChanged;
+	QString being = QInputDialog::getText(NULL, tr("Rename Contest"), tr("Input the name you prefer."), QLineEdit::Normal, tr("New name..."), &isChanged);
+
+	if (!isChanged)return;
+
+	if (being.size() <= 0)return;
+
+	curContest->setContestTitle(being);
+	saveContest(curFile);
+	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 }
 
 void Lemon::actionCompile_Features()

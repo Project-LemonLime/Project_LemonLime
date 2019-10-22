@@ -45,6 +45,7 @@ public:
 	void setContestTitle(const QString &);
 	const QString &getContestTitle() const;
 	Task *getTask(int) const;
+	void swapTask(int, int);
 	const QList<Task *> &getTaskList() const;
 	Contestant *getContestant(const QString &) const;
 	QList<Contestant *> getContestantList() const;
