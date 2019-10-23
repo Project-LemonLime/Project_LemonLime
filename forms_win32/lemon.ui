@@ -98,6 +98,9 @@
              <property name="contextMenuPolicy">
               <enum>Qt::DefaultContextMenu</enum>
              </property>
+             <property name="statusTip">
+              <string>Viewing tasks...</string>
+             </property>
              <property name="styleSheet">
               <string notr="true">font-size: 11pt;</string>
              </property>
@@ -128,6 +131,9 @@
              </item>
              <item>
               <widget class="QToolButton" name="moveDownButton">
+               <property name="statusTip">
+                <string>Move down this task...</string>
+               </property>
                <property name="text">
                 <string>Down</string>
                </property>
@@ -139,6 +145,9 @@
              </item>
              <item>
               <widget class="QToolButton" name="moveUpButton">
+               <property name="statusTip">
+                <string>Move up this task...</string>
+               </property>
                <property name="text">
                 <string>Up</string>
                </property>
@@ -173,6 +182,9 @@
              <property name="contextMenuPolicy">
               <enum>Qt::NoContextMenu</enum>
              </property>
+             <property name="statusTip">
+              <string>Editing task details...</string>
+             </property>
              <property name="currentIndex">
               <number>2</number>
              </property>
@@ -193,6 +205,9 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="ResultViewer" name="resultViewer">
+          <property name="statusTip">
+           <string>Contestant List...</string>
+          </property>
           <property name="styleSheet">
            <string notr="true">font-size:10pt;</string>
           </property>
@@ -247,6 +262,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>Cleanup the files of all contestants...</string>
+            </property>
             <property name="text">
              <string>Clean up Files</string>
             </property>
@@ -273,6 +291,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>Refresh the contestant list...</string>
+            </property>
             <property name="text">
              <string>Refresh</string>
             </property>
@@ -292,6 +313,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>Judge unjudged...</string>
+            </property>
             <property name="text">
              <string>Judge Unjudged</string>
             </property>
@@ -308,6 +332,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="statusTip">
+             <string>Judge selected area...</string>
+            </property>
             <property name="text">
              <string>Judge Selected</string>
             </property>
@@ -323,6 +350,9 @@
               <width>96</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="statusTip">
+             <string>Judge all contestants...</string>
             </property>
             <property name="text">
              <string>Judge All</string>
@@ -350,6 +380,9 @@
     <string notr="true">font-size:11pt;</string>
    </property>
    <widget class="QMenu" name="fileMenu">
+    <property name="statusTip">
+     <string>Open / Close / Rename contest and etc</string>
+    </property>
     <property name="title">
      <string>&amp;File</string>
     </property>
@@ -381,6 +414,9 @@
      <string>&amp;Tools</string>
     </property>
     <widget class="QMenu" name="languageMenu">
+     <property name="statusTip">
+      <string>Switch Language...</string>
+     </property>
      <property name="title">
       <string>&amp;UI Language</string>
      </property>
@@ -394,6 +430,9 @@
      <string>&amp;Help</string>
     </property>
     <widget class="QMenu" name="menuGuides">
+     <property name="statusTip">
+      <string>LemonLime Guides...</string>
+     </property>
      <property name="title">
       <string>&amp;Guides</string>
      </property>
@@ -417,29 +456,45 @@
    <addaction name="toolsMenu"/>
    <addaction name="helpMenu"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="newAction">
    <property name="text">
     <string>&amp;New Contest</string>
+   </property>
+   <property name="statusTip">
+    <string>Make a new contest...</string>
    </property>
   </action>
   <action name="openAction">
    <property name="text">
     <string>&amp;Open Existing Contest</string>
    </property>
+   <property name="statusTip">
+    <string>Open an existing contest...</string>
+   </property>
   </action>
   <action name="exitAction">
    <property name="text">
     <string>E&amp;xit</string>
+   </property>
+   <property name="statusTip">
+    <string>Exit LemonLime...</string>
    </property>
   </action>
   <action name="optionsAction">
    <property name="text">
     <string>&amp;Options</string>
    </property>
+   <property name="statusTip">
+    <string>LemonLime Settings...</string>
+   </property>
   </action>
   <action name="aboutAction">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+   <property name="statusTip">
+    <string>About LemonLime...</string>
    </property>
   </action>
   <action name="judgeAction">
@@ -449,6 +504,9 @@
    <property name="text">
     <string>&amp;Judge Selected</string>
    </property>
+   <property name="statusTip">
+    <string>Judge selected area...</string>
+   </property>
   </action>
   <action name="judgeAllAction">
    <property name="enabled">
@@ -457,10 +515,16 @@
    <property name="text">
     <string>Judge &amp;All</string>
    </property>
+   <property name="statusTip">
+    <string>Judge all contestants...</string>
+   </property>
   </action>
   <action name="closeAction">
    <property name="text">
     <string>&amp;Close Current Contest</string>
+   </property>
+   <property name="statusTip">
+    <string>Close this contest...</string>
    </property>
   </action>
   <action name="setEnglishAction">
@@ -474,6 +538,9 @@
    </property>
    <property name="text">
     <string>Add &amp;Tasks Automatically</string>
+   </property>
+   <property name="statusTip">
+    <string>Find your tasks in ./data and add them automatically...</string>
    </property>
   </action>
   <action name="makeSelfTestAction">
@@ -491,6 +558,9 @@
    <property name="text">
     <string>&amp;Export Result</string>
    </property>
+   <property name="statusTip">
+    <string>Export the result...</string>
+   </property>
   </action>
   <action name="judgeUnjudgedAction">
    <property name="enabled">
@@ -499,45 +569,72 @@
    <property name="text">
     <string>Judge &amp;Unjudged</string>
    </property>
+   <property name="statusTip">
+    <string>Judge unjudged...</string>
+   </property>
   </action>
   <action name="openFolderAction">
    <property name="text">
     <string>Open Current Contest &amp;Folder</string>
+   </property>
+   <property name="statusTip">
+    <string>Open the folder of this contest with file manager...</string>
    </property>
   </action>
   <action name="saveAction">
    <property name="text">
     <string>&amp;Save Current Contest</string>
    </property>
+   <property name="statusTip">
+    <string>Save this contest...</string>
+   </property>
   </action>
   <action name="actionInteraction">
    <property name="text">
     <string>&amp;Interaction</string>
+   </property>
+   <property name="statusTip">
+    <string>How to make Interaction Tasks...</string>
    </property>
   </action>
   <action name="actionSubTasks">
    <property name="text">
     <string>Su&amp;btasks</string>
    </property>
+   <property name="statusTip">
+    <string>How to make Subtasks...</string>
+   </property>
   </action>
   <action name="actionCleanup_Files">
    <property name="text">
     <string>Clean &amp;up Files</string>
+   </property>
+   <property name="statusTip">
+    <string>What is Cleanup Files...</string>
    </property>
   </action>
   <action name="actionCompile_Features">
    <property name="text">
     <string>&amp;Compile Features</string>
    </property>
+   <property name="statusTip">
+    <string>The difference in compiling between Lemon and LemonLime...</string>
+   </property>
   </action>
   <action name="actionSkip">
    <property name="text">
     <string>&amp;Skip</string>
    </property>
+   <property name="statusTip">
+    <string>What is Skip...</string>
+   </property>
   </action>
   <action name="actionSpecial_Judge">
    <property name="text">
     <string>S&amp;pecial Judge</string>
+   </property>
+   <property name="statusTip">
+    <string>How to write Special Judge...</string>
    </property>
   </action>
   <action name="actionSingle_Judge">
@@ -549,10 +646,16 @@
    <property name="text">
     <string>&amp;Export Result</string>
    </property>
+   <property name="statusTip">
+    <string>New features of Exporting Result...</string>
+   </property>
   </action>
   <action name="actionMore">
    <property name="text">
     <string>&amp;More</string>
+   </property>
+   <property name="statusTip">
+    <string>Online Guides...</string>
    </property>
   </action>
   <action name="judgeGreyAction">
@@ -562,6 +665,9 @@
    <property name="text">
     <string>Judge &amp;Grey</string>
    </property>
+   <property name="statusTip">
+    <string>Judge &quot;No Source&quot;...</string>
+   </property>
   </action>
   <action name="judgeMagentaAction">
    <property name="enabled">
@@ -570,10 +676,16 @@
    <property name="text">
     <string>Judge &amp;Magenta</string>
    </property>
+   <property name="statusTip">
+    <string>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</string>
+   </property>
   </action>
   <action name="actionChange_Contest_Name">
    <property name="text">
     <string>C&amp;hange Contest Name</string>
+   </property>
+   <property name="statusTip">
+    <string>Change the name of this contest...</string>
    </property>
   </action>
  </widget>

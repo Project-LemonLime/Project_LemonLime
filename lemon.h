@@ -66,6 +66,7 @@ private:
 	void loadContest(const QString &);
 	void getFiles(const QString &, const QStringList &, QMap<QString, QString> &);
 	void addTask(const QString &, const QList< QPair<QString, QString> > &, int, int, int);
+	void addTaskWithScoreScale(const QString &, const QList< QPair<QString, QString> > &, int, int, int);
 	static bool compareFileName(const QPair<QString, QString> &, const QPair<QString, QString> &);
 
 private slots:

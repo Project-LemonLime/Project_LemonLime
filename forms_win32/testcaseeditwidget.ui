@@ -24,6 +24,9 @@
      </property>
      <item>
       <widget class="QTableWidget" name="fileList">
+       <property name="statusTip">
+        <string>List of this testcase...</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">font-size: 11pt;</string>
        </property>
@@ -93,7 +96,11 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="FileLineEdit" name="inputFileEdit"/>
+        <widget class="FileLineEdit" name="inputFileEdit">
+         <property name="statusTip">
+          <string>The input file name (click &quot;Add&quot; to add them)...</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="2">
         <spacer name="horizontalSpacer_1">
@@ -135,7 +142,11 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="FileLineEdit" name="outputFileEdit"/>
+        <widget class="FileLineEdit" name="outputFileEdit">
+         <property name="statusTip">
+          <string>The output file name (click &quot;Add&quot; to add them)...</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="addButton">
@@ -187,6 +198,9 @@
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="subtaskDependecne">
+         <property name="statusTip">
+          <string>Subtask Dependence, input testcase number separated by half-width comma (Must be cleaned by clicking &quot;Clear&quot; button)...</string>
+         </property>
          <property name="placeholderText">
           <string>seperate by &quot;,&quot;</string>
          </property>
@@ -257,6 +271,9 @@
          <height>22</height>
         </size>
        </property>
+       <property name="statusTip">
+        <string>The score of this testcase...</string>
+       </property>
       </widget>
      </item>
      <item row="0" column="2">
@@ -301,6 +318,9 @@
          <width>81</width>
          <height>22</height>
         </size>
+       </property>
+       <property name="statusTip">
+        <string>The time limit of this testcase...</string>
        </property>
       </widget>
      </item>
@@ -366,6 +386,9 @@
          <width>81</width>
          <height>22</height>
         </size>
+       </property>
+       <property name="statusTip">
+        <string>The memory limit of this testcase...</string>
        </property>
       </widget>
      </item>

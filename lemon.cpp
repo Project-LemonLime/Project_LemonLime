@@ -47,6 +47,7 @@
 #include <QInputDialog>
 #include <QProgressDialog>
 #include <QLineEdit>
+#include <QStatusBar>
 
 Lemon::Lemon(QWidget *parent) :
 	QMainWindow(parent),
@@ -766,6 +767,7 @@ void Lemon::saveContest(const QString &fileName)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(fileName),
 		                     QMessageBox::Close);
+		ui->statusBar->showMessage(tr("Save Failed"), 1000);
 		return;
 	}
 
@@ -780,6 +782,7 @@ void Lemon::saveContest(const QString &fileName)
 	out.writeRawData(data.data(), data.length());
 
 	QApplication::restoreOverrideCursor();
+	ui->statusBar->showMessage(tr("Saved"), 1000);
 }
 
 void Lemon::loadContest(const QString &filePath)
@@ -995,6 +998,33 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 	}
 }
 
+void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString> > &testCases,
+                                  int sumScore, int timeLimit, int memoryLimit)
+{
+	Task *newTask = new Task;
+	newTask->setProblemTitle(title);
+	newTask->setSourceFileName(title);
+	newTask->setInputFileName(title + ".in");
+	newTask->setOutputFileName(title + ".out");
+	newTask->refreshCompilerConfiguration(settings);
+	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
+	curContest->addTask(newTask);
+
+	int scorePer = sumScore / testCases.size();
+	int scoreLos = sumScore - scorePer * testCases.size();
+
+	for (int i = 0; i < testCases.size(); i ++)
+	{
+		TestCase *newTestCase = new TestCase;
+		newTestCase->setFullScore(scorePer + (int)(i < scoreLos));
+		newTestCase->setTimeLimit(timeLimit);
+		newTestCase->setMemoryLimit(memoryLimit);
+		newTestCase->addSingleCase(title + QDir::separator() + testCases[i].first,
+		                           title + QDir::separator() + testCases[i].second);
+		newTask->addTestCase(newTestCase);
+	}
+}
+
 bool Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b)
 {
 	return (a.first.length() < b.first.length())
@@ -1078,15 +1108,15 @@ void Lemon::addTasksAction()
 
 	for (int i = 0; i < nameList.size(); i ++)
 	{
-		dialog->addTask(nameList[i], 100, settings->getDefaultTimeLimit(), settings->getDefaultMemoryLimit());
+		dialog->addTask(nameList[i], qMax(100, testCases[i].size()), settings->getDefaultTimeLimit(), settings->getDefaultMemoryLimit());
 	}
 
 	if (dialog->exec() == QDialog::Accepted)
 	{
 		for (int i = 0; i < nameList.size(); i ++)
 		{
-			addTask(nameList[i], testCases[i], dialog->getFullScore(i) / testCases[i].size(),
-			        dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
+			addTaskWithScoreScale(nameList[i], testCases[i], dialog->getFullScore(i),
+			                      dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
 		}
 	}
 

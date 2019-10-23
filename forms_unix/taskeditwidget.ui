@@ -45,7 +45,11 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="2">
-    <widget class="QLineEdit" name="problemTitle"/>
+    <widget class="QLineEdit" name="problemTitle">
+     <property name="statusTip">
+      <string>Problem Title (Not Source File Name)...</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="taskTypeLabel">
@@ -86,6 +90,9 @@
      </property>
      <item>
       <widget class="QRadioButton" name="traditionalButton">
+       <property name="statusTip">
+        <string>Traditional Task...</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">font-size: 11pt;</string>
        </property>
@@ -96,11 +103,14 @@
      </item>
      <item>
       <widget class="QRadioButton" name="answersOnlyButton">
+       <property name="statusTip">
+        <string>Answer-Only Task...</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="text">
-        <string>Answers Only</string>
+        <string>Answers Onl&amp;y</string>
        </property>
       </widget>
      </item>
@@ -111,8 +121,11 @@
          <pointsize>11</pointsize>
         </font>
        </property>
+       <property name="statusTip">
+        <string>Interaction Task...</string>
+       </property>
        <property name="text">
-        <string>Interaction</string>
+        <string>Intera&amp;ction</string>
        </property>
       </widget>
      </item>
@@ -148,10 +161,18 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLineEdit" name="outputFileName"/>
+    <widget class="QLineEdit" name="outputFileName">
+     <property name="statusTip">
+      <string>Name of Output File, the source file need to write data to this file...</string>
+     </property>
+    </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="inputFileName"/>
+    <widget class="QLineEdit" name="inputFileName">
+     <property name="statusTip">
+      <string>Name of Input File, the source file need to read data from this file...</string>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="outputFileNameLabel">
@@ -171,6 +192,9 @@
    </item>
    <item row="3" column="2">
     <widget class="QCheckBox" name="standardInputCheck">
+     <property name="statusTip">
+      <string>Redirect to standard input...</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">font-size: 11pt;</string>
      </property>
@@ -197,6 +221,9 @@
    </item>
    <item row="4" column="2">
     <widget class="QCheckBox" name="standardOutputCheck">
+     <property name="statusTip">
+      <string>Redirect to standard output...</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">font-size: 11pt;</string>
      </property>
@@ -207,6 +234,9 @@
    </item>
    <item row="5" column="1" colspan="2">
     <widget class="QComboBox" name="comparisonMode">
+     <property name="statusTip">
+      <string>How to check answers...</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">font-size: 11pt;</string>
      </property>
@@ -395,7 +425,11 @@
       <number>12</number>
      </property>
      <item>
-      <widget class="QListWidget" name="compilersList"/>
+      <widget class="QListWidget" name="compilersList">
+       <property name="statusTip">
+        <string>Set compilers...</string>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -425,6 +459,9 @@
         <widget class="QComboBox" name="configurationSelect">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="statusTip">
+          <string>Set compiler configurations (&quot;disable&quot; means banishment of this type of files)...</string>
          </property>
          <property name="styleSheet">
           <string notr="true">font-size:10pt;</string>
@@ -476,6 +513,9 @@
          <height>22</height>
         </size>
        </property>
+       <property name="statusTip">
+        <string>Extension of Contestant's Answer File, only in Answer-only task...</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -494,7 +534,11 @@
     </layout>
    </item>
    <item row="7" column="1" colspan="2">
-    <widget class="FileLineEdit" name="interactorPath"/>
+    <widget class="FileLineEdit" name="interactorPath">
+     <property name="statusTip">
+      <string>Interactor Path...</string>
+     </property>
+    </widget>
    </item>
    <item row="7" column="0">
     <widget class="QLabel" name="interactorPathLabel">
@@ -511,7 +555,11 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="sourceFileName"/>
+    <widget class="QLineEdit" name="sourceFileName">
+     <property name="statusTip">
+      <string>Name of the Source File (Without suffix)...</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="2">
     <widget class="QCheckBox" name="subFolderCheck">
@@ -519,6 +567,9 @@
       <font>
        <pointsize>11</pointsize>
       </font>
+     </property>
+     <property name="statusTip">
+      <string>Find Source File in subfolders...</string>
      </property>
      <property name="text">
       <string>Subfolder</string>
@@ -540,10 +591,18 @@
     </widget>
    </item>
    <item row="8" column="1" colspan="2">
-    <widget class="QLineEdit" name="interactorName"/>
+    <widget class="QLineEdit" name="interactorName">
+     <property name="statusTip">
+      <string>Interactor Name...</string>
+     </property>
+    </widget>
    </item>
    <item row="9" column="1" colspan="2">
-    <widget class="FileLineEdit" name="graderPath"/>
+    <widget class="FileLineEdit" name="graderPath">
+     <property name="statusTip">
+      <string>Where the grader is...</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
