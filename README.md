@@ -72,7 +72,6 @@ sudo apt install build-essential qt5-default
 
 ```bash
 g++ watcher_unix.cpp -o watcher_unix -O2
-g++ realjudge.cpp -o realjudge_linux -O2
 qmake lemon.pro
 make
 ```

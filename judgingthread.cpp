@@ -656,7 +656,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			return;
 		}
 
-		if (fabs(a - b) > eps)
+		if (fabs(a - b) > eps || (std::isnan(a) != std::isnan(b)) || (std::isinf(a) != std::isinf(b)))
 		{
 			score = 0;
 			result = WrongAnswer;

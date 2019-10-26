@@ -177,7 +177,10 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 		case PartlyCorrect:
 			text = tr("Partly correct");
 			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
-			scoretext = tr("  (%1 Pt)").arg(abs(scoreGot));
+
+			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
+			else scoretext = tr("  %1 Pt").arg(abs(scoreGot)), scorecharFormat.setForeground(QBrush(Qt::darkYellow));
+
 			charFormat.setForeground(QBrush(Qt::darkCyan));
 			break;
 

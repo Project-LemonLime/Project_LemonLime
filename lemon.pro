@@ -101,45 +101,26 @@ HEADERS  += lemon.h \
     addcompilerwizard.h \
     exportutil.h
 
-win32:FORMS += forms_win32/lemon.ui \
-    forms_win32/taskeditwidget.ui \
-    forms_win32/testcaseeditwidget.ui \
-    forms_win32/generalsettings.ui \
-    forms_win32/compilersettings.ui \
-    forms_win32/addtestcaseswizard.ui \
-    forms_win32/judgingdialog.ui \
-    forms_win32/optionsdialog.ui \
-    forms_win32/detaildialog.ui \
-    forms_win32/newcontestwidget.ui \
-    forms_win32/opencontestwidget.ui \
-    forms_win32/newcontestdialog.ui \
-    forms_win32/opencontestdialog.ui \
-    forms_win32/welcomedialog.ui \
-    forms_win32/addtaskdialog.ui \
-    forms_win32/advancedcompilersettingsdialog.ui \
-    forms_win32/environmentvariablesdialog.ui \
-    forms_win32/editvariabledialog.ui \
-    forms_win32/addcompilerwizard.ui
 
-unix:FORMS += forms_unix/lemon.ui \
-    forms_unix/taskeditwidget.ui \
-    forms_unix/testcaseeditwidget.ui \
-    forms_unix/generalsettings.ui \
-    forms_unix/compilersettings.ui \
-    forms_unix/addtestcaseswizard.ui \
-    forms_unix/judgingdialog.ui \
-    forms_unix/optionsdialog.ui \
-    forms_unix/detaildialog.ui \
-    forms_unix/newcontestwidget.ui \
-    forms_unix/opencontestwidget.ui \
-    forms_unix/newcontestdialog.ui \
-    forms_unix/opencontestdialog.ui \
-    forms_unix/welcomedialog.ui \
-    forms_unix/addtaskdialog.ui \
-    forms_unix/advancedcompilersettingsdialog.ui \
-    forms_unix/environmentvariablesdialog.ui \
-    forms_unix/editvariabledialog.ui \
-    forms_unix/addcompilerwizard.ui
+FORMS += forms/lemon.ui \
+    forms/taskeditwidget.ui \
+    forms/testcaseeditwidget.ui \
+    forms/generalsettings.ui \
+    forms/compilersettings.ui \
+    forms/addtestcaseswizard.ui \
+    forms/judgingdialog.ui \
+    forms/optionsdialog.ui \
+    forms/detaildialog.ui \
+    forms/newcontestwidget.ui \
+    forms/opencontestwidget.ui \
+    forms/newcontestdialog.ui \
+    forms/opencontestdialog.ui \
+    forms/welcomedialog.ui \
+    forms/addtaskdialog.ui \
+    forms/advancedcompilersettingsdialog.ui \
+    forms/environmentvariablesdialog.ui \
+    forms/editvariabledialog.ui \
+    forms/addcompilerwizard.ui
 
 TRANSLATIONS += lemon_zh_CN.ts
 

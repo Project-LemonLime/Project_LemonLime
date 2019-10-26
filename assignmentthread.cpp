@@ -519,7 +519,7 @@ void AssignmentThread::threadFinished()
 		delete thread;
 
 		int nowScore = score[cur.first][cur.second];
-		if (cur.second == task->getTestCase(cur.first)->getInputFiles().size())
+		if (cur.second + 1 == task->getTestCase(cur.first)->getInputFiles().size())
 		{
 			for (int i = 0; i < cur.second; i++)
 				nowScore = qMin(nowScore, score[cur.first][i]);

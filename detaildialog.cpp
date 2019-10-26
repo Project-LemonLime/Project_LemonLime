@@ -282,7 +282,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 					if (minv >= maxv) bgColor = "rgb(192, 255, 192)";
 					else if (minv > 0) bgColor = "rgb(192, 255, 255)";
 
-					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"background-color: %2;\"><a style=\"font-weight: bold; font-size: 16px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
+					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"background-color: %2;\"><a style=\"font-weight: bold; font-size: 14px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
