@@ -54,7 +54,9 @@ const double cmeBaseColorLF = 5.00 / 6.00;
 
 inline double oriBaseColorLF(int score, int mxscore, double rem = 0.30)
 {
-	if (mxscore == 0)return 1.00;
+	if (mxscore == 0) return 1.00;
+
+	score = qMin((long long)score, (long long)(mxscore * 1.20));
 
 	return 1.00 - 1.25 * rem * score / mxscore
 	       - 0.03 * (score > 0)

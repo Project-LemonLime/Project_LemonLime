@@ -1018,9 +1018,7 @@ void JudgingThread::runProgram()
 	CloseHandle(si.hStdError);
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
-#endif
-
-#ifdef Q_OS_LINUX
+#else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
 

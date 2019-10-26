@@ -1238,6 +1238,7 @@ void Lemon::actionSpecial_Judge()
 	text += tr("argv[4] : (in) Full score of this task") + "<br>";
 	text += tr("argv[5] : (out) The score (A integer only)") + "<br>";
 	text += tr("argv[6] : (out) Notes") + "<br>";
+	text += tr("Notice that you may use `atoi(argv[4])' to get the correct full score.") + "<br>";
 	QMessageBox::about(this, tr("About Special Judge"), text);
 }
 

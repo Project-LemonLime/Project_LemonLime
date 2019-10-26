@@ -110,7 +110,7 @@
         <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="text">
-        <string>Answers Onl&amp;y</string>
+        <string>Answers Only</string>
        </property>
       </widget>
      </item>
@@ -125,7 +125,7 @@
         <string>Interaction Task...</string>
        </property>
        <property name="text">
-        <string>Intera&amp;ction</string>
+        <string>Interaction</string>
        </property>
       </widget>
      </item>

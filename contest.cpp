@@ -207,8 +207,7 @@ void Contest::clearPath(const QString &curDir)
 		{
 #ifdef Q_OS_WIN32
 			QProcess::execute(QString("attrib -R \"") + curDir + fileList[i] + "\"");
-#endif
-#ifdef Q_OS_LINUX
+#else
 			QProcess::execute(QString("chmod +w \"") + curDir + fileList[i] + "\"");
 #endif
 			dir.remove(fileList[i]);

@@ -230,9 +230,7 @@ void AdvancedCompilerSettingsDialog::selectCompilerLocation()
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
 	                   QDir::rootPath(), tr("Executable files (*.exe)"));
-#endif
-
-#ifdef Q_OS_LINUX
+#else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
 	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
@@ -249,9 +247,7 @@ void AdvancedCompilerSettingsDialog::selectInterpreterLocation()
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
 	                   QDir::rootPath(), tr("Executable files (*.exe)"));
-#endif
-
-#ifdef Q_OS_LINUX
+#else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
 	                   QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
