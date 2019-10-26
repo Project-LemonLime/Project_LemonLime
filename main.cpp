@@ -45,6 +45,12 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
+#ifdef Q_OS_WIN32
+	QFont fonts;
+	fonts.setFamily("Microsoft YaHei");
+	a.setFont(fonts);
+#endif
+
 	Q_INIT_RESOURCE(resource);
 
 	QPixmap pixmap(":/logo/splash.png");
