@@ -1,4 +1,4 @@
-<img src="icon.png" align=right />
+<img src="pics/icon.png" align=right />
 
 # Project_LemonLime (Beta)
 
@@ -6,11 +6,11 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ### 现已支持 Linux 和 Windows
 
-并且…~~Lemon 绿了！~~
-
-
+（macOS 在路上了）
 
 # 特色
+
+**Lemon 绿了！**
 
 ## 功能追加
 
