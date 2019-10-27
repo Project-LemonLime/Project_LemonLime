@@ -50,7 +50,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -266,7 +266,7 @@
              <string>Cleanup the files of all contestants...</string>
             </property>
             <property name="text">
-             <string>Clean up Files</string>
+             <string>Clean Up Files</string>
             </property>
            </widget>
           </item>
@@ -392,7 +392,7 @@
     <addaction name="closeAction"/>
     <addaction name="separator"/>
     <addaction name="openFolderAction"/>
-    <addaction name="actionChange_Contest_Name"/>
+    <addaction name="actionChangeContestName"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
@@ -406,6 +406,9 @@
     <addaction name="judgeGreyAction"/>
     <addaction name="judgeMagentaAction"/>
     <addaction name="separator"/>
+    <addaction name="cleanupAction"/>
+    <addaction name="refreshAction"/>
+    <addaction name="separator"/>
     <addaction name="addTasksAction"/>
     <addaction name="exportAction"/>
    </widget>
@@ -418,7 +421,7 @@
       <string>Switch Language...</string>
      </property>
      <property name="title">
-      <string>&amp;UI Language</string>
+      <string>UI &amp;Language</string>
      </property>
      <addaction name="setEnglishAction"/>
     </widget>
@@ -436,13 +439,13 @@
      <property name="title">
       <string>&amp;Guides</string>
      </property>
-     <addaction name="actionCompile_Features"/>
-     <addaction name="actionCleanup_Files"/>
+     <addaction name="actionCompileFeatures"/>
+     <addaction name="actionCleanupFiles"/>
      <addaction name="actionSkip"/>
-     <addaction name="actionExport_Result"/>
+     <addaction name="actionExportResult"/>
      <addaction name="separator"/>
      <addaction name="actionSubTasks"/>
-     <addaction name="actionSpecial_Judge"/>
+     <addaction name="actionSpecialJudge"/>
      <addaction name="actionInteraction"/>
      <addaction name="separator"/>
      <addaction name="actionMore"/>
@@ -605,7 +608,7 @@
     <string>How to make Subtasks...</string>
    </property>
   </action>
-  <action name="actionCleanup_Files">
+  <action name="actionCleanupFiles">
    <property name="text">
     <string>Clean &amp;up Files</string>
    </property>
@@ -613,7 +616,7 @@
     <string>What is Cleanup Files...</string>
    </property>
   </action>
-  <action name="actionCompile_Features">
+  <action name="actionCompileFeatures">
    <property name="text">
     <string>&amp;Compile Features</string>
    </property>
@@ -629,7 +632,7 @@
     <string>What is Skip...</string>
    </property>
   </action>
-  <action name="actionSpecial_Judge">
+  <action name="actionSpecialJudge">
    <property name="text">
     <string>S&amp;pecial Judge</string>
    </property>
@@ -642,7 +645,7 @@
     <string>Single &amp;Judge</string>
    </property>
   </action>
-  <action name="actionExport_Result">
+  <action name="actionExportResult">
    <property name="text">
     <string>&amp;Export Result</string>
    </property>
@@ -663,7 +666,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Judge &amp;Grey</string>
+    <string>Judge &amp;No Source</string>
    </property>
    <property name="statusTip">
     <string>Judge &quot;No Source&quot;...</string>
@@ -674,18 +677,40 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Judge &amp;Magenta</string>
+    <string>Judge &amp;Compile Failed</string>
    </property>
    <property name="statusTip">
     <string>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</string>
    </property>
   </action>
-  <action name="actionChange_Contest_Name">
+  <action name="actionChangeContestName">
    <property name="text">
     <string>C&amp;hange Contest Name</string>
    </property>
    <property name="statusTip">
     <string>Change the name of this contest...</string>
+   </property>
+  </action>
+  <action name="cleanupAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Clean Up &amp;Files</string>
+   </property>
+   <property name="statusTip">
+    <string>Cleanup the files of all contestants...</string>
+   </property>
+  </action>
+  <action name="refreshAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Refresh</string>
+   </property>
+   <property name="statusTip">
+    <string>Refresh the contestant list...</string>
    </property>
   </action>
  </widget>

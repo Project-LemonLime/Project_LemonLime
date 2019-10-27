@@ -62,7 +62,7 @@ Lemon::Lemon(QWidget *parent) :
 	ui->closeAction->setEnabled(false);
 	ui->saveAction->setEnabled(false);
 	ui->openFolderAction->setEnabled(false);
-	ui->actionChange_Contest_Name->setEnabled(false);
+	ui->actionChangeContestName->setEnabled(false);
 
 	dataDirWatcher = 0;
 	settings->loadSettings();
@@ -99,6 +99,10 @@ Lemon::Lemon(QWidget *parent) :
 	        ui->resultViewer, SLOT(judgeAll()));
 	connect(ui->judgeUnjudgedAction, SIGNAL(triggered()),
 	        ui->resultViewer, SLOT(judgeUnjudged()));
+	connect(ui->cleanupAction, SIGNAL(triggered()),
+	        this, SLOT(cleanupButtonClicked()));
+	connect(ui->refreshAction, SIGNAL(triggered()),
+	        this, SLOT(refreshButtonClicked()));
 	connect(ui->judgeGreyAction, SIGNAL(triggered()),
 	        ui->resultViewer, SLOT(judgeGrey()));
 	connect(ui->judgeMagentaAction, SIGNAL(triggered()),
@@ -130,20 +134,20 @@ Lemon::Lemon(QWidget *parent) :
 	connect(ui->aboutAction, SIGNAL(triggered()),
 	        this, SLOT(aboutLemon()));
 
-	connect(ui->actionChange_Contest_Name, SIGNAL(triggered()),
-	        this, SLOT(actionChange_Contest_Name()));
-	connect(ui->actionCompile_Features, SIGNAL(triggered()),
-	        this, SLOT(actionCompile_Features()));
-	connect(ui->actionCleanup_Files, SIGNAL(triggered()),
-	        this, SLOT(actionCleanup_Files()));
+	connect(ui->actionChangeContestName, SIGNAL(triggered()),
+	        this, SLOT(actionChangeContestName()));
+	connect(ui->actionCompileFeatures, SIGNAL(triggered()),
+	        this, SLOT(actionCompileFeatures()));
+	connect(ui->actionCleanupFiles, SIGNAL(triggered()),
+	        this, SLOT(actionCleanupFiles()));
 	connect(ui->actionSkip, SIGNAL(triggered()),
 	        this, SLOT(actionSkip()));
-	connect(ui->actionExport_Result, SIGNAL(triggered()),
-	        this, SLOT(actionExport_Result()));
+	connect(ui->actionExportResult, SIGNAL(triggered()),
+	        this, SLOT(actionExportResult()));
 	connect(ui->actionSubTasks, SIGNAL(triggered()),
 	        this, SLOT(actionSubTasks()));
-	connect(ui->actionSpecial_Judge, SIGNAL(triggered()),
-	        this, SLOT(actionSpecial_Judge()));
+	connect(ui->actionSpecialJudge, SIGNAL(triggered()),
+	        this, SLOT(actionSpecialJudge()));
 	connect(ui->actionInteraction, SIGNAL(triggered()),
 	        this, SLOT(actionInteraction()));
 	connect(ui->actionMore, SIGNAL(triggered()),
@@ -369,6 +373,8 @@ void Lemon::refreshButtonClicked()
 		ui->judgeUnjudgedAction->setEnabled(true);
 		ui->judgeGreyAction->setEnabled(true);
 		ui->judgeMagentaAction->setEnabled(true);
+		ui->cleanupAction->setEnabled(true);
+		ui->refreshAction->setEnabled(true);
 	}
 	else
 	{
@@ -378,6 +384,8 @@ void Lemon::refreshButtonClicked()
 		ui->judgeUnjudgedAction->setEnabled(false);
 		ui->judgeGreyAction->setEnabled(false);
 		ui->judgeMagentaAction->setEnabled(false);
+		ui->cleanupAction->setEnabled(true);
+		ui->refreshAction->setEnabled(true);
 	}
 }
 
@@ -652,6 +660,8 @@ void Lemon::tabIndexChanged(int index)
 		ui->judgeUnjudgedButton->setEnabled(false);
 		ui->judgeGreyAction->setEnabled(false);
 		ui->judgeMagentaAction->setEnabled(false);
+		ui->cleanupAction->setEnabled(false);
+		ui->refreshAction->setEnabled(false);
 	}
 	else
 	{
@@ -686,6 +696,9 @@ void Lemon::tabIndexChanged(int index)
 			ui->judgeGreyAction->setEnabled(false);
 			ui->judgeMagentaAction->setEnabled(false);
 		}
+
+		ui->cleanupAction->setEnabled(true);
+		ui->refreshAction->setEnabled(true);
 	}
 }
 
@@ -757,6 +770,9 @@ void Lemon::contestantDeleted()
 		ui->judgeGreyAction->setEnabled(false);
 		ui->judgeMagentaAction->setEnabled(false);
 	}
+
+	ui->cleanupAction->setEnabled(true);
+	ui->refreshAction->setEnabled(true);
 }
 
 void Lemon::saveContest(const QString &fileName)
@@ -848,7 +864,9 @@ void Lemon::loadContest(const QString &filePath)
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
-	ui->actionChange_Contest_Name->setEnabled(true);
+	ui->actionChangeContestName->setEnabled(true);
+	ui->cleanupAction->setEnabled(false);
+	ui->refreshAction->setEnabled(false);
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 
 	QApplication::restoreOverrideCursor();
@@ -885,7 +903,9 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
-	ui->actionChange_Contest_Name->setEnabled(true);
+	ui->actionChangeContestName->setEnabled(true);
+	ui->cleanupAction->setEnabled(false);
+	ui->refreshAction->setEnabled(false);
 	QStringList recentContest = settings->getRecentContest();
 	recentContest.append(QDir::toNativeSeparators((QDir().absoluteFilePath(curFile))));
 	settings->setRecentContest(recentContest);
@@ -919,7 +939,9 @@ void Lemon::closeAction()
 	ui->saveAction->setEnabled(false);
 	ui->addTasksAction->setEnabled(false);
 	ui->exportAction->setEnabled(false);
-	ui->actionChange_Contest_Name->setEnabled(false);
+	ui->actionChangeContestName->setEnabled(false);
+	ui->cleanupAction->setEnabled(false);
+	ui->refreshAction->setEnabled(false);
 	setWindowTitle(tr("LemonLime"));
 }
 
@@ -1143,7 +1165,7 @@ void Lemon::aboutLemon()
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 
-void Lemon::actionChange_Contest_Name()
+void Lemon::actionChangeContestName()
 {
 	bool isChanged;
 	QString being = QInputDialog::getText(NULL, tr("Rename Contest"), tr("Input the name you prefer."), QLineEdit::Normal, tr("New name..."), &isChanged);
@@ -1157,7 +1179,7 @@ void Lemon::actionChange_Contest_Name()
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 }
 
-void Lemon::actionCompile_Features()
+void Lemon::actionCompileFeatures()
 {
 	QString text;
 	text += "<h3>" + tr("Compile Features") + "</h3>";
@@ -1195,7 +1217,7 @@ void Lemon::actionSubTasks()
 	QMessageBox::about(this, tr("About Subtasks"), text);
 }
 
-void Lemon::actionExport_Result()
+void Lemon::actionExportResult()
 {
 	QString text;
 	text += "<h3>" + tr("Something about Exporting Result") + "</h3>";
@@ -1207,7 +1229,7 @@ void Lemon::actionExport_Result()
 	QMessageBox::about(this, tr("About Exporting Result"), text);
 }
 
-void Lemon::actionCleanup_Files()
+void Lemon::actionCleanupFiles()
 {
 	QString text;
 	text += "<h3>" + tr("What is Clean Up Files") + "</h3>";
@@ -1227,7 +1249,7 @@ void Lemon::actionSkip()
 	QMessageBox::about(this, tr("About Skip"), text);
 }
 
-void Lemon::actionSpecial_Judge()
+void Lemon::actionSpecialJudge()
 {
 	QString text;
 	text += "<h3>" + tr("How to make a Special Judge for Lemon") + "</h3>";

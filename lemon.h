@@ -88,14 +88,14 @@ private slots:
 	void addTasksAction();
 	void exportResult();
 	void aboutLemon();
-	void actionChange_Contest_Name();
-	void actionCompile_Features();
+	void actionChangeContestName();
+	void actionCompileFeatures();
 	void actionInteraction();
 	void actionSubTasks();
-	void actionExport_Result();
-	void actionCleanup_Files();
+	void actionExportResult();
+	void actionCleanupFiles();
 	void actionSkip();
-	void actionSpecial_Judge();
+	void actionSpecialJudge();
 	void actionMore();
 	void setUiLanguage();
 

@@ -54,6 +54,14 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 # 构建
 
+## 如果 Github 太慢…
+
+你也许可以到 ``码云（Gitee）`` 去下载。
+
+在很多地区，从 ``码云`` 下载的速度是从 ``Github`` 下载的速度的 100 倍。
+
+[这个仓库在码云下的复制](https://gitee.com/iotang/Project_LemonLime)
+
 ## Windows
 
 去 `Releases` 下载可执行文件就可以了。

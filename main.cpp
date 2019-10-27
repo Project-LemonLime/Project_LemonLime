@@ -45,11 +45,17 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-#ifdef Q_OS_WIN32
 	QFont fonts;
-	fonts.setFamily("Microsoft YaHei");
-	a.setFont(fonts);
+#ifdef Q_OS_LINUX
+	fonts.setFamily("Noto Sans CJK SC");
 #endif
+#ifdef Q_OS_WIN32
+	fonts.setFamily("Microsoft YaHei");
+#endif
+#ifdef Q_OS_MAC
+	fonts.setFamily("PingFangSC-Regular");
+#endif
+	a.setFont(fonts);
 
 	Q_INIT_RESOURCE(resource);
 
@@ -62,7 +68,7 @@ int main(int argc, char *argv[])
 	do
 	{
 		a.processEvents();
-	} while (QDateTime::currentMSecsSinceEpoch() - startTime <= 800);
+	} while (QDateTime::currentMSecsSinceEpoch() - startTime <= 600);
 
 	Lemon w;
 	a.setActivationWindow(&w);
