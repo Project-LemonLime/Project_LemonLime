@@ -2149,7 +2149,7 @@
     <message>
         <location filename="forms/lemon.ui" line="669"/>
         <source>Judge &amp;No Source</source>
-        <translation>测试未测试(&amp;N)</translation>
+        <translation type="unfinished">测试无源文件(&amp;N)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="680"/>
