@@ -36,6 +36,7 @@ StatisticsBrowser::StatisticsBrowser(QWidget *parent) :
 	ui(new Ui::StatisticsBrowser)
 {
 	ui->setupUi(this);
+	curContest = nullptr;
 }
 
 StatisticsBrowser::~StatisticsBrowser()
