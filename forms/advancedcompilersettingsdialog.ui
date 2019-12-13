@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>467</height>
+    <height>490</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -347,8 +347,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../resource.qrc">
-          <normaloff>:/icon/cross.png</normaloff>:/icon/cross.png</iconset>
+         <iconset theme="edit-delete"/>
         </property>
        </widget>
       </item>
@@ -416,9 +415,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -10,7 +10,8 @@
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="36"/>
-        <source>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler&apos;s configuration.</source>
+        <source>Step 1/3: Setup compilers. Use built-in configuration or customize yourself.</source>
+        <oldsource>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler&apos;s configuration.</oldsource>
         <translation>步骤 1/3：选择自定义编译器，或是使用预制的编译器配置。</translation>
     </message>
     <message>
@@ -27,8 +28,9 @@
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="224"/>
-        <source>Step II: Select compiler&apos;s location to configure it.</source>
-        <translation>步骤2/3：选择编译器目录进行配置。</translation>
+        <source>Step 2/3: Select compiler&apos;s location to configure it.</source>
+        <oldsource>Step II: Select compiler&apos;s location to configure it.</oldsource>
+        <translation>步骤 2/3：选择编译器目录进行配置。</translation>
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="245"/>
@@ -87,7 +89,8 @@
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="495"/>
-        <source>Step II: Select compilers&apos; locations to configure them.</source>
+        <source>Step 2/3: Select compilers&apos; locations to configure them.</source>
+        <oldsource>Step II: Select compilers&apos; locations to configure them.</oldsource>
         <translation>步骤 2/3：选择编译器路径进行配置。</translation>
     </message>
     <message>
@@ -116,8 +119,9 @@
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="917"/>
-        <source>Step III: Check the result and finish the wizard.</source>
-        <translation>步骤 3/3：检查结果，确认无误后完成向导。</translation>
+        <source>Step 3/3: Check the result and start using LemonLime.</source>
+        <oldsource>Step III: Check the result and finish the wizard.</oldsource>
+        <translation>步骤 3/3：检查结果，开始使用 LemonLime。</translation>
     </message>
     <message>
         <location filename="addcompilerwizard.cpp" line="124"/>
@@ -357,7 +361,7 @@
         <translation>添加试题</translation>
     </message>
     <message>
-        <location filename="forms/addtaskdialog.ui" line="160"/>
+        <location filename="forms/addtaskdialog.ui" line="153"/>
         <source>Task</source>
         <translation>试题</translation>
     </message>
@@ -367,7 +371,7 @@
         <translation>试题分值</translation>
     </message>
     <message>
-        <location filename="forms/addtaskdialog.ui" line="170"/>
+        <location filename="forms/addtaskdialog.ui" line="163"/>
         <source>Time Limit</source>
         <translation>时间限制</translation>
     </message>
@@ -396,7 +400,8 @@
     </message>
     <message>
         <location filename="forms/addtestcaseswizard.ui" line="36"/>
-        <source>Step I: Input the full score, time limit and memory limit for each new test case.</source>
+        <source>Step 1/3: Input the full score, time limit and memory limit for each new test case.</source>
+        <oldsource>Step I: Input the full score, time limit and memory limit for each new test case.</oldsource>
         <translation>步骤 1/3：输入将被加入测试点的分值、时间限制和空间限制。</translation>
     </message>
     <message>
@@ -426,13 +431,18 @@
     </message>
     <message>
         <location filename="forms/addtestcaseswizard.ui" line="243"/>
-        <source>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</source>
-        <translation>步骤 2/3：为输入输出文件指定格式。你可以使用诸如&lt;1&gt;, &lt;2&gt;...这样的参数来表示一个正则表达式。打钩的表达式匹配内容相同的输入输出文件将会在一个测试点中。</translation>
+        <source>Step 2/3: Input patterns for input files and output files. Use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Files will in the same subtask when their matched parts of checked expressions are identical.</source>
+        <oldsource>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</oldsource>
+        <translation>步骤 2/3：为输入输出文件指定格式。你可以使用像&lt;1&gt;, &lt;2&gt;...这样的参数来表示一个正则表达式。打钩的表达式匹配内容相同的数据点将会在一个 Subtask 中。</translation>
     </message>
     <message>
-        <location filename="forms/addtestcaseswizard.ui" line="438"/>
-        <source>Step III: Preview the result and finish the wizard.</source>
+        <location filename="forms/addtestcaseswizard.ui" line="436"/>
+        <source>Step 3/3: Preview the result and finish the wizard.</source>
         <translation>步骤 3/3：预览结果，确认无误后完成向导。</translation>
+    </message>
+    <message>
+        <source>Step III: Preview the result and finish the wizard.</source>
+        <translation type="vanished">步骤 3/3：预览结果，确认无误后完成向导。</translation>
     </message>
     <message>
         <location filename="forms/addtestcaseswizard.ui" line="264"/>
@@ -590,7 +600,7 @@
         <translation>...</translation>
     </message>
     <message>
-        <location filename="forms/advancedcompilersettingsdialog.ui" line="367"/>
+        <location filename="forms/advancedcompilersettingsdialog.ui" line="366"/>
         <source>Compiler&apos;s Arguments</source>
         <translation>编译器参数</translation>
     </message>
@@ -600,7 +610,7 @@
         <translation>解释器参数</translation>
     </message>
     <message>
-        <location filename="forms/advancedcompilersettingsdialog.ui" line="385"/>
+        <location filename="forms/advancedcompilersettingsdialog.ui" line="384"/>
         <source>Environment Variables</source>
         <translation>环境变量</translation>
     </message>
@@ -957,12 +967,12 @@
         <translation>添加(&amp;A)</translation>
     </message>
     <message>
-        <location filename="forms/environmentvariablesdialog.ui" line="85"/>
+        <location filename="forms/environmentvariablesdialog.ui" line="88"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="forms/environmentvariablesdialog.ui" line="95"/>
+        <location filename="forms/environmentvariablesdialog.ui" line="101"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
@@ -1302,54 +1312,54 @@
 <context>
     <name>GeneralSettings</name>
     <message>
-        <location filename="forms/generalsettings.ui" line="20"/>
+        <location filename="forms/generalsettings.ui" line="26"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="570"/>
+        <location filename="forms/generalsettings.ui" line="280"/>
         <source>Default Full Score</source>
         <translation>默认分值</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="41"/>
+        <location filename="forms/generalsettings.ui" line="264"/>
         <source>Default Time Limit</source>
         <translation>默认时间限制</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="123"/>
-        <location filename="forms/generalsettings.ui" line="271"/>
-        <location filename="forms/generalsettings.ui" line="329"/>
+        <location filename="forms/generalsettings.ui" line="323"/>
+        <location filename="forms/generalsettings.ui" line="381"/>
+        <location filename="forms/generalsettings.ui" line="478"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="154"/>
+        <location filename="forms/generalsettings.ui" line="565"/>
         <source>Default Memory Limit</source>
         <translation>默认空间限制</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="197"/>
+        <location filename="forms/generalsettings.ui" line="90"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="228"/>
+        <location filename="forms/generalsettings.ui" line="248"/>
         <source>Compile Time Limit</source>
         <translation>编译时间限制</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="360"/>
+        <location filename="forms/generalsettings.ui" line="121"/>
         <source>Special Judge Time Limit</source>
         <translation>校验器时间限制</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="376"/>
+        <location filename="forms/generalsettings.ui" line="581"/>
         <source>Source File Size Limit</source>
         <translation>源程序大小限制</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="419"/>
+        <location filename="forms/generalsettings.ui" line="197"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
@@ -1358,17 +1368,17 @@
         <translation type="obsolete">测试线程数</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="444"/>
+        <location filename="forms/generalsettings.ui" line="549"/>
         <source>Input File Extensions</source>
         <translation>输入文件扩展名</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="454"/>
+        <location filename="forms/generalsettings.ui" line="47"/>
         <source>Output File Extensions</source>
         <translation>输出文件扩展名</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="484"/>
+        <location filename="forms/generalsettings.ui" line="600"/>
         <source>(separated by &quot;;&quot;. Empty means no limitation.)</source>
         <translation>（用&quot;;&quot;分隔，空表示无限制。）</translation>
     </message>
@@ -1423,7 +1433,7 @@
         <translation>最大重测次数为空！</translation>
     </message>
     <message>
-        <location filename="forms/generalsettings.ui" line="501"/>
+        <location filename="forms/generalsettings.ui" line="232"/>
         <source>Maximum Rejudge Times</source>
         <translation>最大重测次数</translation>
     </message>
@@ -1437,9 +1447,9 @@
     </message>
     <message>
         <location filename="forms/judgingdialog.ui" line="76"/>
-        <source>%v / %m ms, %p%</source>
-        <oldsource>%v / %m ms (%p%)</oldsource>
-        <translation>%v / %m ms, %p%</translation>
+        <source>%v / %m ms (%p%)</source>
+        <oldsource>%v / %m ms, %p%</oldsource>
+        <translation>%v / %m ms (%p%)</translation>
     </message>
     <message>
         <location filename="forms/judgingdialog.ui" line="96"/>
@@ -1447,7 +1457,7 @@
         <translation>跳过这一题</translation>
     </message>
     <message>
-        <location filename="forms/judgingdialog.ui" line="119"/>
+        <location filename="forms/judgingdialog.ui" line="122"/>
         <source>Cancel</source>
         <translation>停止测试</translation>
     </message>
@@ -1710,8 +1720,8 @@
     <name>Lemon</name>
     <message>
         <location filename="forms/lemon.ui" line="20"/>
-        <location filename="lemon.cpp" line="945"/>
-        <location filename="lemon.cpp" line="1122"/>
+        <location filename="lemon.cpp" line="960"/>
+        <location filename="lemon.cpp" line="1137"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
@@ -1727,12 +1737,12 @@
         <translation>概要</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="177"/>
+        <location filename="forms/lemon.ui" line="175"/>
         <source>Detail</source>
         <translation>详情</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="203"/>
+        <location filename="forms/lemon.ui" line="201"/>
         <source>Contestants</source>
         <translation>选手</translation>
     </message>
@@ -1741,28 +1751,28 @@
         <translation type="vanished">整理文件</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="298"/>
+        <location filename="forms/lemon.ui" line="302"/>
         <source>Refresh</source>
         <oldsource>&amp;Refresh</oldsource>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="597"/>
+        <location filename="forms/lemon.ui" line="627"/>
         <source>&amp;Interaction</source>
         <translation>交互题(&amp;I)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="613"/>
+        <location filename="forms/lemon.ui" line="643"/>
         <source>Clean &amp;up Files</source>
         <translation>整理文件(&amp;U)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="621"/>
+        <location filename="forms/lemon.ui" line="651"/>
         <source>&amp;Compile Features</source>
         <translation>编译选项(&amp;C)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="645"/>
+        <location filename="forms/lemon.ui" line="675"/>
         <source>Single &amp;Judge</source>
         <oldsource>Single Judge</oldsource>
         <translation>测试某一题(&amp;J)</translation>
@@ -1772,12 +1782,12 @@
         <translation type="vanished">测试</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="519"/>
+        <location filename="forms/lemon.ui" line="549"/>
         <source>Judge &amp;All</source>
         <translation>测试全部(&amp;A)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="387"/>
+        <location filename="forms/lemon.ui" line="417"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
@@ -1786,22 +1796,22 @@
         <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="339"/>
+        <location filename="forms/lemon.ui" line="349"/>
         <source>Judge Selected</source>
         <translation>测试选中</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="358"/>
+        <location filename="forms/lemon.ui" line="371"/>
         <source>Judge All</source>
         <translation>测试全部</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="401"/>
+        <location filename="forms/lemon.ui" line="431"/>
         <source>&amp;Control</source>
         <translation>控制(&amp;C)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="417"/>
+        <location filename="forms/lemon.ui" line="447"/>
         <source>&amp;Tools</source>
         <translation>工具(&amp;T)</translation>
     </message>
@@ -1810,84 +1820,84 @@
         <translation type="vanished">设置语言(&amp;U)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="440"/>
+        <location filename="forms/lemon.ui" line="470"/>
         <source>&amp;Guides</source>
         <oldsource>Guides</oldsource>
         <translation>指南(&amp;G)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="565"/>
+        <location filename="forms/lemon.ui" line="595"/>
         <source>Export the result...</source>
         <translation>导出成绩…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="573"/>
+        <location filename="forms/lemon.ui" line="603"/>
         <source>Judge &amp;Unjudged</source>
         <oldsource>Judge &amp;Single Task</oldsource>
         <translation>测试未测试(&amp;U)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="581"/>
+        <location filename="forms/lemon.ui" line="611"/>
         <source>Open Current Contest &amp;Folder</source>
         <translation>打开当前比赛的目录(&amp;F)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="584"/>
+        <location filename="forms/lemon.ui" line="614"/>
         <source>Open the folder of this contest with file manager...</source>
         <translation>在文件管理器中打开这个比赛的目录…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="589"/>
+        <location filename="forms/lemon.ui" line="619"/>
         <source>&amp;Save Current Contest</source>
         <translation>保存比赛文件(&amp;S)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="592"/>
+        <location filename="forms/lemon.ui" line="622"/>
         <source>Save this contest...</source>
         <translation>保存这个比赛…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="600"/>
+        <location filename="forms/lemon.ui" line="630"/>
         <source>How to make Interaction Tasks...</source>
         <translation>如何添加交互题…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="608"/>
+        <location filename="forms/lemon.ui" line="638"/>
         <source>How to make Subtasks...</source>
         <translation>如何创建打包的测试点（Subtasks）…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="616"/>
+        <location filename="forms/lemon.ui" line="646"/>
         <source>What is Cleanup Files...</source>
         <translation>什么是整理文件…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="624"/>
+        <location filename="forms/lemon.ui" line="654"/>
         <source>The difference in compiling between Lemon and LemonLime...</source>
         <translation>LemonLime 编译文件的不同…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="632"/>
+        <location filename="forms/lemon.ui" line="662"/>
         <source>What is Skip...</source>
         <translation>什么是“跳过这一题”…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="640"/>
+        <location filename="forms/lemon.ui" line="670"/>
         <source>How to write Special Judge...</source>
         <translation>如何写一个校验器…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="653"/>
+        <location filename="forms/lemon.ui" line="683"/>
         <source>New features of Exporting Result...</source>
         <translation>LemonLime 新加的关于导出文件的特性…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="658"/>
+        <location filename="forms/lemon.ui" line="688"/>
         <source>&amp;More</source>
         <translation>更多(&amp;M)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="661"/>
+        <location filename="forms/lemon.ui" line="691"/>
         <source>Online Guides...</source>
         <translation>在线帮助…</translation>
     </message>
@@ -1896,7 +1906,7 @@
         <translation type="vanished">测试未找到文件的(&amp;G)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="672"/>
+        <location filename="forms/lemon.ui" line="702"/>
         <source>Judge &quot;No Source&quot;...</source>
         <translation>测试“未测试”…</translation>
     </message>
@@ -1905,42 +1915,42 @@
         <translation type="vanished">测试编译出错的(&amp;M)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="683"/>
+        <location filename="forms/lemon.ui" line="713"/>
         <source>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</source>
         <translation>测试“编译错误”、“编译超时”等…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="688"/>
+        <location filename="forms/lemon.ui" line="718"/>
         <source>C&amp;hange Contest Name</source>
         <oldsource>Change Contest Name</oldsource>
         <translation>更改比赛标题(&amp;H)</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1193"/>
+        <location filename="lemon.cpp" line="1208"/>
         <source>Interaction</source>
         <oldsource>&amp;Interaction</oldsource>
         <translation>交互题设置</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1185"/>
+        <location filename="lemon.cpp" line="1200"/>
         <source>Compile Features</source>
         <oldsource>&amp;Compile Features</oldsource>
         <translation>编译选项</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="629"/>
+        <location filename="forms/lemon.ui" line="659"/>
         <source>&amp;Skip</source>
         <oldsource>Skip</oldsource>
         <translation>跳过这一题(&amp;S)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="637"/>
+        <location filename="forms/lemon.ui" line="667"/>
         <source>S&amp;pecial Judge</source>
         <oldsource>Special Judge</oldsource>
         <translation>自定义校验器(SPJ) (&amp;P)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="605"/>
+        <location filename="forms/lemon.ui" line="635"/>
         <source>Su&amp;btasks</source>
         <oldsource>Subtasks</oldsource>
         <translation>打包的测试点(&amp;B)</translation>
@@ -1950,48 +1960,47 @@
         <translation type="vanished">界面语言</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="433"/>
+        <location filename="forms/lemon.ui" line="463"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="465"/>
+        <location filename="forms/lemon.ui" line="495"/>
         <source>&amp;New Contest</source>
         <translation>新建比赛(&amp;N)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="473"/>
+        <location filename="forms/lemon.ui" line="503"/>
         <source>&amp;Open Existing Contest</source>
         <translation>打开已有的比赛(&amp;O)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="481"/>
+        <location filename="forms/lemon.ui" line="511"/>
         <source>E&amp;xit</source>
         <translation>退出(&amp;X)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="489"/>
         <source>&amp;Options</source>
-        <translation>选项(&amp;O)</translation>
+        <translation type="vanished">选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="497"/>
+        <location filename="forms/lemon.ui" line="527"/>
         <source>&amp;About</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="508"/>
+        <location filename="forms/lemon.ui" line="538"/>
         <source>&amp;Judge Selected</source>
         <translation>测试选中选手(&amp;J)</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="446"/>
-        <location filename="lemon.cpp" line="457"/>
-        <location filename="lemon.cpp" line="461"/>
-        <location filename="lemon.cpp" line="470"/>
-        <location filename="lemon.cpp" line="476"/>
-        <location filename="lemon.cpp" line="642"/>
-        <location filename="lemon.cpp" line="646"/>
+        <location filename="lemon.cpp" line="449"/>
+        <location filename="lemon.cpp" line="460"/>
+        <location filename="lemon.cpp" line="464"/>
+        <location filename="lemon.cpp" line="473"/>
+        <location filename="lemon.cpp" line="479"/>
+        <location filename="lemon.cpp" line="645"/>
+        <location filename="lemon.cpp" line="649"/>
         <source>Clean up Files</source>
         <oldsource>&amp;Clean up Files</oldsource>
         <translation>整理文件</translation>
@@ -2012,300 +2021,317 @@
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="149"/>
+        <location filename="forms/lemon.ui" line="148"/>
         <source>Move up this task...</source>
         <translation>上移这个题目…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="152"/>
+        <location filename="forms/lemon.ui" line="151"/>
         <source>Up</source>
         <translation>上</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="186"/>
+        <location filename="forms/lemon.ui" line="184"/>
         <source>Editing task details...</source>
         <translation>编辑题目详细信息…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="209"/>
+        <location filename="forms/lemon.ui" line="207"/>
         <source>Contestant List...</source>
         <translation>选手列表…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="266"/>
+        <location filename="forms/lemon.ui" line="267"/>
+        <location filename="forms/lemon.ui" line="732"/>
         <source>Cleanup the files of all contestants...</source>
         <translation>整理所有选手文件…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="269"/>
+        <location filename="forms/lemon.ui" line="270"/>
         <source>Clean Up Files</source>
         <translation>整理文件</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="295"/>
+        <location filename="forms/lemon.ui" line="299"/>
+        <location filename="forms/lemon.ui" line="743"/>
         <source>Refresh the contestant list...</source>
         <translation>刷新选手列表…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="317"/>
-        <location filename="forms/lemon.ui" line="576"/>
+        <location filename="forms/lemon.ui" line="324"/>
+        <location filename="forms/lemon.ui" line="606"/>
         <source>Judge unjudged...</source>
         <translation>测试未测试…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="320"/>
+        <location filename="forms/lemon.ui" line="327"/>
         <source>Judge Unjudged</source>
         <oldsource>&amp;Single Judge</oldsource>
         <translation>测试未测试</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="336"/>
-        <location filename="forms/lemon.ui" line="511"/>
+        <location filename="forms/lemon.ui" line="346"/>
+        <location filename="forms/lemon.ui" line="541"/>
         <source>Judge selected area...</source>
         <translation>测试指定区域…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="355"/>
-        <location filename="forms/lemon.ui" line="522"/>
+        <location filename="forms/lemon.ui" line="368"/>
+        <location filename="forms/lemon.ui" line="552"/>
         <source>Judge all contestants...</source>
         <translation>测试所有选手…</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="384"/>
+        <source>Statistics</source>
+        <translation>统计</translation>
+    </message>
+    <message>
+        <location filename="forms/lemon.ui" line="390"/>
+        <source>The Statistics Browser...</source>
+        <translation>统计数据浏览…</translation>
+    </message>
+    <message>
+        <location filename="forms/lemon.ui" line="414"/>
         <source>Open / Close / Rename contest and etc</source>
         <translation>打开 / 关闭 / 重命名比赛等</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="421"/>
+        <location filename="forms/lemon.ui" line="451"/>
         <source>Switch Language...</source>
         <translation>切换语言…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="424"/>
+        <location filename="forms/lemon.ui" line="454"/>
         <source>UI &amp;Language</source>
         <translation>设置语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="437"/>
+        <location filename="forms/lemon.ui" line="467"/>
         <source>LemonLime Guides...</source>
         <translation>LemonLime 教程…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="468"/>
+        <location filename="forms/lemon.ui" line="498"/>
         <source>Make a new contest...</source>
         <translation>创建新的比赛…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="476"/>
+        <location filename="forms/lemon.ui" line="506"/>
         <source>Open an existing contest...</source>
         <translation>找到一场比赛，并打开它…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="484"/>
+        <location filename="forms/lemon.ui" line="514"/>
         <source>Exit LemonLime...</source>
         <translation>退出 LemonLime…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="492"/>
+        <location filename="forms/lemon.ui" line="519"/>
+        <source>&amp;Settings</source>
+        <translation>设置(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="forms/lemon.ui" line="522"/>
         <source>LemonLime Settings...</source>
         <translation>LemonLime 设置…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="500"/>
+        <location filename="forms/lemon.ui" line="530"/>
         <source>About LemonLime...</source>
         <translation>关于 LemonLime…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="527"/>
+        <location filename="forms/lemon.ui" line="557"/>
         <source>&amp;Close Current Contest</source>
         <translation>关闭当前的比赛(&amp;C)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="530"/>
+        <location filename="forms/lemon.ui" line="560"/>
         <source>Close this contest...</source>
         <translation>关闭这个比赛…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="543"/>
+        <location filename="forms/lemon.ui" line="573"/>
         <source>Add &amp;Tasks Automatically</source>
         <translation>自动添加试题(&amp;T)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="546"/>
+        <location filename="forms/lemon.ui" line="576"/>
         <source>Find your tasks in ./data and add them automatically...</source>
         <translation>在 ./data 里寻找题目，并且自动添加它们…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="554"/>
+        <location filename="forms/lemon.ui" line="584"/>
         <source>&amp;Make Self-testing Folder</source>
         <translation>创建批处理测试目录(&amp;M)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="562"/>
-        <location filename="forms/lemon.ui" line="650"/>
+        <location filename="forms/lemon.ui" line="592"/>
+        <location filename="forms/lemon.ui" line="680"/>
         <source>&amp;Export Result</source>
         <translation>导出成绩(&amp;E)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="669"/>
+        <location filename="forms/lemon.ui" line="699"/>
         <source>Judge &amp;No Source</source>
-        <translation type="unfinished">测试无源文件(&amp;N)</translation>
+        <translation>测试无源文件(&amp;N)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="680"/>
+        <location filename="forms/lemon.ui" line="710"/>
         <source>Judge &amp;Compile Failed</source>
         <translation>测试编译问题(&amp;C)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="691"/>
+        <location filename="forms/lemon.ui" line="721"/>
         <source>Change the name of this contest...</source>
         <translation>修改这场比赛的名字…</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="699"/>
+        <location filename="forms/lemon.ui" line="729"/>
         <source>Clean Up &amp;Files</source>
         <translation>整理文件(&amp;F)</translation>
     </message>
     <message>
-        <location filename="forms/lemon.ui" line="707"/>
+        <location filename="forms/lemon.ui" line="740"/>
         <source>&amp;Refresh</source>
         <translation>刷新(&amp;R)</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="169"/>
+        <location filename="lemon.cpp" line="171"/>
         <source>English</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="444"/>
+        <location filename="lemon.cpp" line="447"/>
         <source>Are you sure to Clean up Files?</source>
         <translation>确定要整理文件吗？</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="445"/>
+        <location filename="lemon.cpp" line="448"/>
         <source>Reading guide are recommended.</source>
         <translation>建议参看教程后再确认操作。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="456"/>
+        <location filename="lemon.cpp" line="459"/>
         <source>Making backup files to dir &lt;br&gt; `source.bak&apos;?</source>
         <translation>创建备份文件到 &lt;br&gt; `source.bak&apos;？</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="461"/>
+        <location filename="lemon.cpp" line="464"/>
         <source>Aborted.</source>
         <translation>没有进行整理。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="470"/>
+        <location filename="lemon.cpp" line="473"/>
         <source>Aborted: `source.bak&apos; already exist.</source>
         <translation>没有进行整理：`source.bak&apos; 已经存在。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="476"/>
+        <location filename="lemon.cpp" line="479"/>
         <source>Aborted: Cannot make dir `source.bak&apos;.</source>
         <translation>没有进行整理：没法创建 `source.bak&apos;。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="482"/>
+        <location filename="lemon.cpp" line="485"/>
         <source>Making Backup...</source>
         <translation>备份中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="504"/>
+        <location filename="lemon.cpp" line="507"/>
         <source>Cleaning</source>
         <translation>整理中</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="512"/>
+        <location filename="lemon.cpp" line="515"/>
         <source>Working on it...</source>
         <translation>正在整理…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="519"/>
+        <location filename="lemon.cpp" line="522"/>
         <source>Fetching Data...</source>
         <translation>抓取题目数据…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="529"/>
+        <location filename="lemon.cpp" line="532"/>
         <source>Initing...</source>
         <translation>预处理中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="549"/>
+        <location filename="lemon.cpp" line="552"/>
         <source>Now Cleaning...</source>
         <translation>整理文件中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="641"/>
+        <location filename="lemon.cpp" line="644"/>
         <source>Finished.</source>
         <translation>整理完成。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="646"/>
+        <location filename="lemon.cpp" line="649"/>
         <source>Aborted</source>
         <translation>没有进行整理</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="784"/>
-        <location filename="lemon.cpp" line="812"/>
-        <location filename="lemon.cpp" line="823"/>
-        <location filename="lemon.cpp" line="836"/>
-        <location filename="lemon.cpp" line="880"/>
+        <location filename="lemon.cpp" line="794"/>
+        <location filename="lemon.cpp" line="822"/>
+        <location filename="lemon.cpp" line="833"/>
+        <location filename="lemon.cpp" line="846"/>
+        <location filename="lemon.cpp" line="892"/>
         <source>Error</source>
         <translation>出错了</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="784"/>
-        <location filename="lemon.cpp" line="812"/>
+        <location filename="lemon.cpp" line="794"/>
+        <location filename="lemon.cpp" line="822"/>
         <source>Cannot open file %1</source>
         <translation>无法打开 %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="786"/>
+        <location filename="lemon.cpp" line="796"/>
         <source>Save Failed</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="801"/>
+        <location filename="lemon.cpp" line="811"/>
         <source>Saved</source>
         <translation>已保存</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="823"/>
-        <location filename="lemon.cpp" line="836"/>
+        <location filename="lemon.cpp" line="833"/>
+        <location filename="lemon.cpp" line="846"/>
         <source>File %1 is broken</source>
         <translation>%1 已损坏</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="870"/>
-        <location filename="lemon.cpp" line="890"/>
-        <location filename="lemon.cpp" line="1179"/>
+        <location filename="lemon.cpp" line="882"/>
+        <location filename="lemon.cpp" line="902"/>
+        <location filename="lemon.cpp" line="1194"/>
         <source>LemonLime - %1</source>
         <translation>LemonLime - %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1160"/>
+        <location filename="lemon.cpp" line="1175"/>
         <source>UNSTABLE VERISON</source>
         <translation>不稳定版本</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1171"/>
+        <location filename="lemon.cpp" line="1186"/>
         <source>Rename Contest</source>
         <translation>重命名比赛</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1171"/>
+        <location filename="lemon.cpp" line="1186"/>
         <source>Input the name you prefer.</source>
         <translation>输入你想要的名字。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1171"/>
+        <location filename="lemon.cpp" line="1186"/>
         <source>New name...</source>
         <translation>新名字…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1263"/>
+        <location filename="lemon.cpp" line="1278"/>
         <source>Notice that you may use `atoi(argv[4])&apos; to get the correct full score.</source>
         <oldsource>Notice that you may use	`atoi(argv[4])&apos; to get the correct full score.</oldsource>
         <translation>你可能得用 `atoi(argv[4])&apos; 来获得正确的总分。</translation>
@@ -2319,112 +2345,112 @@
         <translation type="vanished">注意</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1194"/>
+        <location filename="lemon.cpp" line="1209"/>
         <source>The paths are based on your &quot;/data&quot;.</source>
         <translation>你需要提供你的交互库和接口。最好还有一个SPJ-以lemon族评测系统的标准来进行编写。它们的路径以 data 文件夹为根进行填写。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1195"/>
+        <location filename="lemon.cpp" line="1210"/>
         <source>There is a example of how to use Interaction type tasks:</source>
         <translation>下面是一个使用交互型的题目的配置例子：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1196"/>
+        <location filename="lemon.cpp" line="1211"/>
         <source>Interactor Path: matrix/matrix.h</source>
         <translation>交互库路径： matrix/matrix.h</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1197"/>
+        <location filename="lemon.cpp" line="1212"/>
         <source>Interactor Name: matrix.h</source>
         <translation>交互库名称： matrix.h</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1198"/>
+        <location filename="lemon.cpp" line="1213"/>
         <source>Grader Path: matrix/grader.cpp</source>
         <translation>接口实现(grader)路径： matrix/grader.cpp</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1205"/>
+        <location filename="lemon.cpp" line="1220"/>
         <source>Something about how to make Subtasks</source>
         <translation>关于创建打包的测试点的一些经验</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1206"/>
+        <location filename="lemon.cpp" line="1221"/>
         <source>How to make a valid Regular Expression:</source>
         <translation>如何写一个语法正确的正则表达式：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1211"/>
+        <location filename="lemon.cpp" line="1226"/>
         <source>Numbers: \d*</source>
         <translation>匹配任意数量的数字： \d*</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1212"/>
+        <location filename="lemon.cpp" line="1227"/>
         <source>Notes:</source>
         <translation>提示：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1213"/>
+        <location filename="lemon.cpp" line="1228"/>
         <source>&quot;\d&quot; means a number.</source>
         <translation>&quot;\d&quot; 表示匹配一个数字。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1214"/>
+        <location filename="lemon.cpp" line="1229"/>
         <source>&quot;.&quot; means a character.</source>
         <translation>&quot;.&quot; 表示匹配任意一个字符。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1215"/>
+        <location filename="lemon.cpp" line="1230"/>
         <source>&quot;*&quot; means repeat previous order 0~inf times.</source>
         <translation>&quot;*&quot; 表示把之前的那个表达式重复 0 到无限大遍。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1223"/>
+        <location filename="lemon.cpp" line="1238"/>
         <source>Something about Exporting Result</source>
         <translation>关于导出成绩的特性</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1224"/>
+        <location filename="lemon.cpp" line="1239"/>
         <source>HTML, CSV, XLS (Windows only) are supported.</source>
         <translation>支持导出HTML, CSV, XLS (仅Windows)。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1225"/>
+        <location filename="lemon.cpp" line="1240"/>
         <source>There are two modes of exported HTML: Full and Compressed.</source>
         <translation>导出 HTML 有两种模式：完整版和压缩版。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1226"/>
+        <location filename="lemon.cpp" line="1241"/>
         <source>Full HTML has more hrefs and color;</source>
         <translation>完整版 HTML 有更多的颜色，支持题目跳转；</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1227"/>
+        <location filename="lemon.cpp" line="1242"/>
         <source>Compressed HTML has smaller size.</source>
         <translation>压缩版 HTML 体积更小，比原来的还要小 20% 到 50%。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1228"/>
+        <location filename="lemon.cpp" line="1243"/>
         <source>Enable Full mode with suffix *.html and enable Compressed mode with suffix *.htm.</source>
         <translation>使用后缀“*.html”的时候启用完整版，使用后缀“*.htm”的时候使用压缩版。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1229"/>
+        <location filename="lemon.cpp" line="1244"/>
         <source>About Exporting Result</source>
         <translation>关于导出成绩</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1235"/>
+        <location filename="lemon.cpp" line="1250"/>
         <source>What is Clean Up Files</source>
         <translation>什么是整理文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1236"/>
+        <location filename="lemon.cpp" line="1251"/>
         <source>It can make all of the source files have a copy in the subdirs.</source>
         <translation>为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1237"/>
+        <location filename="lemon.cpp" line="1252"/>
         <source>When there are files both inside the subdirs and outside of subdirs, the one INSIDE will cover another one.</source>
         <translation>当文件夹内外都有文件的时候，文件夹里面的文件会覆盖文件夹外面的。</translation>
     </message>
@@ -2433,7 +2459,7 @@
         <translation type="vanished">当文件夹内外都有文件的时候，文件夹外面的文件会覆盖文件夹里面的。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1238"/>
+        <location filename="lemon.cpp" line="1253"/>
         <source>Be Careful : May Cause Unexpected File Damage.</source>
         <translation>当心使用：原有的子文件夹内的本来的文件会丢失。</translation>
     </message>
@@ -2442,12 +2468,12 @@
         <translation type="vanished">当心使用：原有的子文件夹的本来的文件会丢失。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1239"/>
+        <location filename="lemon.cpp" line="1254"/>
         <source>About Clean Up Files</source>
         <translation>关于 整理文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1248"/>
+        <location filename="lemon.cpp" line="1263"/>
         <source>Use it when you have no time ONLY.</source>
         <translation>只在你想节省时间的时候使用。</translation>
     </message>
@@ -2460,7 +2486,7 @@
         <translation type="vanished">你也可以选定指定的人来重测它们的某一道题。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1255"/>
+        <location filename="lemon.cpp" line="1270"/>
         <source>How to make a Special Judge for Lemon</source>
         <translation>如何写一个 Lemon 的校验器</translation>
     </message>
@@ -2469,23 +2495,23 @@
         <translation type="vanished">LemonLime - %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="880"/>
+        <location filename="lemon.cpp" line="892"/>
         <source>Cannot make contest path</source>
         <translation>无法创建比赛目录</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1122"/>
+        <location filename="lemon.cpp" line="1137"/>
         <source>No task found</source>
         <translation>找不到任何试题</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1157"/>
+        <location filename="lemon.cpp" line="1172"/>
         <source>A tiny judging environment for OI contest based on Project Lemon</source>
         <oldsource>A tiny judging environment for OI contest</oldsource>
         <translation>基于Lemon的简易OI竞赛测试环境</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1158"/>
+        <location filename="lemon.cpp" line="1173"/>
         <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
         <oldsource>Base on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</oldsource>
         <translation>基于Lemon v1.2 by Zhipeng Jia, 2011</translation>
@@ -2495,23 +2521,23 @@
         <translation type="vanished">预览版</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1163"/>
+        <location filename="lemon.cpp" line="1178"/>
         <source>Update by Dust1404</source>
         <translation>由Dust1404更新</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1164"/>
+        <location filename="lemon.cpp" line="1179"/>
         <source>Featured by iotang</source>
         <translation>被 iotang 魔改</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1186"/>
+        <location filename="lemon.cpp" line="1201"/>
         <source>We have made stack space equals to memory limit. If the memory limit is unlimited, stack space will be 2.00 GB.</source>
         <translation>我们把栈空间设置成和内存限制相同。
 如果内存限制为无限制，那么栈空间会被设置成 2.00 GB。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1187"/>
+        <location filename="lemon.cpp" line="1202"/>
         <source>About Compile Features</source>
         <translation>关于 编译选项</translation>
     </message>
@@ -2533,7 +2559,7 @@
         <translation type="vanished">接口实现(grader)路径 matrix/grader.cpp</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1199"/>
+        <location filename="lemon.cpp" line="1214"/>
         <source>About Interaction</source>
         <translation>关于 交互题</translation>
     </message>
@@ -2551,36 +2577,36 @@
         <translation type="vanished">匹配任意数量的数字： \d*</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1216"/>
+        <location filename="lemon.cpp" line="1231"/>
         <source>&lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;More Regular Expression Rules&lt;/a&gt;</source>
         <oldsource>More : &lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;</oldsource>
         <translation>&lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;更多正则表达式规则&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1207"/>
+        <location filename="lemon.cpp" line="1222"/>
         <source>There is a example of how to use regular expressions to make subtasks:</source>
         <translation>下面是一个例子：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1208"/>
+        <location filename="lemon.cpp" line="1223"/>
         <source>Data(in): matrix/matrix&amp;lt;1&amp;gt;.in</source>
         <oldsource>Data(in): matrix/matrix&lt;1&gt;.in</oldsource>
         <translation>输入文件：matrix/matrix&amp;lt;1&amp;gt;.in</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1209"/>
+        <location filename="lemon.cpp" line="1224"/>
         <source>Data(out): matrix/matrix&amp;lt;1&amp;gt;.out</source>
         <oldsource>Data(out): matrix/matrix&lt;1&gt;.out</oldsource>
         <translation>输出文件：matrix/matrix&amp;lt;1&amp;gt;.out</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1210"/>
+        <location filename="lemon.cpp" line="1225"/>
         <source>And the &quot;&amp;lt;1&amp;gt;&quot; is &quot;\d*&quot;.</source>
         <oldsource>And the &quot;&lt;1&gt;&quot; is &quot;\d*&quot;.</oldsource>
         <translation>把&quot;&amp;lt;1&amp;gt;&quot;设为&quot;\d*&quot;。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1217"/>
+        <location filename="lemon.cpp" line="1232"/>
         <source>About Subtasks</source>
         <translation>关于 打包的测试点</translation>
     </message>
@@ -2598,17 +2624,17 @@
         <translation type="vanished">关于 整理文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1245"/>
+        <location filename="lemon.cpp" line="1260"/>
         <source>What is Skip</source>
         <translation>什么是“跳过这一题”</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1246"/>
+        <location filename="lemon.cpp" line="1261"/>
         <source>It can stop a judging task.</source>
         <translation>这可以中断一个题目的评测。当前正在测试的点测完后，在后面的点被生效。中断的时候所有没有评测的点会显示为“超过时间限制”。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1247"/>
+        <location filename="lemon.cpp" line="1262"/>
         <source>The tasks which are not tested will be displayed as &quot;Time Limit Exceeded&quot;.</source>
         <translation>而还没有测试的点也会被显示成“超过时间限制”。</translation>
     </message>
@@ -2617,7 +2643,7 @@
         <translation type="vanished">在你想节省时间的时候使用。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1249"/>
+        <location filename="lemon.cpp" line="1264"/>
         <source>About Skip</source>
         <translation>关于 “跳过这一题”</translation>
     </message>
@@ -2638,37 +2664,37 @@
         <translation type="vanished">怎么写自定义校验器(SPJ)</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1256"/>
+        <location filename="lemon.cpp" line="1271"/>
         <source>The special judge should take 6 arguments below:</source>
         <translation>你的校验器需要接收6个参数流：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1257"/>
+        <location filename="lemon.cpp" line="1272"/>
         <source>argv[1] : (in) Standard Input</source>
         <translation>argv[1] : （输入）标准输入文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1258"/>
+        <location filename="lemon.cpp" line="1273"/>
         <source>argv[2] : (in) Participant&apos;s Answer</source>
         <translation>argv[2] : （输入）选手的输出文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1259"/>
+        <location filename="lemon.cpp" line="1274"/>
         <source>argv[3] : (in) Jury&apos;s Answer</source>
         <translation>argv[3] : （输入）答案文件</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1260"/>
+        <location filename="lemon.cpp" line="1275"/>
         <source>argv[4] : (in) Full score of this task</source>
         <translation>argv[4] : （输入）这个测试点的满分</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1261"/>
+        <location filename="lemon.cpp" line="1276"/>
         <source>argv[5] : (out) The score (A integer only)</source>
         <translation>argv[5] : （输出）得到的分数（一个整数）</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1262"/>
+        <location filename="lemon.cpp" line="1277"/>
         <source>argv[6] : (out) Notes</source>
         <translation>argv[6] : （输出）额外信息</translation>
     </message>
@@ -2677,7 +2703,7 @@
         <translation type="vanished">Lemon Pt 的SPJ标准和所有Lemon族的测试器的标准是一样的。下面的SPJ样例展示了接口的编号对应的内容。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1264"/>
+        <location filename="lemon.cpp" line="1279"/>
         <source>About Special Judge</source>
         <translation>关于 自定义校验器(SPJ)</translation>
     </message>
@@ -2686,7 +2712,7 @@
         <translation type="obsolete">项目地址</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1165"/>
+        <location filename="lemon.cpp" line="1180"/>
         <source>About LemonLime</source>
         <oldsource>About LemonPlus</oldsource>
         <translation>关于 LemonLime</translation>
@@ -2696,7 +2722,7 @@
         <translation type="obsolete">v1.2 测试版</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1159"/>
+        <location filename="lemon.cpp" line="1174"/>
         <source>Build Date: %1</source>
         <translation>构建日期：%1</translation>
     </message>
@@ -2705,7 +2731,7 @@
         <translation type="obsolete">Copyright (c) 2011 Zhipeng Jia</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1161"/>
+        <location filename="lemon.cpp" line="1176"/>
         <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
         <translation>本程序基于&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;许可协议</translation>
     </message>
@@ -2803,9 +2829,13 @@
         <translation>添加(&amp;A)</translation>
     </message>
     <message>
-        <location filename="forms/opencontestwidget.ui" line="160"/>
+        <location filename="forms/opencontestwidget.ui" line="159"/>
+        <source>&amp;Hide</source>
+        <translation>隐藏(&amp;H)</translation>
+    </message>
+    <message>
         <source>&amp;Purge</source>
-        <translation>隐藏(&amp;P)</translation>
+        <translation type="vanished">隐藏(&amp;P)</translation>
     </message>
     <message>
         <location filename="opencontestwidget.cpp" line="112"/>
@@ -2956,6 +2986,94 @@
     <message>
         <source>Self-test folder has been made</source>
         <translation type="obsolete">创建完成</translation>
+    </message>
+</context>
+<context>
+    <name>StatisticsBrowser</name>
+    <message>
+        <location filename="forms/statisticsbrowser.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="forms/statisticsbrowser.ui" line="20"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="57"/>
+        <source>No contest yet</source>
+        <translation>还没有比赛</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="67"/>
+        <source>No task yet</source>
+        <translation>还没有题目</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="74"/>
+        <source>No contestant yet</source>
+        <translation>还没有参赛者</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="91"/>
+        <source>Contest</source>
+        <translation>比赛</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="93"/>
+        <source>Overall</source>
+        <translation>总览</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="109"/>
+        <location filename="statisticsbrowser.cpp" line="145"/>
+        <source>Score</source>
+        <translation>得分</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="109"/>
+        <location filename="statisticsbrowser.cpp" line="145"/>
+        <source>Count</source>
+        <translation>数量</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="109"/>
+        <location filename="statisticsbrowser.cpp" line="145"/>
+        <source>Ratio</source>
+        <translation>占比</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="109"/>
+        <location filename="statisticsbrowser.cpp" line="145"/>
+        <source>Prefix</source>
+        <translation>前缀和</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="109"/>
+        <location filename="statisticsbrowser.cpp" line="145"/>
+        <source>Suffix</source>
+        <translation>后缀和</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="124"/>
+        <location filename="statisticsbrowser.cpp" line="161"/>
+        <source>Average</source>
+        <translation>平均</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="127"/>
+        <source>Problems</source>
+        <translation>题目</translation>
+    </message>
+    <message>
+        <location filename="statisticsbrowser.cpp" line="132"/>
+        <source>Task</source>
+        <translation>试题</translation>
     </message>
 </context>
 <context>

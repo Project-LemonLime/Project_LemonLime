@@ -2,11 +2,13 @@
 
 # Project_LemonLime (Beta)
 
-A tiny judging environment for OI contest based on Project_LemonPlus
+为了 OI 比赛而生的基于 Lemon 的轻量评测系统 | A tiny judging environment for OI contest based on Project_LemonPlus
 
 ### 现已支持 Linux 和 Windows
 
-（macOS 在路上了）
+看起来 macOS 也支持了，不愧是 Qt
+
+
 
 # 特色
 
@@ -18,6 +20,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
   - 交互库路径：交互使用的头文件。
   - 交互库名称：选手引用头文件的名称。
   - 接口实现路径：实现接口的源文件（grader.cpp）。
+- 统计：对比赛分数数据进行分析的栏目，还需要很多的更新。
 - 整理文件：使所有的选手的子文件夹内外都有答案文件，并且删除大部分无用文件。支持在这之前备份文件。
 - 帮助 > 指南
 - 重新排列题目顺序

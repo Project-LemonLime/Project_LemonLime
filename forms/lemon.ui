@@ -50,7 +50,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -138,8 +138,7 @@
                 <string>Down</string>
                </property>
                <property name="icon">
-                <iconset resource="../resource.qrc">
-                 <normaloff>:/icon/downarrow.png</normaloff>:/icon/downarrow.png</iconset>
+                <iconset theme="go-down"/>
                </property>
               </widget>
              </item>
@@ -152,8 +151,7 @@
                 <string>Up</string>
                </property>
                <property name="icon">
-                <iconset resource="../resource.qrc">
-                 <normaloff>:/icon/uparrow.png</normaloff>:/icon/uparrow.png</iconset>
+                <iconset theme="go-up"/>
                </property>
               </widget>
              </item>
@@ -238,17 +236,20 @@
           <property name="cornerButtonEnabled">
            <bool>false</bool>
           </property>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>75</number>
+          </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
           </attribute>
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
-          <attribute name="verticalHeaderDefaultSectionSize">
-           <number>27</number>
-          </attribute>
           <attribute name="verticalHeaderMinimumSectionSize">
            <number>25</number>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>27</number>
           </attribute>
          </widget>
         </item>
@@ -258,7 +259,7 @@
            <widget class="QPushButton" name="cleanupButton">
             <property name="minimumSize">
              <size>
-              <width>96</width>
+              <width>120</width>
               <height>0</height>
              </size>
             </property>
@@ -267,6 +268,9 @@
             </property>
             <property name="text">
              <string>Clean Up Files</string>
+            </property>
+            <property name="icon">
+             <iconset theme="view-sort-descending"/>
             </property>
            </widget>
           </item>
@@ -287,7 +291,7 @@
            <widget class="QPushButton" name="refreshButton">
             <property name="minimumSize">
              <size>
-              <width>96</width>
+              <width>120</width>
               <height>0</height>
              </size>
             </property>
@@ -296,6 +300,9 @@
             </property>
             <property name="text">
              <string>Refresh</string>
+            </property>
+            <property name="icon">
+             <iconset theme="view-refresh"/>
             </property>
            </widget>
           </item>
@@ -309,7 +316,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>96</width>
+              <width>120</width>
               <height>0</height>
              </size>
             </property>
@@ -318,6 +325,9 @@
             </property>
             <property name="text">
              <string>Judge Unjudged</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-find-replace"/>
             </property>
            </widget>
           </item>
@@ -328,7 +338,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>96</width>
+              <width>120</width>
               <height>0</height>
              </size>
             </property>
@@ -337,6 +347,9 @@
             </property>
             <property name="text">
              <string>Judge Selected</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-find"/>
             </property>
            </widget>
           </item>
@@ -347,7 +360,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>96</width>
+              <width>120</width>
               <height>0</height>
              </size>
             </property>
@@ -357,9 +370,26 @@
             <property name="text">
              <string>Judge All</string>
             </property>
+            <property name="icon">
+             <iconset theme="edit-select-all"/>
+            </property>
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="statisticsTab">
+       <attribute name="title">
+        <string>Statistics</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="StatisticsBrowser" name="statisticsBrowser" native="true">
+          <property name="statusTip">
+           <string>The Statistics Browser...</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -373,7 +403,7 @@
      <x>0</x>
      <y>0</y>
      <width>725</width>
-     <height>28</height>
+     <height>35</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -486,7 +516,7 @@
   </action>
   <action name="optionsAction">
    <property name="text">
-    <string>&amp;Options</string>
+    <string>&amp;Settings</string>
    </property>
    <property name="statusTip">
     <string>LemonLime Settings...</string>
@@ -737,6 +767,12 @@
    <class>ResultViewer</class>
    <extends>QTableWidget</extends>
    <header>resultviewer.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StatisticsBrowser</class>
+   <extends>QWidget</extends>
+   <header>statisticsbrowser.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

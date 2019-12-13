@@ -59,7 +59,8 @@ SOURCES += main.cpp \
     environmentvariablesdialog.cpp \
     editvariabledialog.cpp \
     addcompilerwizard.cpp \
-    exportutil.cpp
+    exportutil.cpp \
+    statisticsbrowser.cpp
 
 win32:SOURCES += qtlockedfile/qtlockedfile_win.cpp
 unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
@@ -99,7 +100,8 @@ HEADERS  += lemon.h \
     environmentvariablesdialog.h \
     editvariabledialog.h \
     addcompilerwizard.h \
-    exportutil.h
+    exportutil.h \
+    statisticsbrowser.h
 
 
 FORMS += forms/lemon.ui \
@@ -120,7 +122,8 @@ FORMS += forms/lemon.ui \
     forms/advancedcompilersettingsdialog.ui \
     forms/environmentvariablesdialog.ui \
     forms/editvariabledialog.ui \
-    forms/addcompilerwizard.ui
+    forms/addcompilerwizard.ui \
+    forms/statisticsbrowser.ui
 
 TRANSLATIONS += lemon_zh_CN.ts
 

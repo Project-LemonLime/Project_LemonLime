@@ -3,12 +3,7 @@
         <file alias="splash.png">pics/splash.png</file>
     </qresource>
     <qresource prefix="/icon">
-        <file alias="add.png">pics/add.png</file>
-        <file alias="cross.png">pics/cross.png</file>
-        <file alias="downarrow.png">pics/downarrow.png</file>
         <file alias="icon.png">pics/icon.png</file>
-        <file alias="rod.png">pics/rod.png</file>
-        <file alias="uparrow.png">pics/uparrow.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>lemon_zh_CN.qm</file>

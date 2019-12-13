@@ -73,7 +73,7 @@
         <enum>QProgressBar::TopToBottom</enum>
        </property>
        <property name="format">
-        <string>%v / %m ms, %p%</string>
+        <string>%v / %m ms (%p%)</string>
        </property>
       </widget>
      </item>
@@ -94,6 +94,9 @@
        </property>
        <property name="text">
         <string>Skip</string>
+       </property>
+       <property name="icon">
+        <iconset theme="go-jump"/>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -117,6 +120,9 @@
       <widget class="QPushButton" name="cancelButton">
        <property name="text">
         <string>Cancel</string>
+       </property>
+       <property name="icon">
+        <iconset theme="media-playback-stop"/>
        </property>
       </widget>
      </item>

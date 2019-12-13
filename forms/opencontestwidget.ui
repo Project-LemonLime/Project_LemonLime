@@ -60,14 +60,14 @@
        <property name="rowCount">
         <number>0</number>
        </property>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>100</number>
+       </attribute>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>125</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
         <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>100</number>
        </attribute>
        <attribute name="horizontalHeaderStretchLastSection">
         <bool>true</bool>
@@ -75,11 +75,11 @@
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>27</number>
-       </attribute>
        <attribute name="verticalHeaderMinimumSectionSize">
         <number>25</number>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>27</number>
        </attribute>
        <attribute name="verticalHeaderShowSortIndicator" stdset="0">
         <bool>true</bool>
@@ -137,8 +137,7 @@
           <string>&amp;Add</string>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
+          <iconset theme="list-add"/>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -157,11 +156,10 @@
           </size>
          </property>
          <property name="text">
-          <string>&amp;Purge</string>
+          <string>&amp;Hide</string>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
+          <iconset theme="list-remove"/>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -174,8 +172,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

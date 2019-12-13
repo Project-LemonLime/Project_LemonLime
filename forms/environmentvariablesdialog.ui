@@ -49,11 +49,11 @@
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>27</number>
-     </attribute>
      <attribute name="verticalHeaderMinimumSectionSize">
       <number>25</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>27</number>
      </attribute>
      <column>
       <property name="text">
@@ -74,6 +74,9 @@
        <property name="text">
         <string>&amp;Add</string>
        </property>
+       <property name="icon">
+        <iconset theme="list-add"/>
+       </property>
       </widget>
      </item>
      <item>
@@ -84,6 +87,9 @@
        <property name="text">
         <string>&amp;Edit</string>
        </property>
+       <property name="icon">
+        <iconset theme="document-open"/>
+       </property>
       </widget>
      </item>
      <item>
@@ -93,6 +99,9 @@
        </property>
        <property name="text">
         <string>&amp;Delete</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete"/>
        </property>
       </widget>
      </item>

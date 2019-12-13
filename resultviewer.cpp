@@ -393,7 +393,7 @@ void ResultViewer::judgeMagenta()
 	{
 		for (int j = 0; j < taskSize; j++)
 		{
-			if (contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
+			if (contestantList[i]->getCompileState(j) != NoValidSourceFile && contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
 			{
 				mapping[contestantList[i]->getContestantName()].insert(j);
 			}

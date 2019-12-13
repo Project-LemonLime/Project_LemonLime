@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>325</width>
-    <height>352</height>
+    <height>325</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>325</width>
-    <height>352</height>
+    <height>325</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -74,8 +74,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/uparrow.png</normaloff>:/icon/uparrow.png</iconset>
+          <iconset theme="go-up">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -103,8 +103,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/downarrow.png</normaloff>:/icon/downarrow.png</iconset>
+          <iconset theme="go-down">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -145,8 +145,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
+          <iconset theme="list-add">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -174,8 +174,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
-           <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
+          <iconset theme="list-remove">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -269,8 +269,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

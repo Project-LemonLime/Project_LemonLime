@@ -40,6 +40,7 @@
 #include "welcomedialog.h"
 #include "addtaskdialog.h"
 #include "detaildialog.h"
+#include "statisticsbrowser.h"
 #include "exportutil.h"
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -48,6 +49,7 @@
 #include <QProgressDialog>
 #include <QLineEdit>
 #include <QStatusBar>
+#include <QTextBrowser>
 
 Lemon::Lemon(QWidget *parent) :
 	QMainWindow(parent),
@@ -55,7 +57,7 @@ Lemon::Lemon(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	curContest = 0;
+	curContest = nullptr;
 	settings = new Settings(this);
 
 	ui->tabWidget->setVisible(false);
@@ -64,7 +66,7 @@ Lemon::Lemon(QWidget *parent) :
 	ui->openFolderAction->setEnabled(false);
 	ui->actionChangeContestName->setEnabled(false);
 
-	dataDirWatcher = 0;
+	dataDirWatcher = nullptr;
 	settings->loadSettings();
 
 	TaskMenu = new QMenu();
@@ -200,10 +202,11 @@ void Lemon::changeEvent(QEvent *event)
 	{
 		ui->retranslateUi(this);
 		ui->resultViewer->refreshViewer();
+		ui->statisticsBrowser->refresh();
 	}
 }
 
-void Lemon::closeEvent(QCloseEvent *event)
+void Lemon::closeEvent(QCloseEvent */*event*/)
 {
 	if (curContest) saveContest(curFile);
 
@@ -314,7 +317,7 @@ void Lemon::summarySelectionChanged()
 
 	if (! curItem)
 	{
-		ui->taskEdit->setEditTask(0);
+		ui->taskEdit->setEditTask(nullptr);
 		ui->editWidget->setCurrentIndex(0);
 		return;
 	}
@@ -483,7 +486,7 @@ void Lemon::cleanupButtonClicked()
 			bkProcess->setWindowModality(Qt::WindowModal);
 			bkProcess->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 			bkProcess->setMinimumDuration(0);
-			bkProcess->setCancelButton(0);
+			bkProcess->setCancelButton(nullptr);
 			bkProcess->setRange(0, tarcnt);
 			bkProcess->setValue(0);
 			QCoreApplication::processEvents();
@@ -505,7 +508,7 @@ void Lemon::cleanupButtonClicked()
 		process->setWindowModality(Qt::WindowModal);
 		process->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 		process->setMinimumDuration(0);
-		process->setCancelButton(0);
+		process->setCancelButton(nullptr);
 		process->setRange(0, 5);
 		process->setValue(0);
 
@@ -650,7 +653,7 @@ void Lemon::cleanupButtonClicked()
 
 void Lemon::tabIndexChanged(int index)
 {
-	if (index == 0)
+	if (index != 1)
 	{
 		ui->judgeAction->setEnabled(false);
 		ui->judgeButton->setEnabled(false);
@@ -662,6 +665,11 @@ void Lemon::tabIndexChanged(int index)
 		ui->judgeMagentaAction->setEnabled(false);
 		ui->cleanupAction->setEnabled(false);
 		ui->refreshAction->setEnabled(false);
+
+		if (index == 2)
+		{
+			ui->statisticsBrowser->refresh();
+		}
 	}
 	else
 	{
@@ -711,6 +719,7 @@ void Lemon::moveUpTask()
 	int index = ui->summary->indexOfTopLevelItem(curItem);
 	curContest->swapTask(index - 1, index);
 	ui->summary->setContest(curContest);
+	ui->statisticsBrowser->refresh();
 	ui->resultViewer->refreshViewer();
 
 	curItem = ui->summary->topLevelItem(index - 1);
@@ -728,6 +737,7 @@ void Lemon::moveDownTask()
 	curContest->swapTask(index + 1, index);
 	ui->summary->setContest(curContest);
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->refresh();
 
 	curItem = ui->summary->topLevelItem(index + 1);
 	if (!curItem)curItem = ui->summary->topLevelItem(index);
@@ -857,6 +867,8 @@ void Lemon::loadContest(const QString &filePath)
 	ui->summary->setContest(curContest);
 	ui->resultViewer->setContest(curContest);
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->setContest(curContest);
+	ui->statisticsBrowser->refresh();
 	ui->tabWidget->setVisible(true);
 	resetDataWatcher();
 	ui->closeAction->setEnabled(true);
@@ -896,6 +908,8 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	ui->summary->setContest(curContest);
 	ui->resultViewer->setContest(curContest);
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->setContest(curContest);
+	ui->statisticsBrowser->refresh();
 	ui->tabWidget->setVisible(true);
 	resetDataWatcher();
 	ui->closeAction->setEnabled(true);
@@ -927,11 +941,12 @@ void Lemon::newAction()
 void Lemon::closeAction()
 {
 	saveContest(curFile);
-	ui->summary->setContest(0);
-	ui->taskEdit->setEditTask(0);
-	ui->resultViewer->setContest(0);
+	ui->summary->setContest(nullptr);
+	ui->taskEdit->setEditTask(nullptr);
+	ui->resultViewer->setContest(nullptr);
+	ui->statisticsBrowser->setContest(nullptr);
 	delete curContest;
-	curContest = 0;
+	curContest = nullptr;
 	ui->tabWidget->setCurrentIndex(0);
 	ui->tabWidget->setVisible(false);
 	ui->closeAction->setEnabled(false);
@@ -1168,7 +1183,7 @@ void Lemon::aboutLemon()
 void Lemon::actionChangeContestName()
 {
 	bool isChanged;
-	QString being = QInputDialog::getText(NULL, tr("Rename Contest"), tr("Input the name you prefer."), QLineEdit::Normal, tr("New name..."), &isChanged);
+	QString being = QInputDialog::getText(nullptr, tr("Rename Contest"), tr("Input the name you prefer."), QLineEdit::Normal, tr("New name..."), &isChanged);
 
 	if (!isChanged)return;
 
