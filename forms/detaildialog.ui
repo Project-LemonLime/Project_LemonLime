@@ -44,13 +44,19 @@
        <property name="text">
         <string>&amp;Close</string>
        </property>
+       <property name="icon">
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/paint-none.svg</normaloff>:/icon/paint-none.svg</iconset>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>closeButton</sender>

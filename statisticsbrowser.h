@@ -43,6 +43,7 @@ public slots:
 private:
 	Ui::StatisticsBrowser *ui;
 	Contest *curContest;
+	QString getScoreNormalChart(QMap<int,int>, int, int);
 };
 
 #endif // STATISTICSBROWSER_H

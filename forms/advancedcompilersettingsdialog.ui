@@ -347,7 +347,8 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-delete"/>
+         <iconset resource="../resource.qrc">
+          <normaloff>:/icon/edit-delete.svg</normaloff>:/icon/edit-delete.svg</iconset>
         </property>
        </widget>
       </item>
@@ -415,7 +416,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

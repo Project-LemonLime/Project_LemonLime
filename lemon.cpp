@@ -456,7 +456,14 @@ void Lemon::cleanupButtonClicked()
 
 		int tarcnt = basDirLis.size();
 
-		text = tr("Making backup files to dir <br> `source.bak'?") + "<br>";
+		QString backupFolder = "source_bak_%1";
+		int backupNum = 0;
+
+		QDir tempBackupLoca;
+		while(tempBackupLoca.exists(backupFolder.arg(backupNum)))backupNum++;
+		backupFolder = backupFolder.arg(backupNum);
+
+		text = tr("Making backup files to dir <br> `%1'?").arg(backupFolder) + "<br>";
 		QMessageBox::StandardButton doBackup = QMessageBox::information(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::Yes);
 
 		if (doBackup == QMessageBox::Abort)
@@ -468,19 +475,19 @@ void Lemon::cleanupButtonClicked()
 		if (doBackup == QMessageBox::Yes)
 		{
 			QDir bkLoca;
-			if (bkLoca.exists("source.bak"))
+			if (bkLoca.exists(backupFolder))
 			{
-				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: `source.bak' already exist."));
+				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: `%1' already exist.").arg(backupFolder));
 				return;
 			}
 
 			if (!bkLoca.mkpath("source.bak"))
 			{
-				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: Cannot make dir `source.bak'."));
+				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: Cannot make dir `%d'.").arg(backupFolder));
 				return;
 			}
 
-			bkLoca = QDir("source.bak");
+			bkLoca = QDir(backupFolder);
 
 			QProgressDialog *bkProcess = new QProgressDialog(tr("Making Backup..."), "", 0, 0, this);
 			bkProcess->setWindowModality(Qt::WindowModal);

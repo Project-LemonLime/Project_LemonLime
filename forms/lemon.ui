@@ -138,7 +138,8 @@
                 <string>Down</string>
                </property>
                <property name="icon">
-                <iconset theme="go-down"/>
+                <iconset resource="../resource.qrc">
+                 <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
                </property>
               </widget>
              </item>
@@ -151,7 +152,8 @@
                 <string>Up</string>
                </property>
                <property name="icon">
-                <iconset theme="go-up"/>
+                <iconset resource="../resource.qrc">
+                 <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
                </property>
               </widget>
              </item>
@@ -270,7 +272,8 @@
              <string>Clean Up Files</string>
             </property>
             <property name="icon">
-             <iconset theme="view-sort-descending"/>
+             <iconset resource="../resource.qrc">
+              <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
             </property>
            </widget>
           </item>
@@ -302,7 +305,8 @@
              <string>Refresh</string>
             </property>
             <property name="icon">
-             <iconset theme="view-refresh"/>
+             <iconset resource="../resource.qrc">
+              <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
             </property>
            </widget>
           </item>
@@ -327,7 +331,8 @@
              <string>Judge Unjudged</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-find-replace"/>
+             <iconset resource="../resource.qrc">
+              <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
             </property>
            </widget>
           </item>
@@ -349,7 +354,8 @@
              <string>Judge Selected</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-find"/>
+             <iconset resource="../resource.qrc">
+              <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
             </property>
            </widget>
           </item>
@@ -371,7 +377,8 @@
              <string>Judge All</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-select-all"/>
+             <iconset resource="../resource.qrc">
+              <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
             </property>
            </widget>
           </item>
@@ -430,8 +437,8 @@
     <property name="title">
      <string>&amp;Control</string>
     </property>
-    <addaction name="judgeAction"/>
     <addaction name="judgeAllAction"/>
+    <addaction name="judgeAction"/>
     <addaction name="judgeUnjudgedAction"/>
     <addaction name="judgeGreyAction"/>
     <addaction name="judgeMagentaAction"/>
@@ -453,6 +460,10 @@
      <property name="title">
       <string>UI &amp;Language</string>
      </property>
+     <property name="icon">
+      <iconset resource="../resource.qrc">
+       <normaloff>:/icon/amarok_change_language.svg</normaloff>:/icon/amarok_change_language.svg</iconset>
+     </property>
      <addaction name="setEnglishAction"/>
     </widget>
     <addaction name="optionsAction"/>
@@ -468,6 +479,10 @@
      </property>
      <property name="title">
       <string>&amp;Guides</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../resource.qrc">
+       <normaloff>:/icon/system-help.svg</normaloff>:/icon/system-help.svg</iconset>
      </property>
      <addaction name="actionCompileFeatures"/>
      <addaction name="actionCleanupFiles"/>
@@ -491,6 +506,10 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="newAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-new.svg</normaloff>:/icon/document-new.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;New Contest</string>
    </property>
@@ -499,6 +518,10 @@
    </property>
   </action>
   <action name="openAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/quickopen-file.svg</normaloff>:/icon/quickopen-file.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Open Existing Contest</string>
    </property>
@@ -507,6 +530,10 @@
    </property>
   </action>
   <action name="exitAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/application-exit.svg</normaloff>:/icon/application-exit.svg</iconset>
+   </property>
    <property name="text">
     <string>E&amp;xit</string>
    </property>
@@ -515,6 +542,10 @@
    </property>
   </action>
   <action name="optionsAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/configure.svg</normaloff>:/icon/configure.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Settings</string>
    </property>
@@ -523,6 +554,10 @@
    </property>
   </action>
   <action name="aboutAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/help-about.svg</normaloff>:/icon/help-about.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;About</string>
    </property>
@@ -533,6 +568,10 @@
   <action name="judgeAction">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Judge Selected</string>
@@ -545,6 +584,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
+   </property>
    <property name="text">
     <string>Judge &amp;All</string>
    </property>
@@ -553,6 +596,10 @@
    </property>
   </action>
   <action name="closeAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-close.svg</normaloff>:/icon/document-close.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Close Current Contest</string>
    </property>
@@ -568,6 +615,10 @@
   <action name="addTasksAction">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/layer-new.svg</normaloff>:/icon/layer-new.svg</iconset>
    </property>
    <property name="text">
     <string>Add &amp;Tasks Automatically</string>
@@ -588,6 +639,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Export Result</string>
    </property>
@@ -599,6 +654,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
+   </property>
    <property name="text">
     <string>Judge &amp;Unjudged</string>
    </property>
@@ -607,6 +666,10 @@
    </property>
   </action>
   <action name="openFolderAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/go-parent-folder.svg</normaloff>:/icon/go-parent-folder.svg</iconset>
+   </property>
    <property name="text">
     <string>Open Current Contest &amp;Folder</string>
    </property>
@@ -615,6 +678,10 @@
    </property>
   </action>
   <action name="saveAction">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-save.svg</normaloff>:/icon/document-save.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Save Current Contest</string>
    </property>
@@ -684,6 +751,10 @@
    </property>
   </action>
   <action name="actionMore">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/globe.svg</normaloff>:/icon/globe.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;More</string>
    </property>
@@ -694,6 +765,10 @@
   <action name="judgeGreyAction">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/paint-unknown.svg</normaloff>:/icon/paint-unknown.svg</iconset>
    </property>
    <property name="text">
     <string>Judge &amp;No Source</string>
@@ -706,6 +781,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/deletecell.svg</normaloff>:/icon/deletecell.svg</iconset>
+   </property>
    <property name="text">
     <string>Judge &amp;Compile Failed</string>
    </property>
@@ -714,6 +793,10 @@
    </property>
   </action>
   <action name="actionChangeContestName">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-edit.svg</normaloff>:/icon/document-edit.svg</iconset>
+   </property>
    <property name="text">
     <string>C&amp;hange Contest Name</string>
    </property>
@@ -725,6 +808,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
+   </property>
    <property name="text">
     <string>Clean Up &amp;Files</string>
    </property>
@@ -735,6 +822,10 @@
   <action name="refreshAction">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Refresh</string>

@@ -137,7 +137,8 @@
           <string>&amp;Add</string>
          </property>
          <property name="icon">
-          <iconset theme="list-add"/>
+          <iconset resource="../resource.qrc">
+           <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -159,7 +160,8 @@
           <string>&amp;Hide</string>
          </property>
          <property name="icon">
-          <iconset theme="list-remove"/>
+          <iconset resource="../resource.qrc">
+           <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -172,6 +174,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

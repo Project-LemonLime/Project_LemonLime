@@ -49,6 +49,56 @@ void StatisticsBrowser::setContest(Contest *contest)
 	curContest = contest;
 }
 
+QString StatisticsBrowser::getScoreNormalChart(QMap<int,int> scoreCount, int listSize, int totalScore)
+{
+	QString buffer = "";
+
+	long long overallScoreSum = 0;
+	double scoreDiscrim = 0, scoreStandardDevia = 0;
+	int scoreTierPrefix = 0, lastScoreTier = -1;
+
+	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
+	{
+		i--;
+		int curScoreTier = i.key(), curScoreTierNum = i.value();
+		overallScoreSum += 1ll * curScoreTier * curScoreTierNum;
+
+		if(lastScoreTier >= 0)scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore);
+		lastScoreTier = curScoreTier;
+	}
+
+	double scoreAverage = 1.00 * overallScoreSum / listSize;
+
+	buffer += "<table border=\"-1\">";
+	buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th></tr>").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
+	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
+	{
+		i--;
+		int curScoreTier = i.key(), curScoreTierNum = i.value();
+
+		scoreStandardDevia += qPow(curScoreTier - scoreAverage, 2) * curScoreTierNum;
+
+		buffer += "<tr>";
+		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(curScoreTier);
+		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(curScoreTierNum);
+		buffer += QString("<td align=\"left\"><nobr>%1%</nobr></td>").arg(100.00 * curScoreTierNum / listSize);
+		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(listSize - scoreTierPrefix).arg(100.00 - 100.00 * scoreTierPrefix / listSize);
+		scoreTierPrefix += curScoreTierNum;
+		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(scoreTierPrefix).arg(100.00 * scoreTierPrefix / listSize);
+		buffer += "</tr>";
+	}
+	buffer += "</table>";
+
+	scoreStandardDevia = qSqrt(scoreStandardDevia / listSize);
+	scoreDiscrim = scoreDiscrim * scoreDiscrim;
+
+	buffer += "<p>" + tr("Average") + " : " + QString::number(scoreAverage) + " / " + QString::number(totalScore) + "</p>";
+	buffer += "<p>" + tr("Standard Deviation") + " : " + QString::number(scoreStandardDevia) + "<p>";
+	buffer += "<p>" + tr("Score Discrimination Power") + " : " + QString::number(scoreDiscrim) + "<p>";
+
+	return buffer;
+}
+
 void StatisticsBrowser::refresh()
 {
 	QString buffer;
@@ -77,13 +127,7 @@ void StatisticsBrowser::refresh()
 		return;
 	}
 
-	QList<int> fullScore;
-	int sfullScore = curContest->getTotalScore();
-
-	for (int i = 0; i < taskList.size(); i++)
-	{
-		fullScore.append(taskList[i]->getTotalScore());
-	}
+	int totalScore = curContest->getTotalScore();
 
 	buffer += "<html><head>";
 	buffer += "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}</style>";
@@ -93,37 +137,27 @@ void StatisticsBrowser::refresh()
 
 	buffer += "<h2>" + tr("Overall") + "</h2>";
 
-	long long scoreSum = 0;
+	int haveError = 0;
 
 	QMap<int, int> scoreCount;
 	for (int i = 0; i < contestantList.size(); i++)
 	{
-		int allscore = 0;
+		int contestantTotalScore = 0;
 		for (int j = 0; j < taskList.size(); j++)
-			allscore += contestantList[i]->getTaskScore(j);
-		scoreCount[allscore]++;
-		scoreSum += allscore;
+		{
+			contestantTotalScore += contestantList[i]->getTaskScore(j);
+			if(contestantList[i]->getTaskScore(j) < 0) haveError = 1;
+		}
+		scoreCount[contestantTotalScore]++;
 	}
 
-	int temp = 0;
-	buffer += "<table border=\"-1\">";
-	buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th></tr>").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
-	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
+	if(haveError)
 	{
-		i--;
-		buffer += "<tr>";
-		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(i.key());
-		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(i.value());
-		buffer += QString("<td align=\"left\"><nobr>%1%</nobr></td>").arg(100.00 * i.value() / contestantList.size());
-		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(contestantList.size() - temp).arg(100.00 - 100.00 * temp / contestantList.size());
-		temp += i.value();
-		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(temp).arg(100.00 * temp / contestantList.size());
-		buffer += "</tr>";
+		buffer += "<p style=\"font-size: large; color: red;\">" + tr("Warning: Judgement is not finished.") + "</p><br>";
 	}
-	buffer += "</table>";
 
-	buffer += "<p>" + tr("Average") + " : " + QString::number(1.00 * scoreSum / contestantList.size()) + " / " + QString::number(sfullScore) + "</p>";
-
+	buffer += getScoreNormalChart(scoreCount, contestantList.size(), totalScore);
+	buffer += "<br>";
 
 	buffer += "<h2>" + tr("Problems") + "</h2>";
 
@@ -133,33 +167,19 @@ void StatisticsBrowser::refresh()
 		buffer += QString("%1 %2: %3").arg(tr("Task")).arg(i + 1).arg(taskList[i]->getProblemTile());
 		buffer += "</h3>";
 
-		scoreSum = 0;
+		int numberSubmitted = 0;
+
 		QMap<int, int> cnts;
 		for (int j = 0; j < contestantList.size(); j++)
 		{
-			scoreSum += contestantList[j]->getTaskScore(i);
 			cnts[contestantList[j]->getTaskScore(i)]++;
+			if(contestantList[j]->getCompileState(i) != NoValidSourceFile)
+				numberSubmitted ++;
 		}
 
-		temp = 0;
-		buffer += "<table border=\"-1\">";
-		buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th></tr>").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
-		for (auto j = cnts.constEnd(); j != cnts.constBegin();)
-		{
-			j--;
-			buffer += "<tr>";
-			buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(j.key());
-			buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(j.value());
-			buffer += QString("<td align=\"left\"><nobr>%1%</nobr></td>").arg(100.00 * j.value() / contestantList.size());
-			buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(contestantList.size() - temp).arg(100.00 - 100.00 * temp / contestantList.size());
-			temp += j.value();
-			buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(temp).arg(100.00 * temp / contestantList.size());
-			buffer += "</tr>";
-		}
-
-		buffer += "</table>";
-
-		buffer += "<p>" + tr("Average") + " : " + QString::number(1.00 * scoreSum / contestantList.size()) + " / " + QString::number(taskList[i]->getTotalScore()) + "</p>";
+		buffer += getScoreNormalChart(cnts, contestantList.size(), taskList[i]->getTotalScore());
+		buffer += "<p>" + tr("Number of answer submitted") + " : " + QString::number(numberSubmitted) + " / " + QString::number(contestantList.size()) + " (" + QString::number(100.00 * numberSubmitted / contestantList.size()) + "%)</p>";
+		buffer += "<br>";
 	}
 
 	buffer += "</body></html>";

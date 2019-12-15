@@ -377,7 +377,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="list-add"/>
+           <iconset resource="../resource.qrc">
+            <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
           </property>
          </widget>
         </item>
@@ -399,7 +400,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="list-remove"/>
+           <iconset resource="../resource.qrc">
+            <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
           </property>
          </widget>
         </item>
@@ -463,6 +465,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

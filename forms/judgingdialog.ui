@@ -96,7 +96,8 @@
         <string>Skip</string>
        </property>
        <property name="icon">
-        <iconset theme="go-jump"/>
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/media-skip-forward.svg</normaloff>:/icon/media-skip-forward.svg</iconset>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -122,7 +123,8 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset theme="media-playback-stop"/>
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/media-playback-stop.svg</normaloff>:/icon/media-playback-stop.svg</iconset>
        </property>
       </widget>
      </item>
@@ -130,6 +132,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

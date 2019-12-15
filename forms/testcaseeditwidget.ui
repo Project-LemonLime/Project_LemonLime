@@ -39,14 +39,14 @@
        <attribute name="horizontalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>25</number>
+       </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
         <number>27</number>
        </attribute>
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>25</number>
        </attribute>
        <column>
         <property name="text">
@@ -171,6 +171,10 @@
          <property name="text">
           <string>Add</string>
          </property>
+         <property name="icon">
+          <iconset resource="../resource.qrc">
+           <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+         </property>
         </widget>
        </item>
        <item row="2" column="0">
@@ -222,6 +226,10 @@
          </property>
          <property name="text">
           <string>Clear</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../resource.qrc">
+           <normaloff>:/icon/edit-clear.svg</normaloff>:/icon/edit-clear.svg</iconset>
          </property>
         </widget>
        </item>
@@ -436,6 +444,8 @@
    <header>filelineedit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
