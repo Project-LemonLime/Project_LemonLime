@@ -40,7 +40,7 @@ class CompilerSettings : public QWidget
 	Q_OBJECT
 
 public:
-	explicit CompilerSettings(QWidget *parent = 0);
+	explicit CompilerSettings(QWidget *parent = nullptr);
 	~CompilerSettings();
 	void resetEditSettings(Settings *);
 	bool checkValid();

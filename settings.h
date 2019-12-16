@@ -32,7 +32,7 @@ class Settings : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Settings(QObject *parent = 0);
+	explicit Settings(QObject *parent = nullptr);
 
 	int getDefaultFullScore() const;
 	int getDefaultTimeLimit() const;

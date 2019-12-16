@@ -32,7 +32,7 @@ class FileLineEdit : public QLineEdit
 {
 	Q_OBJECT
 public:
-	explicit FileLineEdit(QWidget *parent = 0);
+	explicit FileLineEdit(QWidget *parent = nullptr);
 	void setFilters(QDir::Filters);
 	void setFileExtensions(const QStringList &);
 	void getFiles(const QString &, const QString &, QStringList &);

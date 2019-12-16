@@ -28,6 +28,7 @@
 #include "ui_judgingdialog.h"
 #include "contest.h"
 #include "task.h"
+#include "judgesharedvariables.h"
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) :
@@ -107,7 +108,7 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 {
 	stopJudging = false;
 
-	long long allTime = 0;
+	int allTime = 0;
 
 	int listsSize = lists.size();
 
@@ -167,7 +168,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	{
 		case CorrectAnswer:
 			text = tr("Correct answer");
-			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
 
@@ -176,10 +177,14 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 
 		case PartlyCorrect:
 			text = tr("Partly correct");
-			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg((double)memoryUsed / 1024.00 / 1024.00);
+			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
-			else scoretext = tr("  %1 Pt").arg(abs(scoreGot)), scorecharFormat.setForeground(QBrush(Qt::darkYellow));
+			else
+			{
+				scoretext = tr("  %1 Pt").arg(abs(scoreGot));
+				scorecharFormat.setForeground(QBrush(Qt::darkYellow));
+			}
 
 			charFormat.setForeground(QBrush(Qt::darkCyan));
 			break;
@@ -268,7 +273,7 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 	ratioFormat.setFontPointSize(9);
 
 	QString text;
-	int percentage = ratio * 10000;
+	int percentage = static_cast<int>(ratio * 10000);
 	text = QString("%1.%2%3").arg(percentage / 100).arg(percentage % 100).arg('%');
 
 	if (percentage == 10000)
@@ -432,7 +437,8 @@ void JudgingDialog::stopJudgingSlot()
 	emit stopJudgingSignal();
 }
 
-extern int skipEnabled;
+int skipEnabled;
+
 void JudgingDialog::skipJudging()
 {
 	skipEnabled = 1;

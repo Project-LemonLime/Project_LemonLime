@@ -19,6 +19,10 @@
  * advancedcompilersettingsdialog.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * addcompilerwizard.cpp @Project LemonLime
+ * Update 2019 iotang
+ **/
 
 #include "advancedcompilersettingsdialog.h"
 #include "ui_advancedcompilersettingsdialog.h"
@@ -167,7 +171,7 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 
 void AdvancedCompilerSettingsDialog::compilerTypeChanged()
 {
-	editCompiler->setCompilerType((Compiler::CompilerType) ui->typeSelect->currentIndex());
+	editCompiler->setCompilerType(static_cast<Compiler::CompilerType>(ui->typeSelect->currentIndex()));
 
 	if (editCompiler->getCompilerType() == Compiler::Typical)
 	{

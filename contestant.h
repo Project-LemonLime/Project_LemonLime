@@ -31,7 +31,7 @@ class Contestant : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Contestant(QObject *parent = 0);
+	explicit Contestant(QObject *parent = nullptr);
 
 	const QString &getContestantName() const;
 	bool getCheckJudged(int) const;

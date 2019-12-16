@@ -39,7 +39,7 @@ class GeneralSettings : public QWidget
 	Q_OBJECT
 
 public:
-	explicit GeneralSettings(QWidget *parent = 0);
+	explicit GeneralSettings(QWidget *parent = nullptr);
 	~GeneralSettings();
 	void resetEditSettings(Settings *);
 	bool checkValid();

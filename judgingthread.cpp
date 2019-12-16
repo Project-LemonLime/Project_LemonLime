@@ -30,6 +30,7 @@
 #include "judgingthread.h"
 #include "settings.h"
 #include "task.h"
+#include "judgesharedvariables.h"
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -81,7 +82,7 @@ JudgingThread::JudgingThread(QObject *parent) :
 	judgedTimes = 0;
 
 	QTime   t =  QTime::currentTime();
-	qsrand(t.msec() + t.second() * 1000);
+	qsrand(static_cast<unsigned int>(t.msec() + t.second() * 1000));
 }
 
 /*void JudgingThread::setCheckRejudgeMode(bool check)
@@ -203,7 +204,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == NULL)
+	if (contestantOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -213,7 +214,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == NULL)
+	if (standardOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -222,7 +223,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		return;
 	}
 
-	char str1[20], str2[20], ch;
+	char str1[20], str2[20], ch = 0;
 	bool chk1 = false, chk2 = false;
 	bool chkEof1 = false, chkEof2 = false;
 	int len1, len2;
@@ -233,7 +234,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		while (len1 < 10)
 		{
-			ch = fgetc(contestantOutputFile);
+			ch = static_cast<char>(fgetc(contestantOutputFile));
 
 			if (ch == EOF) break;
 
@@ -265,7 +266,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		while (len2 < 10)
 		{
-			ch = fgetc(standardOutputFile);
+			ch = static_cast<char>(fgetc(standardOutputFile));
 
 			if (ch == EOF) break;
 
@@ -345,7 +346,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == NULL)
+	if (contestantOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -355,7 +356,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == NULL)
+	if (standardOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -374,18 +375,18 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		{
 			if (ch1 == '\r')
 			{
-				ch1 = fgetc(contestantOutputFile);
+				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 
-				if (ch1 == '\n') ch1 = fgetc(contestantOutputFile);
+				if (ch1 == '\n') ch1 = static_cast<char>(fgetc(contestantOutputFile));
 			}
 			else
 			{
-				ch1 = fgetc(contestantOutputFile);
+				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 			}
 
 			while (ch1 == ' ' || ch1 == '\t')
 			{
-				ch1 = fgetc(contestantOutputFile);
+				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 			}
 
 			flag1 = 2;
@@ -396,25 +397,25 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			{
 				while (ch1 == ' ' || ch1 == '\t')
 				{
-					ch1 = fgetc(contestantOutputFile);
+					ch1 = static_cast<char>(fgetc(contestantOutputFile));
 				}
 
 				if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF)
 				{
 					if (ch1 == '\r')
 					{
-						ch1 = fgetc(contestantOutputFile);
+						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 
-						if (ch1 == '\n') ch1 = fgetc(contestantOutputFile);
+						if (ch1 == '\n') ch1 = static_cast<char>(fgetc(contestantOutputFile));
 					}
 					else
 					{
-						ch1 = fgetc(contestantOutputFile);
+						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 					}
 
 					while (ch1 == ' ' || ch1 == '\t')
 					{
-						ch1 = fgetc(contestantOutputFile);
+						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 					}
 
 					flag1 = 2;
@@ -434,17 +435,17 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		{
 			if (ch2 == '\r')
 			{
-				ch2 = fgetc(standardOutputFile);
+				ch2 = static_cast<char>(fgetc(standardOutputFile));
 
-				if (ch2 == '\n') ch2 = fgetc(standardOutputFile);
+				if (ch2 == '\n') ch2 = static_cast<char>(fgetc(standardOutputFile));
 			}
 			else
 			{
-				ch2 = fgetc(standardOutputFile);
+				ch2 = static_cast<char>(fgetc(standardOutputFile));
 			}
 
 			while (ch2 == ' ' || ch2 == '\t')
-				ch2 = fgetc(standardOutputFile);
+				ch2 = static_cast<char>(fgetc(standardOutputFile));
 
 			flag2 = 2;
 		}
@@ -454,25 +455,25 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			{
 				while (ch2 == ' ' || ch2 == '\t')
 				{
-					ch2 = fgetc(standardOutputFile);
+					ch2 = static_cast<char>(fgetc(standardOutputFile));
 				}
 
 				if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
 				{
 					if (ch2 == '\r')
 					{
-						ch2 = fgetc(standardOutputFile);
+						ch2 = static_cast<char>(fgetc(standardOutputFile));
 
-						if (ch2 == '\n') ch2 = fgetc(standardOutputFile);
+						if (ch2 == '\n') ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 					else
 					{
-						ch2 = fgetc(standardOutputFile);
+						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
 					while (ch2 == ' ' || ch2 == '\t')
 					{
-						ch2 = fgetc(standardOutputFile);
+						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
 					flag2 = 2;
@@ -511,7 +512,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				break;
 			}
 
-			ch1 = fgetc(contestantOutputFile);
+			ch1 = static_cast<char>(fgetc(contestantOutputFile));
 		}
 
 		str1[len1] = '\0';
@@ -529,7 +530,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				break;
 			}
 
-			ch2 = fgetc(standardOutputFile);
+			ch2 = static_cast<char>(fgetc(standardOutputFile));
 		}
 
 		str2[len2] = '\0';
@@ -583,7 +584,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == NULL)
+	if (contestantOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -593,7 +594,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == NULL)
+	if (standardOutputFile == nullptr)
 	{
 		score = 0;
 		result = FileError;
@@ -811,8 +812,6 @@ void JudgingThread::specialJudge(const QString &fileName)
 	scoreFile.remove();
 	messageFile.remove();
 }
-
-extern int skipEnabled;
 
 void JudgingThread::runProgram()
 {

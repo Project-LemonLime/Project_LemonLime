@@ -40,7 +40,7 @@ public:
 	enum TaskType { Traditional, AnswersOnly, Interaction };
 	enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
 
-	explicit Task(QObject *parent = 0);
+	explicit Task(QObject *parent = nullptr);
 
 	const QList<TestCase *> &getTestCaseList() const;
 	const QString &getProblemTile() const;

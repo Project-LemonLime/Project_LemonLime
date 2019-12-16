@@ -37,7 +37,7 @@ class EnvironmentVariablesDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit EnvironmentVariablesDialog(QWidget *parent = 0);
+	explicit EnvironmentVariablesDialog(QWidget *parent = nullptr);
 	~EnvironmentVariablesDialog();
 	void setProcessEnvironment(const QProcessEnvironment &);
 	QProcessEnvironment getProcessEnvironment() const;

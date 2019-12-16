@@ -38,11 +38,11 @@ class SummaryTree : public QTreeWidget
 {
 	Q_OBJECT
 public:
-	explicit SummaryTree(QWidget *parent = 0);
-	void changeEvent(QEvent *);
+	explicit SummaryTree(QWidget *parent = nullptr);
+	void changeEvent(QEvent *) override;
 	void setContest(Contest *);
 	void setSettings(Settings *);
-	void contextMenuEvent(QContextMenuEvent *);
+	void contextMenuEvent(QContextMenuEvent *) override;
 
 private:
 	int addCount;

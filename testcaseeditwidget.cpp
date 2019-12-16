@@ -32,7 +32,7 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	editTestCase = 0;
+	editTestCase = nullptr;
 
 	deleteAction = new QAction(this);
 	deleteAction->setShortcutContext(Qt::WidgetShortcut);
@@ -86,7 +86,7 @@ void TestCaseEditWidget::changeEvent(QEvent *event)
 	if (event->type() == QEvent::LanguageChange)
 	{
 		TestCase *bak = editTestCase;
-		setEditTestCase(0, true);
+		setEditTestCase(nullptr, true);
 		ui->retranslateUi(this);
 		setEditTestCase(bak, true);
 	}

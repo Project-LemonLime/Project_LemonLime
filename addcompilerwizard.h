@@ -22,7 +22,7 @@ class AddCompilerWizard : public QWizard
 	Q_OBJECT
 
 public:
-	explicit AddCompilerWizard(QWidget *parent = 0);
+	explicit AddCompilerWizard(QWidget *parent = nullptr);
 	~AddCompilerWizard();
 	void accept();
 	const QList<Compiler *> &getCompilerList() const;

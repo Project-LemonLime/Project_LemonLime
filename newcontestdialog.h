@@ -37,7 +37,7 @@ class NewContestDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit NewContestDialog(QWidget *parent = 0);
+	explicit NewContestDialog(QWidget *parent = nullptr);
 	~NewContestDialog();
 	QString getContestTitle();
 	QString getSavingName();

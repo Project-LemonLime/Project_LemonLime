@@ -514,7 +514,7 @@ void AddCompilerWizard::accept()
 	if (ui->customRadioButton->isChecked())
 	{
 		Compiler *compiler = new Compiler;
-		compiler->setCompilerType((Compiler::CompilerType) ui->typeSelect->currentIndex());
+		compiler->setCompilerType(static_cast<Compiler::CompilerType>(ui->typeSelect->currentIndex()));
 		compiler->setCompilerName(ui->compilerName->text());
 		compiler->setCompilerLocation(ui->compilerLocation->text());
 		compiler->setInterpreterLocation(ui->interpreterLocation->text());

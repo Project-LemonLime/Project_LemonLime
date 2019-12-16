@@ -39,7 +39,7 @@ class AssignmentThread : public QThread
 {
 	Q_OBJECT
 public:
-	explicit AssignmentThread(QObject *parent = 0);
+	explicit AssignmentThread(QObject *parent = nullptr);
 	//void setCheckRejudgeMode(bool);
 	void setNeedRejudge(const QList< QPair<int, int> > &);
 	void setSettings(Settings *);

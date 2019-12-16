@@ -49,13 +49,13 @@ void StatisticsBrowser::setContest(Contest *contest)
 	curContest = contest;
 }
 
-QString StatisticsBrowser::getScoreNormalChart(QMap<int,int> scoreCount, int listSize, int totalScore)
+QString StatisticsBrowser::getScoreNormalChart(QMap<int, int> scoreCount, int listSize, int totalScore)
 {
 	QString buffer = "";
 
 	long long overallScoreSum = 0;
 	double scoreDiscrim = 0, scoreStandardDevia = 0;
-	int scoreTierPrefix = 0, lastScoreTier = -1;
+	int scoreTierPrefix = 0, lastScoreTier = -1, lastScoreTierNum = -1;
 
 	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
 	{
@@ -63,8 +63,9 @@ QString StatisticsBrowser::getScoreNormalChart(QMap<int,int> scoreCount, int lis
 		int curScoreTier = i.key(), curScoreTierNum = i.value();
 		overallScoreSum += 1ll * curScoreTier * curScoreTierNum;
 
-		if(lastScoreTier >= 0)scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore);
+		if (lastScoreTier >= 0)scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore) * (1.00 - 1.00 * lastScoreTierNum * curScoreTierNum / listSize / listSize);
 		lastScoreTier = curScoreTier;
+		lastScoreTierNum = curScoreTierNum;
 	}
 
 	double scoreAverage = 1.00 * overallScoreSum / listSize;
@@ -146,12 +147,12 @@ void StatisticsBrowser::refresh()
 		for (int j = 0; j < taskList.size(); j++)
 		{
 			contestantTotalScore += contestantList[i]->getTaskScore(j);
-			if(contestantList[i]->getTaskScore(j) < 0) haveError = 1;
+			if (contestantList[i]->getTaskScore(j) < 0) haveError = 1;
 		}
 		scoreCount[contestantTotalScore]++;
 	}
 
-	if(haveError)
+	if (haveError)
 	{
 		buffer += "<p style=\"font-size: large; color: red;\">" + tr("Warning: Judgement is not finished.") + "</p><br>";
 	}
@@ -173,7 +174,7 @@ void StatisticsBrowser::refresh()
 		for (int j = 0; j < contestantList.size(); j++)
 		{
 			cnts[contestantList[j]->getTaskScore(i)]++;
-			if(contestantList[j]->getCompileState(i) != NoValidSourceFile)
+			if (contestantList[j]->getCompileState(i) != NoValidSourceFile)
 				numberSubmitted ++;
 		}
 

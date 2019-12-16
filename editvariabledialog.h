@@ -37,7 +37,7 @@ class EditVariableDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit EditVariableDialog(QWidget *parent = 0);
+	explicit EditVariableDialog(QWidget *parent = nullptr);
 	~EditVariableDialog();
 	void setVariableName(const QString &);
 	void setVariableValue(const QString &);

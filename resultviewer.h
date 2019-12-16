@@ -37,7 +37,7 @@ class ResultViewer : public QTableWidget
 {
 	Q_OBJECT
 public:
-	explicit ResultViewer(QWidget *parent = 0);
+	explicit ResultViewer(QWidget *parent = nullptr);
 	void changeEvent(QEvent *);
 	void contextMenuEvent(QContextMenuEvent *);
 	void setContest(Contest *);

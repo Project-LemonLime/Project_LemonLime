@@ -37,7 +37,7 @@ class NewContestWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit NewContestWidget(QWidget *parent = 0);
+	explicit NewContestWidget(QWidget *parent = nullptr);
 	~NewContestWidget();
 	QString getContestTitle();
 	QString getSavingName();

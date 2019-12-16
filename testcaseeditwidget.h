@@ -43,7 +43,7 @@ class TestCaseEditWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit TestCaseEditWidget(QWidget *parent = 0);
+	explicit TestCaseEditWidget(QWidget *parent = nullptr);
 	~TestCaseEditWidget();
 	void changeEvent(QEvent *);
 	void setEditTestCase(TestCase *, bool);

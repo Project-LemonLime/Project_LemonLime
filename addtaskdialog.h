@@ -35,7 +35,7 @@ class AddTaskDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit AddTaskDialog(QWidget *parent = 0);
+	explicit AddTaskDialog(QWidget *parent = nullptr);
 	~AddTaskDialog();
 	void addTask(const QString &, int, int, int);
 	int getFullScore(int) const;

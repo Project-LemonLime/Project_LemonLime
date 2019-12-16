@@ -38,7 +38,7 @@ class OpenContestWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit OpenContestWidget(QWidget *parent = 0);
+	explicit OpenContestWidget(QWidget *parent = nullptr);
 	~OpenContestWidget();
 	void setRecentContest(const QStringList &);
 	const QStringList &getRecentContest() const;

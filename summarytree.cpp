@@ -30,7 +30,7 @@
 SummaryTree::SummaryTree(QWidget *parent) :
 	QTreeWidget(parent)
 {
-	curContest = 0;
+	curContest = nullptr;
 	addCount = 0;
 
 	addTaskAction = new QAction(tr("Add a New Task"), this);
@@ -89,15 +89,15 @@ void SummaryTree::changeEvent(QEvent *event)
 	if (event->type() == QEvent::LanguageChange)
 	{
 		addTaskAction->setText(QApplication::translate("SummaryTree", "Add a New Task",
-		                       0));
+		                       nullptr));
 		addTestCaseAction->setText(QApplication::translate("SummaryTree", "Add a Test Case",
-		                           0));
+		                           nullptr));
 		addTestCasesAction->setText(QApplication::translate("SummaryTree", "Add Test Cases ...",
-		                            0));
+		                            nullptr));
 		deleteTaskAction->setText(QApplication::translate("SummaryTree", "Delete Current Task",
-		                          0));
+		                          nullptr));
 		deleteTestCaseAction->setText(QApplication::translate("SummaryTree", "Delete Current Test Case",
-		                              0));
+		                              nullptr));
 
 		for (int i = 0; i < topLevelItemCount(); i ++)
 		{
@@ -106,7 +106,7 @@ void SummaryTree::changeEvent(QEvent *event)
 			for (int j = 0; j < taskItem->childCount(); j ++)
 			{
 				taskItem->child(j)->setText(0, QApplication::translate("SummaryTree", "Test Case #%1",
-				                            0).arg(j + 1));
+				                            nullptr).arg(j + 1));
 			}
 		}
 	}
@@ -151,7 +151,7 @@ void SummaryTree::setContest(Contest *contest)
 	if (taskList.size() > 0) setCurrentItem(topLevelItem(0));
 
 	setEnabled(true);
-	emit currentItemChanged(0, 0);
+	emit currentItemChanged(nullptr, nullptr);
 }
 
 void SummaryTree::setSettings(Settings *_settings)
@@ -159,7 +159,7 @@ void SummaryTree::setSettings(Settings *_settings)
 	settings = _settings;
 }
 
-void SummaryTree::contextMenuEvent(QContextMenuEvent *event)
+void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
 {
 	QMenu *contextMenu = new QMenu(this);
 
@@ -310,7 +310,7 @@ void SummaryTree::deleteTask()
 		}
 		else
 		{
-			setCurrentItem(0);
+			setCurrentItem(nullptr);
 		}
 	}
 

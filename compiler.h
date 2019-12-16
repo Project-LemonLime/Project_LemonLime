@@ -32,7 +32,7 @@ class Compiler : public QObject
 public:
 	enum CompilerType { Typical, InterpretiveWithByteCode, InterpretiveWithoutByteCode };
 
-	explicit Compiler(QObject *parent = 0);
+	explicit Compiler(QObject *parent = nullptr);
 
 	CompilerType getCompilerType() const;
 	const QString &getCompilerName() const;

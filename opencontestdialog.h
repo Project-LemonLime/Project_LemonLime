@@ -37,7 +37,7 @@ class OpenContestDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit OpenContestDialog(QWidget *parent = 0);
+	explicit OpenContestDialog(QWidget *parent = nullptr);
 	~OpenContestDialog();
 	void setRecentContest(const QStringList &);
 	const QStringList &getRecentContest() const;

@@ -83,7 +83,7 @@ void OpenContestWidget::refreshContestList()
 		char *raw = new char[len];
 		_in.readRawData(raw, len);
 
-		if (qChecksum(raw, len) != checksum)
+		if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 		{
 			delete[] raw;
 			recentContest.removeAt(i);
@@ -139,7 +139,7 @@ void OpenContestWidget::addContest()
 	char *raw = new char[len];
 	in.readRawData(raw, len);
 
-	if (qChecksum(raw, len) != checksum)
+	if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
 		delete[] raw;

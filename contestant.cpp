@@ -318,7 +318,7 @@ void Contestant::readFromStream(QDataStream &in)
 	in >> judgingTime_date;
 	in >> judgingTime_time;
 	in >> judgingTime_timespec;
-	judgingTime = QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(judgingTime_time), Qt::TimeSpec(judgingTime_timespec));
+	judgingTime = QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(static_cast<int>(judgingTime_time)), Qt::TimeSpec(judgingTime_timespec));
 	int count, _count, __count, tmp;
 	in >> count;
 

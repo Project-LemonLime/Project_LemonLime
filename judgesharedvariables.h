@@ -16,34 +16,9 @@
 	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
-#ifndef STATISTICSBROWSER_H
-#define STATISTICSBROWSER_H
+#ifndef JUDGESHAREDVARIABLES_H
+#define JUDGESHAREDVARIABLES_H
 
-#include <QWidget>
+extern int skipEnabled;
 
-namespace Ui
-{
-	class StatisticsBrowser;
-}
-
-class Contest;
-
-class StatisticsBrowser : public QWidget
-{
-	Q_OBJECT
-
-public:
-	explicit StatisticsBrowser(QWidget *parent = nullptr);
-	void setContest(Contest *);
-	~StatisticsBrowser();
-
-public slots:
-	void refresh();
-
-private:
-	Ui::StatisticsBrowser *ui;
-	Contest *curContest;
-	QString getScoreNormalChart(QMap<int, int>, int, int);
-};
-
-#endif // STATISTICSBROWSER_H
+#endif // JUDGESHAREDVARIABLES_H

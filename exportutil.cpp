@@ -386,7 +386,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 			double colFix = oriBaseColorSF * 100;
 			double colLevel = oriBaseColorLF(allScore, sfullScore, 0.40) * 100;
 
-			out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); border-radius: 5px; font-weight: bold; border: 2px solid hsl(%2,%3\%,%5\%);\">%1</td>").arg(allScore).arg(basCol).arg(colFix).arg(colLevel).arg(colLevel - 20);
+			out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px; font-weight: bold; border: 2px solid hsl(%2,%3%,%5%);\">%1</td>").arg(allScore).arg(basCol).arg(colFix).arg(colLevel).arg(colLevel - 20);
 		}
 		else
 		{
@@ -406,11 +406,20 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 				if (contestant->getCompileState(j) != CompileSuccessfully)
 				{
 					if (contestant->getCompileState(j) == NoValidSourceFile)
-						basCol = nofBaseColorHI, colFix = nofBaseColorSF * 100, colLevel = nofBaseColorLF * 100;
-					else basCol = cmeBaseColorHI, colFix = cmeBaseColorSF * 100, colLevel = cmeBaseColorLF * 100;
+					{
+						basCol = nofBaseColorHI;
+						colFix = nofBaseColorSF * 100;
+						colLevel = nofBaseColorLF * 100;
+					}
+					else
+					{
+						basCol = cmeBaseColorHI;
+						colFix = cmeBaseColorSF * 100;
+						colLevel = cmeBaseColorLF * 100;
+					}
 				}
 
-				out << QString("<td style=\"background-color: hsl(%2,%3\%,%4\%); border-radius: 5px;\"><a href=\"#c%5p%6\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(loc[contestant]).arg(j);
+				out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px;\"><a href=\"#c%5p%6\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(loc[contestant]).arg(j);
 			}
 			else
 			{
@@ -736,7 +745,8 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	for (int i = 0; i < taskList.size(); i++)
 	{
 		int a = taskList[i]->getTotalScore();
-		fullScore.append(a), sfullScore += a;
+		fullScore.append(a);
+		sfullScore += a;
 	}
 
 	for (int i = 0; i < sortList.size(); i ++)
@@ -890,7 +900,6 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fileName)
 {
 #ifdef Q_OS_WIN32
-
 	if (QFile(fileName).exists())
 	{
 		if (! QFile(fileName).remove())

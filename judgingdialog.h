@@ -44,7 +44,7 @@ class JudgingDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit JudgingDialog(QWidget *parent = 0);
+	explicit JudgingDialog(QWidget *parent = nullptr);
 	~JudgingDialog();
 	void setContest(Contest *);
 	void judge(const QStringList &);

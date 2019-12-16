@@ -42,7 +42,7 @@
 ResultViewer::ResultViewer(QWidget *parent) :
 	QTableWidget(parent)
 {
-	curContest = 0;
+	curContest = nullptr;
 
 	deleteContestantAction = new QAction(tr("Delete"), this);
 	detailInformationAction = new QAction(tr("Details"), this);
@@ -68,15 +68,15 @@ void ResultViewer::changeEvent(QEvent *event)
 	if (event->type() == QEvent::LanguageChange)
 	{
 		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete",
-		                                0));
+		                                nullptr));
 		detailInformationAction->setText(QApplication::translate("ResultViewer", "Details",
-		                                 0));
+		                                 nullptr));
 		judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge",
-		                             0));
+		                             nullptr));
 	}
 }
 
-void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
+void ResultViewer::contextMenuEvent(QContextMenuEvent */*event*/)
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 

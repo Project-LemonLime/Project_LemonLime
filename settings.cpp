@@ -195,7 +195,7 @@ Compiler *Settings::getCompiler(int index)
 	}
 	else
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -265,7 +265,7 @@ void Settings::saveSettings()
 	for (int i = 0; i < compilerList.size(); i ++)
 	{
 		settings.setArrayIndex(i);
-		settings.setValue("CompilerType", (int) compilerList[i]->getCompilerType());
+		settings.setValue("CompilerType", static_cast<int>(compilerList[i]->getCompilerType()));
 		settings.setValue("CompilerName", compilerList[i]->getCompilerName());
 		settings.setValue("SourceExtensions", compilerList[i]->getSourceExtensions());
 		settings.setValue("CompilerLocation", compilerList[i]->getCompilerLocation());
@@ -336,7 +336,7 @@ void Settings::loadSettings()
 	{
 		settings.setArrayIndex(i);
 		Compiler *compiler = new Compiler;
-		compiler->setCompilerType((Compiler::CompilerType) settings.value("CompilerType").toInt());
+		compiler->setCompilerType(static_cast<Compiler::CompilerType>(settings.value("CompilerType").toInt()));
 		compiler->setCompilerName(settings.value("CompilerName").toString());
 		compiler->setSourceExtensions(settings.value("SourceExtensions").toStringList().join(";"));
 		compiler->setCompilerLocation(settings.value("CompilerLocation").toString());

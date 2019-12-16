@@ -30,7 +30,7 @@ class TestCase : public QObject
 {
 	Q_OBJECT
 public:
-	explicit TestCase(QObject *parent = 0);
+	explicit TestCase(QObject *parent = nullptr);
 	int getFullScore() const;
 	int getTimeLimit() const;
 	int getMemoryLimit() const;

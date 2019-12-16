@@ -460,7 +460,7 @@ void Lemon::cleanupButtonClicked()
 		int backupNum = 0;
 
 		QDir tempBackupLoca;
-		while(tempBackupLoca.exists(backupFolder.arg(backupNum)))backupNum++;
+		while (tempBackupLoca.exists(backupFolder.arg(backupNum)))backupNum++;
 		backupFolder = backupFolder.arg(backupNum);
 
 		text = tr("Making backup files to dir <br> `%1'?").arg(backupFolder) + "<br>";
@@ -811,7 +811,7 @@ void Lemon::saveContest(const QString &fileName)
 	curContest->writeToStream(_out);
 	data = qCompress(data);
 	QDataStream out(&file);
-	out << unsigned(MagicNumber) << qChecksum(data.data(), data.length()) << data.length();
+	out << unsigned(MagicNumber) << qChecksum(data.data(), static_cast<uint>(data.length())) << data.length();
 	out.writeRawData(data.data(), data.length());
 
 	QApplication::restoreOverrideCursor();
@@ -848,7 +848,7 @@ void Lemon::loadContest(const QString &filePath)
 	char *raw = new char[len];
 	_in.readRawData(raw, len);
 
-	if (qChecksum(raw, len) != checksum)
+	if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
 		                     QMessageBox::Close);
@@ -1060,7 +1060,7 @@ void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QStrin
 	for (int i = 0; i < testCases.size(); i ++)
 	{
 		TestCase *newTestCase = new TestCase;
-		newTestCase->setFullScore(scorePer + (int)(i < scoreLos));
+		newTestCase->setFullScore(scorePer + static_cast<int>(i < scoreLos));
 		newTestCase->setTimeLimit(timeLimit);
 		newTestCase->setMemoryLimit(memoryLimit);
 		newTestCase->addSingleCase(title + QDir::separator() + testCases[i].first,
@@ -1178,12 +1178,12 @@ void Lemon::aboutLemon()
 	text += "<h2>Project LemonLime</h2>";
 	text += tr("A tiny judging environment for OI contest based on Project Lemon") + "<br>";
 	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
-	text += tr("Build Date: %1").arg(__DATE__) + "<br>";
+	QDateTime nowTime(QDateTime::currentDateTime());
+	text += tr("Build Date: %1").arg(nowTime.toString("yyyy-MM-dd hh:mm:ss")) + "<br>";
 	text += tr("UNSTABLE VERISON") + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")
 	        + "<br>";
-	text += tr("Update by Dust1404") + "</a><br>";
-	text += tr("Featured by iotang") + "</a><br>";
+	text += tr("Update by Dust1404 and iotang") + "</a><br>";
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 

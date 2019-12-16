@@ -83,6 +83,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
       <widget class="QPushButton" name="skipButton">
+       <property name="minimumSize">
+        <size>
+         <width>96</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <weight>50</weight>
@@ -119,6 +125,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="cancelButton">
+       <property name="minimumSize">
+        <size>
+         <width>96</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Cancel</string>
        </property>

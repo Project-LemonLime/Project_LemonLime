@@ -41,7 +41,7 @@ class Lemon : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit Lemon(QWidget *parent = 0);
+	explicit Lemon(QWidget *parent = nullptr);
 	~Lemon();
 	void changeEvent(QEvent *);
 	void closeEvent(QCloseEvent *);

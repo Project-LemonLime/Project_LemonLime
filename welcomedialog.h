@@ -37,7 +37,7 @@ class WelcomeDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit WelcomeDialog(QWidget *parent = 0);
+	explicit WelcomeDialog(QWidget *parent = nullptr);
 	~WelcomeDialog();
 	void setRecentContest(const QStringList &);
 	QString getContestTitle();

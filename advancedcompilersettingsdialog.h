@@ -39,7 +39,7 @@ class AdvancedCompilerSettingsDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit AdvancedCompilerSettingsDialog(QWidget *parent = 0);
+	explicit AdvancedCompilerSettingsDialog(QWidget *parent = nullptr);
 	~AdvancedCompilerSettingsDialog();
 	void resetEditCompiler(Compiler *);
 	Compiler *getEditCompiler() const;

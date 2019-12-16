@@ -39,7 +39,7 @@ class AddTestCasesWizard : public QWizard
 	Q_OBJECT
 
 public:
-	explicit AddTestCasesWizard(QWidget *parent = 0);
+	explicit AddTestCasesWizard(QWidget *parent = nullptr);
 	~AddTestCasesWizard();
 	void setSettings(Settings *, bool);
 	int getFullScore() const;

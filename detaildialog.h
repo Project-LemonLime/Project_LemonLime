@@ -40,7 +40,7 @@ class DetailDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit DetailDialog(QWidget *parent = 0);
+	explicit DetailDialog(QWidget *parent = nullptr);
 	~DetailDialog();
 	void refreshViewer(Contest *, Contestant *);
 	void showDialog();

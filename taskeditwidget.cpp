@@ -32,7 +32,7 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	editTask = 0;
+	editTask = nullptr;
 
 	ui->specialJudge->setFilters(QDir::Files | QDir::Executable);
 	ui->interactorPath->setFilters(QDir::Files);
@@ -104,7 +104,7 @@ void TaskEditWidget::changeEvent(QEvent *event)
 	if (event->type() == QEvent::LanguageChange)
 	{
 		Task *bak = editTask;
-		setEditTask(0);
+		setEditTask(nullptr);
 		ui->retranslateUi(this);
 		setEditTask(bak);
 	}

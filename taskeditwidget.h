@@ -40,7 +40,7 @@ class TaskEditWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit TaskEditWidget(QWidget *parent = 0);
+	explicit TaskEditWidget(QWidget *parent = nullptr);
 	~TaskEditWidget();
 	void changeEvent(QEvent *);
 	void setEditTask(Task *);

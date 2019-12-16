@@ -101,7 +101,8 @@ HEADERS  += lemon.h \
     editvariabledialog.h \
     addcompilerwizard.h \
     exportutil.h \
-    statisticsbrowser.h
+    statisticsbrowser.h \
+    judgesharedvariables.h
 
 
 FORMS += forms/lemon.ui \

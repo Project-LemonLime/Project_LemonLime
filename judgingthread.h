@@ -33,7 +33,7 @@ class JudgingThread : public QThread
 {
 	Q_OBJECT
 public:
-	explicit JudgingThread(QObject *parent = 0);
+	explicit JudgingThread(QObject *parent = nullptr);
 	//void setCheckRejudgeMode(bool);
 	void setExtraTimeRatio(double);
 	void setEnvironment(const QProcessEnvironment &);

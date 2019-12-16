@@ -234,7 +234,7 @@ TestCase *Task::getTestCase(int index) const
 	}
 	else
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -325,7 +325,7 @@ void Task::writeToStream(QDataStream &out)
 	out << outputFileName;
 	out << standardInputCheck;
 	out << standardOutputCheck;
-	out << (int (taskType) | (((int) subFolderCheck) << 8));
+	out << (static_cast<int>(taskType) | ((static_cast<int>(subFolderCheck)) << 8));
 	out << int (comparisonMode);
 	out << diffArguments;
 	out << realPrecision;

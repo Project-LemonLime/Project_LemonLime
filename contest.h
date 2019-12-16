@@ -40,7 +40,7 @@ class Contest : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Contest(QObject *parent = 0);
+	explicit Contest(QObject *parent = nullptr);
 	void setSettings(Settings *);
 	void setContestTitle(const QString &);
 	const QString &getContestTitle() const;

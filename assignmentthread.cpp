@@ -30,6 +30,7 @@
 #include "compiler.h"
 #include "task.h"
 #include "testcase.h"
+#include "judgesharedvariables.h"
 
 AssignmentThread::AssignmentThread(QObject *parent) :
 	QThread(parent)
@@ -303,14 +304,13 @@ bool AssignmentThread::traditionalTaskPrepare()
 
 	if (compileState != CompileSuccessfully)
 	{
-		emit compileError(task->getTotalTimeLimit(), (int) compileState);
+		emit compileError(task->getTotalTimeLimit(), static_cast<int>(compileState));
 		return false;
 	}
 
 	return true;
 }
 
-int skipEnabled;
 void AssignmentThread::run()
 {
 	if (task->getTaskType() != Task::AnswersOnly)
@@ -383,11 +383,11 @@ void AssignmentThread::assign()
 
 		for (int i = 0; i != dependenceSubtask.size(); ++i)
 		{
-			double ratio = (double) testCaseScore[dependenceSubtask[i] - 1] / task->getTestCase(dependenceSubtask[i] - 1)->getFullScore();
+			double ratio = 1.00 * testCaseScore[dependenceSubtask[i] - 1] / task->getTestCase(dependenceSubtask[i] - 1)->getFullScore();
 			emit singleSubtaskDependenceFinished(curTestCaseIndex, i, ratio);
 
 			if (ratio * curTestCase->getFullScore() < testCaseScore[curTestCaseIndex])
-				testCaseScore[curTestCaseIndex] = ratio * curTestCase->getFullScore();
+				testCaseScore[curTestCaseIndex] = static_cast<int>(ratio * curTestCase->getFullScore());
 		}
 
 		if (! dependenceSubtask.empty())

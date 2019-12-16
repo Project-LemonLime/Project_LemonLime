@@ -86,7 +86,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 	}
 	else
 	{
-		setCurrentCompiler(0);
+		setCurrentCompiler(nullptr);
 	}
 
 	refreshItemState();
@@ -299,7 +299,7 @@ void CompilerSettings::compilerListCurrentRowChanged()
 	}
 	else
 	{
-		setCurrentCompiler(0);
+		setCurrentCompiler(nullptr);
 	}
 
 	refreshItemState();

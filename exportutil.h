@@ -38,7 +38,7 @@ class ExportUtil : public QObject
 {
 	Q_OBJECT
 public:
-	explicit ExportUtil(QObject *parent = 0);
+	explicit ExportUtil(QObject *parent = nullptr);
 	static void exportResult(QWidget *, Contest *);
 
 private:

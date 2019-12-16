@@ -62,7 +62,7 @@ Task *Contest::getTask(int index) const
 	}
 	else
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -93,7 +93,7 @@ Contestant *Contest::getContestant(const QString &name) const
 	}
 	else
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
