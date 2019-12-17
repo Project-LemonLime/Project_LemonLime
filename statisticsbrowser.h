@@ -20,6 +20,8 @@
 #define STATISTICSBROWSER_H
 
 #include <QWidget>
+#include "task.h"
+#include "testcase.h"
 
 namespace Ui
 {
@@ -27,6 +29,7 @@ namespace Ui
 }
 
 class Contest;
+class TestCase;
 
 class StatisticsBrowser : public QWidget
 {
@@ -44,6 +47,7 @@ private:
 	Ui::StatisticsBrowser *ui;
 	Contest *curContest;
 	QString getScoreNormalChart(QMap<int, int>, int, int);
+	QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>);
 };
 
 #endif // STATISTICSBROWSER_H

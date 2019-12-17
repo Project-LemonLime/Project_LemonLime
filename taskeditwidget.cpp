@@ -131,6 +131,7 @@ void TaskEditWidget::setEditTask(Task *task)
 	ui->problemTitle->setText(editTask->getProblemTile());
 	ui->sourceFileName->setEnabled(false);
 	ui->sourceFileName->setText(editTask->getSourceFileName());
+	if (ui->sourceFileName->text().length() <= 0)ui->sourceFileName->setText(ui->problemTitle->text());
 	ui->sourceFileName->setEnabled(true);
 	ui->subFolderCheck->setChecked(editTask->getSubFolderCheck());
 	ui->inputFileName->setText(editTask->getInputFileName());
@@ -162,7 +163,9 @@ void TaskEditWidget::setEditTask(Task *task)
 	}
 
 	if (editTask->getTaskType() == Task::Interaction)
+	{
 		ui->interactionButton->setChecked(true);
+	}
 
 	refreshWidgetState();
 }
@@ -183,18 +186,20 @@ void TaskEditWidget::refreshWidgetState()
 	ui->interactorNameLabel->setVisible(editTask->getTaskType() == Task::Interaction);
 	ui->interactorName->setVisible(editTask->getTaskType() == Task::Interaction);
 	//ui->comparisonSetting->setVisible(editTask->getTaskType() != Task::Interaction);
-	ui->sourceFileName->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->sourceFileNameLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->sourceFileName->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction || editTask->getTaskType() == Task::AnswersOnly);
+	ui->sourceFileNameLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction || editTask->getTaskType() == Task::AnswersOnly);
 	ui->inputFileName->setEnabled((editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction) && ! editTask->getStandardInputCheck());
-	ui->inputFileNameLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->standardInputCheck->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->inputFileName->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->inputFileNameLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->standardInputCheck->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
 	ui->outputFileName->setEnabled((editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction) && ! editTask->getStandardOutputCheck());
-	ui->outputFileNameLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->standardOutputCheck->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->compilerSettingsLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->compilersList->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->configurationLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->configurationSelect->setEditable(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->outputFileName->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->outputFileNameLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->standardOutputCheck->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->compilerSettingsLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->compilersList->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->configurationLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
+	ui->configurationSelect->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
 	//ui->comparisonMode->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::AnswersOnly);
 	ui->answerFileExtension->setVisible(editTask->getTaskType() == Task::AnswersOnly);
 	ui->answerFileExtensionLabel->setVisible(editTask->getTaskType() == Task::AnswersOnly);
@@ -244,16 +249,18 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
 
 	if (! ui->sourceFileName->isEnabled()) return;
 
-	editTask->setSourceFileName(text);
+	QString trueText = text;
+	if (trueText.length() <= 0) trueText = ui->problemTitle->text();
+	editTask->setSourceFileName(trueText);
 
 	if (ui->inputFileName->isEnabled())
 	{
-		ui->inputFileName->setText(text + "." + settings->getDefaultInputFileExtension());
+		ui->inputFileName->setText(trueText + "." + settings->getDefaultInputFileExtension());
 	}
 
 	if (ui->outputFileName->isEnabled())
 	{
-		ui->outputFileName->setText(text + "." + settings->getDefaultOutputFileExtension());
+		ui->outputFileName->setText(trueText + "." + settings->getDefaultOutputFileExtension());
 	}
 }
 

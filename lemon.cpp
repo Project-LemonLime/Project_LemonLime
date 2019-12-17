@@ -481,9 +481,9 @@ void Lemon::cleanupButtonClicked()
 				return;
 			}
 
-			if (!bkLoca.mkpath("source.bak"))
+			if (!bkLoca.mkpath(backupFolder))
 			{
-				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: Cannot make dir `%d'.").arg(backupFolder));
+				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: Cannot make dir `%1'.").arg(backupFolder));
 				return;
 			}
 
@@ -552,7 +552,11 @@ void Lemon::cleanupButtonClicked()
 					origSet[taskName + QString::number(j)] = taskName;
 				}
 			}
-			else tarNameSet.insert(taskName);
+			else
+			{
+				tarNameSet.insert(taskName);
+				origSet[taskName] = taskName;
+			}
 		}
 
 		process->setValue(5);
@@ -612,7 +616,7 @@ void Lemon::cleanupButtonClicked()
 
 				if (tarNameSet.contains(proName))
 				{
-					int who = typeSet[proName];
+					int who = typeSet[origSet[proName]];
 					int types = taskList[who]->getTaskType();
 					if (types == Task::Traditional || types == Task::Interaction)
 					{

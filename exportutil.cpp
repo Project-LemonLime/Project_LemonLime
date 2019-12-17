@@ -403,7 +403,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 				double colFix = oriBaseColorSF * 100;
 				double colLevel = oriBaseColorLF(score, fullScore[j], 0.30) * 100;
 
-				if (contestant->getCompileState(j) != CompileSuccessfully)
+				if (taskList[j]->getTaskType() != Task::AnswersOnly && contestant->getCompileState(j) != CompileSuccessfully)
 				{
 					if (contestant->getCompileState(j) == NoValidSourceFile)
 					{

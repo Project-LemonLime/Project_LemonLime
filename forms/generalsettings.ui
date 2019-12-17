@@ -64,13 +64,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -129,13 +129,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -171,13 +171,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -297,13 +297,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -355,13 +355,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -401,38 +401,10 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLineEdit" name="defaultFullScore">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>58</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>58</width>
-         <height>22</height>
-        </size>
+       <property name="maxLength">
+        <number>9</number>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -452,13 +424,13 @@
        <property name="minimumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>58</width>
-         <height>22</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -499,38 +471,12 @@
      <item>
       <widget class="QLineEdit" name="inputFileExtensions"/>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
    <item row="8" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLineEdit" name="outputFileExtensions"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_9">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

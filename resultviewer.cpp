@@ -179,7 +179,7 @@ void ResultViewer::refreshViewer()
 
 				QColor bg = QColor::fromHsl(0, 0, 255);
 
-				if (contestantList[i]->getCompileState(j) != CompileSuccessfully)
+				if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully)
 				{
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
 						bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
@@ -393,7 +393,7 @@ void ResultViewer::judgeMagenta()
 	{
 		for (int j = 0; j < taskSize; j++)
 		{
-			if (contestantList[i]->getCompileState(j) != NoValidSourceFile && contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
+			if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
 			{
 				mapping[contestantList[i]->getContestantName()].insert(j);
 			}

@@ -168,24 +168,22 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	{
 		case CorrectAnswer:
 			text = tr("Correct answer");
-			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg(1.00 * memoryUsed / 1024.00 / 1024.00);
-
+			if (timeUsed >= 0) addtext += tr(" %1 ms").arg(timeUsed);
+			if (memoryUsed >= 0) addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
-
 			charFormat.setForeground(QBrush(Qt::darkGreen));
 			break;
 
 		case PartlyCorrect:
 			text = tr("Partly correct");
-			addtext = tr("  %1 ms  %2 MB").arg(timeUsed).arg(1.00 * memoryUsed / 1024.00 / 1024.00);
-
+			if (timeUsed >= 0) addtext += tr(" %1 ms").arg(timeUsed);
+			if (memoryUsed >= 0) addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
 			else
 			{
 				scoretext = tr("  %1 Pt").arg(abs(scoreGot));
 				scorecharFormat.setForeground(QBrush(Qt::darkYellow));
 			}
-
 			charFormat.setForeground(QBrush(Qt::darkCyan));
 			break;
 
