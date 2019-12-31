@@ -96,6 +96,7 @@ private slots:
 	void actionCleanupFiles();
 	void actionSkip();
 	void actionSpecialJudge();
+	void actionCommunication();
 	void actionMore();
 	void setUiLanguage();
 

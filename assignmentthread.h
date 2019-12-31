@@ -73,6 +73,7 @@ private:
 	double memoryLimitRatio;
 	bool disableMemoryLimitCheck;
 	QProcessEnvironment environment;
+	QList<int> overallStatus;
 	QList< QList<int> > timeUsed;
 	QList< QList<int> > memoryUsed;
 	QList< QList<int> > score;
@@ -99,7 +100,7 @@ public slots:
 
 signals:
 	void singleCaseFinished(int, int, int, int, int, int, int);
-	void singleSubtaskDependenceFinished(int, int, double);
+	void singleSubtaskDependenceFinished(int, int, int);
 	void compileError(int, int);
 	void stopJudgingSignal();
 };

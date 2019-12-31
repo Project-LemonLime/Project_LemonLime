@@ -51,12 +51,18 @@ private:
 	Settings *settings;
 	Task *editTask;
 	void refreshWidgetState();
+	void addSourceFiles(const QString &, const QString &);
+	void addGraderFiles(const QString &, const QString &);
+	void rmSourceFilesAt(int);
+	void rmGraderFilesAt(int);
+	void multiFilesRefresh();
 
 private slots:
 	void problemTitleChanged(const QString &);
 	void setToTraditional(bool);
 	void setToAnswersOnly(bool);
 	void setToInteraction(bool);
+	void setToCommunication(bool);
 	void sourceFileNameChanged(const QString &);
 	void subFolderCheckChanged();
 	void inputFileNameChanged(const QString &);
@@ -75,6 +81,10 @@ private slots:
 	void compilerSelectionChanged();
 	void configurationSelectionChanged();
 	void answerFileExtensionChanged(const QString &);
+	void addSourceFileClicked();
+	void addGraderFileClicked();
+	void rmSourceFileClicked();
+	void rmGraderFileClicked();
 
 signals:
 	void dataPathChanged();

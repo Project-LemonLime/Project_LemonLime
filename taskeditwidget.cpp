@@ -50,6 +50,9 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	ui->interactorName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
 	ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
 
+	ui->sourceFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->graderFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 	//ui->interactionButton->setVisible(false); //rebuilding interaction, remove it temporarily
 
 	connect(ui->problemTitle, SIGNAL(textChanged(QString)),
@@ -60,6 +63,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	        this, SLOT(setToAnswersOnly(bool)));
 	connect(ui->interactionButton, SIGNAL(toggled(bool)),
 	        this, SLOT(setToInteraction(bool)));
+	connect(ui->communicationButton, SIGNAL(toggled(bool)),
+	        this, SLOT(setToCommunication(bool)));
 	connect(ui->sourceFileName, SIGNAL(textChanged(QString)),
 	        this, SLOT(sourceFileNameChanged(QString)));
 	connect(ui->subFolderCheck, SIGNAL(stateChanged(int)),
@@ -92,6 +97,14 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	        this, SLOT(configurationSelectionChanged()));
 	connect(ui->answerFileExtension, SIGNAL(textChanged(QString)),
 	        this, SLOT(answerFileExtensionChanged(QString)));
+	connect(ui->sourceFilesAppendButton, SIGNAL(clicked()),
+	        this, SLOT(addSourceFileClicked()));
+	connect(ui->graderFilesAppendButton, SIGNAL(clicked()),
+	        this, SLOT(addGraderFileClicked()));
+	connect(ui->sourceFilesRemoveButton, SIGNAL(clicked()),
+	        this, SLOT(rmSourceFileClicked()));
+	connect(ui->graderFilesRemoveButton, SIGNAL(clicked()),
+	        this, SLOT(rmGraderFileClicked()));
 }
 
 TaskEditWidget::~TaskEditWidget()
@@ -167,6 +180,11 @@ void TaskEditWidget::setEditTask(Task *task)
 		ui->interactionButton->setChecked(true);
 	}
 
+	if (editTask->getTaskType() == Task::Communication)
+	{
+		ui->communicationButton->setChecked(true);
+	}
+
 	refreshWidgetState();
 }
 
@@ -179,31 +197,49 @@ void TaskEditWidget::refreshWidgetState()
 {
 	if (! editTask) return;
 
-	ui->interactorPathLabel->setVisible(editTask->getTaskType() == Task::Interaction);
-	ui->interactorPath->setVisible(editTask->getTaskType() == Task::Interaction);
-	ui->graderPathLabel->setVisible(editTask->getTaskType() == Task::Interaction);
-	ui->graderPath->setVisible(editTask->getTaskType() == Task::Interaction);
-	ui->interactorNameLabel->setVisible(editTask->getTaskType() == Task::Interaction);
-	ui->interactorName->setVisible(editTask->getTaskType() == Task::Interaction);
-	//ui->comparisonSetting->setVisible(editTask->getTaskType() != Task::Interaction);
-	ui->sourceFileName->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction || editTask->getTaskType() == Task::AnswersOnly);
-	ui->sourceFileNameLabel->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction || editTask->getTaskType() == Task::AnswersOnly);
-	ui->inputFileName->setEnabled((editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction) && ! editTask->getStandardInputCheck());
-	ui->inputFileName->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->inputFileNameLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->standardInputCheck->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->outputFileName->setEnabled((editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction) && ! editTask->getStandardOutputCheck());
-	ui->outputFileName->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->outputFileNameLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->standardOutputCheck->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->compilerSettingsLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->compilersList->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->configurationLabel->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	ui->configurationSelect->setVisible(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::Interaction);
-	//ui->comparisonMode->setEnabled(editTask->getTaskType() == Task::Traditional || editTask->getTaskType() == Task::AnswersOnly);
-	ui->answerFileExtension->setVisible(editTask->getTaskType() == Task::AnswersOnly);
-	ui->answerFileExtensionLabel->setVisible(editTask->getTaskType() == Task::AnswersOnly);
+	int types = editTask->getTaskType();
+
+	ui->interactorPathLabel->setVisible(types == Task::Interaction);
+	ui->interactorPath->setVisible(types == Task::Interaction);
+	ui->graderPathLabel->setVisible(types == Task::Interaction);
+	ui->graderPath->setVisible(types == Task::Interaction);
+	ui->interactorNameLabel->setVisible(types == Task::Interaction);
+	ui->interactorName->setVisible(types == Task::Interaction);
+	//ui->comparisonSetting->setVisible(types != Task::Interaction);
+	ui->sourceFileName->setEnabled(types == Task::Traditional || types == Task::Interaction || types == Task::AnswersOnly || types == Task::Communication);
+	ui->sourceFileNameLabel->setEnabled(types == Task::Traditional || types == Task::Interaction || types == Task::AnswersOnly || types == Task::Communication);
+	ui->sourceFileName->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::AnswersOnly || types == Task::Communication);
+	ui->sourceFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::AnswersOnly || types == Task::Communication);
+	ui->subFolderCheck->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::AnswersOnly || types == Task::Communication);
+	ui->inputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction || types == Task::Communication) && ! editTask->getStandardInputCheck());
+	ui->inputFileName->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->inputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->standardInputCheck->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->outputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction || types == Task::Communication) && ! editTask->getStandardOutputCheck());
+	ui->outputFileName->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->outputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->standardOutputCheck->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->compilerSettingsLabel->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->compilersList->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->configurationLabel->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	ui->configurationSelect->setVisible(types == Task::Traditional || types == Task::Interaction || types == Task::Communication);
+	//ui->comparisonMode->setEnabled(types == Task::Traditional || types == Task::AnswersOnly);
+	ui->answerFileExtension->setVisible(types == Task::AnswersOnly);
+	ui->answerFileExtensionLabel->setVisible(types == Task::AnswersOnly);
 	ui->comparisonSetting->setCurrentIndex(ui->comparisonMode->currentIndex());
+	ui->sourceFilesLabel->setVisible(types == Task::Communication);
+	ui->sourceFilesTable->setVisible(types == Task::Communication);
+	ui->graderFilesLabel->setVisible(types == Task::Communication);
+	ui->graderFilesTable->setVisible(types == Task::Communication);
+	ui->sourceFilesAppendButton->setVisible(types == Task::Communication);
+	ui->graderFilesAppendButton->setVisible(types == Task::Communication);
+	ui->sourceFilesRemoveButton->setVisible(types == Task::Communication);
+	ui->graderFilesRemoveButton->setVisible(types == Task::Communication);
+	ui->multiFilesPathLineEdit->setVisible(types == Task::Communication);
+	ui->multiFilesNameLineEdit->setVisible(types == Task::Communication);
+	ui->multiFilesPathNameLabel->setVisible(types == Task::Communication);
+
+	multiFilesRefresh();
 }
 
 void TaskEditWidget::problemTitleChanged(const QString &text)
@@ -240,6 +276,14 @@ void TaskEditWidget::setToInteraction(bool check)
 	editTask->setTaskType(Task::Interaction);
 	//editTask->setStandardOutputCheck(true);
 	//ui->standardOutputCheck->setCheckState(Qt::Checked);
+	refreshWidgetState();
+}
+
+void TaskEditWidget::setToCommunication(bool check)
+{
+	if (!check || !editTask) return;
+
+	editTask->setTaskType(Task::Communication);
 	refreshWidgetState();
 }
 
@@ -425,4 +469,116 @@ void TaskEditWidget::answerFileExtensionChanged(const QString &extension)
 	if (! editTask) return;
 
 	editTask->setAnswerFileExtension(extension);
+}
+
+void TaskEditWidget::multiFilesRefresh()
+{
+	if (!editTask)return;
+	if (editTask->getTaskType() != Task::Communication)return;
+
+	QStringList sourcePaths = editTask->getSourceFilesPath();
+	QStringList sourceNames = editTask->getSourceFilesName();
+
+	ui->sourceFilesTable->setRowCount(sourcePaths.length());
+
+	for (int i = 0; i < sourcePaths.length() ; i++)
+	{
+		ui->sourceFilesTable->setItem(i, 0, new QTableWidgetItem(sourcePaths[i]));
+		ui->sourceFilesTable->setItem(i, 1, new QTableWidgetItem(sourceNames[i]));
+	}
+
+	QStringList graderPaths = editTask->getGraderFilesPath();
+	QStringList graderNames = editTask->getGraderFilesName();
+
+	ui->graderFilesTable->setRowCount(graderPaths.length());
+
+	for (int i = 0; i < graderPaths.length() ; i++)
+	{
+		ui->graderFilesTable->setItem(i, 0, new QTableWidgetItem(graderPaths[i]));
+		ui->graderFilesTable->setItem(i, 1, new QTableWidgetItem(graderNames[i]));
+	}
+}
+
+void TaskEditWidget::addSourceFiles(const QString &path, const QString &name)
+{
+	if (! editTask) return;
+
+	editTask->appendSourceFiles(path, name);
+}
+
+void TaskEditWidget::rmSourceFilesAt(int loca)
+{
+	if (!editTask) return;
+
+	editTask->removeSourceFilesAt(loca);
+}
+
+void TaskEditWidget::rmGraderFilesAt(int loca)
+{
+	if (!editTask) return;
+
+	editTask->removeGraderFilesAt(loca);
+}
+
+void TaskEditWidget::addGraderFiles(const QString &path, const QString &name)
+{
+	if (!editTask)return;
+
+	editTask->appendGraderFiles(path, name);
+}
+
+void TaskEditWidget::addSourceFileClicked()
+{
+	if (!editTask)return;
+
+	QString path = ui->multiFilesPathLineEdit->text();
+	QString name = ui->multiFilesNameLineEdit->text();
+
+	if (path.length() <= 0 || name.length() <= 0) return;
+	addSourceFiles(path, name);
+
+	ui->multiFilesPathLineEdit->clear();
+	ui->multiFilesNameLineEdit->clear();
+
+	multiFilesRefresh();
+}
+
+void TaskEditWidget::addGraderFileClicked()
+{
+	if (!editTask)return;
+
+	QString path = ui->multiFilesPathLineEdit->text();
+	QString name = ui->multiFilesNameLineEdit->text();
+
+	if (path.length() <= 0 || name.length() <= 0) return;
+	addGraderFiles(path, name);
+
+	ui->multiFilesPathLineEdit->clear();
+	ui->multiFilesNameLineEdit->clear();
+
+	multiFilesRefresh();
+}
+
+void TaskEditWidget::rmSourceFileClicked()
+{
+	if (!editTask) return;
+
+	QList<QTableWidgetSelectionRange> ranges = ui->sourceFilesTable->selectedRanges();
+	if (ranges.length() <= 0) return;
+
+	rmSourceFilesAt(ranges.at(0).topRow());
+
+	multiFilesRefresh();
+}
+
+void TaskEditWidget::rmGraderFileClicked()
+{
+	if (!editTask) return;
+
+	QList<QTableWidgetSelectionRange> ranges = ui->graderFilesTable->selectedRanges();
+	if (ranges.length() <= 0) return;
+
+	rmGraderFilesAt(ranges.at(0).topRow());
+
+	multiFilesRefresh();
 }

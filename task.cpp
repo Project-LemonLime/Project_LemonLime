@@ -131,6 +131,26 @@ const QString &Task::getAnswerFileExtension() const
 	return answerFileExtension;
 }
 
+const QStringList &Task::getSourceFilesPath() const
+{
+	return sourceFilesPath;
+}
+
+const QStringList &Task::getSourceFilesName() const
+{
+	return sourceFilesName;
+}
+
+const QStringList &Task::getGraderFilesPath() const
+{
+	return graderFilesPath;
+}
+
+const QStringList &Task::getGraderFilesName() const
+{
+	return graderFilesName;
+}
+
 void Task::setProblemTitle(const QString &title)
 {
 	bool changed = problemTitle != title;
@@ -217,6 +237,56 @@ void Task::setCompilerConfiguration(const QString &compiler, const QString &conf
 void Task::setAnswerFileExtension(const QString &extension)
 {
 	answerFileExtension = extension;
+}
+
+void Task::setSourceFilesPath(const QStringList &pathList)
+{
+	sourceFilesPath = pathList;
+}
+
+void Task::setSourceFilesName(const QStringList &nameList)
+{
+	sourceFilesName = nameList;
+}
+
+void Task::setGraderFilesPath(const QStringList &pathList)
+{
+	graderFilesPath = pathList;
+}
+
+void Task::setGraderFilesName(const QStringList &nameList)
+{
+	graderFilesName = nameList;
+}
+
+void Task::appendSourceFiles(const QString &path, const QString &name)
+{
+	sourceFilesPath.append(path);
+	sourceFilesName.append(name);
+}
+
+void Task::appendGraderFiles(const QString &path, const QString &name)
+{
+	graderFilesPath.append(path);
+	graderFilesName.append(name);
+}
+
+void Task::removeSourceFilesAt(int num)
+{
+	if (num < sourceFilesPath.length())
+	{
+		sourceFilesPath.removeAt(num);
+		sourceFilesName.removeAt(num);
+	}
+}
+
+void Task::removeGraderFilesAt(int num)
+{
+	if (num < graderFilesPath.length())
+	{
+		graderFilesPath.removeAt(num);
+		graderFilesName.removeAt(num);
+	}
 }
 
 void Task::addTestCase(TestCase *testCase)
@@ -344,6 +414,30 @@ void Task::writeToStream(QDataStream &out)
 		out << interactorName;
 	}
 
+	if (taskType == Task::Communication)
+	{
+		out << sourceFilesPath.length();
+		for (int i = 0; i < sourceFilesPath.length(); i++)
+		{
+			QString temp = sourceFilesPath[i];
+			temp.replace(QDir::separator(), '/');
+			out << temp;
+			temp = sourceFilesName[i];
+			temp.replace(QDir::separator(), '/');
+			out << temp;
+		}
+		out << graderFilesPath.length();
+		for (int i = 0; i < graderFilesPath.length(); i++)
+		{
+			QString temp = graderFilesPath[i];
+			temp.replace(QDir::separator(), '/');
+			out << temp;
+			temp = graderFilesName[i];
+			temp.replace(QDir::separator(), '/');
+			out << temp;
+		}
+	}
+
 	out << compilerConfiguration;
 	out << answerFileExtension;
 	out << testCaseList.size();
@@ -382,6 +476,36 @@ void Task::readFromStream(QDataStream &in)
 		in >> interactorName;
 	}
 
+	if (taskType == Task::Communication)
+	{
+		int length;
+		in >> length;
+		sourceFilesPath.clear();
+		sourceFilesName.clear();
+		for (int i = 0; i < length; i++)
+		{
+			QString temp;
+			in >> temp;
+			temp.replace('/', QDir::separator());
+			sourceFilesPath.append(temp);
+			in >> temp;
+			temp.replace('/', QDir::separator());
+			sourceFilesName.append(temp);
+		}
+		in >> length;
+		graderFilesPath.clear();
+		graderFilesName.clear();
+		for (int i = 0; i < length; i++)
+		{
+			QString temp;
+			in >> temp;
+			temp.replace('/', QDir::separator());
+			graderFilesPath.append(temp);
+			in >> temp;
+			temp.replace('/', QDir::separator());
+			graderFilesName.append(temp);
+		}
+	}
 	in >> compilerConfiguration;
 	in >> answerFileExtension;
 	in >> count;

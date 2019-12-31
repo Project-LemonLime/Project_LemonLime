@@ -83,7 +83,7 @@ signals:
 	void taskDeletedForViewer(int);
 	void problemTitleChanged();
 	void singleCaseFinished(int, int, int, int, int, int, int);
-	void singleSubtaskDependenceFinished(int, int, double);
+	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();
 	void taskJudgedDisplay(const QString &, const QList< QList<int> > &, const int);

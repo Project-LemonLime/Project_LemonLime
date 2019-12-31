@@ -235,8 +235,8 @@ void Contest::judge(Contestant *contestant)
 		AssignmentThread *thread = new AssignmentThread();
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
+		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
 		connect(thread, SIGNAL(compileError(int, int)),
 		        this, SIGNAL(compileError(int, int)));
 		connect(this, SIGNAL(stopJudgingSignal()),
@@ -297,8 +297,8 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 		AssignmentThread *thread = new AssignmentThread();
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
+		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
 		connect(thread, SIGNAL(compileError(int, int)),
 		        this, SIGNAL(compileError(int, int)));
 		connect(this, SIGNAL(stopJudgingSignal()),
@@ -355,8 +355,8 @@ void Contest::judge(Contestant *contestant, int index)
 	AssignmentThread *thread = new AssignmentThread();
 	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 	        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-	        this, SIGNAL(singleSubtaskDependenceFinished(int, int, double)));
+	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
+	        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
 	connect(thread, SIGNAL(compileError(int, int)),
 	        this, SIGNAL(compileError(int, int)));
 	connect(this, SIGNAL(stopJudgingSignal()),

@@ -152,6 +152,8 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(actionSpecialJudge()));
 	connect(ui->actionInteraction, SIGNAL(triggered()),
 	        this, SLOT(actionInteraction()));
+	connect(ui->actionCommunication, SIGNAL(triggered()),
+	        this, SLOT(actionCommunication()));
 	connect(ui->actionMore, SIGNAL(triggered()),
 	        this, SLOT(actionMore()));
 
@@ -336,7 +338,7 @@ void Lemon::summarySelectionChanged()
 		int testCaseIndex = parentItem->indexOfChild(curItem);
 		Task *curTask = curContest->getTask(taskIndex);
 		TestCase *curTestCase = curTask->getTestCase(testCaseIndex);
-		ui->testCaseEdit->setEditTestCase(curTestCase, curTask->getTaskType() == Task::Traditional || curTask->getTaskType() == Task::Interaction);
+		ui->testCaseEdit->setEditTestCase(curTestCase, curTask->getTaskType() == Task::Traditional || curTask->getTaskType() == Task::Interaction || curTask->getTaskType() == Task::Communication);
 		ui->editWidget->setCurrentIndex(2);
 	}
 }
@@ -552,6 +554,17 @@ void Lemon::cleanupButtonClicked()
 					origSet[taskName + QString::number(j)] = taskName;
 				}
 			}
+			else if (taskList[i]->getTaskType() == Task::Communication)
+			{
+				QStringList sourcePaths = taskList[i]->getSourceFilesPath();
+				for (int j = 0; j < sourcePaths.length(); j++)
+				{
+					QString temp = sourcePaths[j];
+					temp.truncate(temp.lastIndexOf("."));
+					tarNameSet.insert(temp);
+					origSet[temp] = taskName;
+				}
+			}
 			else
 			{
 				tarNameSet.insert(taskName);
@@ -616,17 +629,18 @@ void Lemon::cleanupButtonClicked()
 
 				if (tarNameSet.contains(proName))
 				{
-					int who = typeSet[origSet[proName]];
+					QString taskName = origSet[proName];
+					int who = typeSet[taskName];
 					int types = taskList[who]->getTaskType();
-					if (types == Task::Traditional || types == Task::Interaction)
+					if (types == Task::Traditional || types == Task::Interaction || types == Task::Communication)
 					{
 						if (proFilName != taskList[who]->getInputFileName() && proFilName != taskList[who]->getOutputFileName())
-							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + proName + QDir::separator() + proFilName);
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + taskName + QDir::separator() + proFilName);
 					}
 					else if (types == Task::AnswersOnly)
 					{
 						if (proFilWho.suffix() == taskList[who]->getAnswerFileExtension())
-							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + origSet[proName] + QDir::separator() + proFilName);
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + taskName + QDir::separator() + proFilName);
 					}
 				}
 
@@ -1223,6 +1237,25 @@ void Lemon::actionInteraction()
 	text += tr("Interactor Name: matrix.h") + "<br>";
 	text += tr("Grader Path: matrix/grader.cpp") + "<br>";
 	QMessageBox::about(this, tr("About Interaction"), text);
+}
+
+void Lemon::actionCommunication()
+{
+	QString text;
+	text += "<h3>" + tr("Communication") + "</h3>";
+	text += tr("The paths are based on your \"/data\".") + "<br>";
+	text += tr("Contestants should provide source files.") + "<br>";
+	text += tr("Problem setters should provide grader files.") + "<br>";
+	text += tr("There is a example of how to use Communication type tasks:") + "<br>";
+	text += tr("Source Files:") + "<br>";
+	text += tr("Alice.cpp Alice.cpp") + "<br>";
+	text += tr("Bob.cpp Bob.cpp") + "<br>";
+	text += tr("Grader Files:") + "<br>";
+	text += tr("taskname/Alice.h Alice.h") + "<br>";
+	text += tr("taskname/Bob.h Bob.h") + "<br>";
+	text += tr("taskname/Grader.cpp Grader.cpp") + "<br>";
+
+	QMessageBox::about(this, tr("About Communication"), text);
 }
 
 void Lemon::actionSubTasks()

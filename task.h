@@ -37,7 +37,7 @@ class Task : public QObject
 {
 	Q_OBJECT
 public:
-	enum TaskType { Traditional, AnswersOnly, Interaction };
+	enum TaskType { Traditional, AnswersOnly, Interaction, Communication };
 	enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
 
 	explicit Task(QObject *parent = nullptr);
@@ -60,6 +60,10 @@ public:
 	const QString &getGrader() const;
 	QString getCompilerConfiguration(const QString &) const;
 	const QString &getAnswerFileExtension() const;
+	const QStringList &getSourceFilesPath() const;
+	const QStringList &getSourceFilesName() const;
+	const QStringList &getGraderFilesPath() const;
+	const QStringList &getGraderFilesName() const;
 
 	void setProblemTitle(const QString &);
 	void setSubFolderCheck(bool);
@@ -78,6 +82,14 @@ public:
 	void setGrader(const QString &);
 	void setCompilerConfiguration(const QString &, const QString &);
 	void setAnswerFileExtension(const QString &);
+	void setSourceFilesPath(const QStringList &);
+	void setSourceFilesName(const QStringList &);
+	void setGraderFilesPath(const QStringList &);
+	void setGraderFilesName(const QStringList &);
+	void appendSourceFiles(const QString &, const QString &);
+	void appendGraderFiles(const QString &, const QString &);
+	void removeSourceFilesAt(int);
+	void removeGraderFilesAt(int);
 
 	void addTestCase(TestCase *);
 	TestCase *getTestCase(int) const;
@@ -105,6 +117,10 @@ private:
 	QString interactor;
 	QString interactorName;
 	QString grader;
+	QStringList sourceFilesPath;
+	QStringList sourceFilesName;
+	QStringList graderFilesPath;
+	QStringList graderFilesName;
 	QMap<QString, QString> compilerConfiguration;
 	QString answerFileExtension;
 

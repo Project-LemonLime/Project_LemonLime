@@ -492,6 +492,7 @@
      <addaction name="actionSubTasks"/>
      <addaction name="actionSpecialJudge"/>
      <addaction name="actionInteraction"/>
+     <addaction name="actionCommunication"/>
      <addaction name="separator"/>
      <addaction name="actionMore"/>
     </widget>
@@ -691,7 +692,7 @@
   </action>
   <action name="actionInteraction">
    <property name="text">
-    <string>&amp;Interaction</string>
+    <string>Interaction</string>
    </property>
    <property name="statusTip">
     <string>How to make Interaction Tasks...</string>
@@ -699,7 +700,7 @@
   </action>
   <action name="actionSubTasks">
    <property name="text">
-    <string>Su&amp;btasks</string>
+    <string>Subtasks</string>
    </property>
    <property name="statusTip">
     <string>How to make Subtasks...</string>
@@ -707,7 +708,7 @@
   </action>
   <action name="actionCleanupFiles">
    <property name="text">
-    <string>Clean &amp;up Files</string>
+    <string>Clean up Files</string>
    </property>
    <property name="statusTip">
     <string>What is Cleanup Files...</string>
@@ -715,7 +716,7 @@
   </action>
   <action name="actionCompileFeatures">
    <property name="text">
-    <string>&amp;Compile Features</string>
+    <string>Compile Features</string>
    </property>
    <property name="statusTip">
     <string>The difference in compiling between Lemon and LemonLime...</string>
@@ -723,7 +724,7 @@
   </action>
   <action name="actionSkip">
    <property name="text">
-    <string>&amp;Skip</string>
+    <string>Skip</string>
    </property>
    <property name="statusTip">
     <string>What is Skip...</string>
@@ -731,7 +732,7 @@
   </action>
   <action name="actionSpecialJudge">
    <property name="text">
-    <string>S&amp;pecial Judge</string>
+    <string>Special Judge</string>
    </property>
    <property name="statusTip">
     <string>How to write Special Judge...</string>
@@ -744,7 +745,7 @@
   </action>
   <action name="actionExportResult">
    <property name="text">
-    <string>&amp;Export Result</string>
+    <string>Export Result</string>
    </property>
    <property name="statusTip">
     <string>New features of Exporting Result...</string>
@@ -756,7 +757,7 @@
      <normaloff>:/icon/globe.svg</normaloff>:/icon/globe.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;More</string>
+    <string>More</string>
    </property>
    <property name="statusTip">
     <string>Online Guides...</string>
@@ -832,6 +833,14 @@
    </property>
    <property name="statusTip">
     <string>Refresh the contestant list...</string>
+   </property>
+  </action>
+  <action name="actionCommunication">
+   <property name="text">
+    <string>Communication</string>
+   </property>
+   <property name="statusTip">
+    <string>How to make Communication Tasks...</string>
    </property>
   </action>
  </widget>

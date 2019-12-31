@@ -248,7 +248,7 @@ void SummaryTree::addTestCases()
 	int index = indexOfTopLevelItem(curItem);
 	Task *curTask = curContest->getTask(index);
 	AddTestCasesWizard *wizard = new AddTestCasesWizard(this);
-	wizard->setSettings(settings, curTask->getTaskType() == Task::Traditional || curTask->getTaskType() == Task::Interaction);
+	wizard->setSettings(settings, curTask->getTaskType() == Task::Traditional || curTask->getTaskType() == Task::Interaction || curTask->getTaskType() == Task::Communication);
 
 	if (wizard->exec() == QDialog::Accepted)
 	{

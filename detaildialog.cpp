@@ -85,7 +85,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			continue;
 		}
 
-		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction)
+		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction || taskList[i]->getTaskType() == Task::Communication)
 		{
 			if (contestant->getCompileState(i) != CompileSuccessfully)
 			{
@@ -124,7 +124,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
-		htmlCode += "<table width=\"100%\" cellpadding=\"1\" border=\"0.4\"><tr>";
+		htmlCode += "<table width=\"100%\" cellpadding=\"1\" border=\"1\"><tr>";
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Test Case"));
 		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Input File"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
@@ -153,7 +153,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
 				}
 
 				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">%1</td>").arg(inputFiles[j][k]);

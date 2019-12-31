@@ -56,7 +56,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 			continue;
 		}
 
-		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction)
+		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction || taskList[i]->getTaskType() == Task::Communication)
 		{
 			if (contestant->getCompileState(i) != CompileSuccessfully)
 			{
@@ -139,7 +139,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td rowspan=\"%1\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">#%2<br>%3:%4</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
 				}
 
 				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>").arg(inputFiles[j][k]);
@@ -460,7 +460,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 			continue;
 		}
 
-		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction)
+		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction || taskList[i]->getTaskType() == Task::Communication)
 		{
 			if (contestant->getCompileState(i) != CompileSuccessfully)
 			{
@@ -543,7 +543,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td rowspan=\"%1\">#%2<br>%3:%4</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Score")).arg(score[j].back());
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
 				}
 
 				htmlCode += QString("<td>%1</td>").arg(inputFiles[j][k]);

@@ -38,6 +38,13 @@ enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
                    SpecialJudgeRunTimeError, Skipped, InteractorError
                  };
 
+inline int stateToStatus(ResultState in)
+{
+	if (in == CorrectAnswer) return 2;
+	if (in == PartlyCorrect) return 1;
+	return 0;
+}
+
 const int oriBaseColorHI = 120;
 const double oriBaseColorHF = 1.00 / 3.00;
 const double oriBaseColorSF = 0.50; // 0.30

@@ -1018,6 +1018,7 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 #else
+
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
 
@@ -1403,6 +1404,7 @@ void JudgingThread::run()
 	{
 		case Task::Interaction:
 		case Task::Traditional:
+		case Task::Communication:
 			judgeTraditionalTask();
 			break;
 

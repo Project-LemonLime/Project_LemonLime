@@ -20,10 +20,13 @@
   - 交互库路径：交互使用的头文件。
   - 交互库名称：选手引用头文件的名称。
   - 接口实现路径：实现接口的源文件（grader.cpp）。
+- 通信题试题支持（使用更加通用的方式）（测试阶段）
+  - 源文件列表：选手的所有要写的程序。
+  - 接口文件列表：所有要用到的接口文件。
 - 统计：对比赛分数数据进行分析的栏目，还需要很多的更新。
 - 整理文件：使所有的选手的子文件夹内外都有答案文件，并且删除大部分无用文件。支持在这之前备份文件。
 - 帮助 > 指南
-- 重新排列题目顺序
+- 重新排列题目顺序的支持
 - 窗口下方新增提示栏
 - 移除了自定义测试
 - 移除了多线程评测
@@ -76,7 +79,8 @@
 ### 依赖环境
 
 ```bash
-sudo apt install build-essential qt5-default
+Ubuntu:	sudo apt install build-essential qt5-default
+Arch:	sudo pacman -S gcc make qt5-base qt5-doc
 ```
 
 ### 下载源代码，在源代码目录中依次执行
@@ -92,7 +96,8 @@ make
 当然如果你装有 Qt Creator，也可以用它编译 release 版本。
 
 ```bash
-sudo apt install qtcreator
+Ubuntu:	sudo apt install qtcreator
+Arch:	sudo pacman -S qtcreator
 ```
 
 ## macOS（！？！？！？）

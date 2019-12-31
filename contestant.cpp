@@ -207,7 +207,7 @@ int Contestant::getTaskScore(int index) const
 
 		for (int j = 0; j < score[index][i].size(); j ++)
 		{
-			if (score[index][i][j] < minv) minv = score[index][i][j];
+			if (score[index][i][j] < minv && score[index][i][j] >= 0) minv = score[index][i][j];
 		}
 
 		if (minv == 1000000000) minv = 0;

@@ -54,8 +54,8 @@ void JudgingDialog::setContest(Contest *contest)
 	curContest = contest;
 	connect(curContest, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 	        this, SLOT(singleCaseFinished(int, int, int, int, int, int, int)));
-	connect(curContest, SIGNAL(singleSubtaskDependenceFinished(int, int, double)),
-	        this, SLOT(singleSubtaskDependenceFinished(int, int, double)));
+	connect(curContest, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
+	        this, SLOT(singleSubtaskDependenceFinished(int, int, int)));
 	connect(curContest, SIGNAL(taskJudgingStarted(QString)),
 	        this, SLOT(taskJudgingStarted(QString)));
 	connect(curContest, SIGNAL(taskJudgedDisplay(QString, QList<QList<int> >, int)),
@@ -84,10 +84,12 @@ void JudgingDialog::judge(const QStringList &nameList)
 		if (stopJudging) break;
 	}
 
-#ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
-	QProcess::execute(text);
-#endif
+	/*
+	#ifdef Q_OS_LINUX
+		QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
+		QProcess::execute(text);
+	#endif
+	*/
 	accept();
 }
 
@@ -97,10 +99,12 @@ void JudgingDialog::judge(const QString &name, int index)
 	ui->progressBar->setMaximum(curContest->getTask(index)->getTotalTimeLimit());
 	curContest->judge(name, index);
 
-#ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
-	QProcess::execute(text);
-#endif
+	/*
+	#ifdef Q_OS_LINUX
+		QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
+		QProcess::execute(text);
+	#endif
+	*/
 	accept();
 }
 
@@ -128,11 +132,12 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 
 		if (stopJudging) break;
 	}
-
-#ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
-	QProcess::execute(text);
-#endif
+	/*
+	#ifdef Q_OS_LINUX
+		QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
+		QProcess::execute(text);
+	#endif
+	*/
 }
 
 void JudgingDialog::judgeAll()
@@ -140,11 +145,12 @@ void JudgingDialog::judgeAll()
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * curContest->getContestantList().size());
 	curContest->judgeAll();
-
-#ifdef Q_OS_LINUX
-	QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
-	QProcess::execute(text);
-#endif
+	/*
+	#ifdef Q_OS_LINUX
+		QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge Finished - LemonLime") + "\"";
+		QProcess::execute(text);
+	#endif
+	*/
 	accept();
 }
 
@@ -261,7 +267,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	bar->setValue(bar->maximum());
 }
 
-void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
+void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 {
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
@@ -271,22 +277,23 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, double ratio)
 	ratioFormat.setFontPointSize(9);
 
 	QString text;
-	int percentage = static_cast<int>(ratio * 10000);
-	text = QString("%1.%2%3").arg(percentage / 100).arg(percentage % 100).arg('%');
 
-	if (percentage == 10000)
+	if (status >= 2)
 	{
+		text = QString(tr("Pure"));
 		charFormat.setForeground(QBrush(Qt::lightGray));
 		ratioFormat.setForeground(QBrush(Qt::green));
 	}
-	else if (percentage == 0)
+	else if (status <= 0)
 	{
+		text = QString(tr("Lost"));
 		charFormat.setForeground(QBrush(Qt::red));
 		ratioFormat.setForeground(QBrush(Qt::red));
 		ratioFormat.setFontWeight(QFont::Bold);
 	}
 	else
 	{
+		text = QString(tr("Far"));
 		charFormat.setForeground(QBrush(Qt::lightGray));
 		ratioFormat.setForeground(QBrush(Qt::cyan));
 	}
