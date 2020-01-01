@@ -498,7 +498,7 @@ void AssignmentThread::assign()
 		if (! task->getSubFolderCheck())
 			thread->setAnswerFile(Settings::sourcePath() + contestantName + QDir::separator() + fileName);
 		else
-			thread->setAnswerFile(Settings::sourcePath() + contestantName + QDir::separator() + task->getInputFileName() + QDir::separator() + fileName);
+			thread->setAnswerFile(Settings::sourcePath() + contestantName + QDir::separator() + task->getSourceFileName() + QDir::separator() + fileName);
 	}
 
 	thread->setTask(task);
