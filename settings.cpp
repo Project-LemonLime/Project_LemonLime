@@ -205,7 +205,7 @@ void Settings::swapCompiler(int a, int b)
 	{
 		if (0 <= b && b < compilerList.size())
 		{
-			compilerList.swap(a, b);
+			compilerList.swapItemsAt(a, b);
 		}
 	}
 }

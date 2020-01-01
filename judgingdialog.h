@@ -64,6 +64,7 @@ private:
 	bool stopJudging;
 
 public slots:
+	void dialogAlert(QString);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(const QString &);

@@ -32,6 +32,7 @@
 #include "contest.h"
 #include "task.h"
 #include "detaildialog.h"
+#include <algorithm>
 #include <QMessageBox>
 #include <QCheckBox>
 #include <QGridLayout>
@@ -187,7 +188,7 @@ void ResultViewer::refreshViewer()
 				}
 				else bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
-				item(i, j + 3)->setBackgroundColor(bg);
+				item(i, j + 3)->setBackground(bg);
 			}
 			else
 			{
@@ -204,7 +205,7 @@ void ResultViewer::refreshViewer()
 		if (totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackgroundColor(QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
+			item(i, 2)->setBackground(QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
 
 			QFont font;
 			font.setBold(true);
@@ -222,7 +223,7 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i ++)

@@ -106,6 +106,7 @@ const QList<QStringList> &AssignmentThread::getInputFiles() const
 
 bool AssignmentThread::traditionalTaskPrepare()
 {
+	makeDialogAlert(tr("Preparing..."));
 	compileState = NoValidSourceFile;
 	QDir contestantDir;
 	contestantDir = ! task->getSubFolderCheck() ? QDir(Settings::sourcePath() + contestantName) : QDir(Settings::sourcePath() + contestantName + QDir::separator() + task->getSourceFileName());
@@ -120,7 +121,7 @@ bool AssignmentThread::traditionalTaskPrepare()
 
 		if (task->getTaskType() == Task::Communication)
 		{
-			filters = task->getSourceFilesName();
+			filters = task->getSourceFilesPath();
 		}
 		else
 		{
@@ -157,11 +158,13 @@ bool AssignmentThread::traditionalTaskPrepare()
 			QDir(Settings::temporaryPath()).mkdir(contestantName);
 			if (task->getTaskType() == Task::Communication)
 			{
-				QStringList sourcePaths = task->getSourceFilesPath(), sourceFiles = task->getSourceFilesName();
-				for (int i = 0; i < sourceFiles.length(); i++)
+				sourceFile = "";
+				QStringList sourcePaths = task->getSourceFilesPath(), sourceNames = task->getSourceFilesName();
+				for (int i = 0; i < sourcePaths.length(); i++)
 				{
 					QFile::copy(Settings::sourcePath() + contestantName + (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName() : QString("")) + QDir::separator() + sourcePaths[i],
-					            Settings::temporaryPath() + contestantName + QDir::separator() + sourceFiles[i]);
+					            Settings::temporaryPath() + contestantName + QDir::separator() + sourceNames[i]);
+					sourceFile = sourceFile + " " + sourceNames[i] + " ";
 				}
 			}
 			else
@@ -180,11 +183,11 @@ bool AssignmentThread::traditionalTaskPrepare()
 
 			if (task->getTaskType() == Task::Communication)
 			{
-				QStringList graderPath = task->getGraderFilesPath(), graderName = task->getGraderFilesName();
-				for (int i = 0; i < graderPath.length(); i++)
+				QStringList graderPaths = task->getGraderFilesPath(), graderNames = task->getGraderFilesName();
+				for (int i = 0; i < graderPaths.length(); i++)
 				{
-					QFile::copy(Settings::dataPath() + graderPath[i], Settings::temporaryPath() + contestantName + QDir::separator() + graderName[i]);
-					extraFiles = extraFiles + " " + graderName[i] + " ";
+					QFile::copy(Settings::dataPath() + graderPaths[i], Settings::temporaryPath() + contestantName + QDir::separator() + graderNames[i]);
+					extraFiles = extraFiles + " " + graderNames[i] + " ";
 				}
 			}
 
@@ -239,6 +242,8 @@ bool AssignmentThread::traditionalTaskPrepare()
 
 					if (compilerList[i]->getCompilerType() != Compiler::InterpretiveWithoutByteCode)
 					{
+						makeDialogAlert(tr("Compiling..."));
+
 						QString arguments = compilerArguments[j];
 
 						if (task->getTaskType() == Task::Interaction)
@@ -342,7 +347,6 @@ bool AssignmentThread::traditionalTaskPrepare()
 					break;
 				}
 			}
-
 			break;
 		}
 	}
@@ -523,6 +527,11 @@ void AssignmentThread::assign()
 
 	running[thread] = qMakePair(curTestCaseIndex, curSingleCaseIndex ++);
 	thread->start();
+}
+
+void AssignmentThread::makeDialogAlert(QString msg)
+{
+	emit dialogAlert(msg);
 }
 
 void AssignmentThread::taskSkipped(const QPair<int, int> &cur)

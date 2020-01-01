@@ -91,6 +91,7 @@ private:
 	bool traditionalTaskPrepare();
 	void assign();
 	void taskSkipped(const QPair<int, int> &);
+	void makeDialogAlert(QString);
 
 private slots:
 	void threadFinished();
@@ -99,6 +100,7 @@ public slots:
 	void stopJudgingSlot();
 
 signals:
+	void dialogAlert(QString);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void compileError(int, int);

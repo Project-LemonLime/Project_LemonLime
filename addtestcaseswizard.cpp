@@ -23,6 +23,7 @@
 #include "addtestcaseswizard.h"
 #include "ui_addtestcaseswizard.h"
 #include "settings.h"
+#include <algorithm>
 #include <QMessageBox>
 
 AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
@@ -290,8 +291,8 @@ void AddTestCasesWizard::searchMatchedFiles()
 		}
 	}
 
-	qSort(inputFiles.begin(), inputFiles.end(), compareFileName);
-	qSort(outputFiles.begin(), outputFiles.end(), compareFileName);
+	std::sort(inputFiles.begin(), inputFiles.end(), compareFileName);
+	std::sort(outputFiles.begin(), outputFiles.end(), compareFileName);
 
 	QList<QStringList> inputFilesMatchedPart;
 	QList<QStringList> outputFilesMatchedPart;
@@ -355,12 +356,12 @@ void AddTestCasesWizard::searchMatchedFiles()
 	ui->testCasesViewer->clear();
 
 	QList<QString> keys = loc.uniqueKeys();
-	qSort(keys.begin(), keys.end(), compareFileName);
+	std::sort(keys.begin(), keys.end(), compareFileName);
 
 	for (int i = 0; i < keys.size(); i ++)
 	{
 		QList<int> values = loc.values(keys[i]);
-		qSort(values.begin(), values.end());
+		std::sort(values.begin(), values.end());
 		QStringList inputFiles, outputFiles;
 		QTreeWidgetItem *item = new QTreeWidgetItem(ui->testCasesViewer);
 		item->setText(0, tr("Test Case #%1").arg(i + 1));

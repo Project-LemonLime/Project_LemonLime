@@ -52,6 +52,8 @@ JudgingDialog::~JudgingDialog()
 void JudgingDialog::setContest(Contest *contest)
 {
 	curContest = contest;
+	connect(curContest, SIGNAL(dialogAlert(QString)),
+	        this, SLOT(dialogAlert(QString)));
 	connect(curContest, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 	        this, SLOT(singleCaseFinished(int, int, int, int, int, int, int)));
 	connect(curContest, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
@@ -262,6 +264,20 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	if (scoretext.length() > 0)cursor->insertText(scoretext, scorecharFormat);
 
 	ui->progressBar->setValue(ui->progressBar->value() + progress);
+
+	QScrollBar *bar = ui->logViewer->verticalScrollBar();
+	bar->setValue(bar->maximum());
+}
+
+void JudgingDialog::dialogAlert(QString msg)
+{
+	QTextBlockFormat blockFormat;
+	blockFormat.setLeftMargin(30);
+	cursor->insertBlock(blockFormat);
+	QTextCharFormat format;
+	format.setFontPointSize(9);
+	format.setForeground(QBrush(Qt::gray));
+	cursor->insertText(msg, format);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
 	bar->setValue(bar->maximum());

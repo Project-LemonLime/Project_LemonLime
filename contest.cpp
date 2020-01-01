@@ -77,7 +77,7 @@ void Contest::swapTask(int a, int b)
 	{
 		if (0 <= b && b < taskList.size())
 		{
-			taskList.swap(a, b);
+			taskList.swapItemsAt(a, b);
 		}
 	}
 
@@ -233,6 +233,8 @@ void Contest::judge(Contestant *contestant)
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
 		AssignmentThread *thread = new AssignmentThread();
+		connect(thread, SIGNAL(dialogAlert(QString)),
+		        this, SIGNAL(dialogAlert(QString)));
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
@@ -295,6 +297,8 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
 		AssignmentThread *thread = new AssignmentThread();
+		connect(thread, SIGNAL(dialogAlert(QString)),
+		        this, SIGNAL(dialogAlert(QString)));
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
@@ -353,6 +357,8 @@ void Contest::judge(Contestant *contestant, int index)
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 
 	AssignmentThread *thread = new AssignmentThread();
+	connect(thread, SIGNAL(dialogAlert(QString)),
+	        this, SIGNAL(dialogAlert(QString)));
 	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
 	        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
 	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),

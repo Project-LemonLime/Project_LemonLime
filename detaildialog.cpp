@@ -248,7 +248,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
+					htmlCode += QString("").asprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
 				}
 				else
 				{
@@ -261,7 +261,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").asprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
 				}
 				else
 				{

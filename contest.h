@@ -82,6 +82,7 @@ signals:
 	void taskAddedForViewer();
 	void taskDeletedForViewer(int);
 	void problemTitleChanged();
+	void dialogAlert(QString);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(QString);

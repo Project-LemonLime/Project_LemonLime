@@ -42,6 +42,7 @@
 #include "detaildialog.h"
 #include "statisticsbrowser.h"
 #include "exportutil.h"
+#include <algorithm>
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
@@ -1147,7 +1148,7 @@ void Lemon::addTasksAction()
 				}
 			}
 
-			qSort(cases.begin(), cases.end(), compareFileName);
+			std::sort(cases.begin(), cases.end(), compareFileName);
 
 			if (! cases.isEmpty())
 			{

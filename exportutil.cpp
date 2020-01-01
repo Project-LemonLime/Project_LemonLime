@@ -30,6 +30,7 @@
 #include "testcase.h"
 #include "contestant.h"
 #include "globaltype.h"
+#include <algorithm>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QApplication>
@@ -238,7 +239,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				if (timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
+					htmlCode += QString("").asprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
 				}
 				else
 				{
@@ -251,7 +252,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				if (memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").asprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
 				}
 				else
 				{
@@ -326,7 +327,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i ++)
@@ -622,7 +623,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 
 				if (timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
+					htmlCode += QString("").asprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
 				}
 				else
 				{
@@ -635,7 +636,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 
 				if (memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").sprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").asprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
 				}
 				else
 				{
@@ -705,7 +706,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i ++)
@@ -830,7 +831,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i ++)
