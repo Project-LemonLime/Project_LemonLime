@@ -90,6 +90,16 @@
 
 然后 `sudo ./qt-opensource-linux-x64-5.14.0.run`。
 
+#### Ubuntu 的另外一种简便的方法
+
+```bash
+sudo apt install qt5-default build-essential
+```
+
+然后把所有文件的 `swapItemsAt` 换成 `swap`。
+
+这是因为 apt 安装的 Qt 5 版本太低。
+
 #### Arch
 
 
