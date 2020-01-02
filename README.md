@@ -60,6 +60,8 @@
 
 # 构建
 
+由于叛逃到 Manjaro，只给 `Qt Creator 4.11.0 based on Qt 5.14.0` 版本，所以 QT 版本必须是 `5.14` 或者以上才能编译出来。
+
 ## 如果 Github 太慢…
 
 你也许可以到 ``码云（Gitee）`` 去下载。
@@ -78,9 +80,21 @@
 
 ### 依赖环境
 
+#### Ubuntu
+
+先 `sudo apt install build-essential libgl1-mesa-dev`。
+
+然后去 `http://mirrors.ustc.edu.cn/qtproject/archive/qt/5.14/5.14.0/` 下载 `qt-opensource-linux-x64-5.14.0.run`，
+
+然后 `sudo chmod +x qt-opensource-linux-x64-5.14.0.run`，
+
+然后 `sudo ./qt-opensource-linux-x64-5.14.0.run`。
+
+#### Arch
+
+
 ```bash
-Ubuntu:	sudo apt install build-essential qt5-default
-Arch:	sudo pacman -S gcc make qt5-base qt5-doc
+sudo pacman -S gcc make qt5-base qt5-doc
 ```
 
 ### 下载源代码，在源代码目录中依次执行
