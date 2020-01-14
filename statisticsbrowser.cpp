@@ -30,6 +30,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QApplication>
+#include <QFileDialog>
 
 StatisticsBrowser::StatisticsBrowser(QWidget *parent) :
 	QWidget(parent),
@@ -273,4 +274,62 @@ void StatisticsBrowser::refresh()
 
 	buffer += "</body></html>";
 	ui->textBrowser->setHtml(buffer);
+	nowBrowserText = buffer;
+}
+
+void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &fileName)
+{
+	QFile file(fileName);
+
+	if (! file.open(QFile::WriteOnly))
+	{
+		QMessageBox::warning(widget, tr("LemonLime"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+		                     QMessageBox::Ok);
+		return;
+	}
+
+	QApplication::setOverrideCursor(Qt::WaitCursor);
+	QTextStream out(&file);
+
+	out.setCodec("UTF-8");
+	out << nowBrowserText;
+
+	QApplication::restoreOverrideCursor();
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
+}
+
+void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest)
+{
+	QString buffer;
+
+	if (! curContest)
+	{
+		QMessageBox::warning(widget, tr("LemonLime"), tr("No contest yet"), QMessageBox::Ok);
+		return;
+	}
+
+	QList<Task *> taskList = curContest->getTaskList();
+	QList<Contestant *> contestantList = curContest->getContestantList();
+
+	if (taskList.size() <= 0)
+	{
+		QMessageBox::warning(widget, tr("LemonLime"), tr("No task yet"), QMessageBox::Ok);
+		return;
+	}
+
+	if (contestantList.size() <= 0)
+	{
+		QMessageBox::warning(widget, tr("LemonLime"), tr("No contestant yet"), QMessageBox::Ok);
+		return;
+	}
+
+	QString filter = tr("HTML Document (*.html)");
+
+	QString fileName = QFileDialog::getSaveFileName(widget, tr("Export Statstics"),
+	                   QDir::currentPath() + QDir::separator() + "statstics.html", filter);
+
+	if (fileName.isEmpty()) return;
+
+	if (QFileInfo(fileName).suffix() == "html") exportStatsticsHtml(widget, fileName);
+
 }

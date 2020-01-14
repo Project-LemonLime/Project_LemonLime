@@ -32,6 +32,8 @@ namespace Ui
 class Contest;
 class TestCase;
 
+static QString nowBrowserText;
+
 class StatisticsBrowser : public QWidget
 {
 	Q_OBJECT
@@ -39,6 +41,7 @@ class StatisticsBrowser : public QWidget
 public:
 	explicit StatisticsBrowser(QWidget *parent = nullptr);
 	void setContest(Contest *);
+	static void exportStatstics(QWidget *, Contest *);
 	~StatisticsBrowser();
 
 public slots:
@@ -49,6 +52,7 @@ private:
 	Contest *curContest;
 	QString getScoreNormalChart(QMap<int, int>, int, int);
 	QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>, QList<QList<QList<ResultState>>>);
+	static void exportStatsticsHtml(QWidget *, const QString &);
 };
 
 #endif // STATISTICSBROWSER_H

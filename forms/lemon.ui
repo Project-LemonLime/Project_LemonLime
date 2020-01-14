@@ -448,6 +448,8 @@
     <addaction name="separator"/>
     <addaction name="addTasksAction"/>
     <addaction name="exportAction"/>
+    <addaction name="separator"/>
+    <addaction name="actionExportStatistics"/>
    </widget>
    <widget class="QMenu" name="toolsMenu">
     <property name="title">
@@ -841,6 +843,18 @@
    </property>
    <property name="statusTip">
     <string>How to make Communication Tasks...</string>
+   </property>
+  </action>
+  <action name="actionExportStatistics">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Export &amp;Statistics</string>
    </property>
   </action>
  </widget>

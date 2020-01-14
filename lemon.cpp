@@ -134,6 +134,8 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(addTasksAction()));
 	connect(ui->exportAction, SIGNAL(triggered()),
 	        this, SLOT(exportResult()));
+	connect(ui->actionExportStatistics, SIGNAL(triggered()),
+	        this, SLOT(exportStatstics()));
 	connect(ui->aboutAction, SIGNAL(triggered()),
 	        this, SLOT(aboutLemon()));
 
@@ -902,6 +904,7 @@ void Lemon::loadContest(const QString &filePath)
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
+	ui->actionExportStatistics->setEnabled(true);
 	ui->actionChangeContestName->setEnabled(true);
 	ui->cleanupAction->setEnabled(false);
 	ui->refreshAction->setEnabled(false);
@@ -943,6 +946,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	ui->saveAction->setEnabled(true);
 	ui->addTasksAction->setEnabled(true);
 	ui->exportAction->setEnabled(true);
+	ui->actionExportStatistics->setEnabled(true);
 	ui->actionChangeContestName->setEnabled(true);
 	ui->cleanupAction->setEnabled(false);
 	ui->refreshAction->setEnabled(false);
@@ -980,6 +984,7 @@ void Lemon::closeAction()
 	ui->saveAction->setEnabled(false);
 	ui->addTasksAction->setEnabled(false);
 	ui->exportAction->setEnabled(false);
+	ui->actionExportStatistics->setEnabled(false);
 	ui->actionChangeContestName->setEnabled(false);
 	ui->cleanupAction->setEnabled(false);
 	ui->refreshAction->setEnabled(false);
@@ -1189,6 +1194,11 @@ void Lemon::addTasksAction()
 void Lemon::exportResult()
 {
 	ExportUtil::exportResult(this, curContest);
+}
+
+void Lemon::exportStatstics()
+{
+	StatisticsBrowser::exportStatstics(this, curContest);
 }
 
 void Lemon::aboutLemon()

@@ -87,6 +87,7 @@ private slots:
 	void loadAction();
 	void addTasksAction();
 	void exportResult();
+	void exportStatstics();
 	void aboutLemon();
 	void actionChangeContestName();
 	void actionCompileFeatures();

@@ -77,7 +77,7 @@ void Contest::swapTask(int a, int b)
 	{
 		if (0 <= b && b < taskList.size())
 		{
-			taskList.swapItemsAt(a, b);
+			taskList.swap(a, b);
 		}
 	}
 
