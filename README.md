@@ -2,7 +2,9 @@
 
 # Project_LemonLime (Beta)
 
-为了 OI 比赛而生的基于 Lemon 的轻量评测系统 | A tiny judging environment for OI contest based on Project_LemonPlus
+为了 OI 比赛而生的基于 Lemon 的轻量评测系统
+
+A tiny judging environment for OI contest based on Project_LemonPlus
 
 ### 现已支持 Linux 和 Windows
 
@@ -16,13 +18,14 @@
 
 ## 功能追加
 
-- 交互式试题支持（使用更加通用的方式，目前只支持 C++）
-  - 交互库路径：交互使用的头文件。
-  - 交互库名称：选手引用头文件的名称。
-  - 接口实现路径：实现接口的源文件（grader.cpp）。
-- 通信题试题支持（使用更加通用的方式）（测试阶段）
-  - 源文件列表：选手的所有要写的程序。
-  - 接口文件列表：所有要用到的接口文件。
+- 题目类型支持：传统题，提交答案题，交互题（仅 C++），通信题。
+   - 交互题支持详情
+      - 交互库路径：交互使用的头文件。
+      - 交互库名称：选手引用头文件的名称。
+      - 接口实现路径：实现接口的源文件（grader.cpp）。
+   - 通信题支持详情（测试阶段）
+      - 源文件列表：选手的所有要写的程序。
+      - 接口文件列表：所有要用到的接口文件。
 - 统计：对比赛分数数据进行分析的栏目，还需要很多的更新。
 - 整理文件：使所有的选手的子文件夹内外都有答案文件，并且删除大部分无用文件。支持在这之前备份文件。
 - 帮助 > 指南
@@ -74,11 +77,15 @@
 
 当然如果你装有 Qt 5，也可以下载源码编译。
 
+> **提示：**
+> 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 < 从 Github 上下载可执行文件的时间。
+> 下载 Qt 请考虑一个快速的国内镜像。
+
 ## Linux 
 
-### Arch 用户？
+### Arch 系
 
-直接执行：
+#### 迅速安装
 
 ```bash
 yaourt -S lemon-lime
@@ -86,39 +93,45 @@ yaourt -S lemon-lime
 
 感谢 @ayalhw 的支持。
 
-下面的步骤可以跳过了
-
-### 依赖环境
-
-#### Ubuntu
+#### 从源代码编译
 
 ```bash
-Ubuntu:  sudo apt install qt5-default build-essential
-Arch:    sudo pacman -S gcc make qt5-base
-```
-
-### 下载源代码，在源代码目录中依次执行
-
-```bash
+sudo pacman -S gcc make qt5-base # 依赖环境
+cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
 qmake lemon.pro
-make
+make # 获得可执行文件 lemon
 ```
 
-获得可执行文件 ``lemon`` 。
-
-当然如果你装有 Qt Creator，也可以用它编译 release 版本。
+或者使用 Qt Creator：
 
 ```bash
-Ubuntu:  sudo apt install qtcreator
-Arch:    sudo pacman -S qtcreator
+sudo pacman -S qtcreator
 ```
 
-## macOS（！？！？！？）
+### Debian | Ubuntu 系
+
+#### 从源代码编译
+
+```bash
+sudo apt install qt5-default build-essential # 依赖环境
+cd 源代码的目录
+g++ watcher_unix.cpp -o watcher_unix -O2
+qmake lemon.pro
+make # 获得可执行文件 lemon
+```
+
+或者使用 Qt Creator：
+
+```bash
+sudo apt install qtcreator
+```
+
+## macOS
 
 在没有 macOS 机子的情况下写 macOS 支持是一件非常滑稽的事。
 
-请使用``watcher_macos.cpp``编译``watcher_unix``。
+请使用 ``watcher_macos.cpp`` 编译 ``watcher_unix``，否则内存限制会出问题。
 
 ```bash
 g++ watcher_macos.cpp -o watcher_unix -O2
