@@ -76,13 +76,25 @@
 
 ## Linux 
 
+### Arch 用户？
+
+直接执行：
+
+```bash
+yaourt -S lemon-lime
+```
+
+感谢 @ayalhw 的支持。
+
+下面的步骤可以跳过了
+
 ### 依赖环境
 
 #### Ubuntu
 
 ```bash
 Ubuntu:  sudo apt install qt5-default build-essential
-Arch:    sudo pacman -S gcc make qt5-base qt5-doc
+Arch:    sudo pacman -S gcc make qt5-base
 ```
 
 ### 下载源代码，在源代码目录中依次执行
