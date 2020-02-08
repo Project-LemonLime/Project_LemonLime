@@ -167,8 +167,6 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	addcharFormat.setFontPointSize(7);
 	addcharFormat.setForeground(QBrush(Qt::darkGray));
 	scorecharFormat.setFontPointSize(8);
-	scorecharFormat.setForeground(QBrush(Qt::darkCyan));
-	scorecharFormat.setFontWeight(QFont::Bold);
 
 	QString text, addtext = "", scoretext = "";
 
@@ -180,13 +178,20 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			if (memoryUsed >= 0) addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
 			charFormat.setForeground(QBrush(Qt::darkGreen));
+			scorecharFormat.setForeground(QBrush(Qt::darkCyan));
+			scorecharFormat.setFontWeight(QFont::Bold);
 			break;
 
 		case PartlyCorrect:
 			text = tr("Partly correct");
 			if (timeUsed >= 0) addtext += tr(" %1 ms").arg(timeUsed);
 			if (memoryUsed >= 0) addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
-			if (scoreGot > 0) scoretext = tr("  %1 Pt").arg(scoreGot);
+			if (scoreGot > 0)
+			{
+				scoretext = tr("  %1 Pt").arg(scoreGot);
+				scorecharFormat.setForeground(QBrush(Qt::darkCyan));
+				scorecharFormat.setFontWeight(QFont::Bold);
+			}
 			else
 			{
 				scoretext = tr("  %1 Pt").arg(abs(scoreGot));
@@ -352,7 +357,7 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QLis
 
 		for (auto j : i)
 		{
-			miScore = qMin(miScore, j);
+			if (j >= 0) miScore = qMin(miScore, j);
 
 			if (miScore <= 0)break;
 		}
