@@ -158,6 +158,8 @@ void JudgingDialog::judgeAll()
 
 void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, int scoreGot, int timeUsed, int memoryUsed)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -271,11 +273,13 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	ui->progressBar->setValue(ui->progressBar->value() + progress);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::dialogAlert(QString msg)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -285,11 +289,13 @@ void JudgingDialog::dialogAlert(QString msg)
 	cursor->insertText(msg, format);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -323,11 +329,13 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 	cursor->insertText(text, ratioFormat);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::taskJudgingStarted(const QString &taskName)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -335,11 +343,13 @@ void JudgingDialog::taskJudgingStarted(const QString &taskName)
 	charFormat.setFontPointSize(10);
 	cursor->insertText(tr("Start judging task %1").arg(taskName), charFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QList<int> > &scoreList, const int mxScore)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -368,30 +378,36 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QLis
 	cursor->insertText(tr("Score of Task %1 : ").arg(taskName), charFormat);
 	cursor->insertText(tr("%1 / %2\n").arg(allScore).arg(mxScore), scoreFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::contestantJudgingStart(const QString &contestantName)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextCharFormat charFormat;
 	charFormat.setFontPointSize(12);
 	charFormat.setFontWeight(QFont::Bold);
 	cursor->insertText(tr("Start judging contestant %1").arg(contestantName), charFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::contestantJudgingFinished()
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	cursor->insertBlock(blockFormat);
 	cursor->insertBlock(blockFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const int score, const int mxScore)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -404,12 +420,14 @@ void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const
 	cursor->insertText(tr("Total score of %1 : ").arg(contestantName), charFormat);
 	cursor->insertText(tr("%1 / %2\n").arg(score).arg(mxScore), scoreFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 
 void JudgingDialog::compileError(int progress, int compileState)
 {
+	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -454,7 +472,7 @@ void JudgingDialog::compileError(int progress, int compileState)
 	ui->progressBar->setValue(ui->progressBar->value() + progress);
 
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
-	bar->setValue(bar->maximum());
+	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
 void JudgingDialog::stopJudgingSlot()
