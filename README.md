@@ -10,6 +10,20 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 看起来 macOS 也支持了，不愧是 Qt
 
+已在这些系统测试：
+
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|Windows|7|32, 64|Untitled|
+|Windows|10|64|Untitled|
+|Manjaro|18.1.5|64|KDE|
+|Ubuntu|18.04.4|64|GNOME 3|
+|NOI Linux (Ubuntu) *|14.04|32|GNOME 2|
+|Linux Mint|19.3|64|Cinnamon|
+|Deepin|15.11|64|DDE|
+|Debian|10.3.0|64|LXQt|
+|Fedora|31-1.9|64|XFCE|
+|openSUSE|Leap 15.1|64|iceWM|
 
 
 # 特色
@@ -63,7 +77,13 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 # 构建
 
-## 如果 Github 太慢…
+## 下载源码
+
+### 下载的东西太大了？
+
+`git clone` 的时候，使用 `--depth 1` 可以使下载下来的文件大小减少很多（因为默认情况下它会把所有历史记录全部下载下来）。
+
+### 如果 Github 还是太慢…
 
 你也许可以到 ``码云（Gitee）`` 去下载。
 
@@ -78,53 +98,113 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 当然如果你装有 Qt 5，也可以下载源码编译。
 
 > **提示：**
+> 
 > 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 < 从 Github 上下载可执行文件的时间。
+> 
+> 并且由于作者很鸽而很少给 Windows 平台打包，为了总是使用最新版的 LemonLime，推荐用源代码编译。
+>
 > 下载 Qt 请考虑一个快速的国内镜像。
 
 ## Linux 
 
-### Arch 系
+### Arch Linux 系
 
-#### 迅速安装
+已在这些系统测试：
 
-```bash
-yaourt -S lemon-lime
-```
-
-感谢 @ayalhw 的支持。
-
-#### 从源代码编译
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|Manjaro|18.1.5|64|KDE|
 
 ```bash
+## 迅速安装 ##
+yaourt -S lemon-lime # 版本可能过旧
+yaourt -S lemon-lime-git 
+# 感谢 @ayalhw 的支持。
+
+## 使用 qmake ##
 sudo pacman -S gcc make qt5-base # 依赖环境
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
 qmake lemon.pro
 make # 获得可执行文件 lemon
-```
 
-或者使用 Qt Creator：
-
-```bash
+## 使用 QtCreator ##
 sudo pacman -S qtcreator
 ```
 
 ### Debian | Ubuntu 系
 
-#### 从源代码编译
+已在这些系统测试：
+
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|Ubuntu|18.04.4|64|GNOME 3|
+|Linux Mint|19.3|64|Cinnamon|
+|Deepin|15.11|64|DDE|
+|Debian|10.3.0|64|LXQt|
 
 ```bash
+## 使用 qmake ##
 sudo apt install qt5-default build-essential # 依赖环境
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
 qmake lemon.pro
 make # 获得可执行文件 lemon
+
+## 使用 QtCreator ##
+sudo apt install qtcreator
 ```
 
-或者使用 Qt Creator：
+#### * NOI Linux
+
+已在这些系统测试：
+
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|NOI Linux (Ubuntu) *|14.04|32|GNOME 2|
+
+NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
+
+在 qmake 前你需要：
+- 删除 `lemon.ui` 里面的 `<property name="tabBarAutoHide">...` 开始的 3 行。因为 Qt 5.2 里面还没有这个特性！
+- 删除 `lemon.pro` 的 `unix:QMAKE_LFLAGS += -no-pie` 那一行。
+- 把代码中所有 `asprintf` 换成 `sprintf`。
+
+或者
+- 在 Qt 官网上找一个更高版本（比如 5.9）的 Qt 安装。
+
+
+*arbiter 退出了群聊。*
+
+### Fedora 系
+
+已在这些系统测试：
+
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|Fedora|31-1.9|64|XFCE|
 
 ```bash
-sudo apt install qtcreator
+## 使用 qmake ##
+sudo yum install g++ make qt5 # 依赖环境
+cd 源代码的目录
+g++ watcher_unix.cpp -o watcher_unix -O2
+qmake-qt5 lemon.pro
+make # 获得可执行文件 lemon
+```
+
+### openSUSE 系
+
+已在这些系统测试：
+
+|系统名称|版本号|位数|DE / WM|
+|:--:|:--:|:--:|:--:|
+|openSUSE|Leap 15.1|64|iceWM|
+
+```bash
+## 使用 QtCreator ##
+sudo zypper install --type pattern devel_basis
+sudo zypper install libqt5-creator
 ```
 
 ## macOS
