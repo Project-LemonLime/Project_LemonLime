@@ -119,8 +119,8 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 ```bash
 ## 迅速安装 ##
-yaourt -S lemon-lime # 版本可能过旧
-yaourt -S lemon-lime-git 
+yay -S lemon-lime # 版本可能过旧
+yay -S lemon-lime-git 
 # 感谢 @ayalhw 的支持。
 
 ## 使用 qmake ##
