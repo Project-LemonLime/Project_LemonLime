@@ -34,7 +34,7 @@ jobs:
             msvc_arch: x86
             qt_arch_install: msvc2017
     env:
-      targetName: HelloActions-Qt.exe
+      targetName: lemon.exe
     # 步骤
     steps:
       - name: cacheQt
