@@ -857,7 +857,7 @@ void JudgingThread::runProgram()
 	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
 	                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	QString values = environment.toStringList().join('\0') + '\0';
+	QString values = environment.toStringList().join(QChar('\0')) + '\0';
 
 	if (! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
 	                    TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
