@@ -54,7 +54,7 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/')
         run: |
           # 拷贝依赖
-          macdeployqt bin/${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       # tag 查询github-Release
       - name: queryRelease
         id: queryReleaseMacos
