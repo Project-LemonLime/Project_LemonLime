@@ -75,7 +75,7 @@ jobs:
           vc_arch: ${{ matrix.msvc_arch }}
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake
+          qmake lemon.pro
           nmake
       # tag 打包
       - name: package
