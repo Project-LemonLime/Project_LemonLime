@@ -67,10 +67,10 @@ jobs:
           [string]$tag = ${env:ref}.Substring(${env:ref}.LastIndexOf('/') + 1)
           [string]$url = 'https://api.github.com/repos/' + ${env:githubFullName} + '/releases/tags/' + ${tag}
           $response={}
+          Write-Host "URL : " $url
           try {
             $response = Invoke-RestMethod -Uri $url -Method Get
           } catch {
-            Write-Host "URL : " $url
             Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
             Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
             # 没查到，输出
@@ -84,8 +84,8 @@ jobs:
             echo "::set-output name=needCreateRelease::true"  
           }
       # tag 创建github-Release
-      - name: createReleaseWin
-        id: createReleaseWin
+      - name: createReleaseMacos
+        id: createReleaseMacos
         if: startsWith(github.event.ref, 'refs/tags/') && steps.queryReleaseMacos.outputs.needCreateRelease == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -103,7 +103,7 @@ jobs:
         shell: pwsh
         env:
           githubFullName: ${{ github.event.repository.full_name }}
-          upUrl: ${{ steps.queryReleaseMacos.outputs.upload_url }}
+          upUrl: ${{ steps.createReleaseMacos.outputs.upload_url }}
           ref: ${{ github.event.ref }}
         run: |
           # upUrl不为空，导出就完事

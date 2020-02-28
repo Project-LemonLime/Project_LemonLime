@@ -6,9 +6,13 @@
 
 A tiny judging environment for OI contest based on Project_LemonPlus
 
-### 现已支持 Linux 和 Windows
+**现已支持 Linux，Windows，以及 macOS**
 
-看起来 macOS 也支持了，不愧是 Qt
+|系统名称|打包状态|
+|:--:|:--:|
+|Windows|![Windows](https://github.com/iotang/Project_LemonLime/workflows/Windows/badge.svg)|
+|Ubuntu|![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/Ubuntu/badge.svg)|
+|macOS|![MacOS](https://github.com/iotang/Project_LemonLime/workflows/MacOS/badge.svg)|
 
 已在这些系统测试：
 

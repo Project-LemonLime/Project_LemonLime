@@ -110,14 +110,14 @@ jobs:
           [string]$tag = ${env:ref}.Substring(${env:ref}.LastIndexOf('/') + 1)
           [string]$url = 'https://api.github.com/repos/' + ${env:githubFullName} + '/releases/tags/' + ${tag}
           $response={}
+          Write-Host "URL : " $url
           try {
             $response = Invoke-RestMethod -Uri $url -Method Get
           } catch {
-            Write-Host "URL : " $url
             Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
             Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
             # 没查到，输出
-            # echo "::set-output name=needCreateRelease::true"  
+            echo "::set-output name=needCreateRelease::true"  
             return
           }
           [string]$latestUpUrl = $response.upload_url
