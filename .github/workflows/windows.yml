@@ -85,8 +85,6 @@ jobs:
           archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
         shell: pwsh
         run: |
-          dir
-          dir release\
           # 创建文件夹
           New-Item -ItemType Directory ${env:archiveName}
           # 拷贝exe
