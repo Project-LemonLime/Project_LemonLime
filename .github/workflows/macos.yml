@@ -56,7 +56,7 @@ jobs:
           # 拷贝依赖
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       # tag 查询github-Release
-      - name: queryRelease
+      - name: queryReleaseMacos
         id: queryReleaseMacos
         if: startsWith(github.event.ref, 'refs/tags/')
         shell: pwsh
@@ -70,10 +70,11 @@ jobs:
           try {
             $response = Invoke-RestMethod -Uri $url -Method Get
           } catch {
+            Write-Host "URL : " $url
             Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
             Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
             # 没查到，输出
-            echo "::set-output name=needCreateRelease::true"  
+            # echo "::set-output name=needCreateRelease::true"  
             return
           }
           [string]$latestUpUrl = $response.upload_url
