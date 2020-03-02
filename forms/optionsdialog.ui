@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
+    <width>400</width>
     <height>437</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>362</width>
+    <width>400</width>
     <height>437</height>
    </size>
   </property>
@@ -26,7 +26,7 @@
       <string notr="true">font-size: 11pt;</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="GeneralSettings" name="generalSettings">
       <attribute name="title">
@@ -36,6 +36,11 @@
      <widget class="CompilerSettings" name="compilerSettings">
       <attribute name="title">
        <string>Compiler</string>
+      </attribute>
+     </widget>
+     <widget class="VisualSettings" name="visualSettings">
+      <attribute name="title">
+       <string>Visual</string>
       </attribute>
      </widget>
     </widget>
@@ -63,6 +68,12 @@
    <class>CompilerSettings</class>
    <extends>QWidget</extends>
    <header>compilersettings.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VisualSettings</class>
+   <extends>QWidget</extends>
+   <header>visualsettings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

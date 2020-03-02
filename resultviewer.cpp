@@ -141,6 +141,9 @@ void ResultViewer::refreshViewer()
 	headerList << tr("Rank") << tr("Name") << tr("Total Score");
 	QList<Task *> taskList = curContest->getTaskList();
 
+	Settings setting;
+	curContest->copySettings(setting);
+
 	for (int i = 0; i < taskList.size(); i ++)
 	{
 		headerList << taskList[i]->getProblemTile();
@@ -183,10 +186,13 @@ void ResultViewer::refreshViewer()
 				if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully)
 				{
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
-						bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
-					else bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
+						bg = setting.getColorNf();
+					//	bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
+					else bg = setting.getColorCe();
+					// bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
-				else bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
+				else bg = setting.getColorPer(score, fullScore[j]);
+				   //bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
 				item(i, j + 3)->setBackground(bg);
 			}
@@ -205,7 +211,7 @@ void ResultViewer::refreshViewer()
 		if (totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackground(QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(totalScore, sfullScore, 0.4)));
+			item(i, 2)->setBackground(setting.getColorPer(totalScore * 1.33, sfullScore));
 
 			QFont font;
 			font.setBold(true);

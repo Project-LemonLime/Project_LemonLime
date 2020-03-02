@@ -44,6 +44,11 @@ void Contest::setSettings(Settings *_settings)
 	settings = _settings;
 }
 
+void Contest::copySettings(Settings &_settings)
+{
+	_settings.copyFrom(settings);
+}
+
 void Contest::setContestTitle(const QString &title)
 {
 	contestTitle = title;

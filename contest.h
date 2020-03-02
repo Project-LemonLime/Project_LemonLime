@@ -42,6 +42,7 @@ class Contest : public QObject
 public:
 	explicit Contest(QObject *parent = nullptr);
 	void setSettings(Settings *);
+	void copySettings(Settings &);
 	void setContestTitle(const QString &);
 	const QString &getContestTitle() const;
 	Task *getTask(int) const;

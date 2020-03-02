@@ -51,6 +51,7 @@ void OptionsDialog::resetEditSettings(Settings *settings)
 	editSettings->copyFrom(settings);
 	ui->generalSettings->resetEditSettings(editSettings);
 	ui->compilerSettings->resetEditSettings(editSettings);
+	ui->visualSettings->resetEditSettings(editSettings);
 	ui->tabWidget->setCurrentIndex(0);
 }
 

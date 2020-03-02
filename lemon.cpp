@@ -365,6 +365,8 @@ void Lemon::showOptionsDialog()
 		}
 	}
 
+	ui->resultViewer->refreshViewer();
+
 	delete dialog;
 }
 

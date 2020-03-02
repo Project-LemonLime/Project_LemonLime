@@ -25,6 +25,7 @@
 
 #include <QtCore>
 #include <QObject>
+#include <QColor>
 
 class Compiler;
 
@@ -49,6 +50,26 @@ public:
 	const QList<Compiler *> &getCompilerList() const;
 	const QString &getUiLanguage() const;
 	const QString &getDiffPath() const;
+	int getColorMxH();
+	double getColorMxS();
+	double getColorMxL();
+	int getColorMiH();
+	double getColorMiS();
+	double getColorMiL();
+	int getColorNfH();
+	double getColorNfS();
+	double getColorNfL();
+	int getColorCeH();
+	double getColorCeS();
+	double getColorCeL();
+
+	QColor getColorMx();
+	QColor getColorMi();
+	QColor getColorNf();
+	QColor getColorCe();
+	QColor getColorAntiMi();
+	QColor getColorPer(double);
+	QColor getColorPer(double, double);
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
@@ -63,6 +84,18 @@ public:
 	void setOutputFileExtensions(const QString &);
 	void setRecentContest(const QStringList &);
 	void setUiLanguage(const QString &);
+	void setColorMxH(int);
+	void setColorMxS(double);
+	void setColorMxL(double);
+	void setColorMiH(int);
+	void setColorMiS(double);
+	void setColorMiL(double);
+	void setColorNfH(int);
+	void setColorNfS(double);
+	void setColorNfL(double);
+	void setColorCeH(int);
+	void setColorCeS(double);
+	void setColorCeL(double);
 
 	void addCompiler(Compiler *);
 	void deleteCompiler(int);
@@ -71,6 +104,7 @@ public:
 	void copyFrom(Settings *);
 	void saveSettings();
 	void loadSettings();
+
 
 	static int upperBoundForFullScore();
 	static int upperBoundForTimeLimit();
@@ -98,6 +132,19 @@ private:
 	QStringList recentContest;
 	QString uiLanguage;
 	QString diffPath;
+
+	int colorMxH;
+	double colorMxS;
+	double colorMxL;
+	int colorMiH;
+	double colorMiS;
+	double colorMiL;
+	int colorNfH;
+	double colorNfS;
+	double colorNfL;
+	int colorCeH;
+	double colorCeS;
+	double colorCeL;
 };
 
 #endif // SETTINGS_H

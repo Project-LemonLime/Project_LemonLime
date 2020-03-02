@@ -25,6 +25,7 @@ TARGET = lemon
 TEMPLATE = app
 
 SOURCES += main.cpp \
+    visualsettings.cpp \
     lemon.cpp \
     contest.cpp \
     task.cpp \
@@ -67,6 +68,7 @@ unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
 
 HEADERS  += lemon.h \
     contest.h \
+    visualsettings.h \
     task.h \
     testcase.h \
     settings.h \
@@ -118,6 +120,7 @@ FORMS += forms/lemon.ui \
     forms/opencontestwidget.ui \
     forms/newcontestdialog.ui \
     forms/opencontestdialog.ui \
+    forms/visualsettings.ui \
     forms/welcomedialog.ui \
     forms/addtaskdialog.ui \
     forms/advancedcompilersettingsdialog.ui \

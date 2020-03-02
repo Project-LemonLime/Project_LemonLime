@@ -107,6 +107,118 @@ const QString &Settings::getDiffPath() const
 	return diffPath;
 }
 
+int Settings::getColorMxH()
+{
+	return colorMxH;
+}
+
+double Settings::getColorMxS()
+{
+	return colorMxS;
+}
+
+double Settings::getColorMxL()
+{
+	return colorMxL;
+}
+
+int Settings::getColorMiH()
+{
+	return colorMiH;
+}
+
+double Settings::getColorMiS()
+{
+	return colorMiS;
+}
+
+double Settings::getColorMiL()
+{
+	return colorMiL;
+}
+
+int Settings::getColorNfH()
+{
+	return colorNfH;
+}
+
+double Settings::getColorNfS()
+{
+	return colorNfS;
+}
+
+double Settings::getColorNfL()
+{
+	return colorNfL;
+}
+
+int Settings::getColorCeH()
+{
+	return colorCeH;
+}
+
+double Settings::getColorCeS()
+{
+	return colorCeS;
+}
+
+double Settings::getColorCeL()
+{
+	return colorCeL;
+}
+
+QColor Settings::getColorMx()
+{
+	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
+}
+
+QColor Settings::getColorMi()
+{
+	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, colorMiL / 100.00);
+}
+
+QColor Settings::getColorNf()
+{
+	return QColor::fromHslF(colorNfH / 360.00, colorNfS / 100.00, colorNfL / 100.00);
+}
+
+QColor Settings::getColorCe()
+{
+	return QColor::fromHslF(colorCeH / 360.00, colorCeS / 100.00, colorCeL / 100.00);
+}
+
+QColor Settings::getColorAntiMi()
+{
+	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, 1.00 - colorMiL / 100.00);
+}
+
+QColor Settings::getColorPer(double p)
+{
+	double distan, h, s, l;
+
+	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
+	h = colorMiH / 360.00 + 100 * p * distan;
+	if (p > 0) h += distan * 5;
+	if (p >= 1 - 1e-12) h += distan * 5;
+
+	distan = (colorMxS - colorMiS) / 100.00 / 110.00;
+	s = colorMiS / 100.00 + 100 * p * distan;
+	if (p > 0) s += distan * 5;
+	if (p >= 1 - 1e-12) s += distan * 5;
+
+	distan = (colorMxL - colorMiL) / 100.00 / 110.00;
+	l = colorMiL / 100.00 + 100 * p * distan;
+	if (p > 0) l += distan * 5;
+	if (p >= 1 - 1e-12) l += distan * 5;
+
+	return QColor::fromHslF(h, s, l);
+}
+
+QColor Settings::getColorPer(double a, double b)
+{
+	return getColorPer(a / b);
+}
+
 void Settings::setDefaultFullScore(int score)
 {
 	defaultFullScore = score;
@@ -210,6 +322,66 @@ void Settings::swapCompiler(int a, int b)
 	}
 }
 
+void Settings::setColorMxH(int x)
+{
+	colorMxH = x;
+}
+
+void Settings::setColorMxS(double x)
+{
+	colorMxS = x;
+}
+
+void Settings::setColorMxL(double x)
+{
+	colorMxL = x;
+}
+
+void Settings::setColorMiH(int x)
+{
+	colorMiH = x;
+}
+
+void Settings::setColorMiS(double x)
+{
+	colorMiS = x;
+}
+
+void Settings::setColorMiL(double x)
+{
+	colorMiL = x;
+}
+
+void Settings::setColorNfH(int x)
+{
+	colorNfH = x;
+}
+
+void Settings::setColorNfS(double x)
+{
+	colorNfS = x;
+}
+
+void Settings::setColorNfL(double x)
+{
+	colorNfL = x;
+}
+
+void Settings::setColorCeH(int x)
+{
+	colorCeH = x;
+}
+
+void Settings::setColorCeS(double x)
+{
+	colorCeS = x;
+}
+
+void Settings::setColorCeL(double x)
+{
+	colorCeL = x;
+}
+
 void Settings::copyFrom(Settings *other)
 {
 	setDefaultFullScore(other->getDefaultFullScore());
@@ -223,6 +395,18 @@ void Settings::copyFrom(Settings *other)
 	setDefaultOutputFileExtension(other->getDefaultOutputFileExtension());
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
 	setOutputFileExtensions(other->getOutputFileExtensions().join(";"));
+	setColorMxH(other->getColorMxH());
+	setColorMxS(other->getColorMxS());
+	setColorMxL(other->getColorMxL());
+	setColorMiH(other->getColorMiH());
+	setColorMiS(other->getColorMiS());
+	setColorMiL(other->getColorMiL());
+	setColorNfH(other->getColorNfH());
+	setColorNfS(other->getColorNfS());
+	setColorNfL(other->getColorNfL());
+	setColorCeH(other->getColorCeH());
+	setColorCeS(other->getColorCeS());
+	setColorCeL(other->getColorCeL());
 
 	for (int i = 0; i < compilerList.size(); i ++)
 	{
@@ -258,6 +442,21 @@ void Settings::saveSettings()
 	settings.setValue("DefaultOutputFileExtension", defaultOutputFileExtension);
 	settings.setValue("InputFileExtensions", inputFileExtensions);
 	settings.setValue("OutputFileExtensions", outputFileExtensions);
+	settings.endGroup();
+
+	settings.beginGroup("VisualSettings");
+	settings.setValue("ColorMxH", colorMxH);
+	settings.setValue("ColorMxS", colorMxS);
+	settings.setValue("ColorMxL", colorMxL);
+	settings.setValue("ColorMiH", colorMiH);
+	settings.setValue("ColorMiS", colorMiS);
+	settings.setValue("ColorMiL", colorMiL);
+	settings.setValue("ColorNfH", colorNfH);
+	settings.setValue("ColorNfS", colorNfS);
+	settings.setValue("ColorNfL", colorNfL);
+	settings.setValue("ColorCeH", colorCeH);
+	settings.setValue("ColorCeS", colorCeS);
+	settings.setValue("ColorCeL", colorCeL);
 	settings.endGroup();
 
 	settings.beginWriteArray("v1.2/CompilerSettings");
@@ -328,6 +527,21 @@ void Settings::loadSettings()
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
 	outputFileExtensions = settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
+	settings.endGroup();
+
+	settings.beginGroup("VisualSettings");
+	colorMxH = settings.value("ColorMxH", 120).toInt();
+	colorMxS = settings.value("ColorMxS", 50).toDouble();
+	colorMxL = settings.value("ColorMxL", 57.5).toDouble();
+	colorMiH = settings.value("ColorMiH", 120).toInt();
+	colorMiS = settings.value("ColorMiS", 50).toDouble();
+	colorMiL = settings.value("ColorMiL", 100).toDouble();
+	colorNfH = settings.value("ColorNfH", 0).toInt();
+	colorNfS = settings.value("ColorNfS", 0).toDouble();
+	colorNfL = settings.value("ColorNfL", 91.67).toDouble();
+	colorCeH = settings.value("ColorCeH", 300).toInt();
+	colorCeS = settings.value("ColorCeS", 100).toDouble();
+	colorCeL = settings.value("ColorCeL", 83.33).toDouble();
 	settings.endGroup();
 
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
