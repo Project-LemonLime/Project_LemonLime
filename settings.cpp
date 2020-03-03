@@ -197,6 +197,11 @@ double Settings::getGrandRateL()
 	return grandRateL;
 }
 
+int Settings::getSplashTime()
+{
+	return splashTime;
+}
+
 QColor Settings::getColorMx()
 {
 	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
@@ -481,6 +486,11 @@ void Settings::setGrandRateL(double x)
 	grandRateL = x;
 }
 
+void Settings::setSplashTime(int x)
+{
+	splashTime = x;
+}
+
 void Settings::copyFrom(Settings *other)
 {
 	setDefaultFullScore(other->getDefaultFullScore());
@@ -512,6 +522,7 @@ void Settings::copyFrom(Settings *other)
 	setGrandRateH(other->getGrandRateH());
 	setGrandRateS(other->getGrandRateS());
 	setGrandRateL(other->getGrandRateL());
+	setSplashTime(other->getSplashTime());
 
 	for (int i = 0; i < compilerList.size(); i ++)
 	{
@@ -568,6 +579,7 @@ void Settings::saveSettings()
 	settings.setValue("GrandRateH", grandRateH);
 	settings.setValue("GrandRateS", grandRateS);
 	settings.setValue("GrandRateL", grandRateL);
+	settings.setValue("SplashTime", splashTime);
 	settings.endGroup();
 
 	settings.beginWriteArray("v1.2/CompilerSettings");
@@ -659,6 +671,7 @@ void Settings::loadSettings()
 	grandRateH = settings.value("GrandRateH", 1).toDouble();
 	grandRateS = settings.value("GrandRateS", 1).toDouble();
 	grandRateL = settings.value("GrandRateL", 1.33).toDouble();
+	splashTime = settings.value("SplashTime", 500).toInt();
 	settings.endGroup();
 
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");

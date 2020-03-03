@@ -68,6 +68,7 @@ public:
 	double getGrandRateH();
 	double getGrandRateS();
 	double getGrandRateL();
+	int getSplashTime();
 
 	QColor getColorMx();
 	QColor getColorMi();
@@ -110,6 +111,7 @@ public:
 	void setGrandRateH(double);
 	void setGrandRateS(double);
 	void setGrandRateL(double);
+	void setSplashTime(int);
 
 	void addCompiler(Compiler *);
 	void deleteCompiler(int);
@@ -166,6 +168,8 @@ private:
 	double grandRateH;
 	double grandRateS;
 	double grandRateL;
+
+	int splashTime;
 };
 
 #endif // SETTINGS_H

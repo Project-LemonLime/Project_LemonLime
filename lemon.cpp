@@ -220,6 +220,11 @@ void Lemon::closeEvent(QCloseEvent */*event*/)
 	settings.setValue("WindowSize", size());
 }
 
+int Lemon::getSplashTime()
+{
+	return settings->getSplashTime();
+}
+
 void Lemon::welcome()
 {
 	if (settings->getCompilerList().size() == 0)

@@ -192,7 +192,7 @@ void ResultViewer::refreshViewer()
 					// bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
 				else bg = setting.getColorPer(score, fullScore[j]);
-				   //bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
+				//bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
 				item(i, j + 3)->setBackground(bg);
 			}

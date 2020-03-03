@@ -21,8 +21,8 @@
 #include "settings.h"
 
 VisualSettings::VisualSettings(QWidget *parent) :
-   QWidget(parent),
-   ui(new Ui::VisualSettings)
+	QWidget(parent),
+	ui(new Ui::VisualSettings)
 {
 	ui->setupUi(this);
 
@@ -64,6 +64,9 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	connect(ui->grandRateL, SIGNAL(valueChanged(double)),
 	        this, SLOT(grandRateLChanged(double)));
 
+	connect(ui->splashTime, SIGNAL(valueChanged(int)),
+	        this, SLOT(splashTimeChanged(int)));
+
 	connect(ui->resetToDefaultButton, SIGNAL(clicked()),
 	        this, SLOT(resetToDefault()));
 }
@@ -88,6 +91,7 @@ void VisualSettings::resetToDefault()
 	ui->grandRateH->setValue(1);
 	ui->grandRateS->setValue(1);
 	ui->grandRateL->setValue(1.33);
+	ui->splashTime->setValue(500);
 	editSettings->setColorMxH(ui->spinBoxMxH->value());
 	editSettings->setColorMxS(ui->doubleSpinBoxMxS->value());
 	editSettings->setColorMxL(ui->doubleSpinBoxMxL->value());
@@ -106,6 +110,7 @@ void VisualSettings::resetToDefault()
 	editSettings->setGrandRateH(ui->grandRateH->value());
 	editSettings->setGrandRateS(ui->grandRateS->value());
 	editSettings->setGrandRateL(ui->grandRateL->value());
+	editSettings->setSplashTime(ui->splashTime->value());
 }
 
 void VisualSettings::resetEditSettings(Settings *settings)
@@ -130,6 +135,7 @@ void VisualSettings::resetEditSettings(Settings *settings)
 	ui->grandRateH->setValue(editSettings->getGrandRateH());
 	ui->grandRateS->setValue(editSettings->getGrandRateS());
 	ui->grandRateL->setValue(editSettings->getGrandRateL());
+	ui->splashTime->setValue(editSettings->getSplashTime());
 }
 
 void VisualSettings::colorMxHChanged(const int &x)
@@ -220,6 +226,11 @@ void VisualSettings::grandRateSChanged(const double &x)
 void VisualSettings::grandRateLChanged(const double &x)
 {
 	editSettings->setGrandRateL(x);
+}
+
+void VisualSettings::splashTimeChanged(const int &x)
+{
+	editSettings->setSplashTime(x);
 }
 
 VisualSettings::~VisualSettings()

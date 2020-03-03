@@ -61,20 +61,25 @@ int main(int argc, char *argv[])
 
 	QPixmap pixmap(":/logo/splash.png");
 	QSplashScreen screen(pixmap);
-	screen.show();
-
-	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
-
-	do
-	{
-		a.processEvents();
-	} while (QDateTime::currentMSecsSinceEpoch() - startTime <= 500);
 
 	Lemon w;
+
+	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
+	int splashTime = w.getSplashTime();
+
+	if (splashTime > 0)
+	{
+		screen.show();
+		do
+		{
+			a.processEvents();
+		} while (QDateTime::currentMSecsSinceEpoch() - startTime <= splashTime);
+		screen.finish(&w);
+	}
+
 	a.setActivationWindow(&w);
 
 	w.show();
-	screen.finish(&w);
 	w.welcome();
 
 	return a.exec();

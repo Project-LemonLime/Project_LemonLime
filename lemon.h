@@ -45,6 +45,7 @@ public:
 	~Lemon();
 	void changeEvent(QEvent *);
 	void closeEvent(QCloseEvent *);
+	int getSplashTime();
 	void welcome();
 
 private:
