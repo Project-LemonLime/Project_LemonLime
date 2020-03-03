@@ -62,6 +62,12 @@ public:
 	int getColorCeH();
 	double getColorCeS();
 	double getColorCeL();
+	double getGrandCompH();
+	double getGrandCompS();
+	double getGrandCompL();
+	double getGrandRateH();
+	double getGrandRateS();
+	double getGrandRateL();
 
 	QColor getColorMx();
 	QColor getColorMi();
@@ -69,7 +75,9 @@ public:
 	QColor getColorCe();
 	QColor getColorAntiMi();
 	QColor getColorPer(double);
+	QColor getColorGrand(double);
 	QColor getColorPer(double, double);
+	QColor getColorGrand(double, double);
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
@@ -96,6 +104,12 @@ public:
 	void setColorCeH(int);
 	void setColorCeS(double);
 	void setColorCeL(double);
+	void setGrandCompH(double);
+	void setGrandCompS(double);
+	void setGrandCompL(double);
+	void setGrandRateH(double);
+	void setGrandRateS(double);
+	void setGrandRateL(double);
 
 	void addCompiler(Compiler *);
 	void deleteCompiler(int);
@@ -145,6 +159,13 @@ private:
 	int colorCeH;
 	double colorCeS;
 	double colorCeL;
+
+	double grandCompH;
+	double grandCompS;
+	double grandCompL;
+	double grandRateH;
+	double grandRateS;
+	double grandRateL;
 };
 
 #endif // SETTINGS_H

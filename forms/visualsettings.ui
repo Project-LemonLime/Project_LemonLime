@@ -9,13 +9,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>212</height>
+    <width>437</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>382</width>
+    <width>437</width>
     <height>0</height>
    </size>
   </property>
@@ -23,7 +23,148 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <widget class="QLabel" name="colorCeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Color CE (HSL)</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QDoubleSpinBox" name="grandCompH">
+       <property name="minimum">
+        <double>-360.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>360.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="grandCompS">
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="grandCompL">
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="colorMxLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Color Max (HSL)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="colorMiLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Color Min (HSL)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QPushButton" name="resetToDefaultButton">
+     <property name="text">
+      <string>Reset to Default</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QSpinBox" name="spinBoxMxH">
+       <property name="maximum">
+        <number>719</number>
+       </property>
+       <property name="value">
+        <number>120</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxMxS">
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>50.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxMxL">
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>57.500000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QSpinBox" name="spinBoxCeH">
@@ -57,8 +198,8 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="colorCeLabel">
+   <item row="2" column="0">
+    <widget class="QLabel" name="colorNfLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -69,68 +210,57 @@
       <string notr="true">font-size:11pt;font-weight:bold;</string>
      </property>
      <property name="text">
-      <string>Color CE (HSL)</string>
+      <string>Color NoFile (HSL)</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="colorMiLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
-     </property>
-     <property name="text">
-      <string>Color Min (HSL)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item row="5" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <widget class="QSpinBox" name="spinBoxMiH">
+      <widget class="QDoubleSpinBox" name="grandRateH">
+       <property name="minimum">
+        <double>-10.000000000000000</double>
+       </property>
        <property name="maximum">
-        <number>359</number>
+        <double>10.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <number>120</number>
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxMiS">
+      <widget class="QDoubleSpinBox" name="grandRateS">
+       <property name="minimum">
+        <double>-10.000000000000000</double>
+       </property>
        <property name="maximum">
-        <double>100.000000000000000</double>
+        <double>10.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <double>50.000000000000000</double>
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxMiL">
+      <widget class="QDoubleSpinBox" name="grandRateL">
+       <property name="minimum">
+        <double>-10.000000000000000</double>
+       </property>
        <property name="maximum">
-        <double>100.000000000000000</double>
+        <double>10.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <double>100.000000000000000</double>
+        <double>1.330000000000000</double>
        </property>
       </widget>
      </item>
@@ -170,44 +300,12 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="colorMxLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
-     </property>
-     <property name="text">
-      <string>Color Max (HSL)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="colorNfLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
-     </property>
-     <property name="text">
-      <string>Color NoFile (HSL)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QSpinBox" name="spinBoxMxH">
+      <widget class="QSpinBox" name="spinBoxMiH">
        <property name="maximum">
-        <number>359</number>
+        <number>719</number>
        </property>
        <property name="value">
         <number>120</number>
@@ -215,7 +313,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxMxS">
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxMiS">
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -225,23 +323,61 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxMxL">
+      <widget class="QDoubleSpinBox" name="doubleSpinBoxMiL">
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
        <property name="value">
-        <double>57.500000000000000</double>
+        <double>100.000000000000000</double>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="5" column="1">
-    <widget class="QPushButton" name="resetToDefaultButton">
+   <item row="4" column="0">
+    <widget class="QLabel" name="grandCompLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
      <property name="text">
-      <string>Reset to Default</string>
+      <string>Grand Compensation</string>
      </property>
     </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="grandRateLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     </property>
+     <property name="text">
+      <string>Grand Rate</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

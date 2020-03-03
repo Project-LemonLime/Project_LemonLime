@@ -211,7 +211,7 @@ void ResultViewer::refreshViewer()
 		if (totalScore != -1)
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackground(setting.getColorPer(totalScore * 1.33, sfullScore));
+			item(i, 2)->setBackground(setting.getColorGrand(totalScore, sfullScore));
 
 			QFont font;
 			font.setBold(true);

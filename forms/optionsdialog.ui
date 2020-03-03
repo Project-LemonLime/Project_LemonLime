@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>450</width>
     <height>437</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
+    <width>450</width>
     <height>437</height>
    </size>
   </property>
@@ -26,7 +26,7 @@
       <string notr="true">font-size: 11pt;</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="GeneralSettings" name="generalSettings">
       <attribute name="title">

@@ -3819,27 +3819,37 @@ p, li { white-space: pre-wrap; }
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="forms/visualsettings.ui" line="72"/>
+        <location filename="forms/visualsettings.ui" line="38"/>
         <source>Color CE (HSL)</source>
         <translation>编译错误 HSL 颜色</translation>
     </message>
     <message>
-        <location filename="forms/visualsettings.ui" line="88"/>
+        <location filename="forms/visualsettings.ui" line="122"/>
         <source>Color Min (HSL)</source>
         <translation>背景 HSL 颜色</translation>
     </message>
     <message>
-        <location filename="forms/visualsettings.ui" line="185"/>
+        <location filename="forms/visualsettings.ui" line="349"/>
+        <source>Grand Compensation</source>
+        <translation>总分颜色补正</translation>
+    </message>
+    <message>
+        <location filename="forms/visualsettings.ui" line="365"/>
+        <source>Grand Rate</source>
+        <translation>总分颜色变化倍率</translation>
+    </message>
+    <message>
+        <location filename="forms/visualsettings.ui" line="106"/>
         <source>Color Max (HSL)</source>
         <translation>满分 HSL 颜色</translation>
     </message>
     <message>
-        <location filename="forms/visualsettings.ui" line="201"/>
+        <location filename="forms/visualsettings.ui" line="213"/>
         <source>Color NoFile (HSL)</source>
         <translation>无文件 HSL 颜色</translation>
     </message>
     <message>
-        <location filename="forms/visualsettings.ui" line="242"/>
+        <location filename="forms/visualsettings.ui" line="129"/>
         <source>Reset to Default</source>
         <translation>重置到默认</translation>
     </message>

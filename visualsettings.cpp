@@ -51,6 +51,19 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	connect(ui->doubleSpinBoxCeL, SIGNAL(valueChanged(double)),
 	        this, SLOT(colorCeLChanged(double)));
 
+	connect(ui->grandCompH, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandCompHChanged(double)));
+	connect(ui->grandCompS, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandCompSChanged(double)));
+	connect(ui->grandCompL, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandCompLChanged(double)));
+	connect(ui->grandRateH, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandRateHChanged(double)));
+	connect(ui->grandRateS, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandRateSChanged(double)));
+	connect(ui->grandRateL, SIGNAL(valueChanged(double)),
+	        this, SLOT(grandRateLChanged(double)));
+
 	connect(ui->resetToDefaultButton, SIGNAL(clicked()),
 	        this, SLOT(resetToDefault()));
 }
@@ -69,6 +82,12 @@ void VisualSettings::resetToDefault()
 	ui->spinBoxCeH->setValue(300);
 	ui->doubleSpinBoxCeS->setValue(100);
 	ui->doubleSpinBoxCeL->setValue(83.33);
+	ui->grandCompH->setValue(0);
+	ui->grandCompS->setValue(0);
+	ui->grandCompL->setValue(0);
+	ui->grandRateH->setValue(1);
+	ui->grandRateS->setValue(1);
+	ui->grandRateL->setValue(1.33);
 	editSettings->setColorMxH(ui->spinBoxMxH->value());
 	editSettings->setColorMxS(ui->doubleSpinBoxMxS->value());
 	editSettings->setColorMxL(ui->doubleSpinBoxMxL->value());
@@ -81,6 +100,12 @@ void VisualSettings::resetToDefault()
 	editSettings->setColorCeH(ui->spinBoxCeH->value());
 	editSettings->setColorCeS(ui->doubleSpinBoxCeS->value());
 	editSettings->setColorCeL(ui->doubleSpinBoxCeL->value());
+	editSettings->setGrandCompH(ui->grandCompH->value());
+	editSettings->setGrandCompS(ui->grandCompS->value());
+	editSettings->setGrandCompL(ui->grandCompL->value());
+	editSettings->setGrandRateH(ui->grandRateH->value());
+	editSettings->setGrandRateS(ui->grandRateS->value());
+	editSettings->setGrandRateL(ui->grandRateL->value());
 }
 
 void VisualSettings::resetEditSettings(Settings *settings)
@@ -99,6 +124,12 @@ void VisualSettings::resetEditSettings(Settings *settings)
 	ui->spinBoxCeH->setValue(editSettings->getColorCeH());
 	ui->doubleSpinBoxCeS->setValue(editSettings->getColorCeS());
 	ui->doubleSpinBoxCeL->setValue(editSettings->getColorCeL());
+	ui->grandCompH->setValue(editSettings->getGrandCompH());
+	ui->grandCompS->setValue(editSettings->getGrandCompS());
+	ui->grandCompL->setValue(editSettings->getGrandCompL());
+	ui->grandRateH->setValue(editSettings->getGrandRateH());
+	ui->grandRateS->setValue(editSettings->getGrandRateS());
+	ui->grandRateL->setValue(editSettings->getGrandRateL());
 }
 
 void VisualSettings::colorMxHChanged(const int &x)
@@ -159,6 +190,36 @@ void VisualSettings::colorCeSChanged(const double &x)
 void VisualSettings::colorCeLChanged(const double &x)
 {
 	editSettings->setColorCeL(x);
+}
+
+void VisualSettings::grandCompHChanged(const double &x)
+{
+	editSettings->setGrandCompH(x);
+}
+
+void VisualSettings::grandCompSChanged(const double &x)
+{
+	editSettings->setGrandCompS(x);
+}
+
+void VisualSettings::grandCompLChanged(const double &x)
+{
+	editSettings->setGrandCompL(x);
+}
+
+void VisualSettings::grandRateHChanged(const double &x)
+{
+	editSettings->setGrandRateH(x);
+}
+
+void VisualSettings::grandRateSChanged(const double &x)
+{
+	editSettings->setGrandRateS(x);
+}
+
+void VisualSettings::grandRateLChanged(const double &x)
+{
+	editSettings->setGrandRateL(x);
 }
 
 VisualSettings::~VisualSettings()

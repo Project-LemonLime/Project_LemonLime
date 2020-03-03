@@ -167,6 +167,36 @@ double Settings::getColorCeL()
 	return colorCeL;
 }
 
+double Settings::getGrandCompH()
+{
+	return grandCompH;
+}
+
+double Settings::getGrandCompS()
+{
+	return grandCompS;
+}
+
+double Settings::getGrandCompL()
+{
+	return grandCompL;
+}
+
+double Settings::getGrandRateH()
+{
+	return grandRateH;
+}
+
+double Settings::getGrandRateS()
+{
+	return grandRateS;
+}
+
+double Settings::getGrandRateL()
+{
+	return grandRateL;
+}
+
 QColor Settings::getColorMx()
 {
 	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
@@ -211,12 +241,51 @@ QColor Settings::getColorPer(double p)
 	if (p > 0) l += distan * 5;
 	if (p >= 1 - 1e-12) l += distan * 5;
 
+	while (h > 1 + 1e-12) h -= 1;
+
+	h = fmax(0, fmin(h, 1));
+	s = fmax(0, fmin(s, 1));
+	l = fmax(0, fmin(l, 1));
+
+	return QColor::fromHslF(h, s, l);
+}
+
+QColor Settings::getColorGrand(double p)
+{
+	double distan, h, s, l;
+
+	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
+	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
+	if (p > 0) h += distan * 5;
+	if (p >= 1 - 1e-12) h += distan * 5;
+
+	distan = grandRateS * (colorMxS - colorMiS) / 100.00 / 110.00;
+	s = grandCompS / 100.00 + colorMiS / 100.00 + 100 * p * distan;
+	if (p > 0) s += distan * 5;
+	if (p >= 1 - 1e-12) s += distan * 5;
+
+	distan = grandRateL * (colorMxL - colorMiL) / 100.00 / 110.00;
+	l = grandCompL / 100.0 + colorMiL / 100.00 + 100 * p * distan;
+	if (p > 0) l += distan * 5;
+	if (p >= 1 - 1e-12) l += distan * 5;
+
+	while (h > 1 + 1e-12) h -= 1;
+
+	h = fmax(0, fmin(h, 1));
+	s = fmax(0, fmin(s, 1));
+	l = fmax(0, fmin(l, 1));
+
 	return QColor::fromHslF(h, s, l);
 }
 
 QColor Settings::getColorPer(double a, double b)
 {
 	return getColorPer(a / b);
+}
+
+QColor Settings::getColorGrand(double a, double b)
+{
+	return getColorGrand(a / b);
 }
 
 void Settings::setDefaultFullScore(int score)
@@ -382,6 +451,36 @@ void Settings::setColorCeL(double x)
 	colorCeL = x;
 }
 
+void Settings::setGrandCompH(double x)
+{
+	grandCompH = x;
+}
+
+void Settings::setGrandCompS(double x)
+{
+	grandCompS = x;
+}
+
+void Settings::setGrandCompL(double x)
+{
+	grandCompL = x;
+}
+
+void Settings::setGrandRateH(double x)
+{
+	grandRateH = x;
+}
+
+void Settings::setGrandRateS(double x)
+{
+	grandRateS = x;
+}
+
+void Settings::setGrandRateL(double x)
+{
+	grandRateL = x;
+}
+
 void Settings::copyFrom(Settings *other)
 {
 	setDefaultFullScore(other->getDefaultFullScore());
@@ -407,6 +506,12 @@ void Settings::copyFrom(Settings *other)
 	setColorCeH(other->getColorCeH());
 	setColorCeS(other->getColorCeS());
 	setColorCeL(other->getColorCeL());
+	setGrandCompH(other->getGrandCompH());
+	setGrandCompS(other->getGrandCompS());
+	setGrandCompL(other->getGrandCompL());
+	setGrandRateH(other->getGrandRateH());
+	setGrandRateS(other->getGrandRateS());
+	setGrandRateL(other->getGrandRateL());
 
 	for (int i = 0; i < compilerList.size(); i ++)
 	{
@@ -457,6 +562,12 @@ void Settings::saveSettings()
 	settings.setValue("ColorCeH", colorCeH);
 	settings.setValue("ColorCeS", colorCeS);
 	settings.setValue("ColorCeL", colorCeL);
+	settings.setValue("GrandCompH", grandCompH);
+	settings.setValue("GrandCompS", grandCompS);
+	settings.setValue("GrandCompL", grandCompL);
+	settings.setValue("GrandRateH", grandRateH);
+	settings.setValue("GrandRateS", grandRateS);
+	settings.setValue("GrandRateL", grandRateL);
 	settings.endGroup();
 
 	settings.beginWriteArray("v1.2/CompilerSettings");
@@ -542,6 +653,12 @@ void Settings::loadSettings()
 	colorCeH = settings.value("ColorCeH", 300).toInt();
 	colorCeS = settings.value("ColorCeS", 100).toDouble();
 	colorCeL = settings.value("ColorCeL", 83.33).toDouble();
+	grandCompH = settings.value("GrandCompH", 0).toDouble();
+	grandCompS = settings.value("GrandCompS", 0).toDouble();
+	grandCompL = settings.value("GrandCompL", 0).toDouble();
+	grandRateH = settings.value("GrandRateH", 1).toDouble();
+	grandRateS = settings.value("GrandRateS", 1).toDouble();
+	grandRateL = settings.value("GrandRateL", 1.33).toDouble();
 	settings.endGroup();
 
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");

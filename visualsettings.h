@@ -54,6 +54,13 @@ class VisualSettings : public QWidget
 		void colorCeHChanged(const int &);
 		void colorCeSChanged(const double &);
 		void colorCeLChanged(const double &);
+		void grandCompHChanged(const double &);
+		void grandCompSChanged(const double &);
+		void grandCompLChanged(const double &);
+		void grandRateHChanged(const double &);
+		void grandRateSChanged(const double &);
+		void grandRateLChanged(const double &);
+
 		void resetToDefault();
 };
 
