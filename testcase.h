@@ -55,10 +55,10 @@ private:
 	QStringList inputFiles;
 	QStringList outputFiles;
 	QList<int>  dependenceSubtask;
-	int index;
-	int fullScore;
-	int timeLimit;
-	int memoryLimit;
+	int index{};
+	int fullScore{};
+	int timeLimit{};
+	int memoryLimit{};
 };
 
 #endif // TESTCASE_H

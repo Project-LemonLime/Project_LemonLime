@@ -46,7 +46,7 @@ public:
 
 private:
 	Ui::GeneralSettings *ui;
-	Settings *editSettings;
+	Settings *editSettings{};
 
 private slots:
 	void defaultFullScoreChanged(const QString &);

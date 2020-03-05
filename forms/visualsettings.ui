@@ -414,6 +414,28 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>spinBoxMxH</tabstop>
+  <tabstop>doubleSpinBoxMxS</tabstop>
+  <tabstop>doubleSpinBoxMxL</tabstop>
+  <tabstop>spinBoxMiH</tabstop>
+  <tabstop>doubleSpinBoxMiS</tabstop>
+  <tabstop>doubleSpinBoxMiL</tabstop>
+  <tabstop>spinBoxNfH</tabstop>
+  <tabstop>doubleSpinBoxNfS</tabstop>
+  <tabstop>doubleSpinBoxNfL</tabstop>
+  <tabstop>spinBoxCeH</tabstop>
+  <tabstop>doubleSpinBoxCeS</tabstop>
+  <tabstop>doubleSpinBoxCeL</tabstop>
+  <tabstop>grandCompH</tabstop>
+  <tabstop>grandCompS</tabstop>
+  <tabstop>grandCompL</tabstop>
+  <tabstop>grandRateH</tabstop>
+  <tabstop>grandRateS</tabstop>
+  <tabstop>grandRateL</tabstop>
+  <tabstop>splashTime</tabstop>
+  <tabstop>resetToDefaultButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

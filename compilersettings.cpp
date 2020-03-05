@@ -74,12 +74,12 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	ui->compilerList->clear();
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (auto i : compilerList)
 	{
-		ui->compilerList->addItem(compilerList[i]->getCompilerName());
+		ui->compilerList->addItem(i->getCompilerName());
 	}
 
-	if (compilerList.size() > 0)
+	if (!compilerList.empty())
 	{
 		ui->compilerList->setCurrentRow(0);
 		setCurrentCompiler(compilerList[0]);
@@ -92,14 +92,14 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 	refreshItemState();
 }
 
-bool CompilerSettings::checkValid()
+auto CompilerSettings::checkValid() -> bool
 {
 	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	QStringList compilerNames;
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (auto i : compilerList)
 	{
-		compilerNames.append(compilerList[i]->getCompilerName());
+		compilerNames.append(i->getCompilerName());
 	}
 
 	for (int i = 0; i < compilerList.size(); i ++)
@@ -161,37 +161,37 @@ void CompilerSettings::moveDownCompiler()
 
 void CompilerSettings::addCompiler()
 {
-	AddCompilerWizard *wizard = new AddCompilerWizard(this);
+	auto *wizard = new AddCompilerWizard(this);
 
 	if (wizard->exec() == QDialog::Accepted)
 	{
 		QList<Compiler *> compilerList = editSettings->getCompilerList();
 		QStringList compilerNames;
 
-		for (int i = 0; i < compilerList.size(); i ++)
+		for (auto &i : compilerList)
 		{
-			compilerNames.append(compilerList[i]->getCompilerName());
+			compilerNames.append(i->getCompilerName());
 		}
 
 		compilerList = wizard->getCompilerList();
 
-		for (int i = 0; i < compilerList.size(); i ++)
+		for (auto &i : compilerList)
 		{
-			if (compilerNames.contains(compilerList[i]->getCompilerName()))
+			if (compilerNames.contains(i->getCompilerName()))
 			{
 				int cnt = 2;
-				QString name = compilerList[i]->getCompilerName();
+				QString name = i->getCompilerName();
 
 				while (compilerNames.contains(QString("%1 (%2)").arg(name).arg(cnt)))
 				{
 					cnt ++;
 				}
 
-				compilerList[i]->setCompilerName(QString("%1 (%2)").arg(name).arg(cnt));
+				i->setCompilerName(QString("%1 (%2)").arg(name).arg(cnt));
 			}
 
-			editSettings->addCompiler(compilerList[i]);
-			ui->compilerList->addItem(new QListWidgetItem(compilerList[i]->getCompilerName()));
+			editSettings->addCompiler(i);
+			ui->compilerList->addItem(new QListWidgetItem(i->getCompilerName()));
 			ui->compilerList->setCurrentRow(ui->compilerList->count() - 1);
 			refreshItemState();
 		}
@@ -307,7 +307,7 @@ void CompilerSettings::compilerListCurrentRowChanged()
 
 void CompilerSettings::advancedButtonClicked()
 {
-	AdvancedCompilerSettingsDialog *dialog = new AdvancedCompilerSettingsDialog(this);
+	auto *dialog = new AdvancedCompilerSettingsDialog(this);
 	dialog->resetEditCompiler(curCompiler);
 
 	if (dialog->exec() == QDialog::Accepted)

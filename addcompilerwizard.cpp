@@ -42,22 +42,22 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 
 #ifdef Q_OS_LINUX
 
-	if (QFileInfo("/usr/bin/gcc").exists())
+	if (QFileInfo::exists("/usr/bin/gcc"))
 		ui->gccPath->setText("/usr/bin/gcc");
 
-	if (QFileInfo("/usr/bin/g++").exists())
+	if (QFileInfo::exists("/usr/bin/g++"))
 		ui->gppPath->setText("/usr/bin/g++");
 
-	if (QFileInfo("/usr/bin/fpc").exists())
+	if (QFileInfo::exists("/usr/bin/fpc"))
 		ui->fpcPath->setText("/usr/bin/fpc");
 
-	if (QFileInfo("/usr/bin/javac").exists())
+	if (QFileInfo::exists("/usr/bin/javac"))
 		ui->javacPath->setText("/usr/bin/javac");
 
-	if (QFileInfo("/usr/bin/java").exists())
+	if (QFileInfo::exists("/usr/bin/java"))
 		ui->javaPath->setText("/usr/bin/java");
 
-	if (QFileInfo("/usr/bin/python").exists())
+	if (QFileInfo::exists("/usr/bin/python"))
 		ui->pythonPath->setText("/usr/bin/python");
 
 #endif
@@ -513,7 +513,7 @@ void AddCompilerWizard::accept()
 {
 	if (ui->customRadioButton->isChecked())
 	{
-		Compiler *compiler = new Compiler;
+		auto *compiler = new Compiler;
 		compiler->setCompilerType(static_cast<Compiler::CompilerType>(ui->typeSelect->currentIndex()));
 		compiler->setCompilerName(ui->compilerName->text());
 		compiler->setCompilerLocation(ui->compilerLocation->text());
@@ -530,7 +530,7 @@ void AddCompilerWizard::accept()
 	{
 		if (ui->gccGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("gcc");
 			compiler->setCompilerLocation(ui->gccPath->text());
 			compiler->setSourceExtensions("c");
@@ -573,7 +573,7 @@ void AddCompilerWizard::accept()
 
 		if (ui->gppGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("g++");
 			compiler->setCompilerLocation(ui->gppPath->text());
 			compiler->setSourceExtensions("cpp;cc;cxx");
@@ -619,7 +619,7 @@ void AddCompilerWizard::accept()
 
 		if (ui->fpcGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("fpc");
 			compiler->setCompilerLocation(ui->fpcPath->text());
 			compiler->setSourceExtensions("pas;pp;inc");
@@ -636,7 +636,7 @@ void AddCompilerWizard::accept()
 
 		if (ui->fbcGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("fbc");
 			compiler->setCompilerLocation(ui->fbcPath->text());
 			compiler->setSourceExtensions("bas");
@@ -646,7 +646,7 @@ void AddCompilerWizard::accept()
 
 		if (ui->javaGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("jdk");
 			compiler->setCompilerType(Compiler::InterpretiveWithByteCode);
 			compiler->setCompilerLocation(ui->javacPath->text());
@@ -661,7 +661,7 @@ void AddCompilerWizard::accept()
 
 		if (ui->pythonGroupBox->isEnabled())
 		{
-			Compiler *compiler = new Compiler;
+			auto *compiler = new Compiler;
 			compiler->setCompilerName("python");
 			compiler->setSourceExtensions("py");
 			compiler->setTimeLimitRatio(10);

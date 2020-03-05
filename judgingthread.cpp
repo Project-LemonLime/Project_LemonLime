@@ -160,37 +160,37 @@ void JudgingThread::setMemoryLimit(int limit)
 	memoryLimit = limit;
 }
 
-int JudgingThread::getTimeUsed() const
+auto JudgingThread::getTimeUsed() const -> int
 {
 	return timeUsed;
 }
 
-int JudgingThread::getMemoryUsed() const
+auto JudgingThread::getMemoryUsed() const -> int
 {
 	return memoryUsed;
 }
 
-int JudgingThread::getScore() const
+auto JudgingThread::getScore() const -> int
 {
 	return score;
 }
 
-int JudgingThread::getJudgeTimes() const
+auto JudgingThread::getJudgeTimes() const -> int
 {
 	return judgedTimes;
 }
 
-ResultState JudgingThread::getResult() const
+auto JudgingThread::getResult() const -> ResultState
 {
 	return result;
 }
 
-const QString &JudgingThread::getMessage() const
+auto JudgingThread::getMessage() const -> const QString &
 {
 	return message;
 }
 
-bool JudgingThread::getNeedRejudge() const
+auto JudgingThread::getNeedRejudge() const -> bool
 {
 	return needRejudge;
 }
@@ -223,10 +223,15 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		return;
 	}
 
-	char str1[20], str2[20], ch = 0;
-	bool chk1 = false, chk2 = false;
-	bool chkEof1 = false, chkEof2 = false;
-	int len1, len2;
+	char str1[20];
+	char str2[20];
+	char ch = 0;
+	bool chk1 = false;
+	bool chk2 = false;
+	bool chkEof1 = false;
+	bool chkEof2 = false;
+	int len1;
+	int len2;
 
 	while (true)
 	{
@@ -259,8 +264,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		str1[len1 ++] = '\0';
 
-		if (ch == EOF) chkEof1 = true;
-		else chkEof1 = false;
+		chkEof1 = ch == EOF;
 
 		len2 = 0;
 
@@ -291,8 +295,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		str2[len2 ++] = '\0';
 
-		if (ch == EOF) chkEof2 = true;
-		else chkEof2 = false;
+		chkEof2 = ch == EOF;
 
 		if (chkEof1 && ! chkEof2)
 		{
@@ -318,7 +321,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read \"%1\" but expect \"%2\"").arg(str1).arg(str2);
+			message = tr(R"(Read "%1" but expect "%2")").arg(str1).arg(str2);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -365,9 +368,12 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		return;
 	}
 
-	char ch1 = '\n', ch2 = '\n';
-	char str1[20], str2[20];
-	int flag1, flag2;
+	char ch1 = '\n';
+	char ch2 = '\n';
+	char str1[20];
+	char str2[20];
+	int flag1;
+	int flag2;
 
 	while (true)
 	{
@@ -539,7 +545,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read \"%1\" but expect \"%2\"").arg(str1).arg(str2);
+			message = tr(R"(Read "%1" but expect "%2")").arg(str1).arg(str2);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -565,7 +571,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
-	QString cmd = QString("\"%1\" %2 \"%3\" \"%4\"").arg(diffPath, task->getDiffArguments())
+	QString cmd = QString(R"("%1" %2 "%3" "%4")").arg(diffPath, task->getDiffArguments())
 	              .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
 
 	if (QProcess::execute(cmd) != 0)
@@ -608,7 +614,8 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	for (int i = 0; i < task->getRealPrecision(); i ++)
 		eps *= 0.1;
 
-	double a, b;
+	double a;
+	double b;
 
 	while (true)
 	{
@@ -661,7 +668,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Read \"%1\" but expect \"%2\"").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18);
+			message = tr(R"(Read "%1" but expect "%2")").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -709,7 +716,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 		return;
 	}
 
-	QProcess *judge = new QProcess(this);
+	auto *judge = new QProcess(this);
 	QStringList arguments;
 	arguments << inputFile << fileName << outputFile << QString("%1").arg(fullScore);
 	arguments << workingDirectory + "_score";
@@ -756,7 +763,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 		delete judge;
 		return;
 	}
-	else if (judge->exitCode() != 0)
+	if (judge->exitCode() != 0)
 	{
 		score = 0;
 		result = SpecialJudgeRunTimeError;
@@ -1022,7 +1029,7 @@ void JudgingThread::runProgram()
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
 
-	QProcess *runner = new QProcess(this);
+	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
 

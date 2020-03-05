@@ -81,9 +81,9 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent */*event*/)
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	if (selectionRange.size() == 0) return;
+	if (selectionRange.empty()) return;
 
-	QMenu *contextMenu = new QMenu(this);
+	auto *contextMenu = new QMenu(this);
 
 	if (selectionRange.size() == 1 && selectionRange[0].rowCount() == 1)
 	{
@@ -91,7 +91,7 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent */*event*/)
 		contextMenu->setDefaultAction(detailInformationAction);
 	}
 
-	if (selectionRange.size() > 0)
+	if (!selectionRange.empty())
 	{
 		contextMenu->addAction(judgeSelectedAction);
 	}
@@ -144,9 +144,9 @@ void ResultViewer::refreshViewer()
 	Settings setting;
 	curContest->copySettings(setting);
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto &i : taskList)
 	{
-		headerList << taskList[i]->getProblemTile();
+		headerList << i->getProblemTile();
 	}
 
 	headerList << tr("Total Used Time (s)") << tr("Judging Time");
@@ -159,9 +159,9 @@ void ResultViewer::refreshViewer()
 	QList<int> fullScore;
 	int sfullScore = curContest->getTotalScore();
 
-	for (int i = 0; i < taskList.size(); i++)
+	for (auto &i : taskList)
 	{
-		fullScore.append(taskList[i]->getTotalScore());
+		fullScore.append(i->getTotalScore());
 	}
 
 	setRowCount(contestantList.size());
@@ -276,11 +276,11 @@ void ResultViewer::judgeSelected()
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
 
-	for (int i = 0; i < selectionRange.size(); i ++)
+	for (auto &i : selectionRange)
 	{
-		for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+		for (int j = i.topRow(); j <= i.bottomRow(); j ++)
 		{
-			for (int k = selectionRange[i].leftColumn(); k <= selectionRange[i].rightColumn(); k++)
+			for (int k = i.leftColumn(); k <= i.rightColumn(); k++)
 			{
 				if (3 <= k && k < 3 + taskSize) mapping[item(j, 1)->text()].insert(k - 3);
 				else
@@ -298,7 +298,7 @@ void ResultViewer::judgeSelected()
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
 
-	JudgingDialog *dialog = new JudgingDialog(this);
+	auto *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
@@ -309,7 +309,7 @@ void ResultViewer::judgeSelected()
 
 void ResultViewer::judgeAll()
 {
-	JudgingDialog *dialog = new JudgingDialog(this);
+	auto *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
@@ -324,7 +324,8 @@ void ResultViewer::judgeUnjudged()
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
-	int contestantSize = contestantList.size(), taskSize = taskList.size();
+	int contestantSize = contestantList.size();
+	int taskSize = taskList.size();
 
 	for (int i = 0; i < contestantSize; i++)
 	{
@@ -344,7 +345,7 @@ void ResultViewer::judgeUnjudged()
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
 
-	JudgingDialog *dialog = new JudgingDialog(this);
+	auto *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
@@ -359,7 +360,8 @@ void ResultViewer::judgeGrey()
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
-	int contestantSize = contestantList.size(), taskSize = taskList.size();
+	int contestantSize = contestantList.size();
+	int taskSize = taskList.size();
 
 	for (int i = 0; i < contestantSize; i++)
 	{
@@ -379,7 +381,7 @@ void ResultViewer::judgeGrey()
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
 
-	JudgingDialog *dialog = new JudgingDialog(this);
+	auto *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
@@ -394,7 +396,8 @@ void ResultViewer::judgeMagenta()
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
-	int contestantSize = contestantList.size(), taskSize = taskList.size();
+	int contestantSize = contestantList.size();
+	int taskSize = taskList.size();
 
 	for (int i = 0; i < contestantSize; i++)
 	{
@@ -414,7 +417,7 @@ void ResultViewer::judgeMagenta()
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
 
-	JudgingDialog *dialog = new JudgingDialog(this);
+	auto *dialog = new JudgingDialog(this);
 	dialog->setModal(true);
 	dialog->setContest(curContest);
 	dialog->show();
@@ -444,12 +447,12 @@ void ResultViewer::clearPath(const QString &curDir)
 
 void ResultViewer::deleteContestant()
 {
-	QMessageBox *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
-	      QString("<span style=\"font-size:large\">")
-	      + tr("Are you sure to delete selected contestant(s)?") + "</span>",
-	      QMessageBox::Ok | QMessageBox::Cancel, this);
+	auto *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
+	                                   QString("<span style=\"font-size:large\">")
+	                                   + tr("Are you sure to delete selected contestant(s)?") + "</span>",
+	                                   QMessageBox::Ok | QMessageBox::Cancel, this);
 	//QHBoxLayout *layout = new QHBoxLayout;
-	QCheckBox *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
+	auto *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
 	//layout->addWidget(checkBox);
 	//layout->setAlignment(checkBox, Qt::AlignHCenter);
 	//dynamic_cast<QGridLayout*>(messageBox->layout())->addLayout(layout, 1, 1);
@@ -460,9 +463,9 @@ void ResultViewer::deleteContestant()
 
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	for (int i = 0; i < selectionRange.size(); i ++)
+	for (auto &i : selectionRange)
 	{
-		for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+		for (int j = i.topRow(); j <= i.bottomRow(); j ++)
 		{
 			curContest->deleteContestant(item(j, 1)->text());
 
@@ -484,7 +487,7 @@ void ResultViewer::detailInformation()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 	int index = selectionRange[0].topRow();
-	DetailDialog *dialog = new DetailDialog(this);
+	auto *dialog = new DetailDialog(this);
 	dialog->setModal(true);
 	dialog->refreshViewer(curContest, curContest->getContestant(item(index, 1)->text()));
 	connect(dialog, SIGNAL(rejudgeSignal()), this, SLOT(refreshViewer()));

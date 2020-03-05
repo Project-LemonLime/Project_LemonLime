@@ -67,7 +67,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	for (int i = 0; i < taskList.size(); i++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString("%1 %2 (%5 / %6) <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span>")
+		htmlCode += QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
 		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
 	}
 
@@ -76,7 +76,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	for (int i = 0; i < taskList.size(); i ++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString("%1 %2 (%5 / %6) <a href=\"Rejudge %3\" style=\"text-decoration: none\">(%4)</span><br>")
+		htmlCode += QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
 		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
 
 		if (! contestant->getCheckJudged(i))
@@ -109,7 +109,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
 						if (! contestant->getCompileMessage(i).isEmpty())
-							htmlCode += QString("<a href=\"CompileMessage %1\" style=\"text-decoration: none\"> (...)").arg(i);
+							htmlCode += QString(R"(<a href="CompileMessage %1" style="text-decoration: none"> (...))").arg(i);
 
 						htmlCode += "</p>";
 						break;
@@ -124,13 +124,13 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
-		htmlCode += "<table width=\"100%\" cellpadding=\"1\" border=\"1\"><tr>";
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Test Case"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Input File"));
+		htmlCode += R"(<table width="100%" cellpadding="1" border="1"><tr>)";
+		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Test Case"));
+		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Input File"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Time Used"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Memory Used"));
-		htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Score"));
+		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Time Used"));
+		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Memory Used"));
+		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th></tr>)").arg(tr("Score"));
 
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
@@ -149,16 +149,18 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				if (k == 0)
 				{
 					if (score[j].size() == inputFiles[j].size())
-						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2</td>")
+						htmlCode += QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2</td>)")
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
-						htmlCode += QString("<td nowrap=\"nowrap\" rowspan=\"%1\" align=\"center\" valign=\"middle\">#%2<br>%3:%4</td>")
+						htmlCode += QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
 						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
 				}
 
-				htmlCode += QString("<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">%1</td>").arg(inputFiles[j][k]);
+				htmlCode += QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
 
-				QString text, bgColor = "rgb(255, 255, 255)", FrColor = "rgb(0, 0, 0)";
+				QString text;
+				QString bgColor = "rgb(255, 255, 255)";
+				QString FrColor = "rgb(0, 0, 0)";
 
 				switch (result[j][k])
 				{
@@ -235,16 +237,16 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						break;
 				}
 
-				htmlCode += QString("<td align=\"center\" valign=\"middle\" style=\"background-color: %2; color: %3;\">%1").arg(text).arg(bgColor).arg(FrColor);
+				htmlCode += QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)").arg(text).arg(bgColor).arg(FrColor);
 
 				if (! message[j][k].isEmpty())
 				{
-					htmlCode += QString("<a href=\"Message %1 %2 %3\" style=\"text-decoration: none\"> (...)</a>").arg(i).arg(j).arg(k);
+					htmlCode += QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)").arg(i).arg(j).arg(k);
 				}
 
 				htmlCode += "</td>";
 
-				htmlCode += "<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">";
+				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (timeUsed[j][k] != -1)
 				{
@@ -257,7 +259,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				htmlCode += "</td>";
 
-				htmlCode += "<td nowrap=\"nowrap\" align=\"center\" valign=\"middle\">";
+				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (memoryUsed[j][k] != -1)
 				{
@@ -272,7 +274,8 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (k == 0)
 				{
-					int minv = 2147483647, maxv = testCases[j]->getFullScore();
+					int minv = 2147483647;
+					int maxv = testCases[j]->getFullScore();
 
 					for (int t = 0; t < inputFiles[j].size(); t ++)
 						if (score[j][t] < minv) minv = score[j][t];
@@ -282,7 +285,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 					if (minv >= maxv) bgColor = "rgb(192, 255, 192)";
 					else if (minv > 0) bgColor = "rgb(192, 255, 255)";
 
-					htmlCode += QString("<td rowspan=\"%1\" align=\"center\" valign=\"middle\" style=\"background-color: %2;\"><a style=\"font-weight: bold; font-size: 14px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: 14px;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -312,7 +315,7 @@ void DetailDialog::anchorClicked(const QUrl &url)
 
 	if (list[0] == "Rejudge")
 	{
-		JudgingDialog *dialog = new JudgingDialog(this);
+		auto *dialog = new JudgingDialog(this);
 		dialog->setModal(true);
 		dialog->setContest(contest);
 		dialog->show();

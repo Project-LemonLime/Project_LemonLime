@@ -46,22 +46,22 @@ NewContestWidget::~NewContestWidget()
 	delete ui;
 }
 
-QString NewContestWidget::getContestTitle()
+auto NewContestWidget::getContestTitle() -> QString
 {
 	return ui->contestTitle->text();
 }
 
-QString NewContestWidget::getSavingName()
+auto NewContestWidget::getSavingName() -> QString
 {
 	return ui->savingName->text();
 }
 
-QString NewContestWidget::getContestPath()
+auto NewContestWidget::getContestPath() -> QString
 {
 	return ui->contestPath->text();
 }
 
-bool NewContestWidget::checkReady() const
+auto NewContestWidget::checkReady() const -> bool
 {
 	return ! ui->contestTitle->text().isEmpty() && ! ui->contestPath->text().isEmpty() && ! ui->savingName->text().isEmpty();
 }

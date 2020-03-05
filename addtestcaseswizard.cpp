@@ -82,27 +82,27 @@ void AddTestCasesWizard::setSettings(Settings *_settings, bool check)
 	refreshButtonState();
 }
 
-int AddTestCasesWizard::getFullScore() const
+auto AddTestCasesWizard::getFullScore() const -> int
 {
 	return fullScore;
 }
 
-int AddTestCasesWizard::getTimeLimit() const
+auto AddTestCasesWizard::getTimeLimit() const -> int
 {
 	return timeLimit;
 }
 
-int AddTestCasesWizard::getMemoryLimit() const
+auto AddTestCasesWizard::getMemoryLimit() const -> int
 {
 	return memoryLimit;
 }
 
-const QList<QStringList> &AddTestCasesWizard::getMatchedInputFiles() const
+auto AddTestCasesWizard::getMatchedInputFiles() const -> const QList<QStringList> &
 {
 	return matchedInputFiles;
 }
 
-const QList<QStringList> &AddTestCasesWizard::getMatchedOutputFiles() const
+auto AddTestCasesWizard::getMatchedOutputFiles() const -> const QList<QStringList> &
 {
 	return matchedOutputFiles;
 }
@@ -201,7 +201,7 @@ void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, 
 	}
 }
 
-QString AddTestCasesWizard::getFullRegExp(const QString &pattern)
+auto AddTestCasesWizard::getFullRegExp(const QString &pattern) -> QString
 {
 	QString result = pattern;
 	result.replace("\\", "\\\\");
@@ -226,7 +226,7 @@ QString AddTestCasesWizard::getFullRegExp(const QString &pattern)
 	return result;
 }
 
-QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString &pattern)
+auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &pattern) -> QStringList
 {
 	QStringList result;
 
@@ -265,7 +265,8 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
 
 void AddTestCasesWizard::searchMatchedFiles()
 {
-	QStringList inputFiles, outputFiles;
+	QStringList inputFiles;
+	QStringList outputFiles;
 	getFiles(Settings::dataPath(), "", inputFiles);
 	getFiles(Settings::dataPath(), "", outputFiles);
 
@@ -362,17 +363,18 @@ void AddTestCasesWizard::searchMatchedFiles()
 	{
 		QList<int> values = loc.values(keys[i]);
 		std::sort(values.begin(), values.end());
-		QStringList inputFiles, outputFiles;
-		QTreeWidgetItem *item = new QTreeWidgetItem(ui->testCasesViewer);
+		QStringList inputFiles;
+		QStringList outputFiles;
+		auto *item = new QTreeWidgetItem(ui->testCasesViewer);
 		item->setText(0, tr("Test Case #%1").arg(i + 1));
 
-		for (int j = 0; j < values.size(); j ++)
+		for (int value : values)
 		{
-			inputFiles.append(singleCases[values[j]].first);
-			outputFiles.append(singleCases[values[j]].second);
-			QTreeWidgetItem *child = new QTreeWidgetItem(item);
-			child->setText(0, singleCases[values[j]].first);
-			child->setText(1, singleCases[values[j]].second);
+			inputFiles.append(singleCases[value].first);
+			outputFiles.append(singleCases[value].second);
+			auto *child = new QTreeWidgetItem(item);
+			child->setText(0, singleCases[value].first);
+			child->setText(1, singleCases[value].second);
 		}
 
 		matchedInputFiles.append(inputFiles);
@@ -383,7 +385,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 	ui->testCasesViewer->resizeColumnToContents(1);
 }
 
-bool AddTestCasesWizard::validateCurrentPage()
+auto AddTestCasesWizard::validateCurrentPage() -> bool
 {
 	if (currentId() == 0)
 	{
@@ -466,7 +468,7 @@ bool AddTestCasesWizard::validateCurrentPage()
 	return true;
 }
 
-bool AddTestCasesWizard::compareFileName(const QString &a, const QString &b)
+auto AddTestCasesWizard::compareFileName(const QString &a, const QString &b) -> bool
 {
 	return a.length() < b.length() || (a.length() == b.length() && QString::localeAwareCompare(a, b) < 0);
 }

@@ -39,17 +39,17 @@ NewContestDialog::~NewContestDialog()
 	delete ui;
 }
 
-QString NewContestDialog::getContestTitle()
+auto NewContestDialog::getContestTitle() -> QString
 {
 	return ui->newContestWidget->getContestTitle();
 }
 
-QString NewContestDialog::getSavingName()
+auto NewContestDialog::getSavingName() -> QString
 {
 	return ui->newContestWidget->getSavingName();
 }
 
-QString NewContestDialog::getContestPath()
+auto NewContestDialog::getContestPath() -> QString
 {
 	return ui->newContestWidget->getContestPath();
 }

@@ -47,7 +47,7 @@ public:
 private:
 	int addCount;
 	Contest *curContest;
-	Settings *settings;
+	Settings *settings{};
 	QAction *addTaskAction;
 	QAction *addTestCaseAction;
 	QAction *addTestCasesAction;

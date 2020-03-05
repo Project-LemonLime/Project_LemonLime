@@ -58,12 +58,12 @@ void OpenContestDialog::selectionChanged()
 	}
 }
 
-const QStringList &OpenContestDialog::getRecentContest() const
+auto OpenContestDialog::getRecentContest() const -> const QStringList &
 {
 	return ui->openContestWidget->getRecentContest();
 }
 
-QString OpenContestDialog::getSelectedContest()
+auto OpenContestDialog::getSelectedContest() -> QString
 {
 	return ui->openContestWidget->getRecentContest().at(ui->openContestWidget->getCurrentRow());
 }

@@ -62,40 +62,40 @@ void AddTaskDialog::addTask(const QString &title, int _fullScore, int _timeLimit
 	ui->taskBox->setCurrentIndex(0);
 }
 
-int AddTaskDialog::getFullScore(int index) const
+auto AddTaskDialog::getFullScore(int index) const -> int
 {
 	if (0 <= index && index < fullScore.size())
 	{
 		return fullScore[index];
 	}
-	else
-	{
-		return 0;
-	}
+
+
+	return 0;
+
 }
 
-int AddTaskDialog::getTimeLimit(int index) const
+auto AddTaskDialog::getTimeLimit(int index) const -> int
 {
 	if (0 <= index && index < timeLimit.size())
 	{
 		return timeLimit[index];
 	}
-	else
-	{
-		return 0;
-	}
+
+
+	return 0;
+
 }
 
-int AddTaskDialog::getMemoryLimit(int index) const
+auto AddTaskDialog::getMemoryLimit(int index) const -> int
 {
 	if (0 <= index && index < memoryLimit.size())
 	{
 		return memoryLimit[index];
 	}
-	else
-	{
-		return 0;
-	}
+
+
+	return 0;
+
 }
 
 void AddTaskDialog::taskBoxIndexChanged()

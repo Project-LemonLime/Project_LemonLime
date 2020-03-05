@@ -50,10 +50,10 @@ public:
 
 private:
 	Ui::AddTestCasesWizard *ui;
-	Settings *settings;
-	int fullScore;
-	int timeLimit;
-	int memoryLimit;
+	Settings *settings{};
+	int fullScore{};
+	int timeLimit{};
+	int memoryLimit{};
 	QString inputFilesPattern;
 	QString outputFilesPattern;
 	QList<QStringList> matchedInputFiles;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>213</height>
+    <width>284</width>
+    <height>193</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -173,6 +173,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>taskBox</tabstop>
+  <tabstop>fullScore</tabstop>
+  <tabstop>timeLimit</tabstop>
+  <tabstop>memoryLimit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

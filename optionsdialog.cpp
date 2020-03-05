@@ -41,7 +41,7 @@ OptionsDialog::~OptionsDialog()
 	delete ui;
 }
 
-Settings *OptionsDialog::getEditSettings()
+auto OptionsDialog::getEditSettings() -> Settings *
 {
 	return editSettings;
 }

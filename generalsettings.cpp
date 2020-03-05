@@ -81,7 +81,7 @@ void GeneralSettings::resetEditSettings(Settings *settings)
 	ui->outputFileExtensions->setText(editSettings->getOutputFileExtensions().join(";"));
 }
 
-bool GeneralSettings::checkValid()
+auto GeneralSettings::checkValid() -> bool
 {
 	if (ui->defaultFullScore->text().isEmpty())
 	{

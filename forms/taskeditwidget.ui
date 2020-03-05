@@ -388,7 +388,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="lineByLineMode"/>
      <widget class="QWidget" name="ignoreSpacesMode"/>
@@ -743,16 +743,34 @@
  </customwidgets>
  <tabstops>
   <tabstop>problemTitle</tabstop>
+  <tabstop>traditionalButton</tabstop>
+  <tabstop>answersOnlyButton</tabstop>
+  <tabstop>interactionButton</tabstop>
+  <tabstop>communicationButton</tabstop>
   <tabstop>sourceFileName</tabstop>
+  <tabstop>subFolderCheck</tabstop>
+  <tabstop>sourceFilesTable</tabstop>
+  <tabstop>sourceFilesAppendButton</tabstop>
+  <tabstop>sourceFilesRemoveButton</tabstop>
+  <tabstop>graderFilesTable</tabstop>
+  <tabstop>graderFilesAppendButton</tabstop>
+  <tabstop>graderFilesRemoveButton</tabstop>
+  <tabstop>multiFilesPathLineEdit</tabstop>
+  <tabstop>multiFilesNameLineEdit</tabstop>
+  <tabstop>answerFileExtension</tabstop>
   <tabstop>inputFileName</tabstop>
   <tabstop>standardInputCheck</tabstop>
   <tabstop>outputFileName</tabstop>
   <tabstop>standardOutputCheck</tabstop>
+  <tabstop>interactorPath</tabstop>
+  <tabstop>interactorName</tabstop>
+  <tabstop>graderPath</tabstop>
   <tabstop>comparisonMode</tabstop>
+  <tabstop>diffArguments</tabstop>
+  <tabstop>realPrecision</tabstop>
+  <tabstop>specialJudge</tabstop>
   <tabstop>compilersList</tabstop>
   <tabstop>configurationSelect</tabstop>
-  <tabstop>specialJudge</tabstop>
-  <tabstop>realPrecision</tabstop>
  </tabstops>
  <resources/>
  <connections>

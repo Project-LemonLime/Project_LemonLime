@@ -25,6 +25,7 @@
  **/
 
 #include <QMessageBox>
+#include <utility>
 #include "contest.h"
 #include "task.h"
 #include "testcase.h"
@@ -54,24 +55,24 @@ void Contest::setContestTitle(const QString &title)
 	contestTitle = title;
 }
 
-const QString &Contest::getContestTitle() const
+auto Contest::getContestTitle() const -> const QString &
 {
 	return contestTitle;
 }
 
-Task *Contest::getTask(int index) const
+auto Contest::getTask(int index) const -> Task *
 {
 	if (0 <= index && index < taskList.size())
 	{
 		return taskList[index];
 	}
-	else
-	{
-		return nullptr;
-	}
+
+
+	return nullptr;
+
 }
 
-const QList<Task *> &Contest::getTaskList() const
+auto Contest::getTaskList() const -> const QList<Task *> &
 {
 	return taskList;
 }
@@ -90,47 +91,47 @@ void Contest::swapTask(int a, int b)
 		i->swapTask(a, b);
 }
 
-Contestant *Contest::getContestant(const QString &name) const
+auto Contest::getContestant(const QString &name) const -> Contestant *
 {
 	if (contestantList.contains(name))
 	{
 		return contestantList.value(name);
 	}
-	else
-	{
-		return nullptr;
-	}
+
+
+	return nullptr;
+
 }
 
-QList<Contestant *> Contest::getContestantList() const
+auto Contest::getContestantList() const -> QList<Contestant *>
 {
 	return contestantList.values();
 }
 
-int Contest::getTotalTimeLimit() const
+auto Contest::getTotalTimeLimit() const -> int
 {
 	int total = 0;
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto i : taskList)
 	{
-		QList<TestCase *> testCaseList = taskList[i]->getTestCaseList();
+		QList<TestCase *> testCaseList = i->getTestCaseList();
 
-		for (int j = 0; j < testCaseList.size(); j ++)
+		for (auto &j : testCaseList)
 		{
-			total += testCaseList[j]->getTimeLimit() * testCaseList[j]->getInputFiles().size();
+			total += j->getTimeLimit() * j->getInputFiles().size();
 		}
 	}
 
 	return total;
 }
 
-int Contest::getTotalScore() const
+auto Contest::getTotalScore() const -> int
 {
 	int total = 0;
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto i : taskList)
 	{
-		total += taskList[i]->getTotalScore();
+		total += i->getTotalScore();
 	}
 
 	return total;
@@ -176,7 +177,7 @@ void Contest::refreshContestantList()
 	{
 		if (! contestantList.contains(nameList[i]))
 		{
-			Contestant *newContestant = new Contestant(this);
+			auto *newContestant = new Contestant(this);
 			newContestant->setContestantName(nameList[i]);
 
 			for (int j = 0; j < taskList.size(); j ++)
@@ -237,7 +238,7 @@ void Contest::judge(Contestant *contestant)
 	{
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
-		AssignmentThread *thread = new AssignmentThread();
+		auto *thread = new AssignmentThread();
 		connect(thread, SIGNAL(dialogAlert(QString)),
 		        this, SIGNAL(dialogAlert(QString)));
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
@@ -251,7 +252,7 @@ void Contest::judge(Contestant *contestant)
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
-		QEventLoop *eventLoop = new QEventLoop(this);
+		auto *eventLoop = new QEventLoop(this);
 		connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
 		thread->start();
 		eventLoop->exec();
@@ -290,7 +291,7 @@ void Contest::judge(Contestant *contestant)
 	emit contestantJudgingFinished();
 }
 
-void Contest::judge(Contestant *contestant, QSet<int> index)
+void Contest::judge(Contestant *contestant, const QSet<int> &index)
 {
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
@@ -301,7 +302,7 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 
-		AssignmentThread *thread = new AssignmentThread();
+		auto *thread = new AssignmentThread();
 		connect(thread, SIGNAL(dialogAlert(QString)),
 		        this, SIGNAL(dialogAlert(QString)));
 		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
@@ -315,7 +316,7 @@ void Contest::judge(Contestant *contestant, QSet<int> index)
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
-		QEventLoop *eventLoop = new QEventLoop(this);
+		auto *eventLoop = new QEventLoop(this);
 		connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
 		thread->start();
 		eventLoop->exec();
@@ -361,7 +362,7 @@ void Contest::judge(Contestant *contestant, int index)
 
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 
-	AssignmentThread *thread = new AssignmentThread();
+	auto *thread = new AssignmentThread();
 	connect(thread, SIGNAL(dialogAlert(QString)),
 	        this, SIGNAL(dialogAlert(QString)));
 	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
@@ -375,7 +376,7 @@ void Contest::judge(Contestant *contestant, int index)
 	thread->setSettings(settings);
 	thread->setTask(taskList[index]);
 	thread->setContestantName(contestant->getContestantName());
-	QEventLoop *eventLoop = new QEventLoop(this);
+	auto *eventLoop = new QEventLoop(this);
 	connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
 	thread->start();
 	eventLoop->exec();
@@ -420,7 +421,7 @@ void Contest::judge(const QString &name)
 	judge(contestantList.value(name));
 }
 
-void Contest::judge(const QString &name, QSet<int> index)
+void Contest::judge(const QString &name, const QSet<int> &index)
 {
 	clearPath(Settings::temporaryPath());
 	stopJudging = false;
@@ -440,9 +441,9 @@ void Contest::judgeAll()
 	stopJudging = false;
 	QList<Contestant *> contestants = contestantList.values();
 
-	for (int i = 0; i < contestants.size(); i ++)
+	for (auto &contestant : contestants)
 	{
-		judge(contestants[i]);
+		judge(contestant);
 
 		if (stopJudging) break;
 	}
@@ -459,17 +460,17 @@ void Contest::writeToStream(QDataStream &out)
 	out << contestTitle;
 	out << taskList.size();
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto &i : taskList)
 	{
-		taskList[i]->writeToStream(out);
+		i->writeToStream(out);
 	}
 
 	out << contestantList.size();
 	QList<Contestant *> list = contestantList.values();
 
-	for (int i = 0; i < list.size(); i ++)
+	for (auto &i : list)
 	{
-		list[i]->writeToStream(out);
+		i->writeToStream(out);
 	}
 }
 
@@ -491,7 +492,7 @@ void Contest::readFromStream(QDataStream &in)
 
 	for (int i = 0; i < count; i ++)
 	{
-		Contestant *newContestant = new Contestant(this);
+		auto *newContestant = new Contestant(this);
 		newContestant->readFromStream(in);
 		connect(this, SIGNAL(taskAddedForContestant()),
 		        newContestant, SLOT(addTask()));

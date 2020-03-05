@@ -26,7 +26,7 @@
 FileLineEdit::FileLineEdit(QWidget *parent) :
 	QLineEdit(parent)
 {
-	completer = 0;
+	completer = nullptr;
 }
 
 void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
@@ -77,7 +77,7 @@ void FileLineEdit::refreshFileList()
 	QStringList files;
 	getFiles(Settings::dataPath(), "", files);
 
-	if (completer) delete completer;
+	delete completer;
 
 	completer = new QCompleter(files, this);
 	setCompleter(completer);

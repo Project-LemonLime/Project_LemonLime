@@ -552,6 +552,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>defaultFullScore</tabstop>
+  <tabstop>defaultTimeLimit</tabstop>
+  <tabstop>defaultMemoryLimit</tabstop>
+  <tabstop>compileTimeLimit</tabstop>
+  <tabstop>specialJudgeTimeLimit</tabstop>
+  <tabstop>fileSizeLimit</tabstop>
+  <tabstop>rejudgeTimes</tabstop>
+  <tabstop>inputFileExtensions</tabstop>
+  <tabstop>outputFileExtensions</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

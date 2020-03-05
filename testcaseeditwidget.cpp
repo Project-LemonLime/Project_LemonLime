@@ -103,8 +103,8 @@ void TestCaseEditWidget::refreshFileList()
 
 	for (int i = 0; i < ui->fileList->rowCount(); i ++)
 	{
-		QTableWidgetItem *inputFile = new QTableWidgetItem(inputFiles[i]);
-		QTableWidgetItem *outputFile = new QTableWidgetItem(outputFiles[i]);
+		auto *inputFile = new QTableWidgetItem(inputFiles[i]);
+		auto *outputFile = new QTableWidgetItem(outputFiles[i]);
 		ui->fileList->setItem(i, 0, inputFile);
 		ui->fileList->setItem(i, 1, outputFile);
 	}

@@ -39,7 +39,7 @@ public:
 
 private:
 	Ui::VisualSettings *ui;
-	Settings *editSettings;
+	Settings *editSettings{};
 
 private slots:
 	void colorMxHChanged(const int &);

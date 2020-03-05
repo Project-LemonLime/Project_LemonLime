@@ -52,7 +52,7 @@ public:
 private:
 	Ui::TestCaseEditWidget *ui;
 	TestCase *editTestCase;
-	Settings *settings;
+	Settings *settings{};
 	QAction *deleteAction;
 	void refreshFileList();
 

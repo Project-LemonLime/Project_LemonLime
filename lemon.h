@@ -65,7 +65,7 @@ private:
 	void newContest(const QString &, const QString &, const QString &);
 	void saveContest(const QString &);
 	void loadContest(const QString &);
-	void getFiles(const QString &, const QStringList &, QMap<QString, QString> &);
+	static void getFiles(const QString &, const QStringList &, QMap<QString, QString> &);
 	void addTask(const QString &, const QList< QPair<QString, QString> > &, int, int, int);
 	void addTaskWithScoreScale(const QString &, const QList< QPair<QString, QString> > &, int, int, int);
 	static bool compareFileName(const QPair<QString, QString> &, const QPair<QString, QString> &);
@@ -83,7 +83,7 @@ private slots:
 	void contestantDeleted();
 	void newAction();
 	void saveAction();
-	void openFolderAction();
+	static void openFolderAction();
 	void closeAction();
 	void loadAction();
 	void addTasksAction();
@@ -99,7 +99,7 @@ private slots:
 	void actionSkip();
 	void actionSpecialJudge();
 	void actionCommunication();
-	void actionMore();
+	static void actionMore();
 	void setUiLanguage();
 
 signals:

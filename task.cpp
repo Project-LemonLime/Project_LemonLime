@@ -41,112 +41,112 @@ Task::Task(QObject *parent) :
 	subFolderCheck = false;
 }
 
-const QList<TestCase *> &Task::getTestCaseList() const
+auto Task::getTestCaseList() const -> const QList<TestCase *> &
 {
 	return testCaseList;
 }
 
-const QString &Task::getProblemTile() const
+auto Task::getProblemTile() const -> const QString &
 {
 	return problemTitle;
 }
 
-bool Task::getSubFolderCheck() const
+auto Task::getSubFolderCheck() const -> bool
 {
 	return subFolderCheck;
 }
 
-const QString &Task::getSourceFileName() const
+auto Task::getSourceFileName() const -> const QString &
 {
 	return sourceFileName;
 }
 
-const QString &Task::getInputFileName() const
+auto Task::getInputFileName() const -> const QString &
 {
 	return inputFileName;
 }
 
-const QString &Task::getOutputFileName() const
+auto Task::getOutputFileName() const -> const QString &
 {
 	return outputFileName;
 }
 
-bool Task::getStandardInputCheck() const
+auto Task::getStandardInputCheck() const -> bool
 {
 	return standardInputCheck;
 }
 
-bool Task::getStandardOutputCheck() const
+auto Task::getStandardOutputCheck() const -> bool
 {
 	return standardOutputCheck;
 }
 
-Task::TaskType Task::getTaskType() const
+auto Task::getTaskType() const -> Task::TaskType
 {
 	return taskType;
 }
 
-Task::ComparisonMode Task::getComparisonMode() const
+auto Task::getComparisonMode() const -> Task::ComparisonMode
 {
 	return comparisonMode;
 }
 
-const QString &Task::getDiffArguments() const
+auto Task::getDiffArguments() const -> const QString &
 {
 	return diffArguments;
 }
 
-int Task::getRealPrecision() const
+auto Task::getRealPrecision() const -> int
 {
 	return realPrecision;
 }
 
-const QString &Task::getSpecialJudge() const
+auto Task::getSpecialJudge() const -> const QString &
 {
 	return specialJudge;
 }
 
-const QString &Task::getInteractor() const
+auto Task::getInteractor() const -> const QString &
 {
 	return interactor;
 }
 
-const QString &Task::getInteractorName() const
+auto Task::getInteractorName() const -> const QString &
 {
 	return interactorName;
 }
 
-const QString &Task::getGrader() const
+auto Task::getGrader() const -> const QString &
 {
 	return grader;
 }
 
-QString Task::getCompilerConfiguration(const QString &compilerName) const
+auto Task::getCompilerConfiguration(const QString &compilerName) const -> QString
 {
 	return compilerConfiguration.value(compilerName);
 }
 
-const QString &Task::getAnswerFileExtension() const
+auto Task::getAnswerFileExtension() const -> const QString &
 {
 	return answerFileExtension;
 }
 
-const QStringList &Task::getSourceFilesPath() const
+auto Task::getSourceFilesPath() const -> const QStringList &
 {
 	return sourceFilesPath;
 }
 
-const QStringList &Task::getSourceFilesName() const
+auto Task::getSourceFilesName() const -> const QStringList &
 {
 	return sourceFilesName;
 }
 
-const QStringList &Task::getGraderFilesPath() const
+auto Task::getGraderFilesPath() const -> const QStringList &
 {
 	return graderFilesPath;
 }
 
-const QStringList &Task::getGraderFilesName() const
+auto Task::getGraderFilesName() const -> const QStringList &
 {
 	return graderFilesName;
 }
@@ -296,16 +296,16 @@ void Task::addTestCase(TestCase *testCase)
 	testCaseList.append(testCase);
 }
 
-TestCase *Task::getTestCase(int index) const
+auto Task::getTestCase(int index) const -> TestCase *
 {
 	if (0 <= index && index < testCaseList.size())
 	{
 		return testCaseList[index];
 	}
-	else
-	{
-		return nullptr;
-	}
+
+
+	return nullptr;
+
 }
 
 void Task::deleteTestCase(int index)
@@ -325,8 +325,8 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 	QList<Compiler *> compilerList = settings->getCompilerList();
 	QStringList compilerNames;
 
-	for (int i = 0; i < compilerList.size(); i ++)
-		compilerNames.append(compilerList[i]->getCompilerName());
+	for (auto &i : compilerList)
+		compilerNames.append(i->getCompilerName());
 
 	QMap<QString, QString>::iterator p;
 
@@ -342,46 +342,46 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 		}
 	}
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (auto &i : compilerList)
 	{
-		if (compilerConfiguration.contains(compilerList[i]->getCompilerName()))
+		if (compilerConfiguration.contains(i->getCompilerName()))
 		{
-			const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
-			const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
+			const QString &config = compilerConfiguration.value(i->getCompilerName());
+			const QStringList &configurationNames = i->getConfigurationNames();
 
 			if (! configurationNames.contains(config))
 			{
-				compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+				compilerConfiguration.insert(i->getCompilerName(), "default");
 			}
 		}
 		else
 		{
-			compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+			compilerConfiguration.insert(i->getCompilerName(), "default");
 		}
 	}
 
 	emit compilerConfigurationRefreshed();
 }
 
-int Task::getTotalTimeLimit() const
+auto Task::getTotalTimeLimit() const -> int
 {
 	int total = 0;
 
-	for (int i = 0; i < testCaseList.size(); i ++)
+	for (auto i : testCaseList)
 	{
-		total += testCaseList[i]->getTimeLimit() * testCaseList[i]->getInputFiles().size();
+		total += i->getTimeLimit() * i->getInputFiles().size();
 	}
 
 	return total;
 }
 
-int Task::getTotalScore() const
+auto Task::getTotalScore() const -> int
 {
 	int total = 0;
 
-	for (int i = 0; i < testCaseList.size(); i ++)
+	for (auto i : testCaseList)
 	{
-		total += testCaseList[i]->getFullScore();
+		total += i->getFullScore();
 	}
 
 	return total;
@@ -442,15 +442,16 @@ void Task::writeToStream(QDataStream &out)
 	out << answerFileExtension;
 	out << testCaseList.size();
 
-	for (int i = 0; i < testCaseList.size(); i ++)
+	for (auto &i : testCaseList)
 	{
-		testCaseList[i]->writeToStream(out);
+		i->writeToStream(out);
 	}
 }
 
 void Task::readFromStream(QDataStream &in)
 {
-	int tmp, count;
+	int tmp;
+	int count;
 	in >> problemTitle;
 	in >> sourceFileName;
 	in >> inputFileName;
@@ -512,7 +513,7 @@ void Task::readFromStream(QDataStream &in)
 
 	for (int i = 0; i < count; i ++)
 	{
-		TestCase *newTestCase = new TestCase(this);
+		auto *newTestCase = new TestCase(this);
 		newTestCase->readFromStream(in);
 		newTestCase->setIndex(testCaseList.size() + 1);
 		testCaseList.append(newTestCase);

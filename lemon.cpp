@@ -173,7 +173,7 @@ Lemon::Lemon(QWidget *parent) :
 	for (int i = 0; i < fileList.size(); i ++)
 	{
 		appTranslator->load(QString(":/translation/%1").arg(fileList[i]));
-		QAction *newLanguage = new QAction(appTranslator->translate("Lemon", "English"), this);
+		auto *newLanguage = new QAction(appTranslator->translate("Lemon", "English"), this);
 		newLanguage->setCheckable(true);
 		QString language = QFileInfo(fileList[i]).baseName();
 		language.remove(0, language.indexOf('_') + 1);
@@ -220,29 +220,29 @@ void Lemon::closeEvent(QCloseEvent */*event*/)
 	settings.setValue("WindowSize", size());
 }
 
-int Lemon::getSplashTime()
+auto Lemon::getSplashTime() -> int
 {
 	return settings->getSplashTime();
 }
 
 void Lemon::welcome()
 {
-	if (settings->getCompilerList().size() == 0)
+	if (settings->getCompilerList().empty())
 	{
-		AddCompilerWizard *wizard = new AddCompilerWizard(this);
+		auto *wizard = new AddCompilerWizard(this);
 
 		if (wizard->exec() == QDialog::Accepted)
 		{
 			QList<Compiler *> compilerList = wizard->getCompilerList();
 
-			for (int i = 0; i < compilerList.size(); i ++)
-				settings->addCompiler(compilerList[i]);
+			for (auto &i : compilerList)
+				settings->addCompiler(i);
 		}
 
 		delete wizard;
 	}
 
-	WelcomeDialog *dialog = new WelcomeDialog(this);
+	auto *dialog = new WelcomeDialog(this);
 	dialog->setRecentContest(settings->getRecentContest());
 
 	if (dialog->exec() == QDialog::Accepted)
@@ -270,16 +270,16 @@ void Lemon::loadUiLanguage()
 {
 	ui->setEnglishAction->setChecked(false);
 
-	for (int i = 0; i < languageActions.size(); i ++)
+	for (auto &languageAction : languageActions)
 	{
-		languageActions[i]->setChecked(false);
+		languageAction->setChecked(false);
 	}
 
-	for (int i = 0; i < languageActions.size(); i ++)
+	for (auto &languageAction : languageActions)
 	{
-		if (languageActions[i]->data().toString() == settings->getUiLanguage())
+		if (languageAction->data().toString() == settings->getUiLanguage())
 		{
-			languageActions[i]->setChecked(true);
+			languageAction->setChecked(true);
 			appTranslator->load(QString(":/translation/lemon_%1.qm").arg(settings->getUiLanguage()));
 			qtTranslator->load(QString(":/translation/qt_%1.qm").arg(settings->getUiLanguage()));
 			return;
@@ -306,7 +306,7 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 
 void Lemon::resetDataWatcher()
 {
-	if (dataDirWatcher) delete dataDirWatcher;
+	delete dataDirWatcher;
 
 	dataDirWatcher = new QFileSystemWatcher(this);
 	insertWatchPath(Settings::dataPath(), dataDirWatcher);
@@ -353,7 +353,7 @@ void Lemon::summarySelectionChanged()
 
 void Lemon::showOptionsDialog()
 {
-	OptionsDialog *dialog = new OptionsDialog(this);
+	auto *dialog = new OptionsDialog(this);
 	dialog->resetEditSettings(settings);
 
 	if (dialog->exec() == QDialog::Accepted)
@@ -365,8 +365,8 @@ void Lemon::showOptionsDialog()
 		{
 			const QList<Task *> &taskList = curContest->getTaskList();
 
-			for (int i = 0; i < taskList.size(); i ++)
-				taskList[i]->refreshCompilerConfiguration(settings);
+			for (auto i : taskList)
+				i->refreshCompilerConfiguration(settings);
 		}
 	}
 
@@ -501,7 +501,7 @@ void Lemon::cleanupButtonClicked()
 
 			bkLoca = QDir(backupFolder);
 
-			QProgressDialog *bkProcess = new QProgressDialog(tr("Making Backup..."), "", 0, 0, this);
+			auto *bkProcess = new QProgressDialog(tr("Making Backup..."), "", 0, 0, this);
 			bkProcess->setWindowModality(Qt::WindowModal);
 			bkProcess->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 			bkProcess->setMinimumDuration(0);
@@ -523,7 +523,7 @@ void Lemon::cleanupButtonClicked()
 			delete bkProcess;
 		}
 
-		QProgressDialog *process = new QProgressDialog(tr("Cleaning"), "", 0, 0, this);
+		auto *process = new QProgressDialog(tr("Cleaning"), "", 0, 0, this);
 		process->setWindowModality(Qt::WindowModal);
 		process->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 		process->setMinimumDuration(0);
@@ -623,7 +623,7 @@ void Lemon::cleanupButtonClicked()
 				removePath(proDirWho.absoluteFilePath());
 			}
 
-			for (auto proName : nameSet)
+			for (const auto &proName : nameSet)
 			{
 				conDir.mkpath(proName);
 			}
@@ -710,7 +710,7 @@ void Lemon::tabIndexChanged(int index)
 	{
 		QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
-		if (selectionRange.size() > 0)
+		if (!selectionRange.empty())
 		{
 			ui->judgeAction->setEnabled(true);
 			ui->judgeButton->setEnabled(true);
@@ -783,7 +783,7 @@ void Lemon::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
-	if (selectionRange.size() > 0)
+	if (!selectionRange.empty())
 	{
 		ui->judgeButton->setEnabled(true);
 		ui->judgeAction->setEnabled(true);
@@ -965,7 +965,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 
 void Lemon::newAction()
 {
-	NewContestDialog *dialog = new NewContestDialog(this);
+	auto *dialog = new NewContestDialog(this);
 
 	if (dialog->exec() == QDialog::Accepted)
 	{
@@ -1010,7 +1010,7 @@ void Lemon::openFolderAction()
 
 void Lemon::loadAction()
 {
-	OpenContestDialog *dialog = new OpenContestDialog(this);
+	auto *dialog = new OpenContestDialog(this);
 	dialog->setRecentContest(settings->getRecentContest());
 	QStringList recentContest = dialog->getRecentContest();
 
@@ -1043,9 +1043,9 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
 
 	QFileInfoList list = dir.entryInfoList(QDir::Files);
 
-	for (int i = 0; i < list.size(); i ++)
+	for (auto &i : list)
 	{
-		files.insert(list[i].completeBaseName(), list[i].fileName());
+		files.insert(i.completeBaseName(), i.fileName());
 	}
 }
 
@@ -1061,14 +1061,14 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
 	curContest->addTask(newTask);
 
-	for (int i = 0; i < testCases.size(); i ++)
+	for (const auto &testCase : testCases)
 	{
-		TestCase *newTestCase = new TestCase;
+		auto *newTestCase = new TestCase;
 		newTestCase->setFullScore(fullScore);
 		newTestCase->setTimeLimit(timeLimit);
 		newTestCase->setMemoryLimit(memoryLimit);
-		newTestCase->addSingleCase(title + QDir::separator() + testCases[i].first,
-		                           title + QDir::separator() + testCases[i].second);
+		newTestCase->addSingleCase(title + QDir::separator() + testCase.first,
+		                           title + QDir::separator() + testCase.second);
 		newTask->addTestCase(newTestCase);
 	}
 }
@@ -1090,7 +1090,7 @@ void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QStrin
 
 	for (int i = 0; i < testCases.size(); i ++)
 	{
-		TestCase *newTestCase = new TestCase;
+		auto *newTestCase = new TestCase;
 		newTestCase->setFullScore(scorePer + static_cast<int>(i < scoreLos));
 		newTestCase->setTimeLimit(timeLimit);
 		newTestCase->setMemoryLimit(memoryLimit);
@@ -1100,7 +1100,7 @@ void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QStrin
 	}
 }
 
-bool Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b)
+auto Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b) -> bool
 {
 	return (a.first.length() < b.first.length())
 	       || (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
@@ -1112,9 +1112,9 @@ void Lemon::addTasksAction()
 	QSet<QString> nameSet;
 	QList<Task *> taskList = curContest->getTaskList();
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto &i : taskList)
 	{
-		nameSet.insert(taskList[i]->getSourceFileName());
+		nameSet.insert(i->getSourceFileName());
 	}
 
 	QStringList nameList;
@@ -1176,7 +1176,7 @@ void Lemon::addTasksAction()
 		return;
 	}
 
-	AddTaskDialog *dialog = new AddTaskDialog(this);
+	auto *dialog = new AddTaskDialog(this);
 	dialog->resize(dialog->sizeHint());
 	dialog->setMaximumSize(dialog->sizeHint());
 	dialog->setMinimumSize(dialog->sizeHint());
@@ -1284,10 +1284,10 @@ void Lemon::actionSubTasks()
 	text += tr("There is a example of how to use regular expressions to make subtasks:") + "<br>";
 	text += tr("Data(in): matrix/matrix&lt;1&gt;.in") + "<br>";
 	text += tr("Data(out): matrix/matrix&lt;1&gt;.out") + "<br>";
-	text += tr("And the \"&lt;1&gt;\" is \"\\d*\".") + "<br>";
+	text += tr(R"(And the "&lt;1&gt;" is "\d*".)") + "<br>";
 	text += tr("Numbers: \\d*") + "<br>";
 	text += tr("Notes:") + "<br>";
-	text += tr("\"\\d\" means a number.") + "<br>";
+	text += tr(R"("\d" means a number.)") + "<br>";
 	text += tr("\".\" means a character.") + "<br>";
 	text += tr("\"*\" means repeat previous order 0~inf times.") + "<br>";
 	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
@@ -1348,7 +1348,7 @@ void Lemon::actionMore()
 
 void Lemon::setUiLanguage()
 {
-	QAction *language = dynamic_cast<QAction *>(sender());
+	auto *language = dynamic_cast<QAction *>(sender());
 	settings->setUiLanguage(language->data().toString());
 	loadUiLanguage();
 }

@@ -21,6 +21,8 @@
  **/
 
 #include "contestant.h"
+
+#include <utility>
 #include "contest.h"
 
 Contestant::Contestant(QObject *parent) :
@@ -28,62 +30,62 @@ Contestant::Contestant(QObject *parent) :
 {
 }
 
-const QString &Contestant::getContestantName() const
+auto Contestant::getContestantName() const -> const QString &
 {
 	return contestantName;
 }
 
-bool Contestant::getCheckJudged(int index) const
+auto Contestant::getCheckJudged(int index) const -> bool
 {
 	return checkJudged[index];
 }
 
-CompileState Contestant::getCompileState(int index) const
+auto Contestant::getCompileState(int index) const -> CompileState
 {
 	return compileState[index];
 }
 
-const QString &Contestant::getSourceFile(int index) const
+auto Contestant::getSourceFile(int index) const -> const QString &
 {
 	return sourceFile[index];
 }
 
-const QString &Contestant::getCompileMessage(int index) const
+auto Contestant::getCompileMessage(int index) const -> const QString &
 {
 	return compileMesaage[index];
 }
 
-const QList<QStringList> &Contestant::getInputFiles(int index) const
+auto Contestant::getInputFiles(int index) const -> const QList<QStringList> &
 {
 	return inputFiles[index];
 }
 
-const QList< QList<ResultState> > &Contestant::getResult(int index) const
+auto Contestant::getResult(int index) const -> const QList< QList<ResultState> > &
 {
 	return result[index];
 }
 
-const QList<QStringList> &Contestant::getMessage(int index) const
+auto Contestant::getMessage(int index) const -> const QList<QStringList> &
 {
 	return message[index];
 }
 
-const QList< QList<int> > &Contestant::getSocre(int index) const
+auto Contestant::getSocre(int index) const -> const QList< QList<int> > &
 {
 	return score[index];
 }
 
-const QList< QList<int> > &Contestant::getTimeUsed(int index) const
+auto Contestant::getTimeUsed(int index) const -> const QList< QList<int> > &
 {
 	return timeUsed[index];
 }
 
-const QList< QList<int> > &Contestant::getMemoryUsed(int index) const
+auto Contestant::getMemoryUsed(int index) const -> const QList< QList<int> > &
 {
 	return memoryUsed[index];
 }
 
-QDateTime Contestant::getJudingTime() const
+auto Contestant::getJudingTime() const -> QDateTime
 {
 	return judgingTime;
 }
@@ -145,7 +147,7 @@ void Contestant::setMemoryUsed(int index, const QList< QList<int> > &_memoryUsed
 
 void Contestant::setJudgingTime(QDateTime time)
 {
-	judgingTime = time;
+	judgingTime = std::move(time);
 }
 
 void Contestant::addTask()
@@ -193,7 +195,7 @@ void Contestant::swapTask(int a, int b)
 	memoryUsed.swap(a, b);
 }
 
-int Contestant::getTaskScore(int index) const
+auto Contestant::getTaskScore(int index) const -> int
 {
 	if (0 > index || index >= checkJudged.size()) return -1;
 
@@ -201,13 +203,13 @@ int Contestant::getTaskScore(int index) const
 
 	int total = 0;
 
-	for (int i = 0; i < score[index].size(); i ++)
+	for (const auto &i : score[index])
 	{
 		int minv = 1000000000;
 
-		for (int j = 0; j < score[index][i].size(); j ++)
+		for (int j : i)
 		{
-			if (score[index][i][j] < minv && score[index][i][j] >= 0) minv = score[index][i][j];
+			if (j < minv && j >= 0) minv = j;
 		}
 
 		if (minv == 1000000000) minv = 0;
@@ -218,13 +220,13 @@ int Contestant::getTaskScore(int index) const
 	return total;
 }
 
-int Contestant::getTotalScore() const
+auto Contestant::getTotalScore() const -> int
 {
-	if (checkJudged.size() == 0) return -1;
+	if (checkJudged.empty()) return -1;
 
-	for (int i = 0; i < checkJudged.size(); i ++)
+	for (bool i : checkJudged)
 	{
-		if (! checkJudged[i]) return -1;
+		if (! i) return -1;
 	}
 
 	int total = 0;
@@ -237,24 +239,24 @@ int Contestant::getTotalScore() const
 	return total;
 }
 
-int Contestant::getTotalUsedTime() const
+auto Contestant::getTotalUsedTime() const -> int
 {
-	if (checkJudged.size() == 0) return -1;
+	if (checkJudged.empty()) return -1;
 
-	for (int i = 0; i < checkJudged.size(); i ++)
+	for (bool i : checkJudged)
 	{
-		if (! checkJudged[i]) return -1;
+		if (! i) return -1;
 	}
 
 	int total = 0;
 
-	for (int i = 0; i < timeUsed.size(); i ++)
+	for (const auto &i : timeUsed)
 	{
-		for (int j = 0; j < timeUsed[i].size(); j ++)
+		for (const auto &j : i)
 		{
-			for (int k = 0; k < timeUsed[i][j].size(); k ++)
+			for (int k : j)
 			{
-				if (timeUsed[i][j][k] >= 0) total += timeUsed[i][j][k];
+				if (k >= 0) total += k;
 			}
 		}
 	}
@@ -278,24 +280,24 @@ void Contestant::writeToStream(QDataStream &out)
 	out << static_cast<quint8>(judgingTime.timeSpec());
 	out << compileState.size();
 
-	for (int i = 0; i < compileState.size(); i ++)
+	for (auto &i : compileState)
 	{
-		out << int (compileState[i]);
+		out << int (i);
 	}
 
 	out << result.size();
 
-	for (int i = 0; i < result.size(); i ++)
+	for (auto &i : result)
 	{
-		out << result[i].size();
+		out << i.size();
 
-		for (int j = 0; j < result[i].size(); j ++)
+		for (auto &j : i)
 		{
-			out << result[i][j].size();
+			out << j.size();
 
-			for (int k = 0; k < result[i][j].size(); k ++)
+			for (auto &k : j)
 			{
-				out << int (result[i][j][k]);
+				out << int (k);
 			}
 		}
 	}
@@ -319,7 +321,10 @@ void Contestant::readFromStream(QDataStream &in)
 	in >> judgingTime_time;
 	in >> judgingTime_timespec;
 	judgingTime = QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(static_cast<int>(judgingTime_time)), Qt::TimeSpec(judgingTime_timespec));
-	int count, _count, __count, tmp;
+	int count;
+	int _count;
+	int __count;
+	int tmp;
 	in >> count;
 
 	for (int i = 0; i < count; i ++)

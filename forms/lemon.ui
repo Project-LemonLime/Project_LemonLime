@@ -892,10 +892,14 @@
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>summary</tabstop>
+  <tabstop>moveDownButton</tabstop>
+  <tabstop>moveUpButton</tabstop>
+  <tabstop>resultViewer</tabstop>
+  <tabstop>cleanupButton</tabstop>
   <tabstop>refreshButton</tabstop>
+  <tabstop>judgeUnjudgedButton</tabstop>
   <tabstop>judgeButton</tabstop>
   <tabstop>judgeAllButton</tabstop>
-  <tabstop>resultViewer</tabstop>
  </tabstops>
  <resources>
   <include location="../resource.qrc"/>

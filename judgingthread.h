@@ -61,7 +61,7 @@ public:
 private:
 	//bool checkRejudgeMode;
 	bool needRejudge;
-	double extraTimeRatio;
+	double extraTimeRatio{};
 	QProcessEnvironment environment;
 	QString workingDirectory;
 	QString executableFile;
@@ -70,14 +70,14 @@ private:
 	QString inputFile;
 	QString outputFile;
 	QString diffPath;
-	Task *task;
-	int specialJudgeTimeLimit;
-	int fullScore;
-	int timeLimit;
-	int memoryLimit;
+	Task *task{};
+	int specialJudgeTimeLimit{};
+	int fullScore{};
+	int timeLimit{};
+	int memoryLimit{};
 	int timeUsed;
 	int memoryUsed;
-	int score;
+	int score{};
 	int judgedTimes;
 	ResultState result;
 	QString message;

@@ -118,8 +118,8 @@ void SummaryTree::setContest(Contest *contest)
 	{
 		QList<Task *> taskList = curContest->getTaskList();
 
-		for (int i = 0; i <  taskList.size(); i ++)
-			disconnect(taskList[i], SIGNAL(problemTitleChanged(QString)),
+		for (auto &i : taskList)
+			disconnect(i, SIGNAL(problemTitleChanged(QString)),
 			           this, SLOT(titleChanged(QString)));
 	}
 
@@ -132,23 +132,23 @@ void SummaryTree::setContest(Contest *contest)
 	clear();
 	QList<Task *> taskList = curContest->getTaskList();
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto &i : taskList)
 	{
-		connect(taskList[i], SIGNAL(problemTitleChanged(QString)),
+		connect(i, SIGNAL(problemTitleChanged(QString)),
 		        this, SLOT(titleChanged(QString)));
-		QTreeWidgetItem *newTaskItem = new QTreeWidgetItem(this);
-		newTaskItem->setText(0, taskList[i]->getProblemTile());
+		auto *newTaskItem = new QTreeWidgetItem(this);
+		newTaskItem->setText(0, i->getProblemTile());
 		newTaskItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-		for (int j = 0; j < taskList[i]->getTestCaseList().size(); j ++)
+		for (int j = 0; j < i->getTestCaseList().size(); j ++)
 		{
-			QTreeWidgetItem *newTestCaseItem = new QTreeWidgetItem(newTaskItem);
+			auto *newTestCaseItem = new QTreeWidgetItem(newTaskItem);
 			newTestCaseItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 			newTestCaseItem->setText(0, tr("Test Case #%1").arg(newTaskItem->childCount()));
 		}
 	}
 
-	if (taskList.size() > 0) setCurrentItem(topLevelItem(0));
+	if (!taskList.empty()) setCurrentItem(topLevelItem(0));
 
 	setEnabled(true);
 	emit currentItemChanged(nullptr, nullptr);
@@ -161,7 +161,7 @@ void SummaryTree::setSettings(Settings *_settings)
 
 void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
 {
-	QMenu *contextMenu = new QMenu(this);
+	auto *contextMenu = new QMenu(this);
 
 	QTreeWidgetItem *curItem = currentItem();
 
@@ -206,7 +206,7 @@ void SummaryTree::addTask()
 	newTask->refreshCompilerConfiguration(settings);
 	connect(newTask, SIGNAL(problemTitleChanged(QString)),
 	        this, SLOT(titleChanged(QString)));
-	QTreeWidgetItem *newItem = new QTreeWidgetItem(this);
+	auto *newItem = new QTreeWidgetItem(this);
 	setCurrentItem(newItem);
 	newItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	newItem->setText(0, tr("Problem %1").arg(++ addCount));
@@ -225,12 +225,12 @@ void SummaryTree::addTestCase()
 
 	int index = indexOfTopLevelItem(curItem);
 	Task *curTask = curContest->getTask(index);
-	TestCase *newTestCase = new TestCase;
+	auto *newTestCase = new TestCase;
 	newTestCase->setFullScore(settings->getDefaultFullScore());
 	newTestCase->setTimeLimit(settings->getDefaultTimeLimit());
 	newTestCase->setMemoryLimit(settings->getDefaultMemoryLimit());
 	curTask->addTestCase(newTestCase);
-	QTreeWidgetItem *newItem = new QTreeWidgetItem(curItem);
+	auto *newItem = new QTreeWidgetItem(curItem);
 	newItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	newItem->setText(0, tr("Test Case #%1").arg(curItem->childCount()));
 	setCurrentItem(newItem);
@@ -247,7 +247,7 @@ void SummaryTree::addTestCases()
 
 	int index = indexOfTopLevelItem(curItem);
 	Task *curTask = curContest->getTask(index);
-	AddTestCasesWizard *wizard = new AddTestCasesWizard(this);
+	auto *wizard = new AddTestCasesWizard(this);
 	wizard->setSettings(settings, curTask->getTaskType() == Task::Traditional || curTask->getTaskType() == Task::Interaction || curTask->getTaskType() == Task::Communication);
 
 	if (wizard->exec() == QDialog::Accepted)

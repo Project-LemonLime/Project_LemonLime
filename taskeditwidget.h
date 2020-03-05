@@ -48,7 +48,7 @@ public:
 
 private:
 	Ui::TaskEditWidget *ui;
-	Settings *settings;
+	Settings *settings{};
 	Task *editTask;
 	void refreshWidgetState();
 	void addSourceFiles(const QString &, const QString &);

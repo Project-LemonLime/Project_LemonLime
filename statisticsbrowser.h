@@ -50,8 +50,8 @@ public slots:
 private:
 	Ui::StatisticsBrowser *ui;
 	Contest *curContest;
-	QString getScoreNormalChart(QMap<int, int>, int, int);
-	QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>, QList<QList<QList<ResultState>>>);
+	static QString getScoreNormalChart(const QMap<int, int> &, int, int);
+	static QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>, QList<QList<QList<ResultState>>>);
 	static void exportStatsticsHtml(QWidget *, const QString &);
 };
 

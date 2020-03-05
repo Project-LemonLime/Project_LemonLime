@@ -3437,12 +3437,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="forms/taskeditwidget.ui" line="502"/>
         <source>Traditional</source>
-        <translation>传统型</translation>
+        <translation>传统题</translation>
     </message>
     <message>
         <location filename="forms/taskeditwidget.ui" line="515"/>
         <source>Answers Only</source>
-        <translation>答案提交型</translation>
+        <translation>提交答案题</translation>
     </message>
     <message>
         <location filename="forms/taskeditwidget.ui" line="70"/>

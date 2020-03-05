@@ -47,8 +47,8 @@ public:
 
 private:
 	Ui::DetailDialog *ui;
-	Contest *contest;
-	Contestant *contestant;
+	Contest *contest{};
+	Contestant *contestant{};
 
 private slots:
 	void anchorClicked(const QUrl &);

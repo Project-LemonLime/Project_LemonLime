@@ -40,7 +40,7 @@ ExportUtil::ExportUtil(QObject *parent) :
 {
 }
 
-QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num)
+auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num) -> QString
 {
 	QString htmlCode;
 
@@ -48,7 +48,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 	for (int i = 0; i < taskList.size(); i ++)
 	{
-		htmlCode += QString("<a name=\"c%1p%2\"><p><span style=\"font-weight:bold; font-size:large;\">").arg(num).arg(i);
+		htmlCode += QString(R"(<a name="c%1p%2"><p><span style="font-weight:bold; font-size:large;">)").arg(num).arg(i);
 		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTile());
 
 		if (! contestant->getCheckJudged(i))
@@ -92,7 +92,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 							if (compileMessage.endsWith("<br>"))
 								compileMessage.chop(4);
 
-							htmlCode += "<table border=\"1\"  cellpadding=\"1\">";
+							htmlCode += R"(<table border="1"  cellpadding="1">)";
 							htmlCode += "<tr><td style=\"padding: 0.5em; text-align: left;\"><code>";
 							htmlCode += compileMessage;
 							htmlCode += "</code></td></tr></table>";
@@ -112,12 +112,12 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 		}
 
 		htmlCode += "<table style=\"border: solid;\"><tr>";
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Test Case"));
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Input File"));
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Result"));
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Time Used"));
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th>").arg(tr("Memory Used"));
-		htmlCode += QString("<th scope=\"col\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</th></tr>").arg(tr("Score"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Test Case"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Input File"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Result"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Time Used"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Memory Used"));
+		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th></tr>)").arg(tr("Score"));
 
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
@@ -136,16 +136,18 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 				if (k == 0)
 				{
 					if (score[j].size() == inputFiles[j].size())
-						htmlCode += QString("<td rowspan=\"%1\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">#%2</td>")
+						htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">#%2</td>)")
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
-						htmlCode += QString("<td rowspan=\"%1\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">#%2<br>%3:%4</td>")
+						htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">#%2<br>%3:%4</td>)")
 						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
 				}
 
 				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>").arg(inputFiles[j][k]);
 
-				QString text, bgColor = "rgb(255, 255, 255)", FrColor = "rgb(0, 0, 0)";
+				QString text;
+				QString bgColor = "rgb(255, 255, 255)";
+				QString FrColor = "rgb(0, 0, 0)";
 
 				switch (result[j][k])
 				{
@@ -263,7 +265,8 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 
 				if (k == 0)
 				{
-					int minv = 2147483647, maxv = testCases[j]->getFullScore();
+					int minv = 2147483647;
+					int maxv = testCases[j]->getFullScore();
 
 					for (int t = 0; t < inputFiles[j].size(); t ++)
 						if (score[j][t] < minv) minv = score[j][t];
@@ -273,7 +276,7 @@ QString ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contesta
 					if (minv >= maxv) bgColor = "rgb(192, 255, 192)";
 					else if (minv > 0) bgColor = "rgb(192, 255, 255)";
 
-					htmlCode += QString("<td rowspan=\"%1\" style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;\"><a style=\"font-weight: bold; font-size: 18px;\">%3</a> / %4</td>").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;"><a style="font-weight: bold; font-size: 18px;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -306,24 +309,24 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out.setCodec("UTF-8");
 	out << "<html><head>";
-	out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
+	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 
 	QList< QPair<int, QString> > sortList;
 
-	for (int i = 0; i < contestantList.size(); i ++)
+	for (auto &i : contestantList)
 	{
-		int totalScore = contestantList[i]->getTotalScore();
+		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1)
 		{
-			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(-totalScore, i->getContestantName()));
 		}
 		else
 		{
-			sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(1, i->getContestantName()));
 		}
 	}
 
@@ -342,7 +345,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		}
 	}
 
-	QMap<Contestant *, int> loc;
+	QHash<Contestant *, int> loc;
 
 	for (int i = 0; i < contestantList.size(); i ++)
 	{
@@ -352,32 +355,32 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
 	out << "<p style=\"font-size: 12px;\">" << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
-	out << "<p><table cellpadding=\"1\" style=\"border-style: solid;\"><tr>";
-	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 3px; border-color: #000;\" scope=\"col\">%1</th>").arg(tr("Rank"));
-	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 3px; border-color: #000;\" scope=\"col\">%1</th>").arg(tr("Name"));
+	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
+	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Rank"));
+	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Name"));
 
-	out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 2px; border-color: #000;\" scope=\"col\">%1</th>").arg(tr("Total Score"));
+	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)").arg(tr("Total Score"));
 
-	for (int i = 0; i < taskList.size(); i ++)
-		out << QString("<th style=\"border-style: none solid solid none; border-width: 3px 2px; border-color: #000;\" scope=\"col\">%1</th>").arg(taskList[i]->getProblemTile());
+	for (auto &i : taskList)
+		out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)").arg(i->getProblemTile());
 
 	out << "</tr>";
 
 	QList<int> fullScore;
 	int sfullScore = contest->getTotalScore();
 
-	for (int i = 0; i < taskList.size(); i++)
+	for (auto &i : taskList)
 	{
-		fullScore.append(taskList[i]->getTotalScore());
+		fullScore.append(i->getTotalScore());
 	}
 
-	for (int i = 0; i < sortList.size(); i ++)
+	for (auto &i : sortList)
 	{
-		Contestant *contestant = contest->getContestant(sortList[i].second);
+		Contestant *contestant = contest->getContestant(i.second);
 		out << QString("<tr><td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>")
 		    .arg(rankList[contestant->getContestantName()] + 1);
-		out << QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\"><a href=\"#c%1\" style=\"color: black; text-decoration: none;\">%2</a></td>")
-		    .arg(loc[contestant]).arg(sortList[i].second);
+		out << QString(R"(<td style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;"><a href="#c%1" style="color: black; text-decoration: none;">%2</a></td>)")
+		    .arg(loc[contestant]).arg(i.second);
 
 		int allScore = contestant->getTotalScore();
 
@@ -420,11 +423,11 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 					}
 				}
 
-				out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px;\"><a href=\"#c%5p%6\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(loc[contestant]).arg(j);
+				out << QString(R"(<td style="background-color: hsl(%2,%3%,%4%); border-radius: 5px;"><a href="#c%5p%6" style="color: black; text-decoration: none;">%1</a></td>)").arg(score).arg(basCol).arg(colFix).arg(colLevel).arg(loc[contestant]).arg(j);
 			}
 			else
 			{
-				out << QString("<td style=\"border-radius: 5px;\"><a href=\"#c%2p%3\" style=\"color: black; text-decoration: none;\">%1</a></td>").arg(tr("Invalid")).arg(loc[contestant]).arg(j);
+				out << QString(R"(<td style="border-radius: 5px;"><a href="#c%2p%3" style="color: black; text-decoration: none;">%1</a></td>)").arg(tr("Invalid")).arg(loc[contestant]).arg(j);
 			}
 		}
 	}
@@ -444,7 +447,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
-QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *contestant)
+auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *contestant) -> QString
 {
 	QString htmlCode;
 
@@ -496,7 +499,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 							if (compileMessage.endsWith("<br>"))
 								compileMessage.chop(4);
 
-							htmlCode += "<table border=\"1\" cellpadding=\"1\">";
+							htmlCode += R"(<table border="1" cellpadding="1">)";
 							htmlCode += "<tr><td style=\"padding: 0.5em; text-align: left;\"><code>";
 							htmlCode += compileMessage;
 							htmlCode += "</code></td></tr></table>";
@@ -515,7 +518,7 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
-		htmlCode += "<table border=\"1\"  cellpadding=\"1\"><tr>";
+		htmlCode += R"(<table border="1"  cellpadding="1"><tr>)";
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Test Case"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Input File"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
@@ -647,12 +650,13 @@ QString ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *c
 
 				if (k == 0)
 				{
-					int minv = 2147483647, maxv = testCases[j]->getFullScore();
+					int minv = 2147483647;
+					int maxv = testCases[j]->getFullScore();
 
 					for (int t = 0; t < inputFiles[j].size(); t ++)
 						if (score[j][t] < minv) minv = score[j][t];
 
-					htmlCode += QString("<td rowspan=\"%1\"><a style=\"font-weight: bold; font-size: 18px;\">%2</a> / %3</td>").arg(inputFiles[j].size()).arg(minv).arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1"><a style="font-weight: bold; font-size: 18px;">%2</a> / %3</td>)").arg(inputFiles[j].size()).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -685,24 +689,24 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 
 	out.setCodec("UTF-8");
 	out << "<html><head>";
-	out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
+	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 
 	QList< QPair<int, QString> > sortList;
 
-	for (int i = 0; i < contestantList.size(); i ++)
+	for (auto &i : contestantList)
 	{
-		int totalScore = contestantList[i]->getTotalScore();
+		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1)
 		{
-			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(-totalScore, i->getContestantName()));
 		}
 		else
 		{
-			sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(1, i->getContestantName()));
 		}
 	}
 
@@ -721,7 +725,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		}
 	}
 
-	QMap<Contestant *, int> loc;
+	QHash<Contestant *, int> loc;
 
 	for (int i = 0; i < contestantList.size(); i ++)
 	{
@@ -731,32 +735,32 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
 	out << "<p style=\"font-size: 12px;\">" << tr("Judged By LemonLime") << "</p>";
-	out << "<p><table border=\"1\" cellpadding=\"1\"><tr>";
+	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));
 
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Total Score"));
-	for (int i = 0; i < taskList.size(); i ++)
-		out << QString("<th scope=\"col\">%1</th>").arg(taskList[i]->getProblemTile());
+	for (auto &i : taskList)
+		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTile());
 	out << QString("</tr>");
 
 	QList<int> fullScore;
 	int sfullScore = 0;
 
-	for (int i = 0; i < taskList.size(); i++)
+	for (auto &i : taskList)
 	{
-		int a = taskList[i]->getTotalScore();
+		int a = i->getTotalScore();
 		fullScore.append(a);
 		sfullScore += a;
 	}
 
-	for (int i = 0; i < sortList.size(); i ++)
+	for (auto &i : sortList)
 	{
-		Contestant *contestant = contest->getContestant(sortList[i].second);
+		Contestant *contestant = contest->getContestant(i.second);
 		out << QString("<tr><td>%1</td>")
 		    .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString("<td><a href=\"#c%1\">%2</a></td>")
-		    .arg(loc[contestant]).arg(sortList[i].second);
+		    .arg(loc[contestant]).arg(i.second);
 
 		int allScore = contestant->getTotalScore();
 
@@ -817,17 +821,17 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	QList<Task *> taskList = contest->getTaskList();
 	QList< QPair<int, QString> > sortList;
 
-	for (int i = 0; i < contestantList.size(); i ++)
+	for (auto &i : contestantList)
 	{
-		int totalScore = contestantList[i]->getTotalScore();
+		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1)
 		{
-			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(-totalScore, i->getContestantName()));
 		}
 		else
 		{
-			sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+			sortList.append(qMakePair(1, i->getContestantName()));
 		}
 	}
 
@@ -846,7 +850,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		}
 	}
 
-	QMap<Contestant *, int> loc;
+	QHash<Contestant *, int> loc;
 
 	for (int i = 0; i < contestantList.size(); i ++)
 	{
@@ -855,18 +859,18 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	out << "\"" << tr("Rank") << "\"" << "," << "\"" << tr("Name") << "\"" << ",";
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (auto &i : taskList)
 	{
-		out << "\"" << taskList[i]->getProblemTile() << "\"" << ",";
+		out << "\"" << i->getProblemTile() << "\"" << ",";
 	}
 
 	out << "\"" << tr("Total Score") << "\"" << endl;
 
-	for (int i = 0; i < sortList.size(); i ++)
+	for (auto &i : sortList)
 	{
-		Contestant *contestant = contest->getContestant(sortList[i].second);
+		Contestant *contestant = contest->getContestant(i.second);
 		out << "\"" << rankList[contestant->getContestantName()] + 1 << "\"" << ",";
-		out << "\"" << sortList[i].second << "\"" << ",";
+		out << "\"" << i.second << "\"" << ",";
 
 		for (int j = 0; j < taskList.size(); j ++)
 		{

@@ -120,9 +120,9 @@ void JudgingDialog::judge(const QList<QPair<QString, QSet<int> > > &lists)
 
 	for (int i = 0; i < listsSize; i++)
 	{
-		for (QSet<int>::const_iterator j = lists[i].second.begin(); j != lists[i].second.end(); j++)
+		for (int j : lists[i].second)
 		{
-			allTime += curContest->getTask(*j)->getTotalTimeLimit();
+			allTime += curContest->getTask(j)->getTotalTimeLimit();
 		}
 	}
 
@@ -163,14 +163,18 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat, addcharFormat, scorecharFormat;
+	QTextCharFormat charFormat;
+	QTextCharFormat addcharFormat;
+	QTextCharFormat scorecharFormat;
 	charFormat.setFontPointSize(9);
 	cursor->insertText(tr("Test case %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
 	addcharFormat.setFontPointSize(7);
 	addcharFormat.setForeground(QBrush(Qt::darkGray));
 	scorecharFormat.setFontPointSize(8);
 
-	QString text, addtext = "", scoretext = "";
+	QString text;
+	QString addtext = "";
+	QString scoretext = "";
 
 	switch (ResultState(result))
 	{
@@ -276,7 +280,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	if (isOnMaxValue) bar->setValue(bar->maximum());
 }
 
-void JudgingDialog::dialogAlert(QString msg)
+void JudgingDialog::dialogAlert(const QString &msg)
 {
 	bool isOnMaxValue = ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 
@@ -299,7 +303,8 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat, ratioFormat;
+	QTextCharFormat charFormat;
+	QTextCharFormat ratioFormat;
 	charFormat.setFontPointSize(9);
 	ratioFormat.setFontPointSize(9);
 
@@ -353,7 +358,8 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QLis
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat, scoreFormat;
+	QTextCharFormat charFormat;
+	QTextCharFormat scoreFormat;
 	charFormat.setFontPointSize(10);
 	scoreFormat.setFontPointSize(10);
 	scoreFormat.setFontWeight(QFont::Bold);
@@ -361,7 +367,7 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList< QLis
 
 	int allScore = 0;
 
-	for (auto i : scoreList)
+	for (const auto &i : scoreList)
 	{
 		int miScore = 2147483647;
 
@@ -411,7 +417,8 @@ void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
-	QTextCharFormat charFormat, scoreFormat;
+	QTextCharFormat charFormat;
+	QTextCharFormat scoreFormat;
 	charFormat.setFontPointSize(12);
 	scoreFormat.setFontPointSize(12);
 	scoreFormat.setFontWeight(QFont::Bold);

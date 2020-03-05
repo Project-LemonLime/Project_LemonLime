@@ -28,32 +28,32 @@ TestCase::TestCase(QObject *parent) :
 {
 }
 
-int TestCase::getFullScore() const
+auto TestCase::getFullScore() const -> int
 {
 	return fullScore;
 }
 
-int TestCase::getTimeLimit() const
+auto TestCase::getTimeLimit() const -> int
 {
 	return timeLimit;
 }
 
-int TestCase::getMemoryLimit() const
+auto TestCase::getMemoryLimit() const -> int
 {
 	return memoryLimit;
 }
 
-const QStringList &TestCase::getInputFiles() const
+auto TestCase::getInputFiles() const -> const QStringList &
 {
 	return inputFiles;
 }
 
-const QStringList &TestCase::getOutputFiles() const
+auto TestCase::getOutputFiles() const -> const QStringList &
 {
 	return outputFiles;
 }
 
-const QList<int> &TestCase::getDependenceSubtask() const
+auto TestCase::getDependenceSubtask() const -> const QList<int> &
 {
 	return dependenceSubtask;
 }
@@ -102,7 +102,7 @@ void TestCase::setDependenceSubtask(const QStringList &list)
 		dependenceSubtask.push_back(list[i].toInt());
 }
 
-bool TestCase::checkDependenceSubtask(const QStringList &list)
+auto TestCase::checkDependenceSubtask(const QStringList &list) -> bool
 {
 	QList<int> temp;
 
@@ -148,9 +148,9 @@ void TestCase::writeToStream(QDataStream &out)
 		_inputFiles[i].replace(QDir::separator(), '/');
 	}
 
-	for (int i = 0; i < dependenceSubtask.size(); ++i)
+	for (int i : dependenceSubtask)
 	{
-		_inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(dependenceSubtask[i]));
+		_inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
 	}
 
 	QStringList _outputFiles(outputFiles);

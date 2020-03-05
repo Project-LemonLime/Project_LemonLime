@@ -31,67 +31,67 @@ Compiler::Compiler(QObject *parent) :
 	disableMemoryLimitCheck = false;
 }
 
-Compiler::CompilerType Compiler::getCompilerType() const
+auto Compiler::getCompilerType() const -> Compiler::CompilerType
 {
 	return compilerType;
 }
 
-const QString &Compiler::getCompilerName() const
+auto Compiler::getCompilerName() const -> const QString &
 {
 	return compilerName;
 }
 
-const QStringList &Compiler::getSourceExtensions() const
+auto Compiler::getSourceExtensions() const -> const QStringList &
 {
 	return sourceExtensions;
 }
 
-const QString &Compiler::getCompilerLocation() const
+auto Compiler::getCompilerLocation() const -> const QString &
 {
 	return compilerLocation;
 }
 
-const QString &Compiler::getInterpreterLocation() const
+auto Compiler::getInterpreterLocation() const -> const QString &
 {
 	return interpreterLocation;
 }
 
-const QStringList &Compiler::getBytecodeExtensions() const
+auto Compiler::getBytecodeExtensions() const -> const QStringList &
 {
 	return bytecodeExtensions;
 }
 
-const QStringList &Compiler::getConfigurationNames() const
+auto Compiler::getConfigurationNames() const -> const QStringList &
 {
 	return configurationNames;
 }
 
-const QStringList &Compiler::getCompilerArguments() const
+auto Compiler::getCompilerArguments() const -> const QStringList &
 {
 	return compilerArguments;
 }
 
-const QStringList &Compiler::getInterpreterArguments() const
+auto Compiler::getInterpreterArguments() const -> const QStringList &
 {
 	return interpreterArguments;
 }
 
-const QProcessEnvironment &Compiler::getEnvironment() const
+auto Compiler::getEnvironment() const -> const QProcessEnvironment &
 {
 	return environment;
 }
 
-double Compiler::getTimeLimitRatio() const
+auto Compiler::getTimeLimitRatio() const -> double
 {
 	return timeLimitRatio;
 }
 
-double Compiler::getMemoryLimitRatio() const
+auto Compiler::getMemoryLimitRatio() const -> double
 {
 	return memoryLimitRatio;
 }
 
-bool Compiler::getDisableMemoryLimitCheck() const
+auto Compiler::getDisableMemoryLimitCheck() const -> bool
 {
 	return disableMemoryLimitCheck;
 }

@@ -52,12 +52,12 @@ void EditVariableDialog::setVariableValue(const QString &value)
 	ui->variableValue->setText(value);
 }
 
-QString EditVariableDialog::getVariableName() const
+auto EditVariableDialog::getVariableName() const -> QString
 {
 	return ui->variableName->text();
 }
 
-QString EditVariableDialog::getVariableValue() const
+auto EditVariableDialog::getVariableValue() const -> QString
 {
 	return ui->variableValue->text();
 }

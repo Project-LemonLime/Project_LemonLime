@@ -61,19 +61,19 @@ public:
 
 private:
 	QString contestTitle;
-	Settings *settings;
+	Settings *settings{};
 	QList<Task *> taskList;
 	QMap<QString, Contestant *> contestantList;
-	bool stopJudging;
+	bool stopJudging{};
 	void judge(Contestant *);
 	void judge(Contestant *, int);
-	void judge(Contestant *, QSet<int>);
+	void judge(Contestant *, const QSet<int> &);
 	void clearPath(const QString &);
 
 public slots:
 	void judge(const QString &);
 	void judge(const QString &, int);
-	void judge(const QString &, QSet<int>);
+	void judge(const QString &, const QSet<int> &);
 	void judgeAll();
 	void stopJudgingSlot();
 

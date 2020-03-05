@@ -47,7 +47,7 @@ public:
 private:
 	Ui::AdvancedCompilerSettingsDialog *ui;
 	Compiler *editCompiler;
-	int configCount;
+	int configCount{};
 
 private slots:
 	void okayButtonClicked();

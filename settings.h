@@ -134,13 +134,13 @@ public:
 
 private:
 	QList<Compiler *> compilerList;
-	int defaultFullScore;
-	int defaultTimeLimit;
-	int defaultMemoryLimit;
-	int compileTimeLimit;
-	int specialJudgeTimeLimit;
-	int fileSizeLimit;
-	int rejudgeTimes;
+	int defaultFullScore{};
+	int defaultTimeLimit{};
+	int defaultMemoryLimit{};
+	int compileTimeLimit{};
+	int specialJudgeTimeLimit{};
+	int fileSizeLimit{};
+	int rejudgeTimes{};
 	QString defaultInputFileExtension;
 	QString defaultOutputFileExtension;
 	QStringList inputFileExtensions;
@@ -149,27 +149,27 @@ private:
 	QString uiLanguage;
 	QString diffPath;
 
-	int colorMxH;
-	double colorMxS;
-	double colorMxL;
-	int colorMiH;
-	double colorMiS;
-	double colorMiL;
-	int colorNfH;
-	double colorNfS;
-	double colorNfL;
-	int colorCeH;
-	double colorCeS;
-	double colorCeL;
+	int colorMxH{};
+	double colorMxS{};
+	double colorMxL{};
+	int colorMiH{};
+	double colorMiS{};
+	double colorMiL{};
+	int colorNfH{};
+	double colorNfS{};
+	double colorNfL{};
+	int colorCeH{};
+	double colorCeS{};
+	double colorCeL{};
 
-	double grandCompH;
-	double grandCompS;
-	double grandCompL;
-	double grandRateH;
-	double grandRateS;
-	double grandRateL;
+	double grandCompH{};
+	double grandCompS{};
+	double grandCompL{};
+	double grandRateH{};
+	double grandRateS{};
+	double grandRateL{};
 
-	int splashTime;
+	int splashTime{};
 };
 
 #endif // SETTINGS_H

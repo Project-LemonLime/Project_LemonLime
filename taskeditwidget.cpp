@@ -45,9 +45,9 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	        ui->graderPath, SLOT(refreshFileList()));
 
 	ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
-	ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
-	ui->outputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
-	ui->interactorName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
+	ui->inputFileName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
+	ui->outputFileName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
+	ui->interactorName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
 	ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
 
 	ui->sourceFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -418,9 +418,9 @@ void TaskEditWidget::refreshCompilerConfiguration()
 
 	if (compilerList.isEmpty()) return;
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (auto i : compilerList)
 	{
-		ui->compilersList->addItem(compilerList[i]->getCompilerName());
+		ui->compilersList->addItem(i->getCompilerName());
 	}
 
 	ui->compilersList->setEnabled(true);
@@ -441,11 +441,11 @@ void TaskEditWidget::compilerSelectionChanged()
 	ui->configurationSelect->addItem("disable");
 	const QList<Compiler *> &compilerList = settings->getCompilerList();
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (auto i : compilerList)
 	{
-		if (compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text())
+		if (i->getCompilerName() == ui->compilersList->currentItem()->text())
 		{
-			ui->configurationSelect->addItems(compilerList[i]->getConfigurationNames());
+			ui->configurationSelect->addItems(i->getConfigurationNames());
 		}
 	}
 

@@ -61,7 +61,7 @@ void EnvironmentVariablesDialog::setProcessEnvironment(const QProcessEnvironment
 	}
 }
 
-QProcessEnvironment EnvironmentVariablesDialog::getProcessEnvironment() const
+auto EnvironmentVariablesDialog::getProcessEnvironment() const -> QProcessEnvironment
 {
 	QProcessEnvironment environment;
 
@@ -77,7 +77,7 @@ QProcessEnvironment EnvironmentVariablesDialog::getProcessEnvironment() const
 
 void EnvironmentVariablesDialog::addButtonClicked()
 {
-	EditVariableDialog *dialog = new EditVariableDialog(this);
+	auto *dialog = new EditVariableDialog(this);
 	dialog->setWindowTitle(tr("Add New Variable"));
 
 	if (dialog->exec() == QDialog::Accepted)
@@ -95,7 +95,7 @@ void EnvironmentVariablesDialog::addButtonClicked()
 void EnvironmentVariablesDialog::editButtonClicked()
 {
 	int index = ui->valueViewer->currentRow();
-	EditVariableDialog *dialog = new EditVariableDialog(this);
+	auto *dialog = new EditVariableDialog(this);
 	dialog->setWindowTitle(tr("Edit Variable"));
 	dialog->setVariableName(ui->valueViewer->item(index, 0)->text());
 	dialog->setVariableValue(ui->valueViewer->item(index, 1)->text());
@@ -133,7 +133,7 @@ void EnvironmentVariablesDialog::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> range = ui->valueViewer->selectedRanges();
 
-	if (range.size() > 0)
+	if (!range.empty())
 	{
 		ui->editButton->setEnabled(true);
 		ui->deleteButton->setEnabled(true);

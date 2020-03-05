@@ -107,7 +107,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
 	configurationIndexChanged();
 }
 
-Compiler *AdvancedCompilerSettingsDialog::getEditCompiler() const
+auto AdvancedCompilerSettingsDialog::getEditCompiler() const -> Compiler *
 {
 	return editCompiler;
 }
@@ -368,7 +368,7 @@ void AdvancedCompilerSettingsDialog::interpreterArgumentsChanged()
 
 void AdvancedCompilerSettingsDialog::environmentVariablesButtonClicked()
 {
-	EnvironmentVariablesDialog *dialog = new EnvironmentVariablesDialog(this);
+	auto *dialog = new EnvironmentVariablesDialog(this);
 	dialog->setProcessEnvironment(editCompiler->getEnvironment());
 
 	if (dialog->exec() == QDialog::Accepted)

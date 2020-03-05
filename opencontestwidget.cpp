@@ -172,12 +172,12 @@ void OpenContestWidget::currentRowChanged()
 	}
 }
 
-const QStringList &OpenContestWidget::getRecentContest() const
+auto OpenContestWidget::getRecentContest() const -> const QStringList &
 {
 	return recentContest;
 }
 
-int OpenContestWidget::getCurrentRow() const
+auto OpenContestWidget::getCurrentRow() const -> int
 {
 	return ui->recentContest->currentRow();
 }

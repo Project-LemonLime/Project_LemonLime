@@ -31,7 +31,7 @@
 #include "qtsingleapplication/qtsingleapplication.h"
 #include "lemon.h"
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);  // High DPI supported
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_MAC
 	fonts.setFamily("PingFangSC-Regular");
 #endif
-	a.setFont(fonts);
+	QtSingleApplication::setFont(fonts);
 
 	Q_INIT_RESOURCE(resource);
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 		screen.show();
 		do
 		{
-			a.processEvents();
+			QtSingleApplication::processEvents();
 		} while (QDateTime::currentMSecsSinceEpoch() - startTime <= splashTime);
 		screen.finish(&w);
 	}
@@ -82,5 +82,5 @@ int main(int argc, char *argv[])
 	w.show();
 	w.welcome();
 
-	return a.exec();
+	return QtSingleApplication::exec();
 }

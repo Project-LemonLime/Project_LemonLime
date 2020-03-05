@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>575</width>
+    <width>667</width>
     <height>490</height>
    </rect>
   </property>
@@ -416,6 +416,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>typeSelect</tabstop>
+  <tabstop>compilerLocation</tabstop>
+  <tabstop>compilerSelectButton</tabstop>
+  <tabstop>interpreterLocation</tabstop>
+  <tabstop>interpreterSelectButton</tabstop>
+  <tabstop>bytecodeExtension</tabstop>
+  <tabstop>timeLimitRatio</tabstop>
+  <tabstop>memoryLimitRatio</tabstop>
+  <tabstop>disableMemoryLimit</tabstop>
+  <tabstop>configurationSelect</tabstop>
+  <tabstop>deleteConfigurationButton</tabstop>
+  <tabstop>compilerArguments</tabstop>
+  <tabstop>interpreterArguments</tabstop>
+  <tabstop>environmentVariablesButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../resource.qrc"/>
  </resources>

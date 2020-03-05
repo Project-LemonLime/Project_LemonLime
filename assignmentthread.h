@@ -59,9 +59,9 @@ public:
 
 private:
 	//bool checkRejudgeMode;
-	bool interpreterFlag;
-	Settings *settings;
-	Task *task;
+	bool interpreterFlag{};
+	Settings *settings{};
+	Task *task{};
 	QString contestantName;
 	CompileState compileState;
 	QString compileMessage;
@@ -69,9 +69,9 @@ private:
 	QString executableFile;
 	QString arguments;
 	QString diffPath;
-	double timeLimitRatio;
-	double memoryLimitRatio;
-	bool disableMemoryLimitCheck;
+	double timeLimitRatio{};
+	double memoryLimitRatio{};
+	bool disableMemoryLimitCheck{};
 	QProcessEnvironment environment;
 	QList<int> overallStatus;
 	QList< QList<int> > timeUsed;

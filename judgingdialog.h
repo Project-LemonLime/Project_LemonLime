@@ -55,16 +55,16 @@ public:
 
 private slots:
 	void stopJudgingSlot();
-	void skipJudging();
+	static void skipJudging();
 
 private:
 	Ui::JudgingDialog *ui;
-	Contest *curContest;
+	Contest *curContest{};
 	QTextCursor *cursor;
-	bool stopJudging;
+	bool stopJudging{};
 
 public slots:
-	void dialogAlert(QString);
+	void dialogAlert(const QString &);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(const QString &);
