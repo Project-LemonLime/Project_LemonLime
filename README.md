@@ -21,12 +21,14 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
 |Manjaro|18.1.5|64|KDE|
-|Arch|2020-2-22|64|KDE|
+|Arch|2020-3-20|64|KDE-Xorg|
+|Arch|2020-3-20|64|KDE-Wayland|
 |Ubuntu|18.04.4|64|GNOME 3|
 |NOI Linux (Ubuntu) *|14.04|32|GNOME 2|
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
 |Debian|10.3.0|64|LXQt|
+|Debian|10.3.0|64|KDE-Xorg|
 |Fedora|31-1.9|64|XFCE|
 |openSUSE|Leap 15.1|64|iceWM|
 
@@ -118,7 +120,8 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 
 |系统名称|版本号|位数|DE / WM|
 |:--:|:--:|:--:|:--:|
-|Arch|2020-2-22|64|KDE|
+|Arch|2020-3-20|64|KDE-Xorg|
+|Arch|2020-3-20|64|KDE-Wayland|
 |Manjaro|18.1.5|64|KDE|
 
 ```bash
@@ -148,6 +151,7 @@ sudo pacman -S qtcreator
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
 |Debian|10.3.0|64|LXQt|
+|Debian|10.3.0|64|KDE-Xorg|
 
 ```bash
 ## 使用 qmake ##
