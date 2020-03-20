@@ -49,7 +49,7 @@ public:
 	void setContest(Contest *);
 	void judge(const QStringList &);
 	void judge(const QString &, int);
-	void judge(const QList<QPair<QString, QSet<int> > > &);
+	void judge(const QList<QPair<QString, QSet<int>>> &);
 	void judgeAll();
 	void reject();
 
@@ -68,7 +68,7 @@ public slots:
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(const QString &);
-	void taskJudgedDisplay(const QString &, const QList< QList<int> > &, const int);
+	void taskJudgedDisplay(const QString &, const QList< QList<int>> &, const int);
 	void contestantJudgingStart(const QString &);
 	void contestantJudgingFinished();
 	void contestantJudgedDisplay(const QString &, const int, const int);

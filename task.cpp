@@ -417,6 +417,7 @@ void Task::writeToStream(QDataStream &out)
 	if (taskType == Task::Communication)
 	{
 		out << sourceFilesPath.length();
+
 		for (int i = 0; i < sourceFilesPath.length(); i++)
 		{
 			QString temp = sourceFilesPath[i];
@@ -426,7 +427,9 @@ void Task::writeToStream(QDataStream &out)
 			temp.replace(QDir::separator(), '/');
 			out << temp;
 		}
+
 		out << graderFilesPath.length();
+
 		for (int i = 0; i < graderFilesPath.length(); i++)
 		{
 			QString temp = graderFilesPath[i];
@@ -483,6 +486,7 @@ void Task::readFromStream(QDataStream &in)
 		in >> length;
 		sourceFilesPath.clear();
 		sourceFilesName.clear();
+
 		for (int i = 0; i < length; i++)
 		{
 			QString temp;
@@ -493,9 +497,11 @@ void Task::readFromStream(QDataStream &in)
 			temp.replace('/', QDir::separator());
 			sourceFilesName.append(temp);
 		}
+
 		in >> length;
 		graderFilesPath.clear();
 		graderFilesName.clear();
+
 		for (int i = 0; i < length; i++)
 		{
 			QString temp;
@@ -507,6 +513,7 @@ void Task::readFromStream(QDataStream &in)
 			graderFilesName.append(temp);
 		}
 	}
+
 	in >> compilerConfiguration;
 	in >> answerFileExtension;
 	in >> count;

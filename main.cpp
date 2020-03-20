@@ -70,10 +70,12 @@ auto main(int argc, char *argv[]) -> int
 	if (splashTime > 0)
 	{
 		screen.show();
+
 		do
 		{
 			QtSingleApplication::processEvents();
 		} while (QDateTime::currentMSecsSinceEpoch() - startTime <= splashTime);
+
 		screen.finish(&w);
 	}
 

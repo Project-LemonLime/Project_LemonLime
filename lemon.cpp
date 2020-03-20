@@ -51,6 +51,7 @@
 #include <QLineEdit>
 #include <QStatusBar>
 #include <QTextBrowser>
+#include <QFileDialog>
 
 Lemon::Lemon(QWidget *parent) :
 	QMainWindow(parent),
@@ -139,24 +140,8 @@ Lemon::Lemon(QWidget *parent) :
 	connect(ui->aboutAction, SIGNAL(triggered()),
 	        this, SLOT(aboutLemon()));
 
-	connect(ui->actionChangeContestName, SIGNAL(triggered()),
-	        this, SLOT(actionChangeContestName()));
-	connect(ui->actionCompileFeatures, SIGNAL(triggered()),
-	        this, SLOT(actionCompileFeatures()));
-	connect(ui->actionCleanupFiles, SIGNAL(triggered()),
-	        this, SLOT(actionCleanupFiles()));
-	connect(ui->actionSkip, SIGNAL(triggered()),
-	        this, SLOT(actionSkip()));
-	connect(ui->actionExportResult, SIGNAL(triggered()),
-	        this, SLOT(actionExportResult()));
-	connect(ui->actionSubTasks, SIGNAL(triggered()),
-	        this, SLOT(actionSubTasks()));
-	connect(ui->actionSpecialJudge, SIGNAL(triggered()),
-	        this, SLOT(actionSpecialJudge()));
-	connect(ui->actionInteraction, SIGNAL(triggered()),
-	        this, SLOT(actionInteraction()));
-	connect(ui->actionCommunication, SIGNAL(triggered()),
-	        this, SLOT(actionCommunication()));
+	connect(ui->actionManual, SIGNAL(triggered()),
+	        this, SLOT(actionManual()));
 	connect(ui->actionMore, SIGNAL(triggered()),
 	        this, SLOT(actionMore()));
 
@@ -428,6 +413,7 @@ void removePath(const QString &path)
 void copyPath(const QString &fromPath, const QString &toPath)
 {
 	QDir dir(fromPath);
+
 	if (!dir.exists())return;
 
 	QString fpath = fromPath + QDir::separator();
@@ -458,7 +444,7 @@ void Lemon::cleanupButtonClicked()
 	QString text;
 	text += tr("Are you sure to Clean up Files?") + "<br>";
 	text += tr("Reading guide are recommended.") + "<br>";
-	QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+	QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::No);
 
 	if (res == QMessageBox::Yes)
 	{
@@ -472,7 +458,9 @@ void Lemon::cleanupButtonClicked()
 		int backupNum = 0;
 
 		QDir tempBackupLoca;
+
 		while (tempBackupLoca.exists(backupFolder.arg(backupNum)))backupNum++;
+
 		backupFolder = backupFolder.arg(backupNum);
 
 		text = tr("Making backup files to dir <br> `%1'?").arg(backupFolder) + "<br>";
@@ -487,6 +475,7 @@ void Lemon::cleanupButtonClicked()
 		if (doBackup == QMessageBox::Yes)
 		{
 			QDir bkLoca;
+
 			if (bkLoca.exists(backupFolder))
 			{
 				QMessageBox::information(this, tr("Clean up Files"), tr("Aborted: `%1' already exist.").arg(backupFolder));
@@ -512,6 +501,7 @@ void Lemon::cleanupButtonClicked()
 
 			basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 			basDirLis = basDir.entryInfoList();
+
 			foreach (QFileInfo conDirWho, basDirLis)
 			{
 				bkLoca.mkpath(conDirWho.fileName());
@@ -556,21 +546,26 @@ void Lemon::cleanupButtonClicked()
 			QString taskName = taskList[i]->getSourceFileName();
 			typeSet[taskName] = i;
 			nameSet.insert(taskName);
+
 			if (taskList[i]->getTaskType() == Task::AnswersOnly)
 			{
-				for (int j = 1, jj = taskList[i]->getTestCaseList().size(); j <= jj; j ++)
+				for (auto j : taskList[i]->getTestCaseList())
 				{
-					tarNameSet.insert(taskName + QString::number(j));
-					origSet[taskName + QString::number(j)] = taskName;
+					for (const auto &k : j->getInputFiles())
+					{
+						QString temp = QFileInfo(k).completeBaseName();
+						tarNameSet.insert(temp);
+						origSet[temp] = taskName;
+					}
 				}
 			}
 			else if (taskList[i]->getTaskType() == Task::Communication)
 			{
 				QStringList sourcePaths = taskList[i]->getSourceFilesPath();
-				for (int j = 0; j < sourcePaths.length(); j++)
+
+				for (const auto &j : sourcePaths)
 				{
-					QString temp = sourcePaths[j];
-					temp.truncate(temp.lastIndexOf("."));
+					QString temp = QFileInfo(j).completeBaseName();
 					tarNameSet.insert(temp);
 					origSet[temp] = taskName;
 				}
@@ -642,6 +637,7 @@ void Lemon::cleanupButtonClicked()
 					QString taskName = origSet[proName];
 					int who = typeSet[taskName];
 					int types = taskList[who]->getTaskType();
+
 					if (types == Task::Traditional || types == Task::Interaction || types == Task::Communication)
 					{
 						if (proFilName != taskList[who]->getInputFileName() && proFilName != taskList[who]->getOutputFileName())
@@ -758,7 +754,9 @@ void Lemon::moveUpTask()
 	ui->resultViewer->refreshViewer();
 
 	curItem = ui->summary->topLevelItem(index - 1);
+
 	if (!curItem)curItem = ui->summary->topLevelItem(index);
+
 	if (curItem)ui->summary->setCurrentItem(curItem);
 }
 
@@ -775,7 +773,9 @@ void Lemon::moveDownTask()
 	ui->statisticsBrowser->refresh();
 
 	curItem = ui->summary->topLevelItem(index + 1);
+
 	if (!curItem)curItem = ui->summary->topLevelItem(index);
+
 	if (curItem)ui->summary->setCurrentItem(curItem);
 }
 
@@ -1049,7 +1049,7 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
 	}
 }
 
-void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > &testCases,
+void Lemon::addTask(const QString &title, const QList<QPair<QString, QString>> &testCases,
                     int fullScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
@@ -1073,7 +1073,7 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
 	}
 }
 
-void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString> > &testCases,
+void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString>> &testCases,
                                   int sumScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
@@ -1118,7 +1118,7 @@ void Lemon::addTasksAction()
 	}
 
 	QStringList nameList;
-	QList< QList< QPair<QString, QString> > > testCases;
+	QList< QList< QPair<QString, QString>>> testCases;
 
 	for (int i = 0; i < list.size(); i ++)
 	{
@@ -1149,7 +1149,7 @@ void Lemon::addTasksAction()
 			QMap<QString, QString> outputFiles;
 			getFiles(Settings::dataPath() + list[i], filters, outputFiles);
 
-			QList< QPair<QString, QString> > cases;
+			QList< QPair<QString, QString>> cases;
 			QStringList baseNameList = inputFiles.keys();
 
 			for (int j = 0; j < baseNameList.size(); j ++)
@@ -1223,122 +1223,15 @@ void Lemon::aboutLemon()
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 
-void Lemon::actionChangeContestName()
+void Lemon::actionManual()
 {
-	bool isChanged;
-	QString being = QInputDialog::getText(nullptr, tr("Rename Contest"), tr("Input the name you prefer."), QLineEdit::Normal, tr("New name..."), &isChanged);
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Manual"),
+	                   "llmanual.pdf");
 
-	if (!isChanged)return;
+	if (fileName.isEmpty()) return;
 
-	if (being.size() <= 0)return;
-
-	curContest->setContestTitle(being);
-	saveContest(curFile);
-	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
-}
-
-void Lemon::actionCompileFeatures()
-{
-	QString text;
-	text += "<h3>" + tr("Compile Features") + "</h3>";
-	text += tr("We have made stack space equals to memory limit. If the memory limit is unlimited, stack space will be 2.00 GB.") + "<br>";
-	QMessageBox::about(this, tr("About Compile Features"), text);
-}
-
-void Lemon::actionInteraction()
-{
-	QString text;
-	text += "<h3>" + tr("Interaction") + "</h3>";
-	text += tr("The paths are based on your \"/data\".") + "<br>";
-	text += tr("There is a example of how to use Interaction type tasks:") + "<br>";
-	text += tr("Interactor Path: matrix/matrix.h") + "<br>";
-	text += tr("Interactor Name: matrix.h") + "<br>";
-	text += tr("Grader Path: matrix/grader.cpp") + "<br>";
-	QMessageBox::about(this, tr("About Interaction"), text);
-}
-
-void Lemon::actionCommunication()
-{
-	QString text;
-	text += "<h3>" + tr("Communication") + "</h3>";
-	text += tr("The paths are based on your \"/data\".") + "<br>";
-	text += tr("Contestants should provide source files.") + "<br>";
-	text += tr("Problem setters should provide grader files.") + "<br>";
-	text += tr("There is a example of how to use Communication type tasks:") + "<br>";
-	text += tr("Source Files:") + "<br>";
-	text += tr("Alice.cpp Alice.cpp") + "<br>";
-	text += tr("Bob.cpp Bob.cpp") + "<br>";
-	text += tr("Grader Files:") + "<br>";
-	text += tr("taskname/Alice.h Alice.h") + "<br>";
-	text += tr("taskname/Bob.h Bob.h") + "<br>";
-	text += tr("taskname/Grader.cpp Grader.cpp") + "<br>";
-
-	QMessageBox::about(this, tr("About Communication"), text);
-}
-
-void Lemon::actionSubTasks()
-{
-	QString text;
-	text += "<h3>" + tr("Something about how to make Subtasks") + "</h3>";
-	text += tr("How to make a valid Regular Expression:") + "<br>";
-	text += tr("There is a example of how to use regular expressions to make subtasks:") + "<br>";
-	text += tr("Data(in): matrix/matrix&lt;1&gt;.in") + "<br>";
-	text += tr("Data(out): matrix/matrix&lt;1&gt;.out") + "<br>";
-	text += tr(R"(And the "&lt;1&gt;" is "\d*".)") + "<br>";
-	text += tr("Numbers: \\d*") + "<br>";
-	text += tr("Notes:") + "<br>";
-	text += tr(R"("\d" means a number.)") + "<br>";
-	text += tr("\".\" means a character.") + "<br>";
-	text += tr("\"*\" means repeat previous order 0~inf times.") + "<br>";
-	text += tr("<a href=\"http://www.runoob.com/java/java-regular-expressions.html\">More Regular Expression Rules</a>") + "<br>";
-	QMessageBox::about(this, tr("About Subtasks"), text);
-}
-
-void Lemon::actionExportResult()
-{
-	QString text;
-	text += "<h3>" + tr("Something about Exporting Result") + "</h3>";
-	text += tr("HTML, CSV, XLS (Windows only) are supported.") + "<br><br>";
-	text += tr("There are two modes of exported HTML: Full and Compressed.") + "<br>";
-	text += tr("Full HTML has more hrefs and color;") + "<br>";
-	text += tr("Compressed HTML has smaller size.") + "<br>";
-	text += tr("Enable Full mode with suffix *.html and enable Compressed mode with suffix *.htm.") + "<br>";
-	QMessageBox::about(this, tr("About Exporting Result"), text);
-}
-
-void Lemon::actionCleanupFiles()
-{
-	QString text;
-	text += "<h3>" + tr("What is Clean Up Files") + "</h3>";
-	text += tr("It can make all of the source files have a copy in the subdirs.") + "<br>";
-	text += tr("When there are files both inside the subdirs and outside of subdirs, the one INSIDE will cover another one.") + "<br>";
-	text += tr("Be Careful : May Cause Unexpected File Damage.") + "<br>";
-	QMessageBox::about(this, tr("About Clean Up Files"), text);
-}
-
-void Lemon::actionSkip()
-{
-	QString text;
-	text += "<h3>" + tr("What is Skip") + "</h3>";
-	text += tr("It can stop a judging task.") + "<br>";
-	text += tr("The tasks which are not tested will be displayed as \"Time Limit Exceeded\".") + "<br>";
-	text += tr("Use it when you have no time ONLY.") + "<br>";
-	QMessageBox::about(this, tr("About Skip"), text);
-}
-
-void Lemon::actionSpecialJudge()
-{
-	QString text;
-	text += "<h3>" + tr("How to make a Special Judge for Lemon") + "</h3>";
-	text += tr("The special judge should take 6 arguments below:") + "<br>";
-	text += tr("argv[1] : (in) Standard Input") + "<br>";
-	text += tr("argv[2] : (in) Participant's Answer") + "<br>";
-	text += tr("argv[3] : (in) Jury's Answer") + "<br>";
-	text += tr("argv[4] : (in) Full score of this task") + "<br>";
-	text += tr("argv[5] : (out) The score (A integer only)") + "<br>";
-	text += tr("argv[6] : (out) Notes") + "<br>";
-	text += tr("Notice that you may use `atoi(argv[4])' to get the correct full score.") + "<br>";
-	QMessageBox::about(this, tr("About Special Judge"), text);
+	QFile::copy(":/manual/llmanual.pdf", fileName);
+	QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
 }
 
 void Lemon::actionMore()

@@ -309,7 +309,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 	}
 
 	QMap<QString, int> loc;
-	QList< QPair<QString, QString> > singleCases;
+	QList< QPair<QString, QString>> singleCases;
 	QList< QStringList > matchedPart;
 
 	//if(ui->outputFilesPattern->isEnabled()) {

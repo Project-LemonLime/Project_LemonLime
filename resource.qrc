@@ -45,4 +45,7 @@
     <qresource prefix="/watcher">
         <file>watcher_unix</file>
     </qresource>
+    <qresource prefix="/manual">
+        <file alias="llmanual.pdf">manual/llmanual.pdf</file>
+    </qresource>
 </RCC>

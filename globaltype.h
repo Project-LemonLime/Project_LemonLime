@@ -41,7 +41,9 @@ enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
 inline int stateToStatus(ResultState in)
 {
 	if (in == CorrectAnswer) return 2;
+
 	if (in == PartlyCorrect) return 1;
+
 	return 0;
 }
 
@@ -64,6 +66,7 @@ inline double oriBaseColorLF(int score, int mxscore, double rem = 0.30)
 	if (mxscore == 0) return 1.00;
 
 	int temp = static_cast<int>(mxscore * 1.20);
+
 	if (temp < score) score = temp;
 
 	return 1.00 - 1.25 * rem * score / mxscore

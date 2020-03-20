@@ -66,9 +66,13 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		i--;
 		int curScoreTier = i.key();
 		int curScoreTierNum = i.value();
+
+		if (curScoreTier < 0) continue;
+
 		overallScoreSum += 1LL * curScoreTier * curScoreTierNum;
 
 		if (lastScoreTier >= 0)scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore) * (1.00 - 1.00 * lastScoreTierNum * curScoreTierNum / listSize / listSize);
+
 		lastScoreTier = curScoreTier;
 		lastScoreTierNum = curScoreTierNum;
 	}
@@ -77,6 +81,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 
 	buffer += "<table border=\"-1\">";
 	buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th></tr>").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
+
 	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
 	{
 		i--;
@@ -86,7 +91,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		scoreStandardDevia += qPow(curScoreTier - scoreAverage, 2) * curScoreTierNum;
 
 		buffer += "<tr>";
-		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(curScoreTier);
+		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(curScoreTier < 0 ? QString("N/A") : QString::number(curScoreTier));
 		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(curScoreTierNum);
 		buffer += QString("<td align=\"left\"><nobr>%1%</nobr></td>").arg(100.00 * curScoreTierNum / listSize);
 		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(listSize - scoreTierPrefix).arg(100.00 - 100.00 * scoreTierPrefix / listSize);
@@ -94,6 +99,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		buffer += QString("<td align=\"left\"><nobr>%1 (%2%)</nobr></td>").arg(scoreTierPrefix).arg(100.00 * scoreTierPrefix / listSize);
 		buffer += "</tr>";
 	}
+
 	buffer += "</table>";
 
 	scoreStandardDevia = qSqrt(scoreStandardDevia / listSize);
@@ -123,6 +129,7 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 		int mxScore = testCaseList[i]->getFullScore();
 		QList<int> miScoreRecord;
 		QList<int> miStatRecord;
+
 		for (int j = 0; j < scoreList.length(); j++)
 		{
 			miScoreRecord.append(mxScore);
@@ -135,23 +142,28 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			int cntPati = 0;
 			int cntSucc = 0;
 			long long sumscore = 0;
+
 			for (int k = 0; k < scoreList.length(); k++)
 			{
 				int score = 0;
 				int statVal = 2;
 				ResultState stat = WrongAnswer;
+
 				if (scoreList[k].length() > i && scoreList[k][i].length() > j)
 				{
 					score = scoreList[k][i][j];
 					stat = resultList[k][i][j];
 				}
+
 				if (stat == CorrectAnswer)cntSucc++, statVal = 2;
 				else if (stat == PartlyCorrect)cntPati++, statVal = 1;
 				else cntFail++, statVal = 0;
+
 				sumscore += score;
 				miScoreRecord[k] = qMin(miScoreRecord[k], score);
 				miStatRecord[k] = qMin(miStatRecord[k], statVal);
 			}
+
 			buffer += "<tr>";
 			buffer += "<td align=\"left\"><nobr>" + QString("%1.%2").arg(i + 1).arg(j + 1) + "</nobr></td>";
 			buffer += "<td align=\"left\"><nobr>" + QString("%1").arg(inFileList[j]) + "</nobr></td>";
@@ -169,9 +181,11 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			int sumCntPati = 0;
 			int sumCntSucc = 0;
 			long long sumSumScore = 0;
+
 			for (int j = 0; j < scoreList.length(); j++)
 			{
 				sumSumScore += miScoreRecord[j];
+
 				if (miStatRecord[j] >= 2)sumCntSucc++;
 				else if (miStatRecord[j] == 1)sumCntPati++;
 				else sumCntFail++;
@@ -188,6 +202,7 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			buffer += "</tr>";
 		}
 	}
+
 	buffer += "</table>";
 
 	return buffer;
@@ -234,15 +249,21 @@ void StatisticsBrowser::refresh()
 	int haveError = 0;
 
 	QMap<int, int> scoreCount;
+
 	for (auto &i : contestantList)
 	{
 		int contestantTotalScore = 0;
+		int loss = 0;
+
 		for (int j = 0; j < taskList.size(); j++)
 		{
 			contestantTotalScore += i->getTaskScore(j);
-			if (i->getTaskScore(j) < 0) haveError = 1;
+
+			if (i->getTaskScore(j) < 0) haveError = 1, loss = 1;
 		}
-		scoreCount[contestantTotalScore]++;
+
+		if (!loss) scoreCount[contestantTotalScore]++;
+		else scoreCount[-1]++;
 	}
 
 	if (haveError)
@@ -267,11 +288,14 @@ void StatisticsBrowser::refresh()
 		QMap<int, int> cnts;
 		QList<QList<QList<int>>> TestcaseScoreList;
 		QList<QList<QList<ResultState>>> resultList;
+
 		for (auto &j : contestantList)
 		{
 			cnts[j->getTaskScore(i)]++;
+
 			if (j->getCompileState(i) != NoValidSourceFile)
 				numberSubmitted ++;
+
 			TestcaseScoreList.append(j->getSocre(i));
 			resultList.append(j->getResult(i));
 		}

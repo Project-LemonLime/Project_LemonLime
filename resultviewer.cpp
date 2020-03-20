@@ -155,7 +155,7 @@ void ResultViewer::refreshViewer()
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
-	QList< QPair<int, QString> > sortList;
+	QList< QPair<int, QString>> sortList;
 	QList<int> fullScore;
 	int sfullScore = curContest->getTotalScore();
 
@@ -189,9 +189,11 @@ void ResultViewer::refreshViewer()
 						bg = setting.getColorNf();
 					//	bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
 					else bg = setting.getColorCe();
+
 					// bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
 				else bg = setting.getColorPer(score, fullScore[j]);
+
 				//bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
 				item(i, j + 3)->setBackground(bg);
@@ -271,7 +273,7 @@ void ResultViewer::judgeSelected()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	QMap<QString, QSet<int> > mapping;
+	QMap<QString, QSet<int>> mapping;
 
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
@@ -291,9 +293,9 @@ void ResultViewer::judgeSelected()
 		}
 	}
 
-	QList<QPair<QString, QSet<int> > > judgeList;
+	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
@@ -320,7 +322,7 @@ void ResultViewer::judgeAll()
 
 void ResultViewer::judgeUnjudged()
 {
-	QMap<QString, QSet<int> > mapping;
+	QMap<QString, QSet<int>> mapping;
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -338,9 +340,9 @@ void ResultViewer::judgeUnjudged()
 		}
 	}
 
-	QList<QPair<QString, QSet<int> > > judgeList;
+	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
@@ -356,7 +358,7 @@ void ResultViewer::judgeUnjudged()
 
 void ResultViewer::judgeGrey()
 {
-	QMap<QString, QSet<int> > mapping;
+	QMap<QString, QSet<int>> mapping;
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -374,9 +376,9 @@ void ResultViewer::judgeGrey()
 		}
 	}
 
-	QList<QPair<QString, QSet<int> > > judgeList;
+	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}
@@ -392,7 +394,7 @@ void ResultViewer::judgeGrey()
 
 void ResultViewer::judgeMagenta()
 {
-	QMap<QString, QSet<int> > mapping;
+	QMap<QString, QSet<int>> mapping;
 
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -410,9 +412,9 @@ void ResultViewer::judgeMagenta()
 		}
 	}
 
-	QList<QPair<QString, QSet<int> > > judgeList;
+	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int> >::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}

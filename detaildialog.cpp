@@ -134,11 +134,11 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
-		QList< QList<ResultState> > result = contestant->getResult(i);
+		QList< QList<ResultState>> result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
-		QList< QList<int> > timeUsed = contestant->getTimeUsed(i);
-		QList< QList<int> > memoryUsed = contestant->getMemoryUsed(i);
-		QList< QList<int> > score = contestant->getSocre(i);
+		QList< QList<int>> timeUsed = contestant->getTimeUsed(i);
+		QList< QList<int>> memoryUsed = contestant->getMemoryUsed(i);
+		QList< QList<int>> score = contestant->getSocre(i);
 
 		for (int j = 0; j < inputFiles.size(); j ++)
 		{

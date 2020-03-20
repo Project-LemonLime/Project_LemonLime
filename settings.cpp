@@ -236,20 +236,27 @@ auto Settings::getColorPer(double p) -> QColor
 
 	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = colorMiH / 360.00 + 100 * p * distan;
+
 	if (p > 0) h += distan * 5;
+
 	if (p >= 1 - 1e-12) h += distan * 5;
 
 	distan = (colorMxS - colorMiS) / 100.00 / 110.00;
 	s = colorMiS / 100.00 + 100 * p * distan;
+
 	if (p > 0) s += distan * 5;
+
 	if (p >= 1 - 1e-12) s += distan * 5;
 
 	distan = (colorMxL - colorMiL) / 100.00 / 110.00;
 	l = colorMiL / 100.00 + 100 * p * distan;
+
 	if (p > 0) l += distan * 5;
+
 	if (p >= 1 - 1e-12) l += distan * 5;
 
 	while (h < -1e-12) h += 1;
+
 	while (h > 1 + 1e-12) h -= 1;
 
 	h = fmax(0, fmin(h, 1));
@@ -268,20 +275,27 @@ auto Settings::getColorGrand(double p) -> QColor
 
 	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
+
 	if (p > 0) h += distan * 5;
+
 	if (p >= 1 - 1e-12) h += distan * 5;
 
 	distan = grandRateS * (colorMxS - colorMiS) / 100.00 / 110.00;
 	s = grandCompS / 100.00 + colorMiS / 100.00 + 100 * p * distan;
+
 	if (p > 0) s += distan * 5;
+
 	if (p >= 1 - 1e-12) s += distan * 5;
 
 	distan = grandRateL * (colorMxL - colorMiL) / 100.00 / 110.00;
 	l = grandCompL / 100.0 + colorMiL / 100.00 + 100 * p * distan;
+
 	if (p > 0) l += distan * 5;
+
 	if (p >= 1 - 1e-12) l += distan * 5;
 
 	while (h < -1e-12) h += 1;
+
 	while (h > 1 + 1e-12) h -= 1;
 
 	h = fmax(0, fmin(h, 1));

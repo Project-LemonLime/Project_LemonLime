@@ -486,15 +486,7 @@
       <iconset resource="../resource.qrc">
        <normaloff>:/icon/system-help.svg</normaloff>:/icon/system-help.svg</iconset>
      </property>
-     <addaction name="actionCompileFeatures"/>
-     <addaction name="actionCleanupFiles"/>
-     <addaction name="actionSkip"/>
-     <addaction name="actionExportResult"/>
-     <addaction name="separator"/>
-     <addaction name="actionSubTasks"/>
-     <addaction name="actionSpecialJudge"/>
-     <addaction name="actionInteraction"/>
-     <addaction name="actionCommunication"/>
+     <addaction name="actionManual"/>
      <addaction name="separator"/>
      <addaction name="actionMore"/>
     </widget>
@@ -855,6 +847,11 @@
    </property>
    <property name="text">
     <string>Export &amp;Statistics</string>
+   </property>
+  </action>
+  <action name="actionManual">
+   <property name="text">
+    <string>Manual</string>
    </property>
   </action>
  </widget>

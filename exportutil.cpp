@@ -121,11 +121,11 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
-		QList< QList<ResultState> > result = contestant->getResult(i);
+		QList< QList<ResultState>> result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
-		QList< QList<int> > timeUsed = contestant->getTimeUsed(i);
-		QList< QList<int> > memoryUsed = contestant->getMemoryUsed(i);
-		QList< QList<int> > score = contestant->getSocre(i);
+		QList< QList<int>> timeUsed = contestant->getTimeUsed(i);
+		QList< QList<int>> memoryUsed = contestant->getMemoryUsed(i);
+		QList< QList<int>> score = contestant->getSocre(i);
 
 		for (int j = 0; j < inputFiles.size(); j ++)
 		{
@@ -314,7 +314,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 
-	QList< QPair<int, QString> > sortList;
+	QList< QPair<int, QString>> sortList;
 
 	for (auto &i : contestantList)
 	{
@@ -528,11 +528,11 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
-		QList< QList<ResultState> > result = contestant->getResult(i);
+		QList< QList<ResultState>> result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
-		QList< QList<int> > timeUsed = contestant->getTimeUsed(i);
-		QList< QList<int> > memoryUsed = contestant->getMemoryUsed(i);
-		QList< QList<int> > score = contestant->getSocre(i);
+		QList< QList<int>> timeUsed = contestant->getTimeUsed(i);
+		QList< QList<int>> memoryUsed = contestant->getMemoryUsed(i);
+		QList< QList<int>> score = contestant->getSocre(i);
 
 		for (int j = 0; j < inputFiles.size(); j ++)
 		{
@@ -694,7 +694,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 
-	QList< QPair<int, QString> > sortList;
+	QList< QPair<int, QString>> sortList;
 
 	for (auto &i : contestantList)
 	{
@@ -740,8 +740,10 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));
 
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Total Score"));
+
 	for (auto &i : taskList)
 		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTile());
+
 	out << QString("</tr>");
 
 	QList<int> fullScore;
@@ -819,7 +821,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList< QPair<int, QString> > sortList;
+	QList< QPair<int, QString>> sortList;
 
 	for (auto &i : contestantList)
 	{
@@ -905,6 +907,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fileName)
 {
 #ifdef Q_OS_WIN32
+
 	if (QFile(fileName).exists())
 	{
 		if (! QFile(fileName).remove())
@@ -919,7 +922,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList< QPair<int, QString> > sortList;
+	QList< QPair<int, QString>> sortList;
 
 	for (int i = 0; i < contestantList.size(); i ++)
 	{

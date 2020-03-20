@@ -144,7 +144,9 @@ void TaskEditWidget::setEditTask(Task *task)
 	ui->problemTitle->setText(editTask->getProblemTile());
 	ui->sourceFileName->setEnabled(false);
 	ui->sourceFileName->setText(editTask->getSourceFileName());
+
 	if (ui->sourceFileName->text().length() <= 0)ui->sourceFileName->setText(ui->problemTitle->text());
+
 	ui->sourceFileName->setEnabled(true);
 	ui->subFolderCheck->setChecked(editTask->getSubFolderCheck());
 	ui->inputFileName->setText(editTask->getInputFileName());
@@ -294,7 +296,9 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
 	if (! ui->sourceFileName->isEnabled()) return;
 
 	QString trueText = text;
+
 	if (trueText.length() <= 0) trueText = ui->problemTitle->text();
+
 	editTask->setSourceFileName(trueText);
 
 	if (ui->inputFileName->isEnabled())
@@ -474,6 +478,7 @@ void TaskEditWidget::answerFileExtensionChanged(const QString &extension)
 void TaskEditWidget::multiFilesRefresh()
 {
 	if (!editTask)return;
+
 	if (editTask->getTaskType() != Task::Communication)return;
 
 	QStringList sourcePaths = editTask->getSourceFilesPath();
@@ -535,6 +540,7 @@ void TaskEditWidget::addSourceFileClicked()
 	QString name = ui->multiFilesNameLineEdit->text();
 
 	if (path.length() <= 0 || name.length() <= 0) return;
+
 	addSourceFiles(path, name);
 
 	ui->multiFilesPathLineEdit->clear();
@@ -551,6 +557,7 @@ void TaskEditWidget::addGraderFileClicked()
 	QString name = ui->multiFilesNameLineEdit->text();
 
 	if (path.length() <= 0 || name.length() <= 0) return;
+
 	addGraderFiles(path, name);
 
 	ui->multiFilesPathLineEdit->clear();
@@ -564,6 +571,7 @@ void TaskEditWidget::rmSourceFileClicked()
 	if (!editTask) return;
 
 	QList<QTableWidgetSelectionRange> ranges = ui->sourceFilesTable->selectedRanges();
+
 	if (ranges.length() <= 0) return;
 
 	rmSourceFilesAt(ranges.at(0).topRow());
@@ -576,6 +584,7 @@ void TaskEditWidget::rmGraderFileClicked()
 	if (!editTask) return;
 
 	QList<QTableWidgetSelectionRange> ranges = ui->graderFilesTable->selectedRanges();
+
 	if (ranges.length() <= 0) return;
 
 	rmGraderFilesAt(ranges.at(0).topRow());

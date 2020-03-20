@@ -60,7 +60,7 @@ auto Contestant::getInputFiles(int index) const -> const QList<QStringList> &
 	return inputFiles[index];
 }
 
-auto Contestant::getResult(int index) const -> const QList< QList<ResultState> > &
+auto Contestant::getResult(int index) const -> const QList< QList<ResultState>> &
 {
 	return result[index];
 }
@@ -70,17 +70,17 @@ auto Contestant::getMessage(int index) const -> const QList<QStringList> &
 	return message[index];
 }
 
-auto Contestant::getSocre(int index) const -> const QList< QList<int> > &
+auto Contestant::getSocre(int index) const -> const QList< QList<int>> &
 {
 	return score[index];
 }
 
-auto Contestant::getTimeUsed(int index) const -> const QList< QList<int> > &
+auto Contestant::getTimeUsed(int index) const -> const QList< QList<int>> &
 {
 	return timeUsed[index];
 }
 
-auto Contestant::getMemoryUsed(int index) const -> const QList< QList<int> > &
+auto Contestant::getMemoryUsed(int index) const -> const QList< QList<int>> &
 {
 	return memoryUsed[index];
 }
@@ -120,7 +120,7 @@ void Contestant::setInputFiles(int index, const QList<QStringList> &files)
 	inputFiles[index] = files;
 }
 
-void Contestant::setResult(int index, const QList< QList<ResultState> > &_result)
+void Contestant::setResult(int index, const QList< QList<ResultState>> &_result)
 {
 	result[index] = _result;
 }
@@ -130,17 +130,17 @@ void Contestant::setMessage(int index, const QList<QStringList> &_message)
 	message[index] = _message;
 }
 
-void Contestant::setScore(int index, const QList< QList<int> > &_score)
+void Contestant::setScore(int index, const QList< QList<int>> &_score)
 {
 	score[index] = _score;
 }
 
-void Contestant::setTimeUsed(int index, const QList< QList<int> > &_timeUsed)
+void Contestant::setTimeUsed(int index, const QList< QList<int>> &_timeUsed)
 {
 	timeUsed[index] = _timeUsed;
 }
 
-void Contestant::setMemoryUsed(int index, const QList< QList<int> > &_memoryUsed)
+void Contestant::setMemoryUsed(int index, const QList< QList<int>> &_memoryUsed)
 {
 	memoryUsed[index] = _memoryUsed;
 }
@@ -157,11 +157,11 @@ void Contestant::addTask()
 	sourceFile.append("");
 	compileMesaage.append("");
 	inputFiles.append(QList<QStringList>());
-	result.append(QList< QList<ResultState> >());
+	result.append(QList< QList<ResultState>>());
 	message.append(QList<QStringList>());
-	score.append(QList< QList<int> >());
-	timeUsed.append(QList< QList<int> >());
-	memoryUsed.append(QList< QList<int> >());
+	score.append(QList< QList<int>>());
+	timeUsed.append(QList< QList<int>>());
+	memoryUsed.append(QList< QList<int>>());
 }
 
 void Contestant::deleteTask(int index)
@@ -181,6 +181,7 @@ void Contestant::deleteTask(int index)
 void Contestant::swapTask(int a, int b)
 {
 	if (a < 0 || a >= checkJudged.size())return;
+
 	if (b < 0 || b >= checkJudged.size())return;
 
 	checkJudged.swap(a, b);
@@ -337,7 +338,7 @@ void Contestant::readFromStream(QDataStream &in)
 
 	for (int i = 0; i < count; i ++)
 	{
-		result.append(QList< QList<ResultState> >());
+		result.append(QList< QList<ResultState>>());
 		in >> _count;
 
 		for (int j = 0; j < _count; j ++)

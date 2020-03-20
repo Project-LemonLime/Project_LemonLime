@@ -77,22 +77,22 @@ auto AssignmentThread::getSourceFile() const -> const QString &
 	return sourceFile;
 }
 
-auto AssignmentThread::getScore() const -> const QList< QList<int> > &
+auto AssignmentThread::getScore() const -> const QList< QList<int>> &
 {
 	return score;
 }
 
-auto AssignmentThread::getTimeUsed() const -> const QList< QList<int> > &
+auto AssignmentThread::getTimeUsed() const -> const QList< QList<int>> &
 {
 	return timeUsed;
 }
 
-auto AssignmentThread::getMemoryUsed() const -> const QList< QList<int> > &
+auto AssignmentThread::getMemoryUsed() const -> const QList< QList<int>> &
 {
 	return memoryUsed;
 }
 
-auto AssignmentThread::getResult() const -> const QList< QList<ResultState> > &
+auto AssignmentThread::getResult() const -> const QList< QList<ResultState>> &
 {
 	return result;
 }
@@ -129,6 +129,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 		else
 		{
 			filters = i->getSourceExtensions();
+
 			for (int j = 0; j < filters.size(); j ++)
 			{
 				filters[j] = task->getSourceFileName() + "." + filters[j];
@@ -159,11 +160,13 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 		if (! sourceFile.isEmpty())
 		{
 			QDir(Settings::temporaryPath()).mkdir(contestantName);
+
 			if (task->getTaskType() == Task::Communication)
 			{
 				sourceFile = "";
 				QStringList sourcePaths = task->getSourceFilesPath();
 				QStringList sourceNames = task->getSourceFilesName();
+
 				for (int i = 0; i < sourcePaths.length(); i++)
 				{
 					QFile::copy(Settings::sourcePath() + contestantName + (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName() : QString("")) + QDir::separator() + sourcePaths[i],
@@ -189,6 +192,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 			{
 				QStringList graderPaths = task->getGraderFilesPath();
 				QStringList graderNames = task->getGraderFilesName();
+
 				for (int i = 0; i < graderPaths.length(); i++)
 				{
 					QFile::copy(Settings::dataPath() + graderPaths[i], Settings::temporaryPath() + contestantName + QDir::separator() + graderNames[i]);
@@ -352,6 +356,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 					break;
 				}
 			}
+
 			break;
 		}
 	}
@@ -582,6 +587,7 @@ void AssignmentThread::threadFinished()
 		delete thread;
 
 		int nowScore = score[cur.first][cur.second];
+
 		if (cur.second + 1 == task->getTestCase(cur.first)->getInputFiles().size())
 		{
 			for (int i = 0; i < cur.second; i++)

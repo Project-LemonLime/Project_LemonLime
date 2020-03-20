@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
+    <width>416</width>
     <height>426</height>
    </rect>
   </property>
@@ -47,7 +47,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>
@@ -213,7 +213,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>
@@ -262,7 +262,7 @@
       <widget class="QLineEdit" name="rejudgeTimes">
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>
@@ -320,7 +320,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>
@@ -394,7 +394,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>
@@ -452,7 +452,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>58</width>
+         <width>95</width>
          <height>0</height>
         </size>
        </property>

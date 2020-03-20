@@ -763,6 +763,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 		delete judge;
 		return;
 	}
+
 	if (judge->exitCode() != 0)
 	{
 		score = 0;

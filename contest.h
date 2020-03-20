@@ -88,7 +88,7 @@ signals:
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();
-	void taskJudgedDisplay(const QString &, const QList< QList<int> > &, const int);
+	void taskJudgedDisplay(const QString &, const QList< QList<int>> &, const int);
 	void contestantJudgingStart(QString);
 	void contestantJudgingFinished();
 	void contestantJudgedDisplay(const QString &, const int, const int);

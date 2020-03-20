@@ -41,17 +41,17 @@ class AssignmentThread : public QThread
 public:
 	explicit AssignmentThread(QObject *parent = nullptr);
 	//void setCheckRejudgeMode(bool);
-	void setNeedRejudge(const QList< QPair<int, int> > &);
+	void setNeedRejudge(const QList< QPair<int, int>> &);
 	void setSettings(Settings *);
 	void setTask(Task *);
 	void setContestantName(const QString &);
 	CompileState getCompileState() const;
 	const QString &getCompileMessage() const;
 	const QString &getSourceFile() const;
-	const QList< QList<int> > &getScore() const;
-	const QList< QList<int> > &getTimeUsed() const;
-	const QList< QList<int> > &getMemoryUsed() const;
-	const QList< QList<ResultState> > &getResult() const;
+	const QList< QList<int>> &getScore() const;
+	const QList< QList<int>> &getTimeUsed() const;
+	const QList< QList<int>> &getMemoryUsed() const;
+	const QList< QList<ResultState>> &getResult() const;
 	const QList<QStringList> &getMessage() const;
 	const QList<QStringList> &getInputFiles() const;
 	//const QList< QPair<int, int> >& getNeedRejudge() const;
@@ -74,10 +74,10 @@ private:
 	bool disableMemoryLimitCheck{};
 	QProcessEnvironment environment;
 	QList<int> overallStatus;
-	QList< QList<int> > timeUsed;
-	QList< QList<int> > memoryUsed;
-	QList< QList<int> > score;
-	QList< QList<ResultState> > result;
+	QList< QList<int>> timeUsed;
+	QList< QList<int>> memoryUsed;
+	QList< QList<int>> score;
+	QList< QList<ResultState>> result;
 	QList<QStringList> message;
 	QList<QStringList> inputFiles;
 	//QList< QPair<int, int> > needRejudge;
@@ -86,7 +86,7 @@ private:
 	int curSingleCaseIndex;
 	int countFinished;
 	int totalSingleCase;
-	QMap< JudgingThread *, QPair<int, int> > running;
+	QMap< JudgingThread *, QPair<int, int>> running;
 	bool stopJudging;
 	bool traditionalTaskPrepare();
 	void assign();
