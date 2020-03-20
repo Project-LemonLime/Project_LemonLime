@@ -23,6 +23,8 @@
 #ifndef EXPORTUTIL_H
 #define EXPORTUTIL_H
 
+
+#include "globaltype.h"
 #include <QtCore>
 #include <QtGui>
 #include <QObject>

@@ -26,10 +26,11 @@
 #include <sys/resource.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <signal.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+#include <csignal>
+#include <cstdio>
+#include <cassert>
 
 int pid;
 
@@ -88,11 +89,11 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		if (strlen(argv[2]) > 0) freopen(argv[2], "r", stdin);
+		if (strlen(argv[2]) > 0) assert(freopen(argv[2], "r", stdin));
 
-		if (strlen(argv[3]) > 0) freopen(argv[3], "w", stdout);
+		if (strlen(argv[3]) > 0) assert(freopen(argv[3], "w", stdout));
 
-		if (strlen(argv[4]) > 0) freopen(argv[4], "w", stderr);
+		if (strlen(argv[4]) > 0) assert(freopen(argv[4], "w", stderr));
 
 		rlimit memlim, stalim, timlim;
 

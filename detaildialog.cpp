@@ -31,6 +31,7 @@
 #include "contest.h"
 #include "contestant.h"
 #include "globaltype.h"
+#include "settings.h"
 #include "judgingdialog.h"
 #include <QMessageBox>
 #include <QScrollBar>
@@ -160,84 +161,11 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
-				QString FrColor = "rgb(0, 0, 0)";
+				QString frColor = "rgb(0, 0, 0)";
 
-				switch (result[j][k])
-				{
-					case CorrectAnswer:
-						text = tr("Correct Answer");
-						bgColor = "rgb(192, 255, 192)";
-						break;
+				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
 
-					case WrongAnswer:
-						text = tr("Wrong Answer");
-						bgColor = "rgb(255, 192, 192)";
-						break;
-
-					case PartlyCorrect:
-						text = tr("Partly Correct");
-						bgColor = "rgb(192, 255, 255)";
-						break;
-
-					case TimeLimitExceeded:
-						text = tr("Time Limit Exceeded");
-						bgColor = "rgb(255, 255, 192)";
-						break;
-
-					case MemoryLimitExceeded:
-						text = tr("Memory Limit Exceeded");
-						bgColor = "rgb(192, 192, 255)";
-						break;
-
-					case CannotStartProgram:
-						text = tr("Cannot Start Program");
-						FrColor = "rgb(255, 64, 64)";
-						bgColor = "rgb(192, 192, 192)";
-						break;
-
-					case FileError:
-						text = tr("File Error");
-						FrColor = "rgb(255, 255, 64)";
-						bgColor = "rgb(192, 192, 192)";
-						break;
-
-					case RunTimeError:
-						text = tr("Run Time Error");
-						bgColor = "rgb(255, 192, 255)";
-						break;
-
-					case InvalidSpecialJudge:
-						text = tr("Invalid Special Judge");
-						FrColor = "rgb(255, 255, 255)";
-						bgColor = "rgb(128, 0, 0)";
-						break;
-
-					case SpecialJudgeTimeLimitExceeded:
-						text = tr("Special Judge Time Limit Exceeded");
-						FrColor = "rgb(255, 255, 255)";
-						bgColor = "rgb(128, 128, 0)";
-						break;
-
-					case SpecialJudgeRunTimeError:
-						text = tr("Special Judge Run Time Error");
-						FrColor = "rgb(255, 255, 255)";
-						bgColor = "rgb(128, 0, 128)";
-						break;
-
-					case Skipped:
-						text = tr("Skipped");
-						FrColor = "rgb(192, 192, 192)";
-						bgColor = "rgb(255, 255, 255)";
-						break;
-
-					case InteractorError:
-						text = tr("Interactor Error");
-						FrColor = "rgb(255, 255, 255)";
-						bgColor = "rgb(0, 0, 128)";
-						break;
-				}
-
-				htmlCode += QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)").arg(text).arg(bgColor).arg(FrColor);
+				htmlCode += QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)").arg(text).arg(bgColor).arg(frColor);
 
 				if (! message[j][k].isEmpty())
 				{

@@ -101,14 +101,7 @@ void WelcomeDialog::tabIndexChanged(int index)
 {
 	if (index == 0)
 	{
-		if (ui->openContestWidget->getCurrentRow() != -1)
-		{
-			ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-		}
-		else
-		{
-			ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-		}
+		selectionChanged();
 	}
 	else
 	{

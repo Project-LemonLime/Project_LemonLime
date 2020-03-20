@@ -230,8 +230,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	bool chk2 = false;
 	bool chkEof1 = false;
 	bool chkEof2 = false;
-	int len1;
-	int len2;
+	short len1;
+	short len2;
 
 	while (true)
 	{
@@ -239,6 +239,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		while (len1 < 10)
 		{
+			if (feof(contestantOutputFile))break;
+
 			ch = static_cast<char>(fgetc(contestantOutputFile));
 
 			if (ch == EOF) break;
@@ -270,6 +272,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		while (len2 < 10)
 		{
+			if (feof(standardOutputFile))break;
+
 			ch = static_cast<char>(fgetc(standardOutputFile));
 
 			if (ch == EOF) break;

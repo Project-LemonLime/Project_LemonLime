@@ -338,7 +338,7 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 		}
 		else
 		{
-			p ++;
+			++p;
 		}
 	}
 

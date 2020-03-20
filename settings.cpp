@@ -513,6 +513,88 @@ void Settings::setSplashTime(int x)
 	splashTime = x;
 }
 
+void Settings::setTextAndColor(ResultState result, QString &text, QString &frColor, QString &bgColor)
+{
+	text = "";
+	bgColor = "rgb(255, 255, 255)";
+	frColor = "rgb(0, 0, 0)";
+
+	switch (result)
+	{
+		case CorrectAnswer:
+			text = tr("Correct Answer");
+			bgColor = "rgb(192, 255, 192)";
+			break;
+
+		case WrongAnswer:
+			text = tr("Wrong Answer");
+			bgColor = "rgb(255, 192, 192)";
+			break;
+
+		case PartlyCorrect:
+			text = tr("Partly Correct");
+			bgColor = "rgb(192, 255, 255)";
+			break;
+
+		case TimeLimitExceeded:
+			text = tr("Time Limit Exceeded");
+			bgColor = "rgb(255, 255, 192)";
+			break;
+
+		case MemoryLimitExceeded:
+			text = tr("Memory Limit Exceeded");
+			bgColor = "rgb(192, 192, 255)";
+			break;
+
+		case CannotStartProgram:
+			text = tr("Cannot Start Program");
+			frColor = "rgb(255, 64, 64)";
+			bgColor = "rgb(192, 192, 192)";
+			break;
+
+		case FileError:
+			text = tr("File Error");
+			frColor = "rgb(255, 255, 64)";
+			bgColor = "rgb(192, 192, 192)";
+			break;
+
+		case RunTimeError:
+			text = tr("Run Time Error");
+			bgColor = "rgb(255, 192, 255)";
+			break;
+
+		case InvalidSpecialJudge:
+			text = tr("Invalid Special Judge");
+			frColor = "rgb(255, 255, 255)";
+			bgColor = "rgb(128, 0, 0)";
+			break;
+
+		case SpecialJudgeTimeLimitExceeded:
+			text = tr("Special Judge Time Limit Exceeded");
+			frColor = "rgb(255, 255, 255)";
+			bgColor = "rgb(128, 128, 0)";
+			break;
+
+		case SpecialJudgeRunTimeError:
+			text = tr("Special Judge Run Time Error");
+			frColor = "rgb(255, 255, 255)";
+			bgColor = "rgb(128, 0, 128)";
+			break;
+
+		case Skipped:
+			text = tr("Skipped");
+			frColor = "rgb(192, 192, 192)";
+			bgColor = "rgb(255, 255, 255)";
+			break;
+
+		case InteractorError:
+			text = tr("Interactor Error");
+			frColor = "rgb(255, 255, 255)";
+			bgColor = "rgb(0, 0, 128)";
+			break;
+	}
+}
+
 void Settings::copyFrom(Settings *other)
 {
 	setDefaultFullScore(other->getDefaultFullScore());

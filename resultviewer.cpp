@@ -187,14 +187,9 @@ void ResultViewer::refreshViewer()
 				{
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
 						bg = setting.getColorNf();
-					//	bg = QColor::fromHslF(nofBaseColorHF, nofBaseColorSF, nofBaseColorLF);
 					else bg = setting.getColorCe();
-
-					// bg = QColor::fromHslF(cmeBaseColorHF, cmeBaseColorSF, cmeBaseColorLF);
 				}
 				else bg = setting.getColorPer(score, fullScore[j]);
-
-				//bg = QColor::fromHslF(oriBaseColorHF, oriBaseColorSF, oriBaseColorLF(score, fullScore[j], 0.3));
 
 				item(i, j + 3)->setBackground(bg);
 			}
@@ -414,7 +409,7 @@ void ResultViewer::judgeMagenta()
 
 	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}

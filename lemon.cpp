@@ -360,33 +360,24 @@ void Lemon::showOptionsDialog()
 	delete dialog;
 }
 
+void Lemon::judgeExtButtonFlip(bool stat)
+{
+	ui->judgeAllButton->setEnabled(stat);
+	ui->judgeAllAction->setEnabled(stat);
+	ui->judgeUnjudgedButton->setEnabled(stat);
+	ui->judgeUnjudgedAction->setEnabled(stat);
+	ui->judgeGreyAction->setEnabled(stat);
+	ui->judgeMagentaAction->setEnabled(stat);
+}
+
 void Lemon::refreshButtonClicked()
 {
 	curContest->refreshContestantList();
 	ui->resultViewer->refreshViewer();
 
-	if (ui->resultViewer->rowCount() > 0)
-	{
-		ui->judgeAllButton->setEnabled(true);
-		ui->judgeAllAction->setEnabled(true);
-		ui->judgeUnjudgedButton->setEnabled(true);
-		ui->judgeUnjudgedAction->setEnabled(true);
-		ui->judgeGreyAction->setEnabled(true);
-		ui->judgeMagentaAction->setEnabled(true);
-		ui->cleanupAction->setEnabled(true);
-		ui->refreshAction->setEnabled(true);
-	}
-	else
-	{
-		ui->judgeAllButton->setEnabled(false);
-		ui->judgeAllAction->setEnabled(false);
-		ui->judgeUnjudgedButton->setEnabled(false);
-		ui->judgeUnjudgedAction->setEnabled(false);
-		ui->judgeGreyAction->setEnabled(false);
-		ui->judgeMagentaAction->setEnabled(false);
-		ui->cleanupAction->setEnabled(true);
-		ui->refreshAction->setEnabled(true);
-	}
+	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
+	ui->cleanupAction->setEnabled(true);
+	ui->refreshAction->setEnabled(true);
 }
 
 void removePath(const QString &path)
@@ -686,14 +677,9 @@ void Lemon::tabIndexChanged(int index)
 {
 	if (index != 1)
 	{
+		judgeExtButtonFlip(false);
 		ui->judgeAction->setEnabled(false);
 		ui->judgeButton->setEnabled(false);
-		ui->judgeAllAction->setEnabled(false);
-		ui->judgeAllButton->setEnabled(false);
-		ui->judgeUnjudgedAction->setEnabled(false);
-		ui->judgeUnjudgedButton->setEnabled(false);
-		ui->judgeGreyAction->setEnabled(false);
-		ui->judgeMagentaAction->setEnabled(false);
 		ui->cleanupAction->setEnabled(false);
 		ui->refreshAction->setEnabled(false);
 
@@ -717,24 +703,7 @@ void Lemon::tabIndexChanged(int index)
 			ui->judgeButton->setEnabled(false);
 		}
 
-		if (ui->resultViewer->rowCount() > 0)
-		{
-			ui->judgeAllAction->setEnabled(true);
-			ui->judgeAllButton->setEnabled(true);
-			ui->judgeUnjudgedButton->setEnabled(true);
-			ui->judgeUnjudgedAction->setEnabled(true);
-			ui->judgeGreyAction->setEnabled(true);
-			ui->judgeMagentaAction->setEnabled(true);
-		}
-		else
-		{
-			ui->judgeAllAction->setEnabled(false);
-			ui->judgeAllButton->setEnabled(false);
-			ui->judgeUnjudgedButton->setEnabled(false);
-			ui->judgeUnjudgedAction->setEnabled(false);
-			ui->judgeGreyAction->setEnabled(false);
-			ui->judgeMagentaAction->setEnabled(false);
-		}
+		judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 
 		ui->cleanupAction->setEnabled(true);
 		ui->refreshAction->setEnabled(true);
@@ -797,25 +766,7 @@ void Lemon::viewerSelectionChanged()
 
 void Lemon::contestantDeleted()
 {
-	if (ui->resultViewer->rowCount() > 0)
-	{
-		ui->judgeAllButton->setEnabled(true);
-		ui->judgeAllAction->setEnabled(true);
-		ui->judgeUnjudgedButton->setEnabled(true);
-		ui->judgeUnjudgedAction->setEnabled(true);
-		ui->judgeGreyAction->setEnabled(true);
-		ui->judgeMagentaAction->setEnabled(true);
-	}
-	else
-	{
-		ui->judgeAllButton->setEnabled(false);
-		ui->judgeAllAction->setEnabled(false);
-		ui->judgeUnjudgedButton->setEnabled(false);
-		ui->judgeUnjudgedAction->setEnabled(false);
-		ui->judgeGreyAction->setEnabled(false);
-		ui->judgeMagentaAction->setEnabled(false);
-	}
-
+	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 	ui->cleanupAction->setEnabled(true);
 	ui->refreshAction->setEnabled(true);
 }

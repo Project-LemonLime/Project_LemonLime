@@ -23,6 +23,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "globaltype.h"
 #include <QtCore>
 #include <QObject>
 #include <QColor>
@@ -122,6 +123,7 @@ public:
 	void loadSettings();
 
 
+	static void setTextAndColor(ResultState, QString &, QString &, QString &);
 	static int upperBoundForFullScore();
 	static int upperBoundForTimeLimit();
 	static int upperBoundForMemoryLimit();
