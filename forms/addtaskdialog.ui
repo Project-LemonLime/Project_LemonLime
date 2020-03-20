@@ -107,9 +107,15 @@
    </item>
    <item row="2" column="1">
     <widget class="QLineEdit" name="timeLimit">
+     <property name="minimumSize">
+      <size>
+       <width>96</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
-       <width>75</width>
+       <width>96</width>
        <height>22</height>
       </size>
      </property>
@@ -120,9 +126,15 @@
    </item>
    <item row="1" column="1">
     <widget class="QLineEdit" name="fullScore">
+     <property name="minimumSize">
+      <size>
+       <width>96</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
-       <width>75</width>
+       <width>96</width>
        <height>22</height>
       </size>
      </property>
@@ -133,9 +145,15 @@
    </item>
    <item row="3" column="1">
     <widget class="QLineEdit" name="memoryLimit">
+     <property name="minimumSize">
+      <size>
+       <width>96</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
-       <width>75</width>
+       <width>96</width>
        <height>22</height>
       </size>
      </property>

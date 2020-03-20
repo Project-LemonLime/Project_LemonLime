@@ -250,7 +250,7 @@
        <widget class="QLineEdit" name="compilerName">
         <property name="minimumSize">
          <size>
-          <width>61</width>
+          <width>96</width>
           <height>0</height>
          </size>
         </property>
@@ -374,7 +374,7 @@
        <widget class="QLineEdit" name="sourceFileExtensions">
         <property name="minimumSize">
          <size>
-          <width>61</width>
+          <width>96</width>
           <height>0</height>
          </size>
         </property>
@@ -409,7 +409,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>61</width>
+          <width>96</width>
           <height>0</height>
          </size>
         </property>
