@@ -20,7 +20,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 |:--:|:--:|:--:|:--:|
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
-|Manjaro|18.1.5|64|KDE|
+|Manjaro|19.0.2|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Wayland|
 |Ubuntu|18.04.4|64|GNOME 3|
@@ -122,7 +122,7 @@ A tiny judging environment for OI contest based on Project_LemonPlus
 |:--:|:--:|:--:|:--:|
 |Arch|2020-3-20|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Wayland|
-|Manjaro|18.1.5|64|KDE|
+|Manjaro|19.0.2|64|KDE-Xorg|
 
 ```bash
 ## 迅速安装 ##
