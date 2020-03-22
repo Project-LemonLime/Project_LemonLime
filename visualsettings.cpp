@@ -68,7 +68,7 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	        this, SLOT(splashTimeChanged(int)));
 
 	connect(ui->resetToDefaultButton, SIGNAL(clicked()),
-	        this, SLOT(resetToDefault()));
+	        this, SLOT(whenResetToDefault()));
 }
 
 void VisualSettings::resetToDefault()
@@ -111,6 +111,11 @@ void VisualSettings::resetToDefault()
 	editSettings->setGrandRateS(ui->grandRateS->value());
 	editSettings->setGrandRateL(ui->grandRateL->value());
 	editSettings->setSplashTime(ui->splashTime->value());
+}
+
+void VisualSettings::whenResetToDefault()
+{
+	VisualSettings::resetToDefault();
 }
 
 void VisualSettings::resetEditSettings(Settings *settings)

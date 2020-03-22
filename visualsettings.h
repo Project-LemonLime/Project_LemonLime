@@ -35,6 +35,7 @@ class VisualSettings : public QWidget
 public:
 	explicit VisualSettings(QWidget *parent = nullptr);
 	void resetEditSettings(Settings *);
+	void resetToDefault();
 	~VisualSettings();
 
 private:
@@ -62,7 +63,7 @@ private slots:
 	void grandRateLChanged(const double &);
 	void splashTimeChanged(const int &);
 
-	void resetToDefault();
+	void whenResetToDefault();
 };
 
 #endif // VISUALSETTINGS_H

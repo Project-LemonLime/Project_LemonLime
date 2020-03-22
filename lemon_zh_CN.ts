@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AddCompilerWizard</name>
     <message>
@@ -105,7 +105,7 @@
     </message>
     <message>
         <source>Enable O2 Optimization</source>
-        <translation type="vanished">在编译命令中添加&quot;-O2&quot;</translation>
+        <translation>在编译命令中添加&quot;-O2&quot;</translation>
     </message>
     <message>
         <location filename="forms/addcompilerwizard.ui" line="787"/>
@@ -442,7 +442,7 @@
     </message>
     <message>
         <source>Step III: Preview the result and finish the wizard.</source>
-        <translation type="vanished">步骤 3/3：预览结果，确认无误后完成向导。</translation>
+        <translation>步骤 3/3：预览结果，确认无误后完成向导。</translation>
     </message>
     <message>
         <location filename="forms/addtestcaseswizard.ui" line="264"/>
@@ -870,55 +870,55 @@
     </message>
     <message>
         <source>Correct Answer</source>
-        <translation type="vanished">答案正确</translation>
+        <translation>答案正确</translation>
     </message>
     <message>
         <source>Wrong Answer</source>
-        <translation type="vanished">答案错误</translation>
+        <translation>答案错误</translation>
     </message>
     <message>
         <source>Partly Correct</source>
-        <translation type="vanished">答案部分正确</translation>
+        <translation>答案部分正确</translation>
     </message>
     <message>
         <source>Time Limit Exceeded</source>
-        <translation type="vanished">超过时间限制</translation>
+        <translation>超过时间限制</translation>
     </message>
     <message>
         <source>Memory Limit Exceeded</source>
-        <translation type="vanished">超过空间限制</translation>
+        <translation>超过空间限制</translation>
     </message>
     <message>
         <source>Cannot Start Program</source>
-        <translation type="vanished">进程被阻塞</translation>
+        <translation>进程被阻塞</translation>
     </message>
     <message>
         <source>File Error</source>
-        <translation type="vanished">文件错误</translation>
+        <translation>文件错误</translation>
     </message>
     <message>
         <source>Run Time Error</source>
-        <translation type="vanished">运行时错误</translation>
+        <translation>运行时错误</translation>
     </message>
     <message>
         <source>Invalid Special Judge</source>
-        <translation type="vanished">校验器没有被正确配置</translation>
+        <translation>校验器没有被正确配置</translation>
     </message>
     <message>
         <source>Special Judge Time Limit Exceeded</source>
-        <translation type="vanished">校验器超过时间限制</translation>
+        <translation>校验器超过时间限制</translation>
     </message>
     <message>
         <source>Special Judge Run Time Error</source>
-        <translation type="vanished">校验器运行时错误</translation>
+        <translation>校验器运行时错误</translation>
     </message>
     <message>
         <source>Skipped</source>
-        <translation type="vanished">被忽略</translation>
+        <translation>被忽略</translation>
     </message>
     <message>
         <source>Interactor Error</source>
-        <translation type="vanished">交互库错误</translation>
+        <translation>交互库错误</translation>
     </message>
     <message>
         <location filename="detaildialog.cpp" line="185"/>
@@ -1012,246 +1012,251 @@
 <context>
     <name>ExportUtil</name>
     <message>
-        <location filename="exportutil.cpp" line="53"/>
-        <location filename="exportutil.cpp" line="387"/>
+        <location filename="exportutil.cpp" line="54"/>
+        <location filename="exportutil.cpp" line="398"/>
         <source>Task</source>
         <translation>试题</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="57"/>
-        <location filename="exportutil.cpp" line="391"/>
+        <location filename="exportutil.cpp" line="58"/>
+        <location filename="exportutil.cpp" line="402"/>
         <source>Not judged</source>
         <translation>未测试</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="68"/>
-        <location filename="exportutil.cpp" line="402"/>
+        <location filename="exportutil.cpp" line="69"/>
+        <location filename="exportutil.cpp" line="413"/>
         <source>Cannot find valid source file</source>
         <translation>未找到选手程序</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="72"/>
-        <location filename="exportutil.cpp" line="82"/>
-        <location filename="exportutil.cpp" line="112"/>
-        <location filename="exportutil.cpp" line="406"/>
-        <location filename="exportutil.cpp" line="416"/>
-        <location filename="exportutil.cpp" line="446"/>
+        <location filename="exportutil.cpp" line="73"/>
+        <location filename="exportutil.cpp" line="83"/>
+        <location filename="exportutil.cpp" line="113"/>
+        <location filename="exportutil.cpp" line="417"/>
+        <location filename="exportutil.cpp" line="427"/>
+        <location filename="exportutil.cpp" line="457"/>
         <source>Source file: </source>
         <translation>源程序： </translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="74"/>
-        <location filename="exportutil.cpp" line="408"/>
+        <location filename="exportutil.cpp" line="75"/>
+        <location filename="exportutil.cpp" line="419"/>
         <source>Compile time limit exceeded</source>
         <translation>编译超时</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="78"/>
-        <location filename="exportutil.cpp" line="412"/>
+        <location filename="exportutil.cpp" line="79"/>
+        <location filename="exportutil.cpp" line="423"/>
         <source>Cannot run given compiler</source>
         <translation>给定编译器无法运行</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="84"/>
-        <location filename="exportutil.cpp" line="418"/>
+        <location filename="exportutil.cpp" line="85"/>
+        <location filename="exportutil.cpp" line="429"/>
         <source>Compile error</source>
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="116"/>
-        <location filename="exportutil.cpp" line="450"/>
+        <location filename="exportutil.cpp" line="117"/>
+        <location filename="exportutil.cpp" line="461"/>
         <source>Test Case</source>
         <translation>测试点</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="117"/>
-        <location filename="exportutil.cpp" line="451"/>
+        <location filename="exportutil.cpp" line="118"/>
+        <location filename="exportutil.cpp" line="462"/>
         <source>Input File</source>
         <translation>输入文件</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="118"/>
-        <location filename="exportutil.cpp" line="452"/>
+        <location filename="exportutil.cpp" line="119"/>
+        <location filename="exportutil.cpp" line="463"/>
         <source>Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="119"/>
-        <location filename="exportutil.cpp" line="453"/>
+        <location filename="exportutil.cpp" line="120"/>
+        <location filename="exportutil.cpp" line="464"/>
         <source>Time Used</source>
         <translation>运行用时</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="120"/>
-        <location filename="exportutil.cpp" line="454"/>
+        <location filename="exportutil.cpp" line="121"/>
+        <location filename="exportutil.cpp" line="465"/>
         <source>Memory Used</source>
         <translation>内存消耗</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="121"/>
-        <location filename="exportutil.cpp" line="455"/>
+        <location filename="exportutil.cpp" line="122"/>
+        <location filename="exportutil.cpp" line="466"/>
         <source>Score</source>
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="144"/>
-        <location filename="exportutil.cpp" line="478"/>
+        <location filename="exportutil.cpp" line="145"/>
+        <location filename="exportutil.cpp" line="489"/>
         <source>Subtask Dependence Status</source>
         <oldsource>Subtask Dependence Score</oldsource>
         <translation>子任务依赖情况</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="144"/>
-        <location filename="exportutil.cpp" line="478"/>
+        <location filename="exportutil.cpp" line="145"/>
+        <location filename="exportutil.cpp" line="489"/>
         <source>Success</source>
         <translation>通过</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="144"/>
-        <location filename="exportutil.cpp" line="478"/>
+        <location filename="exportutil.cpp" line="145"/>
+        <location filename="exportutil.cpp" line="489"/>
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
+        <location filename="exportutil.cpp" line="941"/>
+        <source>Use Default Color Theme?</source>
+        <translation>使用默认的颜色主题吗？</translation>
+    </message>
+    <message>
         <source>Correct Answer</source>
-        <translation type="vanished">答案正确</translation>
+        <translation>答案正确</translation>
     </message>
     <message>
         <source>Wrong Answer</source>
-        <translation type="vanished">答案错误</translation>
+        <translation>答案错误</translation>
     </message>
     <message>
         <source>Partly Correct</source>
-        <translation type="vanished">答案部分正确</translation>
+        <translation>答案部分正确</translation>
     </message>
     <message>
         <source>Time Limit Exceeded</source>
-        <translation type="vanished">超过时间限制</translation>
+        <translation>超过时间限制</translation>
     </message>
     <message>
         <source>Memory Limit Exceeded</source>
-        <translation type="vanished">超过空间限制</translation>
+        <translation>超过空间限制</translation>
     </message>
     <message>
         <source>Cannot Start Program</source>
-        <translation type="vanished">进程被阻塞</translation>
+        <translation>进程被阻塞</translation>
     </message>
     <message>
         <source>File Error</source>
-        <translation type="vanished">文件错误</translation>
+        <translation>文件错误</translation>
     </message>
     <message>
         <source>Run Time Error</source>
-        <translation type="vanished">运行时错误</translation>
+        <translation>运行时错误</translation>
     </message>
     <message>
         <source>Invalid Special Judge</source>
-        <translation type="vanished">校验器没有被正确配置</translation>
+        <translation>校验器没有被正确配置</translation>
     </message>
     <message>
         <source>Special Judge Time Limit Exceeded</source>
-        <translation type="vanished">校验器超过时间限制</translation>
+        <translation>校验器超过时间限制</translation>
     </message>
     <message>
         <source>Special Judge Run Time Error</source>
-        <translation type="vanished">校验器运行时错误</translation>
+        <translation>校验器运行时错误</translation>
     </message>
     <message>
         <source>Skipped</source>
-        <translation type="vanished">被忽略</translation>
+        <translation>被忽略</translation>
     </message>
     <message>
         <source>Interactor Error</source>
-        <translation type="vanished">交互库错误</translation>
+        <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="176"/>
-        <location filename="exportutil.cpp" line="189"/>
-        <location filename="exportutil.cpp" line="325"/>
-        <location filename="exportutil.cpp" line="358"/>
-        <location filename="exportutil.cpp" line="510"/>
-        <location filename="exportutil.cpp" line="523"/>
-        <location filename="exportutil.cpp" line="650"/>
-        <location filename="exportutil.cpp" line="663"/>
-        <location filename="exportutil.cpp" line="762"/>
-        <location filename="exportutil.cpp" line="774"/>
-        <location filename="exportutil.cpp" line="871"/>
-        <location filename="exportutil.cpp" line="883"/>
+        <location filename="exportutil.cpp" line="177"/>
+        <location filename="exportutil.cpp" line="190"/>
+        <location filename="exportutil.cpp" line="337"/>
+        <location filename="exportutil.cpp" line="369"/>
+        <location filename="exportutil.cpp" line="521"/>
+        <location filename="exportutil.cpp" line="534"/>
+        <location filename="exportutil.cpp" line="661"/>
+        <location filename="exportutil.cpp" line="674"/>
+        <location filename="exportutil.cpp" line="773"/>
+        <location filename="exportutil.cpp" line="785"/>
+        <location filename="exportutil.cpp" line="882"/>
+        <location filename="exportutil.cpp" line="894"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="217"/>
-        <location filename="exportutil.cpp" line="546"/>
+        <location filename="exportutil.cpp" line="218"/>
+        <location filename="exportutil.cpp" line="557"/>
         <source>Return to top</source>
         <translation>返回顶部</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="227"/>
-        <location filename="exportutil.cpp" line="375"/>
-        <location filename="exportutil.cpp" line="556"/>
-        <location filename="exportutil.cpp" line="680"/>
-        <location filename="exportutil.cpp" line="689"/>
-        <location filename="exportutil.cpp" line="779"/>
+        <location filename="exportutil.cpp" line="238"/>
+        <location filename="exportutil.cpp" line="386"/>
+        <location filename="exportutil.cpp" line="567"/>
+        <location filename="exportutil.cpp" line="691"/>
+        <location filename="exportutil.cpp" line="700"/>
         <location filename="exportutil.cpp" line="790"/>
-        <location filename="exportutil.cpp" line="892"/>
+        <location filename="exportutil.cpp" line="801"/>
         <location filename="exportutil.cpp" line="903"/>
-        <location filename="exportutil.cpp" line="909"/>
+        <location filename="exportutil.cpp" line="914"/>
+        <location filename="exportutil.cpp" line="920"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="227"/>
-        <location filename="exportutil.cpp" line="556"/>
-        <location filename="exportutil.cpp" line="689"/>
-        <location filename="exportutil.cpp" line="790"/>
+        <location filename="exportutil.cpp" line="238"/>
+        <location filename="exportutil.cpp" line="567"/>
+        <location filename="exportutil.cpp" line="700"/>
+        <location filename="exportutil.cpp" line="801"/>
         <source>Cannot open file %1</source>
         <translation>无法打开%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="242"/>
-        <location filename="exportutil.cpp" line="571"/>
+        <location filename="exportutil.cpp" line="253"/>
+        <location filename="exportutil.cpp" line="582"/>
         <source>Contest Result</source>
         <translation>比赛结果</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="284"/>
-        <location filename="exportutil.cpp" line="613"/>
+        <location filename="exportutil.cpp" line="295"/>
+        <location filename="exportutil.cpp" line="624"/>
         <source>Rank List</source>
         <translation>排名表</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="285"/>
+        <location filename="exportutil.cpp" line="296"/>
         <source>Click names or task scores to jump to details. Judged By LemonLime</source>
         <translation>点击名字或单题分数跳转到详细信息。使用 LemonLime 评测</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="287"/>
-        <location filename="exportutil.cpp" line="616"/>
-        <location filename="exportutil.cpp" line="737"/>
-        <location filename="exportutil.cpp" line="843"/>
+        <location filename="exportutil.cpp" line="298"/>
+        <location filename="exportutil.cpp" line="627"/>
+        <location filename="exportutil.cpp" line="748"/>
+        <location filename="exportutil.cpp" line="854"/>
         <source>Rank</source>
         <translation>排名</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="288"/>
-        <location filename="exportutil.cpp" line="617"/>
-        <location filename="exportutil.cpp" line="737"/>
-        <location filename="exportutil.cpp" line="844"/>
+        <location filename="exportutil.cpp" line="299"/>
+        <location filename="exportutil.cpp" line="628"/>
+        <location filename="exportutil.cpp" line="748"/>
+        <location filename="exportutil.cpp" line="855"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="290"/>
-        <location filename="exportutil.cpp" line="619"/>
-        <location filename="exportutil.cpp" line="744"/>
-        <location filename="exportutil.cpp" line="849"/>
+        <location filename="exportutil.cpp" line="301"/>
+        <location filename="exportutil.cpp" line="630"/>
+        <location filename="exportutil.cpp" line="755"/>
+        <location filename="exportutil.cpp" line="860"/>
         <source>Total Score</source>
         <translation>总分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="913"/>
+        <location filename="exportutil.cpp" line="924"/>
         <source>HTML Document (*.html *.htm);;CSV (*.csv)</source>
         <translation>HTML文档 (*.html *htm);;逗号分隔符 (*.csv)</translation>
     </message>
@@ -1264,45 +1269,46 @@
         <translation type="obsolete">项目地址: </translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="368"/>
-        <location filename="exportutil.cpp" line="673"/>
+        <location filename="exportutil.cpp" line="379"/>
+        <location filename="exportutil.cpp" line="684"/>
         <source>Contestant: %1</source>
         <translation>选手：%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="375"/>
-        <location filename="exportutil.cpp" line="680"/>
-        <location filename="exportutil.cpp" line="779"/>
-        <location filename="exportutil.cpp" line="892"/>
+        <location filename="exportutil.cpp" line="386"/>
+        <location filename="exportutil.cpp" line="691"/>
+        <location filename="exportutil.cpp" line="790"/>
+        <location filename="exportutil.cpp" line="903"/>
         <source>Export is done</source>
         <translation>导出完成</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="614"/>
+        <location filename="exportutil.cpp" line="625"/>
         <source>Judged By LemonLime</source>
         <translation>使用 LemonLime 评测</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="903"/>
+        <location filename="exportutil.cpp" line="914"/>
         <source>No contestant in current contest</source>
         <translation>不存在选手</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="909"/>
+        <location filename="exportutil.cpp" line="920"/>
         <source>No task in current contest</source>
         <translation>不存在试题</translation>
     </message>
     <message>
         <source>HTML Document (*.html);;CSV (*.csv)</source>
-        <translation type="vanished">HTML文档 (*.html);;逗号分隔符 (*.csv)</translation>
+        <translation>HTML文档 (*.html);;逗号分隔符 (*.csv)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="918"/>
+        <location filename="exportutil.cpp" line="929"/>
         <source>;;Excel Workbook (*.xls)</source>
         <translation>;;Excel工作簿 (*.xls)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="923"/>
+        <location filename="exportutil.cpp" line="934"/>
+        <location filename="exportutil.cpp" line="941"/>
         <source>Export Result</source>
         <translation>导出成绩</translation>
     </message>
@@ -1495,7 +1501,7 @@
     </message>
     <message>
         <source>  (%1 Pt)</source>
-        <translation type="vanished">  (%1 Pt)</translation>
+        <translation>  (%1 Pt)</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="224"/>
@@ -1550,15 +1556,15 @@
     </message>
     <message>
         <source>Finished</source>
-        <translation type="vanished">测试终了</translation>
+        <translation>测试终了</translation>
     </message>
     <message>
         <source>Judge Finished - LemonLime</source>
-        <translation type="vanished">测试完成 - LemonLime</translation>
+        <translation>测试完成 - LemonLime</translation>
     </message>
     <message>
         <source>+%1 Pt, %2 ms, %3 MB</source>
-        <translation type="vanished">+%1 Pt, %2 ms, %3 MB</translation>
+        <translation>+%1 Pt, %2 ms, %3 MB</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="256"/>
@@ -1760,7 +1766,7 @@
     </message>
     <message>
         <source>&amp;Cleanup Files</source>
-        <translation type="vanished">整理文件</translation>
+        <translation>整理文件</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="305"/>
@@ -1770,15 +1776,15 @@
     </message>
     <message>
         <source>&amp;Interaction</source>
-        <translation type="vanished">交互题(&amp;I)</translation>
+        <translation>交互题(&amp;I)</translation>
     </message>
     <message>
         <source>Clean &amp;up Files</source>
-        <translation type="vanished">整理文件(&amp;U)</translation>
+        <translation>整理文件(&amp;U)</translation>
     </message>
     <message>
         <source>&amp;Compile Features</source>
-        <translation type="vanished">编译选项(&amp;C)</translation>
+        <translation>编译选项(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="737"/>
@@ -1788,7 +1794,7 @@
     </message>
     <message>
         <source>&amp;Judge</source>
-        <translation type="vanished">测试</translation>
+        <translation>测试</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="587"/>
@@ -1826,7 +1832,7 @@
     </message>
     <message>
         <source>&amp;UI Language</source>
-        <translation type="vanished">设置语言(&amp;U)</translation>
+        <translation>设置语言(&amp;U)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="483"/>
@@ -1902,7 +1908,7 @@
     </message>
     <message>
         <source>&amp;More</source>
-        <translation type="vanished">更多(&amp;M)</translation>
+        <translation>更多(&amp;M)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="757"/>
@@ -1911,7 +1917,7 @@
     </message>
     <message>
         <source>Judge &amp;Grey</source>
-        <translation type="vanished">测试未找到文件的(&amp;G)</translation>
+        <translation>测试未找到文件的(&amp;G)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="772"/>
@@ -1920,7 +1926,7 @@
     </message>
     <message>
         <source>Judge &amp;Magenta</source>
-        <translation type="vanished">测试编译出错的(&amp;M)</translation>
+        <translation>测试编译出错的(&amp;M)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="787"/>
@@ -1948,21 +1954,21 @@
     <message>
         <source>&amp;Skip</source>
         <oldsource>Skip</oldsource>
-        <translation type="vanished">跳过这一题(&amp;S)</translation>
+        <translation>跳过这一题(&amp;S)</translation>
     </message>
     <message>
         <source>S&amp;pecial Judge</source>
         <oldsource>Special Judge</oldsource>
-        <translation type="vanished">自定义校验器(SPJ) (&amp;P)</translation>
+        <translation>自定义校验器(SPJ) (&amp;P)</translation>
     </message>
     <message>
         <source>Su&amp;btasks</source>
         <oldsource>Subtasks</oldsource>
-        <translation type="vanished">打包的测试点(&amp;B)</translation>
+        <translation>打包的测试点(&amp;B)</translation>
     </message>
     <message>
         <source>UI Language</source>
-        <translation type="vanished">界面语言</translation>
+        <translation>界面语言</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="476"/>
@@ -1986,7 +1992,7 @@
     </message>
     <message>
         <source>&amp;Options</source>
-        <translation type="vanished">选项(&amp;O)</translation>
+        <translation>选项(&amp;O)</translation>
     </message>
     <message>
         <location filename="forms/lemon.ui" line="557"/>
@@ -2250,7 +2256,7 @@
     </message>
     <message>
         <source>Export Statistics</source>
-        <translation type="vanished">导出统计信息</translation>
+        <translation>导出统计信息</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="161"/>
@@ -2269,7 +2275,7 @@
     </message>
     <message>
         <source>Making backup files to dir &lt;br&gt; `source.bak&apos;?</source>
-        <translation type="vanished">创建备份文件到 &lt;br&gt; `source.bak&apos;？</translation>
+        <translation>创建备份文件到 &lt;br&gt; `source.bak&apos;？</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="462"/>
@@ -2278,11 +2284,11 @@
     </message>
     <message>
         <source>Aborted: `source.bak&apos; already exist.</source>
-        <translation type="vanished">没有进行整理：`source.bak&apos; 已经存在。</translation>
+        <translation>没有进行整理：`source.bak&apos; 已经存在。</translation>
     </message>
     <message>
         <source>Aborted: Cannot make dir `source.bak&apos;.</source>
-        <translation type="vanished">没有进行整理：没法创建 `source.bak&apos;。</translation>
+        <translation>没有进行整理：没法创建 `source.bak&apos;。</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="484"/>
@@ -2368,28 +2374,28 @@
     </message>
     <message>
         <source>Rename Contest</source>
-        <translation type="vanished">重命名比赛</translation>
+        <translation>重命名比赛</translation>
     </message>
     <message>
         <source>Input the name you prefer.</source>
-        <translation type="vanished">输入你想要的名字。</translation>
+        <translation>输入你想要的名字。</translation>
     </message>
     <message>
         <source>New name...</source>
-        <translation type="vanished">新名字…</translation>
+        <translation>新名字…</translation>
     </message>
     <message>
         <source>Notice that you may use `atoi(argv[4])&apos; to get the correct full score.</source>
         <oldsource>Notice that you may use	`atoi(argv[4])&apos; to get the correct full score.</oldsource>
-        <translation type="vanished">你可能得用 `atoi(argv[4])&apos; 来获得正确的总分。</translation>
+        <translation>你可能得用 `atoi(argv[4])&apos; 来获得正确的总分。</translation>
     </message>
     <message>
         <source>Reopen the file to see changes.</source>
-        <translation type="vanished">重新打开比赛文件，更改就能生效。</translation>
+        <translation>重新打开比赛文件，更改就能生效。</translation>
     </message>
     <message>
         <source>Notes</source>
-        <translation type="vanished">注意</translation>
+        <translation>注意</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="478"/>
@@ -2398,171 +2404,171 @@
     </message>
     <message>
         <source>The paths are based on your &quot;/data&quot;.</source>
-        <translation type="vanished">你需要提供你的交互库和接口。最好还有一个SPJ-以lemon族评测系统的标准来进行编写。它们的路径以 data 文件夹为根进行填写。</translation>
+        <translation>你需要提供你的交互库和接口。最好还有一个SPJ-以lemon族评测系统的标准来进行编写。它们的路径以 data 文件夹为根进行填写。</translation>
     </message>
     <message>
         <source>There is a example of how to use Interaction type tasks:</source>
-        <translation type="vanished">下面是一个使用交互型的题目的配置例子：</translation>
+        <translation>下面是一个使用交互型的题目的配置例子：</translation>
     </message>
     <message>
         <source>Interactor Path: matrix/matrix.h</source>
-        <translation type="vanished">交互库路径： matrix/matrix.h</translation>
+        <translation>交互库路径： matrix/matrix.h</translation>
     </message>
     <message>
         <source>Interactor Name: matrix.h</source>
-        <translation type="vanished">交互库名称： matrix.h</translation>
+        <translation>交互库名称： matrix.h</translation>
     </message>
     <message>
         <source>Grader Path: matrix/grader.cpp</source>
-        <translation type="vanished">接口实现(grader)路径： matrix/grader.cpp</translation>
+        <translation>接口实现(grader)路径： matrix/grader.cpp</translation>
     </message>
     <message>
         <source>Contestants should provide source files.</source>
-        <translation type="vanished">选手要提供源文件。</translation>
+        <translation>选手要提供源文件。</translation>
     </message>
     <message>
         <source>Problem setters should provide grader files.</source>
-        <translation type="vanished">评测端要提供接口文件。</translation>
+        <translation>评测端要提供接口文件。</translation>
     </message>
     <message>
         <source>There is a example of how to use Communication type tasks:</source>
-        <translation type="vanished">下面是一个例子：</translation>
+        <translation>下面是一个例子：</translation>
     </message>
     <message>
         <source>Source Files:</source>
-        <translation type="vanished">源程序列表：</translation>
+        <translation>源程序列表：</translation>
     </message>
     <message>
         <source>Alice.cpp Alice.cpp</source>
-        <translation type="vanished">Alice.cpp Alice.cpp</translation>
+        <translation>Alice.cpp Alice.cpp</translation>
     </message>
     <message>
         <source>Bob.cpp Bob.cpp</source>
-        <translation type="vanished">Bob.cpp Bob.cpp</translation>
+        <translation>Bob.cpp Bob.cpp</translation>
     </message>
     <message>
         <source>Grader Files:</source>
-        <translation type="vanished">接口文件列表：</translation>
+        <translation>接口文件列表：</translation>
     </message>
     <message>
         <source>taskname/Alice.h Alice.h</source>
-        <translation type="vanished">taskname/Alice.h Alice.h</translation>
+        <translation>taskname/Alice.h Alice.h</translation>
     </message>
     <message>
         <source>taskname/Bob.h Bob.h</source>
-        <translation type="vanished">taskname/Bob.h Bob.h</translation>
+        <translation>taskname/Bob.h Bob.h</translation>
     </message>
     <message>
         <source>taskname/Grader.cpp Grader.cpp</source>
-        <translation type="vanished">taskname/Grader.cpp Grader.cpp</translation>
+        <translation>taskname/Grader.cpp Grader.cpp</translation>
     </message>
     <message>
         <source>About Communication</source>
-        <translation type="vanished">关于通信题</translation>
+        <translation>关于通信题</translation>
     </message>
     <message>
         <source>Something about how to make Subtasks</source>
-        <translation type="vanished">关于创建打包的测试点的一些经验</translation>
+        <translation>关于创建打包的测试点的一些经验</translation>
     </message>
     <message>
         <source>How to make a valid Regular Expression:</source>
-        <translation type="vanished">如何写一个语法正确的正则表达式：</translation>
+        <translation>如何写一个语法正确的正则表达式：</translation>
     </message>
     <message>
         <source>Numbers: \d*</source>
-        <translation type="vanished">匹配任意数量的数字： \d*</translation>
+        <translation>匹配任意数量的数字： \d*</translation>
     </message>
     <message>
         <source>Notes:</source>
-        <translation type="vanished">提示：</translation>
+        <translation>提示：</translation>
     </message>
     <message>
         <source>&quot;\d&quot; means a number.</source>
-        <translation type="vanished">&quot;\d&quot; 表示匹配一个数字。</translation>
+        <translation>&quot;\d&quot; 表示匹配一个数字。</translation>
     </message>
     <message>
         <source>&quot;.&quot; means a character.</source>
-        <translation type="vanished">&quot;.&quot; 表示匹配任意一个字符。</translation>
+        <translation>&quot;.&quot; 表示匹配任意一个字符。</translation>
     </message>
     <message>
         <source>&quot;*&quot; means repeat previous order 0~inf times.</source>
-        <translation type="vanished">&quot;*&quot; 表示把之前的那个表达式重复 0 到无限大遍。</translation>
+        <translation>&quot;*&quot; 表示把之前的那个表达式重复 0 到无限大遍。</translation>
     </message>
     <message>
         <source>Something about Exporting Result</source>
-        <translation type="vanished">关于导出成绩的特性</translation>
+        <translation>关于导出成绩的特性</translation>
     </message>
     <message>
         <source>HTML, CSV, XLS (Windows only) are supported.</source>
-        <translation type="vanished">支持导出HTML, CSV, XLS (仅Windows)。</translation>
+        <translation>支持导出HTML, CSV, XLS (仅Windows)。</translation>
     </message>
     <message>
         <source>There are two modes of exported HTML: Full and Compressed.</source>
-        <translation type="vanished">导出 HTML 有两种模式：完整版和压缩版。</translation>
+        <translation>导出 HTML 有两种模式：完整版和压缩版。</translation>
     </message>
     <message>
         <source>Full HTML has more hrefs and color;</source>
-        <translation type="vanished">完整版 HTML 有更多的颜色，支持题目跳转；</translation>
+        <translation>完整版 HTML 有更多的颜色，支持题目跳转；</translation>
     </message>
     <message>
         <source>Compressed HTML has smaller size.</source>
-        <translation type="vanished">压缩版 HTML 体积更小，比原来的还要小 20% 到 50%。</translation>
+        <translation>压缩版 HTML 体积更小，比原来的还要小 20% 到 50%。</translation>
     </message>
     <message>
         <source>Enable Full mode with suffix *.html and enable Compressed mode with suffix *.htm.</source>
-        <translation type="vanished">使用后缀“*.html”的时候启用完整版，使用后缀“*.htm”的时候使用压缩版。</translation>
+        <translation>使用后缀“*.html”的时候启用完整版，使用后缀“*.htm”的时候使用压缩版。</translation>
     </message>
     <message>
         <source>About Exporting Result</source>
-        <translation type="vanished">关于导出成绩</translation>
+        <translation>关于导出成绩</translation>
     </message>
     <message>
         <source>What is Clean Up Files</source>
-        <translation type="vanished">什么是整理文件</translation>
+        <translation>什么是整理文件</translation>
     </message>
     <message>
         <source>It can make all of the source files have a copy in the subdirs.</source>
-        <translation type="vanished">为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。</translation>
+        <translation>为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。</translation>
     </message>
     <message>
         <source>When there are files both inside the subdirs and outside of subdirs, the one INSIDE will cover another one.</source>
-        <translation type="vanished">当文件夹内外都有文件的时候，文件夹里面的文件会覆盖文件夹外面的。</translation>
+        <translation>当文件夹内外都有文件的时候，文件夹里面的文件会覆盖文件夹外面的。</translation>
     </message>
     <message>
         <source>When there are files both inside the subdirs and outside of subdirs, the one outside will cover another one.</source>
-        <translation type="vanished">当文件夹内外都有文件的时候，文件夹外面的文件会覆盖文件夹里面的。</translation>
+        <translation>当文件夹内外都有文件的时候，文件夹外面的文件会覆盖文件夹里面的。</translation>
     </message>
     <message>
         <source>Be Careful : May Cause Unexpected File Damage.</source>
-        <translation type="vanished">当心使用：原有的子文件夹内的本来的文件会丢失。</translation>
+        <translation>当心使用：原有的子文件夹内的本来的文件会丢失。</translation>
     </message>
     <message>
         <source>Be Careful : May Cause SEVERE FILE DAMAGE.</source>
-        <translation type="vanished">当心使用：原有的子文件夹的本来的文件会丢失。</translation>
+        <translation>当心使用：原有的子文件夹的本来的文件会丢失。</translation>
     </message>
     <message>
         <source>About Clean Up Files</source>
-        <translation type="vanished">关于 整理文件</translation>
+        <translation>关于 整理文件</translation>
     </message>
     <message>
         <source>Use it when you have no time ONLY.</source>
-        <translation type="vanished">只在你想节省时间的时候使用。</translation>
+        <translation>只在你想节省时间的时候使用。</translation>
     </message>
     <message>
         <source>It can judge one task only instead of &quot;Judge all&quot;.</source>
-        <translation type="vanished">这可以测试某一道题的所有提交，而不是所有的题。</translation>
+        <translation>这可以测试某一道题的所有提交，而不是所有的题。</translation>
     </message>
     <message>
         <source>You can choose some contestants and judge their answers only as well.</source>
-        <translation type="vanished">你也可以选定指定的人来重测它们的某一道题。</translation>
+        <translation>你也可以选定指定的人来重测它们的某一道题。</translation>
     </message>
     <message>
         <source>How to make a Special Judge for Lemon</source>
-        <translation type="vanished">如何写一个 Lemon 的校验器</translation>
+        <translation>如何写一个 Lemon 的校验器</translation>
     </message>
     <message>
         <source>Lemon - %1</source>
-        <translation type="vanished">LemonLime - %1</translation>
+        <translation>LemonLime - %1</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="879"/>
@@ -2588,11 +2594,11 @@
     </message>
     <message>
         <source>Preview version</source>
-        <translation type="vanished">预览版</translation>
+        <translation>预览版</translation>
     </message>
     <message>
         <source>Update by Dust1404</source>
-        <translation type="vanished">由Dust1404更新</translation>
+        <translation>由Dust1404更新</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="1173"/>
@@ -2602,55 +2608,55 @@
     </message>
     <message>
         <source>We have made stack space equals to memory limit. If the memory limit is unlimited, stack space will be 2.00 GB.</source>
-        <translation type="vanished">我们把栈空间设置成和内存限制相同。
+        <translation>我们把栈空间设置成和内存限制相同。
 如果内存限制为无限制，那么栈空间会被设置成 2.00 GB。</translation>
     </message>
     <message>
         <source>About Compile Features</source>
-        <translation type="vanished">关于 编译选项</translation>
+        <translation>关于 编译选项</translation>
     </message>
     <message>
         <source>There is a example of how to use Interaction type tasks.</source>
-        <translation type="vanished">你需要提供你的交互库和接口。最好还有一个SPJ-以lemon族评测系统的标准来进行编写。它们的路径以 data 文件夹为根进行填写。下面是一个使用交互型的题目的配置例子。</translation>
+        <translation>你需要提供你的交互库和接口。最好还有一个SPJ-以lemon族评测系统的标准来进行编写。它们的路径以 data 文件夹为根进行填写。下面是一个使用交互型的题目的配置例子。</translation>
     </message>
     <message>
         <source>Interactor Path matrix/matrix.h</source>
-        <translation type="vanished">交互库路径 matrix/matrix.h</translation>
+        <translation>交互库路径 matrix/matrix.h</translation>
     </message>
     <message>
         <source>Interactor Name matrix.h</source>
-        <translation type="vanished">交互库名称 matrix.h</translation>
+        <translation>交互库名称 matrix.h</translation>
     </message>
     <message>
         <source>Grader Path matrix/grader.cpp</source>
         <oldsource>Grader Path matrix/grader.coo</oldsource>
-        <translation type="vanished">接口实现(grader)路径 matrix/grader.cpp</translation>
+        <translation>接口实现(grader)路径 matrix/grader.cpp</translation>
     </message>
     <message>
         <source>About Interaction</source>
-        <translation type="vanished">关于 交互题</translation>
+        <translation>关于 交互题</translation>
     </message>
     <message>
         <source>How to make Subtasks</source>
-        <translation type="vanished">如何创建打包的测试点</translation>
+        <translation>如何创建打包的测试点</translation>
     </message>
     <message>
         <source>Regular Expression:</source>
-        <translation type="vanished">正则表达式：</translation>
+        <translation>正则表达式：</translation>
     </message>
     <message>
         <source>Numbers : \d*</source>
         <oldsource>Numbers : d*</oldsource>
-        <translation type="vanished">匹配任意数量的数字： \d*</translation>
+        <translation>匹配任意数量的数字： \d*</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;More Regular Expression Rules&lt;/a&gt;</source>
         <oldsource>More : &lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;</oldsource>
-        <translation type="vanished">&lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;更多正则表达式规则&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;http://www.runoob.com/java/java-regular-expressions.html&quot;&gt;更多正则表达式规则&lt;/a&gt;</translation>
     </message>
     <message>
         <source>There is a example of how to use regular expressions to make subtasks:</source>
-        <translation type="vanished">下面是一个例子：</translation>
+        <translation>下面是一个例子：</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="457"/>
@@ -2664,111 +2670,111 @@
     </message>
     <message>
         <source>Aborted: Cannot make dir `%d&apos;.</source>
-        <translation type="vanished">没有进行整理：没法创建 `%1&apos;。</translation>
+        <translation>没有进行整理：没法创建 `%1&apos;。</translation>
     </message>
     <message>
         <source>Data(in): matrix/matrix&amp;lt;1&amp;gt;.in</source>
         <oldsource>Data(in): matrix/matrix&lt;1&gt;.in</oldsource>
-        <translation type="vanished">输入文件：matrix/matrix&amp;lt;1&amp;gt;.in</translation>
+        <translation>输入文件：matrix/matrix&amp;lt;1&amp;gt;.in</translation>
     </message>
     <message>
         <source>Data(out): matrix/matrix&amp;lt;1&amp;gt;.out</source>
         <oldsource>Data(out): matrix/matrix&lt;1&gt;.out</oldsource>
-        <translation type="vanished">输出文件：matrix/matrix&amp;lt;1&amp;gt;.out</translation>
+        <translation>输出文件：matrix/matrix&amp;lt;1&amp;gt;.out</translation>
     </message>
     <message>
         <source>And the &quot;&amp;lt;1&amp;gt;&quot; is &quot;\d*&quot;.</source>
         <oldsource>And the &quot;&lt;1&gt;&quot; is &quot;\d*&quot;.</oldsource>
-        <translation type="vanished">把&quot;&amp;lt;1&amp;gt;&quot;设为&quot;\d*&quot;。</translation>
+        <translation>把&quot;&amp;lt;1&amp;gt;&quot;设为&quot;\d*&quot;。</translation>
     </message>
     <message>
         <source>About Subtasks</source>
-        <translation type="vanished">关于 打包的测试点</translation>
+        <translation>关于 打包的测试点</translation>
     </message>
     <message>
         <source>What is Cleanup Files</source>
-        <translation type="vanished">什么是整理文件</translation>
+        <translation>什么是整理文件</translation>
     </message>
     <message>
         <source>Be Careful : May Cause SEVERE FILE DAMAGES.</source>
-        <translation type="vanished">为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。
+        <translation>为每个选手的每一个文件创建它的子文件夹内的文件和子文件夹外的文件，无论它们以前是在子文件夹内还是子文件夹外。
 当心使用：原有的子文件夹的本来的文件会丢失。</translation>
     </message>
     <message>
         <source>About Cleanup Files</source>
-        <translation type="vanished">关于 整理文件</translation>
+        <translation>关于 整理文件</translation>
     </message>
     <message>
         <source>What is Skip</source>
-        <translation type="vanished">什么是“跳过这一题”</translation>
+        <translation>什么是“跳过这一题”</translation>
     </message>
     <message>
         <source>It can stop a judging task.</source>
-        <translation type="vanished">这可以中断一个题目的评测。当前正在测试的点测完后，在后面的点被生效。中断的时候所有没有评测的点会显示为“超过时间限制”。</translation>
+        <translation>这可以中断一个题目的评测。当前正在测试的点测完后，在后面的点被生效。中断的时候所有没有评测的点会显示为“超过时间限制”。</translation>
     </message>
     <message>
         <source>The tasks which are not tested will be displayed as &quot;Time Limit Exceeded&quot;.</source>
-        <translation type="vanished">而还没有测试的点也会被显示成“超过时间限制”。</translation>
+        <translation>而还没有测试的点也会被显示成“超过时间限制”。</translation>
     </message>
     <message>
         <source>Use it when you have no time.</source>
-        <translation type="vanished">在你想节省时间的时候使用。</translation>
+        <translation>在你想节省时间的时候使用。</translation>
     </message>
     <message>
         <source>About Skip</source>
-        <translation type="vanished">关于 “跳过这一题”</translation>
+        <translation>关于 “跳过这一题”</translation>
     </message>
     <message>
         <source>What is Single Judge</source>
-        <translation type="vanished">什么是单题测试</translation>
+        <translation>什么是单题测试</translation>
     </message>
     <message>
         <source>It can judge one task instead of all.</source>
-        <translation type="vanished">这可以测试某一道题的所有提交，而不是所有的题。由于技术限制，我们还不能选定指定的人来重测。</translation>
+        <translation>这可以测试某一道题的所有提交，而不是所有的题。由于技术限制，我们还不能选定指定的人来重测。</translation>
     </message>
     <message>
         <source>About Single Judge</source>
-        <translation type="vanished">关于 测试某一题</translation>
+        <translation>关于 测试某一题</translation>
     </message>
     <message>
         <source>What is Special Judge</source>
-        <translation type="vanished">怎么写自定义校验器(SPJ)</translation>
+        <translation>怎么写自定义校验器(SPJ)</translation>
     </message>
     <message>
         <source>The special judge should take 6 arguments below:</source>
-        <translation type="vanished">你的校验器需要接收6个参数流：</translation>
+        <translation>你的校验器需要接收6个参数流：</translation>
     </message>
     <message>
         <source>argv[1] : (in) Standard Input</source>
-        <translation type="vanished">argv[1] : （输入）标准输入文件</translation>
+        <translation>argv[1] : （输入）标准输入文件</translation>
     </message>
     <message>
         <source>argv[2] : (in) Participant&apos;s Answer</source>
-        <translation type="vanished">argv[2] : （输入）选手的输出文件</translation>
+        <translation>argv[2] : （输入）选手的输出文件</translation>
     </message>
     <message>
         <source>argv[3] : (in) Jury&apos;s Answer</source>
-        <translation type="vanished">argv[3] : （输入）答案文件</translation>
+        <translation>argv[3] : （输入）答案文件</translation>
     </message>
     <message>
         <source>argv[4] : (in) Full score of this task</source>
-        <translation type="vanished">argv[4] : （输入）这个测试点的满分</translation>
+        <translation>argv[4] : （输入）这个测试点的满分</translation>
     </message>
     <message>
         <source>argv[5] : (out) The score (A integer only)</source>
-        <translation type="vanished">argv[5] : （输出）得到的分数（一个整数）</translation>
+        <translation>argv[5] : （输出）得到的分数（一个整数）</translation>
     </message>
     <message>
         <source>argv[6] : (out) Notes</source>
-        <translation type="vanished">argv[6] : （输出）额外信息</translation>
+        <translation>argv[6] : （输出）额外信息</translation>
     </message>
     <message>
         <source>Just see this sample.</source>
-        <translation type="vanished">Lemon Pt 的SPJ标准和所有Lemon族的测试器的标准是一样的。下面的SPJ样例展示了接口的编号对应的内容。</translation>
+        <translation>Lemon Pt 的SPJ标准和所有Lemon族的测试器的标准是一样的。下面的SPJ样例展示了接口的编号对应的内容。</translation>
     </message>
     <message>
         <source>About Special Judge</source>
-        <translation type="vanished">关于 自定义校验器(SPJ)</translation>
+        <translation>关于 自定义校验器(SPJ)</translation>
     </message>
     <message>
         <source>Github Page</source>
@@ -2812,17 +2818,17 @@
     </message>
     <message>
         <source>Judge Single Task</source>
-        <translation type="vanished">单题测试</translation>
+        <translation>单题测试</translation>
     </message>
     <message>
         <source>Save Current Contest</source>
         <oldsource>Save Contest</oldsource>
-        <translation type="vanished">保存当前比赛</translation>
+        <translation>保存当前比赛</translation>
     </message>
     <message>
         <source>Open Current Contest Folder</source>
         <oldsource>Open Contest Folder</oldsource>
-        <translation type="vanished">打开当前比赛目录</translation>
+        <translation>打开当前比赛目录</translation>
     </message>
 </context>
 <context>
@@ -2898,7 +2904,7 @@
     </message>
     <message>
         <source>&amp;Purge</source>
-        <translation type="vanished">隐藏(&amp;P)</translation>
+        <translation>隐藏(&amp;P)</translation>
     </message>
     <message>
         <location filename="opencontestwidget.cpp" line="112"/>
@@ -3544,7 +3550,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Answers Onl&amp;y</source>
-        <translation type="vanished">仅提交答案(&amp;Y)</translation>
+        <translation>仅提交答案(&amp;Y)</translation>
     </message>
     <message>
         <location filename="forms/taskeditwidget.ui" line="527"/>
@@ -3553,7 +3559,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Intera&amp;ction</source>
-        <translation type="vanished">交互题(&amp;C)</translation>
+        <translation>交互题(&amp;C)</translation>
     </message>
     <message>
         <location filename="forms/taskeditwidget.ui" line="595"/>
@@ -3597,7 +3603,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Extension of Contestant&apos;s Answer File</source>
-        <translation type="vanished">选手答案文件扩展名</translation>
+        <translation>选手答案文件扩展名</translation>
     </message>
     <message>
         <location filename="forms/taskeditwidget.ui" line="588"/>
@@ -3767,7 +3773,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>(seperate by &quot;,&quot;)</source>
-        <translation type="vanished">(用&quot;,&quot;隔开)</translation>
+        <translation>(用&quot;,&quot;隔开)</translation>
     </message>
     <message>
         <location filename="forms/testcaseeditwidget.ui" line="228"/>

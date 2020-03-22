@@ -46,7 +46,7 @@ public:
 private:
 	static QString getContestantHtmlCode(Contest *, Contestant *, int);
 	static QString getSmallerContestantHtmlCode(Contest *, Contestant *);
-	static void exportHtml(QWidget *, Contest *, const QString &);
+	static void exportHtml(QWidget *, Contest *, const QString &, int);
 	static void exportSmallerHtml(QWidget *, Contest *, const QString &);
 	static void exportCsv(QWidget *, Contest *, const QString &);
 	static void exportXls(QWidget *, Contest *, const QString &);

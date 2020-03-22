@@ -47,34 +47,5 @@ inline int stateToStatus(ResultState in)
 	return 0;
 }
 
-const int oriBaseColorHI = 120;
-const double oriBaseColorHF = 1.00 / 3.00;
-const double oriBaseColorSF = 0.50; // 0.30
-
-const int nofBaseColorHI = 0;
-const double nofBaseColorHF = 0.00;
-const double nofBaseColorSF = 0.00;
-const double nofBaseColorLF = 5.50 / 6.00;
-
-const int cmeBaseColorHI = 300;
-const double cmeBaseColorHF = 5.00 / 6.00;
-const double cmeBaseColorSF = 1.00;
-const double cmeBaseColorLF = 5.00 / 6.00;
-
-inline double oriBaseColorLF(int score, int mxscore, double rem = 0.30)
-{
-	if (mxscore == 0) return 1.00;
-
-	int temp = static_cast<int>(mxscore * 1.20);
-
-	if (temp < score) score = temp;
-
-	return 1.00 - 1.25 * rem * score / mxscore
-	       - 0.03 * (score > 0)
-	       - 0.02 * (score >= mxscore);
-}
-
-
-
 
 #endif // GLOBALTYPE_H
