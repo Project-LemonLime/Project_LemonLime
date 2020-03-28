@@ -249,7 +249,7 @@ int StatisticsBrowser::checkValid(QList<Task *> taskList, QList<Contestant *> co
 
 				for (int k = 0; k < testCaseList.length(); k++)
 				{
-					if (scoreList[k].length() != testCaseList[k]->getInputFiles().length())return 0;
+					if (scoreList[k].length() - (!testCaseList[k]->getDependenceSubtask().empty()) != testCaseList[k]->getInputFiles().length())return 0;
 
 					if (resultList[k].length() != testCaseList[k]->getInputFiles().length())return 0;
 				}
