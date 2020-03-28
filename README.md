@@ -2,8 +2,6 @@
 
 # Project_LemonLime (Beta)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
-
 为了 OI 比赛而生的基于 Lemon + LemonPlus 的轻量评测系统
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
