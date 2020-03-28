@@ -373,7 +373,7 @@ void ResultViewer::judgeGrey()
 
 	QList<QPair<QString, QSet<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); i++)
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i)
 	{
 		judgeList.append(qMakePair(i.key(), i.value()));
 	}

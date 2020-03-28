@@ -124,8 +124,6 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 		QStringList inFileList = testCaseList[i]->getInputFiles();
 		QStringList outFileList = testCaseList[i]->getOutputFiles();
 
-		if (inFileList.length() != outFileList.length())return "Wrong File List Length Please Refresh and Rejudge";
-
 		int mxScore = testCaseList[i]->getFullScore();
 		QList<int> miScoreRecord;
 		QList<int> miStatRecord;
@@ -208,6 +206,60 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 	return buffer;
 }
 
+int StatisticsBrowser::checkValid(QList<Task *> taskList, QList<Contestant *> contestantList)
+{
+	for (auto i : taskList)
+	{
+		for (auto j : i->getTestCaseList())
+		{
+			if (j->getInputFiles().length() != j->getOutputFiles().length())return 0;
+		}
+	}
+
+	for (auto i : contestantList)
+	{
+		for (int j = 0; j < taskList.length(); j++)
+		{
+			QList<QList<int>> scoreList;
+			QList<QList<ResultState>> resultList;
+			QList<TestCase *> testCaseList;
+			int isJudged;
+
+			try
+			{
+				scoreList = i->getSocre(j);
+				resultList = i->getResult(j);
+				testCaseList = taskList[j]->getTestCaseList();
+				isJudged = i->getCheckJudged(j);
+			}
+			catch (...)
+			{
+				return 0;
+			}
+
+			if (!isJudged)return 0;
+
+			if (scoreList.length() != resultList.length())return 0;
+
+			if (scoreList.length() > 0 && resultList.length() > 0 && testCaseList.length() > 0)
+			{
+				if (scoreList.length() != testCaseList.length())return 0;
+
+				if (resultList.length() != testCaseList.length())return 0;
+
+				for (int k = 0; k < testCaseList.length(); k++)
+				{
+					if (scoreList[k].length() != testCaseList[k]->getInputFiles().length())return 0;
+
+					if (resultList[k].length() != testCaseList[k]->getInputFiles().length())return 0;
+				}
+			}
+		}
+	}
+
+	return 1;
+}
+
 void StatisticsBrowser::refresh()
 {
 	QString buffer;
@@ -232,6 +284,13 @@ void StatisticsBrowser::refresh()
 	if (contestantList.empty())
 	{
 		buffer = tr("No contestant yet");
+		ui->textBrowser->setHtml(buffer);
+		return;
+	}
+
+	if (!checkValid(curContest->getTaskList(), curContest->getContestantList()))
+	{
+		buffer = tr("Some unhandled situation happened. May not all contestants are well judged, or not rejudged after changing testcases. Please refresh and rejudge.");
 		ui->textBrowser->setHtml(buffer);
 		return;
 	}
