@@ -76,9 +76,7 @@ void FileLineEdit::refreshFileList()
 {
 	QStringList files;
 	getFiles(Settings::dataPath(), "", files);
-
 	delete completer;
-
 	completer = new QCompleter(files, this);
 	setCompleter(completer);
 }

@@ -25,7 +25,6 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	ui(new Ui::VisualSettings)
 {
 	ui->setupUi(this);
-
 	connect(ui->spinBoxMxH, SIGNAL(valueChanged(int)),
 	        this, SLOT(colorMxHChanged(int)));
 	connect(ui->doubleSpinBoxMxS, SIGNAL(valueChanged(double)),
@@ -50,7 +49,6 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	        this, SLOT(colorCeSChanged(double)));
 	connect(ui->doubleSpinBoxCeL, SIGNAL(valueChanged(double)),
 	        this, SLOT(colorCeLChanged(double)));
-
 	connect(ui->grandCompH, SIGNAL(valueChanged(double)),
 	        this, SLOT(grandCompHChanged(double)));
 	connect(ui->grandCompS, SIGNAL(valueChanged(double)),
@@ -63,10 +61,8 @@ VisualSettings::VisualSettings(QWidget *parent) :
 	        this, SLOT(grandRateSChanged(double)));
 	connect(ui->grandRateL, SIGNAL(valueChanged(double)),
 	        this, SLOT(grandRateLChanged(double)));
-
 	connect(ui->splashTime, SIGNAL(valueChanged(int)),
 	        this, SLOT(splashTimeChanged(int)));
-
 	connect(ui->resetToDefaultButton, SIGNAL(clicked()),
 	        this, SLOT(whenResetToDefault()));
 }
@@ -121,7 +117,6 @@ void VisualSettings::whenResetToDefault()
 void VisualSettings::resetEditSettings(Settings *settings)
 {
 	editSettings = settings;
-
 	ui->spinBoxMxH->setValue(editSettings->getColorMxH());
 	ui->doubleSpinBoxMxS->setValue(editSettings->getColorMxS());
 	ui->doubleSpinBoxMxL->setValue(editSettings->getColorMxL());

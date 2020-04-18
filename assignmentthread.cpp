@@ -113,7 +113,6 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 	compileState = NoValidSourceFile;
 	QDir contestantDir;
 	contestantDir = ! task->getSubFolderCheck() ? QDir(Settings::sourcePath() + contestantName) : QDir(Settings::sourcePath() + contestantName + QDir::separator() + task->getSourceFileName());
-
 	QList<Compiler *> compilerList = settings->getCompilerList();
 
 	for (auto &i : compilerList)
@@ -252,7 +251,6 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 					if (i->getCompilerType() != Compiler::InterpretiveWithoutByteCode)
 					{
 						makeDialogAlert(tr("Compiling..."));
-
 						QString arguments = compilerArguments[j];
 
 						if (task->getTaskType() == Task::Interaction)
@@ -399,11 +397,8 @@ void AssignmentThread::run()
 		}
 	}
 
-
 	skipEnabled = 0;
-
 	assign();
-
 	exec();
 }
 
@@ -417,7 +412,6 @@ void AssignmentThread::assign()
 	}
 
 	TestCase *curTestCase = task->getTestCase(curTestCaseIndex);
-
 	bool beingSkipped = false;
 
 	if (curSingleCaseIndex == curTestCase->getInputFiles().size())
@@ -512,10 +506,8 @@ void AssignmentThread::assign()
 	}
 
 	thread->setTask(task);
-
 	connect(thread, SIGNAL(finished()), this, SLOT(threadFinished()));
 	connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
-
 	thread->setInputFile(Settings::dataPath() + curTestCase->getInputFiles().at(curSingleCaseIndex));
 	thread->setOutputFile(Settings::dataPath() + curTestCase->getOutputFiles().at(curSingleCaseIndex));
 	thread->setFullScore(curTestCase->getFullScore());
@@ -585,7 +577,6 @@ void AssignmentThread::threadFinished()
 		running.remove(thread);
 		countFinished ++;
 		delete thread;
-
 		int nowScore = score[cur.first][cur.second];
 
 		if (cur.second + 1 == task->getTestCase(cur.first)->getInputFiles().size())

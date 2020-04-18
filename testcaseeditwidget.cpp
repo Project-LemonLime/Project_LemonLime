@@ -31,24 +31,19 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) :
 	ui(new Ui::TestCaseEditWidget)
 {
 	ui->setupUi(this);
-
 	editTestCase = nullptr;
-
 	deleteAction = new QAction(this);
 	deleteAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteAction->setShortcut(QKeySequence::Delete);
 	deleteAction->setEnabled(false);
 	ui->fileList->addAction(deleteAction);
-
 	QRegExp regx("[0-9,]+$");
 	QValidator *subtaskDependenceValidator = new QRegExpValidator(regx, ui->subtaskDependecne);
 	ui->subtaskDependecne->setValidator(subtaskDependenceValidator);
-
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
 	ui->fileList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
 	ui->inputFileEdit->setFilters(QDir::Files);
 	ui->outputFileEdit->setFilters(QDir::Files);
 	connect(this, SIGNAL(dataPathChanged()),
@@ -57,7 +52,6 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) :
 	        ui->outputFileEdit, SLOT(refreshFileList()));
 	connect(ui->subtaskDependecne, SIGNAL(editingFinished()),
 	        this, SLOT(subtaskDependenceChanged()));    //auto save subtaskDependence
-
 	connect(ui->addButton, SIGNAL(clicked()),
 	        this, SLOT(addSingleCase()));
 	connect(deleteAction, SIGNAL(triggered()),

@@ -32,7 +32,6 @@ SummaryTree::SummaryTree(QWidget *parent) :
 {
 	curContest = nullptr;
 	addCount = 0;
-
 	addTaskAction = new QAction(tr("Add a New Task"), this);
 	addTestCaseAction = new QAction(tr("Add a Test Case"), this);
 	addTestCasesAction = new QAction(tr("Add Test Cases ..."), this);
@@ -42,7 +41,6 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	addTestCaseKeyAction = new QAction(this);
 	deleteTaskKeyAction = new QAction(this);
 	deleteTestCaseKeyAction = new QAction(this);
-
 	addTaskKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	addTestCaseKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteTaskKeyAction->setShortcutContext(Qt::WidgetShortcut);
@@ -59,7 +57,6 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	addAction(addTestCaseKeyAction);
 	addAction(deleteTaskKeyAction);
 	addAction(deleteTestCaseKeyAction);
-
 	connect(addTaskAction, SIGNAL(triggered()),
 	        this, SLOT(addTask()));
 	connect(addTestCaseAction, SIGNAL(triggered()),
@@ -162,7 +159,6 @@ void SummaryTree::setSettings(Settings *_settings)
 void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
 {
 	auto *contextMenu = new QMenu(this);
-
 	QTreeWidgetItem *curItem = currentItem();
 
 	if (! curItem)

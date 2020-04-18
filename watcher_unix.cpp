@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
 	memoryLimit *= 1024 * 1024;
-
 	pid = fork();
 
 	if (pid > 0)
@@ -124,7 +123,6 @@ int main(int argc, char *argv[])
 		{
 			(rlim_t) timeLimit, (rlim_t)(timeLimit + 1)
 		};
-
 		setrlimit(RLIMIT_AS, &memlim);
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);

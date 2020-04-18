@@ -53,7 +53,6 @@ void StatisticsBrowser::setContest(Contest *contest)
 auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize, int totalScore) -> QString
 {
 	QString buffer = "";
-
 	long long overallScoreSum = 0;
 	double scoreDiscrim = 0;
 	double scoreStandardDevia = 0;
@@ -78,7 +77,6 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 	}
 
 	double scoreAverage = 1.00 * overallScoreSum / listSize;
-
 	buffer += "<table border=\"-1\">";
 	buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th></tr>").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
 
@@ -87,9 +85,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		i--;
 		int curScoreTier = i.key();
 		int curScoreTierNum = i.value();
-
 		scoreStandardDevia += qPow(curScoreTier - scoreAverage, 2) * curScoreTierNum;
-
 		buffer += "<tr>";
 		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(curScoreTier < 0 ? QString("N/A") : QString::number(curScoreTier));
 		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(curScoreTierNum);
@@ -101,21 +97,17 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 	}
 
 	buffer += "</table>";
-
 	scoreStandardDevia = qSqrt(scoreStandardDevia / listSize);
 	scoreDiscrim = scoreDiscrim * scoreDiscrim;
-
 	buffer += "<p>" + tr("Average") + " : " + QString::number(scoreAverage) + " / " + QString::number(totalScore) + "</p>";
 	buffer += "<p>" + tr("Standard Deviation") + " : " + QString::number(scoreStandardDevia) + "<p>";
 	buffer += "<p>" + tr("Score Discrimination Power") + " : " + QString::number(scoreDiscrim) + "<p>";
-
 	return buffer;
 }
 
 auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QList<QList<QList<int>>> scoreList, QList<QList<QList<ResultState>>> resultList) -> QString
 {
 	QString buffer = "";
-
 	buffer += "<table border=\"-1\">";
 	buffer += QString("<tr><th>%1</th><th>%2</th><th>%3</th><th>%4</th><th>%5</th><th>%6</th><th>%7</th></tr>").arg(tr("No.")).arg(tr("Input")).arg(tr("Output")).arg(tr("Pure")).arg(tr("Far")).arg(tr("Lost")).arg(tr("Average"));
 
@@ -123,7 +115,6 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 	{
 		QStringList inFileList = testCaseList[i]->getInputFiles();
 		QStringList outFileList = testCaseList[i]->getOutputFiles();
-
 		int mxScore = testCaseList[i]->getFullScore();
 		QList<int> miScoreRecord;
 		QList<int> miStatRecord;
@@ -202,11 +193,10 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 	}
 
 	buffer += "</table>";
-
 	return buffer;
 }
 
-int StatisticsBrowser::checkValid(QList<Task *> taskList, QList<Contestant *> contestantList)
+auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList) -> int
 {
 	for (auto i : taskList)
 	{
@@ -296,17 +286,12 @@ void StatisticsBrowser::refresh()
 	}
 
 	int totalScore = curContest->getTotalScore();
-
 	buffer += "<html><head>";
 	buffer += "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}</style>";
 	buffer += "</head><body>";
-
 	buffer += "<h1>" + QString("%1 %2").arg(tr("Contest")).arg(curContest->getContestTitle()) + "</h1>";
-
 	buffer += "<h2>" + tr("Overall") + "</h2>";
-
 	int haveError = 0;
-
 	QMap<int, int> scoreCount;
 
 	for (auto &i : contestantList)
@@ -333,7 +318,6 @@ void StatisticsBrowser::refresh()
 	buffer += getScoreNormalChart(scoreCount, contestantList.size(), totalScore);
 	buffer += "<br>";
 	buffer += "<br>";
-
 	buffer += "<h2>" + tr("Problems") + "</h2>";
 
 	for (int i = 0; i < taskList.size(); i++)
@@ -341,9 +325,7 @@ void StatisticsBrowser::refresh()
 		buffer += "<h3>";
 		buffer += QString("%1 %2: %3").arg(tr("Task")).arg(i + 1).arg(taskList[i]->getProblemTile());
 		buffer += "</h3>";
-
 		int numberSubmitted = 0;
-
 		QMap<int, int> cnts;
 		QList<QList<QList<int>>> TestcaseScoreList;
 		QList<QList<QList<ResultState>>> resultList;
@@ -384,10 +366,8 @@ void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &file
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-
 	out.setCodec("UTF-8");
 	out << nowBrowserText;
-
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
@@ -418,12 +398,10 @@ void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest)
 	}
 
 	QString filter = tr("HTML Document (*.html)");
-
 	QString fileName = QFileDialog::getSaveFileName(widget, tr("Export Statstics"),
 	                   QDir::currentPath() + QDir::separator() + "statstics.html", filter);
 
 	if (fileName.isEmpty()) return;
 
 	if (QFileInfo(fileName).suffix() == "html") exportStatsticsHtml(widget, fileName);
-
 }

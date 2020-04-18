@@ -503,7 +503,6 @@ public:
 	void setSeed(int argc, char *argv[])
 	{
 		random_t p;
-
 		seed = 3905348978240129619LL;
 
 		for (int i = 1; i < argc; i++)
@@ -552,7 +551,6 @@ public:
 			return (int)((n * (long long) nextBits(31)) >> 31);
 
 		const long long limit = INT_MAX / n * n;
-
 		long long bits;
 
 		do
@@ -579,7 +577,6 @@ public:
 			__testlib_fail("random_t::next(long long n): n must be positive");
 
 		const long long limit = __TESTLIB_LONGLONG_MAX / n * n;
-
 		long long bits;
 
 		do
@@ -968,7 +965,6 @@ static bool __pattern_isCommandChar(const std::string &s, size_t pos, char value
 		return false;
 
 	int slashes = 0;
-
 	int before = int (pos) - 1;
 
 	while (before >= 0 && s[before] == '\\')
@@ -1078,7 +1074,6 @@ static void __pattern_scanCounts(const std::string &s, size_t &pos, int &from, i
 	{
 		std::vector<std::string> parts;
 		std::string part;
-
 		pos++;
 
 		while (pos < s.length() && !__pattern_isCommandChar(s, pos, '}'))
@@ -1158,7 +1153,6 @@ static std::vector<char> __pattern_scanCharSet(const std::string &s, size_t &pos
 	{
 		pos++;
 		bool negative = __pattern_isCommandChar(s, pos, '^');
-
 		char prev = 0;
 
 		while (pos < s.length() && !__pattern_isCommandChar(s, pos, ']'))
@@ -1183,7 +1177,6 @@ static std::vector<char> __pattern_scanCharSet(const std::string &s, size_t &pos
 					result.push_back(c);
 
 				result.push_back(next);
-
 				prev = 0;
 			}
 			else
@@ -1236,7 +1229,6 @@ pattern::pattern(std::string s) : s(s), from(0), to(0)
 			t += s[i];
 
 	s = t;
-
 	int opened = 0;
 	int firstClose = -1;
 	std::vector<int> seps;
@@ -1539,7 +1531,6 @@ private:
 			bufferSize = MAX_UNREAD_COUNT + readSize;
 			bufferPos = int (MAX_UNREAD_COUNT);
 			std::memset(isEof + MAX_UNREAD_COUNT, 0, sizeof(isEof[0]) * readSize);
-
 			return readSize > 0;
 		}
 		else
@@ -1977,7 +1968,6 @@ void InStream::textColor(WORD color)
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(handle, color);
 #endif
-
 #ifdef linux
 	char *shell_path = getenv("SHELL");
 
@@ -2148,7 +2138,6 @@ NORETURN void InStream::quit(TResult result, const char *msg)
 
 	quitscr(LightGray, msg);
 	std::fprintf(stderr, "\n");
-
 	inf.close();
 	ouf.close();
 	ans.close();
@@ -2256,7 +2245,6 @@ void InStream::reset()
 		}
 
 	opened = true;
-
 	__testlib_set_binary(file);
 
 	if (stdfile)
@@ -2277,7 +2265,6 @@ void InStream::init(std::string fileName, TMode mode)
 void InStream::init(std::FILE *f, TMode mode)
 {
 	opened = false;
-
 	name = "untitled";
 
 	if (f == stdin)
@@ -2291,7 +2278,6 @@ void InStream::init(std::FILE *f, TMode mode)
 
 	this->file = f;
 	this->mode = mode;
-
 	reset();
 }
 
@@ -2499,9 +2485,7 @@ static inline bool equals(long long integer, const char *s)
 static inline double stringToDouble(InStream &in, const char *buffer)
 {
 	double retval;
-
 	size_t length = strlen(buffer);
-
 	int minusCount = 0;
 	int plusCount = 0;
 	int decimalPointCount = 0;
@@ -2562,7 +2546,6 @@ static inline double stringToStrictDouble(InStream &in, const char *buffer, int 
 		in.quit(_fail, "stringToStrictDouble: minAfterPointDigitCount should be less or equal to maxAfterPointDigitCount.");
 
 	double retval;
-
 	size_t length = strlen(buffer);
 
 	if (length == 0 || length > 1000)
@@ -2647,7 +2630,6 @@ static inline long long stringToLongLong(InStream &in, const char *buffer)
 		in.quit(_pe, ("Expected integer, but \"" + __testlib_part(buffer) + "\" found").c_str());
 
 	long long retval = 0LL;
-
 	int zeroes = 0;
 	int processingZeroes = true;
 
@@ -2687,7 +2669,6 @@ int InStream::readInteger()
 		quit(_unexpected_eof, "Unexpected end of file - int32 expected");
 
 	readWordTo(_tmpReadToken);
-
 	long long value = stringToLongLong(*this, _tmpReadToken.c_str());
 
 	if (value < INT_MIN || value > INT_MAX)
@@ -2860,7 +2841,6 @@ bool InStream::eoln()
 	else
 	{
 		bool returnCr = false;
-
 #ifdef CR_MUST_IN_EOL
 
 		if (c != CR)
@@ -3048,7 +3028,6 @@ NORETURN void quit(TResult result, const char *msg)
 NORETURN void __testlib_quitp(double points, const char *message)
 {
 	__testlib_points = points;
-
 	std::string quitMessage;
 
 	if (localJudger)
@@ -3122,7 +3101,6 @@ NORETURN void __testlib_help()
 	std::fprintf(stderr, "by Mike Mirzayanov, copyright(c) 2005-2013\n");
 	std::fprintf(stderr, "Checker name: \"%s\"\n", checkerName.c_str());
 	InStream::textColor(InStream::LightGray);
-
 	std::fprintf(stderr, "\n");
 	std::fprintf(stderr, "Latest features: \n");
 
@@ -3132,10 +3110,8 @@ NORETURN void __testlib_help()
 	}
 
 	std::fprintf(stderr, "\n");
-
 	std::fprintf(stderr, "Program must be run with the following arguments: \n");
 	std::fprintf(stderr, "    <input-file> <output-file> <answer-file> [<report-file> [<-appes>]]\n\n");
-
 	std::exit(FAIL_EXIT_CODE);
 }
 
@@ -3143,10 +3119,8 @@ static void __testlib_ensuresPreconditions()
 {
 	// testlib assumes: sizeof(int) = 4.
 	__TESTLIB_STATIC_ASSERT(sizeof(int) == 4);
-
 	// testlib assumes: INT_MAX == 2147483647.
 	__TESTLIB_STATIC_ASSERT(INT_MAX == 2147483647);
-
 	// testlib assumes: sizeof(long long) = 8.
 	__TESTLIB_STATIC_ASSERT(sizeof(long long) == 8);
 
@@ -3164,9 +3138,7 @@ void registerGen(int argc, char *argv[], int randomGeneratorVersion)
 		quitf(_fail, "Random generator version is expected to be 0 or 1.");
 
 	random_t::version = randomGeneratorVersion;
-
 	__testlib_ensuresPreconditions();
-
 	testlibMode = _generator;
 	__testlib_set_binary(stdin);
 	rnd.setSeed(argc, argv);
@@ -3191,7 +3163,6 @@ void registerGen(int argc, char *argv[])
 void registerInteraction(int argc, char *argv[])
 {
 	__testlib_ensuresPreconditions();
-
 	testlibMode = _interactor;
 	__testlib_set_binary(stdin);
 
@@ -3252,10 +3223,8 @@ void registerInteraction(int argc, char *argv[])
 void registerValidation()
 {
 	__testlib_ensuresPreconditions();
-
 	testlibMode = _validator;
 	__testlib_set_binary(stdin);
-
 	inf.init(stdin, _input);
 	inf.strict = true;
 }
@@ -3263,7 +3232,6 @@ void registerValidation()
 void registerTestlibCmd(int argc, char *argv[])
 {
 	__testlib_ensuresPreconditions();
-
 	testlibMode = _checker;
 	__testlib_set_binary(stdin);
 
@@ -3315,7 +3283,6 @@ void registerTestlib(int argc, ...)
 		     "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
 
 	char **argv = new char *[argc + 1];
-
 	va_list ap;
 	va_start(ap, argc);
 	argv[0] = NULL;
@@ -3326,7 +3293,6 @@ void registerTestlib(int argc, ...)
 	}
 
 	va_end(ap);
-
 	registerTestlibCmd(argc + 1, argv);
 	delete[] argv;
 }
@@ -3335,10 +3301,8 @@ void registerLocalChecker(const std::string &_inputFile, const std::string &_out
 {
 	localJudger = 1;
 	__testlib_ensuresPreconditions();
-
 	testlibMode = _checker;
 	__testlib_set_binary(stdin);
-
 	inf.init(_inputFile, _input);
 	ouf.init(_outputFile, _output);
 	ans.init(_answerFile, _answer);

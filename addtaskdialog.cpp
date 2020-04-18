@@ -33,11 +33,9 @@ AddTaskDialog::AddTaskDialog(QWidget *parent) :
 	ui(new Ui::AddTaskDialog)
 {
 	ui->setupUi(this);
-
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore() * 100, this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
-
 	connect(ui->taskBox, SIGNAL(currentIndexChanged(int)),
 	        this, SLOT(taskBoxIndexChanged()));
 	connect(ui->fullScore, SIGNAL(textChanged(QString)),
@@ -69,9 +67,7 @@ auto AddTaskDialog::getFullScore(int index) const -> int
 		return fullScore[index];
 	}
 
-
 	return 0;
-
 }
 
 auto AddTaskDialog::getTimeLimit(int index) const -> int
@@ -81,9 +77,7 @@ auto AddTaskDialog::getTimeLimit(int index) const -> int
 		return timeLimit[index];
 	}
 
-
 	return 0;
-
 }
 
 auto AddTaskDialog::getMemoryLimit(int index) const -> int
@@ -93,9 +87,7 @@ auto AddTaskDialog::getMemoryLimit(int index) const -> int
 		return memoryLimit[index];
 	}
 
-
 	return 0;
-
 }
 
 void AddTaskDialog::taskBoxIndexChanged()

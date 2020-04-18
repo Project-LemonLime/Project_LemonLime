@@ -51,7 +51,7 @@ public slots:
 private:
 	Ui::StatisticsBrowser *ui;
 	Contest *curContest;
-	int checkValid(QList<Task *>, QList<Contestant *>);
+	static int checkValid(QList<Task *>, const QList<Contestant *> &);
 	static QString getScoreNormalChart(const QMap<int, int> &, int, int);
 	static QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>, QList<QList<QList<ResultState>>>);
 	static void exportStatsticsHtml(QWidget *, const QString &);

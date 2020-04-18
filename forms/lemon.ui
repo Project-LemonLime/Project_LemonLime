@@ -410,7 +410,7 @@
      <x>0</x>
      <y>0</y>
      <width>725</width>
-     <height>35</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -850,6 +850,10 @@
    </property>
   </action>
   <action name="actionManual">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/icon/acrobat.svg</normaloff>:/icon/acrobat.svg</iconset>
+   </property>
    <property name="text">
     <string>Manual</string>
    </property>

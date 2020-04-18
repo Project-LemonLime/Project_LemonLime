@@ -36,11 +36,9 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent) 
 	ui(new Ui::AdvancedCompilerSettingsDialog)
 {
 	ui->setupUi(this);
-
 	editCompiler = new Compiler(this);
 	ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->configurationSelect->setLineEdit(new QLineEdit(this));
-
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
 	        this, SLOT(okayButtonClicked()));
 	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),

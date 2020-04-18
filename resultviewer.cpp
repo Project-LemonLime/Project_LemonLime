@@ -44,7 +44,6 @@ ResultViewer::ResultViewer(QWidget *parent) :
 	QTableWidget(parent)
 {
 	curContest = nullptr;
-
 	deleteContestantAction = new QAction(tr("Delete"), this);
 	detailInformationAction = new QAction(tr("Details"), this);
 	judgeSelectedAction = new QAction(tr("Judge"), this);
@@ -140,7 +139,6 @@ void ResultViewer::refreshViewer()
 	QStringList headerList;
 	headerList << tr("Rank") << tr("Name") << tr("Total Score");
 	QList<Task *> taskList = curContest->getTaskList();
-
 	Settings setting;
 	curContest->copySettings(setting);
 
@@ -153,7 +151,6 @@ void ResultViewer::refreshViewer()
 	setColumnCount(taskList.size() + 5);
 	setHorizontalHeaderLabels(headerList);
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList< QPair<int, QString>> sortList;
 	QList<int> fullScore;
@@ -180,7 +177,6 @@ void ResultViewer::refreshViewer()
 			if (score != -1)
 			{
 				item(i, j + 3)->setData(Qt::DisplayRole, score);
-
 				QColor bg = QColor::fromHsl(0, 0, 255);
 
 				if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully)
@@ -209,11 +205,9 @@ void ResultViewer::refreshViewer()
 		{
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
 			item(i, 2)->setBackground(setting.getColorGrand(totalScore, sfullScore));
-
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);
-
 			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double (totalUsedTime) / 1000);
 			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
 			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
@@ -267,9 +261,7 @@ void ResultViewer::refreshViewer()
 void ResultViewer::judgeSelected()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-
 	QMap<QString, QSet<int>> mapping;
-
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
 
@@ -318,7 +310,6 @@ void ResultViewer::judgeAll()
 void ResultViewer::judgeUnjudged()
 {
 	QMap<QString, QSet<int>> mapping;
-
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -354,7 +345,6 @@ void ResultViewer::judgeUnjudged()
 void ResultViewer::judgeGrey()
 {
 	QMap<QString, QSet<int>> mapping;
-
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -390,7 +380,6 @@ void ResultViewer::judgeGrey()
 void ResultViewer::judgeMagenta()
 {
 	QMap<QString, QSet<int>> mapping;
-
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();

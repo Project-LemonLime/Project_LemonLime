@@ -80,7 +80,6 @@ JudgingThread::JudgingThread(QObject *parent) :
 	timeUsed = -1;
 	memoryUsed = -1;
 	judgedTimes = 0;
-
 	QTime   t =  QTime::currentTime();
 	qsrand(static_cast<unsigned int>(t.msec() + t.second() * 1000));
 }
@@ -265,9 +264,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		}
 
 		str1[len1 ++] = '\0';
-
 		chkEof1 = ch == EOF;
-
 		len2 = 0;
 
 		while (len2 < 10)
@@ -298,7 +295,6 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		}
 
 		str2[len2 ++] = '\0';
-
 		chkEof2 = ch == EOF;
 
 		if (chkEof1 && ! chkEof2)
@@ -526,7 +522,6 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		}
 
 		str1[len1] = '\0';
-
 		int len2 = 0;
 
 		while (len2 < 10)
@@ -777,7 +772,6 @@ void JudgingThread::specialJudge(const QString &fileName)
 	}
 
 	delete judge;
-
 	QFile scoreFile(workingDirectory + "_score");
 
 	if (! scoreFile.open(QFile::ReadOnly))
@@ -839,11 +833,9 @@ void JudgingThread::runProgram()
 
 #ifdef Q_OS_WIN32
 	SetErrorMode(SEM_NOGPFAULTERRORBOX);
-
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 	SECURITY_ATTRIBUTES sa;
-
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
 	si.dwFlags = STARTF_USESTDHANDLES;
@@ -868,7 +860,6 @@ void JudgingThread::runProgram()
 	si.hStdError = CreateFile((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
 	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
 	                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
 	QString values = environment.toStringList().join(QChar('\0')) + '\0';
 
 	if (! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
@@ -1010,15 +1001,12 @@ void JudgingThread::runProgram()
 
 	FILETIME creationTime, exitTime, kernelTime, userTime;
 	GetProcessTimes(pi.hProcess, &creationTime, &exitTime, &kernelTime, &userTime);
-
 	SYSTEMTIME realTime;
 	FileTimeToSystemTime(&userTime, &realTime);
-
 	timeUsed = realTime.wMilliseconds
 	           + realTime.wSecond * 1000
 	           + realTime.wMinute * 60 * 1000
 	           + realTime.wHour * 60 * 60 * 1000;
-
 	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
 	memoryUsed = info.PeakWorkingSetSize;
 
@@ -1030,10 +1018,8 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 #else
-
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
-
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);

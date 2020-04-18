@@ -35,11 +35,9 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 	ui(new Ui::AddCompilerWizard)
 {
 	ui->setupUi(this);
-
 	ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->javaMemoryLimit->setValidator(new QIntValidator(64, 2048, this));
-
 #ifdef Q_OS_LINUX
 
 	if (QFileInfo::exists("/usr/bin/gcc"))
@@ -61,7 +59,6 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 		ui->pythonPath->setText("/usr/bin/python");
 
 #endif
-
 	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
 	        this, SLOT(compilerTypeChanged()));
 	connect(ui->compilerSelectButton, SIGNAL(clicked()),
@@ -89,12 +86,12 @@ AddCompilerWizard::~AddCompilerWizard()
 	delete ui;
 }
 
-const QList<Compiler *> &AddCompilerWizard::getCompilerList() const
+auto AddCompilerWizard::getCompilerList() const -> const QList<Compiler *> &
 {
 	return compilerList;
 }
 
-int AddCompilerWizard::nextId() const
+auto AddCompilerWizard::nextId() const -> int
 {
 	if (currentId() == 0)
 	{
@@ -102,19 +99,16 @@ int AddCompilerWizard::nextId() const
 		{
 			return 1;
 		}
-		else
-		{
-			return 2;
-		}
+
+		return 2;
 	}
-	else
-	{
-		if (currentId() == 3) return -1;
-		else return 3;
-	}
+
+	if (currentId() == 3) return -1;
+
+	return 3;
 }
 
-bool AddCompilerWizard::validateCurrentPage()
+auto AddCompilerWizard::validateCurrentPage() -> bool
 {
 	if (currentId() == 1)
 	{
@@ -534,12 +528,10 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerName("gcc");
 			compiler->setCompilerLocation(ui->gccPath->text());
 			compiler->setSourceExtensions("c");
-
 			QString stackArg = "";
 #ifdef Q_OS_WIN32
 			stackArg = " -Wl,--stack=2147483647";
 #endif
-
 			compiler->addConfiguration("default", "-o %s %s.* -lm" + stackArg, "");
 
 			if (ui->gccRecommendedCheck->isChecked())
@@ -577,12 +569,10 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerName("g++");
 			compiler->setCompilerLocation(ui->gppPath->text());
 			compiler->setSourceExtensions("cpp;cc;cxx");
-
 			QString stackArg = "";
 #ifdef Q_OS_WIN32
 			stackArg = " -Wl,--stack=2147483647";
 #endif
-
 			compiler->addConfiguration("default", "-o %s %s.* -lm" + stackArg, "");
 
 			if (ui->gppRecommendedCheck->isChecked())
@@ -623,7 +613,6 @@ void AddCompilerWizard::accept()
 			compiler->setCompilerName("fpc");
 			compiler->setCompilerLocation(ui->fpcPath->text());
 			compiler->setSourceExtensions("pas;pp;inc");
-
 			compiler->addConfiguration("default", "%s.*", "");
 
 			if (ui->fpcRecommendedCheck->isChecked())

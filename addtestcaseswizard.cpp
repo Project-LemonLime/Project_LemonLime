@@ -31,18 +31,15 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 	ui(new Ui::AddTestCasesWizard)
 {
 	ui->setupUi(this);
-
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
-
 	connect(ui->fullScore, SIGNAL(textChanged(QString)),
 	        this, SLOT(fullScoreChanged(QString)));
 	connect(ui->timeLimit, SIGNAL(textChanged(QString)),
 	        this, SLOT(timeLimitChanged(QString)));
 	connect(ui->memoryLimit, SIGNAL(textChanged(QString)),
 	        this, SLOT(memoryLimitChanged(QString)));
-
 	QHeaderView *header = ui->argumentList->horizontalHeader();
 
 	for (int i = 0; i < 3; i ++)
@@ -269,7 +266,6 @@ void AddTestCasesWizard::searchMatchedFiles()
 	QStringList outputFiles;
 	getFiles(Settings::dataPath(), "", inputFiles);
 	getFiles(Settings::dataPath(), "", outputFiles);
-
 	QString regExp = getFullRegExp(inputFilesPattern);
 
 	for (int i = 0; i < inputFiles.size(); i ++)
@@ -294,7 +290,6 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	std::sort(inputFiles.begin(), inputFiles.end(), compareFileName);
 	std::sort(outputFiles.begin(), outputFiles.end(), compareFileName);
-
 	QList<QStringList> inputFilesMatchedPart;
 	QList<QStringList> outputFilesMatchedPart;
 
@@ -334,7 +329,6 @@ void AddTestCasesWizard::searchMatchedFiles()
 	            matchedPart.append(inputFilesMatchedPart[i]);
 	    }
 	}*/
-
 	loc.clear();
 
 	for (int i = 0; i < singleCases.size(); i ++)
@@ -355,7 +349,6 @@ void AddTestCasesWizard::searchMatchedFiles()
 	matchedInputFiles.clear();
 	matchedOutputFiles.clear();
 	ui->testCasesViewer->clear();
-
 	QList<QString> keys = loc.uniqueKeys();
 	std::sort(keys.begin(), keys.end(), compareFileName);
 

@@ -34,14 +34,12 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
 	ui(new Ui::CompilerSettings)
 {
 	ui->setupUi(this);
-
 	ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	deleteCompilerKeyAction = new QAction(ui->compilerList);
 	deleteCompilerKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);
 	deleteCompilerKeyAction->setEnabled(false);
 	ui->compilerList->addAction(deleteCompilerKeyAction);
-
 	connect(ui->moveUpButton, SIGNAL(clicked()),
 	        this, SLOT(moveUpCompiler()));
 	connect(ui->moveDownButton, SIGNAL(clicked()),
@@ -70,7 +68,6 @@ CompilerSettings::~CompilerSettings()
 void CompilerSettings::resetEditSettings(Settings *settings)
 {
 	editSettings = settings;
-
 	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	ui->compilerList->clear();
 

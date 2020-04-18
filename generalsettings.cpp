@@ -30,7 +30,6 @@ GeneralSettings::GeneralSettings(QWidget *parent) :
 	ui(new Ui::GeneralSettings)
 {
 	ui->setupUi(this);
-
 	ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
@@ -40,7 +39,6 @@ GeneralSettings::GeneralSettings(QWidget *parent) :
 	ui->rejudgeTimes->setValidator(new QIntValidator(0, Settings::upperBoundForRejudgeTimes(), this));
 	ui->inputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
-
 	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)),
 	        this, SLOT(defaultFullScoreChanged(QString)));
 	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)),
@@ -69,7 +67,6 @@ GeneralSettings::~GeneralSettings()
 void GeneralSettings::resetEditSettings(Settings *settings)
 {
 	editSettings = settings;
-
 	ui->defaultFullScore->setText(QString("%1").arg(editSettings->getDefaultFullScore()));
 	ui->defaultTimeLimit->setText(QString("%1").arg(editSettings->getDefaultTimeLimit()));
 	ui->defaultMemoryLimit->setText(QString("%1").arg(editSettings->getDefaultMemoryLimit()));

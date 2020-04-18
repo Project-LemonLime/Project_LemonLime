@@ -30,7 +30,6 @@ EditVariableDialog::EditVariableDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-
 	connect(ui->variableName, SIGNAL(textChanged(QString)),
 	        this, SLOT(textChanged()));
 	connect(ui->variableValue, SIGNAL(textChanged(QString)),

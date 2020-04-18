@@ -233,7 +233,6 @@ auto Settings::getColorPer(double p) -> QColor
 	double h;
 	double s;
 	double l;
-
 	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = colorMiH / 360.00 + 100 * p * distan;
 
@@ -262,7 +261,6 @@ auto Settings::getColorPer(double p) -> QColor
 	h = fmax(0, fmin(h, 1));
 	s = fmax(0, fmin(s, 1));
 	l = fmax(0, fmin(l, 1));
-
 	return QColor::fromHslF(h, s, l);
 }
 
@@ -272,7 +270,6 @@ auto Settings::getColorGrand(double p) -> QColor
 	double h;
 	double s;
 	double l;
-
 	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
 
@@ -301,7 +298,6 @@ auto Settings::getColorGrand(double p) -> QColor
 	h = fmax(0, fmin(h, 1));
 	s = fmax(0, fmin(s, 1));
 	l = fmax(0, fmin(l, 1));
-
 	return QColor::fromHslF(h, s, l);
 }
 
@@ -402,9 +398,7 @@ auto Settings::getCompiler(int index) -> Compiler *
 		return compilerList[index];
 	}
 
-
 	return nullptr;
-
 }
 
 void Settings::swapCompiler(int a, int b)
@@ -647,9 +641,7 @@ void Settings::copyFrom(Settings *other)
 void Settings::saveSettings()
 {
 	QSettings settings("Crash", "Lemon");
-
 	settings.setValue("UiLanguage", uiLanguage);
-
 	settings.beginGroup("GeneralSettings");
 	settings.setValue("DefaultFullScore", defaultFullScore);
 	settings.setValue("DefaultTimeLimit", defaultTimeLimit);
@@ -663,7 +655,6 @@ void Settings::saveSettings()
 	settings.setValue("InputFileExtensions", inputFileExtensions);
 	settings.setValue("OutputFileExtensions", outputFileExtensions);
 	settings.endGroup();
-
 	settings.beginGroup("VisualSettings");
 	settings.setValue("ColorMxH", colorMxH);
 	settings.setValue("ColorMxS", colorMxS);
@@ -685,7 +676,6 @@ void Settings::saveSettings()
 	settings.setValue("GrandRateL", grandRateL);
 	settings.setValue("SplashTime", splashTime);
 	settings.endGroup();
-
 	settings.beginWriteArray("v1.2/CompilerSettings");
 
 	for (int i = 0; i < compilerList.size(); i ++)
@@ -718,7 +708,6 @@ void Settings::saveSettings()
 	}
 
 	settings.endArray();
-
 	settings.beginWriteArray("v1.2/RecentContest");
 
 	for (int i = 0; i < recentContest.size(); i ++)
@@ -737,11 +726,8 @@ void Settings::loadSettings()
 
 	compilerList.clear();
 	recentContest.clear();
-
 	QSettings settings("Crash", "Lemon");
-
 	uiLanguage = settings.value("UiLanguage", QLocale::system().name()).toString();
-
 	settings.beginGroup("GeneralSettings");
 	defaultFullScore = settings.value("DefaultFullScore", 10).toInt();
 	defaultTimeLimit = settings.value("DefaultTimeLimit", 1000).toInt();
@@ -755,7 +741,6 @@ void Settings::loadSettings()
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
 	outputFileExtensions = settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
 	settings.endGroup();
-
 	settings.beginGroup("VisualSettings");
 	colorMxH = settings.value("ColorMxH", 120).toInt();
 	colorMxS = settings.value("ColorMxS", 50).toDouble();
@@ -777,7 +762,6 @@ void Settings::loadSettings()
 	grandRateL = settings.value("GrandRateL", 1.33).toDouble();
 	splashTime = settings.value("SplashTime", 500).toInt();
 	settings.endGroup();
-
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
 
 	for (int i = 0; i < compilerCount; i ++)
@@ -820,7 +804,6 @@ void Settings::loadSettings()
 	}
 
 	settings.endArray();
-
 	int listCount = settings.beginReadArray("v1.2/RecentContest");
 
 	for (int i = 0; i < listCount; i ++)
@@ -830,7 +813,6 @@ void Settings::loadSettings()
 	}
 
 	settings.endArray();
-
 #ifdef Q_OS_WIN32
 	diffPath = QDir::toNativeSeparators(QDir::currentPath()) + QDir::separator() + "diff.exe";
 #endif

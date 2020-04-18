@@ -58,31 +58,24 @@ Lemon::Lemon(QWidget *parent) :
 	ui(new Ui::Lemon)
 {
 	ui->setupUi(this);
-
 	curContest = nullptr;
 	settings = new Settings(this);
-
 	ui->tabWidget->setVisible(false);
 	ui->closeAction->setEnabled(false);
 	ui->saveAction->setEnabled(false);
 	ui->openFolderAction->setEnabled(false);
 	ui->actionChangeContestName->setEnabled(false);
-
 	dataDirWatcher = nullptr;
 	settings->loadSettings();
-
 	TaskMenu = new QMenu();
 	signalMapper = new QSignalMapper();
-
 	ui->summary->setSettings(settings);
 	ui->taskEdit->setSettings(settings);
 	ui->testCaseEdit->setSettings(settings);
-
 	connect(this, SIGNAL(dataPathChanged()),
 	        ui->taskEdit, SIGNAL(dataPathChanged()));
 	connect(this, SIGNAL(dataPathChanged()),
 	        ui->testCaseEdit, SIGNAL(dataPathChanged()));
-
 	connect(ui->summary, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
 	        this, SLOT(summarySelectionChanged()));
 	connect(ui->optionsAction, SIGNAL(triggered()),
@@ -139,20 +132,18 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(exportStatstics()));
 	connect(ui->aboutAction, SIGNAL(triggered()),
 	        this, SLOT(aboutLemon()));
-
 	connect(ui->actionManual, SIGNAL(triggered()),
 	        this, SLOT(actionManual()));
 	connect(ui->actionMore, SIGNAL(triggered()),
 	        this, SLOT(actionMore()));
-
+	connect(ui->actionChangeContestName, SIGNAL(triggered()),
+	        this, SLOT(changeContestName()));
 	connect(ui->exitAction, SIGNAL(triggered()),
 	        this, SLOT(close()));
-
 	appTranslator = new QTranslator(this);
 	qtTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
 	QApplication::installTranslator(qtTranslator);
-
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "lemon_*.qm", QDir::Files);
 
 	for (int i = 0; i < fileList.size(); i ++)
@@ -174,7 +165,6 @@ Lemon::Lemon(QWidget *parent) :
 	connect(ui->setEnglishAction, SIGNAL(triggered()),
 	        this, SLOT(setUiLanguage()));
 	loadUiLanguage();
-
 	QSettings settings("Crash", "Lemon");
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
@@ -292,7 +282,6 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 void Lemon::resetDataWatcher()
 {
 	delete dataDirWatcher;
-
 	dataDirWatcher = new QFileSystemWatcher(this);
 	insertWatchPath(Settings::dataPath(), dataDirWatcher);
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
@@ -356,7 +345,6 @@ void Lemon::showOptionsDialog()
 	}
 
 	ui->resultViewer->refreshViewer();
-
 	delete dialog;
 }
 
@@ -374,7 +362,6 @@ void Lemon::refreshButtonClicked()
 {
 	curContest->refreshContestantList();
 	ui->resultViewer->refreshViewer();
-
 	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 	ui->cleanupAction->setEnabled(true);
 	ui->refreshAction->setEnabled(true);
@@ -389,7 +376,6 @@ void removePath(const QString &path)
 	if (!dir.exists())return;
 
 	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
-
 	QFileInfoList fileList = dir.entryInfoList();
 
 	foreach (QFileInfo fi, fileList)
@@ -409,9 +395,7 @@ void copyPath(const QString &fromPath, const QString &toPath)
 
 	QString fpath = fromPath + QDir::separator();
 	QString tpath = toPath + QDir::separator();
-
 	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
-
 	QFileInfoList fileList = dir.entryInfoList();
 
 	foreach (QFileInfo fi, fileList)
@@ -442,18 +426,14 @@ void Lemon::cleanupButtonClicked()
 		QDir basDir(Settings::sourcePath());
 		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 		QFileInfoList basDirLis = basDir.entryInfoList();
-
 		int tarcnt = basDirLis.size();
-
 		QString backupFolder = "source_bak_%1";
 		int backupNum = 0;
-
 		QDir tempBackupLoca;
 
 		while (tempBackupLoca.exists(backupFolder.arg(backupNum)))backupNum++;
 
 		backupFolder = backupFolder.arg(backupNum);
-
 		text = tr("Making backup files to dir <br> `%1'?").arg(backupFolder) + "<br>";
 		QMessageBox::StandardButton doBackup = QMessageBox::information(this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::Yes);
 
@@ -480,7 +460,6 @@ void Lemon::cleanupButtonClicked()
 			}
 
 			bkLoca = QDir(backupFolder);
-
 			auto *bkProcess = new QProgressDialog(tr("Making Backup..."), "", 0, 0, this);
 			bkProcess->setWindowModality(Qt::WindowModal);
 			bkProcess->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
@@ -489,7 +468,6 @@ void Lemon::cleanupButtonClicked()
 			bkProcess->setRange(0, tarcnt);
 			bkProcess->setValue(0);
 			QCoreApplication::processEvents();
-
 			basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 			basDirLis = basDir.entryInfoList();
 
@@ -511,23 +489,18 @@ void Lemon::cleanupButtonClicked()
 		process->setCancelButton(nullptr);
 		process->setRange(0, 5);
 		process->setValue(0);
-
 		process->setLabelText(tr("Working on it..."));
 		QCoreApplication::processEvents();
-
 		process->setRange(0, tarcnt + 5);
 		process->setValue(0);
 		process->setModal(true);
-
 		process->setLabelText(tr("Fetching Data..."));
 		QCoreApplication::processEvents();
-
 		QSet<QString> tarNameSet;
 		QSet<QString> nameSet;
 		QMap<QString, int> typeSet;
 		QMap<QString, QString> origSet;
 		QList<Task *> taskList = curContest->getTaskList();
-
 		process->setValue(1);
 		process->setLabelText(tr("Initing..."));
 		QCoreApplication::processEvents();
@@ -571,14 +544,12 @@ void Lemon::cleanupButtonClicked()
 		process->setValue(5);
 		process->setLabelText(tr("Now Cleaning..."));
 		QCoreApplication::processEvents();
-
 		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 		basDirLis = basDir.entryInfoList();
 
 		foreach (QFileInfo conDirWho, basDirLis)
 		{
 			QDir conDir(conDirWho.filePath());
-
 			conDir.setFilter(QDir::Files | QDir::Hidden);
 			QFileInfoList conDirLis = conDir.entryInfoList();
 
@@ -596,7 +567,6 @@ void Lemon::cleanupButtonClicked()
 				if (nameSet.contains(proDirWho.fileName()))
 				{
 					QDir proDir(proDirWho.filePath());
-
 					proDir.setFilter(QDir::Files | QDir::Hidden);
 
 					foreach (QFileInfo sorFilWho, proDir.entryInfoList())
@@ -650,7 +620,6 @@ void Lemon::cleanupButtonClicked()
 			foreach (QFileInfo proDirWho, conDirLis)
 			{
 				QDir proDir(proDirWho.filePath());
-
 				proDir.setFilter(QDir::Files | QDir::Hidden);
 
 				foreach (QFileInfo sorFilWho, proDir.entryInfoList())
@@ -662,7 +631,6 @@ void Lemon::cleanupButtonClicked()
 		}
 
 		delete process;
-
 		text = tr("Finished.") + "<br>";
 		QMessageBox::information(this, tr("Clean up Files"), text);
 	}
@@ -704,7 +672,6 @@ void Lemon::tabIndexChanged(int index)
 		}
 
 		judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
-
 		ui->cleanupAction->setEnabled(true);
 		ui->refreshAction->setEnabled(true);
 	}
@@ -721,7 +688,6 @@ void Lemon::moveUpTask()
 	ui->summary->setContest(curContest);
 	ui->statisticsBrowser->refresh();
 	ui->resultViewer->refreshViewer();
-
 	curItem = ui->summary->topLevelItem(index - 1);
 
 	if (!curItem)curItem = ui->summary->topLevelItem(index);
@@ -740,7 +706,6 @@ void Lemon::moveDownTask()
 	ui->summary->setContest(curContest);
 	ui->resultViewer->refreshViewer();
 	ui->statisticsBrowser->refresh();
-
 	curItem = ui->summary->topLevelItem(index + 1);
 
 	if (!curItem)curItem = ui->summary->topLevelItem(index);
@@ -784,7 +749,6 @@ void Lemon::saveContest(const QString &fileName)
 	}
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
-
 	QByteArray data;
 	QDataStream _out(&data, QIODevice::WriteOnly);
 	curContest->writeToStream(_out);
@@ -792,7 +756,6 @@ void Lemon::saveContest(const QString &fileName)
 	QDataStream out(&file);
 	out << unsigned(MagicNumber) << qChecksum(data.data(), static_cast<uint>(data.length())) << data.length();
 	out.writeRawData(data.data(), data.length());
-
 	QApplication::restoreOverrideCursor();
 	ui->statusBar->showMessage(tr("Saved"), 1000);
 }
@@ -839,13 +802,10 @@ void Lemon::loadContest(const QString &filePath)
 	delete[] raw;
 	data = qUncompress(data);
 	QDataStream in (data);
-
 	QApplication::setOverrideCursor(Qt::WaitCursor);
-
 	curContest = new Contest(this);
 	curContest->setSettings(settings);
 	curContest->readFromStream(in);
-
 	curFile = QFileInfo(filePath).fileName();
 	QDir::setCurrent(QFileInfo(filePath).path());
 	QDir().mkdir(Settings::dataPath());
@@ -867,7 +827,6 @@ void Lemon::loadContest(const QString &filePath)
 	ui->cleanupAction->setEnabled(false);
 	ui->refreshAction->setEnabled(false);
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
-
 	QApplication::restoreOverrideCursor();
 	ui->tabWidget->setCurrentIndex(0);
 }
@@ -1035,7 +994,6 @@ void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QStrin
 	newTask->refreshCompilerConfiguration(settings);
 	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
 	curContest->addTask(newTask);
-
 	int scorePer = sumScore / testCases.size();
 	int scoreLos = sumScore - scorePer * testCases.size();
 
@@ -1087,7 +1045,6 @@ void Lemon::addTasksAction()
 
 			QMap<QString, QString> inputFiles;
 			getFiles(Settings::dataPath() + list[i], filters, inputFiles);
-
 			filters = settings->getOutputFileExtensions();
 
 			if (filters.isEmpty()) filters << "out" << "ans";
@@ -1099,7 +1056,6 @@ void Lemon::addTasksAction()
 
 			QMap<QString, QString> outputFiles;
 			getFiles(Settings::dataPath() + list[i], filters, outputFiles);
-
 			QList< QPair<QString, QString>> cases;
 			QStringList baseNameList = inputFiles.keys();
 
@@ -1159,6 +1115,29 @@ void Lemon::exportStatstics()
 	StatisticsBrowser::exportStatstics(this, curContest);
 }
 
+void Lemon::changeContestName()
+{
+	if (!curContest)
+	{
+		QMessageBox::warning(this, tr("Rename Contest"), tr("No Contest Yet"));
+	}
+
+	bool confirmed = false;
+	QString newName = QInputDialog::getText(this, tr("Rename Contest"), tr("Write the name you want."), QLineEdit::Normal, tr("New Name"), &confirmed);
+
+	if (!confirmed)
+	{
+		QMessageBox::warning(this, tr("Rename Contest"), tr("The name did not changes."));
+		return;
+	}
+
+	curContest->setContestTitle(newName);
+	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
+	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->refresh();
+	saveContest(curFile);
+}
+
 void Lemon::aboutLemon()
 {
 	QString text;
@@ -1167,7 +1146,7 @@ void Lemon::aboutLemon()
 	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
 	QDateTime nowTime(QDateTime::currentDateTime());
 	text += tr("Build Date: %1").arg(nowTime.toString("yyyy-MM-dd hh:mm:ss")) + "<br>";
-	text += tr("UNSTABLE VERISON") + "<br>";
+	text += tr("BETA VERISON") + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")
 	        + "<br>";
 	text += tr("Update by Dust1404 and iotang") + "</a><br>";
@@ -1187,7 +1166,7 @@ void Lemon::actionManual()
 
 void Lemon::actionMore()
 {
-	QDesktopServices::openUrl(QUrl(QString("https://github.com/iotang/Project_LemonLime/wiki")));
+	QDesktopServices::openUrl(QUrl(QString("https://github.com/iotang/Project_LemonLime")));
 }
 
 void Lemon::setUiLanguage()

@@ -30,7 +30,6 @@ EnvironmentVariablesDialog::EnvironmentVariablesDialog(QWidget *parent) :
 	ui(new Ui::EnvironmentVariablesDialog)
 {
 	ui->setupUi(this);
-
 	connect(ui->addButton, SIGNAL(clicked()),
 	        this, SLOT(addButtonClicked()));
 	connect(ui->editButton, SIGNAL(clicked()),

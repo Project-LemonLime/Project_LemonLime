@@ -36,7 +36,6 @@ auto main(int argc, char *argv[]) -> int
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);  // High DPI supported
 #endif
-
 	QtSingleApplication a(argc, argv);
 
 	if (a.sendMessage(""))
@@ -56,14 +55,10 @@ auto main(int argc, char *argv[]) -> int
 	fonts.setFamily("PingFangSC-Regular");
 #endif
 	QtSingleApplication::setFont(fonts);
-
 	Q_INIT_RESOURCE(resource);
-
 	QPixmap pixmap(":/logo/splash.png");
 	QSplashScreen screen(pixmap);
-
 	Lemon w;
-
 	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
 	int splashTime = w.getSplashTime();
 
@@ -80,9 +75,7 @@ auto main(int argc, char *argv[]) -> int
 	}
 
 	a.setActivationWindow(&w);
-
 	w.show();
 	w.welcome();
-
 	return QtSingleApplication::exec();
 }

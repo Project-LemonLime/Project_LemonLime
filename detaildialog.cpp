@@ -54,15 +54,12 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 {
 	contest = _contest;
 	contestant = _contestant;
-
 	setWindowTitle(tr("Contestant: %1").arg(contestant->getContestantName()));
 	ui->detailViewer->clear();
 	QString htmlCode;
-
 	htmlCode += "<html><head>";
 	htmlCode += "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}</style>";
 	htmlCode += "</head><body>";
-
 	QList<Task *> taskList = contest->getTaskList();
 
 	for (int i = 0; i < taskList.size(); i++)
@@ -132,7 +129,6 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Time Used"));
 		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th>)").arg(tr("Memory Used"));
 		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th></tr>)").arg(tr("Score"));
-
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList< QList<ResultState>> result = contestant->getResult(i);
@@ -158,13 +154,10 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				}
 
 				htmlCode += QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
-
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
-
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-
 				htmlCode += QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)").arg(text).arg(bgColor).arg(frColor);
 
 				if (! message[j][k].isEmpty())
@@ -173,7 +166,6 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (timeUsed[j][k] != -1)
@@ -186,7 +178,6 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (memoryUsed[j][k] != -1)

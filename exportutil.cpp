@@ -45,7 +45,6 @@ ExportUtil::ExportUtil(QObject *parent) :
 auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num) -> QString
 {
 	QString htmlCode;
-
 	QList<Task *> taskList = contest->getTaskList();
 
 	for (int i = 0; i < taskList.size(); i ++)
@@ -120,7 +119,6 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Time Used"));
 		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)").arg(tr("Memory Used"));
 		htmlCode += QString(R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th></tr>)").arg(tr("Score"));
-
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList< QList<ResultState>> result = contestant->getResult(i);
@@ -146,13 +144,10 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>").arg(inputFiles[j][k]);
-
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
-
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-
 				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2; color: %3;\">%1").arg(text).arg(bgColor).arg(frColor);
 
 				if (! message[j][k].isEmpty())
@@ -165,7 +160,6 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += "<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">";
 
 				if (timeUsed[j][k] != -1)
@@ -178,7 +172,6 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += "<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">";
 
 				if (memoryUsed[j][k] != -1)
@@ -242,17 +235,14 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-
 	out.setCodec("UTF-8");
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
-
 	QList< QPair<int, QString>> sortList;
 
 	for (auto &i : contestantList)
@@ -297,14 +287,12 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
 	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Rank"));
 	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Name"));
-
 	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)").arg(tr("Total Score"));
 
 	for (auto &i : taskList)
 		out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)").arg(i->getProblemTile());
 
 	out << "</tr>";
-
 	QList<int> fullScore;
 	int sfullScore = contest->getTotalScore();
 
@@ -320,7 +308,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		    .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString(R"(<td style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;"><a href="#c%1" style="color: black; text-decoration: none;">%2</a></td>)")
 		    .arg(loc[contestant]).arg(i.second);
-
 		int allScore = contestant->getTotalScore();
 
 		if (allScore >= 0)
@@ -381,7 +368,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	}
 
 	out << "</body></html>";
-
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
@@ -389,7 +375,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *contestant) -> QString
 {
 	QString htmlCode;
-
 	QList<Task *> taskList = contest->getTaskList();
 
 	for (int i = 0; i < taskList.size(); i ++)
@@ -464,7 +449,6 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Time Used"));
 		htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Memory Used"));
 		htmlCode += QString("<th scope=\"col\">%1</th></tr>").arg(tr("Score"));
-
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList< QList<ResultState>> result = contestant->getResult(i);
@@ -490,13 +474,10 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				}
 
 				htmlCode += QString("<td>%1</td>").arg(inputFiles[j][k]);
-
 				QString text;
 				QString bgColor;
 				QString frColor;
-
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-
 				htmlCode += QString("<td>%1").arg(text);
 
 				if (! message[j][k].isEmpty())
@@ -509,7 +490,6 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += "<td>";
 
 				if (timeUsed[j][k] != -1)
@@ -522,7 +502,6 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				}
 
 				htmlCode += "</td>";
-
 				htmlCode += "<td>";
 
 				if (memoryUsed[j][k] != -1)
@@ -571,17 +550,14 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-
 	out.setCodec("UTF-8");
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << tr("Contest Result") << "</title>";
 	out << "</head><body>";
-
 	QList< QPair<int, QString>> sortList;
 
 	for (auto &i : contestantList)
@@ -626,14 +602,12 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));
-
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Total Score"));
 
 	for (auto &i : taskList)
 		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTile());
 
 	out << QString("</tr>");
-
 	QList<int> fullScore;
 
 	for (auto &i : taskList)
@@ -649,7 +623,6 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		    .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString("<td><a href=\"#c%1\">%2</a></td>")
 		    .arg(loc[contestant]).arg(i.second);
-
 		int allScore = contestant->getTotalScore();
 
 		if (allScore != -1)
@@ -686,7 +659,6 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	}
 
 	out << "</body></html>";
-
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
@@ -704,7 +676,6 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
 	QList< QPair<int, QString>> sortList;
@@ -805,7 +776,6 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	}
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
-
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
 	QList< QPair<int, QString>> sortList;
@@ -850,7 +820,6 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	QAxObject *workbook = excel->querySubObject("Workbooks")->querySubObject("Add");
 	QAxObject *sheet = workbook->querySubObject("ActiveSheet");
 	sheet->setProperty("Name", QDate::currentDate().toString("yyyy-MM-dd"));
-
 	sheet->querySubObject("Cells(int, int)", 1, 1)->setProperty("Value", tr("Rank"));
 	sheet->querySubObject("Cells(int, int)", 1, 2)->setProperty("Value", tr("Name"));
 
@@ -898,7 +867,6 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	workbook->dynamicCall("SaveAs(const QString&, int)", QDir::toNativeSeparators(fileName), -4143);
 	excel->dynamicCall("Quit()");
 	delete excel;
-
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 #endif
@@ -922,7 +890,6 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 	}
 
 	QString filter = tr("HTML Document (*.html *.htm);;CSV (*.csv)");
-
 #ifdef Q_OS_WIN32
 	QAxObject *excel = new QAxObject("Excel.Application", widget);
 
@@ -930,7 +897,6 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	delete excel;
 #endif
-
 	QString fileName = QFileDialog::getSaveFileName(widget, tr("Export Result"),
 	                   QDir::currentPath() + QDir::separator() + "result.html", filter);
 
@@ -939,7 +905,6 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 	if (QFileInfo(fileName).suffix() == "html")
 	{
 		QMessageBox::StandardButton res = QMessageBox::warning(widget, tr("Export Result"), tr("Use Default Color Theme?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-
 		exportHtml(widget, contest, fileName, res == QMessageBox::Yes);
 	}
 

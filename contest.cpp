@@ -67,9 +67,7 @@ auto Contest::getTask(int index) const -> Task *
 		return taskList[index];
 	}
 
-
 	return nullptr;
-
 }
 
 auto Contest::getTaskList() const -> const QList<Task *> &
@@ -98,9 +96,7 @@ auto Contest::getContestant(const QString &name) const -> Contestant *
 		return contestantList.value(name);
 	}
 
-
 	return nullptr;
-
 }
 
 auto Contest::getContestantList() const -> QList<Contestant *>
@@ -237,7 +233,6 @@ void Contest::judge(Contestant *contestant)
 	for (int i = 0; i < taskList.size(); i ++)
 	{
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
-
 		auto *thread = new AssignmentThread();
 		connect(thread, SIGNAL(dialogAlert(QString)),
 		        this, SIGNAL(dialogAlert(QString)));
@@ -275,18 +270,15 @@ void Contest::judge(Contestant *contestant)
 		contestant->setScore(i, thread->getScore());
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-
 		contestant->setCheckJudged(i, true);
 		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
-
 		delete thread;
 		clearPath(Settings::temporaryPath());
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }
@@ -301,7 +293,6 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 		if (!index.contains(i)) continue;
 
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
-
 		auto *thread = new AssignmentThread();
 		connect(thread, SIGNAL(dialogAlert(QString)),
 		        this, SIGNAL(dialogAlert(QString)));
@@ -339,18 +330,15 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 		contestant->setScore(i, thread->getScore());
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-
 		contestant->setCheckJudged(i, true);
 		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
-
 		delete thread;
 		clearPath(Settings::temporaryPath());
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }
@@ -359,9 +347,7 @@ void Contest::judge(Contestant *contestant, int index)
 {
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
-
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
-
 	auto *thread = new AssignmentThread();
 	connect(thread, SIGNAL(dialogAlert(QString)),
 	        this, SIGNAL(dialogAlert(QString)));
@@ -399,17 +385,13 @@ void Contest::judge(Contestant *contestant, int index)
 	contestant->setScore(index, thread->getScore());
 	contestant->setTimeUsed(index, thread->getTimeUsed());
 	contestant->setMemoryUsed(index, thread->getMemoryUsed());
-
 	contestant->setCheckJudged(index, true);
 	emit taskJudgedDisplay(taskList[index]->getProblemTile(), thread->getScore(), taskList[index]->getTotalScore());
 	emit taskJudgingFinished();
-
 	delete thread;
 	clearPath(Settings::temporaryPath());
-
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
 	emit contestantJudgingFinished();
 }

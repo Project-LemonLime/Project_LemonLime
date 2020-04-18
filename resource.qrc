@@ -37,6 +37,7 @@
         <file alias="quickopen-file.svg">pics/quickopen-file.svg</file>
         <file alias="system-help.svg">pics/system-help.svg</file>
         <file>pics/splash.png</file>
+        <file alias="acrobat.svg">pics/acrobat.svg</file>
     </qresource>
     <qresource prefix="/translation">
         <file>lemon_zh_CN.qm</file>

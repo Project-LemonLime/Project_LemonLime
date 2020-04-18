@@ -303,9 +303,7 @@ auto Task::getTestCase(int index) const -> TestCase *
 		return testCaseList[index];
 	}
 
-
 	return nullptr;
-
 }
 
 void Task::deleteTestCase(int index)

@@ -31,9 +31,7 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	ui(new Ui::TaskEditWidget)
 {
 	ui->setupUi(this);
-
 	editTask = nullptr;
-
 	ui->specialJudge->setFilters(QDir::Files | QDir::Executable);
 	ui->interactorPath->setFilters(QDir::Files);
 	ui->graderPath->setFilters(QDir::Files);
@@ -43,18 +41,14 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
 	        ui->interactorPath, SLOT(refreshFileList()));
 	connect(this, SIGNAL(dataPathChanged()),
 	        ui->graderPath, SLOT(refreshFileList()));
-
 	ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
 	ui->inputFileName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
 	ui->outputFileName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
 	ui->interactorName->setValidator(new QRegExpValidator(QRegExp(R"((\w+)(\.\w+)?)"), this));
 	ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
-
 	ui->sourceFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->graderFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
 	//ui->interactionButton->setVisible(false); //rebuilding interaction, remove it temporarily
-
 	connect(ui->problemTitle, SIGNAL(textChanged(QString)),
 	        this, SLOT(problemTitleChanged(QString)));
 	connect(ui->traditionalButton, SIGNAL(toggled(bool)),
@@ -200,7 +194,6 @@ void TaskEditWidget::refreshWidgetState()
 	if (! editTask) return;
 
 	int types = editTask->getTaskType();
-
 	ui->interactorPathLabel->setVisible(types == Task::Interaction);
 	ui->interactorPath->setVisible(types == Task::Interaction);
 	ui->graderPathLabel->setVisible(types == Task::Interaction);
@@ -240,7 +233,6 @@ void TaskEditWidget::refreshWidgetState()
 	ui->multiFilesPathLineEdit->setVisible(types == Task::Communication);
 	ui->multiFilesNameLineEdit->setVisible(types == Task::Communication);
 	ui->multiFilesPathNameLabel->setVisible(types == Task::Communication);
-
 	multiFilesRefresh();
 }
 
@@ -483,7 +475,6 @@ void TaskEditWidget::multiFilesRefresh()
 
 	QStringList sourcePaths = editTask->getSourceFilesPath();
 	QStringList sourceNames = editTask->getSourceFilesName();
-
 	ui->sourceFilesTable->setRowCount(sourcePaths.length());
 
 	for (int i = 0; i < sourcePaths.length() ; i++)
@@ -494,7 +485,6 @@ void TaskEditWidget::multiFilesRefresh()
 
 	QStringList graderPaths = editTask->getGraderFilesPath();
 	QStringList graderNames = editTask->getGraderFilesName();
-
 	ui->graderFilesTable->setRowCount(graderPaths.length());
 
 	for (int i = 0; i < graderPaths.length() ; i++)
@@ -542,10 +532,8 @@ void TaskEditWidget::addSourceFileClicked()
 	if (path.length() <= 0 || name.length() <= 0) return;
 
 	addSourceFiles(path, name);
-
 	ui->multiFilesPathLineEdit->clear();
 	ui->multiFilesNameLineEdit->clear();
-
 	multiFilesRefresh();
 }
 
@@ -559,10 +547,8 @@ void TaskEditWidget::addGraderFileClicked()
 	if (path.length() <= 0 || name.length() <= 0) return;
 
 	addGraderFiles(path, name);
-
 	ui->multiFilesPathLineEdit->clear();
 	ui->multiFilesNameLineEdit->clear();
-
 	multiFilesRefresh();
 }
 
@@ -575,7 +561,6 @@ void TaskEditWidget::rmSourceFileClicked()
 	if (ranges.length() <= 0) return;
 
 	rmSourceFilesAt(ranges.at(0).topRow());
-
 	multiFilesRefresh();
 }
 
@@ -588,6 +573,5 @@ void TaskEditWidget::rmGraderFileClicked()
 	if (ranges.length() <= 0) return;
 
 	rmGraderFilesAt(ranges.at(0).topRow());
-
 	multiFilesRefresh();
 }
