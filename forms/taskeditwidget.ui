@@ -28,6 +28,11 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -60,11 +65,13 @@
    </item>
    <item row="10" column="2">
     <widget class="QCheckBox" name="standardOutputCheck">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Redirect to standard output...</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size: 11pt;</string>
      </property>
      <property name="text">
       <string>Standard output</string>
@@ -75,7 +82,7 @@
     <widget class="QCheckBox" name="subFolderCheck">
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="statusTip">
@@ -88,8 +95,10 @@
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="sourceFilesLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Source Files</string>
@@ -103,6 +112,11 @@
        <width>16777215</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -136,11 +150,13 @@
    </item>
    <item row="16" column="1" colspan="2">
     <widget class="QComboBox" name="comparisonMode">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>How to check answers...</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size: 11pt;</string>
      </property>
      <property name="currentIndex">
       <number>1</number>
@@ -174,6 +190,11 @@
    </item>
    <item row="9" column="1">
     <widget class="QLineEdit" name="inputFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Name of Input File, the source file need to read data from this file...</string>
      </property>
@@ -187,8 +208,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Input File Name</string>
@@ -209,8 +232,12 @@
        <height>0</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
      <property name="text">
       <string>Problem Title</string>
@@ -227,8 +254,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Compiler Settings</string>
@@ -254,9 +285,9 @@
     <widget class="QLabel" name="interactorNameLabel">
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -268,9 +299,9 @@
     <widget class="QLabel" name="interactorPathLabel">
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -286,8 +317,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Output File Name</string>
@@ -302,8 +335,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Answer Extension</string>
@@ -318,8 +353,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
      <property name="text">
       <string>Comparison Mode</string>
@@ -333,6 +372,11 @@
      </property>
      <item>
       <widget class="QListWidget" name="compilersList">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="statusTip">
         <string>Set compilers...</string>
        </property>
@@ -354,8 +398,10 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font-size:10pt;</string>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>Configuration:</string>
@@ -367,11 +413,13 @@
          <property name="enabled">
           <bool>false</bool>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>Set compiler configurations (&quot;disable&quot; means banishment of this type of files)...</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size:10pt;</string>
          </property>
         </widget>
        </item>
@@ -477,7 +525,13 @@
      <widget class="QWidget" name="specialJudgeMode">
       <layout class="QHBoxLayout" name="horizontalLayout_10">
        <item>
-        <widget class="FileLineEdit" name="specialJudge"/>
+        <widget class="FileLineEdit" name="specialJudge">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -492,11 +546,13 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QRadioButton" name="traditionalButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>Traditional Task...</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 11pt;</string>
          </property>
          <property name="text">
           <string>Traditional</string>
@@ -505,11 +561,13 @@
        </item>
        <item>
         <widget class="QRadioButton" name="answersOnlyButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>Answer-Only Task...</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 11pt;</string>
          </property>
          <property name="text">
           <string>Answers Only</string>
@@ -520,7 +578,7 @@
         <widget class="QRadioButton" name="interactionButton">
          <property name="font">
           <font>
-           <pointsize>11</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="statusTip">
@@ -535,7 +593,7 @@
         <widget class="QRadioButton" name="communicationButton">
          <property name="font">
           <font>
-           <pointsize>11</pointsize>
+           <pointsize>10</pointsize>
            <weight>50</weight>
            <bold>false</bold>
           </font>
@@ -554,8 +612,10 @@
    </item>
    <item row="7" column="0">
     <widget class="QLabel" name="multiFilesPathNameLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Path / Name</string>
@@ -566,9 +626,9 @@
     <widget class="QLabel" name="graderPathLabel">
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -584,6 +644,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Extension of Contestant's Answer File, only in Answer-only task...</string>
      </property>
@@ -591,6 +656,11 @@
    </item>
    <item row="10" column="1">
     <widget class="QLineEdit" name="outputFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Name of Output File, the source file need to write data to this file...</string>
      </property>
@@ -598,6 +668,11 @@
    </item>
    <item row="13" column="1" colspan="2">
     <widget class="FileLineEdit" name="graderPath">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Where the grader is...</string>
      </property>
@@ -605,6 +680,11 @@
    </item>
    <item row="12" column="1" colspan="2">
     <widget class="QLineEdit" name="interactorName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Interactor Name...</string>
      </property>
@@ -612,6 +692,11 @@
    </item>
    <item row="11" column="1" colspan="2">
     <widget class="FileLineEdit" name="interactorPath">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Interactor Path...</string>
      </property>
@@ -625,8 +710,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
      <property name="text">
       <string>Source File Name</string>
@@ -635,11 +724,13 @@
    </item>
    <item row="9" column="2">
     <widget class="QCheckBox" name="standardInputCheck">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Redirect to standard input...</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size: 11pt;</string>
      </property>
      <property name="text">
       <string>Standard input</string>
@@ -654,8 +745,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
      <property name="text">
       <string>Task Type</string>
@@ -664,6 +759,11 @@
    </item>
    <item row="0" column="1" colspan="2">
     <widget class="QLineEdit" name="problemTitle">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Problem Title (Not Source File Name)...</string>
      </property>
@@ -671,6 +771,11 @@
    </item>
    <item row="2" column="1">
     <widget class="QLineEdit" name="sourceFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="statusTip">
       <string>Name of the Source File (Without suffix)...</string>
      </property>
@@ -678,8 +783,10 @@
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="graderFilesLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Grader Files</string>
@@ -690,15 +797,33 @@
     <layout class="QVBoxLayout" name="verticalLayout_6">
      <item>
       <widget class="QPushButton" name="sourceFilesAppendButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Append</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="sourceFilesRemoveButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
        </property>
       </widget>
      </item>
@@ -708,15 +833,33 @@
     <layout class="QVBoxLayout" name="verticalLayout_7">
      <item>
       <widget class="QPushButton" name="graderFilesAppendButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Append</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="graderFilesRemoveButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resource.qrc">
+         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
        </property>
       </widget>
      </item>
@@ -725,10 +868,22 @@
    <item row="7" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QLineEdit" name="multiFilesPathLineEdit"/>
+      <widget class="QLineEdit" name="multiFilesPathLineEdit">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="multiFilesNameLineEdit"/>
+      <widget class="QLineEdit" name="multiFilesNameLineEdit">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -772,7 +927,9 @@
   <tabstop>compilersList</tabstop>
   <tabstop>configurationSelect</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>comparisonMode</sender>

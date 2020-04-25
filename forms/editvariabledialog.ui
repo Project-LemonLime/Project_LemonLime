@@ -39,8 +39,10 @@
      </property>
      <item row="0" column="0">
       <widget class="QLabel" name="variableNameLabel">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>Variable Name</string>
@@ -49,15 +51,19 @@
      </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="variableName">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="variableValueLabel">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>Variable Value</string>
@@ -66,8 +72,10 @@
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="variableValue">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
       </widget>
      </item>
@@ -75,8 +83,10 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:10pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

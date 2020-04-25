@@ -24,11 +24,13 @@
      </property>
      <item>
       <widget class="QTableWidget" name="fileList">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="statusTip">
         <string>List of this testcase...</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ContiguousSelection</enum>
@@ -54,7 +56,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
        </column>
@@ -64,7 +66,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
        </column>
@@ -83,12 +85,9 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 10pt;</string>
          </property>
          <property name="text">
           <string>Input File Name</string>
@@ -97,6 +96,11 @@
        </item>
        <item row="0" column="1">
         <widget class="FileLineEdit" name="inputFileEdit">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>The input file name (click &quot;Add&quot; to add them)...</string>
          </property>
@@ -129,12 +133,9 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 10pt;</string>
          </property>
          <property name="text">
           <string>Output File Name</string>
@@ -143,6 +144,11 @@
        </item>
        <item row="1" column="1">
         <widget class="FileLineEdit" name="outputFileEdit">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>The output file name (click &quot;Add&quot; to add them)...</string>
          </property>
@@ -168,6 +174,11 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Add</string>
          </property>
@@ -188,12 +199,9 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 10pt;</string>
          </property>
          <property name="text">
           <string>Subtask Dependence</string>
@@ -202,6 +210,11 @@
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="subtaskDependecne">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="statusTip">
           <string>Subtask Dependence, input testcase number separated by half-width comma (Must be cleaned by clicking &quot;Clear&quot; button)...</string>
          </property>
@@ -223,6 +236,11 @@
            <width>60</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>Clear</string>
@@ -253,12 +271,9 @@
        <property name="font">
         <font>
          <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font-size:10pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Full Score</string>
@@ -278,6 +293,13 @@
          <width>96</width>
          <height>22</height>
         </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="statusTip">
         <string>The score of this testcase...</string>
@@ -305,8 +327,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font-size:10pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Time Limit</string>
@@ -327,6 +353,13 @@
          <height>22</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="statusTip">
         <string>The time limit of this testcase...</string>
        </property>
@@ -342,8 +375,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 11pt;</string>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
          </property>
          <property name="text">
           <string>ms</string>
@@ -373,8 +410,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font-size:10pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Memory Limit</string>
@@ -395,6 +436,13 @@
          <height>22</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="statusTip">
         <string>The memory limit of this testcase...</string>
        </property>
@@ -410,8 +458,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font-size: 11pt;</string>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
          </property>
          <property name="text">
           <string>MB</string>

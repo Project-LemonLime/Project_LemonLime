@@ -18,14 +18,16 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QTableWidget" name="recentContest">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="frameShadow">
         <enum>QFrame::Sunken</enum>
@@ -133,6 +135,13 @@
            <height>32</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>&amp;Add</string>
          </property>
@@ -155,6 +164,13 @@
            <width>96</width>
            <height>32</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
          </property>
          <property name="text">
           <string>&amp;Hide</string>

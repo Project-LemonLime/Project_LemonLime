@@ -16,8 +16,10 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="styleSheet">
-      <string notr="true">font-size: 11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -46,8 +48,10 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:10pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -58,15 +62,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>OpenContestWidget</class>
-   <extends>QWidget</extends>
-   <header>opencontestwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>NewContestWidget</class>
    <extends>QWidget</extends>
    <header>newcontestwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OpenContestWidget</class>
+   <extends>QWidget</extends>
+   <header>opencontestwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
