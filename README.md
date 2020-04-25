@@ -16,11 +16,12 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |:--:|:--:|:--:|:--:|
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
-|Manjaro|19.0.2|64|KDE-Xorg|
+|Manjaro|20.0|64|KDE-Xorg|
+|Manjaro|20.0|64|i3WM|
 |Arch|2020-3-20|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Wayland|
 |Ubuntu|18.04.4|64|GNOME 3|
-|NOI Linux (Ubuntu) *|14.04|32|GNOME 2|
+|NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
 |Debian|10.3.0|64|LXQt|
@@ -89,6 +90,10 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 当然如果你装有 Qt 5，也可以下载源码编译。
 
+#### 非常严重的提示
+
+由于未知原因，Windows 的 `Releases` 中的 LemonLime 可能无法检测内存用量。不过，如果下载源码编译的话就不会出现这个问题。
+
 > **提示：**
 > 
 > 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 < 从 Github 上下载可执行文件的时间。
@@ -105,7 +110,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |:--:|:--:|:--:|:--:|
 |Arch|2020-3-20|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Wayland|
-|Manjaro|19.0.2|64|KDE-Xorg|
+|Manjaro|20.0|64|KDE-Xorg|
+|Manjaro|20.0|64|i3WM|
 
 ```bash
 ## 迅速安装 ##
