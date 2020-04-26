@@ -34,8 +34,6 @@
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
-#include <psapi.h>
-#pragma comment(lib, "Psapi.lib") 
 
 extern "C" {
 	typedef struct _PROCESS_MEMORY_COUNTERS
