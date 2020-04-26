@@ -51,7 +51,7 @@
         </font>
        </property>
        <property name="maximum">
-        <number>719</number>
+        <number>720</number>
        </property>
        <property name="value">
         <number>120</number>

@@ -19,7 +19,6 @@
 QT       += core gui network
 QT       += core gui widgets
 QMAKE_CXXFLAGS += -std=c++11
-win32:QMAKE_CXXFLAGS += -DPSAPI_VERSION=1
 unix:QMAKE_LFLAGS += -no-pie
 
 TARGET = lemon
