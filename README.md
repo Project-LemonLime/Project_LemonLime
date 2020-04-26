@@ -92,7 +92,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 #### 非常严重的提示
 
-由于未知原因，Windows 的 `Releases` 中的 LemonLime 可能无法检测内存用量。不过，如果下载源码编译的话就不会出现这个问题。
+由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 的功能的完整性，比如是否能探测程序的运行时间和使用内存。不过如果使用源码构建 LemonLime 的话将不会出现这种问题，所以仍然推荐使用源码构建 LemonLime。
 
 > **提示：**
 > 
