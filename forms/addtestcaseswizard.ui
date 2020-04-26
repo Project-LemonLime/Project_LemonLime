@@ -19,9 +19,6 @@
   <property name="windowTitle">
    <string>Add Test Cases</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">font-size:10pt;</string>
-  </property>
   <widget class="QWizardPage" name="wizardPage1">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -29,8 +26,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepOneLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 1/3: Input the full score, time limit and memory limit for each new test case.</string>
@@ -50,8 +51,12 @@
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="fullScoreLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="text">
          <string>Full Score</string>
@@ -74,8 +79,10 @@
             <height>22</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
          </widget>
         </item>
@@ -96,8 +103,12 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="timeLimitLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="text">
          <string>Time Limit</string>
@@ -123,15 +134,19 @@
             <height>22</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="msLabel">
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>ms</string>
@@ -155,8 +170,12 @@
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="memoryLimitLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="text">
          <string>Memory Limit</string>
@@ -182,15 +201,19 @@
             <height>22</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="mbLabel">
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>MB</string>
@@ -236,8 +259,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepTwoLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 2/3: Input patterns for input files and output files. Use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Files will in the same subtask when their matched parts of checked expressions are identical.</string>
@@ -257,8 +284,10 @@
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="inputFilesPatternLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Input Files Pattern</string>
@@ -267,15 +296,19 @@
       </item>
       <item row="0" column="1">
        <widget class="QLineEdit" name="inputFilesPattern">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="outputFilesPatternLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Output Files Pattern</string>
@@ -284,8 +317,10 @@
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="outputFilesPattern">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -298,8 +333,10 @@
       </property>
       <item>
        <widget class="QTableWidget" name="argumentList">
-        <property name="styleSheet">
-         <string notr="true">font-size: 11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::SingleSelection</enum>
@@ -328,7 +365,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
         </column>
@@ -338,7 +375,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
         </column>
@@ -431,8 +468,13 @@
     </property>
     <item>
      <widget class="QLabel" name="stepThreeLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <family>Cantarell</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 3/3: Preview the result and finish the wizard.</string>
@@ -444,6 +486,11 @@
     </item>
     <item>
      <widget class="QTreeWidget" name="testCasesViewer">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="columnCount">
        <number>2</number>
       </property>

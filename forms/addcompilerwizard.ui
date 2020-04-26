@@ -16,11 +16,13 @@
     <height>450</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Add Compilers Wizard</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">font-size:10pt;</string>
   </property>
   <widget class="QWizardPage" name="selectTypePage">
    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -29,8 +31,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepOneLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 1/3: Setup compilers. Use built-in configuration or customize yourself.</string>
@@ -49,8 +55,10 @@
         </property>
         <item>
          <widget class="QRadioButton" name="customRadioButton">
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>&amp;Custom Configuration</string>
@@ -64,8 +72,10 @@
           </property>
           <item>
            <widget class="QRadioButton" name="builtinRadioButton">
-            <property name="styleSheet">
-             <string notr="true">font-size:11pt;</string>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Built-&amp;in Configuration (Tick the compilers you want to add)</string>
@@ -104,8 +114,10 @@
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
                 <widget class="QCheckBox" name="gccCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">gcc</string>
@@ -117,8 +129,10 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="gppCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">g++</string>
@@ -130,8 +144,10 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="fpcCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">fpc</string>
@@ -143,8 +159,10 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="fbcCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">fbc</string>
@@ -153,8 +171,10 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="jdkCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">jdk</string>
@@ -163,8 +183,10 @@
                </item>
                <item>
                 <widget class="QCheckBox" name="pythonCheck">
-                 <property name="styleSheet">
-                  <string notr="true">font-size:10pt;</string>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true">python</string>
@@ -217,8 +239,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepTwoLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 2/3: Select compiler's location to configure it.</string>
@@ -238,8 +264,10 @@
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="compilerNameLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Compiler Name</string>
@@ -260,15 +288,19 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="compilerTypeLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Compiler Type</string>
@@ -277,8 +309,10 @@
       </item>
       <item row="1" column="1" colspan="2">
        <widget class="QComboBox" name="typeSelect">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <item>
          <property name="text">
@@ -299,8 +333,10 @@
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="compilerLocationLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Compiler's Location</string>
@@ -309,8 +345,10 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="compilerLocation">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -329,8 +367,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Interpreter's Location</string>
@@ -342,8 +382,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -362,8 +404,10 @@
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="sourceFileExtensionsLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Source File Extensions</string>
@@ -384,8 +428,10 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -394,8 +440,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Byte-code File Extensions</string>
@@ -419,15 +467,19 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="defaultCompilerArgumentsLabel">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Default Compiler's Arguments</string>
@@ -436,8 +488,10 @@
       </item>
       <item row="6" column="1" colspan="2">
        <widget class="QLineEdit" name="defaultCompilerArguments">
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -446,8 +500,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Default Interpreter's Arguments</string>
@@ -459,8 +515,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
        </widget>
       </item>
@@ -488,8 +546,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepTwoLabel_2">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 2/3: Select compilers' locations to configure them.</string>
@@ -515,8 +577,10 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">gcc</string>
@@ -541,9 +605,6 @@
          </item>
          <item>
           <widget class="QCheckBox" name="gccRecommendedCheck">
-           <property name="styleSheet">
-            <string notr="true">font-size:10pt;</string>
-           </property>
            <property name="text">
             <string>Add recommended configurations</string>
            </property>
@@ -566,8 +627,10 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">g++</string>
@@ -592,9 +655,6 @@
          </item>
          <item>
           <widget class="QCheckBox" name="gppRecommendedCheck">
-           <property name="styleSheet">
-            <string notr="true">font-size:10pt;</string>
-           </property>
            <property name="text">
             <string>Add recommended configurations</string>
            </property>
@@ -614,8 +674,10 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">fpc</string>
@@ -640,9 +702,6 @@
          </item>
          <item>
           <widget class="QCheckBox" name="fpcRecommendedCheck">
-           <property name="styleSheet">
-            <string notr="true">font-size:10pt;</string>
-           </property>
            <property name="text">
             <string>Add recommended configurations</string>
            </property>
@@ -662,8 +721,10 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">fbc</string>
@@ -719,8 +780,10 @@
           <height>0</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">Java</string>
@@ -733,9 +796,6 @@
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label">
-             <property name="styleSheet">
-              <string notr="true">font-size:10pt;</string>
-             </property>
              <property name="text">
               <string notr="true">javac</string>
              </property>
@@ -753,9 +813,6 @@
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
-             <property name="styleSheet">
-              <string notr="true">font-size:10pt;</string>
-             </property>
              <property name="text">
               <string notr="true">java</string>
              </property>
@@ -780,9 +837,6 @@
            </property>
            <item>
             <widget class="QLabel" name="javaMemoryLimitLabel">
-             <property name="styleSheet">
-              <string notr="true">font-size:10pt;</string>
-             </property>
              <property name="text">
               <string>Memory Limit</string>
              </property>
@@ -809,9 +863,6 @@
            </item>
            <item>
             <widget class="QLabel" name="javaMbLabel">
-             <property name="styleSheet">
-              <string notr="true">font-size:10pt;</string>
-             </property>
              <property name="text">
               <string>MB</string>
              </property>
@@ -846,8 +897,10 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="title">
          <string notr="true">Python</string>
@@ -910,8 +963,12 @@
     </property>
     <item>
      <widget class="QLabel" name="stepThreeLabel">
-      <property name="styleSheet">
-       <string notr="true">font-size:12pt;font-weight:bold;</string>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Step 3/3: Check the result and start using LemonLime.</string>
@@ -929,8 +986,10 @@
         <height>220</height>
        </size>
       </property>
-      <property name="styleSheet">
-       <string notr="true">font-size:11pt;</string>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="textInteractionFlags">
        <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

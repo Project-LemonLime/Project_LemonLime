@@ -46,15 +46,15 @@ auto main(int argc, char *argv[]) -> int
 
 	QFont fonts;
 #ifdef Q_OS_LINUX
-	fonts.setFamily("Noto Sans CJK SC");
+	// fonts.setFamily("Noto Sans CJK SC");
 #endif
 #ifdef Q_OS_WIN32
 	fonts.setFamily("Microsoft YaHei");
+	QtSingleApplication::setFont(fonts);
 #endif
 #ifdef Q_OS_MAC
-	fonts.setFamily("PingFangSC-Regular");
+	// fonts.setFamily("PingFangSC-Regular");
 #endif
-	QtSingleApplication::setFont(fonts);
 	Q_INIT_RESOURCE(resource);
 	QPixmap pixmap(":/logo/splash.png");
 	QSplashScreen screen(pixmap);

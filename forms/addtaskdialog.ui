@@ -28,8 +28,12 @@
    </property>
    <item row="1" column="0">
     <widget class="QLabel" name="fullScoreLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Full Score</string>
@@ -38,8 +42,12 @@
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="memoryLimitLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Memory Limit</string>
@@ -48,8 +56,10 @@
    </item>
    <item row="2" column="2">
     <widget class="QLabel" name="msLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>ms</string>
@@ -58,9 +68,6 @@
    </item>
    <item row="4" column="0" colspan="4">
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:10pt;</string>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -71,8 +78,10 @@
    </item>
    <item row="3" column="2">
     <widget class="QLabel" name="mbLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>MB</string>
@@ -119,8 +128,10 @@
        <height>22</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
     </widget>
    </item>
@@ -138,8 +149,10 @@
        <height>22</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
     </widget>
    </item>
@@ -157,15 +170,21 @@
        <height>22</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="taskLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Task</string>
@@ -174,8 +193,12 @@
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="timeLimitLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size:12pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Time Limit</string>
@@ -184,8 +207,10 @@
    </item>
    <item row="0" column="1" colspan="3">
     <widget class="QComboBox" name="taskBox">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
     </widget>
    </item>

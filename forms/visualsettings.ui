@@ -9,13 +9,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
+    <width>511</width>
     <height>372</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>437</width>
+    <width>511</width>
     <height>0</height>
    </size>
   </property>
@@ -31,8 +31,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Color Max (HSL)</string>
@@ -43,8 +45,13 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QSpinBox" name="spinBoxMxH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
-        <number>719</number>
+        <number>720</number>
        </property>
        <property name="value">
         <number>120</number>
@@ -53,6 +60,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxMxS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -63,6 +75,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxMxL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -81,8 +98,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Color Min (HSL)</string>
@@ -93,6 +112,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QSpinBox" name="spinBoxMiH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <number>719</number>
        </property>
@@ -103,6 +127,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxMiS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -113,6 +142,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxMiL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -131,8 +165,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Color NoFile (HSL)</string>
@@ -143,6 +179,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QSpinBox" name="spinBoxNfH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <number>359</number>
        </property>
@@ -153,6 +194,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxNfS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -163,6 +209,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxNfL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -181,8 +232,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Color CE (HSL)</string>
@@ -193,6 +246,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QSpinBox" name="spinBoxCeH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <number>359</number>
        </property>
@@ -203,6 +261,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxCeS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -213,6 +276,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="doubleSpinBoxCeL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <double>100.000000000000000</double>
        </property>
@@ -231,8 +299,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Grand Compensation</string>
@@ -243,6 +313,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QDoubleSpinBox" name="grandCompH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-360.000000000000000</double>
        </property>
@@ -259,6 +334,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="grandCompS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-100.000000000000000</double>
        </property>
@@ -275,6 +355,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="grandCompL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-100.000000000000000</double>
        </property>
@@ -299,8 +384,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Grand Rate</string>
@@ -311,6 +398,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
       <widget class="QDoubleSpinBox" name="grandRateH">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-10.000000000000000</double>
        </property>
@@ -327,6 +419,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="grandRateS">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-10.000000000000000</double>
        </property>
@@ -343,6 +440,11 @@
      </item>
      <item>
       <widget class="QDoubleSpinBox" name="grandRateL">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="minimum">
         <double>-10.000000000000000</double>
        </property>
@@ -367,8 +469,10 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;font-weight:bold;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Splash Time (MS)</string>
@@ -379,6 +483,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <widget class="QSpinBox" name="splashTime">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="maximum">
         <number>1200</number>
        </property>
@@ -394,6 +503,11 @@
    </item>
    <item row="7" column="1">
     <widget class="QPushButton" name="resetToDefaultButton">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Reset to Default</string>
      </property>

@@ -36,8 +36,10 @@
          <height>32</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <item>
         <property name="text">
@@ -62,8 +64,10 @@
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
       <widget class="QGroupBox" name="locationGroup">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="title">
         <string>Location</string>
@@ -81,9 +85,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size:11pt;font-weight:bold;</string>
             </property>
             <property name="text">
              <string>Compiler</string>
@@ -107,9 +108,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size:11pt;font-weight:bold;</string>
             </property>
             <property name="text">
              <string>Interpreter</string>
@@ -140,9 +138,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size:11pt;font-weight:bold;</string>
             </property>
             <property name="text">
              <string>Byte-code File Extensions</string>
@@ -179,8 +174,10 @@
      </item>
      <item>
       <widget class="QGroupBox" name="limitGroup">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="title">
         <string>Time and Memory Limit</string>
@@ -210,9 +207,6 @@
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="timeLimitRationLabel">
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
-          </property>
           <property name="text">
            <string>Time Limit Ration</string>
           </property>
@@ -220,9 +214,6 @@
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="memoryLimitRatioLabel">
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
-          </property>
           <property name="text">
            <string>Memory Limit Ration</string>
           </property>
@@ -246,9 +237,6 @@
         </item>
         <item row="2" column="0">
          <widget class="QCheckBox" name="disableMemoryLimit">
-          <property name="styleSheet">
-           <string notr="true">font-size:10pt;font-weight:bold;</string>
-          </property>
           <property name="text">
            <string>Disable Memory Limit</string>
           </property>
@@ -287,8 +275,10 @@
    </item>
    <item>
     <widget class="QGroupBox" name="argumentsGroup">
-     <property name="styleSheet">
-      <string notr="true">font-size:11pt;</string>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="title">
       <string>Arguments</string>
@@ -308,9 +298,6 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:9pt;</string>
-        </property>
         <property name="text">
          <string>Interpreter's Arguments</string>
         </property>
@@ -326,9 +313,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:11pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Configuration</string>
@@ -360,9 +344,6 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:9pt;</string>
-        </property>
         <property name="text">
          <string>Compiler's Arguments</string>
         </property>
@@ -381,6 +362,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="environmentVariablesButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Environment Variables</string>
        </property>
@@ -401,8 +387,10 @@
      </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="styleSheet">
-        <string notr="true">font-size:10pt;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

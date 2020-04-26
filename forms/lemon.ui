@@ -32,16 +32,13 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>9</pointsize>
+        <pointsize>10</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font-size: 9pt;</string>
       </property>
       <property name="tabPosition">
        <enum>QTabWidget::West</enum>
@@ -50,7 +47,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -86,23 +83,23 @@
             <height>387</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size: 11pt;</string>
-          </property>
           <property name="title">
            <string>Summary</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="SummaryTree" name="summary">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="contextMenuPolicy">
               <enum>Qt::DefaultContextMenu</enum>
              </property>
              <property name="statusTip">
               <string>Viewing tasks...</string>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font-size: 11pt;</string>
              </property>
              <attribute name="headerVisible">
               <bool>false</bool>
@@ -170,8 +167,11 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:11pt;</string>
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
           </property>
           <property name="title">
            <string>Detail</string>
@@ -205,11 +205,14 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="ResultViewer" name="resultViewer">
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="statusTip">
            <string>Contestant List...</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font-size:10pt;</string>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -265,6 +268,13 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="statusTip">
              <string>Cleanup the files of all contestants...</string>
             </property>
@@ -298,6 +308,13 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="statusTip">
              <string>Refresh the contestant list...</string>
             </property>
@@ -324,6 +341,13 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="statusTip">
              <string>Judge unjudged...</string>
             </property>
@@ -346,6 +370,13 @@
               <width>120</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
             </property>
             <property name="statusTip">
              <string>Judge selected area...</string>
@@ -370,6 +401,13 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="statusTip">
              <string>Judge all contestants...</string>
             </property>
@@ -393,6 +431,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="StatisticsBrowser" name="statisticsBrowser" native="true">
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="statusTip">
            <string>The Statistics Browser...</string>
           </property>

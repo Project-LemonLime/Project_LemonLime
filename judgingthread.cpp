@@ -33,41 +33,9 @@
 #include "judgesharedvariables.h"
 
 #ifdef Q_OS_WIN32
+#pragma comment(lib,"Psapi.lib")
 #include <windows.h>
-
-extern "C" {
-	typedef struct _PROCESS_MEMORY_COUNTERS
-	{
-		DWORD cb;
-		DWORD PageFaultCount;
-		DWORD PeakWorkingSetSize;
-		DWORD WorkingSetSize;
-		DWORD QuotaPeakPagedPoolUsage;
-		DWORD QuotaPagedPoolUsage;
-		DWORD QuotaPeakNonPagedPoolUsage;
-		DWORD QuotaNonPagedPoolUsage;
-		DWORD PagefileUsage;
-		DWORD PeakPagefileUsage;
-	} PROCESS_MEMORY_COUNTERS, *PPROCESS_MEMORY_COUNTERS;
-
-	typedef struct _PROCESS_MEMORY_COUNTERS_EX
-	{
-		DWORD cb;
-		DWORD PageFaultCount;
-		DWORD PeakWorkingSetSize;
-		DWORD WorkingSetSize;
-		DWORD QuotaPeakPagedPoolUsage;
-		DWORD QuotaPagedPoolUsage;
-		DWORD QuotaPeakNonPagedPoolUsage;
-		DWORD QuotaNonPagedPoolUsage;
-		DWORD PagefileUsage;
-		DWORD PeakPagefileUsage;
-		DWORD PrivateUsage;
-	} PROCESS_MEMORY_COUNTERS_EX, *PPROCESS_MEMORY_COUNTERS_EX;
-
-	BOOL WINAPI GetProcessMemoryInfo(HANDLE, PPROCESS_MEMORY_COUNTERS, DWORD);
-}
-
+#include <Psapi.h>
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) :

@@ -24,8 +24,10 @@
      </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>Contest Title</string>
@@ -33,12 +35,20 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="contestTitle"/>
+      <widget class="QLineEdit" name="contestTitle">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>Saving Name</string>
@@ -46,12 +56,20 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="savingName"/>
+      <widget class="QLineEdit" name="savingName">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
-       <property name="styleSheet">
-        <string notr="true">font-size:11pt;font-weight:bold;</string>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>Contest Path</string>
@@ -64,7 +82,13 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QLineEdit" name="contestPath"/>
+        <widget class="QLineEdit" name="contestPath">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QToolButton" name="selectButton">
