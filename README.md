@@ -16,16 +16,14 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |:--:|:--:|:--:|:--:|
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
-|Manjaro|20.0|64|KDE-Xorg|
-|Manjaro|20.0|64|i3WM|
-|Arch|2020-3-20|64|KDE-Xorg|
-|Arch|2020-3-20|64|KDE-Wayland|
+|Manjaro|20.0|64|KDE-Xorg; i3WM|
+|Arch|2020-3-20|64|KDE-Xorg; KDE-Wayland|
+|Ubuntu|20.04|64|GNOME 3|
 |Ubuntu|18.04.4|64|GNOME 3|
 |NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
-|Debian|10.3.0|64|LXQt|
-|Debian|10.3.0|64|KDE-Xorg|
+|Debian|10.3.0|64|LXQt; KDE-Xorg|
 |Fedora|31-1.9|64|XFCE|
 |openSUSE|Leap 15.1|64|iceWM|
 
@@ -94,8 +92,6 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 的功能的完整性，比如是否能探测程序的运行时间和使用内存。不过如果使用源码构建 LemonLime 的话将不会出现这种问题，所以仍然推荐使用源码构建 LemonLime。
 
-> **提示：**
-> 
 > 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 < 从 Github 上下载可执行文件的时间。
 >
 > 下载 Qt 请考虑一个快速的国内镜像。
@@ -108,10 +104,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 |系统名称|版本号|位数|DE / WM|
 |:--:|:--:|:--:|:--:|
-|Arch|2020-3-20|64|KDE-Xorg|
-|Arch|2020-3-20|64|KDE-Wayland|
-|Manjaro|20.0|64|KDE-Xorg|
-|Manjaro|20.0|64|i3WM|
+|Arch|2020-3-20|64|KDE-Xorg; KDE-Wayland|
+|Manjaro|20.0|64|KDE-Xorg; i3WM|
 
 ```bash
 ## 迅速安装 ##
@@ -136,11 +130,11 @@ sudo pacman -S qtcreator
 
 |系统名称|版本号|位数|DE / WM|
 |:--:|:--:|:--:|:--:|
+|Ubuntu|20.04|64|GNOME 3|
 |Ubuntu|18.04.4|64|GNOME 3|
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
-|Debian|10.3.0|64|LXQt|
-|Debian|10.3.0|64|KDE-Xorg|
+|Debian|10.3.0|64|LXQt; KDE-Xorg|
 
 ```bash
 ## 使用 qmake ##
@@ -154,13 +148,13 @@ make # 获得可执行文件 lemon
 sudo apt install qtcreator
 ```
 
-##### * NOI Linux
+##### \* NOI Linux
 
 已在这些系统测试：
 
 |系统名称|版本号|位数|DE / WM|
 |:--:|:--:|:--:|:--:|
-|NOI Linux (Ubuntu) *|14.04|32|GNOME 2|
+|NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
 
 NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
 
@@ -212,5 +206,7 @@ sudo zypper install libqt5-creator
 请使用 ``watcher_macos.cpp`` 编译 ``watcher_unix``，否则内存限制会出问题。
 
 ```bash
-g++ watcher_macos.cpp -o watcher_unix -O2
+clang++ watcher_macos.cpp -o watcher_unix -O2
+qmake lemon.pro
+make
 ```

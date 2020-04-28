@@ -436,7 +436,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="lineByLineMode"/>
      <widget class="QWidget" name="ignoreSpacesMode"/>
@@ -449,9 +449,6 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font-size:10pt;</string>
          </property>
          <property name="text">
           <string>Arguments:</string>
@@ -473,11 +470,8 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font-size:10pt;</string>
-         </property>
          <property name="text">
-          <string>Real Number Precision:</string>
+          <string>Absolute or Relative error does not exceed 10 ^ (minus</string>
          </property>
         </widget>
        </item>
@@ -499,11 +493,8 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font-size:10pt;</string>
-         </property>
          <property name="text">
-          <string>digits</string>
+          <string>)</string>
          </property>
         </widget>
        </item>

@@ -160,11 +160,12 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
+	QTextCharFormat preCharFormat;
 	QTextCharFormat charFormat;
 	QTextCharFormat addcharFormat;
 	QTextCharFormat scorecharFormat;
+	preCharFormat.setFontPointSize(9);
 	charFormat.setFontPointSize(9);
-	cursor->insertText(tr("Test case %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
 	addcharFormat.setFontPointSize(7);
 	addcharFormat.setForeground(QBrush(Qt::darkGray));
 	scorecharFormat.setFontPointSize(8);
@@ -215,6 +216,11 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			charFormat.setForeground(QBrush(Qt::red));
 			break;
 
+		case PresentationError:
+			text = tr("Presentation Error");
+			charFormat.setForeground(QBrush(QColor::fromRgb(255, 128, 0)));
+			break;
+
 		case TimeLimitExceeded:
 			text = tr("Time limit exceeded");
 			charFormat.setForeground(QBrush(Qt::darkYellow));
@@ -225,6 +231,11 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			charFormat.setForeground(QBrush(Qt::darkBlue));
 			break;
 
+		case OutputLimitExceeded:
+			text = tr("Output Limit Exceeded");
+			charFormat.setForeground(QBrush(QColor::fromRgb(128, 0, 255)));
+			break;
+
 		case RunTimeError:
 			text = tr("Run time error");
 			charFormat.setForeground(QBrush(Qt::darkMagenta));
@@ -233,6 +244,10 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 		case Skipped:
 			text = tr("Skipped");
 			charFormat.setForeground(QBrush(Qt::lightGray));
+			preCharFormat.setFontPointSize(4);
+			charFormat.setFontPointSize(4);
+			addcharFormat.setFontPointSize(2);
+			scorecharFormat.setFontPointSize(3);
 			break;
 
 		case CannotStartProgram:
@@ -272,6 +287,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			break;
 	}
 
+	cursor->insertText(tr("Test case %1.%2: ").arg(x + 1).arg(y + 1), preCharFormat);
 	cursor->insertText(text, charFormat);
 
 	if (addtext.length() > 0)cursor->insertText(addtext, addcharFormat);

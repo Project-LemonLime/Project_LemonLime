@@ -354,8 +354,10 @@
       </item>
       <item row="2" column="2">
        <widget class="QToolButton" name="compilerSelectButton">
-        <property name="styleSheet">
-         <string notr="true">font-size:9pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+         </font>
         </property>
         <property name="text">
          <string notr="true">...</string>
@@ -394,8 +396,10 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="styleSheet">
-         <string notr="true">font-size:9pt;</string>
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+         </font>
         </property>
         <property name="text">
          <string notr="true">...</string>
@@ -596,6 +600,11 @@
            </item>
            <item>
             <widget class="QToolButton" name="gccSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -646,6 +655,11 @@
            </item>
            <item>
             <widget class="QToolButton" name="gppSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -693,6 +707,11 @@
            </item>
            <item>
             <widget class="QToolButton" name="fpcSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -740,6 +759,11 @@
            </item>
            <item>
             <widget class="QToolButton" name="fbcSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -806,6 +830,11 @@
            </item>
            <item row="0" column="2">
             <widget class="QToolButton" name="javacSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -823,6 +852,11 @@
            </item>
            <item row="1" column="2">
             <widget class="QToolButton" name="javaSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>
@@ -916,6 +950,11 @@
            </item>
            <item>
             <widget class="QToolButton" name="pythonSelectButton">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string notr="true">...</string>
              </property>

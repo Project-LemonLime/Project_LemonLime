@@ -35,7 +35,8 @@ enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
                    TimeLimitExceeded, MemoryLimitExceeded,
                    CannotStartProgram, FileError, RunTimeError,
                    InvalidSpecialJudge, SpecialJudgeTimeLimitExceeded,
-                   SpecialJudgeRunTimeError, Skipped, InteractorError
+                   SpecialJudgeRunTimeError, Skipped, InteractorError,
+                   PresentationError, OutputLimitExceeded
                  };
 
 inline int stateToStatus(ResultState in)

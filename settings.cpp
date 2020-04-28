@@ -530,6 +530,11 @@ void Settings::setTextAndColor(ResultState result, QString &text, QString &frCol
 			bgColor = "rgb(192, 255, 255)";
 			break;
 
+		case PresentationError:
+			text = tr("Presentation Error");
+			bgColor = "rgb(255, 216, 192)";
+			break;
+
 		case TimeLimitExceeded:
 			text = tr("Time Limit Exceeded");
 			bgColor = "rgb(255, 255, 192)";
@@ -538,6 +543,11 @@ void Settings::setTextAndColor(ResultState result, QString &text, QString &frCol
 		case MemoryLimitExceeded:
 			text = tr("Memory Limit Exceeded");
 			bgColor = "rgb(192, 192, 255)";
+			break;
+
+		case OutputLimitExceeded:
+			text = tr("Output Limit Exceeded");
+			bgColor = "rgb(216, 192, 255)";
 			break;
 
 		case CannotStartProgram:

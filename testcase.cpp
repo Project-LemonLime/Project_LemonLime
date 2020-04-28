@@ -148,7 +148,7 @@ void TestCase::writeToStream(QDataStream &out)
 		_inputFiles[i].replace(QDir::separator(), '/');
 	}
 
-	for (int i : dependenceSubtask)
+	for (int i : qAsConst(dependenceSubtask))
 	{
 		_inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
 	}

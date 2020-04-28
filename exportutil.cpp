@@ -198,7 +198,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 					if (minv >= maxv) bgColor = "rgb(192, 255, 192)";
 					else if (minv > 0) bgColor = "rgb(192, 255, 255)";
 
-					htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;"><a style="font-weight: bold; font-size: 18px;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -283,7 +283,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
-	out << "<p style=\"font-size: 12px;\">" << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
+	out << "<p style=\"font-size: small;\">" << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
 	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Rank"));
 	out << QString(R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)").arg(tr("Name"));
@@ -523,7 +523,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 					for (int t = 0; t < inputFiles[j].size(); t ++)
 						if (score[j][t] < minv) minv = score[j][t];
 
-					htmlCode += QString(R"(<td rowspan="%1"><a style="font-weight: bold; font-size: 18px;">%2</a> / %3</td>)").arg(inputFiles[j].size()).arg(minv).arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1"><a style="font-weight: bold; font-size: large;">%2</a> / %3</td>)").arg(inputFiles[j].size()).arg(minv).arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -598,7 +598,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
 	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
-	out << "<p style=\"font-size: 12px;\">" << tr("Judged By LemonLime") << "</p>";
+	out << "<p style=\"font-size: small;\">" << tr("Judged By LemonLime") << "</p>";
 	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));

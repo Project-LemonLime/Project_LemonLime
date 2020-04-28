@@ -106,6 +106,9 @@
         <iconset resource="../resource.qrc">
          <normaloff>:/icon/media-skip-forward.svg</normaloff>:/icon/media-skip-forward.svg</iconset>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
        <property name="flat">
         <bool>false</bool>
        </property>
@@ -143,6 +146,9 @@
        <property name="icon">
         <iconset resource="../resource.qrc">
          <normaloff>:/icon/media-playback-stop.svg</normaloff>:/icon/media-playback-stop.svg</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

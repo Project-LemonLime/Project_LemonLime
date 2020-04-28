@@ -44,11 +44,11 @@ auto main(int argc, char *argv[]) -> int
 		return 0;
 	}
 
-	QFont fonts;
 #ifdef Q_OS_LINUX
 	// fonts.setFamily("Noto Sans CJK SC");
 #endif
 #ifdef Q_OS_WIN32
+	QFont fonts;
 	fonts.setFamily("Microsoft YaHei");
 	QtSingleApplication::setFont(fonts);
 #endif

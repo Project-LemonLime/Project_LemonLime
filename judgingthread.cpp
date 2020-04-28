@@ -175,7 +175,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	{
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open contestant\'s output file");
+		message = tr(R"(Cannot open contestant's output file)");
 		return;
 	}
 
@@ -199,12 +199,13 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	bool chkEof2 = false;
 	short len1;
 	short len2;
+	int nowRow = 1;
 
 	while (true)
 	{
 		len1 = 0;
 
-		while (len1 < 10)
+		while (len1 < 20)
 		{
 			if (feof(contestantOutputFile))break;
 
@@ -235,7 +236,9 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		chkEof1 = ch == EOF;
 		len2 = 0;
 
-		while (len2 < 10)
+		int isNewRowStarted = 0;
+
+		while (len2 < 20)
 		{
 			if (feof(standardOutputFile))break;
 
@@ -243,7 +246,11 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 			if (ch == EOF) break;
 
-			if (! chk2 && ch == '\n') break;
+			if (! chk2 && ch == '\n')
+			{
+				isNewRowStarted = 1;
+				break;
+			}
 
 			if (chk2 && ch == '\n')
 			{
@@ -253,6 +260,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 			if (ch == '\r')
 			{
+				isNewRowStarted = 1;
 				chk2 = true;
 				break;
 			}
@@ -269,7 +277,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Shorter than standard output");
+			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -278,8 +286,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		if (! chkEof1 && chkEof2)
 		{
 			score = 0;
-			result = WrongAnswer;
-			message = tr("Longer than standard output");
+			result = OutputLimitExceeded;
+			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -289,7 +297,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(Read "%1" but expect "%2")").arg(str1).arg(str2);
+			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -305,6 +313,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			fclose(standardOutputFile);
 			return;
 		}
+
+		if (isNewRowStarted) nowRow ++;
 	}
 
 	score = fullScore;
@@ -321,7 +331,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 	{
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open contestant\'s output file");
+		message = tr(R"(Cannot open contestant's output file)");
 		return;
 	}
 
@@ -336,12 +346,13 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		return;
 	}
 
-	char ch1 = '\n';
-	char ch2 = '\n';
+	char ch1 = ' ';
+	char ch2 = ' ';
 	char str1[20];
 	char str2[20];
 	int flag1;
 	int flag2;
+	int nowRow = 1;
 
 	while (true)
 	{
@@ -405,6 +416,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			}
 		}
 
+		int isNewRowStarted = 0;
+
 		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
 		{
 			if (ch2 == '\r')
@@ -417,6 +430,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			{
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
 			}
+
+			isNewRowStarted = 1;
 
 			while (ch2 == ' ' || ch2 == '\t')
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
@@ -445,6 +460,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
+					isNewRowStarted = 1;
+
 					while (ch2 == ' ' || ch2 == '\t')
 					{
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
@@ -465,17 +482,40 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		if (flag1 != flag2)
 		{
+			if (ch1 == EOF && ch2 != EOF)
+			{
+				score = 0;
+				result = WrongAnswer;
+				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
+				fclose(contestantOutputFile);
+				fclose(standardOutputFile);
+				return;
+			}
+
+			if (ch1 != EOF && ch2 == EOF)
+			{
+				score = 0;
+				result = OutputLimitExceeded;
+				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
+				fclose(contestantOutputFile);
+				fclose(standardOutputFile);
+				return;
+			}
+
 			score = 0;
-			result = WrongAnswer;
-			message = tr("Presentation error");
+			result = PresentationError;
+			message = tr("Presentation error on line %1").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
 		}
 
+		if (isNewRowStarted) nowRow ++;
+		isNewRowStarted = 0;
+
 		int len1 = 0;
 
-		while (len1 < 10)
+		while (len1 < 20)
 		{
 			if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF)
 			{
@@ -492,7 +532,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		str1[len1] = '\0';
 		int len2 = 0;
 
-		while (len2 < 10)
+		while (len2 < 20)
 		{
 			if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF)
 			{
@@ -503,6 +543,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				break;
 			}
 
+			if (ch2 == '\n' || ch2 == '\r') isNewRowStarted = 1;
+
 			ch2 = static_cast<char>(fgetc(standardOutputFile));
 		}
 
@@ -510,9 +552,29 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		if (len1 != len2 || strcmp(str1, str2) != 0)
 		{
+			if (len1 <= 0 || (ch1 == EOF && ch2 != EOF))
+			{
+				score = 0;
+				result = WrongAnswer;
+				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
+				fclose(contestantOutputFile);
+				fclose(standardOutputFile);
+				return;
+			}
+
+			if (len2 <= 0 || (ch1 != EOF && ch2 == EOF))
+			{
+				score = 0;
+				result = OutputLimitExceeded;
+				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
+				fclose(contestantOutputFile);
+				fclose(standardOutputFile);
+				return;
+			}
+
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(Read "%1" but expect "%2")").arg(str1).arg(str2);
+			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -528,6 +590,9 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			fclose(standardOutputFile);
 			return;
 		}
+
+
+		if (isNewRowStarted) nowRow ++;
 	}
 
 	score = fullScore;
@@ -561,7 +626,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	{
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open contestant\'s output file");
+		message = tr(R"(Cannot open contestant's output file)");
 		return;
 	}
 
@@ -571,29 +636,32 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	{
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open standard output file");
+		message = tr(R"(Cannot open standard output file)");
 		fclose(contestantOutputFile);
 		return;
 	}
 
-	double eps = 1;
+	long double eps = 1;
 
 	for (int i = 0; i < task->getRealPrecision(); i ++)
 		eps *= 0.1;
 
-	double a;
-	double b;
+	long double a;
+	long double b;
+	int nowRow = 1;
 
 	while (true)
 	{
-		int cnt1 = fscanf(contestantOutputFile, "%lf", &a);
-		int cnt2 = fscanf(standardOutputFile, "%lf", &b);
+		int cnt1 = fscanf(contestantOutputFile, "%Lf", &a);
+		int cnt2 = fscanf(standardOutputFile, "%Lf", &b);
+
+		char temps = fgetc(standardOutputFile);
 
 		if (cnt1 == 0)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Invalid characters found");
+			message = tr(R"(On line %1, Invalid characters in contestant's output file)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -603,7 +671,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		{
 			score = 0;
 			result = FileError;
-			message = tr("Invalid characters in standard output file");
+			message = tr(R"(On line %1, Invalid characters in standard output file)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -615,7 +683,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr("Shorter than standard output");
+			message = tr(R"(On line %1, Contestant's Output has less contents)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -624,18 +692,18 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		if (cnt1 == 1 && cnt2 == EOF)
 		{
 			score = 0;
-			result = WrongAnswer;
-			message = tr("Longer than standard output");
+			result = OutputLimitExceeded;
+			message = tr(R"(On line %1, Contestant's Output has too much contents)").arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
 		}
 
-		if (fabs(a - b) > eps || (std::isnan(a) != std::isnan(b)) || (std::isinf(a) != std::isinf(b)))
+		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) || (abs(a - b) > eps && abs(a - b) > eps * abs(b)))
 		{
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(Read "%1" but expect "%2")").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18);
+			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18).arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -649,6 +717,8 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			fclose(standardOutputFile);
 			return;
 		}
+
+		if (temps == '\r' || temps == '\n')nowRow ++;
 	}
 
 	score = fullScore;
@@ -659,7 +729,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 
 void JudgingThread::specialJudge(const QString &fileName)
 {
-	if (! QFileInfo(inputFile).exists())
+	if (! QFileInfo::exists(inputFile))
 	{
 		score = 0;
 		result = FileError;
@@ -667,15 +737,15 @@ void JudgingThread::specialJudge(const QString &fileName)
 		return;
 	}
 
-	if (! QFileInfo(fileName).exists())
+	if (! QFileInfo::exists(fileName))
 	{
 		score = 0;
 		result = FileError;
-		message = tr("Cannot find contestant\'s output file");
+		message = tr(R"(Cannot find contestant's output file)");
 		return;
 	}
 
-	if (! QFileInfo(outputFile).exists())
+	if (! QFileInfo::exists(outputFile))
 	{
 		score = 0;
 		result = FileError;
@@ -1157,7 +1227,7 @@ void JudgingThread::judgeOutput()
 
 void JudgingThread::judgeTraditionalTask()
 {
-	if (! QFileInfo(inputFile).exists())
+	if (! QFileInfo::exists(inputFile))
 	{
 		score = 0;
 		result = FileError;

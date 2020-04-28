@@ -361,7 +361,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 		auto *item = new QTreeWidgetItem(ui->testCasesViewer);
 		item->setText(0, tr("Test Case #%1").arg(i + 1));
 
-		for (int value : values)
+		for (int value : qAsConst(values))
 		{
 			inputFiles.append(singleCases[value].first);
 			outputFiles.append(singleCases[value].second);
