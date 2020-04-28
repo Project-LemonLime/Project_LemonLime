@@ -190,8 +190,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		return;
 	}
 
-	char str1[20];
-	char str2[20];
+	char str1[23];
+	char str2[23];
 	char ch = 0;
 	bool chk1 = false;
 	bool chk2 = false;
@@ -348,8 +348,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 	char ch1 = ' ';
 	char ch2 = ' ';
-	char str1[20];
-	char str2[20];
+	char str1[23];
+	char str2[23];
 	int flag1;
 	int flag2;
 	int nowRow = 1;
@@ -511,7 +511,6 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		}
 
 		if (isNewRowStarted) nowRow ++;
-		isNewRowStarted = 0;
 
 		int len1 = 0;
 
@@ -542,8 +541,6 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			{
 				break;
 			}
-
-			if (ch2 == '\n' || ch2 == '\r') isNewRowStarted = 1;
 
 			ch2 = static_cast<char>(fgetc(standardOutputFile));
 		}
@@ -590,9 +587,6 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			fclose(standardOutputFile);
 			return;
 		}
-
-
-		if (isNewRowStarted) nowRow ++;
 	}
 
 	score = fullScore;
