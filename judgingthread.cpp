@@ -273,6 +273,16 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		str2[len2 ++] = '\0';
 		chkEof2 = ch == EOF;
 
+		if (len1 != len2 || strcmp(str1, str2) != 0)
+		{
+			score = 0;
+			result = WrongAnswer;
+			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
+			fclose(contestantOutputFile);
+			fclose(standardOutputFile);
+			return;
+		}
+
 		if (chkEof1 && ! chkEof2)
 		{
 			score = 0;
@@ -288,16 +298,6 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			score = 0;
 			result = OutputLimitExceeded;
 			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
-			return;
-		}
-
-		if (len1 != len2 || strcmp(str1, str2) != 0)
-		{
-			score = 0;
-			result = WrongAnswer;
-			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -549,7 +549,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		if (len1 != len2 || strcmp(str1, str2) != 0)
 		{
-			if (len1 <= 0 || (ch1 == EOF && ch2 != EOF))
+			if (len1 <= 0)
 			{
 				score = 0;
 				result = WrongAnswer;
@@ -559,7 +559,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				return;
 			}
 
-			if (len2 <= 0 || (ch1 != EOF && ch2 == EOF))
+			if (len2 <= 0)
 			{
 				score = 0;
 				result = OutputLimitExceeded;

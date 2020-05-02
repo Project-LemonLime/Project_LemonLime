@@ -1660,14 +1660,14 @@
     <message>
         <location filename="judgingthread.cpp" line="178"/>
         <location filename="judgingthread.cpp" line="334"/>
-        <location filename="judgingthread.cpp" line="626"/>
+        <location filename="judgingthread.cpp" line="623"/>
         <source>Cannot open contestant&apos;s output file</source>
         <translation>无法打开选手输出文件</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="188"/>
         <location filename="judgingthread.cpp" line="344"/>
-        <location filename="judgingthread.cpp" line="636"/>
+        <location filename="judgingthread.cpp" line="633"/>
         <source>Cannot open standard output file</source>
         <translation>无法打开标准输出文件</translation>
     </message>
@@ -1705,48 +1705,56 @@
         <translation type="vanished">格式错误</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="280"/>
-        <location filename="judgingthread.cpp" line="491"/>
+        <location filename="judgingthread.cpp" line="290"/>
+        <location filename="judgingthread.cpp" line="489"/>
         <location filename="judgingthread.cpp" line="556"/>
         <source>On line %1, Contestant&apos;s output has less contents</source>
         <translation>在第 %1 行，选手输出文件内容太少</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="290"/>
-        <location filename="judgingthread.cpp" line="501"/>
+        <location filename="judgingthread.cpp" line="300"/>
+        <location filename="judgingthread.cpp" line="499"/>
         <location filename="judgingthread.cpp" line="566"/>
         <source>On line %1, Contestant&apos;s output has too much contents</source>
         <translation>在第 %1 行，选手输出文件内容太多</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="300"/>
+        <location filename="judgingthread.cpp" line="280"/>
         <location filename="judgingthread.cpp" line="574"/>
-        <location filename="judgingthread.cpp" line="703"/>
+        <location filename="judgingthread.cpp" line="700"/>
         <source>On line %3, Read &quot;%1&quot; but expect &quot;%2&quot;</source>
         <translation>在第 %3 行，读取到 &quot;%1&quot; ，但期望 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="509"/>
+        <location filename="judgingthread.cpp" line="280"/>
+        <location filename="judgingthread.cpp" line="574"/>
+        <location filename="judgingthread.cpp" line="700"/>
+        <source>On line %3, Read &quot;%1&quot; but expect &quot;%2&quot;</source>
+        <oldsource>On line %3, Read &quot;%1&quot;(Length %4) but expect &quot;%2&quot;(Length %5)</oldsource>
+        <translation type="unfinished">在第 %3 行，读取到 &quot;%1&quot; ，但期望 &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <location filename="judgingthread.cpp" line="507"/>
         <source>Presentation error on line %1</source>
         <translation>在第 %1 行出现了格式错误</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="661"/>
+        <location filename="judgingthread.cpp" line="658"/>
         <source>On line %1, Invalid characters in contestant&apos;s output file</source>
         <translation>在第 %1 行，选手输出文件中包含无效字符</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="671"/>
+        <location filename="judgingthread.cpp" line="668"/>
         <source>On line %1, Invalid characters in standard output file</source>
         <translation>在第 %1 行，标准输出文件中包含无效字符</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="683"/>
+        <location filename="judgingthread.cpp" line="680"/>
         <source>On line %1, Contestant&apos;s Output has less contents</source>
         <translation>在第 %1 行，选手输出文件内容太少</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="693"/>
+        <location filename="judgingthread.cpp" line="690"/>
         <source>On line %1, Contestant&apos;s Output has too much contents</source>
         <translation>在第 %1 行，选手输出文件内容太多</translation>
     </message>
@@ -1765,23 +1773,23 @@
         <translation type="vanished">选手输出文件内容太多</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="733"/>
-        <location filename="judgingthread.cpp" line="1231"/>
+        <location filename="judgingthread.cpp" line="730"/>
+        <location filename="judgingthread.cpp" line="1228"/>
         <source>Cannot find standard input file</source>
         <translation>找不到标准输入文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="741"/>
+        <location filename="judgingthread.cpp" line="738"/>
         <source>Cannot find contestant&apos;s output file</source>
         <translation>找不到选手输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="749"/>
+        <location filename="judgingthread.cpp" line="746"/>
         <source>Cannot find standard output file</source>
         <translation>找不到标准输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="1241"/>
+        <location filename="judgingthread.cpp" line="1238"/>
         <source>Cannot copy standard input file</source>
         <translation>无法复制标准输入文件</translation>
     </message>
