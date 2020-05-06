@@ -345,6 +345,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 							}
 						}
 
+						makeDialogAlert(tr("Compiled Successfully"));
 						delete compiler;
 					}
 

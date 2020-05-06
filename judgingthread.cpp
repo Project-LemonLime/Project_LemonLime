@@ -855,6 +855,7 @@ void JudgingThread::runProgram()
 {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
+	int extraMemory = qCeil(qMax(128, memoryLimit) * 0.0625);
 
 	if (skipEnabled)
 	{
@@ -970,7 +971,7 @@ void JudgingThread::runProgram()
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
+		if (stopJudging || skipEnabled)
 		{
 			TerminateProcess(pi.hProcess, 0);
 
@@ -981,6 +982,14 @@ void JudgingThread::runProgram()
 			CloseHandle(si.hStdError);
 			CloseHandle(pi.hProcess);
 			CloseHandle(pi.hThread);
+
+			if (skipEnabled)
+			{
+				score = 0;
+				result = TimeLimitExceeded;
+				timeUsed = memoryUsed = -1;
+			}
+
 			return;
 		}
 
@@ -1076,7 +1085,8 @@ void JudgingThread::runProgram()
 
 	argumentsList << "_tmperr";
 	argumentsList << QString("%1").arg(timeLimit + extraTime);
-	argumentsList << QString("%1").arg(memoryLimit);
+	argumentsList << QString("%1").arg(memoryLimit + extraMemory);
+
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
 	runner->start(workingDirectory + "watcher", argumentsList);
@@ -1103,11 +1113,19 @@ void JudgingThread::runProgram()
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
+		if (stopJudging || skipEnabled)
 		{
 			runner->terminate();
 			runner->waitForFinished(-1);
 			delete runner;
+
+			if (skipEnabled)
+			{
+				score = 0;
+				result = TimeLimitExceeded;
+				timeUsed = memoryUsed = -1;
+			}
+
 			return;
 		}
 
@@ -1175,6 +1193,14 @@ void JudgingThread::runProgram()
 		score = 0;
 		result = MemoryLimitExceeded;
 		memoryUsed = -1;
+		return;
+	}
+
+	if (memoryUsed > memoryLimit * 1024LL * 1024)
+	{
+		delete runner;
+		score = 0;
+		result = MemoryLimitExceeded;
 		return;
 	}
 

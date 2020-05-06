@@ -702,6 +702,11 @@
         <source>Compiling...</source>
         <translation>编译中…</translation>
     </message>
+    <message>
+        <location filename="assignmentthread.cpp" line="348"/>
+        <source>Compiled Successfully</source>
+        <translation>编译完成</translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -1726,14 +1731,6 @@
         <translation>在第 %3 行，读取到 &quot;%1&quot; ，但期望 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="280"/>
-        <location filename="judgingthread.cpp" line="574"/>
-        <location filename="judgingthread.cpp" line="700"/>
-        <source>On line %3, Read &quot;%1&quot; but expect &quot;%2&quot;</source>
-        <oldsource>On line %3, Read &quot;%1&quot;(Length %4) but expect &quot;%2&quot;(Length %5)</oldsource>
-        <translation type="unfinished">在第 %3 行，读取到 &quot;%1&quot; ，但期望 &quot;%2&quot;</translation>
-    </message>
-    <message>
         <location filename="judgingthread.cpp" line="507"/>
         <source>Presentation error on line %1</source>
         <translation>在第 %1 行出现了格式错误</translation>
@@ -1774,7 +1771,7 @@
     </message>
     <message>
         <location filename="judgingthread.cpp" line="730"/>
-        <location filename="judgingthread.cpp" line="1228"/>
+        <location filename="judgingthread.cpp" line="1252"/>
         <source>Cannot find standard input file</source>
         <translation>找不到标准输入文件</translation>
     </message>
@@ -1789,7 +1786,7 @@
         <translation>找不到标准输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="1238"/>
+        <location filename="judgingthread.cpp" line="1262"/>
         <source>Cannot copy standard input file</source>
         <translation>无法复制标准输入文件</translation>
     </message>
