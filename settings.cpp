@@ -229,6 +229,8 @@ auto Settings::getColorAntiMi() -> QColor
 
 auto Settings::getColorPer(double p) -> QColor
 {
+	if (isnanl(p) || isinfl(p)) p = 0;
+
 	double distan;
 	double h;
 	double s;
@@ -266,6 +268,8 @@ auto Settings::getColorPer(double p) -> QColor
 
 auto Settings::getColorGrand(double p) -> QColor
 {
+	if (isnanl(p) || isinfl(p)) p = 0;
+
 	double distan;
 	double h;
 	double s;

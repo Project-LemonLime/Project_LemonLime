@@ -99,7 +99,7 @@ void extTestCaseUpdater::whenButtonFindInputClicked()
 
 	for (const auto &i : temp)filter = filter + "*." + i + " ";
 
-	filter.back() = ')';
+	*filter.rbegin() = ')';
 
 	filter = filter + ";;" + tr("All Files (*)");
 
@@ -124,7 +124,7 @@ void extTestCaseUpdater::whenButtonFindOutputClicked()
 
 	for (const auto &i : temp)filter = filter + "*." + i + " ";
 
-	filter.back() = ')';
+	*filter.rbegin() = ')';
 
 	filter = filter + ";;" + tr("All Files (*)");
 
