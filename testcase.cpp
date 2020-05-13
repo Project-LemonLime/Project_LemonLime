@@ -28,6 +28,15 @@ TestCase::TestCase(QObject *parent) :
 {
 }
 
+void TestCase::copyTo(TestCase *to)
+{
+	QByteArray data;
+	QDataStream tmpin(&data, QIODevice::WriteOnly);
+	writeToStream(tmpin);
+	QDataStream tmpout(&data, QIODevice::ReadOnly);
+	to->readFromStream(tmpout);
+}
+
 auto TestCase::getFullScore() const -> int
 {
 	return fullScore;
@@ -100,6 +109,25 @@ void TestCase::setDependenceSubtask(const QStringList &list)
 
 	for (int i = 0; i != list.size(); ++i)
 		dependenceSubtask.push_back(list[i].toInt());
+
+	std::sort(dependenceSubtask.begin(), dependenceSubtask.end());
+}
+
+void TestCase::setDependenceSubtask(const QList<int> &list)
+{
+	dependenceSubtask = list;
+
+	std::sort(dependenceSubtask.begin(), dependenceSubtask.end());
+}
+
+void TestCase::setDependenceSubtask(const QSet<int> &list)
+{
+	dependenceSubtask.clear();
+
+	for (auto i : list)
+		dependenceSubtask.push_back(i);
+
+	std::sort(dependenceSubtask.begin(), dependenceSubtask.end());
 }
 
 auto TestCase::checkDependenceSubtask(const QStringList &list) -> bool
@@ -202,4 +230,15 @@ void TestCase::readFromStream(QDataStream &in)
 void TestCase::clearDependenceSubtask()
 {
 	dependenceSubtask.clear();
+}
+
+void TestCase::swapFiles(int a, int b)
+{
+	if (a < 0 || a >= inputFiles.size())return;
+
+	if (b < 0 || b >= inputFiles.size())return;
+
+	qSwap(inputFiles[a], inputFiles[b]);
+	qSwap(outputFiles[a], outputFiles[b]);
+
 }

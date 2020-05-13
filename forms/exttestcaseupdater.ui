@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>extTestCaseUpdater</class>
+ <widget class="QDialog" name="extTestCaseUpdater">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>298</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelScore">
+        <property name="text">
+         <string>Score</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEditScore"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelInput">
+        <property name="text">
+         <string>Input File</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="FileLineEdit" name="lineEditInput"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="buttonFindInput">
+        <property name="text">
+         <string>View</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelOutput">
+        <property name="text">
+         <string>Output File</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="FileLineEdit" name="lineEditOutput"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="buttonFindOutput">
+        <property name="text">
+         <string>View</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelTimeLimit">
+        <property name="text">
+         <string>Time Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEditTime"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>ms</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelMemoryLimit">
+        <property name="text">
+         <string>Memory Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEditMemory"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>MB</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelDepend">
+        <property name="text">
+         <string>Depends</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="lineEditDepends"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>filelineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>extTestCaseUpdater</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>extTestCaseUpdater</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

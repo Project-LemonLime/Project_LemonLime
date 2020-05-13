@@ -41,6 +41,15 @@ Task::Task(QObject *parent) :
 	subFolderCheck = false;
 }
 
+void Task::copyTo(Task *to)
+{
+	QByteArray data;
+	QDataStream tmpin(&data, QIODevice::WriteOnly);
+	writeToStream(tmpin);
+	QDataStream tmpout(&data, QIODevice::ReadOnly);
+	to->readFromStream(tmpout);
+}
+
 auto Task::getTestCaseList() const -> const QList<TestCase *> &
 {
 	return testCaseList;
@@ -296,6 +305,12 @@ void Task::addTestCase(TestCase *testCase)
 	testCaseList.append(testCase);
 }
 
+void Task::addTestCase(TestCase *testCase, int loc)
+{
+	testCase->setParent(this);
+	testCaseList.insert(loc, testCase);
+}
+
 auto Task::getTestCase(int index) const -> TestCase *
 {
 	if (0 <= index && index < testCaseList.size())
@@ -316,6 +331,15 @@ void Task::deleteTestCase(int index)
 		delete testCaseList[index];
 		testCaseList.removeAt(index);
 	}
+}
+
+void Task::swapTestCase(int a, int b)
+{
+	if (a < 0 || a >= testCaseList.size())return;
+
+	if (b < 0 || b >= testCaseList.size())return;
+
+	qSwap(testCaseList[a], testCaseList[b]);
 }
 
 void Task::refreshCompilerConfiguration(Settings *settings)
@@ -515,6 +539,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> compilerConfiguration;
 	in >> answerFileExtension;
 	in >> count;
+	testCaseList.clear();
 
 	for (int i = 0; i < count; i ++)
 	{

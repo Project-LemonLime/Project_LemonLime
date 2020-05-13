@@ -25,6 +25,10 @@ TARGET = lemon
 TEMPLATE = app
 
 SOURCES += main.cpp \
+    exttestcasemodifier.cpp \
+    exttestcasemodifierdialog.cpp \
+    exttestcasetable.cpp \
+    exttestcaseupdater.cpp \
     visualsettings.cpp \
     lemon.cpp \
     contest.cpp \
@@ -67,7 +71,11 @@ win32:SOURCES += qtlockedfile/qtlockedfile_win.cpp
 unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
 
 HEADERS  += lemon.h \
+    exttestcasemodifier.h \
     contest.h \
+    exttestcasemodifierdialog.h \
+    exttestcasetable.h \
+    exttestcaseupdater.h \
     visualsettings.h \
     task.h \
     testcase.h \
@@ -108,6 +116,9 @@ HEADERS  += lemon.h \
 
 
 FORMS += forms/lemon.ui \
+    forms/exttestcaseupdater.ui \
+    forms/exttestcasemodifierdialog.ui \
+    forms/exttestcasemodifier.ui \
     forms/taskeditwidget.ui \
     forms/testcaseeditwidget.ui \
     forms/generalsettings.ui \

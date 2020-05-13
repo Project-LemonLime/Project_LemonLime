@@ -855,7 +855,7 @@ void JudgingThread::runProgram()
 {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
-	int extraMemory = qCeil(qMax(128, memoryLimit) * 0.0625);
+	int extraMemory = 4;
 
 	if (skipEnabled)
 	{

@@ -57,6 +57,7 @@ private:
 	QAction *deleteTestCaseAction;
 	QAction *deleteTaskKeyAction;
 	QAction *deleteTestCaseKeyAction;
+	QAction *extTestCaseModifierAction;
 
 private slots:
 	void addTask();
@@ -67,6 +68,7 @@ private slots:
 	void selectionChanged();
 	void itemChanged(QTreeWidgetItem *);
 	void titleChanged(const QString &);
+	void launchExtTestCaseModifier();
 
 signals:
 	void taskChanged();

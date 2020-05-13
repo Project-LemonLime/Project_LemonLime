@@ -26,6 +26,7 @@
 #include "contest.h"
 #include "task.h"
 #include "testcase.h"
+#include "exttestcasemodifierdialog.h"
 
 SummaryTree::SummaryTree(QWidget *parent) :
 	QTreeWidget(parent)
@@ -37,6 +38,7 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	addTestCasesAction = new QAction(tr("Add Test Cases ..."), this);
 	deleteTaskAction = new QAction(tr("Delete Current Task"), this);
 	deleteTestCaseAction = new QAction(tr("Delete Current Test Case"), this);
+	extTestCaseModifierAction = new QAction(tr("Advanced Test Case Modifier"), this);
 	addTaskKeyAction = new QAction(this);
 	addTestCaseKeyAction = new QAction(this);
 	deleteTaskKeyAction = new QAction(this);
@@ -63,6 +65,8 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	        this, SLOT(addTestCase()));
 	connect(addTestCasesAction, SIGNAL(triggered()),
 	        this, SLOT(addTestCases()));
+	connect(extTestCaseModifierAction, SIGNAL(triggered()),
+	        this, SLOT(launchExtTestCaseModifier()));
 	connect(addTaskKeyAction, SIGNAL(triggered()),
 	        this, SLOT(addTask()));
 	connect(addTestCaseKeyAction, SIGNAL(triggered()),
@@ -95,6 +99,8 @@ void SummaryTree::changeEvent(QEvent *event)
 		                          nullptr));
 		deleteTestCaseAction->setText(QApplication::translate("SummaryTree", "Delete Current Test Case",
 		                              nullptr));
+		extTestCaseModifierAction->setText(QApplication::translate("SummaryTree", "Advanced Test Case Modifier",
+		                                   nullptr));
 
 		for (int i = 0; i < topLevelItemCount(); i ++)
 		{
@@ -178,6 +184,8 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
 		contextMenu->addSeparator();
 		contextMenu->addAction(addTestCaseAction);
 		contextMenu->addAction(addTestCasesAction);
+		contextMenu->addSeparator();
+		contextMenu->addAction(extTestCaseModifierAction);
 		contextMenu->exec(QCursor::pos());
 		delete contextMenu;
 	}
@@ -379,4 +387,28 @@ void SummaryTree::titleChanged(const QString &title)
 	if (curItem) curItem->setText(0, title);
 
 	emit taskChanged();
+}
+
+void SummaryTree::launchExtTestCaseModifier()
+{
+	QTreeWidgetItem *curItem = currentItem();
+
+	if (indexOfTopLevelItem(curItem) == -1)
+	{
+		curItem = curItem->parent();
+	}
+
+	int index = indexOfTopLevelItem(curItem);
+	Task *curTask = curContest->getTask(index);
+
+	auto *dialog = new extTestCaseModifierDialog;
+
+	dialog->init(curTask, settings);
+
+	if (dialog->exec() == QDialog::Accepted)
+	{
+		dialog->getEditTask()->copyTo(curTask);
+	}
+
+	setContest(curContest);
 }

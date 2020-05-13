@@ -73,6 +73,7 @@ private:
 
 private slots:
 	void summarySelectionChanged();
+	void refreshSummary();
 	void resetDataWatcher();
 	void showOptionsDialog();
 	void refreshButtonClicked();

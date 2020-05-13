@@ -31,6 +31,7 @@ class TestCase : public QObject
 	Q_OBJECT
 public:
 	explicit TestCase(QObject *parent = nullptr);
+	void copyTo(TestCase *);
 	int getFullScore() const;
 	int getTimeLimit() const;
 	int getMemoryLimit() const;
@@ -44,12 +45,15 @@ public:
 	void setInputFiles(int, const QString &);
 	void setOutputFiles(int, const QString &);
 	void setDependenceSubtask(const QStringList &);
+	void setDependenceSubtask(const QList<int> &);
+	void setDependenceSubtask(const QSet<int> &);
 	bool checkDependenceSubtask(const QStringList &);
 	void addSingleCase(const QString &, const QString &);
 	void deleteSingleCase(int);
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
 	void clearDependenceSubtask();
+	void swapFiles(int, int);
 
 private:
 	QStringList inputFiles;

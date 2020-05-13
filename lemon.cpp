@@ -140,6 +140,7 @@ Lemon::Lemon(QWidget *parent) :
 	        this, SLOT(changeContestName()));
 	connect(ui->exitAction, SIGNAL(triggered()),
 	        this, SLOT(close()));
+
 	appTranslator = new QTranslator(this);
 	qtTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
@@ -291,6 +292,13 @@ void Lemon::resetDataWatcher()
 	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)),
 	        this, SIGNAL(dataPathChanged()));
 	emit dataPathChanged();
+}
+
+void Lemon::refreshSummary()
+{
+	if (! ui->summary->isEnabled()) return;
+
+	ui->summary->setContest(curContest);
 }
 
 void Lemon::summarySelectionChanged()

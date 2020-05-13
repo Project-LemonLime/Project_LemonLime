@@ -42,6 +42,8 @@ public:
 
 	explicit Task(QObject *parent = nullptr);
 
+	void copyTo(Task *);
+
 	const QList<TestCase *> &getTestCaseList() const;
 	const QString &getProblemTile() const;
 	bool getSubFolderCheck() const;
@@ -92,8 +94,10 @@ public:
 	void removeGraderFilesAt(int);
 
 	void addTestCase(TestCase *);
+	void addTestCase(TestCase *, int);
 	TestCase *getTestCase(int) const;
 	void deleteTestCase(int);
+	void swapTestCase(int, int);
 	void refreshCompilerConfiguration(Settings *);
 	int getTotalTimeLimit() const;
 	int getTotalScore() const;
