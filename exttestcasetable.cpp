@@ -80,7 +80,10 @@ void extTestCaseTable::refreshTask(Task *nowTask)
 			addItem(nowrow, 2, outputs[j]);
 
 			QString depStr = "", tipStr;
-			tipStr = QString(tr("Test Case #%1:\n%2 Pt\nTime Limit: %3 ms\nMemory Limit: %4 MB")).arg(i + 1).arg(score).arg(times).arg(mems);
+			if (editTask->getTaskType() == Task::AnswersOnly)
+				tipStr = QString(tr("Test Case #%1:\n%2 Pt")).arg(i + 1).arg(score);
+			else
+				tipStr = QString(tr("Test Case #%1:\n%2 Pt\nTime Limit: %3 ms\nMemory Limit: %4 MB")).arg(i + 1).arg(score).arg(times).arg(mems);
 
 			if (depends.empty())depStr = "(-)", tipStr = tipStr + tr("\nNo Depends");
 			else
