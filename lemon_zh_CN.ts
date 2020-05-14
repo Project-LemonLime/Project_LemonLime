@@ -3166,77 +3166,77 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="settings.cpp" line="519"/>
+        <location filename="settings.cpp" line="523"/>
         <source>Correct Answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="524"/>
+        <location filename="settings.cpp" line="528"/>
         <source>Wrong Answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="529"/>
+        <location filename="settings.cpp" line="533"/>
         <source>Partly Correct</source>
         <translation>答案部分正确</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="534"/>
+        <location filename="settings.cpp" line="538"/>
         <source>Presentation Error</source>
         <translation>格式错误</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="539"/>
+        <location filename="settings.cpp" line="543"/>
         <source>Time Limit Exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="544"/>
+        <location filename="settings.cpp" line="548"/>
         <source>Memory Limit Exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="549"/>
+        <location filename="settings.cpp" line="553"/>
         <source>Output Limit Exceeded</source>
         <translation>超过输出限制</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="554"/>
+        <location filename="settings.cpp" line="558"/>
         <source>Cannot Start Program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="560"/>
+        <location filename="settings.cpp" line="564"/>
         <source>File Error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="566"/>
+        <location filename="settings.cpp" line="570"/>
         <source>Run Time Error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="571"/>
+        <location filename="settings.cpp" line="575"/>
         <source>Invalid Special Judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="577"/>
+        <location filename="settings.cpp" line="581"/>
         <source>Special Judge Time Limit Exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="583"/>
+        <location filename="settings.cpp" line="587"/>
         <source>Special Judge Run Time Error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="589"/>
+        <location filename="settings.cpp" line="593"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
     <message>
-        <location filename="settings.cpp" line="595"/>
+        <location filename="settings.cpp" line="599"/>
         <source>Interactor Error</source>
         <translation>交互库错误</translation>
     </message>
@@ -4061,7 +4061,14 @@ p, li { white-space: pre-wrap; }
         <translation>输出</translation>
     </message>
     <message>
-        <location filename="exttestcasetable.cpp" line="83"/>
+        <location filename="exttestcasetable.cpp" line="84"/>
+        <source>Test Case #%1:
+%2 Pt</source>
+        <translation>测试点 #%1：
+%2 Pt</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="86"/>
         <source>Test Case #%1:
 %2 Pt
 Time Limit: %3 ms
@@ -4072,26 +4079,26 @@ Memory Limit: %4 MB</source>
 空间限制：%4 MB</translation>
     </message>
     <message>
-        <location filename="exttestcasetable.cpp" line="85"/>
+        <location filename="exttestcasetable.cpp" line="88"/>
         <source>
 No Depends</source>
         <translation>
 没有依赖</translation>
     </message>
     <message>
-        <location filename="exttestcasetable.cpp" line="89"/>
+        <location filename="exttestcasetable.cpp" line="92"/>
         <source>
 Depends: </source>
-        <translation type="unfinished">
+        <translation>
 依赖： </translation>
     </message>
     <message>
-        <location filename="exttestcasetable.cpp" line="95"/>
+        <location filename="exttestcasetable.cpp" line="98"/>
         <source>#%1 :: %2 pt, %3</source>
         <translation>#%1 :: %2 pt, %3</translation>
     </message>
     <message>
-        <location filename="exttestcasetable.cpp" line="97"/>
+        <location filename="exttestcasetable.cpp" line="100"/>
         <source>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</source>
         <translation>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</translation>
     </message>
