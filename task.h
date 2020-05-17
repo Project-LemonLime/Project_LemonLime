@@ -40,7 +40,14 @@ public:
 	enum TaskType { Traditional, AnswersOnly, Interaction, Communication };
 	enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
 
-	explicit Task(QObject *parent = nullptr);
+	explicit Task(QObject *parent = nullptr,
+	              TaskType taskType = Traditional,
+	              ComparisonMode comparisonMode = IgnoreSpacesMode,
+	              QString diffArguments = "--ignore-space-change --text --brief",
+	              int realPrecision = 3,
+	              bool standardInputCheck = false,
+	              bool standardOutputCheck = false,
+	              bool subFolderCheck = false);
 
 	void copyTo(Task *);
 
@@ -107,16 +114,16 @@ public:
 private:
 	QList<TestCase *> testCaseList;
 	QString problemTitle;
-	bool subFolderCheck;
 	QString sourceFileName;
 	QString inputFileName;
 	QString outputFileName;
-	bool standardInputCheck;
-	bool standardOutputCheck;
 	TaskType taskType;
 	ComparisonMode comparisonMode;
 	QString diffArguments;
 	int realPrecision;
+	bool standardInputCheck;
+	bool standardOutputCheck;
+	bool subFolderCheck;
 	QString specialJudge;
 	QString interactor;
 	QString interactorName;

@@ -163,7 +163,6 @@ Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
 在 qmake 前你需要：
 -   把代码中所有 `qAsConst`删除。
 
-
 ##### \* NOI Linux （Ubuntu 14 及更老）
 
 已在这些系统测试：

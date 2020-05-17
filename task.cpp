@@ -29,16 +29,17 @@
 #include "settings.h"
 #include "compiler.h"
 
-Task::Task(QObject *parent) :
-	QObject(parent)
+Task::Task(QObject *parent,
+           TaskType taskType,
+           ComparisonMode comparisonMode,
+           QString diffArguments,
+           int realPrecision,
+           bool standardInputCheck,
+           bool standardOutputCheck,
+           bool subFolderCheck) :
+	QObject(parent), taskType(taskType), comparisonMode(comparisonMode), diffArguments(diffArguments),
+	realPrecision(realPrecision), standardInputCheck(standardInputCheck), standardOutputCheck(standardOutputCheck), subFolderCheck(subFolderCheck)
 {
-	taskType = Traditional;
-	comparisonMode = IgnoreSpacesMode;
-	diffArguments = "--ignore-space-change --text --brief";
-	realPrecision = 3;
-	standardInputCheck = false;
-	standardOutputCheck = false;
-	subFolderCheck = false;
 }
 
 void Task::copyTo(Task *to)

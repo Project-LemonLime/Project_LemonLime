@@ -384,8 +384,6 @@ void ExtTestCaseModifier::splitSelected()
 
 	QList<TestCase *> ans;
 
-	int xcnt = 0;
-
 	int l = hav.front(), r = hav.back();
 
 	for (int i = l; i <= r; i++)
@@ -397,8 +395,6 @@ void ExtTestCaseModifier::splitSelected()
 
 		if (in.size())gar = in.size() - allScore % in.size();
 		else gar = 0;
-
-		xcnt += r + l - 2;
 
 		for (int j = 0; j < in.size(); j++)
 		{
