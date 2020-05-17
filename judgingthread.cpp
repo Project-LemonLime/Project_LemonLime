@@ -855,7 +855,6 @@ void JudgingThread::runProgram()
 {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
-	int extraMemory = 4;
 
 	if (skipEnabled)
 	{
@@ -1085,7 +1084,7 @@ void JudgingThread::runProgram()
 
 	argumentsList << "_tmperr";
 	argumentsList << QString("%1").arg(timeLimit + extraTime);
-	argumentsList << QString("%1").arg(memoryLimit + extraMemory);
+	argumentsList << QString("%1").arg(memoryLimit);
 
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);

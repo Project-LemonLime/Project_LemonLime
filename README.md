@@ -46,7 +46,6 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 ### 评测改进
 
 -   实数比较模式现在将同时比较绝对误差和相对误差，并且区分 `nan` 和 `inf`
--   在 Linux 下减少了由于内存用量过于逼近（而没有超过）内存限制的时候直接 MLE 的概率
 -   任意选手的任意题目评测
 -   可以控制的最大重新评测次数
 -   Subtask Skip
