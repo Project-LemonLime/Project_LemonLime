@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>extTestCaseUpdater</class>
- <widget class="QDialog" name="extTestCaseUpdater">
+ <class>ExtTestCaseUpdaterDialog</class>
+ <widget class="QDialog" name="ExtTestCaseUpdaterDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +9,12 @@
     <width>400</width>
     <height>298</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -46,6 +52,9 @@
          <font>
           <pointsize>10</pointsize>
          </font>
+        </property>
+        <property name="placeholderText">
+         <string>No Change</string>
         </property>
        </widget>
       </item>
@@ -134,6 +143,9 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="placeholderText">
+         <string>No Change</string>
+        </property>
        </widget>
       </item>
       <item row="3" column="2">
@@ -167,6 +179,9 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="placeholderText">
+         <string>No Change</string>
+        </property>
        </widget>
       </item>
       <item row="4" column="2">
@@ -199,6 +214,9 @@
          <font>
           <pointsize>10</pointsize>
          </font>
+        </property>
+        <property name="placeholderText">
+         <string>seperate by &quot;,&quot;</string>
         </property>
        </widget>
       </item>
@@ -234,7 +252,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>extTestCaseUpdater</receiver>
+   <receiver>ExtTestCaseUpdaterDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -250,7 +268,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>extTestCaseUpdater</receiver>
+   <receiver>ExtTestCaseUpdaterDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

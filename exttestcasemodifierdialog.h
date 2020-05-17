@@ -1,28 +1,47 @@
+/***************************************************************************
+	 This file is part of Project LemonLime
+	 Copyright (C) 2020 iotang
+
+	 This program is free software: you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation, either version 3 of the License, or
+	 (at your option) any later version.
+
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details.
+
+	 You should have received a copy of the GNU General Public License
+	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***************************************************************************/
+
 #ifndef EXTTESTCASEMODIFIERDIALOG_H
 #define EXTTESTCASEMODIFIERDIALOG_H
 
 #include <QDialog>
-#include "task.h"
-#include "settings.h"
 
 namespace Ui
 {
-	class extTestCaseModifierDialog;
+	class ExtTestCaseModifierDialog;
 }
 
-class extTestCaseModifierDialog : public QDialog
+class Task;
+class Settings;
+
+class ExtTestCaseModifierDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit extTestCaseModifierDialog(QWidget *parent = nullptr);
-	~extTestCaseModifierDialog();
+	explicit ExtTestCaseModifierDialog(QWidget *parent = nullptr);
+	~ExtTestCaseModifierDialog();
 
 	void init(Task *, const Settings *);
 	Task *getEditTask();
 
 private:
-	Ui::extTestCaseModifierDialog *ui;
+	Ui::ExtTestCaseModifierDialog *ui;
 
 	Task *editTask;
 };

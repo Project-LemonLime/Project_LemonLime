@@ -1319,6 +1319,338 @@
     </message>
 </context>
 <context>
+    <name>ExtTestCaseModifier</name>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="25"/>
+        <source>Modify</source>
+        <translation>修改选中</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="73"/>
+        <source>Split</source>
+        <translation>拆分</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="85"/>
+        <source>New Subtask</source>
+        <translation>新测试点</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="106"/>
+        <source>Merge</source>
+        <translation>合并</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="118"/>
+        <source>New Case</source>
+        <translation>新数据</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="148"/>
+        <source>Move Down</source>
+        <translation>下移</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="160"/>
+        <source>Remove</source>
+        <translation>移除</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcasemodifier.ui" line="172"/>
+        <source>Move Up</source>
+        <translation>上移</translation>
+    </message>
+</context>
+<context>
+    <name>ExtTestCaseModifierDialog</name>
+    <message>
+        <location filename="forms/exttestcasemodifierdialog.ui" line="20"/>
+        <source>Dialog</source>
+        <translation>设定</translation>
+    </message>
+    <message>
+        <location filename="exttestcasemodifierdialog.cpp" line="29"/>
+        <source>Advanced Test Case Modifier</source>
+        <translation>增强测试点调整器</translation>
+    </message>
+</context>
+<context>
+    <name>ExtTestCaseTable</name>
+    <message>
+        <location filename="exttestcasetable.cpp" line="63"/>
+        <source>Informations</source>
+        <translation>信息</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="64"/>
+        <source>Input</source>
+        <translation>输入</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="65"/>
+        <source>Output</source>
+        <translation>输出</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="171"/>
+        <source>Test Case #%1:
+%2 Pt</source>
+        <translation>测试点 #%1：
+%2 Pt</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="173"/>
+        <source>Test Case #%1:
+%2 Pt
+Time Limit: %3 ms
+Memory Limit: %4 MB</source>
+        <translation>测试点 #%1：
+%2 Pt
+时间限制：%3 ms
+空间限制：%4 MB</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="175"/>
+        <source>
+No Depends</source>
+        <translation>
+没有依赖</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="179"/>
+        <source>
+Depends: </source>
+        <translation>
+依赖： </translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="185"/>
+        <source>#%1 :: %2 pt, %3</source>
+        <translation>#%1 :: %2 pt, %3</translation>
+    </message>
+    <message>
+        <location filename="exttestcasetable.cpp" line="187"/>
+        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</source>
+        <translation>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</translation>
+    </message>
+</context>
+<context>
+    <name>ExtTestCaseUpdater</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="vanished">设定</translation>
+    </message>
+    <message>
+        <source>Score</source>
+        <translation type="vanished">得分</translation>
+    </message>
+    <message>
+        <source>Input File</source>
+        <translation type="vanished">输入文件</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="vanished">选择</translation>
+    </message>
+    <message>
+        <source>Output File</source>
+        <translation type="vanished">输出文件</translation>
+    </message>
+    <message>
+        <source>Time Limit</source>
+        <translation type="vanished">时间限制</translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation type="vanished">ms</translation>
+    </message>
+    <message>
+        <source>Memory Limit</source>
+        <translation type="vanished">空间限制</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation type="vanished">MB</translation>
+    </message>
+    <message>
+        <source>Depends</source>
+        <translation type="vanished">依赖</translation>
+    </message>
+    <message>
+        <source>Configure Test Case #%1</source>
+        <translation type="vanished">设置测试点 #%1</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation type="vanished">设置测试点</translation>
+    </message>
+    <message>
+        <source>Input Data</source>
+        <translation type="vanished">输入文件</translation>
+    </message>
+    <message>
+        <source>All Files (*)</source>
+        <translation type="vanished">所有文件 (*)</translation>
+    </message>
+    <message>
+        <source>Choose Input File</source>
+        <translation type="vanished">选择输入文件</translation>
+    </message>
+    <message>
+        <source>Output Data</source>
+        <translation type="vanished">输出文件</translation>
+    </message>
+    <message>
+        <source>Choose Output File</source>
+        <translation type="vanished">选择输出文件</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="vanished">出错了</translation>
+    </message>
+    <message>
+        <source>Input File is Empty!</source>
+        <translation type="vanished">输入文件名为空！</translation>
+    </message>
+    <message>
+        <source>Output File is Empty!</source>
+        <translation type="vanished">输出文件名为空！</translation>
+    </message>
+    <message>
+        <source>Dependence subtask index error!</source>
+        <translation type="vanished">子任务依赖编号错误！</translation>
+    </message>
+</context>
+<context>
+    <name>ExtTestCaseUpdaterDialog</name>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="26"/>
+        <source>Dialog</source>
+        <translation>设定</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="45"/>
+        <source>Score</source>
+        <translation>得分</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="57"/>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="147"/>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="183"/>
+        <source>No Change</source>
+        <translation>不更改</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="69"/>
+        <source>Input File</source>
+        <translation>输入文件</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="90"/>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="123"/>
+        <source>View</source>
+        <translation>选择</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="102"/>
+        <source>Output File</source>
+        <translation>输出文件</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="135"/>
+        <source>Time Limit</source>
+        <translation>时间限制</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="159"/>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="171"/>
+        <source>Memory Limit</source>
+        <translation>空间限制</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="195"/>
+        <source>MB</source>
+        <translation>MB</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="207"/>
+        <source>Depends</source>
+        <translation>依赖</translation>
+    </message>
+    <message>
+        <location filename="forms/exttestcaseupdaterdialog.ui" line="219"/>
+        <source>seperate by &quot;,&quot;</source>
+        <translation>用半角逗号(&quot;,&quot;)隔开</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="35"/>
+        <source>Configure Test Case #%1</source>
+        <translation>设置测试点 #%1</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="36"/>
+        <source>Configure</source>
+        <translation>设置测试点</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="154"/>
+        <source>Input Data</source>
+        <translation>输入文件</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="162"/>
+        <location filename="exttestcaseupdaterdialog.cpp" line="187"/>
+        <source>All Files (*)</source>
+        <translation>所有文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="166"/>
+        <source>Choose Input File</source>
+        <translation>选择输入文件</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="179"/>
+        <source>Output Data</source>
+        <translation>输出文件</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="191"/>
+        <source>Choose Output File</source>
+        <translation>选择输出文件</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="206"/>
+        <location filename="exttestcaseupdaterdialog.cpp" line="212"/>
+        <location filename="exttestcaseupdaterdialog.cpp" line="218"/>
+        <source>Error</source>
+        <translation>出错了</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="206"/>
+        <source>Input File is Empty!</source>
+        <translation>输入文件名为空！</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="212"/>
+        <source>Output File is Empty!</source>
+        <translation>输出文件名为空！</translation>
+    </message>
+    <message>
+        <location filename="exttestcaseupdaterdialog.cpp" line="218"/>
+        <source>Dependence subtask index error!</source>
+        <translation>子任务依赖编号错误！</translation>
+    </message>
+</context>
+<context>
     <name>GeneralSettings</name>
     <message>
         <location filename="forms/generalsettings.ui" line="26"/>
@@ -1811,8 +2143,8 @@
     <name>Lemon</name>
     <message>
         <location filename="forms/lemon.ui" line="20"/>
-        <location filename="lemon.cpp" line="916"/>
-        <location filename="lemon.cpp" line="1090"/>
+        <location filename="lemon.cpp" line="918"/>
+        <location filename="lemon.cpp" line="1092"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
@@ -2079,13 +2411,13 @@
     </message>
     <message>
         <location filename="forms/lemon.ui" line="766"/>
-        <location filename="lemon.cpp" line="430"/>
-        <location filename="lemon.cpp" line="446"/>
-        <location filename="lemon.cpp" line="450"/>
-        <location filename="lemon.cpp" line="460"/>
-        <location filename="lemon.cpp" line="466"/>
-        <location filename="lemon.cpp" line="643"/>
-        <location filename="lemon.cpp" line="647"/>
+        <location filename="lemon.cpp" line="432"/>
+        <location filename="lemon.cpp" line="448"/>
+        <location filename="lemon.cpp" line="452"/>
+        <location filename="lemon.cpp" line="462"/>
+        <location filename="lemon.cpp" line="468"/>
+        <location filename="lemon.cpp" line="645"/>
+        <location filename="lemon.cpp" line="649"/>
         <source>Clean up Files</source>
         <oldsource>&amp;Clean up Files</oldsource>
         <translation>整理文件</translation>
@@ -2323,7 +2655,7 @@
     </message>
     <message>
         <location filename="forms/lemon.ui" line="919"/>
-        <location filename="lemon.cpp" line="1166"/>
+        <location filename="lemon.cpp" line="1168"/>
         <source>Manual</source>
         <translation>用户手册</translation>
     </message>
@@ -2337,12 +2669,12 @@
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="428"/>
+        <location filename="lemon.cpp" line="430"/>
         <source>Are you sure to Clean up Files?</source>
         <translation>确定要整理文件吗？</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="429"/>
+        <location filename="lemon.cpp" line="431"/>
         <source>Reading guide are recommended.</source>
         <translation>建议参看教程后再确认操作。</translation>
     </message>
@@ -2351,7 +2683,7 @@
         <translation type="vanished">创建备份文件到 &lt;br&gt; `source.bak&apos;？</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="450"/>
+        <location filename="lemon.cpp" line="452"/>
         <source>Aborted.</source>
         <translation>没有进行整理。</translation>
     </message>
@@ -2364,90 +2696,90 @@
         <translation type="vanished">没有进行整理：没法创建 `source.bak&apos;。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="471"/>
+        <location filename="lemon.cpp" line="473"/>
         <source>Making Backup...</source>
         <translation>备份中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="493"/>
+        <location filename="lemon.cpp" line="495"/>
         <source>Cleaning</source>
         <translation>整理中</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="500"/>
+        <location filename="lemon.cpp" line="502"/>
         <source>Working on it...</source>
         <translation>正在整理…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="505"/>
+        <location filename="lemon.cpp" line="507"/>
         <source>Fetching Data...</source>
         <translation>抓取题目数据…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="513"/>
+        <location filename="lemon.cpp" line="515"/>
         <source>Initing...</source>
         <translation>预处理中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="553"/>
+        <location filename="lemon.cpp" line="555"/>
         <source>Now Cleaning...</source>
         <translation>整理文件中…</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="642"/>
+        <location filename="lemon.cpp" line="644"/>
         <source>Finished.</source>
         <translation>整理完成。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="647"/>
+        <location filename="lemon.cpp" line="649"/>
         <source>Aborted</source>
         <translation>没有进行整理</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="753"/>
-        <location filename="lemon.cpp" line="779"/>
-        <location filename="lemon.cpp" line="790"/>
-        <location filename="lemon.cpp" line="803"/>
-        <location filename="lemon.cpp" line="846"/>
+        <location filename="lemon.cpp" line="755"/>
+        <location filename="lemon.cpp" line="781"/>
+        <location filename="lemon.cpp" line="792"/>
+        <location filename="lemon.cpp" line="805"/>
+        <location filename="lemon.cpp" line="848"/>
         <source>Error</source>
         <translation>出错了</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="753"/>
-        <location filename="lemon.cpp" line="779"/>
+        <location filename="lemon.cpp" line="755"/>
+        <location filename="lemon.cpp" line="781"/>
         <source>Cannot open file %1</source>
         <translation>无法打开 %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="755"/>
+        <location filename="lemon.cpp" line="757"/>
         <source>Save Failed</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="768"/>
+        <location filename="lemon.cpp" line="770"/>
         <source>Saved</source>
         <translation>已保存</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="790"/>
-        <location filename="lemon.cpp" line="803"/>
+        <location filename="lemon.cpp" line="792"/>
+        <location filename="lemon.cpp" line="805"/>
         <source>File %1 is broken</source>
         <translation>%1 已损坏</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="837"/>
-        <location filename="lemon.cpp" line="856"/>
-        <location filename="lemon.cpp" line="1143"/>
+        <location filename="lemon.cpp" line="839"/>
+        <location filename="lemon.cpp" line="858"/>
+        <location filename="lemon.cpp" line="1145"/>
         <source>LemonLime - %1</source>
         <translation>LemonLime - %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1138"/>
+        <location filename="lemon.cpp" line="1140"/>
         <source>The name did not changes.</source>
         <translation>名字没有改变。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1157"/>
+        <location filename="lemon.cpp" line="1159"/>
         <source>BETA VERISON</source>
         <translation>BETA 版本</translation>
     </message>
@@ -2456,9 +2788,9 @@
         <translation type="vanished">不稳定版本</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1130"/>
-        <location filename="lemon.cpp" line="1134"/>
-        <location filename="lemon.cpp" line="1138"/>
+        <location filename="lemon.cpp" line="1132"/>
+        <location filename="lemon.cpp" line="1136"/>
+        <location filename="lemon.cpp" line="1140"/>
         <source>Rename Contest</source>
         <translation>重命名比赛</translation>
     </message>
@@ -2484,7 +2816,7 @@
         <translation type="vanished">注意</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="466"/>
+        <location filename="lemon.cpp" line="468"/>
         <source>Aborted: Cannot make dir `%1&apos;.</source>
         <translation>没有进行整理：没法创建 `%1&apos;。</translation>
     </message>
@@ -2657,38 +2989,38 @@
         <translation type="vanished">LemonLime - %1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="846"/>
+        <location filename="lemon.cpp" line="848"/>
         <source>Cannot make contest path</source>
         <translation>无法创建比赛目录</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1090"/>
+        <location filename="lemon.cpp" line="1092"/>
         <source>No task found</source>
         <translation>找不到任何试题</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1130"/>
+        <location filename="lemon.cpp" line="1132"/>
         <source>No Contest Yet</source>
         <translation>还没有比赛</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1134"/>
+        <location filename="lemon.cpp" line="1136"/>
         <source>Write the name you want.</source>
         <translation>输入你想要的名字。</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1134"/>
+        <location filename="lemon.cpp" line="1136"/>
         <source>New Name</source>
         <translation>新名字</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1153"/>
+        <location filename="lemon.cpp" line="1155"/>
         <source>A tiny judging environment for OI contest based on Project Lemon</source>
         <oldsource>A tiny judging environment for OI contest</oldsource>
         <translation>基于Lemon的简易OI竞赛测试环境</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1154"/>
+        <location filename="lemon.cpp" line="1156"/>
         <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
         <oldsource>Base on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</oldsource>
         <translation>基于Lemon v1.2 by Zhipeng Jia, 2011</translation>
@@ -2702,7 +3034,7 @@
         <translation type="vanished">由Dust1404更新</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1160"/>
+        <location filename="lemon.cpp" line="1162"/>
         <source>Update by Dust1404 and iotang</source>
         <oldsource>Featured by iotang</oldsource>
         <translation>由 Dust1404 和 iotang 更新</translation>
@@ -2760,12 +3092,12 @@
         <translation type="vanished">下面是一个例子：</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="445"/>
+        <location filename="lemon.cpp" line="447"/>
         <source>Making backup files to dir &lt;br&gt; `%1&apos;?</source>
         <translation>创建备份文件到 &lt;br&gt; `%1&apos;？</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="460"/>
+        <location filename="lemon.cpp" line="462"/>
         <source>Aborted: `%1&apos; already exist.</source>
         <translation>没有进行整理：`%1&apos; 已经存在。</translation>
     </message>
@@ -2882,7 +3214,7 @@
         <translation type="obsolete">项目地址</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1161"/>
+        <location filename="lemon.cpp" line="1163"/>
         <source>About LemonLime</source>
         <oldsource>About LemonPlus</oldsource>
         <translation>关于 LemonLime</translation>
@@ -2892,7 +3224,7 @@
         <translation type="obsolete">v1.2 测试版</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1156"/>
+        <location filename="lemon.cpp" line="1158"/>
         <source>Build Date: %1</source>
         <translation>构建日期：%1</translation>
     </message>
@@ -2901,7 +3233,7 @@
         <translation type="obsolete">Copyright (c) 2011 Zhipeng Jia</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1158"/>
+        <location filename="lemon.cpp" line="1160"/>
         <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
         <translation>本程序基于&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;许可协议</translation>
     </message>
@@ -3980,239 +4312,6 @@ p, li { white-space: pre-wrap; }
         <location filename="forms/welcomedialog.ui" line="39"/>
         <source>New</source>
         <translation>新建</translation>
-    </message>
-</context>
-<context>
-    <name>extTestCaseModifier</name>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="20"/>
-        <source>Modify</source>
-        <translation>修改选中</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="53"/>
-        <source>Split</source>
-        <translation>拆分</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="60"/>
-        <source>New Subtask</source>
-        <translation>新测试点</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="70"/>
-        <source>Merge</source>
-        <translation>合并</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="77"/>
-        <source>New Case</source>
-        <translation>新数据</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="97"/>
-        <source>Move Down</source>
-        <translation>下移</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="104"/>
-        <source>Remove</source>
-        <translation>移除</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcasemodifier.ui" line="111"/>
-        <source>Move Up</source>
-        <translation>上移</translation>
-    </message>
-</context>
-<context>
-    <name>extTestCaseModifierDialog</name>
-    <message>
-        <location filename="forms/exttestcasemodifierdialog.ui" line="20"/>
-        <source>Dialog</source>
-        <translation>设定</translation>
-    </message>
-    <message>
-        <location filename="exttestcasemodifierdialog.cpp" line="11"/>
-        <source>Advanced Test Case Modifier</source>
-        <translation>增强测试点调整器</translation>
-    </message>
-</context>
-<context>
-    <name>extTestCaseTable</name>
-    <message>
-        <location filename="exttestcasetable.cpp" line="44"/>
-        <source>Informations</source>
-        <translation>信息</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="45"/>
-        <source>Input</source>
-        <translation>输入</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="46"/>
-        <source>Output</source>
-        <translation>输出</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="84"/>
-        <source>Test Case #%1:
-%2 Pt</source>
-        <translation>测试点 #%1：
-%2 Pt</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="86"/>
-        <source>Test Case #%1:
-%2 Pt
-Time Limit: %3 ms
-Memory Limit: %4 MB</source>
-        <translation>测试点 #%1：
-%2 Pt
-时间限制：%3 ms
-空间限制：%4 MB</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="88"/>
-        <source>
-No Depends</source>
-        <translation>
-没有依赖</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="92"/>
-        <source>
-Depends: </source>
-        <translation>
-依赖： </translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="98"/>
-        <source>#%1 :: %2 pt, %3</source>
-        <translation>#%1 :: %2 pt, %3</translation>
-    </message>
-    <message>
-        <location filename="exttestcasetable.cpp" line="100"/>
-        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</source>
-        <translation>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</translation>
-    </message>
-</context>
-<context>
-    <name>extTestCaseUpdater</name>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="20"/>
-        <source>Dialog</source>
-        <translation>设定</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="29"/>
-        <source>Score</source>
-        <translation>得分</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="39"/>
-        <source>Input File</source>
-        <translation>输入文件</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="49"/>
-        <location filename="forms/exttestcaseupdater.ui" line="66"/>
-        <source>View</source>
-        <translation>选择</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="56"/>
-        <source>Output File</source>
-        <translation>输出文件</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="73"/>
-        <source>Time Limit</source>
-        <translation>时间限制</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="83"/>
-        <source>ms</source>
-        <translation>ms</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="90"/>
-        <source>Memory Limit</source>
-        <translation>空间限制</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="100"/>
-        <source>MB</source>
-        <translation>MB</translation>
-    </message>
-    <message>
-        <location filename="forms/exttestcaseupdater.ui" line="107"/>
-        <source>Depends</source>
-        <translation>依赖</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="15"/>
-        <source>Configure Test Case #%1</source>
-        <translation>设置测试点 #%1</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="16"/>
-        <source>Configure</source>
-        <translation>设置测试点</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="96"/>
-        <source>Input Data</source>
-        <translation>输入文件</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="104"/>
-        <location filename="exttestcaseupdater.cpp" line="129"/>
-        <source>All Files (*)</source>
-        <translation>所有文件 (*)</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="108"/>
-        <source>Choose Input File</source>
-        <translation>选择输入文件</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="121"/>
-        <source>Output Data</source>
-        <translation>输出文件</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="133"/>
-        <source>Choose Output File</source>
-        <translation>选择输出文件</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="148"/>
-        <location filename="exttestcaseupdater.cpp" line="154"/>
-        <location filename="exttestcaseupdater.cpp" line="160"/>
-        <source>Error</source>
-        <translation>出错了</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="148"/>
-        <source>Input File is Empty!</source>
-        <translation>输入文件名为空！</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="154"/>
-        <source>Output File is Empty!</source>
-        <translation>输出文件名为空！</translation>
-    </message>
-    <message>
-        <location filename="exttestcaseupdater.cpp" line="160"/>
-        <source>Dependence subtask index error!</source>
-        <translation>子任务依赖编号错误！</translation>
     </message>
 </context>
 </TS>

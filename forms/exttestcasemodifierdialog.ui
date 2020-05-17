@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>extTestCaseModifierDialog</class>
- <widget class="QDialog" name="extTestCaseModifierDialog">
+ <class>ExtTestCaseModifierDialog</class>
+ <widget class="QDialog" name="ExtTestCaseModifierDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>800</width>
     <height>512</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>650</width>
+    <width>800</width>
     <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resource.qrc">
+    <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="extTestCaseModifier" name="widget" native="true"/>
+    <widget class="ExtTestCaseModifier" name="widget" native="true"/>
    </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -39,12 +43,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>extTestCaseModifier</class>
+   <class>ExtTestCaseModifier</class>
    <extends>QWidget</extends>
    <header>exttestcasemodifier.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>extTestCaseModifier</class>
- <widget class="QWidget" name="extTestCaseModifier">
+ <class>ExtTestCaseModifier</class>
+ <widget class="QWidget" name="ExtTestCaseModifier">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -87,7 +87,7 @@
     </widget>
    </item>
    <item row="0" column="0" rowspan="13">
-    <widget class="extTestCaseTable" name="testCaseTable">
+    <widget class="ExtTestCaseTable" name="testCaseTable">
      <property name="font">
       <font>
        <pointsize>10</pointsize>
@@ -195,7 +195,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>extTestCaseTable</class>
+   <class>ExtTestCaseTable</class>
    <extends>QTableWidget</extends>
    <header>exttestcasetable.h</header>
   </customwidget>

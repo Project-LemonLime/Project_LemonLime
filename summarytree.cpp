@@ -38,7 +38,7 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	addTestCasesAction = new QAction(tr("Add Test Cases ..."), this);
 	deleteTaskAction = new QAction(tr("Delete Current Task"), this);
 	deleteTestCaseAction = new QAction(tr("Delete Current Test Case"), this);
-	extTestCaseModifierAction = new QAction(tr("Advanced Test Case Modifier"), this);
+	ExtTestCaseModifierAction = new QAction(tr("Advanced Test Case Modifier"), this);
 	addTaskKeyAction = new QAction(this);
 	addTestCaseKeyAction = new QAction(this);
 	deleteTaskKeyAction = new QAction(this);
@@ -65,7 +65,7 @@ SummaryTree::SummaryTree(QWidget *parent) :
 	        this, SLOT(addTestCase()));
 	connect(addTestCasesAction, SIGNAL(triggered()),
 	        this, SLOT(addTestCases()));
-	connect(extTestCaseModifierAction, SIGNAL(triggered()),
+	connect(ExtTestCaseModifierAction, SIGNAL(triggered()),
 	        this, SLOT(launchExtTestCaseModifier()));
 	connect(addTaskKeyAction, SIGNAL(triggered()),
 	        this, SLOT(addTask()));
@@ -99,7 +99,7 @@ void SummaryTree::changeEvent(QEvent *event)
 		                          nullptr));
 		deleteTestCaseAction->setText(QApplication::translate("SummaryTree", "Delete Current Test Case",
 		                              nullptr));
-		extTestCaseModifierAction->setText(QApplication::translate("SummaryTree", "Advanced Test Case Modifier",
+		ExtTestCaseModifierAction->setText(QApplication::translate("SummaryTree", "Advanced Test Case Modifier",
 		                                   nullptr));
 
 		for (int i = 0; i < topLevelItemCount(); i ++)
@@ -162,7 +162,7 @@ void SummaryTree::setSettings(Settings *_settings)
 	settings = _settings;
 }
 
-void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
+void SummaryTree::contextMenuEvent(QContextMenuEvent *event)
 {
 	auto *contextMenu = new QMenu(this);
 	QTreeWidgetItem *curItem = currentItem();
@@ -185,7 +185,7 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent */*event*/)
 		contextMenu->addAction(addTestCaseAction);
 		contextMenu->addAction(addTestCasesAction);
 		contextMenu->addSeparator();
-		contextMenu->addAction(extTestCaseModifierAction);
+		contextMenu->addAction(ExtTestCaseModifierAction);
 		contextMenu->exec(QCursor::pos());
 		delete contextMenu;
 	}
@@ -401,7 +401,7 @@ void SummaryTree::launchExtTestCaseModifier()
 	int index = indexOfTopLevelItem(curItem);
 	Task *curTask = curContest->getTask(index);
 
-	auto *dialog = new extTestCaseModifierDialog;
+	auto *dialog = new ExtTestCaseModifierDialog;
 
 	dialog->init(curTask, settings);
 

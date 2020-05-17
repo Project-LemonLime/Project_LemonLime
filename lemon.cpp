@@ -187,7 +187,7 @@ void Lemon::changeEvent(QEvent *event)
 	}
 }
 
-void Lemon::closeEvent(QCloseEvent */*event*/)
+void Lemon::closeEvent(QCloseEvent *event)
 {
 	if (curContest) saveContest(curFile);
 
@@ -353,6 +353,7 @@ void Lemon::showOptionsDialog()
 	}
 
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->refresh();
 	delete dialog;
 }
 
@@ -370,6 +371,7 @@ void Lemon::refreshButtonClicked()
 {
 	curContest->refreshContestantList();
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->refresh();
 	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 	ui->cleanupAction->setEnabled(true);
 	ui->refreshAction->setEnabled(true);
@@ -694,8 +696,8 @@ void Lemon::moveUpTask()
 	int index = ui->summary->indexOfTopLevelItem(curItem);
 	curContest->swapTask(index - 1, index);
 	ui->summary->setContest(curContest);
-	ui->statisticsBrowser->refresh();
 	ui->resultViewer->refreshViewer();
+	ui->statisticsBrowser->refresh();
 	curItem = ui->summary->topLevelItem(index - 1);
 
 	if (!curItem)curItem = ui->summary->topLevelItem(index);

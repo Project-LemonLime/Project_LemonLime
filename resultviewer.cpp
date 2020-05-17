@@ -76,7 +76,7 @@ void ResultViewer::changeEvent(QEvent *event)
 	}
 }
 
-void ResultViewer::contextMenuEvent(QContextMenuEvent */*event*/)
+void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 

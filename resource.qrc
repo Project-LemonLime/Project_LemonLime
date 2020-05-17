@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/logo">
         <file alias="splash.png">pics/splash.png</file>
+        <file alias="splash2.png">pics/splash2.png</file>
     </qresource>
     <qresource prefix="/icon">
         <file alias="icon.png">pics/icon.png</file>

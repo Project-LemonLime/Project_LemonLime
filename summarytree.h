@@ -57,7 +57,7 @@ private:
 	QAction *deleteTestCaseAction;
 	QAction *deleteTaskKeyAction;
 	QAction *deleteTestCaseKeyAction;
-	QAction *extTestCaseModifierAction;
+	QAction *ExtTestCaseModifierAction;
 
 private slots:
 	void addTask();

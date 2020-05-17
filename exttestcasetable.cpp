@@ -1,8 +1,28 @@
+/***************************************************************************
+	 This file is part of Project LemonLime
+	 Copyright (C) 2020 iotang
+
+	 This program is free software: you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation, either version 3 of the License, or
+	 (at your option) any later version.
+
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details.
+
+	 You should have received a copy of the GNU General Public License
+	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***************************************************************************/
+
 #include <qtablewidget.h>
 #include <qheaderview.h>
 #include "exttestcasetable.h"
+#include "task.h"
+#include "testcase.h"
 
-extTestCaseTable::extTestCaseTable(QWidget *parent)
+ExtTestCaseTable::ExtTestCaseTable(QWidget *parent)
 {
 	clear();
 
@@ -10,12 +30,11 @@ extTestCaseTable::extTestCaseTable(QWidget *parent)
 	horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-	verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+	verticalHeader()->hide();
 
 	setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-	connect(this, &QTableWidget::itemSelectionChanged, this, &extTestCaseTable::whenItemSelectionChanged);
+	connect(this, &QTableWidget::itemSelectionChanged, this, &ExtTestCaseTable::whenItemSelectionChanged);
 	connect(this, &QTableWidget::itemClicked, this, [this](QTableWidgetItem * item)
 	{
 		if (!item->column())
@@ -48,7 +67,74 @@ extTestCaseTable::extTestCaseTable(QWidget *parent)
 
 }
 
-void extTestCaseTable::refreshTask(Task *nowTask)
+int ExtTestCaseTable::canModify()
+{
+	return isCanModify;
+}
+
+int ExtTestCaseTable::canAddSub()
+{
+	return isCanAddSub;
+}
+
+int ExtTestCaseTable::canAddCase()
+{
+	return isCanAddCase;
+}
+
+int ExtTestCaseTable::canRemove()
+{
+	return isCanRemove;
+}
+int ExtTestCaseTable::canUp()
+{
+	return isCanUp;
+}
+int ExtTestCaseTable::canDown()
+{
+	return isCanDown;
+}
+int ExtTestCaseTable::canMerge()
+{
+	return isCanMerge;
+}
+int ExtTestCaseTable::canSplit()
+{
+	return isCanSplit;
+}
+
+QList<int> ExtTestCaseTable::getSelectedHaveSub()
+{
+	return haveSub;
+}
+
+QList<QPair<int, QPair<int, int>>> ExtTestCaseTable::getSelectedResSub()
+{
+	return resSub;
+}
+
+QPair<int, int> ExtTestCaseTable::getSelectRange()
+{
+	return qMakePair(selectMi, selectMx);
+}
+
+void ExtTestCaseTable::addItem(int row, int column, const QString &text)
+{
+	QTableWidgetItem *item = new QTableWidgetItem(text);
+	item->setTextAlignment(Qt::AlignCenter);
+	item->setToolTip(text);
+	this->setItem(row, column, item);
+}
+
+void ExtTestCaseTable::addItem(int row, int column, const QString &text, const QString &tipText)
+{
+	QTableWidgetItem *item = new QTableWidgetItem(text);
+	item->setTextAlignment(Qt::AlignCenter);
+	item->setToolTip(tipText);
+	this->setItem(row, column, item);
+}
+
+void ExtTestCaseTable::refreshTask(Task *nowTask)
 {
 	editTask = nowTask;
 
@@ -80,6 +166,7 @@ void extTestCaseTable::refreshTask(Task *nowTask)
 			addItem(nowrow, 2, outputs[j]);
 
 			QString depStr = "", tipStr;
+
 			if (editTask->getTaskType() == Task::AnswersOnly)
 				tipStr = QString(tr("Test Case #%1:\n%2 Pt")).arg(i + 1).arg(score);
 			else
@@ -108,7 +195,7 @@ void extTestCaseTable::refreshTask(Task *nowTask)
 	noDfs = 0;
 }
 
-void extTestCaseTable::whenItemSelectionChanged()
+void ExtTestCaseTable::whenItemSelectionChanged()
 {
 	if (noDfs) return;
 
@@ -198,7 +285,7 @@ void extTestCaseTable::whenItemSelectionChanged()
 	noDfs = 0;
 }
 
-void extTestCaseTable::modifySelected(int mi, int mx)
+void ExtTestCaseTable::modifySelected(int mi, int mx)
 {
 	QTableWidgetSelectionRange range(mi, 1, mx, columnCount() - 1);
 	setRangeSelected(range, true);

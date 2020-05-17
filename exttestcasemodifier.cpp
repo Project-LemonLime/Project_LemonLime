@@ -1,14 +1,34 @@
-#include "exttestcasemodifier.h"
-#include "exttestcaseupdater.h"
-#include "ui_exttestcasemodifier.h"
+/***************************************************************************
+	 This file is part of Project LemonLime
+	 Copyright (C) 2020 iotang
 
-extTestCaseModifier::extTestCaseModifier(QWidget *parent) :
+	 This program is free software: you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation, either version 3 of the License, or
+	 (at your option) any later version.
+
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details.
+
+	 You should have received a copy of the GNU General Public License
+	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***************************************************************************/
+
+#include "exttestcasemodifier.h"
+#include "exttestcaseupdaterdialog.h"
+#include "ui_exttestcasemodifier.h"
+#include "task.h"
+#include "testcase.h"
+
+ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::extTestCaseModifier)
+	ui(new Ui::ExtTestCaseModifier)
 {
 	ui->setupUi(this);
 
-	connect(ui->testCaseTable, &extTestCaseTable::testCaseSelectionChanged, this, &extTestCaseModifier::whenTestCaseSelectionChanged);
+	connect(ui->testCaseTable, &ExtTestCaseTable::testCaseSelectionChanged, this, &ExtTestCaseModifier::whenTestCaseSelectionChanged);
 
 	connect(ui->buttonModify, SIGNAL(clicked()),
 	        this, SLOT(modifySelected()));
@@ -28,18 +48,18 @@ extTestCaseModifier::extTestCaseModifier(QWidget *parent) :
 	        this, SLOT(appendNewCase()));
 }
 
-extTestCaseModifier::~extTestCaseModifier()
+ExtTestCaseModifier::~ExtTestCaseModifier()
 {
 	delete ui;
 }
 
-void extTestCaseModifier::refresh()
+void ExtTestCaseModifier::refresh()
 {
 	ui->testCaseTable->refreshTask(editTask);
 	whenTestCaseSelectionChanged();
 }
 
-void extTestCaseModifier::init(Task *theTask, const Settings *theSettings)
+void ExtTestCaseModifier::init(Task *theTask, const Settings *theSettings)
 {
 	editTask = theTask;
 	editSettings = theSettings;
@@ -49,7 +69,7 @@ void extTestCaseModifier::init(Task *theTask, const Settings *theSettings)
 	whenTestCaseSelectionChanged();
 }
 
-void extTestCaseModifier::whenTestCaseSelectionChanged()
+void ExtTestCaseModifier::whenTestCaseSelectionChanged()
 {
 	ui->buttonModify->setEnabled(ui->testCaseTable->canModify());
 	ui->buttonNewSub->setEnabled(ui->testCaseTable->canAddSub());
@@ -61,7 +81,7 @@ void extTestCaseModifier::whenTestCaseSelectionChanged()
 	ui->buttonSplit->setEnabled(ui->testCaseTable->canSplit());
 }
 
-void extTestCaseModifier::modifySelected()
+void ExtTestCaseModifier::modifySelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
 	auto res = ui->testCaseTable->getSelectedResSub();
@@ -72,14 +92,22 @@ void extTestCaseModifier::modifySelected()
 
 		if (l != r)
 		{
-			auto *dialog = new extTestCaseUpdater(this, editTask, editSettings, -1, -2, -2, -1, -1, -2);
+			auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, -1,
+			      MAY_EDIT, NO_EDIT, MAY_EDIT, MAY_EDIT, NO_EDIT);
 
 			if (dialog->exec() == QDialog::Accepted)
 			{
+				auto sc = dialog->getScore();
+				auto tl = dialog->getTimeLimit();
+				auto ml = dialog->getMemoryLimit();
+
 				for (int i = l; i <= r; i++)
 				{
-					editTask->getTestCase(i)->setTimeLimit(dialog->getTimeLimit());
-					editTask->getTestCase(i)->setMemoryLimit(dialog->getMemoryLimit());
+					if (sc != MAY_EDIT) editTask->getTestCase(i)->setFullScore(sc);
+
+					if (tl != MAY_EDIT) editTask->getTestCase(i)->setTimeLimit(tl);
+
+					if (ml != MAY_EDIT) editTask->getTestCase(i)->setMemoryLimit(ml);
 				}
 			}
 
@@ -87,7 +115,10 @@ void extTestCaseModifier::modifySelected()
 		}
 		else
 		{
-			auto *dialog = new extTestCaseUpdater(this, editTask, editSettings, l + 1, editTask->getTestCase(l)->getFullScore(), -2, editTask->getTestCase(l)->getTimeLimit(), editTask->getTestCase(l)->getMemoryLimit(), 1, editTask->getTestCase(l)->getDependenceSubtask());
+			auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, l + 1,
+			      editTask->getTestCase(l)->getFullScore(), NO_EDIT,
+			      editTask->getTestCase(l)->getTimeLimit(), editTask->getTestCase(l)->getMemoryLimit(),
+			      1, editTask->getTestCase(l)->getDependenceSubtask());
 
 			if (dialog->exec() == QDialog::Accepted)
 			{
@@ -104,7 +135,7 @@ void extTestCaseModifier::modifySelected()
 	{
 		int who = res.front().first, loc = res.front().second.first;
 
-		auto *dialog = new extTestCaseUpdater(this, editTask, editSettings, -2, -2, 1, -2, -2, -2);
+		auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, -1, NO_EDIT, 1, NO_EDIT, NO_EDIT, NO_EDIT);
 
 		if (dialog->exec() == QDialog::Accepted)
 		{
@@ -116,7 +147,7 @@ void extTestCaseModifier::modifySelected()
 	refresh();
 }
 
-void extTestCaseModifier::moveUpSelected()
+void ExtTestCaseModifier::moveUpSelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
 	auto res = ui->testCaseTable->getSelectedResSub();
@@ -183,7 +214,7 @@ void extTestCaseModifier::moveUpSelected()
 	ui->testCaseTable->modifySelected(temp.first + dlt, temp.second + dlt);
 }
 
-void extTestCaseModifier::moveDownSelected()
+void ExtTestCaseModifier::moveDownSelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
 	auto res = ui->testCaseTable->getSelectedResSub();
@@ -264,7 +295,7 @@ void extTestCaseModifier::moveDownSelected()
 	ui->testCaseTable->modifySelected(temp.first + dlt, temp.second + dlt);
 }
 
-void extTestCaseModifier::removeSelected()
+void ExtTestCaseModifier::removeSelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
 	auto res = ui->testCaseTable->getSelectedResSub();
@@ -312,10 +343,9 @@ void extTestCaseModifier::removeSelected()
 	refresh();
 }
 
-void extTestCaseModifier::mergeSelected()
+void ExtTestCaseModifier::mergeSelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
 
 	auto temp = ui->testCaseTable->getSelectRange();
 
@@ -346,10 +376,9 @@ void extTestCaseModifier::mergeSelected()
 	ui->testCaseTable->modifySelected(temp.first, temp.second);
 }
 
-void extTestCaseModifier::splitSelected()
+void ExtTestCaseModifier::splitSelected()
 {
 	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
 
 	auto temp = ui->testCaseTable->getSelectRange();
 
@@ -396,9 +425,10 @@ void extTestCaseModifier::splitSelected()
 }
 
 
-void extTestCaseModifier::appendNewSub()
+void ExtTestCaseModifier::appendNewSub()
 {
-	auto *dialog = new extTestCaseUpdater(this, editTask, editSettings, editTask->getTestCaseList().size() + 1, -1, 1, -1, -1, 1);
+	auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, editTask->getTestCaseList().size() + 1,
+	      EDIT_WITH_DEFAULT, 1, EDIT_WITH_DEFAULT, EDIT_WITH_DEFAULT, 1);
 
 	if (dialog->exec() == QDialog::Accepted)
 	{
@@ -417,11 +447,12 @@ void extTestCaseModifier::appendNewSub()
 	refresh();
 }
 
-void extTestCaseModifier::appendNewCase()
+void ExtTestCaseModifier::appendNewCase()
 {
-	int who = ui->testCaseTable->getSelectedHaveSub().front();
+	int who = ui->testCaseTable->getSelectedHaveSub().back();
 
-	auto *dialog = new extTestCaseUpdater(this, editTask, editSettings, who + 1, -2, 1, -2, -2, -2);
+	auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, who + 1,
+	      NO_EDIT, 1, NO_EDIT, NO_EDIT, NO_EDIT);
 
 	if (dialog->exec() == QDialog::Accepted)
 	{

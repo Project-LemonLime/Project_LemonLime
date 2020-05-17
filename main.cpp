@@ -56,7 +56,8 @@ auto main(int argc, char *argv[]) -> int
 	// fonts.setFamily("PingFangSC-Regular");
 #endif
 	Q_INIT_RESOURCE(resource);
-	QPixmap pixmap(":/logo/splash.png");
+	QPixmap pixmap(":/logo/splash2.png");
+	pixmap = pixmap.scaled(600,255);
 	QSplashScreen screen(pixmap);
 	Lemon w;
 	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
