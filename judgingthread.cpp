@@ -26,6 +26,8 @@
 
 #include <cstring>
 #include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include <QTime>
 #include "judgingthread.h"
 #include "settings.h"
@@ -693,7 +695,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			return;
 		}
 
-		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) || (abs(a - b) > eps && abs(a - b) > eps * abs(b)))
+		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) || (std::abs(a - b) > eps && std::abs(a - b) > eps * std::abs(b)))
 		{
 			score = 0;
 			result = WrongAnswer;
