@@ -52,6 +52,7 @@ public:
 	int getTimeUsed() const;
 	int getMemoryUsed() const;
 	int getScore() const;
+	int getFullScore() const;
 	int getJudgeTimes() const;
 	ResultState getResult() const;
 	const QString &getMessage() const;

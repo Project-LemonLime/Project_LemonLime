@@ -693,17 +693,17 @@
 <context>
     <name>AssignmentThread</name>
     <message>
-        <location filename="assignmentthread.cpp" line="112"/>
+        <location filename="assignmentthread.cpp" line="113"/>
         <source>Preparing...</source>
         <translation>准备中…</translation>
     </message>
     <message>
-        <location filename="assignmentthread.cpp" line="253"/>
+        <location filename="assignmentthread.cpp" line="254"/>
         <source>Compiling...</source>
         <translation>编译中…</translation>
     </message>
     <message>
-        <location filename="assignmentthread.cpp" line="348"/>
+        <location filename="assignmentthread.cpp" line="349"/>
         <source>Compiled Successfully</source>
         <translation>编译完成</translation>
     </message>
@@ -778,100 +778,98 @@
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="57"/>
+        <location filename="detaildialog.cpp" line="58"/>
         <source>Contestant: %1</source>
         <translation>选手：%1</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="69"/>
-        <location filename="detaildialog.cpp" line="78"/>
+        <location filename="detaildialog.cpp" line="70"/>
+        <location filename="detaildialog.cpp" line="79"/>
         <source>Task</source>
         <translation>试题</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="69"/>
-        <location filename="detaildialog.cpp" line="78"/>
+        <location filename="detaildialog.cpp" line="70"/>
+        <location filename="detaildialog.cpp" line="79"/>
         <source>Rejudge</source>
         <translation>重新测试</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="82"/>
+        <location filename="detaildialog.cpp" line="83"/>
         <source>Not judged</source>
         <translation>未测试</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="93"/>
+        <location filename="detaildialog.cpp" line="94"/>
         <source>Cannot find valid source file</source>
         <translation>未找到选手程序</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="97"/>
-        <location filename="detaildialog.cpp" line="106"/>
-        <location filename="detaildialog.cpp" line="122"/>
+        <location filename="detaildialog.cpp" line="98"/>
+        <location filename="detaildialog.cpp" line="107"/>
+        <location filename="detaildialog.cpp" line="123"/>
         <source>Source file: </source>
         <translation>源程序： </translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="98"/>
+        <location filename="detaildialog.cpp" line="99"/>
         <source>Compile time limit exceeded</source>
         <translation>编译超时</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="102"/>
+        <location filename="detaildialog.cpp" line="103"/>
         <source>Cannot run given compiler</source>
         <translation>给定编译器无法运行</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="107"/>
+        <location filename="detaildialog.cpp" line="108"/>
         <source>Compile error</source>
         <oldsource>&amp;nbsp;&amp;nbsp;Compile error</oldsource>
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="126"/>
+        <location filename="detaildialog.cpp" line="127"/>
         <source>Test Case</source>
         <translation>测试点</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="127"/>
+        <location filename="detaildialog.cpp" line="128"/>
         <source>Input File</source>
         <translation>输入文件</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="128"/>
+        <location filename="detaildialog.cpp" line="129"/>
         <source>Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="129"/>
+        <location filename="detaildialog.cpp" line="130"/>
         <source>Time Used</source>
         <translation>运行用时</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="130"/>
+        <location filename="detaildialog.cpp" line="131"/>
         <source>Memory Used</source>
         <translation>内存消耗</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="131"/>
+        <location filename="detaildialog.cpp" line="132"/>
         <source>Score</source>
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="153"/>
+        <location filename="detaildialog.cpp" line="154"/>
         <source>Subtask Dependence Status</source>
         <oldsource>Subtask Dependence Score</oldsource>
         <translation>子任务依赖情况</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="153"/>
         <source>Success</source>
-        <translation>通过</translation>
+        <translation type="vanished">通过</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="153"/>
         <source>Failed</source>
-        <translation>失败</translation>
+        <translation type="vanished">失败</translation>
     </message>
     <message>
         <source>Correct Answer</source>
@@ -926,18 +924,18 @@
         <translation type="vanished">交互库错误</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="177"/>
-        <location filename="detaildialog.cpp" line="189"/>
+        <location filename="detaildialog.cpp" line="178"/>
+        <location filename="detaildialog.cpp" line="190"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="249"/>
+        <location filename="detaildialog.cpp" line="265"/>
         <source>Compile Message</source>
         <translation>编译信息</translation>
     </message>
     <message>
-        <location filename="detaildialog.cpp" line="257"/>
+        <location filename="detaildialog.cpp" line="273"/>
         <source>Message</source>
         <translation>信息</translation>
     </message>
@@ -1017,108 +1015,104 @@
 <context>
     <name>ExportUtil</name>
     <message>
-        <location filename="exportutil.cpp" line="53"/>
-        <location filename="exportutil.cpp" line="383"/>
+        <location filename="exportutil.cpp" line="54"/>
+        <location filename="exportutil.cpp" line="384"/>
         <source>Task</source>
         <translation>试题</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="57"/>
-        <location filename="exportutil.cpp" line="387"/>
+        <location filename="exportutil.cpp" line="58"/>
+        <location filename="exportutil.cpp" line="388"/>
         <source>Not judged</source>
         <translation>未测试</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="68"/>
-        <location filename="exportutil.cpp" line="398"/>
+        <location filename="exportutil.cpp" line="69"/>
+        <location filename="exportutil.cpp" line="399"/>
         <source>Cannot find valid source file</source>
         <translation>未找到选手程序</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="72"/>
-        <location filename="exportutil.cpp" line="82"/>
-        <location filename="exportutil.cpp" line="112"/>
-        <location filename="exportutil.cpp" line="402"/>
-        <location filename="exportutil.cpp" line="412"/>
-        <location filename="exportutil.cpp" line="442"/>
+        <location filename="exportutil.cpp" line="73"/>
+        <location filename="exportutil.cpp" line="83"/>
+        <location filename="exportutil.cpp" line="113"/>
+        <location filename="exportutil.cpp" line="403"/>
+        <location filename="exportutil.cpp" line="413"/>
+        <location filename="exportutil.cpp" line="443"/>
         <source>Source file: </source>
         <translation>源程序： </translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="74"/>
-        <location filename="exportutil.cpp" line="404"/>
+        <location filename="exportutil.cpp" line="75"/>
+        <location filename="exportutil.cpp" line="405"/>
         <source>Compile time limit exceeded</source>
         <translation>编译超时</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="78"/>
-        <location filename="exportutil.cpp" line="408"/>
+        <location filename="exportutil.cpp" line="79"/>
+        <location filename="exportutil.cpp" line="409"/>
         <source>Cannot run given compiler</source>
         <translation>给定编译器无法运行</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="84"/>
-        <location filename="exportutil.cpp" line="414"/>
+        <location filename="exportutil.cpp" line="85"/>
+        <location filename="exportutil.cpp" line="415"/>
         <source>Compile error</source>
         <translation>编译错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="116"/>
-        <location filename="exportutil.cpp" line="446"/>
+        <location filename="exportutil.cpp" line="117"/>
+        <location filename="exportutil.cpp" line="447"/>
         <source>Test Case</source>
         <translation>测试点</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="117"/>
-        <location filename="exportutil.cpp" line="447"/>
+        <location filename="exportutil.cpp" line="118"/>
+        <location filename="exportutil.cpp" line="448"/>
         <source>Input File</source>
         <translation>输入文件</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="118"/>
-        <location filename="exportutil.cpp" line="448"/>
+        <location filename="exportutil.cpp" line="119"/>
+        <location filename="exportutil.cpp" line="449"/>
         <source>Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="119"/>
-        <location filename="exportutil.cpp" line="449"/>
+        <location filename="exportutil.cpp" line="120"/>
+        <location filename="exportutil.cpp" line="450"/>
         <source>Time Used</source>
         <translation>运行用时</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="120"/>
-        <location filename="exportutil.cpp" line="450"/>
+        <location filename="exportutil.cpp" line="121"/>
+        <location filename="exportutil.cpp" line="451"/>
         <source>Memory Used</source>
         <translation>内存消耗</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="121"/>
-        <location filename="exportutil.cpp" line="451"/>
+        <location filename="exportutil.cpp" line="122"/>
+        <location filename="exportutil.cpp" line="452"/>
         <source>Score</source>
         <translation>得分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="143"/>
-        <location filename="exportutil.cpp" line="473"/>
+        <location filename="exportutil.cpp" line="144"/>
+        <location filename="exportutil.cpp" line="474"/>
         <source>Subtask Dependence Status</source>
         <oldsource>Subtask Dependence Score</oldsource>
         <translation>子任务依赖情况</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="143"/>
-        <location filename="exportutil.cpp" line="473"/>
         <source>Success</source>
-        <translation>通过</translation>
+        <translation type="vanished">通过</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="143"/>
-        <location filename="exportutil.cpp" line="473"/>
         <source>Failed</source>
-        <translation>失败</translation>
+        <translation type="vanished">失败</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="907"/>
+        <location filename="exportutil.cpp" line="908"/>
         <source>Use Default Color Theme?</source>
         <translation>使用默认的颜色主题吗？</translation>
     </message>
@@ -1175,93 +1169,93 @@
         <translation type="vanished">交互库错误</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="171"/>
-        <location filename="exportutil.cpp" line="183"/>
-        <location filename="exportutil.cpp" line="324"/>
-        <location filename="exportutil.cpp" line="356"/>
-        <location filename="exportutil.cpp" line="501"/>
-        <location filename="exportutil.cpp" line="513"/>
-        <location filename="exportutil.cpp" line="634"/>
-        <location filename="exportutil.cpp" line="647"/>
-        <location filename="exportutil.cpp" line="744"/>
-        <location filename="exportutil.cpp" line="756"/>
-        <location filename="exportutil.cpp" line="851"/>
-        <location filename="exportutil.cpp" line="863"/>
+        <location filename="exportutil.cpp" line="172"/>
+        <location filename="exportutil.cpp" line="184"/>
+        <location filename="exportutil.cpp" line="325"/>
+        <location filename="exportutil.cpp" line="357"/>
+        <location filename="exportutil.cpp" line="502"/>
+        <location filename="exportutil.cpp" line="514"/>
+        <location filename="exportutil.cpp" line="635"/>
+        <location filename="exportutil.cpp" line="648"/>
+        <location filename="exportutil.cpp" line="745"/>
+        <location filename="exportutil.cpp" line="757"/>
+        <location filename="exportutil.cpp" line="852"/>
+        <location filename="exportutil.cpp" line="864"/>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="211"/>
-        <location filename="exportutil.cpp" line="536"/>
+        <location filename="exportutil.cpp" line="212"/>
+        <location filename="exportutil.cpp" line="537"/>
         <source>Return to top</source>
         <translation>返回顶部</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="231"/>
-        <location filename="exportutil.cpp" line="372"/>
-        <location filename="exportutil.cpp" line="546"/>
-        <location filename="exportutil.cpp" line="663"/>
-        <location filename="exportutil.cpp" line="672"/>
-        <location filename="exportutil.cpp" line="761"/>
-        <location filename="exportutil.cpp" line="772"/>
-        <location filename="exportutil.cpp" line="871"/>
-        <location filename="exportutil.cpp" line="882"/>
-        <location filename="exportutil.cpp" line="888"/>
+        <location filename="exportutil.cpp" line="232"/>
+        <location filename="exportutil.cpp" line="373"/>
+        <location filename="exportutil.cpp" line="547"/>
+        <location filename="exportutil.cpp" line="664"/>
+        <location filename="exportutil.cpp" line="673"/>
+        <location filename="exportutil.cpp" line="762"/>
+        <location filename="exportutil.cpp" line="773"/>
+        <location filename="exportutil.cpp" line="872"/>
+        <location filename="exportutil.cpp" line="883"/>
+        <location filename="exportutil.cpp" line="889"/>
         <source>LemonLime</source>
         <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="231"/>
-        <location filename="exportutil.cpp" line="546"/>
-        <location filename="exportutil.cpp" line="672"/>
-        <location filename="exportutil.cpp" line="772"/>
+        <location filename="exportutil.cpp" line="232"/>
+        <location filename="exportutil.cpp" line="547"/>
+        <location filename="exportutil.cpp" line="673"/>
+        <location filename="exportutil.cpp" line="773"/>
         <source>Cannot open file %1</source>
         <translation>无法打开%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="244"/>
-        <location filename="exportutil.cpp" line="559"/>
+        <location filename="exportutil.cpp" line="245"/>
+        <location filename="exportutil.cpp" line="560"/>
         <source>Contest Result</source>
         <translation>比赛结果</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="285"/>
-        <location filename="exportutil.cpp" line="600"/>
+        <location filename="exportutil.cpp" line="286"/>
+        <location filename="exportutil.cpp" line="601"/>
         <source>Rank List</source>
         <translation>排名表</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="286"/>
+        <location filename="exportutil.cpp" line="287"/>
         <source>Click names or task scores to jump to details. Judged By LemonLime</source>
         <translation>点击名字或单题分数跳转到详细信息。使用 LemonLime 评测</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="288"/>
-        <location filename="exportutil.cpp" line="603"/>
-        <location filename="exportutil.cpp" line="719"/>
-        <location filename="exportutil.cpp" line="823"/>
+        <location filename="exportutil.cpp" line="289"/>
+        <location filename="exportutil.cpp" line="604"/>
+        <location filename="exportutil.cpp" line="720"/>
+        <location filename="exportutil.cpp" line="824"/>
         <source>Rank</source>
         <translation>排名</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="289"/>
-        <location filename="exportutil.cpp" line="604"/>
-        <location filename="exportutil.cpp" line="719"/>
-        <location filename="exportutil.cpp" line="824"/>
+        <location filename="exportutil.cpp" line="290"/>
+        <location filename="exportutil.cpp" line="605"/>
+        <location filename="exportutil.cpp" line="720"/>
+        <location filename="exportutil.cpp" line="825"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="290"/>
-        <location filename="exportutil.cpp" line="605"/>
-        <location filename="exportutil.cpp" line="726"/>
-        <location filename="exportutil.cpp" line="829"/>
+        <location filename="exportutil.cpp" line="291"/>
+        <location filename="exportutil.cpp" line="606"/>
+        <location filename="exportutil.cpp" line="727"/>
+        <location filename="exportutil.cpp" line="830"/>
         <source>Total Score</source>
         <translation>总分</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="892"/>
+        <location filename="exportutil.cpp" line="893"/>
         <source>HTML Document (*.html *.htm);;CSV (*.csv)</source>
         <translation>HTML文档 (*.html *htm);;逗号分隔符 (*.csv)</translation>
     </message>
@@ -1274,31 +1268,31 @@
         <translation type="obsolete">项目地址: </translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="366"/>
-        <location filename="exportutil.cpp" line="657"/>
+        <location filename="exportutil.cpp" line="367"/>
+        <location filename="exportutil.cpp" line="658"/>
         <source>Contestant: %1</source>
         <translation>选手：%1</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="372"/>
-        <location filename="exportutil.cpp" line="663"/>
-        <location filename="exportutil.cpp" line="761"/>
-        <location filename="exportutil.cpp" line="871"/>
+        <location filename="exportutil.cpp" line="373"/>
+        <location filename="exportutil.cpp" line="664"/>
+        <location filename="exportutil.cpp" line="762"/>
+        <location filename="exportutil.cpp" line="872"/>
         <source>Export is done</source>
         <translation>导出完成</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="601"/>
+        <location filename="exportutil.cpp" line="602"/>
         <source>Judged By LemonLime</source>
         <translation>使用 LemonLime 评测</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="882"/>
+        <location filename="exportutil.cpp" line="883"/>
         <source>No contestant in current contest</source>
         <translation>不存在选手</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="888"/>
+        <location filename="exportutil.cpp" line="889"/>
         <source>No task in current contest</source>
         <translation>不存在试题</translation>
     </message>
@@ -1307,13 +1301,13 @@
         <translation type="vanished">HTML文档 (*.html);;逗号分隔符 (*.csv)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="896"/>
+        <location filename="exportutil.cpp" line="897"/>
         <source>;;Excel Workbook (*.xls)</source>
         <translation>;;Excel工作簿 (*.xls)</translation>
     </message>
     <message>
-        <location filename="exportutil.cpp" line="900"/>
-        <location filename="exportutil.cpp" line="907"/>
+        <location filename="exportutil.cpp" line="901"/>
+        <location filename="exportutil.cpp" line="908"/>
         <source>Export Result</source>
         <translation>导出成绩</translation>
     </message>
@@ -1803,36 +1797,36 @@ Depends: </source>
         <translation>停止测试</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="290"/>
+        <location filename="judgingdialog.cpp" line="292"/>
         <source>Test case %1.%2: </source>
         <translation>测试点 %1.%2： </translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="179"/>
+        <location filename="judgingdialog.cpp" line="181"/>
         <source>Correct answer</source>
         <translation>答案正确</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="215"/>
+        <location filename="judgingdialog.cpp" line="217"/>
         <source>Wrong answer</source>
         <translation>答案错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="193"/>
+        <location filename="judgingdialog.cpp" line="195"/>
         <source>Partly correct</source>
         <translation>答案部分正确</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="181"/>
-        <location filename="judgingdialog.cpp" line="195"/>
+        <location filename="judgingdialog.cpp" line="183"/>
+        <location filename="judgingdialog.cpp" line="197"/>
         <source> %1 ms</source>
         <oldsource>  %1 ms  %2 MB</oldsource>
         <translation> %1 ms</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="185"/>
-        <location filename="judgingdialog.cpp" line="201"/>
-        <location filename="judgingdialog.cpp" line="207"/>
+        <location filename="judgingdialog.cpp" line="187"/>
+        <location filename="judgingdialog.cpp" line="203"/>
+        <location filename="judgingdialog.cpp" line="209"/>
         <source>  %1 Pt</source>
         <translation>  %1 Pt</translation>
     </message>
@@ -1841,63 +1835,63 @@ Depends: </source>
         <translation type="vanished">  (%1 Pt)</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="225"/>
+        <location filename="judgingdialog.cpp" line="227"/>
         <source>Time limit exceeded</source>
         <translation>超过时间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="230"/>
+        <location filename="judgingdialog.cpp" line="232"/>
         <source>Memory limit exceeded</source>
         <translation>超过空间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="254"/>
+        <location filename="judgingdialog.cpp" line="256"/>
         <source>Cannot start program</source>
         <translation>进程被阻塞</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="260"/>
+        <location filename="judgingdialog.cpp" line="262"/>
         <source>File error</source>
         <translation>文件错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="240"/>
+        <location filename="judgingdialog.cpp" line="242"/>
         <source>Run time error</source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="183"/>
-        <location filename="judgingdialog.cpp" line="197"/>
+        <location filename="judgingdialog.cpp" line="185"/>
+        <location filename="judgingdialog.cpp" line="199"/>
         <source> %1 MB</source>
         <translation> %1 MB</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="220"/>
+        <location filename="judgingdialog.cpp" line="222"/>
         <source>Presentation Error</source>
         <translation>格式错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="235"/>
+        <location filename="judgingdialog.cpp" line="237"/>
         <source>Output Limit Exceeded</source>
         <translation>超过输出限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="272"/>
+        <location filename="judgingdialog.cpp" line="274"/>
         <source>Invalid special judge</source>
         <translation>校验器没有被正确配置</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="278"/>
+        <location filename="judgingdialog.cpp" line="280"/>
         <source>Special judge time limit exceeded</source>
         <translation>校验器超过时间限制</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="284"/>
+        <location filename="judgingdialog.cpp" line="286"/>
         <source>Special judge run time error</source>
         <translation>校验器运行时错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="245"/>
+        <location filename="judgingdialog.cpp" line="247"/>
         <source>Skipped</source>
         <translation>被忽略</translation>
     </message>
@@ -1914,29 +1908,27 @@ Depends: </source>
         <translation type="vanished">+%1 Pt, %2 ms, %3 MB</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="266"/>
+        <location filename="judgingdialog.cpp" line="268"/>
         <source>Interactor error</source>
         <translation>交互库错误</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="332"/>
         <source>Pure</source>
-        <translation>Pure</translation>
+        <translation type="vanished">Pure</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="338"/>
         <source>Lost</source>
-        <translation>Lost</translation>
+        <translation type="vanished">Lost</translation>
     </message>
     <message>
-        <location filename="judgingdialog.cpp" line="345"/>
         <source>Far</source>
-        <translation>Far</translation>
+        <translation type="vanished">Far</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="350"/>
-        <source>Subtask Dependence %1.%2: </source>
-        <translation>检查子任务依赖 %1.%2: </translation>
+        <source>Subtask Dependence %1: #%2: </source>
+        <oldsource>Subtask Dependence %1.%2: </oldsource>
+        <translation>检查子任务依赖 %1: #%2: </translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="365"/>
@@ -1995,16 +1987,16 @@ Depends: </source>
 <context>
     <name>JudgingThread</name>
     <message>
-        <location filename="judgingthread.cpp" line="178"/>
-        <location filename="judgingthread.cpp" line="334"/>
-        <location filename="judgingthread.cpp" line="623"/>
+        <location filename="judgingthread.cpp" line="185"/>
+        <location filename="judgingthread.cpp" line="341"/>
+        <location filename="judgingthread.cpp" line="630"/>
         <source>Cannot open contestant&apos;s output file</source>
         <translation>无法打开选手输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="188"/>
-        <location filename="judgingthread.cpp" line="344"/>
-        <location filename="judgingthread.cpp" line="633"/>
+        <location filename="judgingthread.cpp" line="195"/>
+        <location filename="judgingthread.cpp" line="351"/>
+        <location filename="judgingthread.cpp" line="640"/>
         <source>Cannot open standard output file</source>
         <translation>无法打开标准输出文件</translation>
     </message>
@@ -2042,48 +2034,48 @@ Depends: </source>
         <translation type="vanished">格式错误</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="290"/>
-        <location filename="judgingthread.cpp" line="489"/>
-        <location filename="judgingthread.cpp" line="556"/>
+        <location filename="judgingthread.cpp" line="297"/>
+        <location filename="judgingthread.cpp" line="496"/>
+        <location filename="judgingthread.cpp" line="563"/>
         <source>On line %1, Contestant&apos;s output has less contents</source>
         <translation>在第 %1 行，选手输出文件内容太少</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="300"/>
-        <location filename="judgingthread.cpp" line="499"/>
-        <location filename="judgingthread.cpp" line="566"/>
+        <location filename="judgingthread.cpp" line="307"/>
+        <location filename="judgingthread.cpp" line="506"/>
+        <location filename="judgingthread.cpp" line="573"/>
         <source>On line %1, Contestant&apos;s output has too much contents</source>
         <translation>在第 %1 行，选手输出文件内容太多</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="280"/>
-        <location filename="judgingthread.cpp" line="574"/>
-        <location filename="judgingthread.cpp" line="700"/>
+        <location filename="judgingthread.cpp" line="287"/>
+        <location filename="judgingthread.cpp" line="581"/>
+        <location filename="judgingthread.cpp" line="707"/>
         <source>On line %3, Read &quot;%1&quot; but expect &quot;%2&quot;</source>
         <translation>在第 %3 行，读取到 &quot;%1&quot; ，但期望 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="507"/>
+        <location filename="judgingthread.cpp" line="514"/>
         <source>Presentation error on line %1</source>
         <translation>在第 %1 行出现了格式错误</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="658"/>
+        <location filename="judgingthread.cpp" line="665"/>
         <source>On line %1, Invalid characters in contestant&apos;s output file</source>
         <translation>在第 %1 行，选手输出文件中包含无效字符</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="668"/>
+        <location filename="judgingthread.cpp" line="675"/>
         <source>On line %1, Invalid characters in standard output file</source>
         <translation>在第 %1 行，标准输出文件中包含无效字符</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="680"/>
+        <location filename="judgingthread.cpp" line="687"/>
         <source>On line %1, Contestant&apos;s Output has less contents</source>
         <translation>在第 %1 行，选手输出文件内容太少</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="690"/>
+        <location filename="judgingthread.cpp" line="697"/>
         <source>On line %1, Contestant&apos;s Output has too much contents</source>
         <translation>在第 %1 行，选手输出文件内容太多</translation>
     </message>
@@ -2102,23 +2094,23 @@ Depends: </source>
         <translation type="vanished">选手输出文件内容太多</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="730"/>
-        <location filename="judgingthread.cpp" line="1254"/>
+        <location filename="judgingthread.cpp" line="737"/>
+        <location filename="judgingthread.cpp" line="1260"/>
         <source>Cannot find standard input file</source>
         <translation>找不到标准输入文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="738"/>
+        <location filename="judgingthread.cpp" line="745"/>
         <source>Cannot find contestant&apos;s output file</source>
         <translation>找不到选手输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="746"/>
+        <location filename="judgingthread.cpp" line="753"/>
         <source>Cannot find standard output file</source>
         <translation>找不到标准输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="1264"/>
+        <location filename="judgingthread.cpp" line="1270"/>
         <source>Cannot copy standard input file</source>
         <translation>无法复制标准输入文件</translation>
     </message>
@@ -3389,6 +3381,27 @@ Depends: </source>
         <location filename="forms/optionsdialog.ui" line="45"/>
         <source>Visual</source>
         <translation>视觉</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Perfect</source>
+        <translation type="vanished">完美</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="vanished">失败</translation>
+    </message>
+    <message>
+        <location filename="subtaskdependencelib.h" line="46"/>
+        <source>Pure</source>
+        <translation>Pure</translation>
+    </message>
+    <message>
+        <location filename="subtaskdependencelib.h" line="47"/>
+        <source>Lost</source>
+        <translation>Lost</translation>
     </message>
 </context>
 <context>

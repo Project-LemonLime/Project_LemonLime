@@ -144,6 +144,11 @@ auto JudgingThread::getScore() const -> int
 	return score;
 }
 
+auto JudgingThread::getFullScore() const -> int
+{
+	return fullScore;
+}
+
 auto JudgingThread::getJudgeTimes() const -> int
 {
 	return judgedTimes;

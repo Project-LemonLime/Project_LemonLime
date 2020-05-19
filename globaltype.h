@@ -38,15 +38,4 @@ enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
                    SpecialJudgeRunTimeError, Skipped, InteractorError,
                    PresentationError, OutputLimitExceeded
                  };
-
-inline int stateToStatus(ResultState in)
-{
-	if (in == CorrectAnswer) return 2;
-
-	if (in == PartlyCorrect) return 1;
-
-	return 0;
-}
-
-
 #endif // GLOBALTYPE_H

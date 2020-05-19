@@ -30,6 +30,7 @@
 #include "testcase.h"
 #include "contestant.h"
 #include "globaltype.h"
+#include "subtaskdependencelib.h"
 #include "settings.h"
 #include "visualsettings.h"
 #include <algorithm>
@@ -140,7 +141,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString(R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">#%2<br>%3:%4</td>)")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(statusRankingText(score[j].back()));
 				}
 
 				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;\">%1</td>").arg(inputFiles[j][k]);
@@ -470,7 +471,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString("<td rowspan=\"%1\">#%2<br>%3:%4</td>")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(statusRankingText(score[j].back()));
 				}
 
 				htmlCode += QString("<td>%1</td>").arg(inputFiles[j][k]);

@@ -29,6 +29,8 @@
 #include "contest.h"
 #include "task.h"
 #include "judgesharedvariables.h"
+#include "globaltype.h"
+#include "subtaskdependencelib.h"
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) :
@@ -204,7 +206,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			}
 			else
 			{
-				scoretext = tr("  %1 Pt").arg(abs(scoreGot));
+				scoretext = tr("  %1 Pt").arg(qAbs(scoreGot));
 				scorecharFormat.setForeground(QBrush(Qt::darkYellow));
 			}
 
@@ -325,29 +327,27 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 	QTextCharFormat ratioFormat;
 	charFormat.setFontPointSize(9);
 	ratioFormat.setFontPointSize(9);
-	QString text;
+	QString text = statusRankingText(status);
 
-	if (status >= 2)
+	if (status >= mxDependValue)
 	{
-		text = QString(tr("Pure"));
 		charFormat.setForeground(QBrush(Qt::lightGray));
 		ratioFormat.setForeground(QBrush(Qt::green));
 	}
-	else if (status <= 0)
+	else if (status < 0)
 	{
-		text = QString(tr("Lost"));
 		charFormat.setForeground(QBrush(Qt::red));
 		ratioFormat.setForeground(QBrush(Qt::red));
 		ratioFormat.setFontWeight(QFont::Bold);
 	}
 	else
 	{
-		text = QString(tr("Far"));
-		charFormat.setForeground(QBrush(Qt::lightGray));
-		ratioFormat.setForeground(QBrush(Qt::cyan));
+		charFormat.setForeground(QBrush(Qt::darkYellow));
+		ratioFormat.setForeground(QBrush(Qt::darkYellow));
+		ratioFormat.setFontWeight(QFont::Bold);
 	}
 
-	cursor->insertText(tr("Subtask Dependence %1.%2: ").arg(x + 1).arg(y + 1), charFormat);
+	cursor->insertText(tr("Subtask Dependence %1: #%2: ").arg(x + 1).arg(y), charFormat);
 	cursor->insertText(text, ratioFormat);
 	QScrollBar *bar = ui->logViewer->verticalScrollBar();
 

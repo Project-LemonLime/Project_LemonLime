@@ -31,6 +31,7 @@
 #include "contest.h"
 #include "contestant.h"
 #include "globaltype.h"
+#include "subtaskdependencelib.h"
 #include "settings.h"
 #include "judgingdialog.h"
 #include <QMessageBox>
@@ -150,7 +151,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						            .arg(inputFiles[j].size()).arg(j + 1);
 					else
 						htmlCode += QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(score[j].back() == -1 ? tr("Success") : tr("Failed"));
+						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(statusRankingText(score[j].back()));
 				}
 
 				htmlCode += QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
@@ -199,10 +200,25 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 					for (int t = 0; t < inputFiles[j].size(); t ++)
 						if (score[j][t] < minv) minv = score[j][t];
 
-					QString bgColor = "rgb(255, 192, 192)";
+					int tempStatus = mxDependValue + 1;
 
-					if (minv >= maxv) bgColor = "rgb(192, 255, 192)";
-					else if (minv > 0) bgColor = "rgb(192, 255, 255)";
+					if (!testCases[j]->getDependenceSubtask().empty())
+					{
+						tempStatus = score[j].back();
+						minv = qMin(minv, statusToScore(score[j].back(), maxv));
+					}
+
+					QString bgColor = "rgb(192, 255, 192)";
+
+					for (int t = 0; t < inputFiles[j].size(); t ++)
+						if (result[j][t] != CorrectAnswer)bgColor = "rgb(192, 255, 255)";
+
+					if (tempStatus < mxDependValue)bgColor = "rgb(192, 255, 255)";
+
+					for (int t = 0; t < inputFiles[j].size(); t ++)
+						if (result[j][t] != CorrectAnswer && result[j][t] != PartlyCorrect)bgColor = "rgb(255, 192, 192)";
+
+					if (tempStatus < 0)bgColor = "rgb(255, 192, 192)";
 
 					htmlCode += QString(R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
 				}

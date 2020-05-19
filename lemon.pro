@@ -76,6 +76,7 @@ HEADERS  += lemon.h \
     exttestcasemodifierdialog.h \
     exttestcasetable.h \
     exttestcaseupdaterdialog.h \
+    subtaskdependencelib.h \
     visualsettings.h \
     task.h \
     testcase.h \

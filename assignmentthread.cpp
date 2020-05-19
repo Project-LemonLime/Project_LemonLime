@@ -25,6 +25,7 @@
  **/
 
 #include "globaltype.h"
+#include "subtaskdependencelib.h"
 #include "assignmentthread.h"
 
 #include <utility>
@@ -382,7 +383,7 @@ void AssignmentThread::run()
 		memoryUsed.append(QList<int>());
 		score.append(QList<int>());
 		result.append(QList<ResultState>());
-		overallStatus.append(2);
+		overallStatus.append(mxDependValue);
 		message.append(QStringList());
 		inputFiles.append(QStringList());
 		testCaseScore.append(task->getTestCase(i)->getFullScore());
@@ -413,7 +414,7 @@ void AssignmentThread::assign()
 	}
 
 	TestCase *curTestCase = task->getTestCase(curTestCaseIndex);
-	bool beingSkipped = false;
+	bool isSkipped = 0;
 
 	if (curSingleCaseIndex == curTestCase->getInputFiles().size())
 	{
@@ -438,16 +439,20 @@ void AssignmentThread::assign()
 		curTestCase = task->getTestCase(curTestCaseIndex);
 		const QList<int> &dependenceSubtask(curTestCase->getDependenceSubtask());
 
+		overallStatus[curTestCaseIndex] = mxDependValue;
+
 		for (int i = 0; i != dependenceSubtask.size(); ++i)
 		{
 			int status = overallStatus[dependenceSubtask[i] - 1];
-			emit singleSubtaskDependenceFinished(curTestCaseIndex, i, status);
+			emit singleSubtaskDependenceFinished(curTestCaseIndex, dependenceSubtask[i], status);
 
-			if (status <= 0)beingSkipped = true;
+			if (status < 0) isSkipped = 1;
+
+			overallStatus[curTestCaseIndex] = qMin(overallStatus[curTestCaseIndex], status);
 		}
 
 		if (! dependenceSubtask.empty())
-			score[curTestCaseIndex].push_back(-1 - beingSkipped);
+			score[curTestCaseIndex].push_back(overallStatus[curTestCaseIndex]);
 	}
 
 	totalSingleCase ++;
@@ -455,9 +460,11 @@ void AssignmentThread::assign()
 	inputFiles[curTestCaseIndex][curSingleCaseIndex]
 	   = QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).fileName();
 
-	if (overallStatus[curTestCaseIndex] <= 0 || beingSkipped)
+	testCaseScore[curTestCaseIndex] = qMin(testCaseScore[curTestCaseIndex], statusToScore(overallStatus[curTestCaseIndex], curTestCase->getFullScore()));
+
+	if (overallStatus[curTestCaseIndex] < 0 || isSkipped)
 	{
-		overallStatus[curTestCaseIndex] = 0;
+		overallStatus[curTestCaseIndex] = -1;
 		taskSkipped(qMakePair(curTestCaseIndex, curSingleCaseIndex++));
 		return;
 	}
@@ -573,7 +580,7 @@ void AssignmentThread::threadFinished()
 		memoryUsed[cur.first][cur.second] = thread->getMemoryUsed();
 		score[cur.first][cur.second] = thread->getScore();
 		result[cur.first][cur.second] = thread->getResult();
-		overallStatus[cur.first] = qMin(overallStatus[cur.first], stateToStatus(thread->getResult()));
+		overallStatus[cur.first] = qMin(overallStatus[cur.first], stateToStatus(thread->getResult(), thread->getScore(), thread->getFullScore()));
 		message[cur.first][cur.second] = thread->getMessage();
 		running.remove(thread);
 		countFinished ++;
@@ -584,6 +591,9 @@ void AssignmentThread::threadFinished()
 		{
 			for (int i = 0; i < cur.second; i++)
 				nowScore = qMin(nowScore, score[cur.first][i]);
+
+			if (!task->getTestCase(cur.first)->getDependenceSubtask().empty())
+				nowScore = qMin(nowScore, statusToScore(overallStatus[curTestCaseIndex], task->getTestCase(cur.first)->getFullScore()));
 		}
 
 		emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(),

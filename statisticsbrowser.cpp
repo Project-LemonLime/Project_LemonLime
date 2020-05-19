@@ -193,8 +193,8 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntSucc / scoreList.length(), 'f', 3)) + "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntPati) + "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntPati / scoreList.length(), 'f', 3)) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntPati) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntPati / scoreList.length(), 'f', 3)) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntFail) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntFail / scoreList.length(), 'f', 3)) + "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1 / %2").arg(QString::number(1.00 * sumSumScore / scoreList.length(), 'f', 3)).arg(mxScore) + "</nobr></td>";
 			buffer += "</tr>";
 		}
