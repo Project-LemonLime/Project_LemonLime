@@ -135,6 +135,8 @@ Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
 在 qmake 前你需要：
 -   把代码中所有 `qAsConst` 删除。
 
+可参考源代码根目录下的 `ubuntu16.sh` 脚本
+
 ##### \* NOI Linux （Ubuntu 14 及更老）
 
 NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
@@ -143,6 +145,8 @@ NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能�
 -   删除 `lemon.ui` 里面的 `<property name="tabBarAutoHide">...` 开始的 3 行。因为 Qt 5.2 里面还没有这个特性！
 -   删除 `lemon.pro` 的 `unix:QMAKE_LFLAGS += -no-pie` 那一行。
 -   把代码中所有 `asprintf` 换成 `sprintf`。
+
+可参考源代码根目录下的 `ubuntu14.sh` 脚本
 
 或者
 -   在 Qt 官网上找一个更高版本（比如 5.12）的 Qt 安装。
