@@ -693,7 +693,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			return;
 		}
 
-		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) || (abs(a - b) > eps && abs(a - b) > eps * abs(b)))
+		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) || (fabs(a - b) > eps && fabs(a - b) > eps * fabs(b)))
 		{
 			score = 0;
 			result = WrongAnswer;
