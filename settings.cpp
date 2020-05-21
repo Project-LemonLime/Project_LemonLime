@@ -829,8 +829,7 @@ void Settings::loadSettings()
 	settings.endArray();
 #ifdef Q_OS_WIN32
 	diffPath = QDir::toNativeSeparators(QDir::currentPath()) + QDir::separator() + "diff.exe";
-#endif
-#ifdef Q_OS_LINUX
+#else
 	diffPath = "/usr/bin/diff";
 #endif
 }
