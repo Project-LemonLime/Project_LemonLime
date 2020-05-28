@@ -588,12 +588,16 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C++17", "-o %s %s.* -lm -std=c++17" + stackArg, "");
 				compiler->addConfiguration("C++17 O2", "-o %s %s.* -lm -std=c++17 -O2" + stackArg, "");
 				compiler->addConfiguration("C++17 O3", "-o %s %s.* -lm -std=c++17 -O3" + stackArg, "");
+				compiler->addConfiguration("C++20", "-o %s %s.* -lm -std=c++20" + stackArg, "");
+				compiler->addConfiguration("C++20 O2", "-o %s %s.* -lm -std=c++20 -O2" + stackArg, "");
+				compiler->addConfiguration("C++20 O3", "-o %s %s.* -lm -std=c++20 -O3" + stackArg, "");
 #ifdef Q_OS_LINUX
 				compiler->addConfiguration("C++98 UB Catching", "-o %s %s.* -lm -std=c++98 -fsanitize=undefined" + stackArg, "");
 				compiler->addConfiguration("C++03 UB Catching", "-o %s %s.* -lm -std=c++03 -fsanitize=undefined" + stackArg, "");
 				compiler->addConfiguration("C++11 UB Catching", "-o %s %s.* -lm -std=c++11 -fsanitize=undefined" + stackArg, "");
 				compiler->addConfiguration("C++14 UB Catching", "-o %s %s.* -lm -std=c++14 -fsanitize=undefined" + stackArg, "");
 				compiler->addConfiguration("C++17 UB Catching", "-o %s %s.* -lm -std=c++17 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++20 UB Catching", "-o %s %s.* -lm -std=c++20 -fsanitize=undefined" + stackArg, "");
 #endif
 			}
 

@@ -617,6 +617,9 @@
            <property name="text">
             <string>Add recommended configurations</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -672,6 +675,9 @@
            <property name="text">
             <string>Add recommended configurations</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -723,6 +729,9 @@
           <widget class="QCheckBox" name="fpcRecommendedCheck">
            <property name="text">
             <string>Add recommended configurations</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
