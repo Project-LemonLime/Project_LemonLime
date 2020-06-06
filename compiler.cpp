@@ -108,7 +108,7 @@ void Compiler::setCompilerName(const QString &name)
 
 void Compiler::setSourceExtensions(const QString &extensions)
 {
-	sourceExtensions = extensions.split(";", QString::SkipEmptyParts);
+	sourceExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Compiler::setCompilerLocation(const QString &location)
@@ -123,7 +123,7 @@ void Compiler::setInterpreterLocation(const QString &location)
 
 void Compiler::setBytecodeExtensions(const QString &extensions)
 {
-	bytecodeExtensions = extensions.split(";", QString::SkipEmptyParts);
+	bytecodeExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Compiler::setEnvironment(const QProcessEnvironment &env)

@@ -362,12 +362,12 @@ void Settings::setDefaultOutputFileExtension(const QString &extension)
 
 void Settings::setInputFileExtensions(const QString &extensions)
 {
-	inputFileExtensions = extensions.split(";", QString::SkipEmptyParts);
+	inputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions)
 {
-	outputFileExtensions = extensions.split(";", QString::SkipEmptyParts);
+	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Settings::setRecentContest(const QStringList &list)
