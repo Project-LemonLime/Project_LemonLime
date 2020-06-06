@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        qt_ver: [5.12.6]
+        qt_ver: [5.15.0]
         qt_arch: [clang_64]
     env:
       targetName: lemon
@@ -37,7 +37,7 @@ jobs:
           echo "::add-path::$qt_Path/bin"    
       - name: Install Qt
         if: steps.MacosCacheQt.outputs.cache-hit != 'true'
-        uses: jurplel/install-qt-action@v2.0.0
+        uses: jurplel/install-qt-action@v2.6.3
         with:
           version: ${{ matrix.qt_ver }}
       
