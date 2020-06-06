@@ -246,7 +246,7 @@ void DetailDialog::showDialog()
 
 void DetailDialog::anchorClicked(const QUrl &url)
 {
-	QStringList list = url.path().split(' ', QString::SkipEmptyParts);
+	QStringList list = url.path().split(' ', Qt::SkipEmptyParts);
 
 	if (list[0] == "Rejudge")
 	{
