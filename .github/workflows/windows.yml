@@ -18,6 +18,7 @@ jobs:
     # 运行平台， windows-latest目前是windows server 2019
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       # 矩阵配置
       matrix:
         qt_ver: [5.15.0]
