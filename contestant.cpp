@@ -184,16 +184,16 @@ void Contestant::swapTask(int a, int b)
 
 	if (b < 0 || b >= checkJudged.size())return;
 
-	checkJudged.swap(a, b);
-	compileState.swap(a, b);
-	sourceFile.swap(a, b);
-	compileMesaage.swap(a, b);
-	inputFiles.swap(a, b);
-	result.swap(a, b);
-	message.swap(a, b);
-	score.swap(a, b);
-	timeUsed.swap(a, b);
-	memoryUsed.swap(a, b);
+	checkJudged.swapItemsAt(a, b);
+	compileState.swapItemsAt(a, b);
+	sourceFile.swapItemsAt(a, b);
+	compileMesaage.swapItemsAt(a, b);
+	inputFiles.swapItemsAt(a, b);
+	result.swapItemsAt(a, b);
+	message.swapItemsAt(a, b);
+	score.swapItemsAt(a, b);
+	timeUsed.swapItemsAt(a, b);
+	memoryUsed.swapItemsAt(a, b);
 }
 
 auto Contestant::getTaskScore(int index) const -> int
