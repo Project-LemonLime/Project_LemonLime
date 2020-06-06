@@ -303,21 +303,21 @@ void AddTestCasesWizard::searchMatchedFiles()
 		outputFilesMatchedPart.append(getMatchedPart(outputFiles[i], outputFilesPattern));
 	}
 
-	QMap<QString, int> loc;
+	QMultiMap<QString, int> loc;
 	QList< QPair<QString, QString>> singleCases;
 	QList< QStringList > matchedPart;
 
 	//if(ui->outputFilesPattern->isEnabled()) {
 	for (int i = 0; i < inputFiles.size(); i ++)
 	{
-		loc[inputFilesMatchedPart[i].join("*")] = i;
+        loc.replace(inputFilesMatchedPart[i].join("*"), i);
 	}
 
 	for (int i = 0; i < outputFiles.size(); i ++)
 	{
 		if (loc.count(outputFilesMatchedPart[i].join("*")) > 0)
 		{
-			int partner = loc[outputFilesMatchedPart[i].join("*")];
+			int partner = loc.value(outputFilesMatchedPart[i].join("*"));
 			singleCases.append(qMakePair(inputFiles[partner], outputFiles[i]));
 			matchedPart.append(outputFilesMatchedPart[i]);
 		}
@@ -343,7 +343,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 			}
 		}
 
-		loc.insertMulti(key.join("*"), i);
+		loc.insert(key.join("*"), i);
 	}
 
 	matchedInputFiles.clear();
