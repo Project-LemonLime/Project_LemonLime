@@ -724,7 +724,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		out << "\"" << i->getProblemTile() << "\"" << ",";
 	}
 
-	out << "\"" << tr("Total Score") << "\"" << endl;
+	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
 
 	for (auto &i : sortList)
 	{
@@ -750,11 +750,11 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 		if (score != -1)
 		{
-			out << "\"" << score << "\"" << endl;
+			out << "\"" << score << "\"" << Qt::endl;
 		}
 		else
 		{
-			out << "\"" << tr("Invalid") << "\"" << endl;
+			out << "\"" << tr("Invalid") << "\"" << Qt::endl;
 		}
 	}
 
