@@ -29,6 +29,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <QTime>
+#include <QRandomGenerator>
 #include "judgingthread.h"
 #include "settings.h"
 #include "task.h"
@@ -50,8 +51,8 @@ JudgingThread::JudgingThread(QObject *parent) :
 	timeUsed = -1;
 	memoryUsed = -1;
 	judgedTimes = 0;
-	QTime   t =  QTime::currentTime();
-	qsrand(static_cast<unsigned int>(t.msec() + t.second() * 1000));
+	//QTime   t =  QTime::currentTime();
+	//qsrand(static_cast<unsigned int>(t.msec() + t.second() * 1000));
 }
 
 /*void JudgingThread::setCheckRejudgeMode(bool check)
@@ -1373,7 +1374,7 @@ void JudgingThread::judgeInteractionTask()
     QStringList argumentsList;
     QString score_log = "_score_";
     for(int i = 0; i != 5; ++i)
-        score_log.push_back(qrand() % 26 + 'a');
+        score_log.push_back(QRandomGenerator::global()->bounded(0, 25) + 'a');
     argumentsList << QString("%1").arg(fullScore);
     argumentsList << workingDirectory + score_log;
     argumentsList << workingDirectory + "_message";
