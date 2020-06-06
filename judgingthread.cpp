@@ -604,10 +604,9 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
-	QString cmd = QString(R"("%1" %2 "%3" "%4")").arg(diffPath, task->getDiffArguments())
-	              .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
-
-	if (QProcess::execute(cmd) != 0)
+	QString cmd = diffPath;
+	QStringList cmdArgs = (QStringList(task->getDiffArguments()) << QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator()) << contestantOutput);
+	if (QProcess::execute(cmd, cmdArgs) != 0)
 	{
 		score = 0;
 		result = WrongAnswer;
@@ -1066,7 +1065,7 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hThread);
 #else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
-	QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
+	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString("\"" + workingDirectory + "watcher" + "\"")));
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);

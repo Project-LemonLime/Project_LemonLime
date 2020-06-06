@@ -81,7 +81,7 @@ void Contest::swapTask(int a, int b)
 	{
 		if (0 <= b && b < taskList.size())
 		{
-			taskList.swap(a, b);
+			taskList.swapItemsAt(a, b);
 		}
 	}
 
@@ -208,9 +208,9 @@ void Contest::clearPath(const QString &curDir)
 		if (! dir.remove(fileList[i]))
 		{
 #ifdef Q_OS_WIN32
-			QProcess::execute(QString("attrib -R \"") + curDir + fileList[i] + "\"");
+            QProcess::execute(QString("attrib"), QStringList("-R") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
 #else
-			QProcess::execute(QString("chmod +w \"") + curDir + fileList[i] + "\"");
+			QProcess::execute(QString("chmod"), QStringList("+w") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
 #endif
 			dir.remove(fileList[i]);
 		}
