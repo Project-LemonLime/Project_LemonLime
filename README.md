@@ -193,3 +193,7 @@ clang++ watcher_macos.cpp -o watcher_unix -O2
 qmake lemon.pro
 make
 ```
+
+## Thanks
+
+- [SingleApplication](https://github.com/itay-grudev/SingleApplication): Replacement of QtSingleApplication for Qt5 with support for instance communication. 
