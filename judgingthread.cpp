@@ -607,6 +607,7 @@ void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
 	QString cmd = diffPath;
 	QStringList cmdArgs = (QStringList(task->getDiffArguments()) << QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator()) << contestantOutput);
+
 	if (QProcess::execute(cmd, cmdArgs) != 0)
 	{
 		score = 0;

@@ -310,7 +310,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 	//if(ui->outputFilesPattern->isEnabled()) {
 	for (int i = 0; i < inputFiles.size(); i ++)
 	{
-        loc.replace(inputFilesMatchedPart[i].join("*"), i);
+		loc.replace(inputFilesMatchedPart[i].join("*"), i);
 	}
 
 	for (int i = 0; i < outputFiles.size(); i ++)
