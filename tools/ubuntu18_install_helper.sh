@@ -5,6 +5,8 @@ set -e
 # 打印执行的命令
 set -v
 
+cd ..
+
 # Since Qt 5.13
 has_swapItemsAt=(  'contest.cpp'
                    'contestant.cpp'
