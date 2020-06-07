@@ -41,9 +41,10 @@ jobs:
         with:
           version: ${{ matrix.qt_ver }}
       
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 1
+          submodules: true
       - name: build macos
         run: |
           clang++ watcher_macos.cpp -o watcher_unix -O2
