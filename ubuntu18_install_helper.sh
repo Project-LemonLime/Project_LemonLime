@@ -5,6 +5,7 @@ set -e
 # 打印执行的命令
 set -v
 
+# Since Qt 5.13
 has_swapItemsAt=(  'contest.cpp'
                    'contestant.cpp'
                    )
@@ -13,6 +14,16 @@ for i in "${has_swapItemsAt[@]}"; do
     sed -i 's/swapItemsAt/swap/g' "$i"
 done
 
+
+# Since Qt 5.14
+has_Qt_SkipEmptyParts=(	'contest.cpp'
+						'contestant.cpp'
+						)
+
+for i in "${has_Qt_SkipEmptyParts[@]}"; do
+    sed -i 's/Qt::SkipEmptyParts/QString::SkipEmptyParts/g' "$i"
+done
+                   
 sudo apt install qt5-default build-essential
 g++ watcher_unix.cpp -o watcher_unix -O2
 qmake lemon.pro
