@@ -1847,7 +1847,7 @@ Depends: </source>
     <message>
         <location filename="judgingdialog.cpp" line="256"/>
         <source>Cannot start program</source>
-        <translation>进程被阻塞</translation>
+        <translation>程序不能运行</translation>
     </message>
     <message>
         <location filename="judgingdialog.cpp" line="262"/>
@@ -3548,7 +3548,7 @@ Depends: </source>
     <message>
         <location filename="settings.cpp" line="558"/>
         <source>Cannot Start Program</source>
-        <translation>进程被阻塞</translation>
+        <translation>程序不能运行</translation>
     </message>
     <message>
         <location filename="settings.cpp" line="564"/>
