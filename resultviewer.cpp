@@ -1,19 +1,19 @@
 /***************************************************************************
-	 This file is part of Project Lemon
-	 Copyright (C) 2011 Zhipeng Jia
+    This file is part of Project Lemon
+    Copyright (C) 2011 Zhipeng Jia
 
-	 This program is free software: you can redistribute it and/or modify
-	 it under the terms of the GNU General Public License as published by
-	 the Free Software Foundation, either version 3 of the License, or
-	 (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	 This program is distributed in the hope that it will be useful,
-	 but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	 You should have received a copy of the GNU General Public License
-	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 /**
  * resultviewer.cpp @Project Lemon+
@@ -25,23 +25,22 @@
  **/
 
 #include "resultviewer.h"
-#include "judgingdialog.h"
-#include "globaltype.h"
-#include "contestant.h"
-#include "settings.h"
 #include "contest.h"
-#include "task.h"
+#include "contestant.h"
 #include "detaildialog.h"
-#include <algorithm>
-#include <QMessageBox>
+#include "globaltype.h"
+#include "judgingdialog.h"
+#include "settings.h"
+#include "task.h"
+#include <QApplication>
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QMenu>
-#include <QApplication>
+#include <QMessageBox>
+#include <algorithm>
 
-ResultViewer::ResultViewer(QWidget *parent) :
-	QTableWidget(parent)
+ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent)
 {
 	curContest = nullptr;
 	deleteContestantAction = new QAction(tr("Delete"), this);
@@ -51,28 +50,20 @@ ResultViewer::ResultViewer(QWidget *parent) :
 	deleteContestantKeyAction->setShortcut(QKeySequence::Delete);
 	deleteContestantKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	addAction(deleteContestantKeyAction);
-	connect(deleteContestantAction, SIGNAL(triggered()),
-	        this, SLOT(deleteContestant()));
-	connect(detailInformationAction, SIGNAL(triggered()),
-	        this, SLOT(detailInformation()));
-	connect(judgeSelectedAction, SIGNAL(triggered()),
-	        this, SLOT(judgeSelected()));
-	connect(deleteContestantKeyAction, SIGNAL(triggered()),
-	        this, SLOT(deleteContestant()));
-	connect(this, SIGNAL(cellDoubleClicked(int, int)),
-	        this, SLOT(detailInformation()));
+	connect(deleteContestantAction, SIGNAL(triggered()), this, SLOT(deleteContestant()));
+	connect(detailInformationAction, SIGNAL(triggered()), this, SLOT(detailInformation()));
+	connect(judgeSelectedAction, SIGNAL(triggered()), this, SLOT(judgeSelected()));
+	connect(deleteContestantKeyAction, SIGNAL(triggered()), this, SLOT(deleteContestant()));
+	connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(detailInformation()));
 }
 
 void ResultViewer::changeEvent(QEvent *event)
 {
 	if (event->type() == QEvent::LanguageChange)
 	{
-		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete",
-		                                nullptr));
-		detailInformationAction->setText(QApplication::translate("ResultViewer", "Details",
-		                                 nullptr));
-		judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge",
-		                             nullptr));
+		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete", nullptr));
+		detailInformationAction->setText(QApplication::translate("ResultViewer", "Details", nullptr));
+		judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge", nullptr));
 	}
 }
 
@@ -80,7 +71,8 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
 {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
-	if (selectionRange.empty()) return;
+	if (selectionRange.empty())
+		return;
 
 	auto *contextMenu = new QMenu(this);
 
@@ -90,7 +82,7 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
 		contextMenu->setDefaultAction(detailInformationAction);
 	}
 
-	if (!selectionRange.empty())
+	if (! selectionRange.empty())
 	{
 		contextMenu->addAction(judgeSelectedAction);
 	}
@@ -104,28 +96,21 @@ void ResultViewer::setContest(Contest *contest)
 {
 	if (curContest)
 	{
-		disconnect(curContest, SIGNAL(taskAddedForViewer()),
-		           this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskDeletedForViewer(int)),
-		           this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(problemTitleChanged()),
-		           this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskJudgingFinished()),
-		           this, SLOT(refreshViewer()));
+		disconnect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
+		disconnect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
+		disconnect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
+		disconnect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
 	}
 
 	curContest = contest;
 
-	if (! curContest) return;
+	if (! curContest)
+		return;
 
-	connect(curContest, SIGNAL(taskAddedForViewer()),
-	        this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskDeletedForViewer(int)),
-	        this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(problemTitleChanged()),
-	        this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskJudgingFinished()),
-	        this, SLOT(refreshViewer()));
+	connect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
+	connect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
+	connect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
+	connect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
 }
 
 void ResultViewer::refreshViewer()
@@ -134,7 +119,8 @@ void ResultViewer::refreshViewer()
 	setRowCount(0);
 	setColumnCount(0);
 
-	if (! curContest) return;
+	if (! curContest)
+		return;
 
 	QStringList headerList;
 	headerList << tr("Rank") << tr("Name") << tr("Total Score");
@@ -152,7 +138,7 @@ void ResultViewer::refreshViewer()
 	setHorizontalHeaderLabels(headerList);
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	QList<Contestant *> contestantList = curContest->getContestantList();
-	QList< QPair<int, QString>> sortList;
+	QList<QPair<int, QString>> sortList;
 	QList<int> fullScore;
 	int sfullScore = curContest->getTotalScore();
 
@@ -163,13 +149,13 @@ void ResultViewer::refreshViewer()
 
 	setRowCount(contestantList.size());
 
-	for (int i = 0; i < contestantList.size(); i ++)
+	for (int i = 0; i < contestantList.size(); i++)
 	{
 		setItem(i, 0, new QTableWidgetItem());
 		setItem(i, 1, new QTableWidgetItem(contestantList[i]->getContestantName()));
 		setItem(i, 2, new QTableWidgetItem());
 
-		for (int j = 0; j < taskList.size(); j ++)
+		for (int j = 0; j < taskList.size(); j++)
 		{
 			setItem(i, j + 3, new QTableWidgetItem());
 			int score = contestantList[i]->getTaskScore(j);
@@ -179,13 +165,16 @@ void ResultViewer::refreshViewer()
 				item(i, j + 3)->setData(Qt::DisplayRole, score);
 				QColor bg = QColor::fromHsl(0, 0, 255);
 
-				if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully)
+				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
+				    contestantList[i]->getCompileState(j) != CompileSuccessfully)
 				{
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
 						bg = setting.getColorNf();
-					else bg = setting.getColorCe();
+					else
+						bg = setting.getColorCe();
 				}
-				else bg = setting.getColorPer(score, fullScore[j]);
+				else
+					bg = setting.getColorPer(score, fullScore[j]);
 
 				item(i, j + 3)->setBackground(bg);
 			}
@@ -208,7 +197,7 @@ void ResultViewer::refreshViewer()
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);
-			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double (totalUsedTime) / 1000);
+			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double(totalUsedTime) / 1000);
 			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
 			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
 		}
@@ -223,7 +212,7 @@ void ResultViewer::refreshViewer()
 	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
-	for (int i = 0; i < sortList.size(); i ++)
+	for (int i = 0; i < sortList.size(); i++)
 	{
 		if (i > 0 && sortList[i].first == sortList[i - 1].first)
 		{
@@ -235,7 +224,7 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	for (int i = 0; i < rowCount(); i ++)
+	for (int i = 0; i < rowCount(); i++)
 	{
 		if (rankList.contains(contestantList[i]->getContestantName()))
 		{
@@ -247,9 +236,9 @@ void ResultViewer::refreshViewer()
 		}
 	}
 
-	for (int i = 0; i < rowCount(); i ++)
+	for (int i = 0; i < rowCount(); i++)
 	{
-		for (int j = 0; j < columnCount(); j ++)
+		for (int j = 0; j < columnCount(); j++)
 		{
 			item(i, j)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 		}
@@ -267,14 +256,16 @@ void ResultViewer::judgeSelected()
 
 	for (auto &i : selectionRange)
 	{
-		for (int j = i.topRow(); j <= i.bottomRow(); j ++)
+		for (int j = i.topRow(); j <= i.bottomRow(); j++)
 		{
 			for (int k = i.leftColumn(); k <= i.rightColumn(); k++)
 			{
-				if (3 <= k && k < 3 + taskSize) mapping[item(j, 1)->text()].insert(k - 3);
+				if (3 <= k && k < 3 + taskSize)
+					mapping[item(j, 1)->text()].insert(k - 3);
 				else
 				{
-					for (int a = 0; a < taskSize; a++) mapping[item(j, 1)->text()].insert(a);
+					for (int a = 0; a < taskSize; a++)
+						mapping[item(j, 1)->text()].insert(a);
 				}
 			}
 		}
@@ -389,7 +380,9 @@ void ResultViewer::judgeMagenta()
 	{
 		for (int j = 0; j < taskSize; j++)
 		{
-			if (taskList[j]->getTaskType() != Task::AnswersOnly && contestantList[i]->getCompileState(j) != CompileSuccessfully && contestantList[i]->getCompileState(j) != NoValidSourceFile)
+			if (taskList[j]->getTaskType() != Task::AnswersOnly &&
+			    contestantList[i]->getCompileState(j) != CompileSuccessfully &&
+			    contestantList[i]->getCompileState(j) != NoValidSourceFile)
 			{
 				mapping[contestantList[i]->getContestantName()].insert(j);
 			}
@@ -417,14 +410,14 @@ void ResultViewer::clearPath(const QString &curDir)
 	QDir dir(curDir);
 	QStringList fileList = dir.entryList(QDir::Files);
 
-	for (int i = 0; i < fileList.size(); i ++)
+	for (int i = 0; i < fileList.size(); i++)
 	{
 		dir.remove(fileList[i]);
 	}
 
 	QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for (int i = 0; i < dirList.size(); i ++)
+	for (int i = 0; i < dirList.size(); i++)
 	{
 		clearPath(curDir + dirList[i] + QDir::separator());
 		dir.rmdir(dirList[i]);
@@ -434,24 +427,25 @@ void ResultViewer::clearPath(const QString &curDir)
 void ResultViewer::deleteContestant()
 {
 	auto *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
-	                                   QString("<span style=\"font-size:large\">")
-	                                   + tr("Are you sure to delete selected contestant(s)?") + "</span>",
+	                                   QString("<span style=\"font-size:large\">") +
+	                                      tr("Are you sure to delete selected contestant(s)?") + "</span>",
 	                                   QMessageBox::Ok | QMessageBox::Cancel, this);
-	//QHBoxLayout *layout = new QHBoxLayout;
+	// QHBoxLayout *layout = new QHBoxLayout;
 	auto *checkBox = new QCheckBox(tr("Delete data in the disk as well"));
-	//layout->addWidget(checkBox);
-	//layout->setAlignment(checkBox, Qt::AlignHCenter);
-	//dynamic_cast<QGridLayout*>(messageBox->layout())->addLayout(layout, 1, 1);
-	//dynamic_cast<QGridLayout*>(messageBox->layout())->setVerticalSpacing(10);
+	// layout->addWidget(checkBox);
+	// layout->setAlignment(checkBox, Qt::AlignHCenter);
+	// dynamic_cast<QGridLayout*>(messageBox->layout())->addLayout(layout, 1, 1);
+	// dynamic_cast<QGridLayout*>(messageBox->layout())->setVerticalSpacing(10);
 	messageBox->setCheckBox(checkBox);
 
-	if (messageBox->exec() != QMessageBox::Ok) return;
+	if (messageBox->exec() != QMessageBox::Ok)
+		return;
 
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 
 	for (auto &i : selectionRange)
 	{
-		for (int j = i.topRow(); j <= i.bottomRow(); j ++)
+		for (int j = i.topRow(); j <= i.bottomRow(); j++)
 		{
 			curContest->deleteContestant(item(j, 1)->text());
 

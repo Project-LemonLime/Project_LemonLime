@@ -23,13 +23,13 @@
 #ifndef SUMMARYTREE_H
 #define SUMMARYTREE_H
 
+#include <QAction>
+#include <QApplication>
+#include <QMenu>
+#include <QMessageBox>
+#include <QTreeWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QTreeWidget>
-#include <QAction>
-#include <QMessageBox>
-#include <QMenu>
-#include <QApplication>
 
 class Settings;
 class Contest;

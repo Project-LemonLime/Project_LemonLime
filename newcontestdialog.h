@@ -23,9 +23,9 @@
 #ifndef NEWCONTESTDIALOG_H
 #define NEWCONTESTDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 namespace Ui
 {

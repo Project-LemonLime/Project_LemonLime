@@ -20,17 +20,16 @@
  * Update 2019 iotang
  **/
 
-
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <cstdlib>
-#include <cstring>
+#include <cassert>
 #include <csignal>
 #include <cstdio>
-#include <cassert>
+#include <cstdlib>
+#include <cstring>
+#include <sys/resource.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 int pid;
 
@@ -62,12 +61,14 @@ int main(int argc, char *argv[])
 
 		if (WIFEXITED(status))
 		{
-			if (WEXITSTATUS(status) == 1) return 1;
+			if (WEXITSTATUS(status) == 1)
+				return 1;
 
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss));
 
-			if (WEXITSTATUS(status) != 0) return 2;
+			if (WEXITSTATUS(status) != 0)
+				return 2;
 
 			return 0;
 		}
@@ -77,57 +78,49 @@ int main(int argc, char *argv[])
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss));
 
-			if (WTERMSIG(status) == SIGXCPU) return 3;
+			if (WTERMSIG(status) == SIGXCPU)
+				return 3;
 
-			if (WTERMSIG(status) == SIGKILL) return 4;
+			if (WTERMSIG(status) == SIGKILL)
+				return 4;
 
-			if (WTERMSIG(status) == SIGABRT) return 4;
+			if (WTERMSIG(status) == SIGABRT)
+				return 4;
 
 			return 2;
 		}
 	}
 	else
 	{
-		if (strlen(argv[2]) > 0) assert(freopen(argv[2], "r", stdin));
+		if (strlen(argv[2]) > 0)
+			assert(freopen(argv[2], "r", stdin));
 
-		if (strlen(argv[3]) > 0) assert(freopen(argv[3], "w", stdout));
+		if (strlen(argv[3]) > 0)
+			assert(freopen(argv[3], "w", stdout));
 
-		if (strlen(argv[4]) > 0) assert(freopen(argv[4], "w", stderr));
+		if (strlen(argv[4]) > 0)
+			assert(freopen(argv[4], "w", stderr));
 
 		rlimit memlim, stalim, timlim;
 
 		if (memoryLimit > 0)
 		{
-			memlim = (rlimit)
-			{
-				(rlim_t) memoryLimit, (rlim_t) memoryLimit
-			};
-			stalim = (rlimit)
-			{
-				(rlim_t) memoryLimit, (rlim_t) memoryLimit
-			};
+			memlim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
+			stalim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
 		}
 		else
 		{
-			memlim = (rlimit)
-			{
-				RLIM_INFINITY, RLIM_INFINITY
-			};
-			stalim = (rlimit)
-			{
-				(rlim_t) 2147483647ll, (rlim_t) 2147483647ll
-			};
+			memlim = (rlimit){RLIM_INFINITY, RLIM_INFINITY};
+			stalim = (rlimit){(rlim_t)2147483647ll, (rlim_t)2147483647ll};
 		}
 
-		timlim = (rlimit)
-		{
-			(rlim_t) timeLimit, (rlim_t)(timeLimit + 1)
-		};
+		timlim = (rlimit){(rlim_t)timeLimit, (rlim_t)(timeLimit + 1)};
 		setrlimit(RLIMIT_AS, &memlim);
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);
 
-		if (execlp("bash", "bash", "-c", argv[1], NULL) == -1) return 1;
+		if (execlp("bash", "bash", "-c", argv[1], NULL) == -1)
+			return 1;
 	}
 
 	return 0;

@@ -27,15 +27,31 @@
 #ifndef GLOBALTYPE_H
 #define GLOBALTYPE_H
 
-enum CompileState { CompileSuccessfully, NoValidSourceFile, CompileError,
-                    CompileTimeLimitExceeded, InvalidCompiler
-                  };
+enum CompileState
+{
+	CompileSuccessfully,
+	NoValidSourceFile,
+	CompileError,
+	CompileTimeLimitExceeded,
+	InvalidCompiler
+};
 
-enum ResultState { CorrectAnswer, WrongAnswer, PartlyCorrect,
-                   TimeLimitExceeded, MemoryLimitExceeded,
-                   CannotStartProgram, FileError, RunTimeError,
-                   InvalidSpecialJudge, SpecialJudgeTimeLimitExceeded,
-                   SpecialJudgeRunTimeError, Skipped, InteractorError,
-                   PresentationError, OutputLimitExceeded
-                 };
+enum ResultState
+{
+	CorrectAnswer,
+	WrongAnswer,
+	PartlyCorrect,
+	TimeLimitExceeded,
+	MemoryLimitExceeded,
+	CannotStartProgram,
+	FileError,
+	RunTimeError,
+	InvalidSpecialJudge,
+	SpecialJudgeTimeLimitExceeded,
+	SpecialJudgeRunTimeError,
+	Skipped,
+	InteractorError,
+	PresentationError,
+	OutputLimitExceeded
+};
 #endif // GLOBALTYPE_H

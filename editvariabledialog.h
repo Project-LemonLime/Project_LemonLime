@@ -23,9 +23,9 @@
 #ifndef EDITVARIABLEDIALOG_H
 #define EDITVARIABLEDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 namespace Ui
 {

@@ -25,14 +25,12 @@
  **/
 
 #include "addcompilerwizard.h"
-#include "ui_addcompilerwizard.h"
 #include "compiler.h"
+#include "ui_addcompilerwizard.h"
 #include <QFileDialog>
 #include <QMessageBox>
 
-AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
-	QWizard(parent),
-	ui(new Ui::AddCompilerWizard)
+AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddCompilerWizard)
 {
 	ui->setupUi(this);
 	ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
@@ -59,37 +57,21 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 		ui->pythonPath->setText("/usr/bin/python");
 
 #endif
-	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
-	        this, SLOT(compilerTypeChanged()));
-	connect(ui->compilerSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectCompilerLocation()));
-	connect(ui->interpreterSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectInterpreterLocation()));
-	connect(ui->gccSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectGccPath()));
-	connect(ui->gppSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectGppPath()));
-	connect(ui->fpcSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectFpcPath()));
-	connect(ui->fbcSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectFbcPath()));
-	connect(ui->javacSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectJavacPath()));
-	connect(ui->javaSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectJavaPath()));
-	connect(ui->pythonSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectPythonPath()));
+	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(compilerTypeChanged()));
+	connect(ui->compilerSelectButton, SIGNAL(clicked()), this, SLOT(selectCompilerLocation()));
+	connect(ui->interpreterSelectButton, SIGNAL(clicked()), this, SLOT(selectInterpreterLocation()));
+	connect(ui->gccSelectButton, SIGNAL(clicked()), this, SLOT(selectGccPath()));
+	connect(ui->gppSelectButton, SIGNAL(clicked()), this, SLOT(selectGppPath()));
+	connect(ui->fpcSelectButton, SIGNAL(clicked()), this, SLOT(selectFpcPath()));
+	connect(ui->fbcSelectButton, SIGNAL(clicked()), this, SLOT(selectFbcPath()));
+	connect(ui->javacSelectButton, SIGNAL(clicked()), this, SLOT(selectJavacPath()));
+	connect(ui->javaSelectButton, SIGNAL(clicked()), this, SLOT(selectJavaPath()));
+	connect(ui->pythonSelectButton, SIGNAL(clicked()), this, SLOT(selectPythonPath()));
 }
 
-AddCompilerWizard::~AddCompilerWizard()
-{
-	delete ui;
-}
+AddCompilerWizard::~AddCompilerWizard() { delete ui; }
 
-auto AddCompilerWizard::getCompilerList() const -> const QList<Compiler *> &
-{
-	return compilerList;
-}
+auto AddCompilerWizard::getCompilerList() const -> const QList<Compiler *> & { return compilerList; }
 
 auto AddCompilerWizard::nextId() const -> int
 {
@@ -103,7 +85,8 @@ auto AddCompilerWizard::nextId() const -> int
 		return 2;
 	}
 
-	if (currentId() == 3) return -1;
+	if (currentId() == 3)
+		return -1;
 
 	return 3;
 }
@@ -353,11 +336,11 @@ void AddCompilerWizard::compilerTypeChanged()
 void AddCompilerWizard::selectCompilerLocation()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.exe)"));
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                tr("Executable files (*.exe)"));
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.*)"));
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                tr("Executable files (*.*)"));
 #endif
 
 	if (! location.isEmpty())
@@ -371,10 +354,10 @@ void AddCompilerWizard::selectInterpreterLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.exe)"));
+	                                                QDir::rootPath(), tr("Executable files (*.exe)"));
 #else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.*)"));
+	                                                QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if (! location.isEmpty())
@@ -387,11 +370,11 @@ void AddCompilerWizard::selectInterpreterLocation()
 void AddCompilerWizard::selectGccPath()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "gcc (gcc.exe)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "gcc (gcc.exe)");
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "gcc (gcc)");
+	QString location =
+	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "gcc (gcc)");
 #endif
 
 	if (! location.isEmpty())
@@ -404,11 +387,11 @@ void AddCompilerWizard::selectGccPath()
 void AddCompilerWizard::selectGppPath()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "g++ (g++.exe)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "g++ (g++.exe)");
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "g++ (g++)");
+	QString location =
+	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "g++ (g++)");
 #endif
 
 	if (! location.isEmpty())
@@ -421,11 +404,11 @@ void AddCompilerWizard::selectGppPath()
 void AddCompilerWizard::selectFpcPath()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "fpc (fpc.exe)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "fpc (fpc.exe)");
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "fpc (fpc)");
+	QString location =
+	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fpc (fpc)");
 #endif
 
 	if (! location.isEmpty())
@@ -438,11 +421,11 @@ void AddCompilerWizard::selectFpcPath()
 void AddCompilerWizard::selectFbcPath()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "fbc (fbc.exe)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "fbc (fbc.exe)");
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "fbc (fbc)");
+	QString location =
+	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fbc (fbc)");
 #endif
 
 	if (! location.isEmpty())
@@ -455,11 +438,11 @@ void AddCompilerWizard::selectFbcPath()
 void AddCompilerWizard::selectJavacPath()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "javac (javac.exe)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "javac (javac.exe)");
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), "javac (javac)");
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                "javac (javac)");
 #endif
 
 	if (! location.isEmpty())
@@ -473,10 +456,10 @@ void AddCompilerWizard::selectJavaPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), "java (java.exe)");
+	                                                QDir::rootPath(), "java (java.exe)");
 #else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), "java (java)");
+	                                                QDir::rootPath(), "java (java)");
 #endif
 
 	if (! location.isEmpty())
@@ -490,10 +473,10 @@ void AddCompilerWizard::selectPythonPath()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), "python (python.exe)");
+	                                                QDir::rootPath(), "python (python.exe)");
 #else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), "python (python)");
+	                                                QDir::rootPath(), "python (python)");
 #endif
 
 	if (! location.isEmpty())
@@ -514,8 +497,7 @@ void AddCompilerWizard::accept()
 		compiler->setInterpreterLocation(ui->interpreterLocation->text());
 		compiler->setSourceExtensions(ui->sourceFileExtensions->text());
 		compiler->setBytecodeExtensions(ui->bytecodeFileExtensions->text());
-		compiler->addConfiguration("default",
-		                           ui->defaultCompilerArguments->text(),
+		compiler->addConfiguration("default", ui->defaultCompilerArguments->text(),
 		                           ui->defaultInterpreterArguments->text());
 		compilerList.append(compiler);
 	}
@@ -546,10 +528,14 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C17 O2", "-o %s %s.* -lm -std=c17 -O2" + stackArg, "");
 				compiler->addConfiguration("C17 O3", "-o %s %s.* -lm -std=c17 -O3" + stackArg, "");
 #ifdef Q_OS_LINUX
-				compiler->addConfiguration("C89 UB Catching", "-o %s %s.* -lm -std=c89 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C99 UB Catching", "-o %s %s.* -lm -std=c99 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C11 UB Catching", "-o %s %s.* -lm -std=c11 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C17 UB Catching", "-o %s %s.* -lm -std=c17 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C89 UB Catching",
+				                           "-o %s %s.* -lm -std=c89 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C99 UB Catching",
+				                           "-o %s %s.* -lm -std=c99 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C11 UB Catching",
+				                           "-o %s %s.* -lm -std=c11 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C17 UB Catching",
+				                           "-o %s %s.* -lm -std=c17 -fsanitize=undefined" + stackArg, "");
 #endif
 			}
 
@@ -592,12 +578,18 @@ void AddCompilerWizard::accept()
 				compiler->addConfiguration("C++20 O2", "-o %s %s.* -lm -std=c++20 -O2" + stackArg, "");
 				compiler->addConfiguration("C++20 O3", "-o %s %s.* -lm -std=c++20 -O3" + stackArg, "");
 #ifdef Q_OS_LINUX
-				compiler->addConfiguration("C++98 UB Catching", "-o %s %s.* -lm -std=c++98 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C++03 UB Catching", "-o %s %s.* -lm -std=c++03 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C++11 UB Catching", "-o %s %s.* -lm -std=c++11 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C++14 UB Catching", "-o %s %s.* -lm -std=c++14 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C++17 UB Catching", "-o %s %s.* -lm -std=c++17 -fsanitize=undefined" + stackArg, "");
-				compiler->addConfiguration("C++20 UB Catching", "-o %s %s.* -lm -std=c++20 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++98 UB Catching",
+				                           "-o %s %s.* -lm -std=c++98 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++03 UB Catching",
+				                           "-o %s %s.* -lm -std=c++03 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++11 UB Catching",
+				                           "-o %s %s.* -lm -std=c++11 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++14 UB Catching",
+				                           "-o %s %s.* -lm -std=c++14 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++17 UB Catching",
+				                           "-o %s %s.* -lm -std=c++17 -fsanitize=undefined" + stackArg, "");
+				compiler->addConfiguration("C++20 UB Catching",
+				                           "-o %s %s.* -lm -std=c++20 -fsanitize=undefined" + stackArg, "");
 #endif
 			}
 
@@ -648,7 +640,8 @@ void AddCompilerWizard::accept()
 			compiler->setBytecodeExtensions("class");
 			compiler->setTimeLimitRatio(5);
 			compiler->setDisableMemoryLimitCheck(true);
-			compiler->addConfiguration("default", "%s.*", QString("-Xmx%1m %s").arg(ui->javaMemoryLimit->text()));
+			compiler->addConfiguration("default", "%s.*",
+			                           QString("-Xmx%1m %s").arg(ui->javaMemoryLimit->text()));
 			compilerList.append(compiler);
 		}
 

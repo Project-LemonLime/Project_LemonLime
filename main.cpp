@@ -24,17 +24,17 @@
  * Update 2019 iotang
  **/
 
-#include <QApplication>
-#include <QSplashScreen>
-#include <QPixmap>
-#include <iostream>
-#include "qtsingleapplication/qtsingleapplication.h"
 #include "lemon.h"
+#include "qtsingleapplication/qtsingleapplication.h"
+#include <QApplication>
+#include <QPixmap>
+#include <QSplashScreen>
+#include <iostream>
 
 auto main(int argc, char *argv[]) -> int
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);  // High DPI supported
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 #endif
 	QtSingleApplication a(argc, argv);
 

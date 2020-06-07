@@ -24,42 +24,23 @@
 #include "ui_editvariabledialog.h"
 #include <QPushButton>
 
-EditVariableDialog::EditVariableDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::EditVariableDialog)
+EditVariableDialog::EditVariableDialog(QWidget *parent) : QDialog(parent), ui(new Ui::EditVariableDialog)
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	connect(ui->variableName, SIGNAL(textChanged(QString)),
-	        this, SLOT(textChanged()));
-	connect(ui->variableValue, SIGNAL(textChanged(QString)),
-	        this, SLOT(textChanged()));
+	connect(ui->variableName, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
+	connect(ui->variableValue, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
 }
 
-EditVariableDialog::~EditVariableDialog()
-{
-	delete ui;
-}
+EditVariableDialog::~EditVariableDialog() { delete ui; }
 
-void EditVariableDialog::setVariableName(const QString &variable)
-{
-	ui->variableName->setText(variable);
-}
+void EditVariableDialog::setVariableName(const QString &variable) { ui->variableName->setText(variable); }
 
-void EditVariableDialog::setVariableValue(const QString &value)
-{
-	ui->variableValue->setText(value);
-}
+void EditVariableDialog::setVariableValue(const QString &value) { ui->variableValue->setText(value); }
 
-auto EditVariableDialog::getVariableName() const -> QString
-{
-	return ui->variableName->text();
-}
+auto EditVariableDialog::getVariableName() const -> QString { return ui->variableName->text(); }
 
-auto EditVariableDialog::getVariableValue() const -> QString
-{
-	return ui->variableValue->text();
-}
+auto EditVariableDialog::getVariableValue() const -> QString { return ui->variableValue->text(); }
 
 void EditVariableDialog::textChanged()
 {

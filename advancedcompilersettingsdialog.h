@@ -23,9 +23,9 @@
 #ifndef ADVANCEDCOMPILERSETTINGSDIALOG_H
 #define ADVANCEDCOMPILERSETTINGSDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 class Compiler;
 

@@ -23,10 +23,10 @@
 #ifndef OPENCONTESTWIDGET_H
 #define OPENCONTESTWIDGET_H
 
+#include <QMessageBox>
+#include <QWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
-#include <QMessageBox>
 
 namespace Ui
 {

@@ -25,64 +25,46 @@
  **/
 
 #include "advancedcompilersettingsdialog.h"
-#include "ui_advancedcompilersettingsdialog.h"
-#include "environmentvariablesdialog.h"
 #include "compiler.h"
-#include <QMessageBox>
+#include "environmentvariablesdialog.h"
+#include "ui_advancedcompilersettingsdialog.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
-AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::AdvancedCompilerSettingsDialog)
+AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::AdvancedCompilerSettingsDialog)
 {
 	ui->setupUi(this);
 	editCompiler = new Compiler(this);
 	ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->configurationSelect->setLineEdit(new QLineEdit(this));
-	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-	        this, SLOT(okayButtonClicked()));
-	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
-	        this, SLOT(compilerTypeChanged()));
-	connect(ui->compilerLocation, SIGNAL(textChanged(QString)),
-	        this, SLOT(compilerLocationChanged()));
-	connect(ui->interpreterLocation, SIGNAL(textChanged(QString)),
-	        this, SLOT(interpreterLocationChanged()));
-	connect(ui->compilerSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectCompilerLocation()));
-	connect(ui->interpreterSelectButton, SIGNAL(clicked()),
-	        this, SLOT(selectInterpreterLocation()));
-	connect(ui->bytecodeExtension, SIGNAL(textChanged(QString)),
-	        this, SLOT(bytecodeExtensionsChanged()));
-	connect(ui->timeLimitRatio, SIGNAL(valueChanged(double)),
-	        this, SLOT(timeLimitRatioChanged()));
-	connect(ui->memoryLimitRatio, SIGNAL(valueChanged(double)),
-	        this, SLOT(memoryLimitRatioChanged()));
-	connect(ui->disableMemoryLimit, SIGNAL(stateChanged(int)),
-	        this, SLOT(disableMemoryLimitCheckChanged()));
-	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)),
-	        this, SLOT(configurationIndexChanged()));
-	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)),
-	        this, SLOT(configurationTextChanged()));
-	connect(ui->deleteConfigurationButton, SIGNAL(clicked()),
-	        this, SLOT(deleteConfiguration()));
-	connect(ui->compilerArguments, SIGNAL(textChanged(QString)),
-	        this, SLOT(compilerArgumentsChanged()));
-	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)),
-	        this, SLOT(interpreterArgumentsChanged()));
-	connect(ui->environmentVariablesButton, SIGNAL(clicked()),
-	        this, SLOT(environmentVariablesButtonClicked()));
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(okayButtonClicked()));
+	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(compilerTypeChanged()));
+	connect(ui->compilerLocation, SIGNAL(textChanged(QString)), this, SLOT(compilerLocationChanged()));
+	connect(ui->interpreterLocation, SIGNAL(textChanged(QString)), this, SLOT(interpreterLocationChanged()));
+	connect(ui->compilerSelectButton, SIGNAL(clicked()), this, SLOT(selectCompilerLocation()));
+	connect(ui->interpreterSelectButton, SIGNAL(clicked()), this, SLOT(selectInterpreterLocation()));
+	connect(ui->bytecodeExtension, SIGNAL(textChanged(QString)), this, SLOT(bytecodeExtensionsChanged()));
+	connect(ui->timeLimitRatio, SIGNAL(valueChanged(double)), this, SLOT(timeLimitRatioChanged()));
+	connect(ui->memoryLimitRatio, SIGNAL(valueChanged(double)), this, SLOT(memoryLimitRatioChanged()));
+	connect(ui->disableMemoryLimit, SIGNAL(stateChanged(int)), this, SLOT(disableMemoryLimitCheckChanged()));
+	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)), this,
+	        SLOT(configurationIndexChanged()));
+	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)), this, SLOT(configurationTextChanged()));
+	connect(ui->deleteConfigurationButton, SIGNAL(clicked()), this, SLOT(deleteConfiguration()));
+	connect(ui->compilerArguments, SIGNAL(textChanged(QString)), this, SLOT(compilerArgumentsChanged()));
+	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)), this, SLOT(interpreterArgumentsChanged()));
+	connect(ui->environmentVariablesButton, SIGNAL(clicked()), this,
+	        SLOT(environmentVariablesButtonClicked()));
 }
 
-AdvancedCompilerSettingsDialog::~AdvancedCompilerSettingsDialog()
-{
-	delete ui;
-}
+AdvancedCompilerSettingsDialog::~AdvancedCompilerSettingsDialog() { delete ui; }
 
 void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
 {
 	configCount = 0;
 	editCompiler->copyFrom(compiler);
-	ui->typeSelect->setCurrentIndex(int (editCompiler->getCompilerType()));
+	ui->typeSelect->setCurrentIndex(int(editCompiler->getCompilerType()));
 	compilerTypeChanged();
 	ui->compilerLocation->setText(editCompiler->getCompilerLocation());
 	ui->interpreterLocation->setText(editCompiler->getInterpreterLocation());
@@ -94,7 +76,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
 	QStringList configurationNames = editCompiler->getConfigurationNames();
 	ui->configurationSelect->setEnabled(false);
 
-	for (int i = 0; i < configurationNames.size(); i ++)
+	for (int i = 0; i < configurationNames.size(); i++)
 	{
 		ui->configurationSelect->addItem(configurationNames[i]);
 	}
@@ -105,10 +87,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
 	configurationIndexChanged();
 }
 
-auto AdvancedCompilerSettingsDialog::getEditCompiler() const -> Compiler *
-{
-	return editCompiler;
-}
+auto AdvancedCompilerSettingsDialog::getEditCompiler() const -> Compiler * { return editCompiler; }
 
 void AdvancedCompilerSettingsDialog::okayButtonClicked()
 {
@@ -135,7 +114,7 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 
 	const QStringList &configurationNames = editCompiler->getConfigurationNames();
 
-	for (int j = 0; j < configurationNames.size(); j ++)
+	for (int j = 0; j < configurationNames.size(); j++)
 	{
 		if (configurationNames[j].isEmpty())
 		{
@@ -159,7 +138,8 @@ void AdvancedCompilerSettingsDialog::okayButtonClicked()
 		{
 			ui->configurationSelect->setCurrentIndex(j);
 			ui->configurationSelect->setFocus();
-			QMessageBox::warning(this, tr("Error"), tr("Invalid configuration name \"disable\"!"), QMessageBox::Close);
+			QMessageBox::warning(this, tr("Error"), tr("Invalid configuration name \"disable\"!"),
+			                     QMessageBox::Close);
 			return;
 		}
 	}
@@ -230,11 +210,11 @@ void AdvancedCompilerSettingsDialog::interpreterLocationChanged()
 void AdvancedCompilerSettingsDialog::selectCompilerLocation()
 {
 #ifdef Q_OS_WIN32
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.exe)"));
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                tr("Executable files (*.exe)"));
 #else
-	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.*)"));
+	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
+	                                                tr("Executable files (*.*)"));
 #endif
 
 	if (! location.isEmpty())
@@ -248,10 +228,10 @@ void AdvancedCompilerSettingsDialog::selectInterpreterLocation()
 {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.exe)"));
+	                                                QDir::rootPath(), tr("Executable files (*.exe)"));
 #else
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
-	                   QDir::rootPath(), tr("Executable files (*.*)"));
+	                                                QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
 	if (! location.isEmpty())
@@ -286,15 +266,17 @@ void AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged()
 
 void AdvancedCompilerSettingsDialog::configurationIndexChanged()
 {
-	if (! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled())
+		return;
 
 	int index = ui->configurationSelect->currentIndex();
 
-	if (index == -1) return;
+	if (index == -1)
+		return;
 
 	if (index == ui->configurationSelect->count() - 1)
 	{
-		ui->configurationSelect->setItemText(index, tr("New configuration %1").arg(++ configCount));
+		ui->configurationSelect->setItemText(index, tr("New configuration %1").arg(++configCount));
 		editCompiler->addConfiguration(ui->configurationSelect->currentText(), "", "");
 		ui->compilerArguments->clear();
 		ui->interpreterArguments->clear();
@@ -313,7 +295,8 @@ void AdvancedCompilerSettingsDialog::configurationIndexChanged()
 
 void AdvancedCompilerSettingsDialog::configurationTextChanged()
 {
-	if (! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled())
+		return;
 
 	if (ui->configurationSelect->currentIndex() == 0)
 	{
@@ -350,7 +333,8 @@ void AdvancedCompilerSettingsDialog::deleteConfiguration()
 
 void AdvancedCompilerSettingsDialog::compilerArgumentsChanged()
 {
-	if (! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled())
+		return;
 
 	int index = ui->configurationSelect->currentIndex();
 	editCompiler->setCompilerArguments(index, ui->compilerArguments->text());
@@ -358,7 +342,8 @@ void AdvancedCompilerSettingsDialog::compilerArgumentsChanged()
 
 void AdvancedCompilerSettingsDialog::interpreterArgumentsChanged()
 {
-	if (! ui->configurationSelect->isEnabled()) return;
+	if (! ui->configurationSelect->isEnabled())
+		return;
 
 	int index = ui->configurationSelect->currentIndex();
 	editCompiler->setInterpreterArguments(index, ui->interpreterArguments->text());

@@ -21,30 +21,21 @@
  **/
 
 #include "optionsdialog.h"
-#include "ui_optionsdialog.h"
 #include "settings.h"
+#include "ui_optionsdialog.h"
 //#include <QtGui>
 #include <QtWidgets>
 
-OptionsDialog::OptionsDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::OptionsDialog)
+OptionsDialog::OptionsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OptionsDialog)
 {
 	ui->setupUi(this);
 	editSettings = new Settings(this);
-	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-	        this, SLOT(okayButtonClicked()));
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(okayButtonClicked()));
 }
 
-OptionsDialog::~OptionsDialog()
-{
-	delete ui;
-}
+OptionsDialog::~OptionsDialog() { delete ui; }
 
-auto OptionsDialog::getEditSettings() -> Settings *
-{
-	return editSettings;
-}
+auto OptionsDialog::getEditSettings() -> Settings * { return editSettings; }
 
 void OptionsDialog::resetEditSettings(Settings *settings)
 {
@@ -59,11 +50,13 @@ void OptionsDialog::okayButtonClicked()
 {
 	ui->tabWidget->setCurrentIndex(0);
 
-	if (! ui->generalSettings->checkValid()) return;
+	if (! ui->generalSettings->checkValid())
+		return;
 
 	ui->tabWidget->setCurrentIndex(1);
 
-	if (! ui->compilerSettings->checkValid()) return;
+	if (! ui->compilerSettings->checkValid())
+		return;
 
 	accept();
 }

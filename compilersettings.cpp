@@ -21,17 +21,15 @@
  **/
 
 #include "compilersettings.h"
-#include "ui_compilersettings.h"
-#include "advancedcompilersettingsdialog.h"
 #include "addcompilerwizard.h"
-#include "settings.h"
+#include "advancedcompilersettingsdialog.h"
 #include "compiler.h"
-#include <QMessageBox>
+#include "settings.h"
+#include "ui_compilersettings.h"
 #include <QAction>
+#include <QMessageBox>
 
-CompilerSettings::CompilerSettings(QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::CompilerSettings)
+CompilerSettings::CompilerSettings(QWidget *parent) : QWidget(parent), ui(new Ui::CompilerSettings)
 {
 	ui->setupUi(this);
 	ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
@@ -40,30 +38,18 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
 	deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);
 	deleteCompilerKeyAction->setEnabled(false);
 	ui->compilerList->addAction(deleteCompilerKeyAction);
-	connect(ui->moveUpButton, SIGNAL(clicked()),
-	        this, SLOT(moveUpCompiler()));
-	connect(ui->moveDownButton, SIGNAL(clicked()),
-	        this, SLOT(moveDownCompiler()));
-	connect(ui->addCompilerButton, SIGNAL(clicked()),
-	        this, SLOT(addCompiler()));
-	connect(ui->deleteCompilerButton, SIGNAL(clicked()),
-	        this, SLOT(deleteCompiler()));
-	connect(ui->compilerName, SIGNAL(textChanged(QString)),
-	        this, SLOT(compilerNameChanged(QString)));
-	connect(ui->sourceExtensions, SIGNAL(textChanged(QString)),
-	        this, SLOT(sourceExtensionsChanged(QString)));
-	connect(ui->compilerList, SIGNAL(currentRowChanged(int)),
-	        this, SLOT(compilerListCurrentRowChanged()));
-	connect(ui->advancedButton, SIGNAL(clicked()),
-	        this, SLOT(advancedButtonClicked()));
-	connect(deleteCompilerKeyAction, SIGNAL(triggered()),
-	        this, SLOT(deleteCompiler()));
+	connect(ui->moveUpButton, SIGNAL(clicked()), this, SLOT(moveUpCompiler()));
+	connect(ui->moveDownButton, SIGNAL(clicked()), this, SLOT(moveDownCompiler()));
+	connect(ui->addCompilerButton, SIGNAL(clicked()), this, SLOT(addCompiler()));
+	connect(ui->deleteCompilerButton, SIGNAL(clicked()), this, SLOT(deleteCompiler()));
+	connect(ui->compilerName, SIGNAL(textChanged(QString)), this, SLOT(compilerNameChanged(QString)));
+	connect(ui->sourceExtensions, SIGNAL(textChanged(QString)), this, SLOT(sourceExtensionsChanged(QString)));
+	connect(ui->compilerList, SIGNAL(currentRowChanged(int)), this, SLOT(compilerListCurrentRowChanged()));
+	connect(ui->advancedButton, SIGNAL(clicked()), this, SLOT(advancedButtonClicked()));
+	connect(deleteCompilerKeyAction, SIGNAL(triggered()), this, SLOT(deleteCompiler()));
 }
 
-CompilerSettings::~CompilerSettings()
-{
-	delete ui;
-}
+CompilerSettings::~CompilerSettings() { delete ui; }
 
 void CompilerSettings::resetEditSettings(Settings *settings)
 {
@@ -76,7 +62,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 		ui->compilerList->addItem(i->getCompilerName());
 	}
 
-	if (!compilerList.empty())
+	if (! compilerList.empty())
 	{
 		ui->compilerList->setCurrentRow(0);
 		setCurrentCompiler(compilerList[0]);
@@ -99,7 +85,7 @@ auto CompilerSettings::checkValid() -> bool
 		compilerNames.append(i->getCompilerName());
 	}
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i++)
 	{
 		if (compilerNames.count(compilerNames[i]) > 1)
 		{
@@ -112,7 +98,7 @@ auto CompilerSettings::checkValid() -> bool
 		}
 	}
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i++)
 	{
 		if (compilerList[i]->getCompilerName().isEmpty())
 		{
@@ -181,7 +167,7 @@ void CompilerSettings::addCompiler()
 
 				while (compilerNames.contains(QString("%1 (%2)").arg(name).arg(cnt)))
 				{
-					cnt ++;
+					cnt++;
 				}
 
 				i->setCompilerName(QString("%1 (%2)").arg(name).arg(cnt));
@@ -199,8 +185,8 @@ void CompilerSettings::addCompiler()
 
 void CompilerSettings::deleteCompiler()
 {
-	if (QMessageBox::question(this, tr("LemonLime"), tr("Are you sure to delete compiler %1?")
-	                          .arg(curCompiler->getCompilerName()),
+	if (QMessageBox::question(this, tr("LemonLime"),
+	                          tr("Are you sure to delete compiler %1?").arg(curCompiler->getCompilerName()),
 	                          QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
 	{
 		return;
@@ -284,7 +270,8 @@ void CompilerSettings::compilerNameChanged(const QString &text)
 
 void CompilerSettings::sourceExtensionsChanged(const QString &text)
 {
-	if (curCompiler) curCompiler->setSourceExtensions(text);
+	if (curCompiler)
+		curCompiler->setSourceExtensions(text);
 }
 
 void CompilerSettings::compilerListCurrentRowChanged()

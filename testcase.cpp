@@ -23,10 +23,7 @@
 #include "testcase.h"
 #include "settings.h"
 
-TestCase::TestCase(QObject *parent) :
-	QObject(parent)
-{
-}
+TestCase::TestCase(QObject *parent) : QObject(parent) {}
 
 void TestCase::copyTo(TestCase *to)
 {
@@ -37,55 +34,25 @@ void TestCase::copyTo(TestCase *to)
 	to->readFromStream(tmpout);
 }
 
-auto TestCase::getFullScore() const -> int
-{
-	return fullScore;
-}
+auto TestCase::getFullScore() const -> int { return fullScore; }
 
-auto TestCase::getTimeLimit() const -> int
-{
-	return timeLimit;
-}
+auto TestCase::getTimeLimit() const -> int { return timeLimit; }
 
-auto TestCase::getMemoryLimit() const -> int
-{
-	return memoryLimit;
-}
+auto TestCase::getMemoryLimit() const -> int { return memoryLimit; }
 
-auto TestCase::getInputFiles() const -> const QStringList &
-{
-	return inputFiles;
-}
+auto TestCase::getInputFiles() const -> const QStringList & { return inputFiles; }
 
-auto TestCase::getOutputFiles() const -> const QStringList &
-{
-	return outputFiles;
-}
+auto TestCase::getOutputFiles() const -> const QStringList & { return outputFiles; }
 
-auto TestCase::getDependenceSubtask() const -> const QList<int> &
-{
-	return dependenceSubtask;
-}
+auto TestCase::getDependenceSubtask() const -> const QList<int> & { return dependenceSubtask; }
 
-void TestCase::setIndex(int ind)
-{
-	index = ind;
-}
+void TestCase::setIndex(int ind) { index = ind; }
 
-void TestCase::setFullScore(int score)
-{
-	fullScore = score;
-}
+void TestCase::setFullScore(int score) { fullScore = score; }
 
-void TestCase::setTimeLimit(int limit)
-{
-	timeLimit = limit;
-}
+void TestCase::setTimeLimit(int limit) { timeLimit = limit; }
 
-void TestCase::setMemoryLimit(int limit)
-{
-	memoryLimit = limit;
-}
+void TestCase::setMemoryLimit(int limit) { memoryLimit = limit; }
 
 void TestCase::setInputFiles(int index, const QString &fileName)
 {
@@ -136,7 +103,7 @@ auto TestCase::checkDependenceSubtask(const QStringList &list) -> bool
 
 	for (int i = 0; i != list.size(); ++i)
 	{
-		int     t;
+		int t;
 		t = list[i].toInt();
 
 		if (t <= 0 || t >= index)
@@ -171,7 +138,7 @@ void TestCase::writeToStream(QDataStream &out)
 	out << memoryLimit;
 	QStringList _inputFiles(inputFiles);
 
-	for (int i = 0; i < _inputFiles.size(); i ++)
+	for (int i = 0; i < _inputFiles.size(); i++)
 	{
 		_inputFiles[i].replace(QDir::separator(), '/');
 	}
@@ -183,7 +150,7 @@ void TestCase::writeToStream(QDataStream &out)
 
 	QStringList _outputFiles(outputFiles);
 
-	for (int i = 0; i < _outputFiles.size(); i ++)
+	for (int i = 0; i < _outputFiles.size(); i++)
 	{
 		_outputFiles[i].replace(QDir::separator(), '/');
 	}
@@ -203,7 +170,7 @@ void TestCase::readFromStream(QDataStream &in)
 	inputFiles.clear();
 	dependenceSubtask.clear();
 
-	for (int i = 0; i < _inputFiles.size(); i ++)
+	for (int i = 0; i < _inputFiles.size(); i++)
 	{
 		if (_inputFiles[i].endsWith("_lemon_SUbtaskDEPENDENCE_fLAg"))
 		{
@@ -221,24 +188,22 @@ void TestCase::readFromStream(QDataStream &in)
 		}
 	}
 
-	for (int i = 0; i < outputFiles.size(); i ++)
+	for (int i = 0; i < outputFiles.size(); i++)
 	{
 		outputFiles[i].replace('/', QDir::separator());
 	}
 }
 
-void TestCase::clearDependenceSubtask()
-{
-	dependenceSubtask.clear();
-}
+void TestCase::clearDependenceSubtask() { dependenceSubtask.clear(); }
 
 void TestCase::swapFiles(int a, int b)
 {
-	if (a < 0 || a >= inputFiles.size())return;
+	if (a < 0 || a >= inputFiles.size())
+		return;
 
-	if (b < 0 || b >= inputFiles.size())return;
+	if (b < 0 || b >= inputFiles.size())
+		return;
 
 	qSwap(inputFiles[a], inputFiles[b]);
 	qSwap(outputFiles[a], outputFiles[b]);
-
 }

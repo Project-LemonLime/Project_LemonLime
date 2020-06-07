@@ -23,12 +23,12 @@
 #ifndef TESTCASEEDITWIDGET_H
 #define TESTCASEEDITWIDGET_H
 
-#include <QtCore>
-#include <QtGui>
-#include <QWidget>
+#include <QHeaderView>
 #include <QMessageBox>
 #include <QTableWidgetItem>
-#include <QHeaderView>
+#include <QWidget>
+#include <QtCore>
+#include <QtGui>
 
 namespace Ui
 {

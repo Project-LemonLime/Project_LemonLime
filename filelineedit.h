@@ -23,10 +23,10 @@
 #ifndef FILELINEEDIT_H
 #define FILELINEEDIT_H
 
+#include <QCompleter>
+#include <QLineEdit>
 #include <QtCore>
 #include <QtGui>
-#include <QLineEdit>
-#include <QCompleter>
 
 class FileLineEdit : public QLineEdit
 {

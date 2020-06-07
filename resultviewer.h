@@ -27,9 +27,9 @@
 #ifndef RESULTVIEWER_H
 #define RESULTVIEWER_H
 
+#include <QTableWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QTableWidget>
 
 class Contest;
 

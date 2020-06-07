@@ -23,9 +23,9 @@
 #ifndef WELCOMEDIALOG_H
 #define WELCOMEDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 namespace Ui
 {

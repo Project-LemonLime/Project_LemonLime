@@ -23,14 +23,19 @@
 #ifndef COMPILER_H
 #define COMPILER_H
 
-#include <QtCore>
 #include <QObject>
+#include <QtCore>
 
 class Compiler : public QObject
 {
 	Q_OBJECT
 public:
-	enum CompilerType { Typical, InterpretiveWithByteCode, InterpretiveWithoutByteCode };
+	enum CompilerType
+	{
+		Typical,
+		InterpretiveWithByteCode,
+		InterpretiveWithoutByteCode
+	};
 
 	explicit Compiler(QObject *parent = nullptr);
 

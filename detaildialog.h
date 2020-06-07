@@ -23,9 +23,9 @@
 #ifndef DETAILDIALOG_H
 #define DETAILDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 class Contestant;
 class Contest;

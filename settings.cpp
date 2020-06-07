@@ -27,180 +27,75 @@
 #include "settings.h"
 #include "compiler.h"
 
-Settings::Settings(QObject *parent) :
-	QObject(parent)
-{
-}
+Settings::Settings(QObject *parent) : QObject(parent) {}
 
-auto Settings::getDefaultFullScore() const -> int
-{
-	return defaultFullScore;
-}
+auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
 
-auto Settings::getDefaultTimeLimit() const -> int
-{
-	return defaultTimeLimit;
-}
+auto Settings::getDefaultTimeLimit() const -> int { return defaultTimeLimit; }
 
-auto Settings::getDefaultMemoryLimit() const -> int
-{
-	return defaultMemoryLimit;
-}
+auto Settings::getDefaultMemoryLimit() const -> int { return defaultMemoryLimit; }
 
-auto Settings::getCompileTimeLimit() const -> int
-{
-	return compileTimeLimit;
-}
+auto Settings::getCompileTimeLimit() const -> int { return compileTimeLimit; }
 
-auto Settings::getSpecialJudgeTimeLimit() const -> int
-{
-	return specialJudgeTimeLimit;
-}
+auto Settings::getSpecialJudgeTimeLimit() const -> int { return specialJudgeTimeLimit; }
 
-auto Settings::getFileSizeLimit() const -> int
-{
-	return fileSizeLimit;
-}
+auto Settings::getFileSizeLimit() const -> int { return fileSizeLimit; }
 
-auto Settings::getRejudgeTimes() const -> int
-{
-	return rejudgeTimes;
-}
+auto Settings::getRejudgeTimes() const -> int { return rejudgeTimes; }
 
-auto Settings::getDefaultInputFileExtension() const -> const QString &
-{
-	return defaultInputFileExtension;
-}
+auto Settings::getDefaultInputFileExtension() const -> const QString & { return defaultInputFileExtension; }
 
-auto Settings::getDefaultOutputFileExtension() const -> const QString &
-{
-	return defaultOutputFileExtension;
-}
+auto Settings::getDefaultOutputFileExtension() const -> const QString & { return defaultOutputFileExtension; }
 
-auto Settings::getInputFileExtensions() const -> const QStringList &
-{
-	return inputFileExtensions;
-}
+auto Settings::getInputFileExtensions() const -> const QStringList & { return inputFileExtensions; }
 
-auto Settings::getOutputFileExtensions() const -> const QStringList &
-{
-	return outputFileExtensions;
-}
+auto Settings::getOutputFileExtensions() const -> const QStringList & { return outputFileExtensions; }
 
-auto Settings::getRecentContest() const -> const QStringList &
-{
-	return recentContest;
-}
+auto Settings::getRecentContest() const -> const QStringList & { return recentContest; }
 
-auto Settings::getCompilerList() const -> const QList<Compiler *> &
-{
-	return compilerList;
-}
+auto Settings::getCompilerList() const -> const QList<Compiler *> & { return compilerList; }
 
-auto Settings::getUiLanguage() const -> const QString &
-{
-	return uiLanguage;
-}
+auto Settings::getUiLanguage() const -> const QString & { return uiLanguage; }
 
-auto Settings::getDiffPath() const -> const QString &
-{
-	return diffPath;
-}
+auto Settings::getDiffPath() const -> const QString & { return diffPath; }
 
-auto Settings::getColorMxH() -> int
-{
-	return colorMxH;
-}
+auto Settings::getColorMxH() -> int { return colorMxH; }
 
-auto Settings::getColorMxS() -> double
-{
-	return colorMxS;
-}
+auto Settings::getColorMxS() -> double { return colorMxS; }
 
-auto Settings::getColorMxL() -> double
-{
-	return colorMxL;
-}
+auto Settings::getColorMxL() -> double { return colorMxL; }
 
-auto Settings::getColorMiH() -> int
-{
-	return colorMiH;
-}
+auto Settings::getColorMiH() -> int { return colorMiH; }
 
-auto Settings::getColorMiS() -> double
-{
-	return colorMiS;
-}
+auto Settings::getColorMiS() -> double { return colorMiS; }
 
-auto Settings::getColorMiL() -> double
-{
-	return colorMiL;
-}
+auto Settings::getColorMiL() -> double { return colorMiL; }
 
-auto Settings::getColorNfH() -> int
-{
-	return colorNfH;
-}
+auto Settings::getColorNfH() -> int { return colorNfH; }
 
-auto Settings::getColorNfS() -> double
-{
-	return colorNfS;
-}
+auto Settings::getColorNfS() -> double { return colorNfS; }
 
-auto Settings::getColorNfL() -> double
-{
-	return colorNfL;
-}
+auto Settings::getColorNfL() -> double { return colorNfL; }
 
-auto Settings::getColorCeH() -> int
-{
-	return colorCeH;
-}
+auto Settings::getColorCeH() -> int { return colorCeH; }
 
-auto Settings::getColorCeS() -> double
-{
-	return colorCeS;
-}
+auto Settings::getColorCeS() -> double { return colorCeS; }
 
-auto Settings::getColorCeL() -> double
-{
-	return colorCeL;
-}
+auto Settings::getColorCeL() -> double { return colorCeL; }
 
-auto Settings::getGrandCompH() -> double
-{
-	return grandCompH;
-}
+auto Settings::getGrandCompH() -> double { return grandCompH; }
 
-auto Settings::getGrandCompS() -> double
-{
-	return grandCompS;
-}
+auto Settings::getGrandCompS() -> double { return grandCompS; }
 
-auto Settings::getGrandCompL() -> double
-{
-	return grandCompL;
-}
+auto Settings::getGrandCompL() -> double { return grandCompL; }
 
-auto Settings::getGrandRateH() -> double
-{
-	return grandRateH;
-}
+auto Settings::getGrandRateH() -> double { return grandRateH; }
 
-auto Settings::getGrandRateS() -> double
-{
-	return grandRateS;
-}
+auto Settings::getGrandRateS() -> double { return grandRateS; }
 
-auto Settings::getGrandRateL() -> double
-{
-	return grandRateL;
-}
+auto Settings::getGrandRateL() -> double { return grandRateL; }
 
-auto Settings::getSplashTime() -> int
-{
-	return splashTime;
-}
+auto Settings::getSplashTime() -> int { return splashTime; }
 
 auto Settings::getColorMx() -> QColor
 {
@@ -229,7 +124,8 @@ auto Settings::getColorAntiMi() -> QColor
 
 auto Settings::getColorPer(double p) -> QColor
 {
-	if (qIsNaN(p) || qIsInf(p)) p = 0;
+	if (qIsNaN(p) || qIsInf(p))
+		p = 0;
 
 	double distan;
 	double h;
@@ -238,27 +134,35 @@ auto Settings::getColorPer(double p) -> QColor
 	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = colorMiH / 360.00 + 100 * p * distan;
 
-	if (p > 0) h += distan * 5;
+	if (p > 0)
+		h += distan * 5;
 
-	if (p >= 1 - 1e-12) h += distan * 5;
+	if (p >= 1 - 1e-12)
+		h += distan * 5;
 
 	distan = (colorMxS - colorMiS) / 100.00 / 110.00;
 	s = colorMiS / 100.00 + 100 * p * distan;
 
-	if (p > 0) s += distan * 5;
+	if (p > 0)
+		s += distan * 5;
 
-	if (p >= 1 - 1e-12) s += distan * 5;
+	if (p >= 1 - 1e-12)
+		s += distan * 5;
 
 	distan = (colorMxL - colorMiL) / 100.00 / 110.00;
 	l = colorMiL / 100.00 + 100 * p * distan;
 
-	if (p > 0) l += distan * 5;
+	if (p > 0)
+		l += distan * 5;
 
-	if (p >= 1 - 1e-12) l += distan * 5;
+	if (p >= 1 - 1e-12)
+		l += distan * 5;
 
-	while (h < -1e-12) h += 1;
+	while (h < -1e-12)
+		h += 1;
 
-	while (h > 1 + 1e-12) h -= 1;
+	while (h > 1 + 1e-12)
+		h -= 1;
 
 	h = fmax(0, fmin(h, 1));
 	s = fmax(0, fmin(s, 1));
@@ -268,7 +172,8 @@ auto Settings::getColorPer(double p) -> QColor
 
 auto Settings::getColorGrand(double p) -> QColor
 {
-	if (qIsNaN(p) || qIsInf(p)) p = 0;
+	if (qIsNaN(p) || qIsInf(p))
+		p = 0;
 
 	double distan;
 	double h;
@@ -277,27 +182,35 @@ auto Settings::getColorGrand(double p) -> QColor
 	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
 
-	if (p > 0) h += distan * 5;
+	if (p > 0)
+		h += distan * 5;
 
-	if (p >= 1 - 1e-12) h += distan * 5;
+	if (p >= 1 - 1e-12)
+		h += distan * 5;
 
 	distan = grandRateS * (colorMxS - colorMiS) / 100.00 / 110.00;
 	s = grandCompS / 100.00 + colorMiS / 100.00 + 100 * p * distan;
 
-	if (p > 0) s += distan * 5;
+	if (p > 0)
+		s += distan * 5;
 
-	if (p >= 1 - 1e-12) s += distan * 5;
+	if (p >= 1 - 1e-12)
+		s += distan * 5;
 
 	distan = grandRateL * (colorMxL - colorMiL) / 100.00 / 110.00;
 	l = grandCompL / 100.0 + colorMiL / 100.00 + 100 * p * distan;
 
-	if (p > 0) l += distan * 5;
+	if (p > 0)
+		l += distan * 5;
 
-	if (p >= 1 - 1e-12) l += distan * 5;
+	if (p >= 1 - 1e-12)
+		l += distan * 5;
 
-	while (h < -1e-12) h += 1;
+	while (h < -1e-12)
+		h += 1;
 
-	while (h > 1 + 1e-12) h -= 1;
+	while (h > 1 + 1e-12)
+		h -= 1;
 
 	h = fmax(0, fmin(h, 1));
 	s = fmax(0, fmin(s, 1));
@@ -305,50 +218,23 @@ auto Settings::getColorGrand(double p) -> QColor
 	return QColor::fromHslF(h, s, l);
 }
 
-auto Settings::getColorPer(double a, double b) -> QColor
-{
-	return getColorPer(a / b);
-}
+auto Settings::getColorPer(double a, double b) -> QColor { return getColorPer(a / b); }
 
-auto Settings::getColorGrand(double a, double b) -> QColor
-{
-	return getColorGrand(a / b);
-}
+auto Settings::getColorGrand(double a, double b) -> QColor { return getColorGrand(a / b); }
 
-void Settings::setDefaultFullScore(int score)
-{
-	defaultFullScore = score;
-}
+void Settings::setDefaultFullScore(int score) { defaultFullScore = score; }
 
-void Settings::setDefaultTimeLimit(int limit)
-{
-	defaultTimeLimit = limit;
-}
+void Settings::setDefaultTimeLimit(int limit) { defaultTimeLimit = limit; }
 
-void Settings::setDefaultMemoryLimit(int limit)
-{
-	defaultMemoryLimit = limit;
-}
+void Settings::setDefaultMemoryLimit(int limit) { defaultMemoryLimit = limit; }
 
-void Settings::setCompileTimeLimit(int limit)
-{
-	compileTimeLimit = limit;
-}
+void Settings::setCompileTimeLimit(int limit) { compileTimeLimit = limit; }
 
-void Settings::setSpecialJudgeTimeLimit(int limit)
-{
-	specialJudgeTimeLimit = limit;
-}
+void Settings::setSpecialJudgeTimeLimit(int limit) { specialJudgeTimeLimit = limit; }
 
-void Settings::setFileSizeLimit(int limit)
-{
-	fileSizeLimit = limit;
-}
+void Settings::setFileSizeLimit(int limit) { fileSizeLimit = limit; }
 
-void Settings::setRejudgeTimes(int number)
-{
-	rejudgeTimes = number;
-}
+void Settings::setRejudgeTimes(int number) { rejudgeTimes = number; }
 
 void Settings::setDefaultInputFileExtension(const QString &extension)
 {
@@ -370,15 +256,9 @@ void Settings::setOutputFileExtensions(const QString &extensions)
 	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
-void Settings::setRecentContest(const QStringList &list)
-{
-	recentContest = list;
-}
+void Settings::setRecentContest(const QStringList &list) { recentContest = list; }
 
-void Settings::setUiLanguage(const QString &language)
-{
-	uiLanguage = language;
-}
+void Settings::setUiLanguage(const QString &language) { uiLanguage = language; }
 
 void Settings::addCompiler(Compiler *compiler)
 {
@@ -416,100 +296,43 @@ void Settings::swapCompiler(int a, int b)
 	}
 }
 
-void Settings::setColorMxH(int x)
-{
-	colorMxH = x;
-}
+void Settings::setColorMxH(int x) { colorMxH = x; }
 
-void Settings::setColorMxS(double x)
-{
-	colorMxS = x;
-}
+void Settings::setColorMxS(double x) { colorMxS = x; }
 
-void Settings::setColorMxL(double x)
-{
-	colorMxL = x;
-}
+void Settings::setColorMxL(double x) { colorMxL = x; }
 
-void Settings::setColorMiH(int x)
-{
-	colorMiH = x;
-}
+void Settings::setColorMiH(int x) { colorMiH = x; }
 
-void Settings::setColorMiS(double x)
-{
-	colorMiS = x;
-}
+void Settings::setColorMiS(double x) { colorMiS = x; }
 
-void Settings::setColorMiL(double x)
-{
-	colorMiL = x;
-}
+void Settings::setColorMiL(double x) { colorMiL = x; }
 
-void Settings::setColorNfH(int x)
-{
-	colorNfH = x;
-}
+void Settings::setColorNfH(int x) { colorNfH = x; }
 
-void Settings::setColorNfS(double x)
-{
-	colorNfS = x;
-}
+void Settings::setColorNfS(double x) { colorNfS = x; }
 
-void Settings::setColorNfL(double x)
-{
-	colorNfL = x;
-}
+void Settings::setColorNfL(double x) { colorNfL = x; }
 
-void Settings::setColorCeH(int x)
-{
-	colorCeH = x;
-}
+void Settings::setColorCeH(int x) { colorCeH = x; }
 
-void Settings::setColorCeS(double x)
-{
-	colorCeS = x;
-}
+void Settings::setColorCeS(double x) { colorCeS = x; }
 
-void Settings::setColorCeL(double x)
-{
-	colorCeL = x;
-}
+void Settings::setColorCeL(double x) { colorCeL = x; }
 
-void Settings::setGrandCompH(double x)
-{
-	grandCompH = x;
-}
+void Settings::setGrandCompH(double x) { grandCompH = x; }
 
-void Settings::setGrandCompS(double x)
-{
-	grandCompS = x;
-}
+void Settings::setGrandCompS(double x) { grandCompS = x; }
 
-void Settings::setGrandCompL(double x)
-{
-	grandCompL = x;
-}
+void Settings::setGrandCompL(double x) { grandCompL = x; }
 
-void Settings::setGrandRateH(double x)
-{
-	grandRateH = x;
-}
+void Settings::setGrandRateH(double x) { grandRateH = x; }
 
-void Settings::setGrandRateS(double x)
-{
-	grandRateS = x;
-}
+void Settings::setGrandRateS(double x) { grandRateS = x; }
 
-void Settings::setGrandRateL(double x)
-{
-	grandRateL = x;
-}
+void Settings::setGrandRateL(double x) { grandRateL = x; }
 
-void Settings::setSplashTime(int x)
-{
-	splashTime = x;
-}
+void Settings::setSplashTime(int x) { splashTime = x; }
 
 void Settings::setTextAndColor(ResultState result, QString &text, QString &frColor, QString &bgColor)
 {
@@ -692,7 +515,7 @@ void Settings::saveSettings()
 	settings.endGroup();
 	settings.beginWriteArray("v1.2/CompilerSettings");
 
-	for (int i = 0; i < compilerList.size(); i ++)
+	for (int i = 0; i < compilerList.size(); i++)
 	{
 		settings.setArrayIndex(i);
 		settings.setValue("CompilerType", static_cast<int>(compilerList[i]->getCompilerType()));
@@ -709,7 +532,7 @@ void Settings::saveSettings()
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
 		settings.beginWriteArray("Configuration");
 
-		for (int j = 0; j < configurationNames.size(); j ++)
+		for (int j = 0; j < configurationNames.size(); j++)
 		{
 			settings.setArrayIndex(j);
 			settings.setValue("Name", configurationNames[j]);
@@ -724,7 +547,7 @@ void Settings::saveSettings()
 	settings.endArray();
 	settings.beginWriteArray("v1.2/RecentContest");
 
-	for (int i = 0; i < recentContest.size(); i ++)
+	for (int i = 0; i < recentContest.size(); i++)
 	{
 		settings.setArrayIndex(i);
 		settings.setValue("Location", recentContest[i]);
@@ -753,7 +576,10 @@ void Settings::loadSettings()
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
-	outputFileExtensions = settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
+	outputFileExtensions = settings
+	                          .value("OutputFileExtensions", QStringList() << "out"
+	                                                                       << "ans")
+	                          .toStringList();
 	settings.endGroup();
 	settings.beginGroup("VisualSettings");
 	colorMxH = settings.value("ColorMxH", 120).toInt();
@@ -778,7 +604,7 @@ void Settings::loadSettings()
 	settings.endGroup();
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
 
-	for (int i = 0; i < compilerCount; i ++)
+	for (int i = 0; i < compilerCount; i++)
 	{
 		settings.setArrayIndex(i);
 		auto *compiler = new Compiler;
@@ -793,7 +619,7 @@ void Settings::loadSettings()
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
 		int configurationCount = settings.beginReadArray("Configuration");
 
-		for (int j = 0; j < configurationCount; j ++)
+		for (int j = 0; j < configurationCount; j++)
 		{
 			settings.setArrayIndex(j);
 			compiler->addConfiguration(settings.value("Name").toString(),
@@ -804,7 +630,7 @@ void Settings::loadSettings()
 		QStringList values = settings.value("EnvironmentVariables").toStringList();
 		QProcessEnvironment environment;
 
-		for (int i = 0; i < values.size(); i ++)
+		for (int i = 0; i < values.size(); i++)
 		{
 			int tmp = values[i].indexOf('=');
 			QString variable = values[i].mid(0, tmp);
@@ -820,7 +646,7 @@ void Settings::loadSettings()
 	settings.endArray();
 	int listCount = settings.beginReadArray("v1.2/RecentContest");
 
-	for (int i = 0; i < listCount; i ++)
+	for (int i = 0; i < listCount; i++)
 	{
 		settings.setArrayIndex(i);
 		recentContest.append(settings.value("Location").toString());
@@ -834,47 +660,20 @@ void Settings::loadSettings()
 #endif
 }
 
-auto Settings::upperBoundForFullScore() -> int
-{
-	return 10000000;
-}
+auto Settings::upperBoundForFullScore() -> int { return 10000000; }
 
-auto Settings::upperBoundForTimeLimit() -> int
-{
-	return 1000 * 60 * 60 * 24;
-}
+auto Settings::upperBoundForTimeLimit() -> int { return 1000 * 60 * 60 * 24; }
 
-auto Settings::upperBoundForMemoryLimit() -> int
-{
-	return 16777216;
-}
+auto Settings::upperBoundForMemoryLimit() -> int { return 16777216; }
 
-auto Settings::upperBoundForFileSizeLimit() -> int
-{
-	return 256 * 1024;
-}
+auto Settings::upperBoundForFileSizeLimit() -> int { return 256 * 1024; }
 
-auto Settings::upperBoundForRejudgeTimes() -> int
-{
-	return 12;
-}
+auto Settings::upperBoundForRejudgeTimes() -> int { return 12; }
 
-auto Settings::dataPath() -> QString
-{
-	return QString("data") + QDir::separator();
-}
+auto Settings::dataPath() -> QString { return QString("data") + QDir::separator(); }
 
-auto Settings::sourcePath() -> QString
-{
-	return QString("source") + QDir::separator();
-}
+auto Settings::sourcePath() -> QString { return QString("source") + QDir::separator(); }
 
-auto Settings::temporaryPath() -> QString
-{
-	return QString("temp") + QDir::separator();
-}
+auto Settings::temporaryPath() -> QString { return QString("temp") + QDir::separator(); }
 
-auto Settings::selfTestPath() -> QString
-{
-	return QString("selftest") + QDir::separator();
-}
+auto Settings::selfTestPath() -> QString { return QString("selftest") + QDir::separator(); }

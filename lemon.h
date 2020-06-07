@@ -23,9 +23,9 @@
 #ifndef LEMON_H
 #define LEMON_H
 
+#include <QMainWindow>
 #include <QtCore>
 #include <QtGui>
-#include <QMainWindow>
 
 namespace Ui
 {
@@ -67,8 +67,8 @@ private:
 	void saveContest(const QString &);
 	void loadContest(const QString &);
 	static void getFiles(const QString &, const QStringList &, QMap<QString, QString> &);
-	void addTask(const QString &, const QList< QPair<QString, QString>> &, int, int, int);
-	void addTaskWithScoreScale(const QString &, const QList< QPair<QString, QString>> &, int, int, int);
+	void addTask(const QString &, const QList<QPair<QString, QString>> &, int, int, int);
+	void addTaskWithScoreScale(const QString &, const QList<QPair<QString, QString>> &, int, int, int);
 	static bool compareFileName(const QPair<QString, QString> &, const QPair<QString, QString> &);
 
 private slots:

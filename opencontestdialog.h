@@ -23,9 +23,9 @@
 #ifndef OPENCONTESTDIALOG_H
 #define OPENCONTESTDIALOG_H
 
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
 
 namespace Ui
 {

@@ -1,70 +1,48 @@
 /***************************************************************************
-	 This file is part of Project LemonLime
-	 Copyright (C) 2020 iotang
+    This file is part of Project LemonLime
+    Copyright (C) 2020 iotang
 
-	 This program is free software: you can redistribute it and/or modify
-	 it under the terms of the GNU General Public License as published by
-	 the Free Software Foundation, either version 3 of the License, or
-	 (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	 This program is distributed in the hope that it will be useful,
-	 but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	 You should have received a copy of the GNU General Public License
-	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
 #include "visualsettings.h"
-#include "ui_visualsettings.h"
 #include "settings.h"
+#include "ui_visualsettings.h"
 
-VisualSettings::VisualSettings(QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::VisualSettings)
+VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings)
 {
 	ui->setupUi(this);
-	connect(ui->spinBoxMxH, SIGNAL(valueChanged(int)),
-	        this, SLOT(colorMxHChanged(int)));
-	connect(ui->doubleSpinBoxMxS, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorMxSChanged(double)));
-	connect(ui->doubleSpinBoxMxL, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorMxLChanged(double)));
-	connect(ui->spinBoxMiH, SIGNAL(valueChanged(int)),
-	        this, SLOT(colorMiHChanged(int)));
-	connect(ui->doubleSpinBoxMiS, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorMiSChanged(double)));
-	connect(ui->doubleSpinBoxMiL, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorMiLChanged(double)));
-	connect(ui->spinBoxNfH, SIGNAL(valueChanged(int)),
-	        this, SLOT(colorNfHChanged(int)));
-	connect(ui->doubleSpinBoxNfS, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorNfSChanged(double)));
-	connect(ui->doubleSpinBoxNfL, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorNfLChanged(double)));
-	connect(ui->spinBoxCeH, SIGNAL(valueChanged(int)),
-	        this, SLOT(colorCeHChanged(int)));
-	connect(ui->doubleSpinBoxCeS, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorCeSChanged(double)));
-	connect(ui->doubleSpinBoxCeL, SIGNAL(valueChanged(double)),
-	        this, SLOT(colorCeLChanged(double)));
-	connect(ui->grandCompH, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandCompHChanged(double)));
-	connect(ui->grandCompS, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandCompSChanged(double)));
-	connect(ui->grandCompL, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandCompLChanged(double)));
-	connect(ui->grandRateH, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandRateHChanged(double)));
-	connect(ui->grandRateS, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandRateSChanged(double)));
-	connect(ui->grandRateL, SIGNAL(valueChanged(double)),
-	        this, SLOT(grandRateLChanged(double)));
-	connect(ui->splashTime, SIGNAL(valueChanged(int)),
-	        this, SLOT(splashTimeChanged(int)));
-	connect(ui->resetToDefaultButton, SIGNAL(clicked()),
-	        this, SLOT(whenResetToDefault()));
+	connect(ui->spinBoxMxH, SIGNAL(valueChanged(int)), this, SLOT(colorMxHChanged(int)));
+	connect(ui->doubleSpinBoxMxS, SIGNAL(valueChanged(double)), this, SLOT(colorMxSChanged(double)));
+	connect(ui->doubleSpinBoxMxL, SIGNAL(valueChanged(double)), this, SLOT(colorMxLChanged(double)));
+	connect(ui->spinBoxMiH, SIGNAL(valueChanged(int)), this, SLOT(colorMiHChanged(int)));
+	connect(ui->doubleSpinBoxMiS, SIGNAL(valueChanged(double)), this, SLOT(colorMiSChanged(double)));
+	connect(ui->doubleSpinBoxMiL, SIGNAL(valueChanged(double)), this, SLOT(colorMiLChanged(double)));
+	connect(ui->spinBoxNfH, SIGNAL(valueChanged(int)), this, SLOT(colorNfHChanged(int)));
+	connect(ui->doubleSpinBoxNfS, SIGNAL(valueChanged(double)), this, SLOT(colorNfSChanged(double)));
+	connect(ui->doubleSpinBoxNfL, SIGNAL(valueChanged(double)), this, SLOT(colorNfLChanged(double)));
+	connect(ui->spinBoxCeH, SIGNAL(valueChanged(int)), this, SLOT(colorCeHChanged(int)));
+	connect(ui->doubleSpinBoxCeS, SIGNAL(valueChanged(double)), this, SLOT(colorCeSChanged(double)));
+	connect(ui->doubleSpinBoxCeL, SIGNAL(valueChanged(double)), this, SLOT(colorCeLChanged(double)));
+	connect(ui->grandCompH, SIGNAL(valueChanged(double)), this, SLOT(grandCompHChanged(double)));
+	connect(ui->grandCompS, SIGNAL(valueChanged(double)), this, SLOT(grandCompSChanged(double)));
+	connect(ui->grandCompL, SIGNAL(valueChanged(double)), this, SLOT(grandCompLChanged(double)));
+	connect(ui->grandRateH, SIGNAL(valueChanged(double)), this, SLOT(grandRateHChanged(double)));
+	connect(ui->grandRateS, SIGNAL(valueChanged(double)), this, SLOT(grandRateSChanged(double)));
+	connect(ui->grandRateL, SIGNAL(valueChanged(double)), this, SLOT(grandRateLChanged(double)));
+	connect(ui->splashTime, SIGNAL(valueChanged(int)), this, SLOT(splashTimeChanged(int)));
+	connect(ui->resetToDefaultButton, SIGNAL(clicked()), this, SLOT(whenResetToDefault()));
 }
 
 void VisualSettings::resetToDefault()
@@ -109,10 +87,7 @@ void VisualSettings::resetToDefault()
 	editSettings->setSplashTime(ui->splashTime->value());
 }
 
-void VisualSettings::whenResetToDefault()
-{
-	VisualSettings::resetToDefault();
-}
+void VisualSettings::whenResetToDefault() { VisualSettings::resetToDefault(); }
 
 void VisualSettings::resetEditSettings(Settings *settings)
 {
@@ -138,102 +113,42 @@ void VisualSettings::resetEditSettings(Settings *settings)
 	ui->splashTime->setValue(editSettings->getSplashTime());
 }
 
-void VisualSettings::colorMxHChanged(const int &x)
-{
-	editSettings->setColorMxH(x);
-}
+void VisualSettings::colorMxHChanged(const int &x) { editSettings->setColorMxH(x); }
 
-void VisualSettings::colorMxSChanged(const double &x)
-{
-	editSettings->setColorMxS(x);
-}
+void VisualSettings::colorMxSChanged(const double &x) { editSettings->setColorMxS(x); }
 
-void VisualSettings::colorMxLChanged(const double &x)
-{
-	editSettings->setColorMxL(x);
-}
+void VisualSettings::colorMxLChanged(const double &x) { editSettings->setColorMxL(x); }
 
-void VisualSettings::colorMiHChanged(const int &x)
-{
-	editSettings->setColorMiH(x);
-}
+void VisualSettings::colorMiHChanged(const int &x) { editSettings->setColorMiH(x); }
 
-void VisualSettings::colorMiSChanged(const double &x)
-{
-	editSettings->setColorMiS(x);
-}
+void VisualSettings::colorMiSChanged(const double &x) { editSettings->setColorMiS(x); }
 
-void VisualSettings::colorMiLChanged(const double &x)
-{
-	editSettings->setColorMiL(x);
-}
+void VisualSettings::colorMiLChanged(const double &x) { editSettings->setColorMiL(x); }
 
-void VisualSettings::colorNfHChanged(const int &x)
-{
-	editSettings->setColorNfH(x);
-}
+void VisualSettings::colorNfHChanged(const int &x) { editSettings->setColorNfH(x); }
 
-void VisualSettings::colorNfSChanged(const double &x)
-{
-	editSettings->setColorNfS(x);
-}
+void VisualSettings::colorNfSChanged(const double &x) { editSettings->setColorNfS(x); }
 
-void VisualSettings::colorNfLChanged(const double &x)
-{
-	editSettings->setColorNfL(x);
-}
+void VisualSettings::colorNfLChanged(const double &x) { editSettings->setColorNfL(x); }
 
-void VisualSettings::colorCeHChanged(const int &x)
-{
-	editSettings->setColorCeH(x);
-}
+void VisualSettings::colorCeHChanged(const int &x) { editSettings->setColorCeH(x); }
 
-void VisualSettings::colorCeSChanged(const double &x)
-{
-	editSettings->setColorCeS(x);
-}
+void VisualSettings::colorCeSChanged(const double &x) { editSettings->setColorCeS(x); }
 
-void VisualSettings::colorCeLChanged(const double &x)
-{
-	editSettings->setColorCeL(x);
-}
+void VisualSettings::colorCeLChanged(const double &x) { editSettings->setColorCeL(x); }
 
-void VisualSettings::grandCompHChanged(const double &x)
-{
-	editSettings->setGrandCompH(x);
-}
+void VisualSettings::grandCompHChanged(const double &x) { editSettings->setGrandCompH(x); }
 
-void VisualSettings::grandCompSChanged(const double &x)
-{
-	editSettings->setGrandCompS(x);
-}
+void VisualSettings::grandCompSChanged(const double &x) { editSettings->setGrandCompS(x); }
 
-void VisualSettings::grandCompLChanged(const double &x)
-{
-	editSettings->setGrandCompL(x);
-}
+void VisualSettings::grandCompLChanged(const double &x) { editSettings->setGrandCompL(x); }
 
-void VisualSettings::grandRateHChanged(const double &x)
-{
-	editSettings->setGrandRateH(x);
-}
+void VisualSettings::grandRateHChanged(const double &x) { editSettings->setGrandRateH(x); }
 
-void VisualSettings::grandRateSChanged(const double &x)
-{
-	editSettings->setGrandRateS(x);
-}
+void VisualSettings::grandRateSChanged(const double &x) { editSettings->setGrandRateS(x); }
 
-void VisualSettings::grandRateLChanged(const double &x)
-{
-	editSettings->setGrandRateL(x);
-}
+void VisualSettings::grandRateLChanged(const double &x) { editSettings->setGrandRateL(x); }
 
-void VisualSettings::splashTimeChanged(const int &x)
-{
-	editSettings->setSplashTime(x);
-}
+void VisualSettings::splashTimeChanged(const int &x) { editSettings->setSplashTime(x); }
 
-VisualSettings::~VisualSettings()
-{
-	delete ui;
-}
+VisualSettings::~VisualSettings() { delete ui; }

@@ -23,11 +23,10 @@
 #ifndef EXPORTUTIL_H
 #define EXPORTUTIL_H
 
-
 #include "globaltype.h"
+#include <QObject>
 #include <QtCore>
 #include <QtGui>
-#include <QObject>
 
 #ifdef Q_OS_WIN32
 #include <QAxObject>
@@ -54,7 +53,6 @@ private:
 signals:
 
 public slots:
-
 };
 
 #endif // EXPORTUTIL_H

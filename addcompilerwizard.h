@@ -6,9 +6,9 @@
 #ifndef ADDCOMPILERWIZARD_H
 #define ADDCOMPILERWIZARD_H
 
+#include <QWizard>
 #include <QtCore>
 #include <QtGui>
-#include <QWizard>
 
 namespace Ui
 {

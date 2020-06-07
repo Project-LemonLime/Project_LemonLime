@@ -1,56 +1,49 @@
 /***************************************************************************
-	 This file is part of Project LemonLime
-	 Copyright (C) 2019 iotang
+    This file is part of Project LemonLime
+    Copyright (C) 2019 iotang
 
-	 This program is free software: you can redistribute it and/or modify
-	 it under the terms of the GNU General Public License as published by
-	 the Free Software Foundation, either version 3 of the License, or
-	 (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	 This program is distributed in the hope that it will be useful,
-	 but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	 You should have received a copy of the GNU General Public License
-	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
 #include "statisticsbrowser.h"
-#include "ui_statisticsbrowser.h"
-#include "globaltype.h"
-#include "contestant.h"
-#include "settings.h"
 #include "contest.h"
+#include "contestant.h"
+#include "globaltype.h"
+#include "settings.h"
 #include "task.h"
-#include <QMap>
-#include <QMessageBox>
+#include "ui_statisticsbrowser.h"
+#include <QApplication>
 #include <QCheckBox>
+#include <QFileDialog>
 #include <QGridLayout>
 #include <QHeaderView>
+#include <QMap>
 #include <QMenu>
-#include <QApplication>
-#include <QFileDialog>
+#include <QMessageBox>
 
-StatisticsBrowser::StatisticsBrowser(QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::StatisticsBrowser)
+StatisticsBrowser::StatisticsBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::StatisticsBrowser)
 {
 	ui->setupUi(this);
 	curContest = nullptr;
 }
 
-StatisticsBrowser::~StatisticsBrowser()
-{
-	delete ui;
-}
+StatisticsBrowser::~StatisticsBrowser() { delete ui; }
 
-void StatisticsBrowser::setContest(Contest *contest)
-{
-	curContest = contest;
-}
+void StatisticsBrowser::setContest(Contest *contest) { curContest = contest; }
 
-auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize, int totalScore) -> QString
+auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize, int totalScore)
+   -> QString
 {
 	QString buffer = "";
 	long long overallScoreSum = 0;
@@ -66,11 +59,14 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		int curScoreTier = i.key();
 		int curScoreTierNum = i.value();
 
-		if (curScoreTier < 0) continue;
+		if (curScoreTier < 0)
+			continue;
 
 		overallScoreSum += 1LL * curScoreTier * curScoreTierNum;
 
-		if (lastScoreTier >= 0)scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore) * (1.00 - 1.00 * lastScoreTierNum * curScoreTierNum / listSize / listSize);
+		if (lastScoreTier >= 0)
+			scoreDiscrim += qLn(1 + 10.00 * (lastScoreTier - curScoreTier) / totalScore) *
+			                (1.00 - 1.00 * lastScoreTierNum * curScoreTierNum / listSize / listSize);
 
 		lastScoreTier = curScoreTier;
 		lastScoreTierNum = curScoreTierNum;
@@ -78,7 +74,13 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 
 	double scoreAverage = 1.00 * overallScoreSum / listSize;
 	buffer += "<table border=\"-1\">";
-	buffer += QString(R"(<tr><th>%1</th><th>%2</th><th>%3</th><th colspan="2">%4</th><th colspan="2">%5</th></tr>)").arg(tr("Score")).arg(tr("Count")).arg(tr("Ratio")).arg(tr("Prefix")).arg(tr("Suffix"));
+	buffer +=
+	   QString(R"(<tr><th>%1</th><th>%2</th><th>%3</th><th colspan="2">%4</th><th colspan="2">%5</th></tr>)")
+	      .arg(tr("Score"))
+	      .arg(tr("Count"))
+	      .arg(tr("Ratio"))
+	      .arg(tr("Prefix"))
+	      .arg(tr("Suffix"));
 
 	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
 	{
@@ -87,31 +89,47 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 		int curScoreTierNum = i.value();
 		scoreStandardDevia += qPow(curScoreTier - scoreAverage, 2) * curScoreTierNum;
 		buffer += "<tr>";
-		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>").arg(curScoreTier < 0 ? QString("N/A") : QString::number(curScoreTier));
+		buffer += QString("<td align=\"right\"><nobr>%1 Pt</nobr></td>")
+		             .arg(curScoreTier < 0 ? QString("N/A") : QString::number(curScoreTier));
 		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(curScoreTierNum);
-		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>").arg(QString::number(100.00 * curScoreTierNum / listSize, 'f', 3));
+		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>")
+		             .arg(QString::number(100.00 * curScoreTierNum / listSize, 'f', 3));
 		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(listSize - scoreTierPrefix);
-		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>").arg(QString::number(100.00 - 100.00 * scoreTierPrefix / listSize, 'f', 3));
+		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>")
+		             .arg(QString::number(100.00 - 100.00 * scoreTierPrefix / listSize, 'f', 3));
 		scoreTierPrefix += curScoreTierNum;
 		buffer += QString("<td align=\"right\"><nobr>%1</nobr></td>").arg(scoreTierPrefix);
-		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>").arg(QString::number(100.00 * scoreTierPrefix / listSize, 'f', 3));
+		buffer += QString("<td align=\"right\"><nobr>%1%</nobr></td>")
+		             .arg(QString::number(100.00 * scoreTierPrefix / listSize, 'f', 3));
 		buffer += "</tr>";
 	}
 
 	buffer += "</table>";
 	scoreStandardDevia = qSqrt(scoreStandardDevia / listSize);
 	scoreDiscrim = scoreDiscrim * scoreDiscrim;
-	buffer += "<p>" + tr("Average") + " : " + QString::number(scoreAverage) + " / " + QString::number(totalScore) + "</p>";
+	buffer += "<p>" + tr("Average") + " : " + QString::number(scoreAverage) + " / " +
+	          QString::number(totalScore) + "</p>";
 	buffer += "<p>" + tr("Standard Deviation") + " : " + QString::number(scoreStandardDevia) + "<p>";
 	buffer += "<p>" + tr("Score Discrimination Power") + " : " + QString::number(scoreDiscrim) + "<p>";
 	return buffer;
 }
 
-auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QList<QList<QList<int>>> scoreList, QList<QList<QList<ResultState>>> resultList) -> QString
+auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
+                                              QList<QList<QList<int>>> scoreList,
+                                              QList<QList<QList<ResultState>>> resultList) -> QString
 {
 	QString buffer = "";
 	buffer += "<table border=\"-1\">";
-	buffer += QString(R"(<tr><th>%1</th><th>%2</th><th>%3</th><th colspan="2">%4</th><th colspan="2">%5</th><th colspan="2">%6</th><th>%7</th></tr>)").arg(tr("No.")).arg(tr("Input")).arg(tr("Output")).arg(tr("Pure")).arg(tr("Far")).arg(tr("Lost")).arg(tr("Average"));
+	buffer +=
+	   QString(
+	      R"(<tr><th>%1</th><th>%2</th><th>%3</th><th colspan="2">%4</th><th colspan="2">%5</th><th colspan="2">%6</th><th>%7</th></tr>)")
+	      .arg(tr("No."))
+	      .arg(tr("Input"))
+	      .arg(tr("Output"))
+	      .arg(tr("Pure"))
+	      .arg(tr("Far"))
+	      .arg(tr("Lost"))
+	      .arg(tr("Average"));
 
 	for (int i = 0; i < testCaseList.length(); i++)
 	{
@@ -146,9 +164,12 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 					stat = resultList[k][i][j];
 				}
 
-				if (stat == CorrectAnswer)cntSucc++, statVal = 2;
-				else if (stat == PartlyCorrect)cntPati++, statVal = 1;
-				else cntFail++, statVal = 0;
+				if (stat == CorrectAnswer)
+					cntSucc++, statVal = 2;
+				else if (stat == PartlyCorrect)
+					cntPati++, statVal = 1;
+				else
+					cntFail++, statVal = 0;
 
 				sumscore += score;
 				miScoreRecord[k] = qMin(miScoreRecord[k], score);
@@ -160,12 +181,22 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			buffer += "<td align=\"left\">" + QString("%1").arg(inFileList[j]) + "</td>";
 			buffer += "<td align=\"left\">" + QString("%1").arg(outFileList[j]) + "</td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(cntSucc) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * cntSucc / scoreList.length(), 'f', 3)) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * cntSucc / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(cntPati) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * cntPati / scoreList.length(), 'f', 3)) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * cntPati / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(cntFail) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * cntFail / scoreList.length(), 'f', 3)) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1 / %2").arg(QString::number(1.00 * sumscore / scoreList.length(), 'f', 3)).arg(mxScore) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * cntFail / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1 / %2")
+			             .arg(QString::number(1.00 * sumscore / scoreList.length(), 'f', 3))
+			             .arg(mxScore) +
+			          "</nobr></td>";
 			buffer += "</tr>";
 		}
 
@@ -180,22 +211,37 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList, QL
 			{
 				sumSumScore += miScoreRecord[j];
 
-				if (miStatRecord[j] >= 2)sumCntSucc++;
-				else if (miStatRecord[j] == 1)sumCntPati++;
-				else sumCntFail++;
+				if (miStatRecord[j] >= 2)
+					sumCntSucc++;
+				else if (miStatRecord[j] == 1)
+					sumCntPati++;
+				else
+					sumCntFail++;
 			}
 
 			buffer += "<tr>";
 			buffer += "<td align=\"left\">" + QString("%1 %2").arg(i + 1).arg("Overall") + "</td>";
-			buffer += "<td align=\"left\">" + QString("%1 %2").arg(inFileList.length()).arg(tr("Files")) + "</td>";
-			buffer += "<td align=\"left\">" + QString("%1 %2").arg(outFileList.length()).arg(tr("Files")) + "</td>";
+			buffer +=
+			   "<td align=\"left\">" + QString("%1 %2").arg(inFileList.length()).arg(tr("Files")) + "</td>";
+			buffer +=
+			   "<td align=\"left\">" + QString("%1 %2").arg(outFileList.length()).arg(tr("Files")) + "</td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntSucc) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntSucc / scoreList.length(), 'f', 3)) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * sumCntSucc / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntPati) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntPati / scoreList.length(), 'f', 3)) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * sumCntPati / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
 			buffer += "<td align=\"right\"><nobr>" + QString("%1").arg(sumCntFail) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1%").arg(QString::number(100.00 * sumCntFail / scoreList.length(), 'f', 3)) + "</nobr></td>";
-			buffer += "<td align=\"right\"><nobr>" + QString("%1 / %2").arg(QString::number(1.00 * sumSumScore / scoreList.length(), 'f', 3)).arg(mxScore) + "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1%").arg(QString::number(100.00 * sumCntFail / scoreList.length(), 'f', 3)) +
+			          "</nobr></td>";
+			buffer += "<td align=\"right\"><nobr>" +
+			          QString("%1 / %2")
+			             .arg(QString::number(1.00 * sumSumScore / scoreList.length(), 'f', 3))
+			             .arg(mxScore) +
+			          "</nobr></td>";
 			buffer += "</tr>";
 		}
 	}
@@ -210,7 +256,8 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 	{
 		for (auto j : i->getTestCaseList())
 		{
-			if (j->getInputFiles().length() != j->getOutputFiles().length())return 0;
+			if (j->getInputFiles().length() != j->getOutputFiles().length())
+				return 0;
 		}
 	}
 
@@ -235,21 +282,28 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 				return 0;
 			}
 
-			if (!isJudged)return 0;
+			if (! isJudged)
+				return 0;
 
-			if (scoreList.length() != resultList.length())return 0;
+			if (scoreList.length() != resultList.length())
+				return 0;
 
 			if (scoreList.length() > 0 && resultList.length() > 0 && testCaseList.length() > 0)
 			{
-				if (scoreList.length() != testCaseList.length())return 0;
+				if (scoreList.length() != testCaseList.length())
+					return 0;
 
-				if (resultList.length() != testCaseList.length())return 0;
+				if (resultList.length() != testCaseList.length())
+					return 0;
 
 				for (int k = 0; k < testCaseList.length(); k++)
 				{
-					if (scoreList[k].length() - (!testCaseList[k]->getDependenceSubtask().empty()) != testCaseList[k]->getInputFiles().length())return 0;
+					if (scoreList[k].length() - (! testCaseList[k]->getDependenceSubtask().empty()) !=
+					    testCaseList[k]->getInputFiles().length())
+						return 0;
 
-					if (resultList[k].length() != testCaseList[k]->getInputFiles().length())return 0;
+					if (resultList[k].length() != testCaseList[k]->getInputFiles().length())
+						return 0;
 				}
 			}
 		}
@@ -286,9 +340,10 @@ void StatisticsBrowser::refresh()
 		return;
 	}
 
-	if (!checkValid(curContest->getTaskList(), curContest->getContestantList()))
+	if (! checkValid(curContest->getTaskList(), curContest->getContestantList()))
 	{
-		buffer = tr("Some unhandled situation happened. May not all contestants are well judged, or not rejudged after changing testcases. Please refresh and rejudge.");
+		buffer = tr("Some unhandled situation happened. May not all contestants are well judged, or not "
+		            "rejudged after changing testcases. Please refresh and rejudge.");
 		ui->textBrowser->setHtml(buffer);
 		return;
 	}
@@ -311,16 +366,20 @@ void StatisticsBrowser::refresh()
 		{
 			contestantTotalScore += i->getTaskScore(j);
 
-			if (i->getTaskScore(j) < 0) haveError = 1, loss = 1;
+			if (i->getTaskScore(j) < 0)
+				haveError = 1, loss = 1;
 		}
 
-		if (!loss) scoreCount[contestantTotalScore]++;
-		else scoreCount[-1]++;
+		if (! loss)
+			scoreCount[contestantTotalScore]++;
+		else
+			scoreCount[-1]++;
 	}
 
 	if (haveError)
 	{
-		buffer += "<p style=\"font-size: large; color: red;\">" + tr("Warning: Judgement is not finished.") + "</p><br>";
+		buffer += "<p style=\"font-size: large; color: red;\">" + tr("Warning: Judgement is not finished.") +
+		          "</p><br>";
 	}
 
 	buffer += getScoreNormalChart(scoreCount, contestantList.size(), totalScore);
@@ -343,14 +402,16 @@ void StatisticsBrowser::refresh()
 			cnts[j->getTaskScore(i)]++;
 
 			if (j->getCompileState(i) != NoValidSourceFile)
-				numberSubmitted ++;
+				numberSubmitted++;
 
 			TestcaseScoreList.append(j->getSocre(i));
 			resultList.append(j->getResult(i));
 		}
 
 		buffer += getScoreNormalChart(cnts, contestantList.size(), taskList[i]->getTotalScore());
-		buffer += "<p>" + tr("Number of answer submitted") + " : " + QString::number(numberSubmitted) + " / " + QString::number(contestantList.size()) + " (" + QString::number(100.00 * numberSubmitted / contestantList.size()) + "%)</p>";
+		buffer += "<p>" + tr("Number of answer submitted") + " : " + QString::number(numberSubmitted) + " / " +
+		          QString::number(contestantList.size()) + " (" +
+		          QString::number(100.00 * numberSubmitted / contestantList.size()) + "%)</p>";
 		buffer += getTestcaseScoreChart(taskList[i]->getTestCaseList(), TestcaseScoreList, resultList);
 		buffer += "<br>";
 		buffer += "<br>";
@@ -404,10 +465,12 @@ void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest)
 	}
 
 	QString filter = tr("HTML Document (*.html)");
-	QString fileName = QFileDialog::getSaveFileName(widget, tr("Export Statstics"),
-	                   QDir::currentPath() + QDir::separator() + "statstics.html", filter);
+	QString fileName = QFileDialog::getSaveFileName(
+	   widget, tr("Export Statstics"), QDir::currentPath() + QDir::separator() + "statstics.html", filter);
 
-	if (fileName.isEmpty()) return;
+	if (fileName.isEmpty())
+		return;
 
-	if (QFileInfo(fileName).suffix() == "html") exportStatsticsHtml(widget, fileName);
+	if (QFileInfo(fileName).suffix() == "html")
+		exportStatsticsHtml(widget, fileName);
 }

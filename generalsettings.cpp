@@ -21,13 +21,11 @@
  **/
 
 #include "generalsettings.h"
-#include "ui_generalsettings.h"
 #include "settings.h"
+#include "ui_generalsettings.h"
 #include <QMessageBox>
 
-GeneralSettings::GeneralSettings(QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::GeneralSettings)
+GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::GeneralSettings)
 {
 	ui->setupUi(this);
 	ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
@@ -39,30 +37,22 @@ GeneralSettings::GeneralSettings(QWidget *parent) :
 	ui->rejudgeTimes->setValidator(new QIntValidator(0, Settings::upperBoundForRejudgeTimes(), this));
 	ui->inputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
-	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)),
-	        this, SLOT(defaultFullScoreChanged(QString)));
-	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(defaultTimeLimitChanged(QString)));
-	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(defaultMemoryLimitChanged(QString)));
-	connect(ui->compileTimeLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(compileTimeLimitChanged(QString)));
-	connect(ui->specialJudgeTimeLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(specialJudgeTimeLimitChanged(QString)));
-	connect(ui->fileSizeLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(fileSizeLimitChanged(QString)));
-	connect(ui->rejudgeTimes, SIGNAL(textChanged(QString)),
-	        this, SLOT(rejudgeTimesChanged(QString)));
-	connect(ui->inputFileExtensions, SIGNAL(textChanged(QString)),
-	        this, SLOT(inputFileExtensionsChanged(QString)));
-	connect(ui->outputFileExtensions, SIGNAL(textChanged(QString)),
-	        this, SLOT(outputFileExtensionsChanged(QString)));
+	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)), this, SLOT(defaultFullScoreChanged(QString)));
+	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(defaultTimeLimitChanged(QString)));
+	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)), this,
+	        SLOT(defaultMemoryLimitChanged(QString)));
+	connect(ui->compileTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(compileTimeLimitChanged(QString)));
+	connect(ui->specialJudgeTimeLimit, SIGNAL(textChanged(QString)), this,
+	        SLOT(specialJudgeTimeLimitChanged(QString)));
+	connect(ui->fileSizeLimit, SIGNAL(textChanged(QString)), this, SLOT(fileSizeLimitChanged(QString)));
+	connect(ui->rejudgeTimes, SIGNAL(textChanged(QString)), this, SLOT(rejudgeTimesChanged(QString)));
+	connect(ui->inputFileExtensions, SIGNAL(textChanged(QString)), this,
+	        SLOT(inputFileExtensionsChanged(QString)));
+	connect(ui->outputFileExtensions, SIGNAL(textChanged(QString)), this,
+	        SLOT(outputFileExtensionsChanged(QString)));
 }
 
-GeneralSettings::~GeneralSettings()
-{
-	delete ui;
-}
+GeneralSettings::~GeneralSettings() { delete ui; }
 
 void GeneralSettings::resetEditSettings(Settings *settings)
 {

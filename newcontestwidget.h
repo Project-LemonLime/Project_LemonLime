@@ -23,9 +23,9 @@
 #ifndef NEWCONTESTWIDGET_H
 #define NEWCONTESTWIDGET_H
 
+#include <QWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
 
 namespace Ui
 {

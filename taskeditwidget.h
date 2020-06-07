@@ -23,9 +23,9 @@
 #ifndef TASKEDITWIDGET_H
 #define TASKEDITWIDGET_H
 
+#include <QWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
 
 namespace Ui
 {

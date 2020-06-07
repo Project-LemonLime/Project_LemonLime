@@ -23,9 +23,9 @@
 #ifndef CONTESTANT_H
 #define CONTESTANT_H
 
-#include <QtCore>
-#include <QObject>
 #include "globaltype.h"
+#include <QObject>
+#include <QtCore>
 
 class Contestant : public QObject
 {
@@ -39,11 +39,11 @@ public:
 	const QString &getSourceFile(int) const;
 	const QString &getCompileMessage(int) const;
 	const QList<QStringList> &getInputFiles(int) const;
-	const QList< QList<ResultState>> &getResult(int) const;
+	const QList<QList<ResultState>> &getResult(int) const;
 	const QList<QStringList> &getMessage(int) const;
-	const QList< QList<int>> &getSocre(int) const;
-	const QList< QList<int>> &getTimeUsed(int) const;
-	const QList< QList<int>> &getMemoryUsed(int) const;
+	const QList<QList<int>> &getSocre(int) const;
+	const QList<QList<int>> &getTimeUsed(int) const;
+	const QList<QList<int>> &getMemoryUsed(int) const;
 	QDateTime getJudingTime() const;
 	int getTaskScore(int) const;
 	int getTotalScore() const;
@@ -55,11 +55,11 @@ public:
 	void setSourceFile(int, const QString &);
 	void setCompileMessage(int, const QString &);
 	void setInputFiles(int, const QList<QStringList> &);
-	void setResult(int, const QList< QList<ResultState>> &);
+	void setResult(int, const QList<QList<ResultState>> &);
 	void setMessage(int, const QList<QStringList> &);
-	void setScore(int, const QList< QList<int>> &);
-	void setTimeUsed(int, const QList< QList<int>> &);
-	void setMemoryUsed(int, const QList< QList<int>> &);
+	void setScore(int, const QList<QList<int>> &);
+	void setTimeUsed(int, const QList<QList<int>> &);
+	void setMemoryUsed(int, const QList<QList<int>> &);
 	void setJudgingTime(QDateTime);
 
 	void writeToStream(QDataStream &);
@@ -71,12 +71,12 @@ private:
 	QList<CompileState> compileState;
 	QStringList sourceFile;
 	QStringList compileMesaage;
-	QList< QList<QStringList>> inputFiles;
-	QList< QList< QList<ResultState>>> result;
-	QList< QList<QStringList>> message;
-	QList< QList< QList<int>>> score;
-	QList< QList< QList<int>>> timeUsed;
-	QList< QList< QList<int>>> memoryUsed;
+	QList<QList<QStringList>> inputFiles;
+	QList<QList<QList<ResultState>>> result;
+	QList<QList<QStringList>> message;
+	QList<QList<QList<int>>> score;
+	QList<QList<QList<int>>> timeUsed;
+	QList<QList<QList<int>>> memoryUsed;
 	QDateTime judgingTime;
 
 signals:

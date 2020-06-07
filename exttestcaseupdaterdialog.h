@@ -1,19 +1,19 @@
 /***************************************************************************
-	 This file is part of Project LemonLime
-	 Copyright (C) 2020 iotang
+    This file is part of Project LemonLime
+    Copyright (C) 2020 iotang
 
-	 This program is free software: you can redistribute it and/or modify
-	 it under the terms of the GNU General Public License as published by
-	 the Free Software Foundation, either version 3 of the License, or
-	 (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	 This program is distributed in the hope that it will be useful,
-	 but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	 You should have received a copy of the GNU General Public License
-	 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
 #ifndef EXTTESTCASEUPDATERDIALOG_H
@@ -38,9 +38,11 @@ class ExtTestCaseUpdaterDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ExtTestCaseUpdaterDialog(QWidget *parent = nullptr, Task *nowTask = nullptr, const Settings *nowSettings = nullptr, int nowCaseNumber = 0,
-	                                  int editScore = NO_EDIT, int editData = NO_EDIT, int editTime = NO_EDIT, int editMemory = NO_EDIT,
-	                                  int editDepend = NO_EDIT, QList<int> tempDepends = QList<int>());
+	explicit ExtTestCaseUpdaterDialog(QWidget *parent = nullptr, Task *nowTask = nullptr,
+	                                  const Settings *nowSettings = nullptr, int nowCaseNumber = 0,
+	                                  int editScore = NO_EDIT, int editData = NO_EDIT, int editTime = NO_EDIT,
+	                                  int editMemory = NO_EDIT, int editDepend = NO_EDIT,
+	                                  QList<int> tempDepends = QList<int>());
 	~ExtTestCaseUpdaterDialog();
 
 	int getScore();
@@ -66,7 +68,6 @@ private:
 	int editMemory;
 	int editDepend;
 
-
 	int score;
 	QString input, output;
 	int timeLimit, memoryLimit;
@@ -84,7 +85,6 @@ private slots:
 	void inputFileChanged(const QString &);
 	void outputFileChanged(const QString &);
 	void dependsChanged(const QString &);
-
 };
 
 #endif // EXTTESTCASEUPDATERDIALOG_H

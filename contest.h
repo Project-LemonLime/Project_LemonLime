@@ -27,9 +27,9 @@
 #ifndef CONTEST_H
 #define CONTEST_H
 
-#include <QtCore>
-#include <QObject>
 #include "globaltype.h"
+#include <QObject>
+#include <QtCore>
 #define MagicNumber 0x20111127
 
 class Task;
@@ -88,7 +88,7 @@ signals:
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();
-	void taskJudgedDisplay(const QString &, const QList< QList<int>> &, const int);
+	void taskJudgedDisplay(const QString &, const QList<QList<int>> &, const int);
 	void contestantJudgingStart(QString);
 	void contestantJudgingFinished();
 	void contestantJudgedDisplay(const QString &, const int, const int);

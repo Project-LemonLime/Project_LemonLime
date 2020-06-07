@@ -27,8 +27,8 @@
 #ifndef TASK_H
 #define TASK_H
 
-#include <QtCore>
 #include <QObject>
+#include <QtCore>
 
 class TestCase;
 class Settings;
@@ -37,16 +37,26 @@ class Task : public QObject
 {
 	Q_OBJECT
 public:
-	enum TaskType { Traditional, AnswersOnly, Interaction, Communication };
-	enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
+	enum TaskType
+	{
+		Traditional,
+		AnswersOnly,
+		Interaction,
+		Communication
+	};
+	enum ComparisonMode
+	{
+		LineByLineMode,
+		IgnoreSpacesMode,
+		ExternalToolMode,
+		RealNumberMode,
+		SpecialJudgeMode
+	};
 
-	explicit Task(QObject *parent = nullptr,
-	              TaskType taskType = Traditional,
+	explicit Task(QObject *parent = nullptr, TaskType taskType = Traditional,
 	              ComparisonMode comparisonMode = IgnoreSpacesMode,
-	              QString diffArguments = "--ignore-space-change --text --brief",
-	              int realPrecision = 3,
-	              bool standardInputCheck = false,
-	              bool standardOutputCheck = false,
+	              QString diffArguments = "--ignore-space-change --text --brief", int realPrecision = 3,
+	              bool standardInputCheck = false, bool standardOutputCheck = false,
 	              bool subFolderCheck = false);
 
 	void copyTo(Task *);

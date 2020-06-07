@@ -27,10 +27,10 @@
 #ifndef JUDGINGDIALOG_H
 #define JUDGINGDIALOG_H
 
+#include "globaltype.h"
+#include <QDialog>
 #include <QtCore>
 #include <QtGui>
-#include <QDialog>
-#include "globaltype.h"
 
 class Contest;
 
@@ -68,7 +68,7 @@ public slots:
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(const QString &);
-	void taskJudgedDisplay(const QString &, const QList< QList<int>> &, const int);
+	void taskJudgedDisplay(const QString &, const QList<QList<int>> &, const int);
 	void contestantJudgingStart(const QString &);
 	void contestantJudgingFinished();
 	void contestantJudgedDisplay(const QString &, const int, const int);

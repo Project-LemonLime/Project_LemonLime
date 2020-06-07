@@ -25,31 +25,25 @@
  **/
 
 #include "detaildialog.h"
-#include "ui_detaildialog.h"
-#include "task.h"
-#include "testcase.h"
 #include "contest.h"
 #include "contestant.h"
 #include "globaltype.h"
-#include "subtaskdependencelib.h"
-#include "settings.h"
 #include "judgingdialog.h"
+#include "settings.h"
+#include "subtaskdependencelib.h"
+#include "task.h"
+#include "testcase.h"
+#include "ui_detaildialog.h"
 #include <QMessageBox>
 #include <QScrollBar>
 
-DetailDialog::DetailDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::DetailDialog)
+DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog)
 {
 	ui->setupUi(this);
-	connect(ui->detailViewer, SIGNAL(anchorClicked(QUrl)),
-	        this, SLOT(anchorClicked(QUrl)));
+	connect(ui->detailViewer, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClicked(QUrl)));
 }
 
-DetailDialog::~DetailDialog()
-{
-	delete ui;
-}
+DetailDialog::~DetailDialog() { delete ui; }
 
 void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 {
@@ -67,16 +61,27 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode += QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
-		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
+		               .arg(tr("Task"))
+		               .arg(taskList[i]->getProblemTile())
+		               .arg(i)
+		               .arg(tr("Rejudge"))
+		               .arg(contestant->getTaskScore(i))
+		               .arg(taskList[i]->getTotalScore());
 	}
 
 	htmlCode += "<HR>";
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
-		            .arg(tr("Task")).arg(taskList[i]->getProblemTile()).arg(i).arg(tr("Rejudge")).arg(contestant->getTaskScore(i)).arg(taskList[i]->getTotalScore());
+		htmlCode +=
+		   QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
+		      .arg(tr("Task"))
+		      .arg(taskList[i]->getProblemTile())
+		      .arg(i)
+		      .arg(tr("Rejudge"))
+		      .arg(contestant->getTaskScore(i))
+		      .arg(taskList[i]->getTotalScore());
 
 		if (! contestant->getCheckJudged(i))
 		{
@@ -84,7 +89,9 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 			continue;
 		}
 
-		if (taskList[i]->getTaskType() == Task::Traditional || taskList[i]->getTaskType() == Task::Interaction || taskList[i]->getTaskType() == Task::Communication)
+		if (taskList[i]->getTaskType() == Task::Traditional ||
+		    taskList[i]->getTaskType() == Task::Interaction ||
+		    taskList[i]->getTaskType() == Task::Communication)
 		{
 			if (contestant->getCompileState(i) != CompileSuccessfully)
 			{
@@ -95,7 +102,9 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						break;
 
 					case CompileTimeLimitExceeded:
-						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
+						               .arg(tr("Source file: "))
+						               .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
 						break;
 
@@ -104,11 +113,14 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						break;
 
 					case CompileError:
-						htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
+						               .arg(tr("Source file: "))
+						               .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
 						if (! contestant->getCompileMessage(i).isEmpty())
-							htmlCode += QString(R"(<a href="CompileMessage %1" style="text-decoration: none"> (...))").arg(i);
+							htmlCode +=
+							   QString(R"(<a href="CompileMessage %1" style="text-decoration: none"> (...))").arg(i);
 
 						htmlCode += "</p>";
 						break;
@@ -132,38 +144,53 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 		htmlCode += QString(R"(<th scope="col" nowrap="nowrap">%1</th></tr>)").arg(tr("Score"));
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
-		QList< QList<ResultState>> result = contestant->getResult(i);
+		QList<QList<ResultState>> result = contestant->getResult(i);
 		QList<QStringList> message = contestant->getMessage(i);
-		QList< QList<int>> timeUsed = contestant->getTimeUsed(i);
-		QList< QList<int>> memoryUsed = contestant->getMemoryUsed(i);
-		QList< QList<int>> score = contestant->getSocre(i);
+		QList<QList<int>> timeUsed = contestant->getTimeUsed(i);
+		QList<QList<int>> memoryUsed = contestant->getMemoryUsed(i);
+		QList<QList<int>> score = contestant->getSocre(i);
 
-		for (int j = 0; j < inputFiles.size(); j ++)
+		for (int j = 0; j < inputFiles.size(); j++)
 		{
-			for (int k = 0; k < inputFiles[j].size(); k ++)
+			for (int k = 0; k < inputFiles[j].size(); k++)
 			{
 				htmlCode += "<tr>";
 
 				if (k == 0)
 				{
 					if (score[j].size() == inputFiles[j].size())
-						htmlCode += QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2</td>)")
-						            .arg(inputFiles[j].size()).arg(j + 1);
+						htmlCode +=
+						   QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2</td>)")
+						      .arg(inputFiles[j].size())
+						      .arg(j + 1);
 					else
-						htmlCode += QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
-						            .arg(inputFiles[j].size()).arg(j + 1).arg(tr("Subtask Dependence Status")).arg(statusRankingText(score[j].back()));
+						htmlCode +=
+						   QString(
+						      R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
+						      .arg(inputFiles[j].size())
+						      .arg(j + 1)
+						      .arg(tr("Subtask Dependence Status"))
+						      .arg(statusRankingText(score[j].back()));
 				}
 
-				htmlCode += QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
+				htmlCode +=
+				   QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-				htmlCode += QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)").arg(text).arg(bgColor).arg(frColor);
+				htmlCode +=
+				   QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)")
+				      .arg(text)
+				      .arg(bgColor)
+				      .arg(frColor);
 
 				if (! message[j][k].isEmpty())
 				{
-					htmlCode += QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)").arg(i).arg(j).arg(k);
+					htmlCode += QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)")
+					               .arg(i)
+					               .arg(j)
+					               .arg(k);
 				}
 
 				htmlCode += "</td>";
@@ -171,7 +198,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").asprintf("%.3lf s", double (timeUsed[j][k]) / 1000);
+					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
 				}
 				else
 				{
@@ -183,7 +210,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").asprintf("%.3lf MB", double (memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
 				}
 				else
 				{
@@ -197,12 +224,13 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 					int minv = 2147483647;
 					int maxv = testCases[j]->getFullScore();
 
-					for (int t = 0; t < inputFiles[j].size(); t ++)
-						if (score[j][t] < minv) minv = score[j][t];
+					for (int t = 0; t < inputFiles[j].size(); t++)
+						if (score[j][t] < minv)
+							minv = score[j][t];
 
 					int tempStatus = mxDependValue + 1;
 
-					if (!testCases[j]->getDependenceSubtask().empty())
+					if (! testCases[j]->getDependenceSubtask().empty())
 					{
 						tempStatus = score[j].back();
 						minv = qMin(minv, statusToScore(score[j].back(), maxv));
@@ -210,17 +238,27 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 					QString bgColor = "rgb(192, 255, 192)";
 
-					for (int t = 0; t < inputFiles[j].size(); t ++)
-						if (result[j][t] != CorrectAnswer)bgColor = "rgb(192, 255, 255)";
+					for (int t = 0; t < inputFiles[j].size(); t++)
+						if (result[j][t] != CorrectAnswer)
+							bgColor = "rgb(192, 255, 255)";
 
-					if (tempStatus < mxDependValue)bgColor = "rgb(192, 255, 255)";
+					if (tempStatus < mxDependValue)
+						bgColor = "rgb(192, 255, 255)";
 
-					for (int t = 0; t < inputFiles[j].size(); t ++)
-						if (result[j][t] != CorrectAnswer && result[j][t] != PartlyCorrect)bgColor = "rgb(255, 192, 192)";
+					for (int t = 0; t < inputFiles[j].size(); t++)
+						if (result[j][t] != CorrectAnswer && result[j][t] != PartlyCorrect)
+							bgColor = "rgb(255, 192, 192)";
 
-					if (tempStatus < 0)bgColor = "rgb(255, 192, 192)";
+					if (tempStatus < 0)
+						bgColor = "rgb(255, 192, 192)";
 
-					htmlCode += QString(R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)").arg(inputFiles[j].size()).arg(bgColor).arg(minv).arg(maxv);
+					htmlCode +=
+					   QString(
+					      R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)")
+					      .arg(inputFiles[j].size())
+					      .arg(bgColor)
+					      .arg(minv)
+					      .arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -264,7 +302,8 @@ void DetailDialog::anchorClicked(const QUrl &url)
 	{
 		QMessageBox(QMessageBox::NoIcon, tr("Compile Message"),
 		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
-		            QMessageBox::Close, this).exec();
+		            QMessageBox::Close, this)
+		   .exec();
 	}
 
 	if (list[0] == "Message")
@@ -272,6 +311,7 @@ void DetailDialog::anchorClicked(const QUrl &url)
 		QList<QStringList> message = contestant->getMessage(list[1].toInt());
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
 		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
-		            QMessageBox::Close, this).exec();
+		            QMessageBox::Close, this)
+		   .exec();
 	}
 }

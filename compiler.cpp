@@ -22,8 +22,7 @@
 
 #include "compiler.h"
 
-Compiler::Compiler(QObject *parent) :
-	QObject(parent)
+Compiler::Compiler(QObject *parent) : QObject(parent)
 {
 	compilerType = Typical;
 	timeLimitRatio = 1;
@@ -31,120 +30,57 @@ Compiler::Compiler(QObject *parent) :
 	disableMemoryLimitCheck = false;
 }
 
-auto Compiler::getCompilerType() const -> Compiler::CompilerType
-{
-	return compilerType;
-}
+auto Compiler::getCompilerType() const -> Compiler::CompilerType { return compilerType; }
 
-auto Compiler::getCompilerName() const -> const QString &
-{
-	return compilerName;
-}
+auto Compiler::getCompilerName() const -> const QString & { return compilerName; }
 
-auto Compiler::getSourceExtensions() const -> const QStringList &
-{
-	return sourceExtensions;
-}
+auto Compiler::getSourceExtensions() const -> const QStringList & { return sourceExtensions; }
 
-auto Compiler::getCompilerLocation() const -> const QString &
-{
-	return compilerLocation;
-}
+auto Compiler::getCompilerLocation() const -> const QString & { return compilerLocation; }
 
-auto Compiler::getInterpreterLocation() const -> const QString &
-{
-	return interpreterLocation;
-}
+auto Compiler::getInterpreterLocation() const -> const QString & { return interpreterLocation; }
 
-auto Compiler::getBytecodeExtensions() const -> const QStringList &
-{
-	return bytecodeExtensions;
-}
+auto Compiler::getBytecodeExtensions() const -> const QStringList & { return bytecodeExtensions; }
 
-auto Compiler::getConfigurationNames() const -> const QStringList &
-{
-	return configurationNames;
-}
+auto Compiler::getConfigurationNames() const -> const QStringList & { return configurationNames; }
 
-auto Compiler::getCompilerArguments() const -> const QStringList &
-{
-	return compilerArguments;
-}
+auto Compiler::getCompilerArguments() const -> const QStringList & { return compilerArguments; }
 
-auto Compiler::getInterpreterArguments() const -> const QStringList &
-{
-	return interpreterArguments;
-}
+auto Compiler::getInterpreterArguments() const -> const QStringList & { return interpreterArguments; }
 
-auto Compiler::getEnvironment() const -> const QProcessEnvironment &
-{
-	return environment;
-}
+auto Compiler::getEnvironment() const -> const QProcessEnvironment & { return environment; }
 
-auto Compiler::getTimeLimitRatio() const -> double
-{
-	return timeLimitRatio;
-}
+auto Compiler::getTimeLimitRatio() const -> double { return timeLimitRatio; }
 
-auto Compiler::getMemoryLimitRatio() const -> double
-{
-	return memoryLimitRatio;
-}
+auto Compiler::getMemoryLimitRatio() const -> double { return memoryLimitRatio; }
 
-auto Compiler::getDisableMemoryLimitCheck() const -> bool
-{
-	return disableMemoryLimitCheck;
-}
+auto Compiler::getDisableMemoryLimitCheck() const -> bool { return disableMemoryLimitCheck; }
 
-void Compiler::setCompilerType(Compiler::CompilerType type)
-{
-	compilerType = type;
-}
+void Compiler::setCompilerType(Compiler::CompilerType type) { compilerType = type; }
 
-void Compiler::setCompilerName(const QString &name)
-{
-	compilerName = name;
-}
+void Compiler::setCompilerName(const QString &name) { compilerName = name; }
 
 void Compiler::setSourceExtensions(const QString &extensions)
 {
 	sourceExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
-void Compiler::setCompilerLocation(const QString &location)
-{
-	compilerLocation = location;
-}
+void Compiler::setCompilerLocation(const QString &location) { compilerLocation = location; }
 
-void Compiler::setInterpreterLocation(const QString &location)
-{
-	interpreterLocation = location;
-}
+void Compiler::setInterpreterLocation(const QString &location) { interpreterLocation = location; }
 
 void Compiler::setBytecodeExtensions(const QString &extensions)
 {
 	bytecodeExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
-void Compiler::setEnvironment(const QProcessEnvironment &env)
-{
-	environment = env;
-}
+void Compiler::setEnvironment(const QProcessEnvironment &env) { environment = env; }
 
-void Compiler::setTimeLimitRatio(double ratio)
-{
-	timeLimitRatio = ratio;
-}
+void Compiler::setTimeLimitRatio(double ratio) { timeLimitRatio = ratio; }
 
-void Compiler::setMemoryLimitRatio(double ratio)
-{
-	memoryLimitRatio = ratio;
-}
+void Compiler::setMemoryLimitRatio(double ratio) { memoryLimitRatio = ratio; }
 
-void Compiler::setDisableMemoryLimitCheck(bool check)
-{
-	disableMemoryLimitCheck = check;
-}
+void Compiler::setDisableMemoryLimitCheck(bool check) { disableMemoryLimitCheck = check; }
 
 void Compiler::addConfiguration(const QString &name, const QString &arguments1, const QString &arguments2)
 {

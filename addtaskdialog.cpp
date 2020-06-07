@@ -25,31 +25,22 @@
  **/
 
 #include "addtaskdialog.h"
-#include "ui_addtaskdialog.h"
 #include "settings.h"
+#include "ui_addtaskdialog.h"
 
-AddTaskDialog::AddTaskDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::AddTaskDialog)
+AddTaskDialog::AddTaskDialog(QWidget *parent) : QDialog(parent), ui(new Ui::AddTaskDialog)
 {
 	ui->setupUi(this);
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore() * 100, this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
-	connect(ui->taskBox, SIGNAL(currentIndexChanged(int)),
-	        this, SLOT(taskBoxIndexChanged()));
-	connect(ui->fullScore, SIGNAL(textChanged(QString)),
-	        this, SLOT(fullScoreChanged()));
-	connect(ui->timeLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(timeLimitChanged()));
-	connect(ui->memoryLimit, SIGNAL(textChanged(QString)),
-	        this, SLOT(memoryLimitChanged()));
+	connect(ui->taskBox, SIGNAL(currentIndexChanged(int)), this, SLOT(taskBoxIndexChanged()));
+	connect(ui->fullScore, SIGNAL(textChanged(QString)), this, SLOT(fullScoreChanged()));
+	connect(ui->timeLimit, SIGNAL(textChanged(QString)), this, SLOT(timeLimitChanged()));
+	connect(ui->memoryLimit, SIGNAL(textChanged(QString)), this, SLOT(memoryLimitChanged()));
 }
 
-AddTaskDialog::~AddTaskDialog()
-{
-	delete ui;
-}
+AddTaskDialog::~AddTaskDialog() { delete ui; }
 
 void AddTaskDialog::addTask(const QString &title, int _fullScore, int _timeLimit, int _memoryLimit)
 {

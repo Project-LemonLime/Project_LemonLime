@@ -1,0 +1,17 @@
+Standard: Latest
+BasedOnStyle: LLVM
+BreakBeforeBraces: Allman
+IndentWidth: 3
+TabWidth: 3
+UseTab: ForIndentation
+ColumnLimit: 110
+
+AccessModifierOffset: -3
+ContinuationIndentWidth: 3
+IndentCaseLabels: true
+NamespaceIndentation: All
+SpaceAfterLogicalNot: true
+UseCRLF: false
+
+SortIncludes: true
+SortUsingDeclarations: true

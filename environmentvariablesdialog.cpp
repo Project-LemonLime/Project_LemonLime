@@ -21,36 +21,28 @@
  **/
 
 #include "environmentvariablesdialog.h"
-#include "ui_environmentvariablesdialog.h"
 #include "editvariabledialog.h"
+#include "ui_environmentvariablesdialog.h"
 #include <QMessageBox>
 
-EnvironmentVariablesDialog::EnvironmentVariablesDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::EnvironmentVariablesDialog)
+EnvironmentVariablesDialog::EnvironmentVariablesDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::EnvironmentVariablesDialog)
 {
 	ui->setupUi(this);
-	connect(ui->addButton, SIGNAL(clicked()),
-	        this, SLOT(addButtonClicked()));
-	connect(ui->editButton, SIGNAL(clicked()),
-	        this, SLOT(editButtonClicked()));
-	connect(ui->deleteButton, SIGNAL(clicked()),
-	        this, SLOT(deleteButtonClicked()));
-	connect(ui->valueViewer, SIGNAL(itemSelectionChanged()),
-	        this, SLOT(viewerSelectionChanged()));
+	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+	connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
+	connect(ui->valueViewer, SIGNAL(itemSelectionChanged()), this, SLOT(viewerSelectionChanged()));
 }
 
-EnvironmentVariablesDialog::~EnvironmentVariablesDialog()
-{
-	delete ui;
-}
+EnvironmentVariablesDialog::~EnvironmentVariablesDialog() { delete ui; }
 
 void EnvironmentVariablesDialog::setProcessEnvironment(const QProcessEnvironment &environment)
 {
 	QStringList values = environment.toStringList();
 	ui->valueViewer->setRowCount(values.size());
 
-	for (int i = 0; i < values.size(); i ++)
+	for (int i = 0; i < values.size(); i++)
 	{
 		int tmp = values[i].indexOf('=');
 		QString variable = values[i].mid(0, tmp);
@@ -64,7 +56,7 @@ auto EnvironmentVariablesDialog::getProcessEnvironment() const -> QProcessEnviro
 {
 	QProcessEnvironment environment;
 
-	for (int i = 0; i < ui->valueViewer->rowCount(); i ++)
+	for (int i = 0; i < ui->valueViewer->rowCount(); i++)
 	{
 		QString variable = ui->valueViewer->item(i, 0)->text();
 		QString value = ui->valueViewer->item(i, 1)->text();
@@ -119,7 +111,7 @@ void EnvironmentVariablesDialog::deleteButtonClicked()
 		return;
 	}
 
-	for (int i = index + 1; i < ui->valueViewer->rowCount(); i ++)
+	for (int i = index + 1; i < ui->valueViewer->rowCount(); i++)
 	{
 		ui->valueViewer->setItem(i - 1, 0, new QTableWidgetItem(ui->valueViewer->item(i, 0)->text()));
 		ui->valueViewer->setItem(i - 1, 1, new QTableWidgetItem(ui->valueViewer->item(i, 1)->text()));
@@ -132,7 +124,7 @@ void EnvironmentVariablesDialog::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> range = ui->valueViewer->selectedRanges();
 
-	if (!range.empty())
+	if (! range.empty())
 	{
 		ui->editButton->setEnabled(true);
 		ui->deleteButton->setEnabled(true);

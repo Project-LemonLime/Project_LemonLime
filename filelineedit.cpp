@@ -23,11 +23,7 @@
 #include "filelineedit.h"
 #include "settings.h"
 
-FileLineEdit::FileLineEdit(QWidget *parent) :
-	QLineEdit(parent)
-{
-	completer = nullptr;
-}
+FileLineEdit::FileLineEdit(QWidget *parent) : QLineEdit(parent) { completer = nullptr; }
 
 void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
 {
@@ -40,7 +36,7 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 
 	QStringList list = dir.entryList(filters);
 
-	for (int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i++)
 	{
 		list[i] = prefix + list[i];
 	}
@@ -48,23 +44,19 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 	files.append(list);
 	list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for (int i = 0; i < list.size(); i ++)
+	for (int i = 0; i < list.size(); i++)
 	{
-		getFiles(curDir + list[i] + QDir::separator(),
-		         prefix + list[i] + QDir::separator(), files);
+		getFiles(curDir + list[i] + QDir::separator(), prefix + list[i] + QDir::separator(), files);
 	}
 }
 
-void FileLineEdit::setFilters(QDir::Filters _filters)
-{
-	filters = _filters;
-}
+void FileLineEdit::setFilters(QDir::Filters _filters) { filters = _filters; }
 
 void FileLineEdit::setFileExtensions(const QStringList &extensions)
 {
 	nameFilters.clear();
 
-	for (int i = 0; i < extensions.size(); i ++)
+	for (int i = 0; i < extensions.size(); i++)
 	{
 		nameFilters.append("*." + extensions[i]);
 	}

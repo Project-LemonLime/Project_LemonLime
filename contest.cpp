@@ -24,41 +24,26 @@
  * Update 2019 iotang
  **/
 
-#include <QMessageBox>
-#include <utility>
 #include "contest.h"
-#include "task.h"
-#include "testcase.h"
-#include "settings.h"
+#include "assignmentthread.h"
 #include "compiler.h"
 #include "contestant.h"
 #include "judgingthread.h"
-#include "assignmentthread.h"
+#include "settings.h"
+#include "task.h"
+#include "testcase.h"
+#include <QMessageBox>
+#include <utility>
 
-Contest::Contest(QObject *parent) :
-	QObject(parent)
-{
-}
+Contest::Contest(QObject *parent) : QObject(parent) {}
 
-void Contest::setSettings(Settings *_settings)
-{
-	settings = _settings;
-}
+void Contest::setSettings(Settings *_settings) { settings = _settings; }
 
-void Contest::copySettings(Settings &_settings)
-{
-	_settings.copyFrom(settings);
-}
+void Contest::copySettings(Settings &_settings) { _settings.copyFrom(settings); }
 
-void Contest::setContestTitle(const QString &title)
-{
-	contestTitle = title;
-}
+void Contest::setContestTitle(const QString &title) { contestTitle = title; }
 
-auto Contest::getContestTitle() const -> const QString &
-{
-	return contestTitle;
-}
+auto Contest::getContestTitle() const -> const QString & { return contestTitle; }
 
 auto Contest::getTask(int index) const -> Task *
 {
@@ -70,10 +55,7 @@ auto Contest::getTask(int index) const -> Task *
 	return nullptr;
 }
 
-auto Contest::getTaskList() const -> const QList<Task *> &
-{
-	return taskList;
-}
+auto Contest::getTaskList() const -> const QList<Task *> & { return taskList; }
 
 void Contest::swapTask(int a, int b)
 {
@@ -99,10 +81,7 @@ auto Contest::getContestant(const QString &name) const -> Contestant *
 	return nullptr;
 }
 
-auto Contest::getContestantList() const -> QList<Contestant *>
-{
-	return contestantList.values();
-}
+auto Contest::getContestantList() const -> QList<Contestant *> { return contestantList.values(); }
 
 auto Contest::getTotalTimeLimit() const -> int
 {
@@ -137,8 +116,7 @@ void Contest::addTask(Task *task)
 {
 	task->setParent(this);
 	taskList.append(task);
-	connect(task, SIGNAL(problemTitleChanged(QString)),
-	        this, SIGNAL(problemTitleChanged()));
+	connect(task, SIGNAL(problemTitleChanged(QString)), this, SIGNAL(problemTitleChanged()));
 	emit taskAddedForContestant();
 	emit taskAddedForViewer();
 }
@@ -157,10 +135,11 @@ void Contest::deleteTask(int index)
 
 void Contest::refreshContestantList()
 {
-	QStringList nameList = QDir(Settings::sourcePath()).entryList(QStringList(), QDir::Dirs | QDir::NoDotAndDotDot);
+	QStringList nameList =
+	   QDir(Settings::sourcePath()).entryList(QStringList(), QDir::Dirs | QDir::NoDotAndDotDot);
 	QStringList curNameList = contestantList.keys();
 
-	for (int i = 0; i < curNameList.size(); i ++)
+	for (int i = 0; i < curNameList.size(); i++)
 	{
 		if (! nameList.contains(curNameList[i]))
 		{
@@ -169,30 +148,29 @@ void Contest::refreshContestantList()
 		}
 	}
 
-	for (int i = 0; i < nameList.size(); i ++)
+	for (int i = 0; i < nameList.size(); i++)
 	{
 		if (! contestantList.contains(nameList[i]))
 		{
 			auto *newContestant = new Contestant(this);
 			newContestant->setContestantName(nameList[i]);
 
-			for (int j = 0; j < taskList.size(); j ++)
+			for (int j = 0; j < taskList.size(); j++)
 			{
 				newContestant->addTask();
 			}
 
 			contestantList.insert(nameList[i], newContestant);
-			connect(this, SIGNAL(taskAddedForContestant()),
-			        newContestant, SLOT(addTask()));
-			connect(this, SIGNAL(taskDeletedForContestant(int)),
-			        newContestant, SLOT(deleteTask(int)));
+			connect(this, SIGNAL(taskAddedForContestant()), newContestant, SLOT(addTask()));
+			connect(this, SIGNAL(taskDeletedForContestant(int)), newContestant, SLOT(deleteTask(int)));
 		}
 	}
 }
 
 void Contest::deleteContestant(const QString &name)
 {
-	if (! contestantList.contains(name)) return;
+	if (! contestantList.contains(name))
+		return;
 
 	delete contestantList[name];
 	contestantList.remove(name);
@@ -203,14 +181,16 @@ void Contest::clearPath(const QString &curDir)
 	QDir dir(curDir);
 	QStringList fileList = dir.entryList(QDir::Files);
 
-	for (int i = 0; i < fileList.size(); i ++)
+	for (int i = 0; i < fileList.size(); i++)
 	{
 		if (! dir.remove(fileList[i]))
 		{
 #ifdef Q_OS_WIN32
-			QProcess::execute(QString("attrib"), QStringList("-R") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
+			QProcess::execute(QString("attrib"),
+			                  QStringList("-R") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
 #else
-			QProcess::execute(QString("chmod"), QStringList("+w") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
+			QProcess::execute(QString("chmod"),
+			                  QStringList("+w") + QStringList(QString("\"") + curDir + fileList[i] + "\""));
 #endif
 			dir.remove(fileList[i]);
 		}
@@ -218,7 +198,7 @@ void Contest::clearPath(const QString &curDir)
 
 	QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for (int i = 0; i < dirList.size(); i ++)
+	for (int i = 0; i < dirList.size(); i++)
 	{
 		clearPath(curDir + dirList[i] + QDir::separator());
 		dir.rmdir(dirList[i]);
@@ -230,20 +210,17 @@ void Contest::judge(Contestant *contestant)
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i++)
 	{
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
-		connect(thread, SIGNAL(dialogAlert(QString)),
-		        this, SIGNAL(dialogAlert(QString)));
-		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
-		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-		connect(thread, SIGNAL(compileError(int, int)),
-		        this, SIGNAL(compileError(int, int)));
-		connect(this, SIGNAL(stopJudgingSignal()),
-		        thread, SLOT(stopJudgingSlot()));
+		connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
+		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
+		        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
+		        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
+		connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
+		connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
@@ -279,7 +256,8 @@ void Contest::judge(Contestant *contestant)
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
+	                             getTotalScore());
 	emit contestantJudgingFinished();
 }
 
@@ -288,22 +266,20 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 	emit contestantJudgingStart(contestant->getContestantName());
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 
-	for (int i = 0; i < taskList.size(); i ++)
+	for (int i = 0; i < taskList.size(); i++)
 	{
-		if (!index.contains(i)) continue;
+		if (! index.contains(i))
+			continue;
 
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
-		connect(thread, SIGNAL(dialogAlert(QString)),
-		        this, SIGNAL(dialogAlert(QString)));
-		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-		        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
-		        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-		connect(thread, SIGNAL(compileError(int, int)),
-		        this, SIGNAL(compileError(int, int)));
-		connect(this, SIGNAL(stopJudgingSignal()),
-		        thread, SLOT(stopJudgingSlot()));
+		connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
+		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
+		        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
+		        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
+		connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
+		connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
@@ -339,7 +315,8 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
+	                             getTotalScore());
 	emit contestantJudgingFinished();
 }
 
@@ -349,16 +326,13 @@ void Contest::judge(Contestant *contestant, int index)
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 	auto *thread = new AssignmentThread();
-	connect(thread, SIGNAL(dialogAlert(QString)),
-	        this, SIGNAL(dialogAlert(QString)));
-	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)),
-	        this, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)),
-	        this, SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-	connect(thread, SIGNAL(compileError(int, int)),
-	        this, SIGNAL(compileError(int, int)));
-	connect(this, SIGNAL(stopJudgingSignal()),
-	        thread, SLOT(stopJudgingSlot()));
+	connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
+	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
+	        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
+	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
+	        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
+	connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
+	connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
 	thread->setSettings(settings);
 	thread->setTask(taskList[index]);
 	thread->setContestantName(contestant->getContestantName());
@@ -386,13 +360,15 @@ void Contest::judge(Contestant *contestant, int index)
 	contestant->setTimeUsed(index, thread->getTimeUsed());
 	contestant->setMemoryUsed(index, thread->getMemoryUsed());
 	contestant->setCheckJudged(index, true);
-	emit taskJudgedDisplay(taskList[index]->getProblemTile(), thread->getScore(), taskList[index]->getTotalScore());
+	emit taskJudgedDisplay(taskList[index]->getProblemTile(), thread->getScore(),
+	                       taskList[index]->getTotalScore());
 	emit taskJudgingFinished();
 	delete thread;
 	clearPath(Settings::temporaryPath());
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 	QDir().rmdir(Settings::temporaryPath());
-	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(), getTotalScore());
+	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
+	                             getTotalScore());
 	emit contestantJudgingFinished();
 }
 
@@ -427,7 +403,8 @@ void Contest::judgeAll()
 	{
 		judge(contestant);
 
-		if (stopJudging) break;
+		if (stopJudging)
+			break;
 	}
 }
 
@@ -462,7 +439,7 @@ void Contest::readFromStream(QDataStream &in)
 	in >> contestTitle;
 	in >> count;
 
-	for (int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i++)
 	{
 		Task *newTask = new Task(this);
 		newTask->readFromStream(in);
@@ -472,14 +449,12 @@ void Contest::readFromStream(QDataStream &in)
 
 	in >> count;
 
-	for (int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i++)
 	{
 		auto *newContestant = new Contestant(this);
 		newContestant->readFromStream(in);
-		connect(this, SIGNAL(taskAddedForContestant()),
-		        newContestant, SLOT(addTask()));
-		connect(this, SIGNAL(taskDeletedForContestant(int)),
-		        newContestant, SLOT(deleteTask(int)));
+		connect(this, SIGNAL(taskAddedForContestant()), newContestant, SLOT(addTask()));
+		connect(this, SIGNAL(taskDeletedForContestant(int)), newContestant, SLOT(deleteTask(int)));
 		contestantList.insert(newContestant->getContestantName(), newContestant);
 	}
 }

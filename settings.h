@@ -24,9 +24,9 @@
 #define SETTINGS_H
 
 #include "globaltype.h"
-#include <QtCore>
-#include <QObject>
 #include <QColor>
+#include <QObject>
+#include <QtCore>
 
 class Compiler;
 
@@ -121,7 +121,6 @@ public:
 	void copyFrom(Settings *);
 	void saveSettings();
 	void loadSettings();
-
 
 	static void setTextAndColor(ResultState, QString &, QString &, QString &);
 	static int upperBoundForFullScore();

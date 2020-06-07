@@ -25,20 +25,15 @@
  **/
 
 #include "task.h"
-#include "testcase.h"
-#include "settings.h"
 #include "compiler.h"
+#include "settings.h"
+#include "testcase.h"
 
-Task::Task(QObject *parent,
-           TaskType taskType,
-           ComparisonMode comparisonMode,
-           QString diffArguments,
-           int realPrecision,
-           bool standardInputCheck,
-           bool standardOutputCheck,
-           bool subFolderCheck) :
-	QObject(parent), taskType(taskType), comparisonMode(comparisonMode), diffArguments(diffArguments),
-	realPrecision(realPrecision), standardInputCheck(standardInputCheck), standardOutputCheck(standardOutputCheck), subFolderCheck(subFolderCheck)
+Task::Task(QObject *parent, TaskType taskType, ComparisonMode comparisonMode, QString diffArguments,
+           int realPrecision, bool standardInputCheck, bool standardOutputCheck, bool subFolderCheck)
+    : QObject(parent), taskType(taskType), comparisonMode(comparisonMode), diffArguments(diffArguments),
+      realPrecision(realPrecision), standardInputCheck(standardInputCheck),
+      standardOutputCheck(standardOutputCheck), subFolderCheck(subFolderCheck)
 {
 }
 
@@ -51,223 +46,104 @@ void Task::copyTo(Task *to)
 	to->readFromStream(tmpout);
 }
 
-auto Task::getTestCaseList() const -> const QList<TestCase *> &
-{
-	return testCaseList;
-}
+auto Task::getTestCaseList() const -> const QList<TestCase *> & { return testCaseList; }
 
-auto Task::getProblemTile() const -> const QString &
-{
-	return problemTitle;
-}
+auto Task::getProblemTile() const -> const QString & { return problemTitle; }
 
-auto Task::getSubFolderCheck() const -> bool
-{
-	return subFolderCheck;
-}
+auto Task::getSubFolderCheck() const -> bool { return subFolderCheck; }
 
-auto Task::getSourceFileName() const -> const QString &
-{
-	return sourceFileName;
-}
+auto Task::getSourceFileName() const -> const QString & { return sourceFileName; }
 
-auto Task::getInputFileName() const -> const QString &
-{
-	return inputFileName;
-}
+auto Task::getInputFileName() const -> const QString & { return inputFileName; }
 
-auto Task::getOutputFileName() const -> const QString &
-{
-	return outputFileName;
-}
+auto Task::getOutputFileName() const -> const QString & { return outputFileName; }
 
-auto Task::getStandardInputCheck() const -> bool
-{
-	return standardInputCheck;
-}
+auto Task::getStandardInputCheck() const -> bool { return standardInputCheck; }
 
-auto Task::getStandardOutputCheck() const -> bool
-{
-	return standardOutputCheck;
-}
+auto Task::getStandardOutputCheck() const -> bool { return standardOutputCheck; }
 
-auto Task::getTaskType() const -> Task::TaskType
-{
-	return taskType;
-}
+auto Task::getTaskType() const -> Task::TaskType { return taskType; }
 
-auto Task::getComparisonMode() const -> Task::ComparisonMode
-{
-	return comparisonMode;
-}
+auto Task::getComparisonMode() const -> Task::ComparisonMode { return comparisonMode; }
 
-auto Task::getDiffArguments() const -> const QString &
-{
-	return diffArguments;
-}
+auto Task::getDiffArguments() const -> const QString & { return diffArguments; }
 
-auto Task::getRealPrecision() const -> int
-{
-	return realPrecision;
-}
+auto Task::getRealPrecision() const -> int { return realPrecision; }
 
-auto Task::getSpecialJudge() const -> const QString &
-{
-	return specialJudge;
-}
+auto Task::getSpecialJudge() const -> const QString & { return specialJudge; }
 
-auto Task::getInteractor() const -> const QString &
-{
-	return interactor;
-}
+auto Task::getInteractor() const -> const QString & { return interactor; }
 
-auto Task::getInteractorName() const -> const QString &
-{
-	return interactorName;
-}
+auto Task::getInteractorName() const -> const QString & { return interactorName; }
 
-auto Task::getGrader() const -> const QString &
-{
-	return grader;
-}
+auto Task::getGrader() const -> const QString & { return grader; }
 
 auto Task::getCompilerConfiguration(const QString &compilerName) const -> QString
 {
 	return compilerConfiguration.value(compilerName);
 }
 
-auto Task::getAnswerFileExtension() const -> const QString &
-{
-	return answerFileExtension;
-}
+auto Task::getAnswerFileExtension() const -> const QString & { return answerFileExtension; }
 
-auto Task::getSourceFilesPath() const -> const QStringList &
-{
-	return sourceFilesPath;
-}
+auto Task::getSourceFilesPath() const -> const QStringList & { return sourceFilesPath; }
 
-auto Task::getSourceFilesName() const -> const QStringList &
-{
-	return sourceFilesName;
-}
+auto Task::getSourceFilesName() const -> const QStringList & { return sourceFilesName; }
 
-auto Task::getGraderFilesPath() const -> const QStringList &
-{
-	return graderFilesPath;
-}
+auto Task::getGraderFilesPath() const -> const QStringList & { return graderFilesPath; }
 
-auto Task::getGraderFilesName() const -> const QStringList &
-{
-	return graderFilesName;
-}
+auto Task::getGraderFilesName() const -> const QStringList & { return graderFilesName; }
 
 void Task::setProblemTitle(const QString &title)
 {
 	bool changed = problemTitle != title;
 	problemTitle = title;
 
-	if (changed) emit problemTitleChanged(title);
+	if (changed)
+		emit problemTitleChanged(title);
 }
 
-void Task::setSubFolderCheck(bool check)
-{
-	subFolderCheck = check;
-}
+void Task::setSubFolderCheck(bool check) { subFolderCheck = check; }
 
-void Task::setSourceFileName(const QString &fileName)
-{
-	sourceFileName = fileName;
-}
+void Task::setSourceFileName(const QString &fileName) { sourceFileName = fileName; }
 
-void Task::setInputFileName(const QString &fileName)
-{
-	inputFileName = fileName;
-}
+void Task::setInputFileName(const QString &fileName) { inputFileName = fileName; }
 
-void Task::setOutputFileName(const QString &fileName)
-{
-	outputFileName = fileName;
-}
+void Task::setOutputFileName(const QString &fileName) { outputFileName = fileName; }
 
-void Task::setStandardInputCheck(bool check)
-{
-	standardInputCheck = check;
-}
+void Task::setStandardInputCheck(bool check) { standardInputCheck = check; }
 
-void Task::setStandardOutputCheck(bool check)
-{
-	standardOutputCheck = check;
-}
+void Task::setStandardOutputCheck(bool check) { standardOutputCheck = check; }
 
-void Task::setTaskType(Task::TaskType type)
-{
-	taskType = type;
-}
+void Task::setTaskType(Task::TaskType type) { taskType = type; }
 
-void Task::setComparisonMode(Task::ComparisonMode mode)
-{
-	comparisonMode = mode;
-}
+void Task::setComparisonMode(Task::ComparisonMode mode) { comparisonMode = mode; }
 
-void Task::setDiffArguments(const QString &argumentsList)
-{
-	diffArguments = argumentsList;
-}
+void Task::setDiffArguments(const QString &argumentsList) { diffArguments = argumentsList; }
 
-void Task::setRealPrecision(int precision)
-{
-	realPrecision = precision;
-}
+void Task::setRealPrecision(int precision) { realPrecision = precision; }
 
-void Task::setSpecialJudge(const QString &fileName)
-{
-	specialJudge = fileName;
-}
+void Task::setSpecialJudge(const QString &fileName) { specialJudge = fileName; }
 
-void Task::setInteractor(const QString &fileName)
-{
-	interactor = fileName;
-}
+void Task::setInteractor(const QString &fileName) { interactor = fileName; }
 
-void Task::setInteractorName(const QString &fileName)
-{
-	interactorName = fileName;
-}
+void Task::setInteractorName(const QString &fileName) { interactorName = fileName; }
 
-void Task::setGrader(const QString &fileName)
-{
-	grader = fileName;
-}
+void Task::setGrader(const QString &fileName) { grader = fileName; }
 
 void Task::setCompilerConfiguration(const QString &compiler, const QString &configuration)
 {
 	compilerConfiguration.insert(compiler, configuration);
 }
 
-void Task::setAnswerFileExtension(const QString &extension)
-{
-	answerFileExtension = extension;
-}
+void Task::setAnswerFileExtension(const QString &extension) { answerFileExtension = extension; }
 
-void Task::setSourceFilesPath(const QStringList &pathList)
-{
-	sourceFilesPath = pathList;
-}
+void Task::setSourceFilesPath(const QStringList &pathList) { sourceFilesPath = pathList; }
 
-void Task::setSourceFilesName(const QStringList &nameList)
-{
-	sourceFilesName = nameList;
-}
+void Task::setSourceFilesName(const QStringList &nameList) { sourceFilesName = nameList; }
 
-void Task::setGraderFilesPath(const QStringList &pathList)
-{
-	graderFilesPath = pathList;
-}
+void Task::setGraderFilesPath(const QStringList &pathList) { graderFilesPath = pathList; }
 
-void Task::setGraderFilesName(const QStringList &nameList)
-{
-	graderFilesName = nameList;
-}
+void Task::setGraderFilesName(const QStringList &nameList) { graderFilesName = nameList; }
 
 void Task::appendSourceFiles(const QString &path, const QString &name)
 {
@@ -336,9 +212,11 @@ void Task::deleteTestCase(int index)
 
 void Task::swapTestCase(int a, int b)
 {
-	if (a < 0 || a >= testCaseList.size())return;
+	if (a < 0 || a >= testCaseList.size())
+		return;
 
-	if (b < 0 || b >= testCaseList.size())return;
+	if (b < 0 || b >= testCaseList.size())
+		return;
 
 	qSwap(testCaseList[a], testCaseList[b]);
 }
@@ -419,7 +297,7 @@ void Task::writeToStream(QDataStream &out)
 	out << standardInputCheck;
 	out << standardOutputCheck;
 	out << (static_cast<int>(taskType) | ((static_cast<int>(subFolderCheck)) << 8));
-	out << int (comparisonMode);
+	out << int(comparisonMode);
 	out << diffArguments;
 	out << realPrecision;
 	QString _specialJudge = specialJudge;
@@ -542,7 +420,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> count;
 	testCaseList.clear();
 
-	for (int i = 0; i < count; i ++)
+	for (int i = 0; i < count; i++)
 	{
 		auto *newTestCase = new TestCase(this);
 		newTestCase->readFromStream(in);

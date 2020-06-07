@@ -24,22 +24,15 @@
 #include "ui_opencontestdialog.h"
 #include <QPushButton>
 
-OpenContestDialog::OpenContestDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::OpenContestDialog)
+OpenContestDialog::OpenContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OpenContestDialog)
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	connect(ui->openContestWidget, SIGNAL(selectionChanged()),
-	        this, SLOT(selectionChanged()));
-	connect(ui->openContestWidget, SIGNAL(rowDoubleClicked()),
-	        this, SLOT(accept()));
+	connect(ui->openContestWidget, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+	connect(ui->openContestWidget, SIGNAL(rowDoubleClicked()), this, SLOT(accept()));
 }
 
-OpenContestDialog::~OpenContestDialog()
-{
-	delete ui;
-}
+OpenContestDialog::~OpenContestDialog() { delete ui; }
 
 void OpenContestDialog::setRecentContest(const QStringList &list)
 {

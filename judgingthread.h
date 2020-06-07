@@ -23,9 +23,9 @@
 #ifndef JUDGINGTHREAD_H
 #define JUDGINGTHREAD_H
 
-#include <QtCore>
-#include <QThread>
 #include "globaltype.h"
+#include <QThread>
+#include <QtCore>
 
 class Task;
 
@@ -34,7 +34,7 @@ class JudgingThread : public QThread
 	Q_OBJECT
 public:
 	explicit JudgingThread(QObject *parent = nullptr);
-	//void setCheckRejudgeMode(bool);
+	// void setCheckRejudgeMode(bool);
 	void setExtraTimeRatio(double);
 	void setEnvironment(const QProcessEnvironment &);
 	void setWorkingDirectory(const QString &);
@@ -60,7 +60,7 @@ public:
 	void run();
 
 private:
-	//bool checkRejudgeMode;
+	// bool checkRejudgeMode;
 	bool needRejudge;
 	double extraTimeRatio{};
 	QProcessEnvironment environment;
@@ -92,7 +92,7 @@ private:
 	void judgeOutput();
 	void judgeTraditionalTask();
 	void judgeAnswersOnlyTask();
-	//void judgeInteractionTask();
+	// void judgeInteractionTask();
 
 public slots:
 	void stopJudgingSlot();

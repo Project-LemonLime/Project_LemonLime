@@ -37,3 +37,4 @@ moc_*.h
 ui_*.cpp
 ui_*.h
 qrc_resource.cpp
+lemon.pro.user

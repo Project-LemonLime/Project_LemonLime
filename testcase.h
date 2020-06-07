@@ -23,8 +23,8 @@
 #ifndef TESTCASE_H
 #define TESTCASE_H
 
-#include <QtCore>
 #include <QObject>
+#include <QtCore>
 
 class TestCase : public QObject
 {
@@ -58,7 +58,7 @@ public:
 private:
 	QStringList inputFiles;
 	QStringList outputFiles;
-	QList<int>  dependenceSubtask;
+	QList<int> dependenceSubtask;
 	int index{};
 	int fullScore{};
 	int timeLimit{};

@@ -24,53 +24,36 @@
 #include "ui_newcontestwidget.h"
 #include <QFileDialog>
 
-NewContestWidget::NewContestWidget(QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::NewContestWidget)
+NewContestWidget::NewContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::NewContestWidget)
 {
 	ui->setupUi(this);
-	connect(ui->selectButton, SIGNAL(clicked()),
-	        this, SLOT(selectContestPath()));
-	connect(ui->savingName, SIGNAL(textChanged(QString)),
-	        this, SLOT(savingNameChanged()));
-	connect(ui->contestTitle, SIGNAL(textChanged(QString)),
-	        this, SIGNAL(informationChanged()));
-	connect(ui->savingName, SIGNAL(textChanged(QString)),
-	        this, SIGNAL(informationChanged()));
-	connect(ui->contestPath, SIGNAL(textChanged(QString)),
-	        this, SIGNAL(informationChanged()));
+	connect(ui->selectButton, SIGNAL(clicked()), this, SLOT(selectContestPath()));
+	connect(ui->savingName, SIGNAL(textChanged(QString)), this, SLOT(savingNameChanged()));
+	connect(ui->contestTitle, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
+	connect(ui->savingName, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
+	connect(ui->contestPath, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
 }
 
-NewContestWidget::~NewContestWidget()
-{
-	delete ui;
-}
+NewContestWidget::~NewContestWidget() { delete ui; }
 
-auto NewContestWidget::getContestTitle() -> QString
-{
-	return ui->contestTitle->text();
-}
+auto NewContestWidget::getContestTitle() -> QString { return ui->contestTitle->text(); }
 
-auto NewContestWidget::getSavingName() -> QString
-{
-	return ui->savingName->text();
-}
+auto NewContestWidget::getSavingName() -> QString { return ui->savingName->text(); }
 
-auto NewContestWidget::getContestPath() -> QString
-{
-	return ui->contestPath->text();
-}
+auto NewContestWidget::getContestPath() -> QString { return ui->contestPath->text(); }
 
 auto NewContestWidget::checkReady() const -> bool
 {
-	return ! ui->contestTitle->text().isEmpty() && ! ui->contestPath->text().isEmpty() && ! ui->savingName->text().isEmpty();
+	return ! ui->contestTitle->text().isEmpty() && ! ui->contestPath->text().isEmpty() &&
+	       ! ui->savingName->text().isEmpty();
 }
 
 void NewContestWidget::selectContestPath()
 {
 	QString path = QFileDialog::getExistingDirectory(this, tr("Select Contest Path"), QDir::homePath());
 
-	if (! path.isEmpty()) ui->contestPath->setText(QDir::toNativeSeparators(path));
+	if (! path.isEmpty())
+		ui->contestPath->setText(QDir::toNativeSeparators(path));
 }
 
 void NewContestWidget::savingNameChanged()

@@ -23,9 +23,9 @@
 #ifndef GENERALSETTINGS_H
 #define GENERALSETTINGS_H
 
+#include <QWidget>
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
 
 namespace Ui
 {
