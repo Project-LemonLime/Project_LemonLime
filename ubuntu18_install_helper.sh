@@ -16,8 +16,9 @@ done
 
 
 # Since Qt 5.14
-has_Qt_SkipEmptyParts=(	'contest.cpp'
-						'contestant.cpp'
+has_Qt_SkipEmptyParts=(	'compiler.cpp'
+						'detaildialog.cpp'
+						'settings.cpp'
 						)
 
 for i in "${has_Qt_SkipEmptyParts[@]}"; do
