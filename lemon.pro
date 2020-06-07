@@ -21,6 +21,9 @@ QT       += core gui widgets
 QMAKE_CXXFLAGS += -std=c++11
 unix:QMAKE_LFLAGS += -no-pie
 
+include(singleapplication/singleapplication.pri)
+DEFINES += QAPPLICATION_CLASS=QApplication
+
 TARGET = lemon
 TEMPLATE = app
 
@@ -56,19 +59,12 @@ SOURCES += main.cpp \
     opencontestdialog.cpp \
     welcomedialog.cpp \
     addtaskdialog.cpp \
-    qtlockedfile/qtlockedfile.cpp \
-    qtsingleapplication/qtsinglecoreapplication.cpp \
-    qtsingleapplication/qtsingleapplication.cpp \
-    qtsingleapplication/qtlocalpeer.cpp \
     advancedcompilersettingsdialog.cpp \
     environmentvariablesdialog.cpp \
     editvariabledialog.cpp \
     addcompilerwizard.cpp \
     exportutil.cpp \
     statisticsbrowser.cpp
-
-win32:SOURCES += qtlockedfile/qtlockedfile_win.cpp
-unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
 
 HEADERS  += lemon.h \
     exttestcasemodifier.h \
@@ -103,10 +99,6 @@ HEADERS  += lemon.h \
     opencontestdialog.h \
     welcomedialog.h \
     addtaskdialog.h \
-    qtlockedfile/qtlockedfile.h \
-    qtsingleapplication/qtsinglecoreapplication.h \
-    qtsingleapplication/qtsingleapplication.h \
-    qtsingleapplication/qtlocalpeer.h \
     advancedcompilersettingsdialog.h \
     environmentvariablesdialog.h \
     editvariabledialog.h \

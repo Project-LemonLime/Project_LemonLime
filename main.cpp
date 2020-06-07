@@ -25,8 +25,8 @@
  **/
 
 #include "lemon.h"
-#include "qtsingleapplication/qtsingleapplication.h"
 #include <QApplication>
+#include <SingleApplication>
 #include <QPixmap>
 #include <QSplashScreen>
 #include <iostream>
@@ -36,11 +36,11 @@ auto main(int argc, char *argv[]) -> int
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 #endif
-	QtSingleApplication a(argc, argv);
+	SingleApplication a(argc, argv);
 
 	if (a.sendMessage(""))
 	{
-		a.activateWindow();
+		a.activeWindow();
 		return 0;
 	}
 
@@ -68,14 +68,14 @@ auto main(int argc, char *argv[]) -> int
 
 		do
 		{
-			QtSingleApplication::processEvents();
+			SingleApplication::processEvents();
 		} while (QDateTime::currentMSecsSinceEpoch() - startTime <= splashTime);
 
 		screen.finish(&w);
 	}
 
-	a.setActivationWindow(&w);
+	a.setActiveWindow(&w);
 	w.show();
 	w.welcome();
-	return QtSingleApplication::exec();
+	return a.exec();
 }
