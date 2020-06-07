@@ -36,9 +36,9 @@
 #include <cstring>
 
 #ifdef Q_OS_WIN32
-#pragma comment(lib, "Psapi.lib")
-#include <Psapi.h>
+// #pragma comment(lib, "Psapi.lib")
 #include <windows.h>
+#include <Psapi.h>
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent)
@@ -840,29 +840,32 @@ void JudgingThread::runProgram()
 	if (task->getStandardInputCheck())
 	{
 		si.hStdInput = CreateFile((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
-		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-		                          OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
+		                          FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if (task->getStandardOutputCheck())
 	{
 		si.hStdOutput = CreateFile((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-		                           CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+		                           FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	si.hStdError = CreateFile((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-	                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+	                          FILE_ATTRIBUTE_NORMAL, NULL);
 	QString values = environment.toStringList().join(QChar('\0')) + '\0';
 
-	if (! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL, &sa,
-	                    TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
-	                    (const WCHAR *)(workingDirectory.utf16()), &si, &pi))
+	if (! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
+	                    &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
+	                    (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()), &si,
+	                    &pi))
 	{
-		if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+		if (task->getStandardInputCheck())
+			CloseHandle(si.hStdInput);
 
-		if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+		if (task->getStandardOutputCheck())
+			CloseHandle(si.hStdOutput);
 
 		CloseHandle(si.hStdError);
 		score = 0;
@@ -876,15 +879,17 @@ void JudgingThread::runProgram()
 
 	if (memoryLimit != -1)
 	{
-		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
+		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 
 		if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024)
 		{
 			TerminateProcess(pi.hProcess, 0);
 
-			if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+			if (task->getStandardInputCheck())
+				CloseHandle(si.hStdInput);
 
-			if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+			if (task->getStandardOutputCheck())
+				CloseHandle(si.hStdOutput);
 
 			CloseHandle(si.hStdError);
 			CloseHandle(pi.hProcess);
@@ -910,15 +915,17 @@ void JudgingThread::runProgram()
 
 		if (memoryLimit != -1)
 		{
-			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
+			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 
 			if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024U * 1024)
 			{
 				TerminateProcess(pi.hProcess, 0);
 
-				if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+				if (task->getStandardInputCheck())
+					CloseHandle(si.hStdInput);
 
-				if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+				if (task->getStandardOutputCheck())
+					CloseHandle(si.hStdOutput);
 
 				CloseHandle(si.hStdError);
 				CloseHandle(pi.hProcess);
@@ -936,9 +943,11 @@ void JudgingThread::runProgram()
 		{
 			TerminateProcess(pi.hProcess, 0);
 
-			if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+			if (task->getStandardInputCheck())
+				CloseHandle(si.hStdInput);
 
-			if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+			if (task->getStandardOutputCheck())
+				CloseHandle(si.hStdOutput);
 
 			CloseHandle(si.hStdError);
 			CloseHandle(pi.hProcess);
@@ -961,9 +970,11 @@ void JudgingThread::runProgram()
 	{
 		TerminateProcess(pi.hProcess, 0);
 
-		if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+		if (task->getStandardInputCheck())
+			CloseHandle(si.hStdInput);
 
-		if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+		if (task->getStandardOutputCheck())
+			CloseHandle(si.hStdOutput);
 
 		CloseHandle(si.hStdError);
 		CloseHandle(pi.hProcess);
@@ -979,9 +990,11 @@ void JudgingThread::runProgram()
 
 	if (exitCode != 0)
 	{
-		if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+		if (task->getStandardInputCheck())
+			CloseHandle(si.hStdInput);
 
-		if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+		if (task->getStandardOutputCheck())
+			CloseHandle(si.hStdOutput);
 
 		CloseHandle(si.hStdError);
 		CloseHandle(pi.hProcess);
@@ -1005,23 +1018,24 @@ void JudgingThread::runProgram()
 	GetProcessTimes(pi.hProcess, &creationTime, &exitTime, &kernelTime, &userTime);
 	SYSTEMTIME realTime;
 	FileTimeToSystemTime(&userTime, &realTime);
-	timeUsed = realTime.wMilliseconds
-	           + realTime.wSecond * 1000
-	           + realTime.wMinute * 60 * 1000
-	           + realTime.wHour * 60 * 60 * 1000;
-	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *) &info, sizeof(info));
+	timeUsed = realTime.wMilliseconds + realTime.wSecond * 1000 + realTime.wMinute * 60 * 1000 +
+	           realTime.wHour * 60 * 60 * 1000;
+	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 	memoryUsed = info.PeakWorkingSetSize;
 
-	if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+	if (task->getStandardInputCheck())
+		CloseHandle(si.hStdInput);
 
-	if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+	if (task->getStandardOutputCheck())
+		CloseHandle(si.hStdOutput);
 
 	CloseHandle(si.hStdError);
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 #else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
-	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString("\"" + workingDirectory + "watcher" + "\"")));
+	QProcess::execute(QString("chmod"),
+	                  (QStringList("+wx") << QString("\"" + workingDirectory + "watcher" + "\"")));
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
@@ -1137,7 +1151,8 @@ void JudgingThread::runProgram()
 	QTextStream stream(&out, QIODevice::ReadOnly);
 	stream >> timeUsed >> memoryUsed;
 
-	if (memoryUsed <= 0) memoryLimit = -1;
+	if (memoryUsed <= 0)
+		memoryLimit = -1;
 
 	if (code == 3)
 	{
