@@ -1035,7 +1035,7 @@ void JudgingThread::runProgram()
 #else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod"),
-	                  (QStringList("+wx") << QString("\"" + workingDirectory + "watcher" + "\"")));
+	                  (QStringList("+wx") << QString(workingDirectory + "watcher")));
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);

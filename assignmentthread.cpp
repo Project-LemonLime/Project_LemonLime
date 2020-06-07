@@ -254,7 +254,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 						compiler->setProcessEnvironment(environment);
 						compiler->setWorkingDirectory(Settings::temporaryPath() + contestantName);
 						// TODO: 需要重构代码来处理含空格路径问题
-						compiler->start(QString("\"") + i->getCompilerLocation() + "\"",
+
+						compiler->start(i->getCompilerLocation(),
 						                arguments.split(QLatin1Char(' '), Qt::SkipEmptyParts));
 
 						if (! compiler->waitForStarted(-1))
