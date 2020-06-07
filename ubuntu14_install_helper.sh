@@ -16,4 +16,4 @@ done
 sed -i '/<property name="tabBarAutoHide">/,+2d' forms/lemon.ui
 sed -i '/unix:QMAKE_LFLAGS += -no-pie/d' lemon.pro
 
-source ./ubuntu16.sh
+source ./ubuntu16_install_helper.sh

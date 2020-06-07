@@ -10,14 +10,14 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
 
-已在这些系统测试：
+曾在这些系统测试：
 
 |系统名称|版本号|位数|DE / WM|
 |:--:|:--:|:--:|:--:|
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
 |Manjaro|20.0.1|64|KDE-Xorg; i3WM|
-|Arch|2020-5-21|64|KDE-Xorg|
+|Arch|2020-6-20|64|KDE-Xorg|
 |Arch|2020-3-20|64|KDE-Wayland|
 |Ubuntu|20.04|64|GNOME 3|
 |Ubuntu|18.04.4|64|GNOME 3|
@@ -129,11 +129,20 @@ make # 获得可执行文件 lemon
 sudo apt install qtcreator
 ```
 
+##### \* Ubuntu 18 及更老
+
+Ubuntu 18 用 apt 安装的 Qt 版本只能到 5.9。
+
+在 qmake 前你需要：
+-   把代码中所有 `swapItemsAt` 换成 `swap`。
+
+也许代码根目录下的 `ubuntu18_install_helper.sh` 脚本对你有用。
+
 ##### \* Ubuntu 16 及更老
 
 Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
 
-在 qmake 前你需要：
+在 qmake 前你还需要：
 -   把代码中所有 `qAsConst` 删除。
 
 也许代码根目录下的 `ubuntu16_install_helper.sh` 脚本对你有用。
@@ -150,7 +159,7 @@ NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能�
 也许代码根目录下的 `ubuntu14_install_helper.sh` 脚本对你有用。
 
 或者
--   在 Qt 官网上找一个更高版本（比如 5.12）的 Qt 安装。
+-   在 Qt 官网上找一个更高版本（比如 5.15）的 Qt 安装。
 
 *arbiter 退出了群聊。*
 
