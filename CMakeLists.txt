@@ -17,6 +17,22 @@ add_subdirectory(singleapplication)
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 
+execute_process(COMMAND pkg-config --modversion Qt5Core
+				OUTPUT_VARIABLE QT_5_VERSION
+				)
+
+if(QT_5_VERSION VERSION_LESS 5.4)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_4.sh ${CMAKE_SOURCE_DIR})
+elseif(QT_5_VERSION VERSION_LESS 5.5)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_5.sh ${CMAKE_SOURCE_DIR})
+elseif(QT_5_VERSION VERSION_LESS 5.7)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_7.sh ${CMAKE_SOURCE_DIR})
+elseif(QT_5_VERSION VERSION_LESS 5.13)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_13.sh ${CMAKE_SOURCE_DIR})
+elseif(QT_5_VERSION VERSION_LESS 5.14)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_14.sh ${CMAKE_SOURCE_DIR})
+endif()
+
 set(SRC 
 	main.cpp
 	exttestcasemodifier.cpp
