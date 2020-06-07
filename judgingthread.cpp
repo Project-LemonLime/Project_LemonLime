@@ -37,8 +37,8 @@
 
 #ifdef Q_OS_WIN32
 // #pragma comment(lib, "Psapi.lib")
-#include <windows.h>
 #include <Psapi.h>
+#include <windows.h>
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent)
@@ -1034,8 +1034,7 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hThread);
 #else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
-	QProcess::execute(QString("chmod"),
-	                  (QStringList("+wx") << QString(workingDirectory + "watcher")));
+	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString(workingDirectory + "watcher")));
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
