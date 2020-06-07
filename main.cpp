@@ -50,7 +50,7 @@ auto main(int argc, char *argv[]) -> int
 #ifdef Q_OS_WIN32
 	QFont fonts;
 	fonts.setFamily("Microsoft YaHei");
-	QtSingleApplication::setFont(fonts);
+	SingleApplication::setFont(fonts);
 #endif
 #ifdef Q_OS_MAC
 	// fonts.setFamily("PingFangSC-Regular");
