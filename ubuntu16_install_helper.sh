@@ -5,6 +5,7 @@ set -e
 # 打印执行的命令
 set -v
 
+# Since Qt 5.7
 has_qAsConst=(  'testcase.cpp'
                 'exttestcaseupdaterdialog.cpp'
                 'exttestcasetable.cpp'
