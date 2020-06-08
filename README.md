@@ -69,9 +69,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 ### 源码下载
 
 ```plain
-$ git clone https://github.com/iotang/Project_LemonLime.git
-$ git submodule init
-$ git submodule update
+$ git clone https://github.com/iotang/Project_LemonLime.git --recursive
 ```
 
 #### 下载的东西太大了？
