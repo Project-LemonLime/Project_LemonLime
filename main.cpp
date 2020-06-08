@@ -26,9 +26,9 @@
 
 #include "lemon.h"
 #include <QApplication>
+#include <SingleApplication>
 #include <QPixmap>
 #include <QSplashScreen>
-#include <SingleApplication>
 #include <iostream>
 
 auto main(int argc, char *argv[]) -> int
