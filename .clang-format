@@ -12,6 +12,3 @@ IndentCaseLabels: true
 NamespaceIndentation: All
 SpaceAfterLogicalNot: true
 UseCRLF: false
-
-SortIncludes: true
-SortUsingDeclarations: true
