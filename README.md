@@ -68,6 +68,12 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 ### 源码下载
 
+```plain
+$ git clone https://github.com/iotang/Project_LemonLime.git
+$ git submodule init
+$ git submodule update
+```
+
 #### 下载的东西太大了？
 
 `git clone` 的时候，使用 `--depth=1` 可以使下载下来的文件大小减少很多（因为默认情况下它会把所有历史记录全部下载下来）。
