@@ -42,6 +42,7 @@
     </qresource>
     <qresource prefix="/translation">
         <file>lemon_zh_CN.qm</file>
+        <file>lemon_zh_TW.qm</file>
         <file>qt_zh_CN.qm</file>
     </qresource>
     <qresource prefix="/watcher">

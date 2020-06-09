@@ -133,7 +133,8 @@ FORMS += forms/lemon.ui \
     forms/addcompilerwizard.ui \
     forms/statisticsbrowser.ui
 
-TRANSLATIONS += lemon_zh_CN.ts
+TRANSLATIONS += lemon_zh_CN.ts \
+    lemon_zh_TW.ts
 
 win32:RC_FILE = lemon.rc
 
