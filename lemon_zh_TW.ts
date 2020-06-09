@@ -2658,7 +2658,7 @@ Depends: </source>
     <message>
         <location filename="lemon.cpp" line="153"/>
         <source>English</source>
-        <translation>簡體中文</translation>
+        <translation>繁體中文</translation>
     </message>
     <message>
         <location filename="lemon.cpp" line="430"/>
