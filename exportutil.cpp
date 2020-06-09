@@ -287,7 +287,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
 	       "text-align: center; verticle-align: middle;}</style>";
-	out << "<title>" << tr("Contest Result") << "</title>";
+	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<QPair<int, QString>> sortList;
 
@@ -328,7 +328,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	}
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
-	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
+	out << "<a name=\"top\"></a>" << contest->getContestTitle() << " : " << tr("Rank List") << "</span></p>";
 	out << "<p style=\"font-size: small;\">"
 	    << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
@@ -652,7 +652,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
 	       "text-align: center; verticle-align: middle;}</style>";
-	out << "<title>" << tr("Contest Result") << "</title>";
+	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<QPair<int, QString>> sortList;
 
@@ -693,7 +693,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	}
 
 	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
-	out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
+	out << "<a name=\"top\"></a>" << contest->getContestTitle() << " : " << tr("Rank List") << "</span></p>";
 	out << "<p style=\"font-size: small;\">" << tr("Judged By LemonLime") << "</p>";
 	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));

@@ -139,6 +139,7 @@ Ubuntu 18 用 apt 安装的 Qt 版本只能到 5.9。
 
 在 qmake 前你需要：
 -   把代码中所有 `swapItemsAt` 换成 `swap`。
+-   把代码中所有 `Qt::SkipEmptyParts` 换成 `QString::SkipEmptyParts`。
 
 也许代码 tools 目录下的 `ubuntu18_install_helper.sh` 脚本对你有用。
 
@@ -198,6 +199,6 @@ qmake lemon.pro
 make
 ```
 
-## Thanks
+## 致谢
 
--   [SingleApplication](https://github.com/itay-grudev/SingleApplication): Replacement of QtSingleApplication for Qt5 with support for instance communication. 
+-   [SingleApplication](https://github.com/itay-grudev/SingleApplication): 是 Qt5 中 QtSingleApplication 的支持实例通信的增强版。

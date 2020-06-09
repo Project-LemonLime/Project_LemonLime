@@ -1130,15 +1130,15 @@ void Lemon::aboutLemon()
 {
 	QString text;
 	text += "<h2>Project LemonLime</h2>";
-	text += tr("A tiny judging environment for OI contest based on Project Lemon") + "<br>";
-	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
-	QDateTime nowTime(QDateTime::currentDateTime());
-	text += tr("Build Date: %1").arg(nowTime.toString("yyyy-MM-dd hh:mm:ss")) + "<br>";
 	text += tr("BETA VERISON") + "<br>";
+	text += tr("This is a tiny judging environment for OI contest based on Project LemonPlus.") + "<br>";
+	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
+	text += tr("Based on Project LemonPlus by Dust1404, 2019") + "<br>";
+	text += tr("Update by iotang and Coelacanthus") + "<br><br>";
+	text += tr("Build Date: %1").arg(QString(__DATE__) + QString(", ") + QString(__TIME__)) + "<br>";
 	text +=
 	   tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license") +
 	   "<br>";
-	text += tr("Update by Dust1404 and iotang") + "</a><br>";
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 
