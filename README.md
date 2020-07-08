@@ -10,6 +10,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
 
+![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square) ![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
+
 曾在这些系统测试：
 
 |系统名称|版本号|位数|DE / WM|
