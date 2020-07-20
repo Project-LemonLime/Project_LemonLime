@@ -839,19 +839,19 @@ void JudgingThread::runProgram()
 
 	if (task->getStandardInputCheck())
 	{
-		si.hStdInput = CreateFile((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
+		si.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
 		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
 		                          FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if (task->getStandardOutputCheck())
 	{
-		si.hStdOutput = CreateFile((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
+		si.hStdOutput = CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
 		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
 		                           FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
-	si.hStdError = CreateFile((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
+	si.hStdError = CreateFileW((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
 	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
 	                          FILE_ATTRIBUTE_NORMAL, NULL);
 	QString values = environment.toStringList().join(QChar('\0')) + '\0';
