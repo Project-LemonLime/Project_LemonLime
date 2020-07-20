@@ -856,7 +856,7 @@ void JudgingThread::runProgram()
 	                          FILE_ATTRIBUTE_NORMAL, NULL);
 	QString values = environment.toStringList().join(QChar('\0')) + '\0';
 
-	if (! CreateProcess(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
+	if (! CreateProcessW(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
 	                    &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
 	                    (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()), &si,
 	                    &pi))
