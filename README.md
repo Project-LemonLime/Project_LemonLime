@@ -12,6 +12,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 [![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/) ![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
 
+[![Packaging status](https://repology.org/badge/vertical-allrepos/lemon-lime.svg)](https://repology.org/metapackage/lemon-lime/versions)
+
 曾在这些系统测试：
 
 |系统名称|版本号|位数|DE / WM|
