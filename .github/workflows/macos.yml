@@ -8,8 +8,6 @@ on:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
-  release:
-    types: [edited]
 jobs:
   build:
     name: Build
@@ -58,7 +56,6 @@ jobs:
           cmake --build . --parallel $(nproc)
       # tag 打包
       - name: package
-        if: startsWith(github.event.ref, 'refs/tags/')
         run: |
           # 拷贝依赖
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
