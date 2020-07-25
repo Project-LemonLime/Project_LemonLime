@@ -9,6 +9,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/Ubuntu/badge.svg)
 ，Windows ![Windows](https://github.com/iotang/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/iotang/Project_LemonLime/workflows/MacOS/badge.svg)
 
+![CPack - DEB](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB/badge.svg)
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
