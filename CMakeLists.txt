@@ -9,11 +9,16 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/forms)
 
 set(CMAKE_CXX_STANDARD 11)
-add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_link_options(-no-pie)
 
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 add_subdirectory(singleapplication)
+
+if(WIN32)
+    find_package(Qt5 COMPONENTS AxContainer REQUIRED)
+    add_compile_definitions(UNICODE _UNICODE)
+endif()
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 
@@ -146,4 +151,8 @@ set(RESOURCES
 
 	
 add_executable(lemon ${HEADERS} ${SRC} resource.qrc)
-target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
+if(WIN32)
+    target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core Qt5::AxContainer SingleApplication::SingleApplication)
+else()
+    target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
+endif()

@@ -15,74 +15,71 @@ on:
 jobs:
   build:
     name: Build
-    # 运行平台， windows-latest目前是windows server 2019
-    runs-on: windows-latest
     strategy:
-      fail-fast: false
-      # 矩阵配置
       matrix:
-        qt_ver: [5.15.0]
-        qt_target: [desktop]
-        # mingw用不了
-        # qt_arch: [win64_msvc2017_64, win32_msvc2017, win32_mingw53,win32_mingw73]
-        qt_arch: [win64_msvc2019_64]
-        # 额外设置msvc_arch
-        include:
-          - qt_arch: win64_msvc2019_64
-            msvc_arch: x64
-            qt_arch_install: msvc2019_64
+        qt_version: [5.15.0]
+        platform: [windows-latest]
+        arch: [x86, x64]
+        include: 
+          - platform: windows-latest
+            arch: x86
+            qtarch: win32_msvc2019
+          - platform: windows-latest
+            arch: x64
+            qtarch: win64_msvc2019_64
+      fail-fast: false
+
+    runs-on: ${{ matrix.platform }}
     env:
       targetName: lemon.exe
     # 步骤
     steps:
-      - name: cacheQt
-        id: WindowsCacheQt
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Checking out sources
+        uses: actions/checkout@master
+      - name: Install Python 3.7 version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+          architecture: ${{ matrix.arch }}
+      - name: Restoring submodules
+        run: git submodule update --init
+# =========================================================================================================
+      - name: Install MSVC compiler
+        uses: ilammy/msvc-dev-cmd@v1
+        with: 
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+          toolset: 14.2
+          arch: ${{ matrix.arch }}
+      - name: Cache Qt
+        id: cache-qt
         uses: actions/cache@v1
         with:
-          path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch_install}}
-          key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-      - name: setupQt
-        if: steps.WindowsCacheQt.outputs.cache-hit == 'true'
-        shell: pwsh
-        env:
-          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch_install}}
-        run: |
-          $qt_Path=${env:QtPath}
-          echo "::set-env name=Qt5_Dir::$qt_Path"
-          echo "::add-path::$qt_Path/bin"          
-      # 安装Qt
-      - name: Install Qt
-        if: steps.WindowsCacheQt.outputs.cache-hit != 'true'
-        # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v2.6.3
+          path: ../Qt
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+      - name: Installing Qt - ${{ matrix.arch }}
+        uses: jurplel/install-qt-action@v2
         with:
-          # Version of Qt to install
-          version: ${{ matrix.qt_ver }}
-          # Target platform for build
-          target: ${{ matrix.qt_target }}
-          # Architecture for Windows/Android
-          arch: ${{ matrix.qt_arch }}
-          aqtversion: ">=0.9.0"
-      # 拉取代码
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          submodules: true
-      # 编译msvc
-      - name: build-msvc
-        shell: cmd
+          version: ${{ matrix.qt_version }}
+          arch: ${{ matrix.qtarch }}
+          mirror: 'http://mirrors.ocf.berkeley.edu/qt/'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          
+      - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
+        shell: bash
         env:
-          vc_arch: ${{ matrix.msvc_arch }}
+          CC: cl.exe
+          CXX: cl.exe
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake lemon.pro
-          nmake
-      # tag 打包
+          cmake . -GNinja
+          cmake --build . --parallel $(nproc)
       - name: package
         if: startsWith(github.event.ref, 'refs/tags/')
         env:
-          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC'
-          archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
+          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
           # 创建文件夹

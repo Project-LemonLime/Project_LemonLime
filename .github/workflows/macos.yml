@@ -37,7 +37,7 @@ jobs:
           echo "::add-path::$qt_Path/bin"    
       - name: Install Qt
         if: steps.MacosCacheQt.outputs.cache-hit != 'true'
-        uses: jurplel/install-qt-action@v2.6.3
+        uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
       
