@@ -5,7 +5,6 @@ set -e
 # 打印执行的命令
 set -v
 
-cd "$1"
 
 # Since Qt 5.5
 has_asprintf=(  'detaildialog.cpp'
@@ -13,5 +12,5 @@ has_asprintf=(  'detaildialog.cpp'
                 )
 
 for i in "${has_asprintf[@]}"; do
-    sed -i 's/asprintf/sprintf/g' "$i"
+    sed -i 's/asprintf/sprintf/g' "$1"/"$i"
 done

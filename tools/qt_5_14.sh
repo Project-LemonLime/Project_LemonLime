@@ -5,7 +5,6 @@ set -e
 # 打印执行的命令
 set -v
 
-cd "$1"
 
 # Since Qt 5.14
 has_Qt_SkipEmptyParts=(	'compiler.cpp'
@@ -14,5 +13,5 @@ has_Qt_SkipEmptyParts=(	'compiler.cpp'
 						)
 
 for i in "${has_Qt_SkipEmptyParts[@]}"; do
-    sed -i 's/Qt::SkipEmptyParts/QString::SkipEmptyParts/g' "$i"
+    sed -i 's/Qt::SkipEmptyParts/QString::SkipEmptyParts/g' "$1"/"$i"
 done

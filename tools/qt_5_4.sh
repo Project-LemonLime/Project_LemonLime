@@ -5,7 +5,6 @@ set -e
 # 打印执行的命令
 set -v
 
-cd "$1"
 
 # Since Qt 5.4
-sed -i '/<property name="tabBarAutoHide">/,+2d' forms/lemon.ui
+sed -i '/<property name="tabBarAutoHide">/,+2d' "$1"/forms/lemon.ui
