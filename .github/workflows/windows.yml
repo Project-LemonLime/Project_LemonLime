@@ -97,6 +97,11 @@ jobs:
           echo "::set-env name=packageName::$name"
           # 打印环境变量packageName
           Write-Host 'packageName:'${env:packageName}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: lemon-win-${{matrix.arch}}.zip
+          path: ${{ env.packageName }}.zip
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
