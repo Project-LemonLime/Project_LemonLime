@@ -75,7 +75,9 @@ elseif(QT_5_VERSION VERSION_LESS 5.14)
 	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/qt_5_14.sh ${CMAKE_SOURCE_DIR})
 endif()
 
-
+if(VER_CHECK)
+    execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/checker.sh)
+endif
 
 set(SRC
 	src/main.cpp
