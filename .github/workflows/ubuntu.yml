@@ -48,5 +48,5 @@ jobs:
       - name: build ubuntu
         run: |
           g++ watcher_unix.cpp -o watcher_unix -O2
-          qmake lemon.pro
-          make
+          cmake . -GNinja
+          cmake --build . --parallel $(nproc)

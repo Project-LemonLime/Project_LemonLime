@@ -101,6 +101,10 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.packageName }}.zip
+<<<<<<< HEAD
           asset_name: lemon-${{matrix.qt_arch}}.zip
+=======
+          asset_name: lemon-win-${{matrix.arch}}.zip
+>>>>>>> 21e77f0... chore: update actions
           tag: ${{ github.ref }}
           overwrite: true

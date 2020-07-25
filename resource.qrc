@@ -3,8 +3,14 @@
         <file alias="splash.png">pics/splash.png</file>
         <file alias="splash2.png">pics/splash2.png</file>
     </qresource>
+    <qresource prefix="/asset">
+        <file>makespec/VERSION</file>
+        <file>makespec/VERSIONSUFFIX</file>
+        <file>makespec/BUILDVERSION</file>
+        <file>assets/lemon-lime.ico</file>
+    </qresource>
     <qresource prefix="/icon">
-        <file alias="icon.png">pics/icon.png</file>
+        <file alias="icon.png">assets/lemon-lime.png</file>
         <file alias="code-function.svg">pics/code-function.svg</file>
         <file alias="configure.svg">pics/configure.svg</file>
         <file alias="dialog-cancel.svg">pics/dialog-cancel.svg</file>
@@ -41,10 +47,10 @@
         <file alias="acrobat.svg">pics/acrobat.svg</file>
     </qresource>
     <qresource prefix="/translation">
-        <file>lemon_zh_CN.qm</file>
-        <file>lemon_zh_TW.qm</file>
-        <file>qt_zh_CN.qm</file>
-        <file>qt_zh_TW.qm</file>
+        <file alias="lemon_zh_CN.qm">translations/lemon_zh_CN.qm</file>
+        <file alias="lemon_zh_TW.qm">translations/lemon_zh_TW.qm</file>
+        <file alias="qt_zh_CN.qm">translations/qt_zh_CN.qm</file>
+        <file alias="qt_zh_TW.qm">translations/qt_zh_TW.qm</file>
     </qresource>
     <qresource prefix="/watcher">
         <file>watcher_unix</file>

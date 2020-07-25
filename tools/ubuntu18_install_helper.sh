@@ -29,5 +29,5 @@ done
                    
 sudo apt install qt5-default build-essential
 g++ watcher_unix.cpp -o watcher_unix -O2
-qmake lemon.pro
+cmake .
 make
