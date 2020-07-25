@@ -35,6 +35,10 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
         uses: actions/checkout@v2
         with:
