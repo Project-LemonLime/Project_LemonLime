@@ -5,7 +5,7 @@ set -e
 # 打印执行的命令
 set -v
 
-qt_ver = $(pkg-config --modversion Qt5Core)
+qt_ver=$(pkg-config --modversion Qt5Core)
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }

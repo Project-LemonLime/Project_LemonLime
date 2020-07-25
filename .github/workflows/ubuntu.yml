@@ -43,7 +43,7 @@ jobs:
         run: sudo apt-get install -y libglew-dev libglfw3-dev
       - name: Install build dependencies
         run: |
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf
+          sudo apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
