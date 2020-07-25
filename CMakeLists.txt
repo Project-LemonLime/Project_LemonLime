@@ -217,7 +217,6 @@ if(UNIX AND NOT APPLE AND NOT WIN32)
 endif()
 
 
-include(CPack)
 
 # Packaging
 set(CPACK_PACKAGE_NAME "Lemon")
@@ -242,3 +241,6 @@ if(UNIX)
     #    set(CPACK_RPM_PACKAGE_LICENSE "GPL3")
     #endif()
 endif()
+
+# Must Here
+include(CPack)
