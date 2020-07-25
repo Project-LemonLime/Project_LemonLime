@@ -48,8 +48,8 @@ jobs:
       - name: build macos
         run: |
           clang++ watcher_macos.cpp -o watcher_unix -O2
-          qmake lemon.pro
-          make
+          cmake .
+          cmake --build .
       # tag 打包
       - name: package
         if: startsWith(github.event.ref, 'refs/tags/')

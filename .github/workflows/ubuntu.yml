@@ -41,6 +41,9 @@ jobs:
           version: ${{ matrix.qt_ver }}
       - name: ubuntu install GL library
         run: sudo apt-get install -y libglew-dev libglfw3-dev
+      - name: Install build dependencies
+        run: |
+          sudo apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
@@ -48,5 +51,5 @@ jobs:
       - name: build ubuntu
         run: |
           g++ watcher_unix.cpp -o watcher_unix -O2
-          qmake lemon.pro
-          make
+          cmake . -GNinja
+          cmake --build . --parallel $(nproc)

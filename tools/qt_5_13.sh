@@ -5,7 +5,6 @@ set -e
 # 打印执行的命令
 set -v
 
-cd "$1"
 
 # Since Qt 5.13
 has_swapItemsAt=(  'contest.cpp'
@@ -13,5 +12,5 @@ has_swapItemsAt=(  'contest.cpp'
                    )
 
 for i in "${has_swapItemsAt[@]}"; do
-    sed -i 's/swapItemsAt/swap/g' "$i"
+    sed -i 's/swapItemsAt/swap/g' "$1"/"$i"
 done

@@ -1,0 +1,21 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Name=LemonLime
+Type=Application
+GenericName=A tiny judging environment for OI contest
+GenericName[zh_CN]=为了 OI 比赛而生的轻量评测系统
+GenericName[zh_TW]=為了 OI 比賽而生的輕量評測系統
+GenericName[ja]=OI競争のための軽量評価システム
+Comment=A tiny judging environment for OI contest based on Project_LemonPlus
+Comment[zh_CN]=为了 OI 比赛而生的基于 Lemon + LemonPlus 的轻量评测系统
+Comment[zh_TW]=為了 OI 比賽而生的基於 Lemon + LemonPlus 的輕量評測系統
+GenericName[ja]=Lemon + LemonPlusに基づくOI競争用の軽量評価システム
+Keywords=OI;Qt;Judge;
+Keywords[zh_CN]=OI;Qt;评测;
+Keywords[ja]=OI;Qt;評価;
+Categories=Tools;
+Terminal=false
+Path=/usr/bin
+Exec=lemon-lime
+Icon=lemon-lime
