@@ -47,7 +47,6 @@ jobs:
           submodules: true
           ref: master
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages 
-        if: matrix.platform == 'macos-latest'
         run: |
           brew install ninja pkg-config
       - name: build macos
