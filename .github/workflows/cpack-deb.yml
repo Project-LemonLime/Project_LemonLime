@@ -20,6 +20,7 @@ jobs:
           echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
   linux:
     strategy:
+        fail-fast: false
         matrix:
           distro: [stable, testing, sid]
           #distro: [testing, sid]

@@ -77,7 +77,7 @@ endif()
 
 if(VER_CHECK)
     execute_process(COMMAND ${CMAKE_SOURCE_DIR}/tools/checker.sh)
-endif
+endif()
 
 set(SRC
 	src/main.cpp
