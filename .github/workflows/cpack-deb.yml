@@ -21,7 +21,7 @@ jobs:
   linux:
     strategy:
         matrix:
-          distro: [stable]
+          distro: [stable, testing, sid]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Debian ${{ matrix.distro }}
@@ -39,12 +39,12 @@ jobs:
           submodules: 'recursive'
       - name: Install build dependencies
         run: |
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf
+          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
       - name: Build
         run: |
-          tools/checker.sh
           mkdir build
           cd build
+          ../tools/checker.sh
           cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
           cmake --build . --target package --parallel $(nproc)
       - name: Get package name
