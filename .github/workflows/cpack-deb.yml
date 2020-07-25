@@ -42,9 +42,7 @@ jobs:
           apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf
       - name: Build
         run: |
-          cd tools
-          ./checker.sh
-          cd ..
+          tools/checker.sh
           mkdir build
           cd build
           cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
