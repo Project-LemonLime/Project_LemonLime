@@ -44,8 +44,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          ../tools/checker.sh
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON -DVER_CHECK=ON
           cmake --build . --target package --parallel $(nproc)
       - name: Get package name
         shell: bash
