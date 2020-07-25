@@ -56,14 +56,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ steps.get_package.outputs.NAME }}
+          name: Lemon-${{ steps.get_version.outputs.VERSION }}-${{ matrix.distro }}.deb
           path: build/${{ steps.get_package.outputs.NAME }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
-        if: github.event_name == 'release' && matrix.distro == 'stable'
+        if: github.event_name == 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/${{ steps.get_package.outputs.NAME }}
-          asset_name: Lemon.${{ steps.get_version.outputs.VERSION }}-${{ matrix.distro }}.deb
+          asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-${{ matrix.distro }}.deb
           tag: ${{ github.ref }}
           overwrite: true
