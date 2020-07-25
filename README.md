@@ -6,8 +6,10 @@
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
 
-现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/Ubuntu/badge.svg)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
+现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/Ubuntu/badge.svg)
 ，Windows ![Windows](https://github.com/iotang/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/iotang/Project_LemonLime/workflows/MacOS/badge.svg)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
 
@@ -92,6 +94,15 @@ $ git clone https://github.com/iotang/Project_LemonLime.git --recursive
 ### Windows
 
 去 `Releases` 下载就可以了。
+
+#### Scoop 用户
+
+添加[第三方 bucket](https://github.com/ChungZH/peach) 即可快速安装与更新
+
+```powershell
+scoop bucket add peach https://github.com/ChungZH/peach
+scoop install peach/lemon
+```
 
 当然如果你装有 Qt 5，也可以下载源码编译。
 
