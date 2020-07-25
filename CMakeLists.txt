@@ -10,9 +10,6 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/forms)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-if(WIN32)
-    add_compile_options("/std:c++11")
-endif()
 add_link_options(-no-pie)
 
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
@@ -20,6 +17,7 @@ add_subdirectory(singleapplication)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS AxContainer REQUIRED)
+    add_compile_definitions(UNICODE _UNICODE)
 endif()
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
