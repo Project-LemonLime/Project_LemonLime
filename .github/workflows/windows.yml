@@ -80,7 +80,6 @@ jobs:
           cmake . -GNinja
           cmake --build . --parallel $(nproc)
       - name: package
-        if: startsWith(github.event.ref, 'refs/tags/')
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh

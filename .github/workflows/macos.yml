@@ -54,12 +54,11 @@ jobs:
           clang++ watcher_macos.cpp -o watcher_unix -O2
           cmake . -GNinja
           cmake --build . --parallel $(nproc)
-          ls
       # tag 打包
       - name: package
         run: |
           # 拷贝依赖
-          ls -al
+          mv ${targetName} ${targetName}.app
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
