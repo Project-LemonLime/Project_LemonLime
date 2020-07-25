@@ -1,4 +1,4 @@
-<img src="pics/icon.png" align=right />
+<img src="assets/lemon-lime.png" align=right />
 
 # Project_LemonLime (Beta)
 
@@ -21,8 +21,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
 |Manjaro|20.0.1|64|KDE-Xorg; i3WM|
-|Arch|2020-6-20|64|KDE-Xorg|
-|Arch|2020-3-20|64|KDE-Wayland|
+|Arch|2020-7-25|64|KDE-Xorg|
+|Arch|2020-7-25|64|KDE-Wayland|
 |Ubuntu|20.04|64|GNOME 3|
 |Ubuntu|18.04.4|64|GNOME 3|
 |NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
@@ -112,12 +112,12 @@ yay -S lemon-lime # 稳定版本
 yay -S lemon-lime-git # 开发版本（提前使用许多新功能！）
 # 感谢 @ayalhw 的支持。
 
-## 使用 qmake ##
-sudo pacman -S gcc make qt5-base # 依赖环境
+## 使用 CMake ##
+sudo pacman -S gcc cmake qt5-base ninja make # 依赖环境(ninja 和 make 二选一)
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
-qmake lemon.pro
-make # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
+cmake . --build # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo pacman -S qtcreator
@@ -127,11 +127,11 @@ sudo pacman -S qtcreator
 
 ```bash
 ## 使用 qmake ##
-sudo apt install qt5-default build-essential # 依赖环境
+sudo apt install qt5-default build-essential ninja-build qtbase5-dev qttools5-dev cmake # 依赖环境, ninja 可选
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
-qmake lemon.pro
-make # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
+cmake . --build # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo apt install qtcreator
@@ -176,11 +176,11 @@ NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能�
 
 ```bash
 ## 使用 qmake ##
-sudo yum install g++ make qt5 # 依赖环境
+sudo yum install g++ make qt5 cmake ninja # 依赖环境(ninja 和 make 二选一)
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
-qmake-qt5 lemon.pro
-make # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
+cmake . --build # 获得可执行文件 lemon
 ```
 
 #### openSUSE 系
@@ -199,8 +199,8 @@ sudo zypper install libqt5-creator
 
 ```bash
 clang++ watcher_macos.cpp -o watcher_unix -O2
-qmake lemon.pro
-make
+cmake .
+cmake --build .
 ```
 
 ## 致谢
