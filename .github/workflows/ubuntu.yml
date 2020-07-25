@@ -48,6 +48,7 @@ jobs:
         with:
           fetch-depth: 1
           submodules: true
+          ref: master
       - name: build ubuntu
         run: |
           g++ watcher_unix.cpp -o watcher_unix -O2

@@ -45,6 +45,7 @@ jobs:
         with:
           fetch-depth: 1
           submodules: true
+          ref: master
       - name: build macos
         run: |
           clang++ watcher_macos.cpp -o watcher_unix -O2
