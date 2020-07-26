@@ -1,4 +1,4 @@
-name: CPack - DEB
+name: CPack - DEB - Debian
 
 on:
   push:
@@ -22,13 +22,12 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          distro: [stable, testing, sid]
-          #distro: [testing, sid]
+          distro: [14.04, 16.04, 18.04, 20.04]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
-    name: Debian ${{ matrix.distro }}
+    name: Ubuntu ${{ matrix.distro }}
     runs-on: ubuntu-latest
-    container: debian:${{ matrix.distro }}
+    container: ubuntu:${{ matrix.distro }}
 
     steps:
       - name: Install git
@@ -61,7 +60,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: Lemon-${{ steps.get_version.outputs.VERSION }}-${{ matrix.distro }}.deb
+          name: Lemon-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
           path: build/${{ steps.get_package.outputs.NAME }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
@@ -69,6 +68,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/${{ steps.get_package.outputs.NAME }}
-          asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-${{ matrix.distro }}.deb
+          asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
           tag: ${{ github.ref }}
           overwrite: true

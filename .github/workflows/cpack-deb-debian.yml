@@ -1,0 +1,74 @@
+name: CPack - DEB - Debian
+
+on:
+  push:
+  release:
+    types: [published]
+
+jobs:
+  check_commit_msg:
+    outputs:
+      commit_message: ${{ steps.get_message.outputs.message }}
+    name: Check if the workflow has been disabled.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Get commit message
+        id: get_message
+        run: |
+          echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+          echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+  linux:
+    strategy:
+        fail-fast: false
+        matrix:
+          distro: [stable, testing, sid]
+          #distro: [testing, sid]
+    needs: check_commit_msg
+    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
+    name: Debian ${{ matrix.distro }}
+    runs-on: ubuntu-latest
+    container: debian:${{ matrix.distro }}
+
+    steps:
+      - name: Install git
+        run: |
+          apt-get update
+          apt-get install -y git
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Checking out sources
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          ref: master
+      - name: Install build dependencies
+        run: |
+          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
+          cmake --build . --target package --parallel $(nproc)
+      - name: Get package name
+        shell: bash
+        id: get_package
+        run: |
+          echo ::set-output name=NAME::$(basename build/Lemon-*.deb)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: Lemon-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+          path: build/${{ steps.get_package.outputs.NAME }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        if: github.event_name == 'release'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/${{ steps.get_package.outputs.NAME }}
+          asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+          tag: ${{ github.ref }}
+          overwrite: true
