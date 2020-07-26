@@ -22,7 +22,8 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          distro: [14.04, 16.04, 18.04, 20.04]
+          #distro: [14.04, 16.04, 18.04, 20.04]
+          distro: [18.04, 20.04]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Ubuntu ${{ matrix.distro }}
@@ -46,11 +47,6 @@ jobs:
         with:
           submodules: 'recursive'
           ref: master
-      - name: Install build dependencies(prepare)
-        if: github.event_name != '20.04'
-        run: |
-          add-apt-repository ppa:olive-editor/cmake
-          apt-get update
       - name: Install build dependencies
         run: |
           apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
