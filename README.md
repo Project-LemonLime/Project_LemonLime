@@ -37,6 +37,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |Fedora|31-1.9|64|XFCE|
 |openSUSE|Leap 15.1|64|iceWM|
 
+如果您在您的系统上做了测试，请前往 [#49](https://github.com/iotang/Project_LemonLime/issues/49) 告知
+
 ## 特色
 
 以下是一些非常重要的改动：
