@@ -22,6 +22,11 @@
 #include "testcase.h"
 #include "ui_exttestcasemodifier.h"
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
+#define qAsConst
+#endif
+
+
 ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) : QWidget(parent), ui(new Ui::ExtTestCaseModifier)
 {
 	ui->setupUi(this);

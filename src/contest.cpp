@@ -35,6 +35,10 @@
 #include <QMessageBox>
 #include <utility>
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#define swapItemsAt swap
+#endif
+
 Contest::Contest(QObject *parent) : QObject(parent) {}
 
 void Contest::setSettings(Settings *_settings) { settings = _settings; }

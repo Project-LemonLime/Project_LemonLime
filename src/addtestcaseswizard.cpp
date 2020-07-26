@@ -26,6 +26,10 @@
 #include <QMessageBox>
 #include <algorithm>
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
+#define qAsConst
+#endif
+
 AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddTestCasesWizard)
 {
 	ui->setupUi(this);

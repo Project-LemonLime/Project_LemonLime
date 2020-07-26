@@ -22,8 +22,8 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          #distro: [stable, testing, sid]
-          distro: [testing, sid]
+          distro: [stable, testing, sid]
+          #distro: [testing, sid]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Debian ${{ matrix.distro }}
@@ -51,7 +51,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON -DVER_CHECK=ON
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
           cmake --build . --target package --parallel $(nproc)
       - name: Get package name
         shell: bash

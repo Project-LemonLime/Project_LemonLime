@@ -36,6 +36,10 @@
 #include "testcase.h"
 #include <utility>
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#endif
+
 AssignmentThread::AssignmentThread(QObject *parent) : QThread(parent)
 {
 	moveToThread(this);

@@ -37,6 +37,10 @@
 #include <QMessageBox>
 #include <QScrollBar>
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#endif
+
 DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog)
 {
 	ui->setupUi(this);
@@ -198,7 +202,11 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (timeUsed[j][k] != -1)
 				{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#else
+                    htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#endif
 				}
 				else
 				{
@@ -210,7 +218,11 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 				if (memoryUsed[j][k] != -1)
 				{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#else
+                    htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#endif
 				}
 				else
 				{
