@@ -147,7 +147,7 @@ sudo apt install qt5-default build-essential ninja-build qtbase5-dev qttools5-de
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake . --build # 获得可执行文件 lemon
+cmake --build .  # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo apt install qtcreator
@@ -196,7 +196,7 @@ sudo yum install g++ make qt5 cmake ninja # 依赖环境(ninja 和 make 二选�
 cd 源代码的目录
 g++ watcher_unix.cpp -o watcher_unix -O2
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake . --build # 获得可执行文件 lemon
+cmake --build . # 获得可执行文件 lemon
 ```
 
 #### openSUSE 系
