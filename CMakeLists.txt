@@ -22,7 +22,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #add_link_options(-no-pie)
 
@@ -32,7 +32,7 @@ add_subdirectory(3rdparty/SingleApplication)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS AxContainer REQUIRED)
-    add_compile_options("/std:c++11")
+    add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
 endif()
 

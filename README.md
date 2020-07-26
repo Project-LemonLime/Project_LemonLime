@@ -153,38 +153,14 @@ cmake --build .  # 获得可执行文件 lemon
 sudo apt install qtcreator
 ```
 
-##### \* Ubuntu 18 及更老
+##### \* Ubuntu 18 及更老 (包括 NOI Linux 这种毒瘤
 
 Ubuntu 18 用 apt 安装的 Qt 版本只能到 5.9。
 
-在 qmake 前你需要：
--   把代码中所有 `swapItemsAt` 换成 `swap`。
--   把代码中所有 `Qt::SkipEmptyParts` 换成 `QString::SkipEmptyParts`。
-
-也许代码 tools 目录下的 `ubuntu18_install_helper.sh` 脚本对你有用。
-
-##### \* Ubuntu 16 及更老
-
 Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
-
-在 qmake 前你还需要：
--   把代码中所有 `qAsConst` 删除。
-
-也许代码 tools 目录下的 `ubuntu16_install_helper.sh` 脚本对你有用。
-
-##### \* NOI Linux （Ubuntu 14 及更老）
+GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命（目前还是可以的，等到迁移 Qt6 估计就不行了
 
 NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
-
-在 qmake 前你还需要：
--   删除 `lemon.ui` 里面的 `<property name="tabBarAutoHide">...` 开始的 3 行。因为 Qt 5.2 里面还没有这个特性！
--   删除 `lemon.pro` 的 `unix:QMAKE_LFLAGS += -no-pie` 那一行。
--   把代码中所有 `asprintf` 换成 `sprintf`。
-
-也许代码 tools 目录下的 `ubuntu14_install_helper.sh` 脚本对你有用。
-
-或者
--   在 Qt 官网上找一个更高版本（比如 5.15）的 Qt 安装。
 
 *arbiter 退出了群聊。*
 
