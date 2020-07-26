@@ -19,7 +19,7 @@ done
 # Since Qt 5.4
 sed -i '/<property name="tabBarAutoHide">/,+2d' forms/lemon.ui
 # Since GCC 6.x compiled with option "--enable-default-pie"
-sed -i '/unix:QMAKE_LFLAGS += -no-pie/d' lemon.pro
+sed -i '/add_link_options(-no-pie)/d' CMakeLists.txt
 
 cd ../tools
 
