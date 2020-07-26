@@ -28,7 +28,6 @@
 #include "judgesharedvariables.h"
 #include "settings.h"
 #include "task.h"
-#include <QRandomGenerator>
 #include <QTime>
 #include <cmath>
 #include <cstdio>
