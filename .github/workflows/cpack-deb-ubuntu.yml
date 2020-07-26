@@ -48,6 +48,8 @@ jobs:
           ref: master
       - name: Install build dependencies
         run: |
+          add-apt-repository ppa:olive-editor/cmake
+          apt-get update
           apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
       - name: Build
         run: |
