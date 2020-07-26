@@ -15,5 +15,5 @@ has_qAsConst=(  'testcase.cpp'
                 )
 
 for i in "${has_qAsConst[@]}"; do
-    sed -i 's/qAsConst\(([a-zA-Z]*)\)/\1/g' "$1"/"$i"
+    sed -i 's/qAsConst\(([a-zA-Z]*)\)/\1/g' "$1"/src/"$i"
 done

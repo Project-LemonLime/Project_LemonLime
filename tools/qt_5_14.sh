@@ -13,5 +13,5 @@ has_Qt_SkipEmptyParts=(	'compiler.cpp'
 						)
 
 for i in "${has_Qt_SkipEmptyParts[@]}"; do
-    sed -i 's/Qt::SkipEmptyParts/QString::SkipEmptyParts/g' "$1"/"$i"
+    sed -i 's/Qt::SkipEmptyParts/QString::SkipEmptyParts/g' "$1"/src/"$i"
 done

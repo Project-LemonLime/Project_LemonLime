@@ -7,4 +7,4 @@ set -v
 
 
 # Since Qt 5.4
-sed -i '/<property name="tabBarAutoHide">/,+2d' "$1"/forms/lemon.ui
+sed -i '/<property name="tabBarAutoHide">/,+2d' "$1"/src/forms/lemon.ui

@@ -12,5 +12,5 @@ has_asprintf=(  'detaildialog.cpp'
                 )
 
 for i in "${has_asprintf[@]}"; do
-    sed -i 's/asprintf/sprintf/g' "$1"/"$i"
+    sed -i 's/asprintf/sprintf/g' "$1"/src/"$i"
 done

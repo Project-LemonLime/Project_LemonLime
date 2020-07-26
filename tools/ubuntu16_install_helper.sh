@@ -5,7 +5,7 @@ set -e
 # 打印执行的命令
 set -v
 
-cd ..
+cd ../src
 
 # Since Qt 5.7
 has_qAsConst=(  'testcase.cpp'
@@ -18,5 +18,7 @@ has_qAsConst=(  'testcase.cpp'
 for i in "${has_qAsConst[@]}"; do
     sed -i 's/qAsConst\(([a-zA-Z]*)\)/\1/g' "$i"
 done
+
+cd ../tools
 
 source ./ubuntu18_install_helper.sh
