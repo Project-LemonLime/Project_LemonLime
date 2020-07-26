@@ -22,8 +22,10 @@
 
 #include "compiler.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#define QT_SkipEmptyParts Qt::SkipEmptyParts
+#else
+#define QT_SkipEmptyParts QString::SkipEmptyParts
 #endif
 
 Compiler::Compiler(QObject *parent) : QObject(parent)
@@ -66,7 +68,7 @@ void Compiler::setCompilerName(const QString &name) { compilerName = name; }
 
 void Compiler::setSourceExtensions(const QString &extensions)
 {
-	sourceExtensions = extensions.split(";", Qt::SkipEmptyParts);
+	sourceExtensions = extensions.split(";", QT_SkipEmptyParts);
 }
 
 void Compiler::setCompilerLocation(const QString &location) { compilerLocation = location; }
@@ -75,7 +77,7 @@ void Compiler::setInterpreterLocation(const QString &location) { interpreterLoca
 
 void Compiler::setBytecodeExtensions(const QString &extensions)
 {
-	bytecodeExtensions = extensions.split(";", Qt::SkipEmptyParts);
+	bytecodeExtensions = extensions.split(";", QT_SkipEmptyParts);
 }
 
 void Compiler::setEnvironment(const QProcessEnvironment &env) { environment = env; }

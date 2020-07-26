@@ -31,8 +31,10 @@
 #define swapItemsAt swap
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#define QT_SkipEmptyParts Qt::SkipEmptyParts
+#else
+#define QT_SkipEmptyParts QString::SkipEmptyParts
 #endif
 
 Settings::Settings(QObject *parent) : QObject(parent) {}
@@ -256,12 +258,12 @@ void Settings::setDefaultOutputFileExtension(const QString &extension)
 
 void Settings::setInputFileExtensions(const QString &extensions)
 {
-	inputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
+	inputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions)
 {
-	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
+	outputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
 }
 
 void Settings::setRecentContest(const QStringList &list) { recentContest = list; }
