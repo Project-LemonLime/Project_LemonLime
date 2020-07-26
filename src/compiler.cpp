@@ -22,6 +22,10 @@
 
 #include "compiler.h"
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#endif
+
 Compiler::Compiler(QObject *parent) : QObject(parent)
 {
 	compilerType = Typical;

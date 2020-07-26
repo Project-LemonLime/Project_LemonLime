@@ -37,6 +37,13 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <algorithm>
+#include <iostream>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+#define ENDL Qt::endl
+#else
+#define ENDL endl
+#endif
 
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
@@ -199,7 +206,11 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 				if (timeUsed[j][k] != -1)
 				{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#else
+                    htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#endif
 				}
 				else
 				{
@@ -212,7 +223,11 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 				if (memoryUsed[j][k] != -1)
 				{
-					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+                    htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#else
+                    htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#endif
 				}
 				else
 				{
@@ -583,7 +598,11 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 				if (timeUsed[j][k] != -1)
 				{
-					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+                    htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#else
+                    htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+#endif
 				}
 				else
 				{
@@ -595,7 +614,11 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 				if (memoryUsed[j][k] != -1)
 				{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#else
+                    htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+#endif
 				}
 				else
 				{
@@ -822,7 +845,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		    << ",";
 	}
 
-	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
+    out << "\"" << tr("Total Score") << "\"" << ENDL;
 
 	for (auto &i : sortList)
 	{
@@ -852,11 +875,11 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 		if (score != -1)
 		{
-			out << "\"" << score << "\"" << Qt::endl;
+			out << "\"" << score << "\"" << ENDL;
 		}
 		else
 		{
-			out << "\"" << tr("Invalid") << "\"" << Qt::endl;
+			out << "\"" << tr("Invalid") << "\"" << ENDL;
 		}
 	}
 

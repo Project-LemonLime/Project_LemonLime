@@ -27,6 +27,14 @@
 #include "settings.h"
 #include "compiler.h"
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#define swapItemsAt swap
+#endif
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#define Qt::SkipEmptyParts QString::SkipEmptyParts
+#endif
+
 Settings::Settings(QObject *parent) : QObject(parent) {}
 
 auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
