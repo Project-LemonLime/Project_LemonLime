@@ -49,7 +49,7 @@ jobs:
           ref: master
       - name: Install build dependencies
         run: |
-          DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration
+          DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
           apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
       - name: Build
         run: |
