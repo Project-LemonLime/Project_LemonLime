@@ -52,11 +52,6 @@ message("| Welcome to contribute!                              |")
 message("|-----------------------------------------------------|")
 message(" ")
 
-if(WIN32)
-    find_package(Qt5 COMPONENTS AxContainer REQUIRED)
-    add_compile_definitions(UNICODE _UNICODE)
-endif()
-
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 if(UNIX)
     if(Qt5Core_VERSION VERSION_LESS  5.4.0)
@@ -186,7 +181,17 @@ add_custom_target(lupdate
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-add_executable(lemon ${HEADERS} ${SRC} resource.qrc)
+# Suppressing console
+# Set Win32 Specific Settings
+if(WIN32)
+set(GUI_TYPE WIN32)
+endif()
+# Set Apple MacOS Specific settings
+if(APPLE)
+set(GUI_TYPE MACOSX_BUNDLE)
+endif(APPLE)
+
+add_executable(lemon ${GUI_TYPE} ${HEADERS} ${SRC} resource.qrc)
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
 if(WIN32)
     target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core Qt5::AxContainer SingleApplication::SingleApplication)
