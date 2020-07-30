@@ -58,7 +58,7 @@ jobs:
       - name: package
         run: |
           # 拷贝依赖
-          mv ${targetName} ${targetName}.app
+          #mv ${targetName} ${targetName}.app
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
