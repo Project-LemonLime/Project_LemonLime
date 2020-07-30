@@ -52,7 +52,7 @@ jobs:
       - name: build macos
         run: |
           clang++ watcher_macos.cpp -o watcher_unix -O2
-          cmake . -GNinja
+          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build . --parallel $(nproc)
       # tag 打包
       - name: package
