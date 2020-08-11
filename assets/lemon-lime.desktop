@@ -17,5 +17,5 @@ Keywords[ja]=OI;Qt;評価;
 Categories=Tools;
 Terminal=false
 Path=/usr/bin
-Exec=lemon-lime
+Exec=lemon
 Icon=lemon-lime
