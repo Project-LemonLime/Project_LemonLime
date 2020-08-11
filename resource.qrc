@@ -10,7 +10,7 @@
         <file>assets/lemon-lime.ico</file>
     </qresource>
     <qresource prefix="/icon">
-        <file alias="icon.png">assets/lemon-lime.256.png</file>
+        <file alias="icon.png">assets/icons/lemon-lime.png</file>
         <file alias="code-function.svg">pics/code-function.svg</file>
         <file alias="configure.svg">pics/configure.svg</file>
         <file alias="dialog-cancel.svg">pics/dialog-cancel.svg</file>
