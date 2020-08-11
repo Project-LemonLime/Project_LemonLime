@@ -23,7 +23,8 @@ jobs:
         fail-fast: false
         matrix:
           #distro: [14.04, 16.04, 18.04, 20.04]
-          distro: [18.04, 20.04]
+          distro: [16.04, 18.04, 20.04]
+          #arch: [x86, x64]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Ubuntu ${{ matrix.distro }}
@@ -50,7 +51,7 @@ jobs:
       - name: Install build dependencies
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
+          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash
       - name: Build
         run: |
           mkdir build
