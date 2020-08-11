@@ -24,7 +24,6 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#add_link_options(-no-pie)
 
 set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
@@ -53,11 +52,6 @@ message("|-----------------------------------------------------|")
 message(" ")
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
-if(UNIX)
-    if(Qt5Core_VERSION VERSION_LESS  5.4.0)
-        execute_process(COMMAND sed -i '/<property name="tabBarAutoHide">/,+2d' ${CMAKE_SOURCE_DIR}/src/forms/lemon.ui)
-    endif()
-endif()
 
 set(SRC
 	src/main.cpp
@@ -199,13 +193,46 @@ else()
     target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
 endif()
 
+include(CheckIPOSupported)
+check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
+
+if(LTO_SUPPORTED)
+    message(STATUS "IPO / LTO enabled")
+    set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+    message(STATUS "IPO / LTO not supported, disabled")
+endif()
+
+# Need CMake 3.14
+#cmake_policy(SET CMP0083 NEW)
+#include(CheckPIESupported)
+#check_pie_supported(OUTPUT_VARIABLE output LANGUAGES C)
+#
+#if(CMAKE_C_LINK_PIE_SUPPORTED)
+#    message(STATUS "PIE enabled")
+#    set_property(TARGET lemon PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+#else()
+#    message(STATUS "PIE not supported, disabled")
+#endif()
 
 if(UNIX AND NOT APPLE AND NOT WIN32)
     install(TARGETS lemon RUNTIME DESTINATION bin)
+    
+    #set(LEMON_LINUX_ICON_DIMENSIONS 16 22 32 48 64 128 256 512 1024)
+    set(LEMON_LINUX_ICON_DIMENSIONS 256)
+    #install(FILES assets/lemon-lime.metainfo.xml DESTINATION share/metainfo)
     install(FILES assets/lemon-lime.desktop DESTINATION share/applications)
-    install(FILES assets/lemon-lime.png DESTINATION share/icons/hicolor/256x256/apps)
+    #install(FILES assets/icons/lemon-lime.svg DESTINATION share/icons/hicolor/scalable/apps)
+    foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
+        install(FILES assets/icons/lemon-lime.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION share/icons/hicolor/${LEMON_LINUX_ICON_DIMENSION}x${LEMON_LINUX_ICON_DIMENSION}/apps RENAME lemon-lime.png)
+    endforeach(LEMON_LINUX_ICON_DIMENSION)
 endif()
 
+if(UNIX)
+    if(Qt5Core_VERSION VERSION_LESS  5.4.0)
+        execute_process(COMMAND sed -i '/<property name="tabBarAutoHide">/,+2d' ${CMAKE_SOURCE_DIR}/src/forms/lemon.ui)
+    endif()
+endif()
 
 
 # Packaging
