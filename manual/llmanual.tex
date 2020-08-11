@@ -16,7 +16,7 @@
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,
-	filecolor=black,      
+	filecolor=black,
 	urlcolor=black,
 	citecolor=black,
 }
@@ -31,8 +31,8 @@
 \pagecolor{white}
 
 \title{\textbf{\huge LemonLime 用户手册}}
-\author{\texttt{浮尘ii*, iotang}}
-\date{}
+\author{\texttt{浮尘ii*, iotang, Coelacanthus}}
+%\date{}
 
 \begin{document}
 	\maketitle
@@ -94,13 +94,21 @@
 		
 		也只能可惜 iotang 不够强了吧。\newline
 		
+		2020 年，因为功能欠缺的 qmake，
+		
+		Ceolacanthus 开始了把 LemonLime 从 QMake 迁移到 CMake 的路程。
+		
+		又因为不想每次都编译，她开始改造 LemonLime 的 CI，
+		
+		试图完成自动编译和打包，当然，这一切都还没完成。\newline
+		
 		本篇用户手册是仿照 LemonPlus 的用户手册进行编写的。
 		
 	\newpage
 	
 	\section{Lemon 与开源意志}
 		
-		LemonLime 使用 GPL v3 协议。也就是说，LemonLime 是自由软件。\newline
+		LemonLime 使用 \href{https://www.gnu.org/licenses/gpl-3.0.html}{GPLv3} 协议。也就是说，LemonLime 是自由软件。\newline
 		
 		自由软件是什么？为什么 LemonLime 选择成为自由软件？
 		
@@ -133,7 +141,7 @@
 			
 		Lemon，以及它的后继者们，拥抱开源。
 		
-		我们希望，Lemon 可以为全世界的 Oier 带来福祉。
+		我们希望，Lemon 可以为全世界的 OIer 带来福祉。
 		
 		让我们一起，把 Lemon 变得更好。
 		
@@ -146,6 +154,10 @@
 		LemonLime 近乎完全兼容 LemonPlus，出问题的地方在子任务依赖（为了支持 0 分测试点的让步，不过这个问题将会被解决）。不过这个问题在使用对应平台重新测试后就可以自动解决。
 		
 		LemonLime 完全兼容 Lemon。
+		
+		LemonLime 主要使用 Qt 编写，目前使用的是 Qt5。
+		
+		LemonLime 可以使用 \texttt{GCC}, \texttt{Clang} 和 \texttt{MSVC} 进行编译，但是如果在 Windows 下使用 \texttt{GCC} 编译则会遇到一些问题
 	
 	\newpage
 	
@@ -166,7 +178,7 @@
 				不过如果你获得了源码，可以通过 QtCreator 来编译 LemonLime。
 			
 			\subsubsection{Linux}
-			
+                
 				这里以 Manjaro 为例，毕竟 Linux 安装时几乎只有命令名字的区别。
 				
 				更多的系统请到 README.md 查看。
@@ -174,10 +186,10 @@
 				首先你得安装一些依赖。
 				
 				\begin{lstlisting}[language=bash,frame=shadowbox,basicstyle=\ttfamily]
-sudo pacman -S gcc make qt5-base
+sudo pacman -S gcc ninja qt5-base cmake
 				\end{lstlisting}
 				
-				注意 Manjaro 的 gcc 包含了 g++。
+				注意 Manjaro 的 gcc 包含了 \texttt{g++}。
 				
 				然后用某种途径获得源代码。比如使用 git：
 				
@@ -188,18 +200,25 @@ git clone https://github.com/iotang/Project_LemonLime.git
 				进入源代码的目录。
 				
 				\begin{lstlisting}[language=bash,frame=shadowbox,basicstyle=\ttfamily]
-cd 源代码的目录
+cd <源代码的目录>
 				\end{lstlisting}
 				
 				然后依次执行：
 				
 				\begin{lstlisting}[language=bash,frame=shadowbox,basicstyle=\ttfamily]
 g++ watcher_unix.cpp -o watcher_unix -O2
-qmake lemon.pro
-make
+cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
+cmake --build . --parallel $(nproc)
 				\end{lstlisting}
 				
 				获得可执行文件 lemon。打开 lemon 就可以运行 LemonLime 了。
+				
+				也可以执行
+				
+				\begin{lstlisting}[language=bash,frame=shadowbox,basicstyle=\ttfamily]
+cmake --install .
+				\end{lstlisting}
+				将其安装到系统中，默认安装位置位于 \verb|\usr\local|
 			
 		\newpage
 		
