@@ -55,7 +55,7 @@ jobs:
       - name: Install Python 3.7 version
         uses: actions/setup-python@v2
         with:
-          python-version: [3.7]
+          python-version: '3.7'
           architecture: ${{ matrix.arch }}
       - name: Restoring submodules
         run: git submodule update --init
