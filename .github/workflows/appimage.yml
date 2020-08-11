@@ -52,18 +52,18 @@ jobs:
         with:
           submodules: 'recursive'
           ref: master
-      - name: Install Python 3.7 version
-        uses: actions/setup-python@v2
-        with:
-          python-version: [3.7]
-          architecture: ${{ matrix.arch }}
+#      - name: Install Python 3.7 version
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: '3.7'
+#          architecture: ${{ matrix.arch }}
       - name: Restoring submodules
         run: git submodule update --init
 
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           sudo apt update
-          sudo apt install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf 
+          sudo apt install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf 
       # ========================================================================================================= Generate MakeFile and Build
       - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
