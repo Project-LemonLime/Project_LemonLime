@@ -53,21 +53,19 @@ jobs:
           submodules: 'recursive'
           ref: master
       - name: Install Python 3.7 version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.7"
+          python-version: [3.7]
           architecture: ${{ matrix.arch }}
       - name: Restoring submodules
         run: git submodule update --init
 
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
-        if: matrix.platform == 'ubuntu-16.04'
         run: |
           sudo apt update
           sudo apt install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf 
       # ========================================================================================================= Generate MakeFile and Build
       - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
-        if: matrix.platform == 'ubuntu-16.04'
         shell: bash
         env:
           CC: /usr/bin/gcc-7
@@ -80,7 +78,6 @@ jobs:
           cmake --install .
       # ========================================================================================================= Deployments
       - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
-        if: matrix.platform == 'ubuntu-16.04'
         run: |
           cd build
           wget https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage
@@ -103,7 +100,6 @@ jobs:
           ls .
           mv ./Lemon*.AppImage ./Lemon.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
-        if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@master
         with:
           name: Lemon-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
