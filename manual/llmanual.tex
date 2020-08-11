@@ -206,7 +206,6 @@ cd <源代码的目录>
 				然后依次执行：
 				
 				\begin{lstlisting}[language=bash,frame=shadowbox,basicstyle=\ttfamily]
-g++ watcher_unix.cpp -o watcher_unix -O2
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
 cmake --build . --parallel $(nproc)
 				\end{lstlisting}

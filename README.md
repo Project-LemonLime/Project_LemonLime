@@ -134,9 +134,8 @@ yay -S lemon-lime-git # 开发版本（提前使用许多新功能！）
 ## 使用 CMake ##
 sudo pacman -S gcc cmake qt5-base ninja make # 依赖环境(ninja 和 make 二选一)
 cd 源代码的目录
-g++ watcher_unix.cpp -o watcher_unix -O2
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build .  # 获得可执行文件 lemon
+cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo pacman -S qtcreator
@@ -148,9 +147,8 @@ sudo pacman -S qtcreator
 ## 使用 qmake ##
 sudo apt install qt5-default build-essential ninja-build qtbase5-dev qttools5-dev cmake # 依赖环境, ninja 可选
 cd 源代码的目录
-g++ watcher_unix.cpp -o watcher_unix -O2
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build .  # 获得可执行文件 lemon
+cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo apt install qtcreator
@@ -173,9 +171,8 @@ NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能�
 ## 使用 qmake ##
 sudo yum install g++ make qt5 cmake ninja # 依赖环境(ninja 和 make 二选一)
 cd 源代码的目录
-g++ watcher_unix.cpp -o watcher_unix -O2
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build . # 获得可执行文件 lemon
+cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
 ```
 
 #### openSUSE 系
@@ -202,9 +199,8 @@ PS：有可能会提示缺少 fuse, 请安装
 请使用 ``watcher_macos.cpp`` 编译 ``watcher_unix``，否则内存限制会出问题。
 
 ```bash
-clang++ watcher_macos.cpp -o watcher_unix -O2
-cmake .
-cmake --build .
+cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
+cmake --build . 
 ```
 
 ## 致谢
