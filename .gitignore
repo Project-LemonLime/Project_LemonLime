@@ -45,6 +45,7 @@ CMakeCache.txt
 CMakeFiles/
 build.ninja
 cmake_install.cmake
+build/
 
 lemon
 lemon_autogen/
