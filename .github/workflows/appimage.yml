@@ -1,4 +1,4 @@
-name: Lemon build matrix - cmake
+name: Lemon build matrix - AppImage
 
 on:
   # push代码时触发workflow
@@ -100,7 +100,7 @@ jobs:
           ls .
           mv ./Lemon*.AppImage ./Lemon.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: Lemon-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
           path: build/Lemon.AppImage

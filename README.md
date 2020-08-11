@@ -1,16 +1,18 @@
-<img src="assets/lemon-lime.png" align=right />
+<img src="assets/icons/lemon-lime.png" align=right />
 
-# Project_LemonLime (Beta)
+# Project LemonLime (Beta)
 
 为了 OI 比赛而生的基于 Lemon + LemonPlus 的轻量评测系统
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
 
-现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/Ubuntu/badge.svg)
+现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 ，Windows ![Windows](https://github.com/iotang/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/iotang/Project_LemonLime/workflows/MacOS/badge.svg)
 
 ![CPack - DEB - Debian](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
 ![CPack - DEB - Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
+
+![Linux - AppImage](https://github.com/iotang/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
@@ -27,8 +29,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |Windows|7|32, 64|Untitled|
 |Windows|10|64|Untitled|
 |Manjaro|20.0.1|64|KDE-Xorg; i3WM|
-|Arch|2020-7-25|64|KDE-Xorg|
-|Arch|2020-7-25|64|KDE-Wayland|
+|Arch|2020-8-11|64|KDE-Xorg|
+|Arch|2020-8-11|64|KDE-Wayland|
 |Ubuntu|20.04|64|GNOME 3|
 |Ubuntu|18.04.4|64|GNOME 3|
 |NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
@@ -183,6 +185,15 @@ cmake --build . # 获得可执行文件 lemon
 sudo zypper install --type pattern devel_basis
 sudo zypper install libqt5-creator
 ```
+
+### etc.
+
+有 AppImage 可用（虽然丑了点
+
+前往 Actions 或者 Release 界面下载，
+```chmod +x xxxx.AppImage``` 再执行即可（注意从 Actions 下载到的是一个压缩包
+
+PS：有可能会提示缺少 fuse, 请安装
 
 ### macOS
 
