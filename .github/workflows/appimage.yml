@@ -81,8 +81,8 @@ jobs:
         run: |
           cd build
           wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
-          chmod +x ./linuxdeployqt-6-x86_64.AppImage
-          ./linuxdeployqt-6-x86_64.AppImage --appimage-extract
+          chmod +x ./linuxdeployqt-7-x86_64.AppImage
+          ./linuxdeployqt-7-x86_64.AppImage --appimage-extract
           cd AppDir
           wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
           chmod a+x AppRun
