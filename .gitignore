@@ -48,6 +48,8 @@ cmake_install.cmake
 
 lemon
 lemon_autogen/
+watcher_unix
+watcher_unix_autogen/
 
 
 CPackConfig.cmake

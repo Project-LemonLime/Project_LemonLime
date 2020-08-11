@@ -52,9 +52,6 @@
         <file alias="qt_zh_CN.qm">translations/qt_zh_CN.qm</file>
         <file alias="qt_zh_TW.qm">translations/qt_zh_TW.qm</file>
     </qresource>
-    <qresource prefix="/watcher">
-        <file>watcher_unix</file>
-    </qresource>
     <qresource prefix="/manual">
         <file alias="llmanual.pdf">manual/llmanual.pdf</file>
     </qresource>
