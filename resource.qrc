@@ -46,13 +46,4 @@
         <file>pics/splash.png</file>
         <file alias="acrobat.svg">pics/acrobat.svg</file>
     </qresource>
-    <qresource prefix="/translation">
-        <file alias="lemon_zh_CN.qm">translations/lemon_zh_CN.qm</file>
-        <file alias="lemon_zh_TW.qm">translations/lemon_zh_TW.qm</file>
-        <file alias="qt_zh_CN.qm">translations/qt_zh_CN.qm</file>
-        <file alias="qt_zh_TW.qm">translations/qt_zh_TW.qm</file>
-    </qresource>
-    <qresource prefix="/manual">
-        <file alias="llmanual.pdf">manual/llmanual.pdf</file>
-    </qresource>
 </RCC>

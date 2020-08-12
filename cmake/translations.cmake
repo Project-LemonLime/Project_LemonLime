@@ -1,4 +1,7 @@
 find_package(Qt5 COMPONENTS LinguistTools)
 set(TRANSLATIONS_DIR ${CMAKE_SOURCE_DIR}/translations)
 file(GLOB TRANSLATIONS_TS ${TRANSLATIONS_DIR}/**.ts)
+#set_source_files_properties(${TRANSLATIONS_TS} PROPERTIES OUTPUT_LOCATION ${CMAKE_BINARY_DIR}/translations)
+#file(COPY ${TRANSLATIONS_DIR}/translations.qrc DESTINATION ${CMAKE_BINARY_DIR}/translations)
+#configure_file(${TRANSLATIONS_DIR}/translations.qrc ${CMAKE_BINARY_DIR}/translations/translations.qrc COPYONLY)
 qt5_add_translation(QM_FILES ${TRANSLATIONS_TS})

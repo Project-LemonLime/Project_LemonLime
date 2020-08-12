@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/manual">
+        <file alias="llmanual.pdf">llmanual.pdf</file>
+    </qresource>
+</RCC>

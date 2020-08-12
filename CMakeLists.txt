@@ -25,9 +25,20 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(EMBED_TRANSLATIONS "Embed translations" ON)
+
 set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 add_subdirectory(3rdparty/SingleApplication)
+
+include(cmake/translations.cmake)
+
+if(EMBED_TRANSLATIONS)
+    add_definitions(-DEMBED_TRANSLATIONS)
+    configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+    set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+endif()
+
 
 if(WIN32)
     find_package(Qt5 COMPONENTS AxContainer REQUIRED)
@@ -137,7 +148,7 @@ set(HEADERS
 	src/judgesharedvariables.h
 	)
 
-set(RESOURCES
+set(LEMON_UI_FORMS
 	src/forms/lemon.ui
 	src/forms/exttestcasemodifierdialog.ui
 	src/forms/exttestcasemodifier.ui
@@ -164,13 +175,26 @@ set(RESOURCES
 	src/forms/statisticsbrowser.ui
 	)
 
-include(cmake/translations.cmake)
+set(QRC_RESOURCES resource.qrc manual/manual.qrc)
+	
+set(LEMON_FULL_SOURCES
+    ${HEADERS}
+    ${SRC}
+    assets/lemon.rc
+    ${LEMON_UI_FORMS}
+    ${LEMON_UI_RESOURCES}
+    ${SINGLEAPPLICATION_SOURCES}
+    ${LEMON_EMBED_TRANSLATION_QRC}
+    ${QRC_RESOURCES}
+    ${QM_FILES}
+    )
+	
 
 # Qt language translations
 add_custom_target(lupdate
     COMMAND lupdate ${HEADERS}
     ${SRC}
-    ${RESOURCES}
+    ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
@@ -178,15 +202,15 @@ set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 # Suppressing console
 # Set Win32 Specific Settings
 if(WIN32)
-set(GUI_TYPE WIN32)
+    set(GUI_TYPE WIN32)
 endif()
 # Set Apple MacOS Specific settings
 if(APPLE)
-set(GUI_TYPE MACOSX_BUNDLE)
+    set(GUI_TYPE MACOSX_BUNDLE)
 endif(APPLE)
 
 if(WIN32)
-    add_executable(lemon ${GUI_TYPE} ${HEADERS} ${SRC} resource.qrc)
+    add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES})
 else()
     if(APPLE)
         add_executable(watcher_unix unix/watcher_macos.cpp)
@@ -194,7 +218,7 @@ else()
         add_executable(watcher_unix unix/watcher_linux.cpp)
     endif()
     configure_file(unix/watcher.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-    add_executable(lemon ${GUI_TYPE} ${HEADERS} ${SRC} resource.qrc ${CMAKE_BINARY_DIR}/watcher.qrc)
+    add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES} ${CMAKE_BINARY_DIR}/watcher.qrc)
     add_dependencies(lemon watcher_unix)
 endif()
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
