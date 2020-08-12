@@ -1,13 +1,12 @@
 Standard: Latest
 BasedOnStyle: LLVM
 BreakBeforeBraces: Allman
-IndentWidth: 3
-TabWidth: 3
+IndentWidth: 4
+TabWidth: 4
 UseTab: ForIndentation
 ColumnLimit: 110
 
-AccessModifierOffset: -3
-ContinuationIndentWidth: 3
+ContinuationIndentWidth: 4
 IndentCaseLabels: true
 NamespaceIndentation: All
 SpaceAfterLogicalNot: true
