@@ -36,8 +36,9 @@
 
 #ifdef Q_OS_WIN32
 // #pragma comment(lib, "Psapi.lib")
-#include <Psapi.h>
 #include <windows.h>
+//
+#include <Psapi.h>
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent)
