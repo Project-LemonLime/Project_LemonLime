@@ -153,7 +153,7 @@ void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked()
 
 	QString curPath = QDir::currentPath() + nowSettings->dataPath();
 	QString filePath = QFileDialog::getOpenFileName(
-	   this, tr("Choose Input File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
+	    this, tr("Choose Input File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
 
 	if (! filePath.isEmpty())
 	{
@@ -177,7 +177,7 @@ void ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked()
 
 	QString curPath = QDir::currentPath() + nowSettings->dataPath();
 	QString filePath = QFileDialog::getOpenFileName(
-	   this, tr("Choose Output File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
+	    this, tr("Choose Output File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
 
 	if (! filePath.isEmpty())
 	{

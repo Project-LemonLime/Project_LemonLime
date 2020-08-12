@@ -288,8 +288,8 @@ void Lemon::summarySelectionChanged()
 		Task *curTask = curContest->getTask(taskIndex);
 		TestCase *curTestCase = curTask->getTestCase(testCaseIndex);
 		ui->testCaseEdit->setEditTestCase(curTestCase, curTask->getTaskType() == Task::Traditional ||
-		                                                  curTask->getTaskType() == Task::Interaction ||
-		                                                  curTask->getTaskType() == Task::Communication);
+		                                                   curTask->getTaskType() == Task::Interaction ||
+		                                                   curTask->getTaskType() == Task::Communication);
 		ui->editWidget->setCurrentIndex(2);
 	}
 }
@@ -396,8 +396,8 @@ void Lemon::cleanupButtonClicked()
 	text += tr("Are you sure to Clean up Files?") + "<br>";
 	text += tr("Reading guide are recommended.") + "<br>";
 	QMessageBox::StandardButton res =
-	   QMessageBox::warning(this, tr("Clean up Files"), text,
-	                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::No);
+	    QMessageBox::warning(this, tr("Clean up Files"), text,
+	                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::No);
 
 	if (res == QMessageBox::Yes)
 	{
@@ -414,9 +414,9 @@ void Lemon::cleanupButtonClicked()
 
 		backupFolder = backupFolder.arg(backupNum);
 		text = tr("Making backup files to dir <br> `%1'?").arg(backupFolder) + "<br>";
-		QMessageBox::StandardButton doBackup =
-		   QMessageBox::information(this, tr("Clean up Files"), text,
-		                            QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::Yes);
+		QMessageBox::StandardButton doBackup = QMessageBox::information(
+		    this, tr("Clean up Files"), text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort,
+		    QMessageBox::Yes);
 
 		if (doBackup == QMessageBox::Abort)
 		{
@@ -584,18 +584,19 @@ void Lemon::cleanupButtonClicked()
 					int who = typeSet[taskName];
 					int types = taskList[who]->getTaskType();
 
-					if (types == Task::Traditional || types == Task::Interaction || types == Task::Communication)
+					if (types == Task::Traditional || types == Task::Interaction ||
+					    types == Task::Communication)
 					{
 						if (proFilName != taskList[who]->getInputFileName() &&
 						    proFilName != taskList[who]->getOutputFileName())
-							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + taskName +
-							                                     QDir::separator() + proFilName);
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() +
+							                                      taskName + QDir::separator() + proFilName);
 					}
 					else if (types == Task::AnswersOnly)
 					{
 						if (proFilWho.suffix() == taskList[who]->getAnswerFileExtension())
-							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() + taskName +
-							                                     QDir::separator() + proFilName);
+							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() +
+							                                      taskName + QDir::separator() + proFilName);
 					}
 				}
 
@@ -1136,9 +1137,9 @@ void Lemon::aboutLemon()
 	text += tr("Based on Project LemonPlus by Dust1404, 2019") + "<br>";
 	text += tr("Update by iotang and Coelacanthus") + "<br><br>";
 	text += tr("Build Date: %1").arg(QString(__DATE__) + QString(", ") + QString(__TIME__)) + "<br>";
-	text +=
-	   tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license") +
-	   "<br>";
+	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> "
+	           "license") +
+	        "<br>";
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 

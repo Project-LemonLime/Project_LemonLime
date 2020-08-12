@@ -36,7 +36,7 @@ class Settings;
 class Task : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	enum TaskType
 	{
 		Traditional,
@@ -121,7 +121,7 @@ public:
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
 
-private:
+  private:
 	QList<TestCase *> testCaseList;
 	QString problemTitle;
 	QString sourceFileName;
@@ -145,7 +145,7 @@ private:
 	QMap<QString, QString> compilerConfiguration;
 	QString answerFileExtension;
 
-signals:
+  signals:
 	void problemTitleChanged(const QString &);
 	void compilerConfigurationRefreshed();
 };

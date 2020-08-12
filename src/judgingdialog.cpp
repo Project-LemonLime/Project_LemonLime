@@ -148,7 +148,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
                                        int memoryUsed)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -303,7 +303,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 void JudgingDialog::dialogAlert(const QString &msg)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -320,7 +320,7 @@ void JudgingDialog::dialogAlert(const QString &msg)
 void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);
@@ -359,7 +359,7 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status)
 void JudgingDialog::taskJudgingStarted(const QString &taskName)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -376,7 +376,7 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList<QList
                                       const int mxScore)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -415,7 +415,7 @@ void JudgingDialog::taskJudgedDisplay(const QString &taskName, const QList<QList
 void JudgingDialog::contestantJudgingStart(const QString &contestantName)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextCharFormat charFormat;
 	charFormat.setFontPointSize(12);
 	charFormat.setFontWeight(QFont::Bold);
@@ -429,7 +429,7 @@ void JudgingDialog::contestantJudgingStart(const QString &contestantName)
 void JudgingDialog::contestantJudgingFinished()
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	cursor->insertBlock(blockFormat);
 	cursor->insertBlock(blockFormat);
@@ -442,7 +442,7 @@ void JudgingDialog::contestantJudgingFinished()
 void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const int score, const int mxScore)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(15);
 	cursor->insertBlock(blockFormat);
@@ -463,7 +463,7 @@ void JudgingDialog::contestantJudgedDisplay(const QString &contestantName, const
 void JudgingDialog::compileError(int progress, int compileState)
 {
 	bool isOnMaxValue =
-	   ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
+	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
 	blockFormat.setLeftMargin(30);
 	cursor->insertBlock(blockFormat);

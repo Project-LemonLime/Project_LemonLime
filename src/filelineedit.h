@@ -31,18 +31,18 @@
 class FileLineEdit : public QLineEdit
 {
 	Q_OBJECT
-public:
+  public:
 	explicit FileLineEdit(QWidget *parent = nullptr);
 	void setFilters(QDir::Filters);
 	void setFileExtensions(const QStringList &);
 	void getFiles(const QString &, const QString &, QStringList &);
 
-private:
+  private:
 	QCompleter *completer;
 	QStringList nameFilters;
 	QDir::Filters filters;
 
-public slots:
+  public slots:
 	void refreshFileList();
 };
 

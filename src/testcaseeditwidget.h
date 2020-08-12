@@ -42,21 +42,21 @@ class TestCaseEditWidget : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit TestCaseEditWidget(QWidget *parent = nullptr);
 	~TestCaseEditWidget();
 	void changeEvent(QEvent *);
 	void setEditTestCase(TestCase *, bool);
 	void setSettings(Settings *);
 
-private:
+  private:
 	Ui::TestCaseEditWidget *ui;
 	TestCase *editTestCase;
 	Settings *settings{};
 	QAction *deleteAction;
 	void refreshFileList();
 
-private slots:
+  private slots:
 	void addSingleCase();
 	void deleteSingleCase();
 	void fullScoreChanged(const QString &);
@@ -67,7 +67,7 @@ private slots:
 	void fileListSelectionChanged();
 	void fileListItemChanged(QTableWidgetItem *);
 
-signals:
+  signals:
 	void dataPathChanged();
 };
 

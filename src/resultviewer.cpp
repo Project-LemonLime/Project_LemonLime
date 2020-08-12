@@ -198,7 +198,8 @@ void ResultViewer::refreshViewer()
 			font.setBold(true);
 			item(i, 2)->setFont(font);
 			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double(totalUsedTime) / 1000);
-			item(i, taskList.size() + 4)->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
+			item(i, taskList.size() + 4)
+			    ->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
 			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
 		}
 		else
@@ -428,7 +429,7 @@ void ResultViewer::deleteContestant()
 {
 	auto *messageBox = new QMessageBox(QMessageBox::Warning, tr("LemonLime"),
 	                                   QString("<span style=\"font-size:large\">") +
-	                                      tr("Are you sure to delete selected contestant(s)?") + "</span>",
+	                                       tr("Are you sure to delete selected contestant(s)?") + "</span>",
 	                                   QMessageBox::Ok | QMessageBox::Cancel, this);
 	// QHBoxLayout *layout = new QHBoxLayout;
 	auto *checkBox = new QCheckBox(tr("Delete data in the disk as well"));

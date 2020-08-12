@@ -66,13 +66,14 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	for (int i = 0; i < taskList.size(); i++)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
-		               .arg(tr("Task"))
-		               .arg(taskList[i]->getProblemTile())
-		               .arg(i)
-		               .arg(tr("Rejudge"))
-		               .arg(contestant->getTaskScore(i))
-		               .arg(taskList[i]->getTotalScore());
+		htmlCode +=
+		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
+		        .arg(tr("Task"))
+		        .arg(taskList[i]->getProblemTile())
+		        .arg(i)
+		        .arg(tr("Rejudge"))
+		        .arg(contestant->getTaskScore(i))
+		        .arg(taskList[i]->getTotalScore());
 	}
 
 	htmlCode += "<HR>";
@@ -81,13 +82,13 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	{
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode +=
-		   QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
-		      .arg(tr("Task"))
-		      .arg(taskList[i]->getProblemTile())
-		      .arg(i)
-		      .arg(tr("Rejudge"))
-		      .arg(contestant->getTaskScore(i))
-		      .arg(taskList[i]->getTotalScore());
+		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
+		        .arg(tr("Task"))
+		        .arg(taskList[i]->getProblemTile())
+		        .arg(i)
+		        .arg(tr("Rejudge"))
+		        .arg(contestant->getTaskScore(i))
+		        .arg(taskList[i]->getTotalScore());
 
 		if (! contestant->getCheckJudged(i))
 		{
@@ -109,8 +110,8 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 					case CompileTimeLimitExceeded:
 						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
-						               .arg(tr("Source file: "))
-						               .arg(contestant->getSourceFile(i));
+						                .arg(tr("Source file: "))
+						                .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
 						break;
 
@@ -120,13 +121,14 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 					case CompileError:
 						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
-						               .arg(tr("Source file: "))
-						               .arg(contestant->getSourceFile(i));
+						                .arg(tr("Source file: "))
+						                .arg(contestant->getSourceFile(i));
 						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
 						if (! contestant->getCompileMessage(i).isEmpty())
 							htmlCode +=
-							   QString(R"(<a href="CompileMessage %1" style="text-decoration: none"> (...))").arg(i);
+							    QString(R"(<a href="CompileMessage %1" style="text-decoration: none"> (...))")
+							        .arg(i);
 
 						htmlCode += "</p>";
 						break;
@@ -138,7 +140,8 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				continue;
 			}
 
-			htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+			htmlCode +=
+			    QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
 		}
 
 		htmlCode += R"(<table width="100%" cellpadding="1" border="1"><tr>)";
@@ -166,37 +169,40 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				{
 					if (score[j].size() == inputFiles[j].size())
 						htmlCode +=
-						   QString(R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2</td>)")
-						      .arg(inputFiles[j].size())
-						      .arg(j + 1);
+						    QString(
+						        R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2</td>)")
+						        .arg(inputFiles[j].size())
+						        .arg(j + 1);
 					else
 						htmlCode +=
-						   QString(
-						      R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
-						      .arg(inputFiles[j].size())
-						      .arg(j + 1)
-						      .arg(tr("Subtask Dependence Status"))
-						      .arg(statusRankingText(score[j].back()));
+						    QString(
+						        R"(<td nowrap="nowrap" rowspan="%1" align="center" valign="middle">#%2<br>%3:%4</td>)")
+						        .arg(inputFiles[j].size())
+						        .arg(j + 1)
+						        .arg(tr("Subtask Dependence Status"))
+						        .arg(statusRankingText(score[j].back()));
 				}
 
-				htmlCode +=
-				   QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)").arg(inputFiles[j][k]);
+				htmlCode += QString(R"(<td nowrap="nowrap" align="center" valign="middle">%1</td>)")
+				                .arg(inputFiles[j][k]);
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
 				htmlCode +=
-				   QString(R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)")
-				      .arg(text)
-				      .arg(bgColor)
-				      .arg(frColor);
+				    QString(
+				        R"(<td align="center" valign="middle" style="background-color: %2; color: %3;">%1)")
+				        .arg(text)
+				        .arg(bgColor)
+				        .arg(frColor);
 
 				if (! message[j][k].isEmpty())
 				{
-					htmlCode += QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)")
-					               .arg(i)
-					               .arg(j)
-					               .arg(k);
+					htmlCode +=
+					    QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)")
+					        .arg(i)
+					        .arg(j)
+					        .arg(k);
 				}
 
 				htmlCode += "</td>";
@@ -207,7 +213,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
 #else
-                    htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
+					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
 #endif
 				}
 				else
@@ -223,7 +229,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
 #else
-                    htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
 #endif
 				}
 				else
@@ -267,12 +273,12 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 						bgColor = "rgb(255, 192, 192)";
 
 					htmlCode +=
-					   QString(
-					      R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)")
-					      .arg(inputFiles[j].size())
-					      .arg(bgColor)
-					      .arg(minv)
-					      .arg(maxv);
+					    QString(
+					        R"(<td rowspan="%1" align="center" valign="middle" style="background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)")
+					        .arg(inputFiles[j].size())
+					        .arg(bgColor)
+					        .arg(minv)
+					        .arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -317,7 +323,7 @@ void DetailDialog::anchorClicked(const QUrl &url)
 		QMessageBox(QMessageBox::NoIcon, tr("Compile Message"),
 		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
 		            QMessageBox::Close, this)
-		   .exec();
+		    .exec();
 	}
 
 	if (list[0] == "Message")
@@ -326,6 +332,6 @@ void DetailDialog::anchorClicked(const QUrl &url)
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
 		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),
 		            QMessageBox::Close, this)
-		   .exec();
+		    .exec();
 	}
 }

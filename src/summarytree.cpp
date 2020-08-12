@@ -82,9 +82,9 @@ void SummaryTree::changeEvent(QEvent *event)
 		addTestCasesAction->setText(QApplication::translate("SummaryTree", "Add Test Cases ...", nullptr));
 		deleteTaskAction->setText(QApplication::translate("SummaryTree", "Delete Current Task", nullptr));
 		deleteTestCaseAction->setText(
-		   QApplication::translate("SummaryTree", "Delete Current Test Case", nullptr));
+		    QApplication::translate("SummaryTree", "Delete Current Test Case", nullptr));
 		ExtTestCaseModifierAction->setText(
-		   QApplication::translate("SummaryTree", "Advanced Test Case Modifier", nullptr));
+		    QApplication::translate("SummaryTree", "Advanced Test Case Modifier", nullptr));
 
 		for (int i = 0; i < topLevelItemCount(); i++)
 		{
@@ -93,7 +93,7 @@ void SummaryTree::changeEvent(QEvent *event)
 			for (int j = 0; j < taskItem->childCount(); j++)
 			{
 				taskItem->child(j)->setText(
-				   0, QApplication::translate("SummaryTree", "Test Case #%1", nullptr).arg(j + 1));
+				    0, QApplication::translate("SummaryTree", "Test Case #%1", nullptr).arg(j + 1));
 			}
 		}
 	}
@@ -233,8 +233,8 @@ void SummaryTree::addTestCases()
 	Task *curTask = curContest->getTask(index);
 	auto *wizard = new AddTestCasesWizard(this);
 	wizard->setSettings(settings, curTask->getTaskType() == Task::Traditional ||
-	                                 curTask->getTaskType() == Task::Interaction ||
-	                                 curTask->getTaskType() == Task::Communication);
+	                                  curTask->getTaskType() == Task::Interaction ||
+	                                  curTask->getTaskType() == Task::Communication);
 
 	if (wizard->exec() == QDialog::Accepted)
 	{

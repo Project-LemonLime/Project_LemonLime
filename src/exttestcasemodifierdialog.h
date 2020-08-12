@@ -33,14 +33,14 @@ class ExtTestCaseModifierDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit ExtTestCaseModifierDialog(QWidget *parent = nullptr);
 	~ExtTestCaseModifierDialog();
 
 	void init(Task *, const Settings *);
 	Task *getEditTask();
 
-private:
+  private:
 	Ui::ExtTestCaseModifierDialog *ui;
 
 	Task *editTask;

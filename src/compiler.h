@@ -29,7 +29,7 @@
 class Compiler : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	enum CompilerType
 	{
 		Typical,
@@ -72,7 +72,7 @@ public:
 
 	void copyFrom(Compiler *);
 
-private:
+  private:
 	CompilerType compilerType;
 	QString compilerName;
 	QStringList sourceExtensions;

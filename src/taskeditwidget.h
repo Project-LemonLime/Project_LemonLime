@@ -39,14 +39,14 @@ class TaskEditWidget : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit TaskEditWidget(QWidget *parent = nullptr);
 	~TaskEditWidget();
 	void changeEvent(QEvent *);
 	void setEditTask(Task *);
 	void setSettings(Settings *);
 
-private:
+  private:
 	Ui::TaskEditWidget *ui;
 	Settings *settings{};
 	Task *editTask;
@@ -57,7 +57,7 @@ private:
 	void rmGraderFilesAt(int);
 	void multiFilesRefresh();
 
-private slots:
+  private slots:
 	void problemTitleChanged(const QString &);
 	void setToTraditional(bool);
 	void setToAnswersOnly(bool);
@@ -86,7 +86,7 @@ private slots:
 	void rmSourceFileClicked();
 	void rmGraderFileClicked();
 
-signals:
+  signals:
 	void dataPathChanged();
 };
 

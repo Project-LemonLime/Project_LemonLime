@@ -73,62 +73,63 @@
  */
 
 const char *latestFeatures[] = {
-   "Supported checker for local judger"
-   "Removed disable buffers for interactive problems, because it works unexpectedly in wine",
-   "InStream over string: constructor of InStream from base InStream to inherit policies and std::string",
-   "Added expectedButFound quit function, examples: expectedButFound(_wa, 10, 20), expectedButFound(_fail, "
-   "ja, pa, \"[n=%d,m=%d]\", n, m)",
-   "Fixed incorrect interval parsing in patterns",
-   "Use registerGen(argc, argv, 1) to develop new generator, use registerGen(argc, argv, 0) to compile old "
-   "generators (originally created for testlib under 0.8.7)",
-   "Introduced disableFinalizeGuard() to switch off finalization checkings",
-   "Use join() functions to format a range of items as a single string (separated by spaces or other "
-   "separators)",
-   "Use -DENABLE_UNEXPECTED_EOF to enable special exit code (by default, 8) in case of unexpected eof. It is "
-   "good idea to use it in interactors",
-   "Use -DUSE_RND_AS_BEFORE_087 to compile in compatibility mode with random behavior of versions before "
-   "0.8.7",
-   "Fixed bug with nan in stringToDouble",
-   "Fixed issue around overloads for size_t on x64",
-   "Added attribute 'points' to the XML output in case of result=_points",
-   "Exit codes can be customized via macros, e.g. -DPE_EXIT_CODE=14",
-   "Introduced InStream function readWordTo/readTokenTo/readStringTo/readLineTo for faster reading",
-   "Introduced global functions: format(), englishEnding(), upperCase(), lowerCase(), compress()",
-   "Manual buffer in InStreams, some IO speed improvements",
-   "Introduced quitif(bool, const char* pattern, ...) which delegates to quitf() in case of first argument "
-   "is true",
-   "Introduced guard against missed quitf() in checker or readEof() in validators",
-   "Supported readStrictReal/readStrictDouble - to use in validators to check strictly float numbers",
-   "Supported registerInteraction(argc, argv)",
-   "Print checker message to the stderr instead of stdout",
-   "Supported TResult _points to output calculated score, use quitp(...) functions",
-   "Fixed to be compilable on Mac",
-   "PC_BASE_EXIT_CODE=50 in case of defined TESTSYS",
-   "Fixed issues 19-21, added __attribute__ format printf",
-   "Some bug fixes",
-   "ouf.readInt(1, 100) and similar calls return WA",
-   "Modified random_t to avoid integer overflow",
-   "Truncated checker output [patch by Stepan Gatilov]",
-   "Renamed class random -> class random_t",
-   "Supported name parameter for read-and-validation methods, like readInt(1, 2, \"n\")",
-   "Fixed bug in readDouble()",
-   "Improved ensuref(), fixed nextLine to work in case of EOF, added startTest()",
-   "Supported \"partially correct\", example: quitf(_pc(13), \"result=%d\", result)",
-   "Added shuffle(begin, end), use it instead of random_shuffle(begin, end)",
-   "Added readLine(const string& ptrn), fixed the logic of readLine() in the validation mode",
-   "Package extended with samples of generators and validators",
-   "Written the documentation for classes and public methods in testlib.h",
-   "Implemented random routine to support generators, use registerGen() to switch it on",
-   "Implemented strict mode to validate tests, use registerValidation() to switch it on",
-   "Now ncmp.cpp and wcmp.cpp are return WA if answer is suffix or prefix of the output",
-   "Added InStream::readLong() and removed InStream::readLongint()",
-   "Now no footer added to each report by default (use directive FOOTER to switch on)",
-   "Now every checker has a name, use setName(const char* format, ...) to set it",
-   "Now it is compatible with TTS (by Kittens Computing)",
-   "Added \'ensure(condition, message = \"\")\' feature, it works like assert()",
-   "Fixed compatibility with MS C++ 7.1",
-   "Added footer with exit code information",
-   "Added compatibility with EJUDGE (compile with EJUDGE directive)"};
+    "Supported checker for local judger"
+    "Removed disable buffers for interactive problems, because it works unexpectedly in wine",
+    "InStream over string: constructor of InStream from base InStream to inherit policies and std::string",
+    "Added expectedButFound quit function, examples: expectedButFound(_wa, 10, 20), expectedButFound(_fail, "
+    "ja, pa, \"[n=%d,m=%d]\", n, m)",
+    "Fixed incorrect interval parsing in patterns",
+    "Use registerGen(argc, argv, 1) to develop new generator, use registerGen(argc, argv, 0) to compile old "
+    "generators (originally created for testlib under 0.8.7)",
+    "Introduced disableFinalizeGuard() to switch off finalization checkings",
+    "Use join() functions to format a range of items as a single string (separated by spaces or other "
+    "separators)",
+    "Use -DENABLE_UNEXPECTED_EOF to enable special exit code (by default, 8) in case of unexpected eof. It "
+    "is "
+    "good idea to use it in interactors",
+    "Use -DUSE_RND_AS_BEFORE_087 to compile in compatibility mode with random behavior of versions before "
+    "0.8.7",
+    "Fixed bug with nan in stringToDouble",
+    "Fixed issue around overloads for size_t on x64",
+    "Added attribute 'points' to the XML output in case of result=_points",
+    "Exit codes can be customized via macros, e.g. -DPE_EXIT_CODE=14",
+    "Introduced InStream function readWordTo/readTokenTo/readStringTo/readLineTo for faster reading",
+    "Introduced global functions: format(), englishEnding(), upperCase(), lowerCase(), compress()",
+    "Manual buffer in InStreams, some IO speed improvements",
+    "Introduced quitif(bool, const char* pattern, ...) which delegates to quitf() in case of first argument "
+    "is true",
+    "Introduced guard against missed quitf() in checker or readEof() in validators",
+    "Supported readStrictReal/readStrictDouble - to use in validators to check strictly float numbers",
+    "Supported registerInteraction(argc, argv)",
+    "Print checker message to the stderr instead of stdout",
+    "Supported TResult _points to output calculated score, use quitp(...) functions",
+    "Fixed to be compilable on Mac",
+    "PC_BASE_EXIT_CODE=50 in case of defined TESTSYS",
+    "Fixed issues 19-21, added __attribute__ format printf",
+    "Some bug fixes",
+    "ouf.readInt(1, 100) and similar calls return WA",
+    "Modified random_t to avoid integer overflow",
+    "Truncated checker output [patch by Stepan Gatilov]",
+    "Renamed class random -> class random_t",
+    "Supported name parameter for read-and-validation methods, like readInt(1, 2, \"n\")",
+    "Fixed bug in readDouble()",
+    "Improved ensuref(), fixed nextLine to work in case of EOF, added startTest()",
+    "Supported \"partially correct\", example: quitf(_pc(13), \"result=%d\", result)",
+    "Added shuffle(begin, end), use it instead of random_shuffle(begin, end)",
+    "Added readLine(const string& ptrn), fixed the logic of readLine() in the validation mode",
+    "Package extended with samples of generators and validators",
+    "Written the documentation for classes and public methods in testlib.h",
+    "Implemented random routine to support generators, use registerGen() to switch it on",
+    "Implemented strict mode to validate tests, use registerValidation() to switch it on",
+    "Now ncmp.cpp and wcmp.cpp are return WA if answer is suffix or prefix of the output",
+    "Added InStream::readLong() and removed InStream::readLongint()",
+    "Now no footer added to each report by default (use directive FOOTER to switch on)",
+    "Now every checker has a name, use setName(const char* format, ...) to set it",
+    "Now it is compatible with TTS (by Kittens Computing)",
+    "Added \'ensure(condition, message = \"\")\' feature, it works like assert()",
+    "Fixed compatibility with MS C++ 7.1",
+    "Added footer with exit code information",
+    "Added compatibility with EJUDGE (compile with EJUDGE directive)"};
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_DEPRECATE
@@ -273,15 +274,15 @@ static char __testlib_format_buffer[1024];
 static int __testlib_format_buffer_usage_count = 0;
 
 #define FMT_TO_RESULT(fmt, cstr, result)                                                                     \
-	std::string result;                                                                                       \
-	if (__testlib_format_buffer_usage_count != 0)                                                             \
-		__testlib_fail("FMT_TO_RESULT::__testlib_format_buffer_usage_count != 0");                             \
-	__testlib_format_buffer_usage_count++;                                                                    \
-	va_list ap;                                                                                               \
-	va_start(ap, fmt);                                                                                        \
-	std::vsprintf(__testlib_format_buffer, cstr, ap);                                                         \
-	va_end(ap);                                                                                               \
-	result = std::string(__testlib_format_buffer);                                                            \
+	std::string result;                                                                                      \
+	if (__testlib_format_buffer_usage_count != 0)                                                            \
+		__testlib_fail("FMT_TO_RESULT::__testlib_format_buffer_usage_count != 0");                           \
+	__testlib_format_buffer_usage_count++;                                                                   \
+	va_list ap;                                                                                              \
+	va_start(ap, fmt);                                                                                       \
+	std::vsprintf(__testlib_format_buffer, cstr, ap);                                                        \
+	va_end(ap);                                                                                              \
+	result = std::string(__testlib_format_buffer);                                                           \
 	__testlib_format_buffer_usage_count--;
 
 const long long __TESTLIB_LONGLONG_MAX = 9223372036854775807LL;
@@ -378,10 +379,10 @@ static FILE *__testlib_fopen(const char *name, const char *mode)
 #ifdef __EMSCRIPTEN__
 	EM_ASM(
 
-	   try { FS.stat('/cwd'); } catch (e) {
-		   FS.mkdir('/cwd');
-		   FS.mount(NODEFS, {root : '.'}, '/cwd');
-	   });
+	    try { FS.stat('/cwd'); } catch (e) {
+		    FS.mkdir('/cwd');
+		    FS.mount(NODEFS, {root : '.'}, '/cwd');
+	    });
 	return fopen((std::string("/cwd/") + name).c_str(), mode);
 #else
 	return fopen(name, mode);
@@ -423,7 +424,7 @@ class random_t;
 
 class pattern
 {
-public:
+  public:
 	/* Create pattern instance by string. */
 	pattern(std::string s);
 	/* Generate new string by pattern and given random_t. */
@@ -433,7 +434,7 @@ public:
 	/* Returns source string of the pattern. */
 	std::string src() const;
 
-private:
+  private:
 	bool matches(const std::string &s, size_t pos) const;
 
 	std::string s;
@@ -457,7 +458,7 @@ private:
  */
 class random_t
 {
-private:
+  private:
 	unsigned long long seed;
 	static const unsigned long long multiplier;
 	static const unsigned long long addend;
@@ -481,7 +482,7 @@ private:
 		}
 	}
 
-public:
+  public:
 	static int version;
 
 	/* New random_t with fixed seed. */
@@ -613,7 +614,7 @@ public:
 	{
 		if (from > to)
 			__testlib_fail(
-			   "random_t::next(unsigned long long from, unsigned long long to): from can't not exceed to");
+			    "random_t::next(unsigned long long from, unsigned long long to): from can't not exceed to");
 
 		return next(to - from + 1) + from;
 	}
@@ -656,7 +657,8 @@ public:
 		int size = int(end - begin);
 
 		if (size <= 0)
-			__testlib_fail("random_t::any(const Iter& begin, const Iter& end): range must have positive length");
+			__testlib_fail(
+			    "random_t::any(const Iter& begin, const Iter& end): range must have positive length");
 
 		return *(begin + next(size));
 	}
@@ -857,7 +859,7 @@ public:
 	{
 		if (from > to)
 			__testlib_fail(
-			   "random_t::wnext(unsigned long from, unsigned long to, int type): from can't not exceed to");
+			    "random_t::wnext(unsigned long from, unsigned long to, int type): from can't not exceed to");
 
 		return wnext(to - from + 1, type) + from;
 	}
@@ -882,8 +884,8 @@ public:
 		int size = int(end - begin);
 
 		if (size <= 0)
-			__testlib_fail(
-			   "random_t::any(const Iter& begin, const Iter& end, int type): range must have positive length");
+			__testlib_fail("random_t::any(const Iter& begin, const Iter& end, int type): range must have "
+			               "positive length");
 
 		return *(begin + wnext(size, type));
 	}
@@ -1286,7 +1288,7 @@ const std::string outcomes[] = {"accepted", "wrong-answer", "presentation-error"
 
 class InputStreamReader
 {
-public:
+  public:
 	virtual int curChar() = 0;
 	virtual int nextChar() = 0;
 	virtual void skipChar() = 0;
@@ -1303,11 +1305,11 @@ InputStreamReader::~InputStreamReader()
 
 class StringInputStreamReader : public InputStreamReader
 {
-private:
+  private:
 	std::string s;
 	size_t pos;
 
-public:
+  public:
 	StringInputStreamReader(const std::string &content) : s(content), pos(0)
 	{
 		// No operations.
@@ -1351,11 +1353,11 @@ public:
 
 class FileInputStreamReader : public InputStreamReader
 {
-private:
+  private:
 	std::FILE *file;
 	std::string name;
 
-public:
+  public:
 	FileInputStreamReader(std::FILE *file, const std::string &name) : file(file), name(name)
 	{
 		// No operations.
@@ -1403,7 +1405,7 @@ public:
 
 class BufferedFileInputStreamReader : public InputStreamReader
 {
-private:
+  private:
 	static const size_t BUFFER_SIZE;
 	static const size_t MAX_UNREAD_COUNT;
 
@@ -1436,7 +1438,7 @@ private:
 			return true;
 	}
 
-public:
+  public:
 	BufferedFileInputStreamReader(std::FILE *file, const std::string &name) : file(file), name(name)
 	{
 		buffer = new char[BUFFER_SIZE];
@@ -1637,8 +1639,8 @@ struct InStream
 	 * number of digit after the decimal point is in range [minAfterPointDigitCount,maxAfterPointDigitCount]
 	 * and number is in the form "[-]digit(s)[.digit(s)]".
 	 */
-	double readStrictDouble(double minv, double maxv, int minAfterPointDigitCount, int maxAfterPointDigitCount,
-	                        const std::string &variableName = "");
+	double readStrictDouble(double minv, double maxv, int minAfterPointDigitCount,
+	                        int maxAfterPointDigitCount, const std::string &variableName = "");
 
 	/* As readLine(). */
 	std::string readString();
@@ -1703,7 +1705,7 @@ struct InStream
 	static void quitscrS(WORD color, std::string msg);
 	void xmlSafeWrite(std::FILE *file, const char *msg);
 
-private:
+  private:
 	InStream(const InStream &);
 	InStream &operator=(const InStream &);
 };
@@ -2185,11 +2187,11 @@ char InStream::readChar(char c)
 		if (! isEoln(found))
 			quit(_pe, ("Unexpected character '" + std::string(1, found) + "', but '" + std::string(1, c) +
 			           "' expected")
-			             .c_str());
+			              .c_str());
 		else
 			quit(_pe, ("Unexpected character " + ("#" + vtos(int(found))) + ", but '" + std::string(1, c) +
 			           "' expected")
-			             .c_str());
+			              .c_str());
 	}
 
 	return found;
@@ -2261,11 +2263,12 @@ std::string InStream::readWord(const pattern &p, const std::string &variableName
 		if (variableName.empty())
 			quit(_wa, ("Token \"" + __testlib_part(_tmpReadToken) + "\" doesn't correspond to pattern \"" +
 			           p.src() + "\"")
-			             .c_str());
+			              .c_str());
 		else
-			quit(_wa, ("Token parameter [name=" + variableName + "] equals to \"" +
-			           __testlib_part(_tmpReadToken) + "\", doesn't correspond to pattern \"" + p.src() + "\"")
-			             .c_str());
+			quit(_wa,
+			     ("Token parameter [name=" + variableName + "] equals to \"" + __testlib_part(_tmpReadToken) +
+			      "\", doesn't correspond to pattern \"" + p.src() + "\"")
+			         .c_str());
 	}
 
 	return _tmpReadToken;
@@ -2293,13 +2296,13 @@ void InStream::readWordTo(std::string &result, const pattern &p, const std::stri
 	if (! p.matches(result))
 	{
 		if (variableName.empty())
-			quit(_wa,
-			     ("Token \"" + __testlib_part(result) + "\" doesn't correspond to pattern \"" + p.src() + "\"")
-			        .c_str());
+			quit(_wa, ("Token \"" + __testlib_part(result) + "\" doesn't correspond to pattern \"" + p.src() +
+			           "\"")
+			              .c_str());
 		else
 			quit(_wa, ("Token parameter [name=" + variableName + "] equals to \"" + __testlib_part(result) +
 			           "\", doesn't correspond to pattern \"" + p.src() + "\"")
-			             .c_str());
+			              .c_str());
 	}
 }
 
@@ -2419,9 +2422,8 @@ static inline double stringToStrictDouble(InStream &in, const char *buffer, int 
 		in.quit(_fail, "stringToStrictDouble: minAfterPointDigitCount should be non-negative.");
 
 	if (minAfterPointDigitCount > maxAfterPointDigitCount)
-		in.quit(
-		   _fail,
-		   "stringToStrictDouble: minAfterPointDigitCount should be less or equal to maxAfterPointDigitCount.");
+		in.quit(_fail, "stringToStrictDouble: minAfterPointDigitCount should be less or equal to "
+		               "maxAfterPointDigitCount.");
 
 	double retval;
 	size_t length = strlen(buffer);
@@ -2439,7 +2441,8 @@ static inline double stringToStrictDouble(InStream &in, const char *buffer, int 
 		if (buffer[i] == '.')
 		{
 			if (pointPos > -1)
-				in.quit(_pe, ("Expected strict double, but \"" + __testlib_part(buffer) + "\" found").c_str());
+				in.quit(_pe,
+				        ("Expected strict double, but \"" + __testlib_part(buffer) + "\" found").c_str());
 
 			pointPos = int(i);
 		}
@@ -2457,7 +2460,7 @@ static inline double stringToStrictDouble(InStream &in, const char *buffer, int 
 		in.quit(_pe, ("Expected strict double with number of digits after point in range [" +
 		              vtos(minAfterPointDigitCount) + "," + vtos(maxAfterPointDigitCount) + "], but \"" +
 		              __testlib_part(buffer) + "\" found")
-		                .c_str());
+		                 .c_str());
 
 	int firstDigitPos = -1;
 
@@ -2571,11 +2574,11 @@ long long InStream::readLong(long long minv, long long maxv, const std::string &
 		if (variableName.empty())
 			quit(_wa,
 			     ("Integer " + vtos(result) + " violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			        .c_str());
+			         .c_str());
 		else
 			quit(_wa, ("Integer parameter [name=" + variableName + "] equals to " + vtos(result) +
 			           ", violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			             .c_str());
+			              .c_str());
 	}
 
 	return result;
@@ -2592,11 +2595,11 @@ int InStream::readInt(int minv, int maxv, const std::string &variableName)
 		if (variableName.empty())
 			quit(_wa,
 			     ("Integer " + vtos(result) + " violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			        .c_str());
+			         .c_str());
 		else
-			quit(_wa, ("Integer parameter [name=" + std::string(variableName) + "] equals to " + vtos(result) +
-			           ", violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			             .c_str());
+			quit(_wa, ("Integer parameter [name=" + std::string(variableName) + "] equals to " +
+			           vtos(result) + ", violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
+			              .c_str());
 	}
 
 	return result;
@@ -2624,12 +2627,13 @@ double InStream::readReal(double minv, double maxv, const std::string &variableN
 	if (result < minv || result > maxv)
 	{
 		if (variableName.empty())
-			quit(_wa, ("Double " + vtos(result) + " violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			             .c_str());
+			quit(_wa,
+			     ("Double " + vtos(result) + " violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
+			         .c_str());
 		else
 			quit(_wa, ("Double parameter [name=" + variableName + "] equals to " + vtos(result) +
 			           ", violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			             .c_str());
+			              .c_str());
 	}
 
 	return result;
@@ -2647,18 +2651,18 @@ double InStream::readStrictReal(double minv, double maxv, int minAfterPointDigit
 		quit(_unexpected_eof, "Unexpected end of file - strict double expected");
 
 	double result =
-	   stringToStrictDouble(*this, readWord().c_str(), minAfterPointDigitCount, maxAfterPointDigitCount);
+	    stringToStrictDouble(*this, readWord().c_str(), minAfterPointDigitCount, maxAfterPointDigitCount);
 
 	if (result < minv || result > maxv)
 	{
 		if (variableName.empty())
 			quit(_wa, ("Strict double " + vtos(result) + " violates the range [" + vtos(minv) + ", " +
 			           vtos(maxv) + "]")
-			             .c_str());
+			              .c_str());
 		else
 			quit(_wa, ("Strict double parameter [name=" + variableName + "] equals to " + vtos(result) +
 			           ", violates the range [" + vtos(minv) + ", " + vtos(maxv) + "]")
-			             .c_str());
+			              .c_str());
 	}
 
 	return result;
@@ -2828,11 +2832,11 @@ void InStream::readStringTo(std::string &result, const pattern &p, const std::st
 		if (variableName.empty())
 			quit(_wa,
 			     ("Line \"" + __testlib_part(result) + "\" doesn't correspond to pattern \"" + p.src() + "\"")
-			        .c_str());
+			         .c_str());
 		else
 			quit(_wa, ("Line [name=" + variableName + "] equals to \"" + __testlib_part(result) +
 			           "\", doesn't correspond to pattern \"" + p.src() + "\"")
-			             .c_str());
+			              .c_str());
 	}
 }
 
@@ -3042,8 +3046,8 @@ void registerInteraction(int argc, char *argv[])
 	if (argc < 3 || argc > 6)
 	{
 		quit(_fail, std::string("Program must be run with the following arguments: ") +
-		               std::string("<input-file> <output-file> [<answer-file> [<report-file> [<-appes>]]]") +
-		               "\nUse \"--help\" to get help information");
+		                std::string("<input-file> <output-file> [<answer-file> [<report-file> [<-appes>]]]") +
+		                "\nUse \"--help\" to get help information");
 	}
 
 	if (argc <= 4)
@@ -3063,7 +3067,7 @@ void registerInteraction(int argc, char *argv[])
 		if (strcmp("-APPES", argv[5]) && strcmp("-appes", argv[5]))
 		{
 			quit(_fail, std::string("Program must be run with the following arguments: ") +
-			               "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
+			                "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
 		}
 		else
 		{
@@ -3111,8 +3115,8 @@ void registerTestlibCmd(int argc, char *argv[])
 	if (argc < 4 || argc > 6)
 	{
 		quit(_fail, std::string("Program must be run with the following arguments: ") +
-		               std::string("<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]") +
-		               "\nUse \"--help\" to get help information");
+		                std::string("<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]") +
+		                "\nUse \"--help\" to get help information");
 	}
 
 	if (argc == 4)
@@ -3132,7 +3136,7 @@ void registerTestlibCmd(int argc, char *argv[])
 		if (strcmp("-APPES", argv[5]) && strcmp("-appes", argv[5]))
 		{
 			quit(_fail, std::string("Program must be run with the following arguments: ") +
-			               "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
+			                "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
 		}
 		else
 		{
@@ -3150,7 +3154,7 @@ void registerTestlib(int argc, ...)
 {
 	if (argc < 3 || argc > 5)
 		quit(_fail, std::string("Program must be run with the following arguments: ") +
-		               "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
+		                "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
 
 	char **argv = new char *[argc + 1];
 	va_list ap;
@@ -3444,7 +3448,8 @@ NORETURN void __testlib_expectedButFound(TResult result, std::string expected, s
 		message = format("%s: expected '%s', but found '%s'", compress(prepend).c_str(),
 		                 compress(expected).c_str(), compress(found).c_str());
 	else
-		message = format("expected '%s', but found '%s'", compress(expected).c_str(), compress(found).c_str());
+		message =
+		    format("expected '%s', but found '%s'", compress(expected).c_str(), compress(found).c_str());
 
 	quit(result, message);
 }

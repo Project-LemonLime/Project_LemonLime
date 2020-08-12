@@ -32,7 +32,7 @@ class Task;
 class JudgingThread : public QThread
 {
 	Q_OBJECT
-public:
+  public:
 	explicit JudgingThread(QObject *parent = nullptr);
 	// void setCheckRejudgeMode(bool);
 	void setExtraTimeRatio(double);
@@ -59,7 +59,7 @@ public:
 	bool getNeedRejudge() const;
 	void run();
 
-private:
+  private:
 	// bool checkRejudgeMode;
 	bool needRejudge;
 	double extraTimeRatio{};
@@ -94,7 +94,7 @@ private:
 	void judgeAnswersOnlyTask();
 	// void judgeInteractionTask();
 
-public slots:
+  public slots:
 	void stopJudgingSlot();
 };
 

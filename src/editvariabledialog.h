@@ -36,7 +36,7 @@ class EditVariableDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit EditVariableDialog(QWidget *parent = nullptr);
 	~EditVariableDialog();
 	void setVariableName(const QString &);
@@ -44,10 +44,10 @@ public:
 	QString getVariableName() const;
 	QString getVariableValue() const;
 
-private:
+  private:
 	Ui::EditVariableDialog *ui;
 
-private slots:
+  private slots:
 	void textChanged();
 };
 

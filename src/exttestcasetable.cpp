@@ -136,10 +136,10 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 				tipStr = QString(tr("Test Case #%1:\n%2 Pt")).arg(i + 1).arg(score);
 			else
 				tipStr = QString(tr("Test Case #%1:\n%2 Pt\nTime Limit: %3 ms\nMemory Limit: %4 MB"))
-				            .arg(i + 1)
-				            .arg(score)
-				            .arg(times)
-				            .arg(mems);
+				             .arg(i + 1)
+				             .arg(score)
+				             .arg(times)
+				             .arg(mems);
 
 			if (depends.empty())
 				depStr = "(-)", tipStr = tipStr + tr("\nNo Depends");
@@ -157,11 +157,11 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 			else
 				addItem(nowrow, 0,
 				        QString(tr("#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5"))
-				           .arg(i + 1)
-				           .arg(score)
-				           .arg(times)
-				           .arg(mems)
-				           .arg(depStr),
+				            .arg(i + 1)
+				            .arg(score)
+				            .arg(times)
+				            .arg(mems)
+				            .arg(depStr),
 				        tipStr);
 
 			nowrow++;

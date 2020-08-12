@@ -50,10 +50,12 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	connect(ui->disableMemoryLimit, SIGNAL(stateChanged(int)), this, SLOT(disableMemoryLimitCheckChanged()));
 	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)), this,
 	        SLOT(configurationIndexChanged()));
-	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)), this, SLOT(configurationTextChanged()));
+	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)), this,
+	        SLOT(configurationTextChanged()));
 	connect(ui->deleteConfigurationButton, SIGNAL(clicked()), this, SLOT(deleteConfiguration()));
 	connect(ui->compilerArguments, SIGNAL(textChanged(QString)), this, SLOT(compilerArgumentsChanged()));
-	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)), this, SLOT(interpreterArgumentsChanged()));
+	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)), this,
+	        SLOT(interpreterArgumentsChanged()));
 	connect(ui->environmentVariablesButton, SIGNAL(clicked()), this,
 	        SLOT(environmentVariablesButtonClicked()));
 }

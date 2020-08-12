@@ -30,7 +30,7 @@
 class Contestant : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	explicit Contestant(QObject *parent = nullptr);
 
 	const QString &getContestantName() const;
@@ -65,7 +65,7 @@ public:
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
 
-private:
+  private:
 	QString contestantName;
 	QList<bool> checkJudged;
 	QList<CompileState> compileState;
@@ -79,9 +79,9 @@ private:
 	QList<QList<QList<int>>> memoryUsed;
 	QDateTime judgingTime;
 
-signals:
+  signals:
 
-public slots:
+  public slots:
 	void addTask();
 	void deleteTask(int);
 	void swapTask(int, int);

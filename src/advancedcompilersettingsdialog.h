@@ -38,18 +38,18 @@ class AdvancedCompilerSettingsDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit AdvancedCompilerSettingsDialog(QWidget *parent = nullptr);
 	~AdvancedCompilerSettingsDialog();
 	void resetEditCompiler(Compiler *);
 	Compiler *getEditCompiler() const;
 
-private:
+  private:
 	Ui::AdvancedCompilerSettingsDialog *ui;
 	Compiler *editCompiler;
 	int configCount{};
 
-private slots:
+  private slots:
 	void okayButtonClicked();
 	void compilerTypeChanged();
 	void compilerLocationChanged();

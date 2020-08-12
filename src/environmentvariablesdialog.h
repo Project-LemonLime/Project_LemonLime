@@ -36,16 +36,16 @@ class EnvironmentVariablesDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit EnvironmentVariablesDialog(QWidget *parent = nullptr);
 	~EnvironmentVariablesDialog();
 	void setProcessEnvironment(const QProcessEnvironment &);
 	QProcessEnvironment getProcessEnvironment() const;
 
-private:
+  private:
 	Ui::EnvironmentVariablesDialog *ui;
 
-private slots:
+  private slots:
 	void addButtonClicked();
 	void editButtonClicked();
 	void deleteButtonClicked();

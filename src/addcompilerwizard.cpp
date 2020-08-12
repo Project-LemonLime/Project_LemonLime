@@ -126,7 +126,8 @@ auto AddCompilerWizard::validateCurrentPage() -> bool
 		if (ui->bytecodeFileExtensions->isEnabled() && ui->bytecodeFileExtensions->text().isEmpty())
 		{
 			ui->bytecodeFileExtensions->setFocus();
-			QMessageBox::warning(this, tr("Error"), tr("Empty byte-code file extensions!"), QMessageBox::Close);
+			QMessageBox::warning(this, tr("Error"), tr("Empty byte-code file extensions!"),
+			                     QMessageBox::Close);
 			return false;
 		}
 
@@ -374,7 +375,7 @@ void AddCompilerWizard::selectGccPath()
 	                                                "gcc (gcc.exe)");
 #else
 	QString location =
-	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "gcc (gcc)");
+	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "gcc (gcc)");
 #endif
 
 	if (! location.isEmpty())
@@ -391,7 +392,7 @@ void AddCompilerWizard::selectGppPath()
 	                                                "g++ (g++.exe)");
 #else
 	QString location =
-	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "g++ (g++)");
+	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "g++ (g++)");
 #endif
 
 	if (! location.isEmpty())
@@ -408,7 +409,7 @@ void AddCompilerWizard::selectFpcPath()
 	                                                "fpc (fpc.exe)");
 #else
 	QString location =
-	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fpc (fpc)");
+	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fpc (fpc)");
 #endif
 
 	if (! location.isEmpty())
@@ -425,7 +426,7 @@ void AddCompilerWizard::selectFbcPath()
 	                                                "fbc (fbc.exe)");
 #else
 	QString location =
-	   QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fbc (fbc)");
+	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fbc (fbc)");
 #endif
 
 	if (! location.isEmpty())

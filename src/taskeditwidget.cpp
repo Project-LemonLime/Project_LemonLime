@@ -178,8 +178,8 @@ void TaskEditWidget::refreshWidgetState()
 	ui->subFolderCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
 	                               types == Task::AnswersOnly || types == Task::Communication);
 	ui->inputFileName->setEnabled(
-	   (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
-	   ! editTask->getStandardInputCheck());
+	    (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
+	    ! editTask->getStandardInputCheck());
 	ui->inputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
 	                              types == Task::Communication);
 	ui->inputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
@@ -187,8 +187,8 @@ void TaskEditWidget::refreshWidgetState()
 	ui->standardInputCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
 	                                   types == Task::Communication);
 	ui->outputFileName->setEnabled(
-	   (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
-	   ! editTask->getStandardOutputCheck());
+	    (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
+	    ! editTask->getStandardOutputCheck());
 	ui->outputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
 	                               types == Task::Communication);
 	ui->outputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||

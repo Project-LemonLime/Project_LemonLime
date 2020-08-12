@@ -40,7 +40,7 @@ class Lemon : public QMainWindow
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit Lemon(QWidget *parent = nullptr);
 	~Lemon();
 	void changeEvent(QEvent *);
@@ -48,7 +48,7 @@ public:
 	int getSplashTime();
 	void welcome();
 
-private:
+  private:
 	Ui::Lemon *ui;
 	Contest *curContest;
 	Settings *settings;
@@ -71,7 +71,7 @@ private:
 	void addTaskWithScoreScale(const QString &, const QList<QPair<QString, QString>> &, int, int, int);
 	static bool compareFileName(const QPair<QString, QString> &, const QPair<QString, QString> &);
 
-private slots:
+  private slots:
 	void summarySelectionChanged();
 	void refreshSummary();
 	void resetDataWatcher();
@@ -97,7 +97,7 @@ private slots:
 	static void actionMore();
 	void setUiLanguage();
 
-signals:
+  signals:
 	void dataPathChanged();
 };
 

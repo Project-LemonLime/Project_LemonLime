@@ -32,17 +32,17 @@ class VisualSettings : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit VisualSettings(QWidget *parent = nullptr);
 	void resetEditSettings(Settings *);
 	void resetToDefault();
 	~VisualSettings();
 
-private:
+  private:
 	Ui::VisualSettings *ui;
 	Settings *editSettings{};
 
-private slots:
+  private slots:
 	void colorMxHChanged(const int &);
 	void colorMxSChanged(const double &);
 	void colorMxLChanged(const double &);

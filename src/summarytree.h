@@ -37,14 +37,14 @@ class Contest;
 class SummaryTree : public QTreeWidget
 {
 	Q_OBJECT
-public:
+  public:
 	explicit SummaryTree(QWidget *parent = nullptr);
 	void changeEvent(QEvent *) override;
 	void setContest(Contest *);
 	void setSettings(Settings *);
 	void contextMenuEvent(QContextMenuEvent *) override;
 
-private:
+  private:
 	int addCount;
 	Contest *curContest;
 	Settings *settings{};
@@ -59,7 +59,7 @@ private:
 	QAction *deleteTestCaseKeyAction;
 	QAction *ExtTestCaseModifierAction;
 
-private slots:
+  private slots:
 	void addTask();
 	void addTestCase();
 	void addTestCases();
@@ -70,7 +70,7 @@ private slots:
 	void titleChanged(const QString &);
 	void launchExtTestCaseModifier();
 
-signals:
+  signals:
 	void taskChanged();
 };
 

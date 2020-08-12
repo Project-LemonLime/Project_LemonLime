@@ -28,7 +28,7 @@ class ExtTestCaseTable : public QTableWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	ExtTestCaseTable(QWidget *parent);
 
 	void refreshTask(Task *);
@@ -47,7 +47,7 @@ public:
 	QPair<int, int> getSelectRange();
 	void modifySelected(int, int);
 
-private:
+  private:
 	Task *editTask;
 
 	void addItem(int row, int column, const QString &text);
@@ -68,10 +68,10 @@ private:
 	int selectMx;
 	int noDfs;
 
-private slots:
+  private slots:
 	void whenItemSelectionChanged();
 
-signals:
+  signals:
 	void testCaseSelectionChanged();
 };
 

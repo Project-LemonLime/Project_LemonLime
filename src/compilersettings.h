@@ -39,13 +39,13 @@ class CompilerSettings : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit CompilerSettings(QWidget *parent = nullptr);
 	~CompilerSettings();
 	void resetEditSettings(Settings *);
 	bool checkValid();
 
-private:
+  private:
 	Ui::CompilerSettings *ui;
 	Settings *editSettings{};
 	Compiler *curCompiler{};
@@ -53,7 +53,7 @@ private:
 	void setCurrentCompiler(Compiler *);
 	void refreshItemState();
 
-private slots:
+  private slots:
 	void moveUpCompiler();
 	void moveDownCompiler();
 	void addCompiler();

@@ -39,7 +39,7 @@ class Contestant;
 class Contest : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	explicit Contest(QObject *parent = nullptr);
 	void setSettings(Settings *);
 	void copySettings(Settings &);
@@ -59,7 +59,7 @@ public:
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
 
-private:
+  private:
 	QString contestTitle;
 	Settings *settings{};
 	QList<Task *> taskList;
@@ -70,14 +70,14 @@ private:
 	void judge(Contestant *, const QSet<int> &);
 	void clearPath(const QString &);
 
-public slots:
+  public slots:
 	void judge(const QString &);
 	void judge(const QString &, int);
 	void judge(const QString &, const QSet<int> &);
 	void judgeAll();
 	void stopJudgingSlot();
 
-signals:
+  signals:
 	void taskAddedForContestant();
 	void taskDeletedForContestant(int);
 	void taskAddedForViewer();

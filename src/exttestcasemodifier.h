@@ -33,20 +33,20 @@ class ExtTestCaseModifier : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit ExtTestCaseModifier(QWidget *parent = nullptr);
 	~ExtTestCaseModifier();
 
 	void refresh();
 	void init(Task *, const Settings *);
 
-private:
+  private:
 	Ui::ExtTestCaseModifier *ui;
 
 	Task *editTask;
 	const Settings *editSettings;
 
-private slots:
+  private slots:
 	void whenTestCaseSelectionChanged();
 
 	void modifySelected();

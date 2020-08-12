@@ -38,17 +38,17 @@ class GeneralSettings : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit GeneralSettings(QWidget *parent = nullptr);
 	~GeneralSettings();
 	void resetEditSettings(Settings *);
 	bool checkValid();
 
-private:
+  private:
 	Ui::GeneralSettings *ui;
 	Settings *editSettings{};
 
-private slots:
+  private slots:
 	void defaultFullScoreChanged(const QString &);
 	void defaultTimeLimitChanged(const QString &);
 	void defaultMemoryLimitChanged(const QString &);

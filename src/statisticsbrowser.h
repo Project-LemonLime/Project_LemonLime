@@ -39,16 +39,16 @@ class StatisticsBrowser : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit StatisticsBrowser(QWidget *parent = nullptr);
 	void setContest(Contest *);
 	static void exportStatstics(QWidget *, Contest *);
 	~StatisticsBrowser();
 
-public slots:
+  public slots:
 	void refresh();
 
-private:
+  private:
 	Ui::StatisticsBrowser *ui;
 	Contest *curContest;
 	static int checkValid(QList<Task *>, const QList<Contestant *> &);

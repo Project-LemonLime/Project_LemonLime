@@ -36,17 +36,17 @@ class NewContestDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit NewContestDialog(QWidget *parent = nullptr);
 	~NewContestDialog();
 	QString getContestTitle();
 	QString getSavingName();
 	QString getContestPath();
 
-private:
+  private:
 	Ui::NewContestDialog *ui;
 
-private slots:
+  private slots:
 	void informationChanged();
 };
 

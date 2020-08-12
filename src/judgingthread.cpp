@@ -36,8 +36,8 @@
 
 #ifdef Q_OS_WIN32
 // #pragma comment(lib, "Psapi.lib")
-#include <windows.h>
 #include <Psapi.h>
+#include <windows.h>
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent)
@@ -551,8 +551,8 @@ void JudgingThread::compareWithDiff(const QString &contestantOutput)
 {
 	QString cmd = diffPath;
 	QStringList cmdArgs =
-	   (QStringList(task->getDiffArguments())
-	    << QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator()) << contestantOutput);
+	    (QStringList(task->getDiffArguments())
+	     << QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator()) << contestantOutput);
 
 	if (QProcess::execute(cmd, cmdArgs) != 0)
 	{
@@ -653,8 +653,10 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		{
 			score = 0;
 			result = WrongAnswer;
-			message =
-			   tr(R"(On line %3, Read "%1" but expect "%2")").arg(a, 0, 'g', 18).arg(b, 0, 'g', 18).arg(nowRow);
+			message = tr(R"(On line %3, Read "%1" but expect "%2")")
+			              .arg(a, 0, 'g', 18)
+			              .arg(b, 0, 'g', 18)
+			              .arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -839,26 +841,26 @@ void JudgingThread::runProgram()
 	if (task->getStandardInputCheck())
 	{
 		si.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
-		                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
-		                          FILE_ATTRIBUTE_NORMAL, NULL);
+		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
+		                           FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if (task->getStandardOutputCheck())
 	{
 		si.hStdOutput = CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-		                           FILE_ATTRIBUTE_NORMAL, NULL);
+		                            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+		                            CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	si.hStdError = CreateFileW((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-	                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-	                          FILE_ATTRIBUTE_NORMAL, NULL);
+	                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+	                           FILE_ATTRIBUTE_NORMAL, NULL);
 	QString values = environment.toStringList().join(QChar('\0')) + '\0';
 
 	if (! CreateProcessW(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
-	                    &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
-	                    (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()), &si,
-	                    &pi))
+	                     &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
+	                     (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()),
+	                     &si, &pi))
 	{
 		if (task->getStandardInputCheck())
 			CloseHandle(si.hStdInput);
@@ -1033,8 +1035,7 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hThread);
 #else
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
-	QProcess::execute(QString("chmod"),
-	                  (QStringList("+wx") << QString(workingDirectory + "watcher")));
+	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString(workingDirectory + "watcher")));
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);

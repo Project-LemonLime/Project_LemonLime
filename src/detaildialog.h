@@ -39,21 +39,21 @@ class DetailDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit DetailDialog(QWidget *parent = nullptr);
 	~DetailDialog();
 	void refreshViewer(Contest *, Contestant *);
 	void showDialog();
 
-private:
+  private:
 	Ui::DetailDialog *ui;
 	Contest *contest{};
 	Contestant *contestant{};
 
-private slots:
+  private slots:
 	void anchorClicked(const QUrl &);
 
-signals:
+  signals:
 	void rejudgeSignal();
 };
 

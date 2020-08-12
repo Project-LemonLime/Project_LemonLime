@@ -38,11 +38,11 @@ class Contestant;
 class ExportUtil : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	explicit ExportUtil(QObject *parent = nullptr);
 	static void exportResult(QWidget *, Contest *);
 
-private:
+  private:
 	static QString getContestantHtmlCode(Contest *, Contestant *, int);
 	static QString getSmallerContestantHtmlCode(Contest *, Contestant *);
 	static void exportHtml(QWidget *, Contest *, const QString &, int);
@@ -50,9 +50,9 @@ private:
 	static void exportCsv(QWidget *, Contest *, const QString &);
 	static void exportXls(QWidget *, Contest *, const QString &);
 
-signals:
+  signals:
 
-public slots:
+  public slots:
 };
 
 #endif // EXPORTUTIL_H

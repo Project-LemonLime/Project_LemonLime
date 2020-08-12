@@ -36,7 +36,7 @@ class NewContestWidget : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit NewContestWidget(QWidget *parent = nullptr);
 	~NewContestWidget();
 	QString getContestTitle();
@@ -44,13 +44,13 @@ public:
 	QString getContestPath();
 	bool checkReady() const;
 
-private:
+  private:
 	Ui::NewContestWidget *ui;
 
-signals:
+  signals:
 	void informationChanged();
 
-private slots:
+  private slots:
 	void selectContestPath();
 	void savingNameChanged();
 };

@@ -26,7 +26,6 @@
 #define qAsConst
 #endif
 
-
 ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) : QWidget(parent), ui(new Ui::ExtTestCaseModifier)
 {
 	ui->setupUi(this);
@@ -112,9 +111,9 @@ void ExtTestCaseModifier::modifySelected()
 		else
 		{
 			auto *dialog = new ExtTestCaseUpdaterDialog(
-			   this, editTask, editSettings, l + 1, editTask->getTestCase(l)->getFullScore(), NO_EDIT,
-			   editTask->getTestCase(l)->getTimeLimit(), editTask->getTestCase(l)->getMemoryLimit(), 1,
-			   editTask->getTestCase(l)->getDependenceSubtask());
+			    this, editTask, editSettings, l + 1, editTask->getTestCase(l)->getFullScore(), NO_EDIT,
+			    editTask->getTestCase(l)->getTimeLimit(), editTask->getTestCase(l)->getMemoryLimit(), 1,
+			    editTask->getTestCase(l)->getDependenceSubtask());
 
 			if (dialog->exec() == QDialog::Accepted)
 			{
@@ -436,8 +435,8 @@ void ExtTestCaseModifier::splitSelected()
 void ExtTestCaseModifier::appendNewSub()
 {
 	auto *dialog =
-	   new ExtTestCaseUpdaterDialog(this, editTask, editSettings, editTask->getTestCaseList().size() + 1,
-	                                EDIT_WITH_DEFAULT, 1, EDIT_WITH_DEFAULT, EDIT_WITH_DEFAULT, 1);
+	    new ExtTestCaseUpdaterDialog(this, editTask, editSettings, editTask->getTestCaseList().size() + 1,
+	                                 EDIT_WITH_DEFAULT, 1, EDIT_WITH_DEFAULT, EDIT_WITH_DEFAULT, 1);
 
 	if (dialog->exec() == QDialog::Accepted)
 	{

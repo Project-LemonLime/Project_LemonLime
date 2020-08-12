@@ -587,9 +587,9 @@ void Settings::loadSettings()
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
 	outputFileExtensions = settings
-	                          .value("OutputFileExtensions", QStringList() << "out"
-	                                                                       << "ans")
-	                          .toStringList();
+	                           .value("OutputFileExtensions", QStringList() << "out"
+	                                                                        << "ans")
+	                           .toStringList();
 	settings.endGroup();
 	settings.beginGroup("VisualSettings");
 	colorMxH = settings.value("ColorMxH", 120).toInt();
@@ -618,7 +618,8 @@ void Settings::loadSettings()
 	{
 		settings.setArrayIndex(i);
 		auto *compiler = new Compiler;
-		compiler->setCompilerType(static_cast<Compiler::CompilerType>(settings.value("CompilerType").toInt()));
+		compiler->setCompilerType(
+		    static_cast<Compiler::CompilerType>(settings.value("CompilerType").toInt()));
 		compiler->setCompilerName(settings.value("CompilerName").toString());
 		compiler->setSourceExtensions(settings.value("SourceExtensions").toStringList().join(";"));
 		compiler->setCompilerLocation(settings.value("CompilerLocation").toString());

@@ -36,7 +36,7 @@ class WelcomeDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit WelcomeDialog(QWidget *parent = nullptr);
 	~WelcomeDialog();
 	void setRecentContest(const QStringList &);
@@ -47,10 +47,10 @@ public:
 	QString getSelectedContest();
 	int getCurrentTab() const;
 
-private:
+  private:
 	Ui::WelcomeDialog *ui;
 
-private slots:
+  private slots:
 	void selectionChanged();
 	void informationChanged();
 	void tabIndexChanged(int);

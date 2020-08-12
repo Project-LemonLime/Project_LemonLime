@@ -37,24 +37,24 @@ class OpenContestWidget : public QWidget
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit OpenContestWidget(QWidget *parent = nullptr);
 	~OpenContestWidget();
 	void setRecentContest(const QStringList &);
 	const QStringList &getRecentContest() const;
 	int getCurrentRow() const;
 
-private:
+  private:
 	Ui::OpenContestWidget *ui;
 	QStringList recentContest;
 	void refreshContestList();
 
-private slots:
+  private slots:
 	void addContest();
 	void deleteContest();
 	void currentRowChanged();
 
-signals:
+  signals:
 	void selectionChanged();
 	void rowDoubleClicked();
 };

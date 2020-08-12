@@ -38,7 +38,7 @@ class AddTestCasesWizard : public QWizard
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit AddTestCasesWizard(QWidget *parent = nullptr);
 	~AddTestCasesWizard();
 	void setSettings(Settings *, bool);
@@ -48,7 +48,7 @@ public:
 	const QList<QStringList> &getMatchedInputFiles() const;
 	const QList<QStringList> &getMatchedOutputFiles() const;
 
-private:
+  private:
 	Ui::AddTestCasesWizard *ui;
 	Settings *settings{};
 	int fullScore{};
@@ -66,7 +66,7 @@ private:
 	bool validateCurrentPage();
 	static bool compareFileName(const QString &, const QString &);
 
-private slots:
+  private slots:
 	void fullScoreChanged(const QString &);
 	void timeLimitChanged(const QString &);
 	void memoryLimitChanged(const QString &);

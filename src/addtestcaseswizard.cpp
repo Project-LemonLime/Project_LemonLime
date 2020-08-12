@@ -399,9 +399,9 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool
 			{
 				ui->inputFilesPattern->setFocus();
 				QMessageBox::warning(
-				   this, tr("Error"),
-				   tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
-				   QMessageBox::Close);
+				    this, tr("Error"),
+				    tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
+				    QMessageBox::Close);
 				return false;
 			}
 
@@ -409,9 +409,9 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool
 			{
 				ui->outputFilesPattern->setFocus();
 				QMessageBox::warning(
-				   this, tr("Error"),
-				   tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
-				   QMessageBox::Close);
+				    this, tr("Error"),
+				    tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
+				    QMessageBox::Close);
 				return false;
 			}
 
@@ -420,7 +420,8 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool
 			if (! QRegExp(regExp).isValid())
 			{
 				ui->argumentList->setCurrentCell(i, 1);
-				QMessageBox::warning(this, tr("Error"), tr("Invalid regular expression!"), QMessageBox::Close);
+				QMessageBox::warning(this, tr("Error"), tr("Invalid regular expression!"),
+				                     QMessageBox::Close);
 				return false;
 			}
 		}

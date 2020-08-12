@@ -38,7 +38,7 @@ class JudgingThread;
 class AssignmentThread : public QThread
 {
 	Q_OBJECT
-public:
+  public:
 	explicit AssignmentThread(QObject *parent = nullptr);
 	// void setCheckRejudgeMode(bool);
 	void setNeedRejudge(const QList<QPair<int, int>> &);
@@ -57,7 +57,7 @@ public:
 	// const QList< QPair<int, int> >& getNeedRejudge() const;
 	void run();
 
-private:
+  private:
 	// bool checkRejudgeMode;
 	bool interpreterFlag{};
 	Settings *settings{};
@@ -93,13 +93,13 @@ private:
 	void taskSkipped(const QPair<int, int> &);
 	void makeDialogAlert(QString);
 
-private slots:
+  private slots:
 	void threadFinished();
 
-public slots:
+  public slots:
 	void stopJudgingSlot();
 
-signals:
+  signals:
 	void dialogAlert(QString);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);

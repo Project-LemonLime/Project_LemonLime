@@ -43,7 +43,7 @@ class JudgingDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit JudgingDialog(QWidget *parent = nullptr);
 	~JudgingDialog();
 	void setContest(Contest *);
@@ -53,17 +53,17 @@ public:
 	void judgeAll();
 	void reject();
 
-private slots:
+  private slots:
 	void stopJudgingSlot();
 	static void skipJudging();
 
-private:
+  private:
 	Ui::JudgingDialog *ui;
 	Contest *curContest{};
 	QTextCursor *cursor;
 	bool stopJudging{};
 
-public slots:
+  public slots:
 	void dialogAlert(const QString &);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
@@ -74,7 +74,7 @@ public slots:
 	void contestantJudgedDisplay(const QString &, const int, const int);
 	void compileError(int, int);
 
-signals:
+  signals:
 	void stopJudgingSignal();
 };
 

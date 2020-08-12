@@ -21,19 +21,19 @@ class AddCompilerWizard : public QWizard
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit AddCompilerWizard(QWidget *parent = nullptr);
 	~AddCompilerWizard();
 	void accept();
 	const QList<Compiler *> &getCompilerList() const;
 
-private:
+  private:
 	Ui::AddCompilerWizard *ui;
 	QList<Compiler *> compilerList;
 	int nextId() const;
 	bool validateCurrentPage();
 
-private slots:
+  private slots:
 	void compilerTypeChanged();
 	void selectCompilerLocation();
 	void selectInterpreterLocation();

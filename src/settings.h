@@ -33,7 +33,7 @@ class Compiler;
 class Settings : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	explicit Settings(QObject *parent = nullptr);
 
 	int getDefaultFullScore() const;
@@ -133,7 +133,7 @@ public:
 	static QString temporaryPath();
 	static QString selfTestPath();
 
-private:
+  private:
 	QList<Compiler *> compilerList;
 	int defaultFullScore{};
 	int defaultTimeLimit{};

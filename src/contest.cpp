@@ -140,7 +140,7 @@ void Contest::deleteTask(int index)
 void Contest::refreshContestantList()
 {
 	QStringList nameList =
-	   QDir(Settings::sourcePath()).entryList(QStringList(), QDir::Dirs | QDir::NoDotAndDotDot);
+	    QDir(Settings::sourcePath()).entryList(QStringList(), QDir::Dirs | QDir::NoDotAndDotDot);
 	QStringList curNameList = contestantList.keys();
 
 	for (int i = 0; i < curNameList.size(); i++)
@@ -190,11 +190,9 @@ void Contest::clearPath(const QString &curDir)
 		if (! dir.remove(fileList[i]))
 		{
 #ifdef Q_OS_WIN32
-			QProcess::execute(QString("attrib"),
-			                  QStringList("-R") + QStringList(curDir + fileList[i]));
+			QProcess::execute(QString("attrib"), QStringList("-R") + QStringList(curDir + fileList[i]));
 #else
-			QProcess::execute(QString("chmod"),
-			                  QStringList("+w") + QStringList(curDir + fileList[i]));
+			QProcess::execute(QString("chmod"), QStringList("+w") + QStringList(curDir + fileList[i]));
 #endif
 			dir.remove(fileList[i]);
 		}
@@ -252,7 +250,8 @@ void Contest::judge(Contestant *contestant)
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
 		contestant->setCheckJudged(i, true);
-		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
+		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(),
+		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
 		delete thread;
 		clearPath(Settings::temporaryPath());
@@ -311,7 +310,8 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
 		contestant->setCheckJudged(i, true);
-		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(), taskList[i]->getTotalScore());
+		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(),
+		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
 		delete thread;
 		clearPath(Settings::temporaryPath());

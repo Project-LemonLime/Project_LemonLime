@@ -38,17 +38,17 @@ class OptionsDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit OptionsDialog(QWidget *parent = nullptr);
 	~OptionsDialog();
 	void resetEditSettings(Settings *);
 	Settings *getEditSettings();
 
-private:
+  private:
 	Ui::OptionsDialog *ui;
 	Settings *editSettings;
 
-private slots:
+  private slots:
 	void okayButtonClicked();
 };
 

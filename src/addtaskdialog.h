@@ -34,7 +34,7 @@ class AddTaskDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit AddTaskDialog(QWidget *parent = nullptr);
 	~AddTaskDialog();
 	void addTask(const QString &, int, int, int);
@@ -42,13 +42,13 @@ public:
 	int getTimeLimit(int) const;
 	int getMemoryLimit(int) const;
 
-private:
+  private:
 	Ui::AddTaskDialog *ui;
 	QList<int> fullScore;
 	QList<int> timeLimit;
 	QList<int> memoryLimit;
 
-private slots:
+  private slots:
 	void taskBoxIndexChanged();
 	void fullScoreChanged();
 	void timeLimitChanged();

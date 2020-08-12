@@ -37,7 +37,7 @@ class ExtTestCaseUpdaterDialog : public QDialog
 {
 	Q_OBJECT
 
-public:
+  public:
 	explicit ExtTestCaseUpdaterDialog(QWidget *parent = nullptr, Task *nowTask = nullptr,
 	                                  const Settings *nowSettings = nullptr, int nowCaseNumber = 0,
 	                                  int editScore = NO_EDIT, int editData = NO_EDIT, int editTime = NO_EDIT,
@@ -54,10 +54,10 @@ public:
 
 	int checkDepends();
 
-protected:
+  protected:
 	virtual void accept() override;
 
-private:
+  private:
 	Ui::ExtTestCaseUpdaterDialog *ui;
 	Task *nowTask;
 	const Settings *nowSettings;
@@ -75,7 +75,7 @@ private:
 
 	int defScore, defTimeLimit, defMemoryLimit;
 
-private slots:
+  private slots:
 
 	void whenButtonFindInputClicked();
 	void whenButtonFindOutputClicked();

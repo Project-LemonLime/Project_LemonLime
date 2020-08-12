@@ -29,7 +29,7 @@
 class TestCase : public QObject
 {
 	Q_OBJECT
-public:
+  public:
 	explicit TestCase(QObject *parent = nullptr);
 	void copyTo(TestCase *);
 	int getFullScore() const;
@@ -55,7 +55,7 @@ public:
 	void clearDependenceSubtask();
 	void swapFiles(int, int);
 
-private:
+  private:
 	QStringList inputFiles;
 	QStringList outputFiles;
 	QList<int> dependenceSubtask;
