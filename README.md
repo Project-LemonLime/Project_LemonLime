@@ -36,6 +36,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |NOI Linux (Ubuntu) \*|14.04|32|GNOME 2|
 |Linux Mint|19.3|64|Cinnamon|
 |Deepin|15.11|64|DDE|
+|Deepin|20 (1000)|64|DDE|
 |Debian|10.3.0|64|LXQt; KDE-Xorg|
 |Fedora|31-1.9|64|XFCE|
 |openSUSE|Leap 15.1|64|iceWM|
