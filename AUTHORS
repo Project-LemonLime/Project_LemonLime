@@ -1,0 +1,29 @@
+Current maintainer:
+* Coelacanthus (liuhongwu2003@outlook.com)
+* iotang <>
+
+Original author:
+* Zhipeng Jia <zhipeng.jia@outlook.com>
+
+Contributors:
+* iotang <>
+* Coelacanthus <liuhongwu2003@outlook.com>
+* Dust1404 <>
+* swift-zym (Yiming Zhang) <>
+* memset0 <memset0@outlook.com>
+* Alphagocc <alphagocc@163.com>
+* Xeonacid <>
+
+Code from other projects:
+* files assets/icons/lemon-lime.png
+  copyright: iotang <>
+  license: GPLv3
+
+Translations authors:
+* files: translations/*.ts
+* file: assets/lemon-lime.desktop
+  copyright:
+  - Chinese (Simplified): iotang <> and Coelacanthus <liuhongwu2003@outlook.com>
+  - Chinese (Traditional): Coelacanthus <liuhongwu2003@outlook.com>
+  - English: iotang <> and Coelacanthus <liuhongwu2003@outlook.com>
+  license: GPLv3
