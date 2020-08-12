@@ -1,0 +1,28 @@
+name: "Check Clang Format"
+
+on: [push, pull_request]
+
+jobs:
+  format:
+    name: "Check Clang Format"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install clang-format-9"
+        run: |
+          sudo apt-get update
+          sudo apt-get install clang-format-9
+      - name: "Format Codes"
+        run: clang-format-9 -i src/*.cpp src/*.h
+      - name: Check diff
+        run: git diff --exit-code HEAD
+      - name: Create Pull Request
+        if: failure()
+        uses: peter-evans/create-pull-request@v2
+        with:
+          commit-message: "style: format codes"
+          title: "Format codes for ${{ github.ref }}"
+          labels: "style"
+          assignees: "${{ github.actor }}"
+          reviewers: "${{ github.actor }}"
+          branch: "auto-pr/clang-format/${{ github.ref }}"
