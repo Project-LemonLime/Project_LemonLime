@@ -1035,7 +1035,7 @@ void JudgingThread::runProgram()
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 #else
-    // TODO: rewrite with cgroup
+	// TODO: rewrite with cgroup
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
 	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString(workingDirectory + "watcher")));
 	auto *runner = new QProcess(this);
