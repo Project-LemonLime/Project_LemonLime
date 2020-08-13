@@ -10,12 +10,12 @@
     <message>
         <source>Step 1/3: Setup compilers. Use built-in configuration or customize yourself.</source>
         <oldsource>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler&apos;s configuration.</oldsource>
-        <translation>步驟 1/3：選擇自定義編譯器，或是使用預製的編譯器配置。</translation>
+        <translation>步驟 1/3：選擇客製化編譯器，或是使用預製的編譯器配置。</translation>
     </message>
     <message>
         <source>&amp;Custom Configuration</source>
         <oldsource>Custom Configuration</oldsource>
-        <translation>自定義編譯器(&amp;C)</translation>
+        <translation>客製化編譯器(&amp;C)</translation>
     </message>
     <message>
         <source>Built-&amp;in Configuration (Tick the compilers you want to add)</source>
@@ -25,7 +25,7 @@
     <message>
         <source>Step 2/3: Select compiler&apos;s location to configure it.</source>
         <oldsource>Step II: Select compiler&apos;s location to configure it.</oldsource>
-        <translation>步驟 2/3：選擇編譯器目錄進行配置。</translation>
+        <translation>步驟 2/3：選擇編譯器資料夾進行配置。</translation>
     </message>
     <message>
         <source>Compiler Name</source>
@@ -65,11 +65,11 @@
     </message>
     <message>
         <source>Default Compiler&apos;s Arguments</source>
-        <translation>預設編譯器引數</translation>
+        <translation>預設編譯器參數</translation>
     </message>
     <message>
         <source>Default Interpreter&apos;s Arguments</source>
-        <translation>預設直譯器引數</translation>
+        <translation>預設直譯器參數</translation>
     </message>
     <message>
         <source>Step 2/3: Select compilers&apos; locations to configure them.</source>
@@ -82,7 +82,7 @@
     </message>
     <message>
         <source>Memory Limit</source>
-        <translation>空間限制</translation>
+        <translation>記憶體限制</translation>
     </message>
     <message>
         <source>MB</source>
@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>[Custom Compiler]</source>
-        <translation>【自定義編譯器】</translation>
+        <translation>【客製化編譯器】</translation>
     </message>
     <message>
         <source>Compiler Name: </source>
@@ -147,11 +147,11 @@
     </message>
     <message>
         <source>Default Compiler&apos;s Arguments: </source>
-        <translation>預設編譯器引數： </translation>
+        <translation>預設編譯器參數： </translation>
     </message>
     <message>
         <source>Default Interpreter&apos;s Arguments: </source>
-        <translation>預設直譯器引數： </translation>
+        <translation>預設直譯器參數： </translation>
     </message>
     <message>
         <source>Empty gcc path!</source>
@@ -278,7 +278,7 @@
     </message>
     <message>
         <source>Memory Limit</source>
-        <translation>空間限制</translation>
+        <translation>記憶體限制</translation>
     </message>
     <message>
         <source>MB</source>
@@ -294,7 +294,7 @@
     <message>
         <source>Step 1/3: Input the full score, time limit and memory limit for each new test case.</source>
         <oldsource>Step I: Input the full score, time limit and memory limit for each new test case.</oldsource>
-        <translation>步驟 1/3：輸入將被加入測試點的分值、時間限制和空間限制。</translation>
+        <translation>步驟 1/3：輸入將被加入測試點的分值、時間限制和記憶體限制。</translation>
     </message>
     <message>
         <source>Full Score</source>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Memory Limit</source>
-        <translation>空間限制</translation>
+        <translation>記憶體限制</translation>
     </message>
     <message>
         <source>MB</source>
@@ -319,7 +319,7 @@
     <message>
         <source>Step 2/3: Input patterns for input files and output files. Use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Files will in the same subtask when their matched parts of checked expressions are identical.</source>
         <oldsource>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</oldsource>
-        <translation>步驟 2/3：為輸入輸出檔案指定格式。你可以使用像&lt;1&gt;, &lt;2&gt;...這樣的引數來表示一個正則表示式。打鉤的表示式匹配內容相同的資料點將會在一個 Subtask 中。</translation>
+        <translation>步驟 2/3：為輸入輸出檔案指定格式。你可以使用像&lt;1&gt;, &lt;2&gt;...這樣的參數來表示一個正規表達式。打鉤的表示式匹配內容相同的資料點將會在一個 Subtask 中。</translation>
     </message>
     <message>
         <source>Step 3/3: Preview the result and finish the wizard.</source>
@@ -335,11 +335,11 @@
     </message>
     <message>
         <source>Argument</source>
-        <translation>引數</translation>
+        <translation>參數</translation>
     </message>
     <message>
         <source>Regular Expression</source>
-        <translation>正則表示式</translation>
+        <translation>正規表達式</translation>
     </message>
     <message>
         <source>Test Case #%1</source>
@@ -359,7 +359,7 @@
     </message>
     <message>
         <source>Empty memory limit!</source>
-        <translation>空間限制為空！</translation>
+        <translation>記憶體限制為空！</translation>
     </message>
     <message>
         <source>Empty input files pattern!</source>
@@ -371,15 +371,15 @@
     </message>
     <message>
         <source>Argument &lt;%1&gt; appears more than once in input files pattern!</source>
-        <translation>引數&lt;%1&gt;在輸入檔案格式中出現多次！</translation>
+        <translation>參數&lt;%1&gt;在輸入檔案格式中出現多次！</translation>
     </message>
     <message>
         <source>Argument &lt;%1&gt; appears more than once in output files pattern!</source>
-        <translation>引數&lt;%1&gt;在輸出檔案格式中出現多次！</translation>
+        <translation>參數&lt;%1&gt;在輸出檔案格式中出現多次！</translation>
     </message>
     <message>
         <source>Invalid regular expression!</source>
-        <translation>正則表示式語法錯誤！</translation>
+        <translation>正規表達式語法錯誤！</translation>
     </message>
 </context>
 <context>
@@ -434,7 +434,7 @@
     </message>
     <message>
         <source>Arguments</source>
-        <translation>引數</translation>
+        <translation>參數</translation>
     </message>
     <message>
         <source>Configuration</source>
@@ -446,11 +446,11 @@
     </message>
     <message>
         <source>Compiler&apos;s Arguments</source>
-        <translation>編譯器引數</translation>
+        <translation>編譯器參數</translation>
     </message>
     <message>
         <source>Interpreter&apos;s Arguments</source>
-        <translation>直譯器引數</translation>
+        <translation>直譯器參數</translation>
     </message>
     <message>
         <source>Environment Variables</source>
@@ -609,7 +609,7 @@
     </message>
     <message>
         <source>Cannot run given compiler</source>
-        <translation>給定編譯器無法執行</translation>
+        <translation>指定編譯器無法執行</translation>
     </message>
     <message>
         <source>Compile error</source>
@@ -741,7 +741,7 @@
     </message>
     <message>
         <source>Cannot run given compiler</source>
-        <translation>給定編譯器無法執行</translation>
+        <translation>指定編譯器無法執行</translation>
     </message>
     <message>
         <source>Compile error</source>
@@ -932,7 +932,7 @@ Memory Limit: %4 MB</source>
         <translation>測試點 #%1：
 %2 Pt
 時間限制：%3 ms
-空間限制：%4 MB</translation>
+記憶體限制：%4 MB</translation>
     </message>
     <message>
         <source>
@@ -991,7 +991,7 @@ Depends: </source>
     </message>
     <message>
         <source>Memory Limit</source>
-        <translation>空間限制</translation>
+        <translation>記憶體限制</translation>
     </message>
     <message>
         <source>MB</source>
@@ -1070,7 +1070,7 @@ Depends: </source>
     </message>
     <message>
         <source>Default Memory Limit</source>
-        <translation>預設空間限制</translation>
+        <translation>預設記憶體限制</translation>
     </message>
     <message>
         <source>MB</source>
@@ -1118,7 +1118,7 @@ Depends: </source>
     </message>
     <message>
         <source>Empty default memory limit!</source>
-        <translation>預設空間限制為空！</translation>
+        <translation>預設記憶體限制為空！</translation>
     </message>
     <message>
         <source>Empty compile time limit!</source>
@@ -1191,7 +1191,7 @@ Depends: </source>
     </message>
     <message>
         <source>Memory limit exceeded</source>
-        <translation>超過空間限制</translation>
+        <translation>超過記憶體限制</translation>
     </message>
     <message>
         <source>Cannot start program</source>
@@ -1417,11 +1417,11 @@ Depends: </source>
     </message>
     <message>
         <source>Open Current Contest &amp;Folder</source>
-        <translation>開啟當前比賽的目錄(&amp;F)</translation>
+        <translation>開啟當前比賽的資料夾(&amp;F)</translation>
     </message>
     <message>
         <source>Open the folder of this contest with file manager...</source>
-        <translation>在檔案管理器中開啟這個比賽的目錄…</translation>
+        <translation>在檔案管理器中開啟這個比賽的資料夾…</translation>
     </message>
     <message>
         <source>&amp;Save Current Contest</source>
@@ -1638,7 +1638,7 @@ Depends: </source>
     </message>
     <message>
         <source>&amp;Make Self-testing Folder</source>
-        <translation>建立批處理測試目錄(&amp;M)</translation>
+        <translation>建立批處理測試資料夾(&amp;M)</translation>
     </message>
     <message>
         <source>&amp;Export Result</source>
@@ -1654,7 +1654,7 @@ Depends: </source>
     </message>
     <message>
         <source>Special Judge</source>
-        <translation>自定義校驗器(SPJ)</translation>
+        <translation>客製化校驗器(SPJ)</translation>
     </message>
     <message>
         <source>Export Result</source>
@@ -1802,7 +1802,7 @@ Depends: </source>
     </message>
     <message>
         <source>Cannot make contest path</source>
-        <translation>無法建立比賽目錄</translation>
+        <translation>無法建立比賽資料夾</translation>
     </message>
     <message>
         <source>No task found</source>
@@ -1870,11 +1870,11 @@ Depends: </source>
     </message>
     <message>
         <source>Contest Path</source>
-        <translation>比賽目錄</translation>
+        <translation>比賽資料夾</translation>
     </message>
     <message>
         <source>Select Contest Path</source>
-        <translation>選擇比賽目錄</translation>
+        <translation>選擇比賽資料夾</translation>
     </message>
 </context>
 <context>
@@ -2034,7 +2034,7 @@ Depends: </source>
     </message>
     <message>
         <source>Memory Limit Exceeded</source>
-        <translation>超過空間限制</translation>
+        <translation>超過記憶體限制</translation>
     </message>
     <message>
         <source>Output Limit Exceeded</source>
@@ -2349,11 +2349,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Special judge mode</source>
-        <translation>自定義校驗器模式</translation>
+        <translation>客製化校驗器模式</translation>
     </message>
     <message>
         <source>Arguments:</source>
-        <translation>引數：</translation>
+        <translation>參數：</translation>
     </message>
     <message>
         <source>Grader Files</source>
@@ -2541,11 +2541,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Memory Limit</source>
-        <translation>空間限制</translation>
+        <translation>記憶體限制</translation>
     </message>
     <message>
         <source>The memory limit of this testcase...</source>
-        <translation>這個測試點的每個點的空間限制…</translation>
+        <translation>這個測試點的每個點的記憶體限制…</translation>
     </message>
     <message>
         <source>MB</source>
