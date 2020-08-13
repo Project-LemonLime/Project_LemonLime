@@ -47,6 +47,7 @@ CMakeLists.txt.user
 build.ninja
 cmake_install.cmake
 build/
+build-debug/
 
 lemon
 lemon_autogen/
