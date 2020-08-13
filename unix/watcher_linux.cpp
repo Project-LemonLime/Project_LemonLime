@@ -19,6 +19,10 @@
  * watcher_unix.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * watcher_unix.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include <cassert>
 #include <csignal>
