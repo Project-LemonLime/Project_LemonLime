@@ -43,6 +43,7 @@ lemon.pro.user
 .ninja_log
 CMakeCache.txt
 CMakeFiles/
+CMakeLists.txt.user
 build.ninja
 cmake_install.cmake
 build/
