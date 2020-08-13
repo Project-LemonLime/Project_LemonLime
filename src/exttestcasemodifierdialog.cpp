@@ -41,4 +41,4 @@ void ExtTestCaseModifierDialog::init(Task *theTask, const Settings *theSettings)
 	ui->widget->init(editTask, theSettings);
 }
 
-Task *ExtTestCaseModifierDialog::getEditTask() { return editTask; }
+auto ExtTestCaseModifierDialog::getEditTask() -> Task * { return editTask; }

@@ -30,6 +30,7 @@
 
 #include "settings.h"
 #include "compiler.h"
+#include "math.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
 #define swapItemsAt swap
@@ -141,10 +142,10 @@ auto Settings::getColorPer(double p) -> QColor
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
 
-	double distan;
-	double h;
-	double s;
-	double l;
+	double distan = NAN;
+	double h = NAN;
+	double s = NAN;
+	double l = NAN;
 	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = colorMiH / 360.00 + 100 * p * distan;
 
@@ -189,10 +190,10 @@ auto Settings::getColorGrand(double p) -> QColor
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
 
-	double distan;
-	double h;
-	double s;
-	double l;
+	double distan = NAN;
+	double h = NAN;
+	double s = NAN;
+	double l = NAN;
 	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
 	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
 

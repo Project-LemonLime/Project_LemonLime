@@ -769,7 +769,7 @@ void Lemon::loadContest(const QString &filePath)
 	}
 
 	QDataStream _in(&file);
-	unsigned checkNumber;
+	unsigned checkNumber = 0;
 	_in >> checkNumber;
 
 	if (checkNumber != unsigned(MagicNumber))
@@ -779,8 +779,8 @@ void Lemon::loadContest(const QString &filePath)
 		return;
 	}
 
-	quint16 checksum;
-	int len;
+	quint16 checksum = 0;
+	int len = 0;
 	_in >> checksum >> len;
 	char *raw = new char[len];
 	_in.readRawData(raw, len);

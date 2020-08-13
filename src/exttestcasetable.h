@@ -48,7 +48,7 @@ class ExtTestCaseTable : public QTableWidget
 	void modifySelected(int, int);
 
   private:
-	Task *editTask;
+	Task *editTask{};
 
 	void addItem(int row, int column, const QString &text);
 	void addItem(int row, int column, const QString &text, const QString &tipText);
@@ -64,8 +64,8 @@ class ExtTestCaseTable : public QTableWidget
 	int isCanDown;
 	int isCanMerge;
 	int isCanSplit;
-	int selectMi;
-	int selectMx;
+	int selectMi{};
+	int selectMx{};
 	int noDfs;
 
   private slots:

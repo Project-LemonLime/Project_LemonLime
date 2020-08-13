@@ -131,17 +131,17 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 
 ExtTestCaseUpdaterDialog::~ExtTestCaseUpdaterDialog() { delete ui; }
 
-int ExtTestCaseUpdaterDialog::getScore() { return score; }
+auto ExtTestCaseUpdaterDialog::getScore() -> int { return score; }
 
-QString ExtTestCaseUpdaterDialog::getInput() { return input; }
+auto ExtTestCaseUpdaterDialog::getInput() -> QString { return input; }
 
-QString ExtTestCaseUpdaterDialog::getOutput() { return output; }
+auto ExtTestCaseUpdaterDialog::getOutput() -> QString { return output; }
 
-int ExtTestCaseUpdaterDialog::getTimeLimit() { return timeLimit; }
+auto ExtTestCaseUpdaterDialog::getTimeLimit() -> int { return timeLimit; }
 
-int ExtTestCaseUpdaterDialog::getMemoryLimit() { return memoryLimit; }
+auto ExtTestCaseUpdaterDialog::getMemoryLimit() -> int { return memoryLimit; }
 
-QStringList ExtTestCaseUpdaterDialog::getDepends() { return depends; }
+auto ExtTestCaseUpdaterDialog::getDepends() -> QStringList { return depends; }
 
 void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked()
 {
@@ -262,7 +262,7 @@ void ExtTestCaseUpdaterDialog::dependsChanged(const QString &text)
 	depends = text.isEmpty() ? QStringList() : text.split(',');
 }
 
-int ExtTestCaseUpdaterDialog::checkDepends()
+auto ExtTestCaseUpdaterDialog::checkDepends() -> int
 {
 	QSet<int> hav;
 

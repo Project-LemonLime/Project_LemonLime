@@ -69,27 +69,27 @@ ExtTestCaseTable::ExtTestCaseTable(QWidget *parent)
 	setHorizontalHeaderLabels({tr("Informations"), tr("Input"), tr("Output")});
 }
 
-int ExtTestCaseTable::canModify() { return isCanModify; }
+auto ExtTestCaseTable::canModify() -> int { return isCanModify; }
 
-int ExtTestCaseTable::canAddSub() { return isCanAddSub; }
+auto ExtTestCaseTable::canAddSub() -> int { return isCanAddSub; }
 
-int ExtTestCaseTable::canAddCase() { return isCanAddCase; }
+auto ExtTestCaseTable::canAddCase() -> int { return isCanAddCase; }
 
-int ExtTestCaseTable::canRemove() { return isCanRemove; }
-int ExtTestCaseTable::canUp() { return isCanUp; }
-int ExtTestCaseTable::canDown() { return isCanDown; }
-int ExtTestCaseTable::canMerge() { return isCanMerge; }
-int ExtTestCaseTable::canSplit() { return isCanSplit; }
+auto ExtTestCaseTable::canRemove() -> int { return isCanRemove; }
+auto ExtTestCaseTable::canUp() -> int { return isCanUp; }
+auto ExtTestCaseTable::canDown() -> int { return isCanDown; }
+auto ExtTestCaseTable::canMerge() -> int { return isCanMerge; }
+auto ExtTestCaseTable::canSplit() -> int { return isCanSplit; }
 
-QList<int> ExtTestCaseTable::getSelectedHaveSub() { return haveSub; }
+auto ExtTestCaseTable::getSelectedHaveSub() -> QList<int> { return haveSub; }
 
-QList<QPair<int, QPair<int, int>>> ExtTestCaseTable::getSelectedResSub() { return resSub; }
+auto ExtTestCaseTable::getSelectedResSub() -> QList<QPair<int, QPair<int, int>>> { return resSub; }
 
-QPair<int, int> ExtTestCaseTable::getSelectRange() { return qMakePair(selectMi, selectMx); }
+auto ExtTestCaseTable::getSelectRange() -> QPair<int, int> { return qMakePair(selectMi, selectMx); }
 
 void ExtTestCaseTable::addItem(int row, int column, const QString &text)
 {
-	QTableWidgetItem *item = new QTableWidgetItem(text);
+	auto *item = new QTableWidgetItem(text);
 	item->setTextAlignment(Qt::AlignCenter);
 	item->setToolTip(text);
 	this->setItem(row, column, item);
@@ -97,7 +97,7 @@ void ExtTestCaseTable::addItem(int row, int column, const QString &text)
 
 void ExtTestCaseTable::addItem(int row, int column, const QString &text, const QString &tipText)
 {
-	QTableWidgetItem *item = new QTableWidgetItem(text);
+	auto *item = new QTableWidgetItem(text);
 	item->setTextAlignment(Qt::AlignCenter);
 	item->setToolTip(tipText);
 	this->setItem(row, column, item);

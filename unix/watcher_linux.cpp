@@ -39,9 +39,9 @@ void cleanUp(int dummy)
 	exit(0);
 }
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
-	int timeLimit, memoryLimit;
+	int timeLimit = 0, memoryLimit = 0;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
@@ -53,8 +53,8 @@ int main(int argc, char *argv[])
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
-		struct rusage usage;
-		int status;
+		struct rusage usage{};
+		int status = 0;
 
 		if (wait4(pid, &status, 0, &usage) == -1)
 			return 1;

@@ -268,7 +268,7 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 			QList<QList<int>> scoreList;
 			QList<QList<ResultState>> resultList;
 			QList<TestCase *> testCaseList;
-			int isJudged;
+			int isJudged = 0;
 
 			try
 			{

@@ -43,8 +43,8 @@ class ExtTestCaseModifier : public QWidget
   private:
 	Ui::ExtTestCaseModifier *ui;
 
-	Task *editTask;
-	const Settings *editSettings;
+	Task *editTask{};
+	const Settings *editSettings{};
 
   private slots:
 	void whenTestCaseSelectionChanged();

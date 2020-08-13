@@ -25,15 +25,18 @@
  **/
 
 #include "task.h"
+
 #include "compiler.h"
 #include "settings.h"
 #include "testcase.h"
+#include <utility>
 
 Task::Task(QObject *parent, TaskType taskType, ComparisonMode comparisonMode, QString diffArguments,
            int realPrecision, bool standardInputCheck, bool standardOutputCheck, bool subFolderCheck)
-    : QObject(parent), taskType(taskType), comparisonMode(comparisonMode), diffArguments(diffArguments),
-      realPrecision(realPrecision), standardInputCheck(standardInputCheck),
-      standardOutputCheck(standardOutputCheck), subFolderCheck(subFolderCheck)
+    : QObject(parent), taskType(taskType), comparisonMode(comparisonMode),
+      diffArguments(std::move(diffArguments)), realPrecision(realPrecision),
+      standardInputCheck(standardInputCheck), standardOutputCheck(standardOutputCheck),
+      subFolderCheck(subFolderCheck)
 {
 }
 
@@ -354,8 +357,8 @@ void Task::writeToStream(QDataStream &out)
 
 void Task::readFromStream(QDataStream &in)
 {
-	int tmp;
-	int count;
+	int tmp = 0;
+	int count = 0;
 	in >> problemTitle;
 	in >> sourceFileName;
 	in >> inputFileName;
@@ -383,7 +386,7 @@ void Task::readFromStream(QDataStream &in)
 
 	if (taskType == Task::Communication)
 	{
-		int length;
+		int length = 0;
 		in >> length;
 		sourceFilesPath.clear();
 		sourceFilesName.clear();

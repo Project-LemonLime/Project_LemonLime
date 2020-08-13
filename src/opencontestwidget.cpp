@@ -59,7 +59,7 @@ void OpenContestWidget::refreshContestList()
 		}
 
 		QDataStream _in(&file);
-		unsigned checkNumber;
+		unsigned checkNumber = 0;
 		_in >> checkNumber;
 
 		if (checkNumber != unsigned(MagicNumber))
@@ -68,8 +68,8 @@ void OpenContestWidget::refreshContestList()
 			continue;
 		}
 
-		quint16 checksum;
-		int len;
+		quint16 checksum = 0;
+		int len = 0;
 		_in >> checksum >> len;
 		char *raw = new char[len];
 		_in.readRawData(raw, len);
@@ -116,7 +116,7 @@ void OpenContestWidget::addContest()
 	}
 
 	QDataStream in(&file);
-	unsigned checkNumber;
+	unsigned checkNumber = 0;
 	in >> checkNumber;
 
 	if (checkNumber != unsigned(MagicNumber))
@@ -125,8 +125,8 @@ void OpenContestWidget::addContest()
 		return;
 	}
 
-	quint16 checksum;
-	int len;
+	quint16 checksum = 0;
+	int len = 0;
 	in >> checksum >> len;
 	char *raw = new char[len];
 	in.readRawData(raw, len);

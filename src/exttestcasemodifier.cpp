@@ -364,7 +364,7 @@ void ExtTestCaseModifier::mergeSelected()
 
 	auto temp = ui->testCaseTable->getSelectRange();
 
-	TestCase *ans = new TestCase;
+	auto *ans = new TestCase;
 
 	int l = hav.front(), r = hav.back();
 
@@ -415,7 +415,7 @@ void ExtTestCaseModifier::splitSelected()
 
 		for (int j = 0; j < in.size(); j++)
 		{
-			TestCase *app = new TestCase;
+			auto *app = new TestCase;
 			app->setFullScore((allScore / in.size()) + (j >= gar));
 			app->setTimeLimit(now->getTimeLimit());
 			app->setMemoryLimit(now->getMemoryLimit());
@@ -445,7 +445,7 @@ void ExtTestCaseModifier::appendNewSub()
 
 	if (dialog->exec() == QDialog::Accepted)
 	{
-		TestCase *now = new TestCase;
+		auto *now = new TestCase;
 		now->setIndex(editTask->getTestCaseList().size() + 1);
 		now->setFullScore(dialog->getScore());
 		now->setTimeLimit(dialog->getTimeLimit());

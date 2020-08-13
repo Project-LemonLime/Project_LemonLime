@@ -107,7 +107,7 @@ auto TestCase::checkDependenceSubtask(const QStringList &list) -> bool
 
 	for (int i = 0; i != list.size(); ++i)
 	{
-		int t;
+		int t = 0;
 		t = list[i].toInt();
 
 		if (t <= 0 || t >= index)

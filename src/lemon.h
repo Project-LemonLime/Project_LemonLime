@@ -56,7 +56,7 @@ class Lemon : public QMainWindow
 	QString curFile;
 	QList<QAction *> languageActions;
 	QTranslator *appTranslator;
-	QTranslator *qtTranslator;
+	QTranslator *qtTranslator{};
 	QSignalMapper *signalMapper;
 	QMenu *TaskMenu;
 	QList<QAction *> TaskList;

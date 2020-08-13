@@ -43,7 +43,7 @@ class ExtTestCaseModifierDialog : public QDialog
   private:
 	Ui::ExtTestCaseModifierDialog *ui;
 
-	Task *editTask;
+	Task *editTask{};
 };
 
 #endif // EXTTESTCASEMODIFIERDIALOG_H
