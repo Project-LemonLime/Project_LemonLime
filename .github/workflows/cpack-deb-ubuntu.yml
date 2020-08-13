@@ -1,7 +1,18 @@
 name: CPack - DEB - Ubuntu
 
 on:
+  # push代码时触发workflow
   push:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+  # pull_request时触发workflow
+  pull_request:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
   release:
     types: [published]
 

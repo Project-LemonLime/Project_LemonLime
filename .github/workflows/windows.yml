@@ -12,6 +12,8 @@ on:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+  release:
+    types: [published]
 jobs:
   build:
     name: Build
