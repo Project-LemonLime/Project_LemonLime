@@ -19,6 +19,10 @@
  * compiler.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * compiler.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "compiler.h"
 

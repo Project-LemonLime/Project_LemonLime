@@ -23,6 +23,10 @@
  * assignmentthread.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * assignmentthread.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "assignmentthread.h"
 #include "globaltype.h"

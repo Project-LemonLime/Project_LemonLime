@@ -23,6 +23,10 @@
  * contest.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * contest.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "contest.h"
 #include "assignmentthread.h"

@@ -16,6 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
+/**
+ * exttestcasemodifier.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
+
 #include "exttestcasemodifier.h"
 #include "exttestcaseupdaterdialog.h"
 #include "task.h"

@@ -23,6 +23,10 @@
  * exportutil.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * exportutil.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "exportutil.h"
 #include "contest.h"
@@ -1031,7 +1035,7 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	if (fileName.isEmpty())
 		return;
-
+    // TODO: refactor
 	if (QFileInfo(fileName).suffix() == "html")
 	{
 		QMessageBox::StandardButton res =

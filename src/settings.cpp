@@ -23,6 +23,10 @@
  * settings.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * settings.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "settings.h"
 #include "compiler.h"
@@ -487,7 +491,7 @@ void Settings::copyFrom(Settings *other)
 
 void Settings::saveSettings()
 {
-	QSettings settings("Crash", "Lemon");
+	QSettings settings("LemonLime", "lemon");
 	settings.setValue("UiLanguage", uiLanguage);
 	settings.beginGroup("GeneralSettings");
 	settings.setValue("DefaultFullScore", defaultFullScore);
@@ -573,7 +577,7 @@ void Settings::loadSettings()
 
 	compilerList.clear();
 	recentContest.clear();
-	QSettings settings("Crash", "Lemon");
+	QSettings settings("LemonLime", "lemon");
 	uiLanguage = settings.value("UiLanguage", QLocale::system().name()).toString();
 	settings.beginGroup("GeneralSettings");
 	defaultFullScore = settings.value("DefaultFullScore", 10).toInt();

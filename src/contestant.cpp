@@ -19,6 +19,10 @@
  * contestant.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * contestant.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "contestant.h"
 

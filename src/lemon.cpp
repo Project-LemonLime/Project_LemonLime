@@ -23,6 +23,10 @@
  * lemon.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * lemon.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "lemon.h"
 #include "addcompilerwizard.h"
@@ -106,9 +110,7 @@ Lemon::Lemon(QWidget *parent) : QMainWindow(parent), ui(new Ui::Lemon)
 	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
 	appTranslator = new QTranslator(this);
-	qtTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
-	QApplication::installTranslator(qtTranslator);
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "lemon_*.qm", QDir::Files);
 
 	for (int i = 0; i < fileList.size(); i++)
@@ -128,7 +130,7 @@ Lemon::Lemon(QWidget *parent) : QMainWindow(parent), ui(new Ui::Lemon)
 	ui->setEnglishAction->setCheckable(true);
 	connect(ui->setEnglishAction, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
 	loadUiLanguage();
-	QSettings settings("Crash", "Lemon");
+	QSettings settings("LemonLime", "lemon");
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
 }
@@ -155,7 +157,7 @@ void Lemon::closeEvent(QCloseEvent *event)
 		saveContest(curFile);
 
 	settings->saveSettings();
-	QSettings settings("Crash", "Lemon");
+	QSettings settings("LemonLime", "lemon");
 	settings.setValue("WindowSize", size());
 }
 
@@ -217,14 +219,12 @@ void Lemon::loadUiLanguage()
 		{
 			languageAction->setChecked(true);
 			appTranslator->load(QString(":/translation/lemon_%1.qm").arg(settings->getUiLanguage()));
-			qtTranslator->load(QString(":/translation/qt_%1.qm").arg(settings->getUiLanguage()));
 			return;
 		}
 	}
 
 	settings->setUiLanguage("en");
 	appTranslator->load("");
-	qtTranslator->load("");
 	ui->setEnglishAction->setChecked(true);
 }
 

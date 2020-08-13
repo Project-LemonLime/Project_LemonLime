@@ -23,6 +23,10 @@
  * main.cpp @Project LemonLime
  * Update 2019 iotang
  **/
+/**
+ * main.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "lemon.h"
 #include <QApplication>

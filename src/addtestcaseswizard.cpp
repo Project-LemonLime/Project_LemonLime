@@ -19,6 +19,10 @@
  * addtestcasewizard.cpp @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * addtestcasewizard.cpp @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #include "addtestcaseswizard.h"
 #include "settings.h"
