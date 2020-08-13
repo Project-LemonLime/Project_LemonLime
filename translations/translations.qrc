@@ -2,5 +2,6 @@
     <qresource prefix="/translation">
         <file alias="lemon_zh_CN.qm">lemon_zh_CN.qm</file>
         <file alias="lemon_zh_TW.qm">lemon_zh_TW.qm</file>
+        <file alias="lemon_ja_JP.qm">lemon_ja_JP.qm</file>
     </qresource>
 </RCC>
