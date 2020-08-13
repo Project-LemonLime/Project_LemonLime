@@ -1035,7 +1035,7 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	if (fileName.isEmpty())
 		return;
-    // TODO: refactor
+	// TODO: refactor
 	if (QFileInfo(fileName).suffix() == "html")
 	{
 		QMessageBox::StandardButton res =
