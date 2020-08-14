@@ -1,20 +1,8 @@
 cmake_minimum_required(VERSION 3.9.0 )
 
-
-file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSION" VERSION)
-file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/BUILDVERSION" BUILD_VERSION)
-file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSIONSUFFIX" VERSION_SUFFIX)
-
 project(lemon)
 
-set(VERSION_STRING "${VERSION}${VERSION_SUFFIX}")
-set(VERSION_LIST ${VERSION})
-string(REPLACE "." ";" VERSION_LIST ${VERSION_LIST})
-separate_arguments(VERSION_LIST)
-
-list(GET VERSION_LIST 0 CMAKE_PROJECT_VERSION_MAJOR)
-list(GET VERSION_LIST 1 CMAKE_PROJECT_VERSION_MINOR)
-list(GET VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
+option(EMBED_TRANSLATIONS "Embed translations" ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
@@ -25,26 +13,38 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(EMBED_TRANSLATIONS "Embed translations" ON)
-
-set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
-set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
-add_subdirectory(3rdparty/SingleApplication)
-
-include(cmake/translations.cmake)
-
-if(EMBED_TRANSLATIONS)
-    add_definitions(-DEMBED_TRANSLATIONS)
-    configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-    set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
-endif()
-
+find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 
 if(WIN32)
     find_package(Qt5 COMPONENTS AxContainer REQUIRED)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
+    set(GUI_TYPE WIN32)
 endif()
+
+# ==================================================================================
+# Lemon Build Info
+# ==================================================================================
+
+file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSION" VERSION)
+file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/BUILDVERSION" BUILD_VERSION)
+file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSIONSUFFIX" VERSION_SUFFIX)
+
+set(VERSION_STRING "${VERSION}${VERSION_SUFFIX}")
+set(VERSION_LIST ${VERSION})
+string(REPLACE "." ";" VERSION_LIST ${VERSION_LIST})
+separate_arguments(VERSION_LIST)
+
+list(GET VERSION_LIST 0 CMAKE_PROJECT_VERSION_MAJOR)
+list(GET VERSION_LIST 1 CMAKE_PROJECT_VERSION_MINOR)
+list(GET VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
+
+add_definitions(-DLEMON_VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
+add_definitions(-DLEMON_VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
+add_definitions(-DLEMON_VERSION_BUGFIX=${CPACK_PACKAGE_VERSION_PATCH})
+add_definitions(-DLEMON_VERSION_BUILD=${BUILD_VERSION})
+
+add_definitions(-DLEMON_VERSION_STRING="${VERSION_STRING}")
 
 message(" ")
 message("LemonLime Version: ${VERSION_STRING}")
@@ -62,7 +62,30 @@ message("| Welcome to contribute!                              |")
 message("|-----------------------------------------------------|")
 message(" ")
 
-find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
+if(LEMON_BUILD_INFO)
+    set(_LEMON_BUILD_INFO_STR_ "${LEMON_BUILD_INFO}")
+elseif(DEFINED ENV{_LEMON_BUILD_INFO_})
+    set(_LEMON_BUILD_INFO_STR_ "$ENV{_LEMON_BUILD_INFO_}")
+else()
+    set(_LEMON_BUILD_INFO_STR_ "LemonLime from manual build")
+endif()
+
+if(LEMON_BUILD_EXTRA_INFO)
+    set(_LEMON_BUILD_EXTRA_INFO_STR_ "${LEMON_BUILD_EXTRA_INFO}")
+elseif(DEFINED ENV{_LEMON_BUILD_EXTRA_INFO_})
+    set(_LEMON_BUILD_EXTRA_INFO_STR_ "$ENV{_LEMON_BUILD_EXTRA_INFO_}")
+else()
+    set(_LEMON_BUILD_EXTRA_INFO_STR_ "LemonLime ${VERSION_STRING}:${BUILD_VERSION}")
+endif()
+
+set(LEMON_BUILD_INFO ${_LEMON_BUILD_INFO_STR_})
+set(LEMON_BUILD_EXTRA_INFO ${_LEMON_BUILD_EXTRA_INFO_STR_})
+
+add_definitions(-DLEMON_BUILD_INFO_STR="${_LEMON_BUILD_INFO_STR_}")
+add_definitions(-DLEMON_BUILD_EXTRA_INFO_STR="${_LEMON_BUILD_EXTRA_INFO_STR_}")
+message("LemonLime build info: ${_LEMON_BUILD_INFO_STR_}")
+message("LemonLime build info extra: ${_LEMON_BUILD_EXTRA_INFO_STR_}")
+
 
 set(SRC
 	src/main.cpp
@@ -175,7 +198,31 @@ set(LEMON_UI_FORMS
 	src/forms/statisticsbrowser.ui
 	)
 
-set(QRC_RESOURCES resource.qrc manual/manual.qrc)
+# ==================================================================================
+# Lemon Translations
+# ==================================================================================
+
+include(cmake/translations.cmake)
+
+if(EMBED_TRANSLATIONS)
+    add_definitions(-DEMBED_TRANSLATIONS)
+    configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+    set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+endif()
+
+# Qt language translations
+add_custom_target(lupdate
+    COMMAND lupdate ${HEADERS}
+    ${SRC}
+    ${LEMON_UI_FORMS}
+    ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
+set(QRC_RESOURCES 
+    resource.qrc 
+    manual/manual.qrc
+    )
 	
 set(LEMON_FULL_SOURCES
     ${HEADERS}
@@ -188,26 +235,12 @@ set(LEMON_FULL_SOURCES
     ${QRC_RESOURCES}
     ${QM_FILES}
     )
-	
 
-# Qt language translations
-add_custom_target(lupdate
-    COMMAND lupdate ${HEADERS}
-    ${SRC}
-    ${LEMON_UI_FORMS}
-    ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-# Suppressing console
-# Set Win32 Specific Settings
-if(WIN32)
-    set(GUI_TYPE WIN32)
-endif()
 # Set Apple MacOS Specific settings
 if(APPLE)
     set(GUI_TYPE MACOSX_BUNDLE)
-endif(APPLE)
+endif()
 
 if(WIN32)
     add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES})
@@ -221,7 +254,13 @@ else()
     add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES} ${CMAKE_BINARY_DIR}/watcher.qrc)
     add_dependencies(lemon watcher_unix)
 endif()
+
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
+
+set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
+set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
+add_subdirectory(3rdparty/SingleApplication)
+
 if(WIN32)
     target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core Qt5::AxContainer SingleApplication::SingleApplication)
 else()
@@ -268,6 +307,10 @@ if(UNIX)
     endif()
 endif()
 
+
+# ==================================================================================
+# Lemon Package
+# ==================================================================================
 
 # Packaging
 set(CPACK_PACKAGE_NAME "Lemon")

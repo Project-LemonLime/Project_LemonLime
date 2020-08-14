@@ -1777,10 +1777,6 @@ Depends: </source>
         <translation>名字沒有改變。</translation>
     </message>
     <message>
-        <source>BETA VERISON</source>
-        <translation>BETA 版本</translation>
-    </message>
-    <message>
         <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
         <translation>這是一個基於 LemonPlus 的簡易 OI 競賽測試環境。</translation>
     </message>
@@ -1845,6 +1841,18 @@ Depends: </source>
     <message>
         <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
         <translation>本程式基於&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;許可協議</translation>
+    </message>
+    <message>
+        <source>Version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Build Info: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Build Extra Info: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

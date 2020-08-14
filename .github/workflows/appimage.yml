@@ -73,7 +73,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=Release
+          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
           cmake --install .
       # ========================================================================================================= Deployments
