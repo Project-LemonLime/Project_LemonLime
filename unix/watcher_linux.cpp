@@ -37,13 +37,13 @@
 
 int pid;
 
-void cleanUp(int dummy)
+void cleanUp(int  /*dummy*/)
 {
 	kill(pid, SIGKILL);
 	exit(0);
 }
 
-auto main(int argc, char *argv[]) -> int
+auto main(int  /*argc*/, char *argv[]) -> int
 {
 	int timeLimit = 0, memoryLimit = 0;
 	sscanf(argv[5], "%d", &timeLimit);
@@ -105,7 +105,7 @@ auto main(int argc, char *argv[]) -> int
 		if (strlen(argv[4]) > 0)
 			assert(freopen(argv[4], "w", stderr));
 
-		rlimit memlim, stalim, timlim;
+		rlimit memlim{}, stalim{}, timlim{};
 
 		if (memoryLimit > 0)
 		{

@@ -406,7 +406,7 @@ void ExtTestCaseModifier::splitSelected()
 		TestCase *now = editTask->getTestCase(i);
 		auto in = now->getInputFiles();
 		auto out = now->getOutputFiles();
-		int allScore = now->getFullScore(), gar;
+		int allScore = now->getFullScore(), gar = 0;
 
 		if (in.size())
 			gar = in.size() - allScore % in.size();

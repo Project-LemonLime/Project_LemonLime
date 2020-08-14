@@ -262,19 +262,19 @@ void Contestant::readFromStream(QDataStream &in)
 	in >> score;
 	in >> timeUsed;
 	in >> memoryUsed;
-	quint32 judgingTime_date;
-	quint32 judgingTime_time;
-	quint8 judgingTime_timespec;
+	quint32 judgingTime_date = 0;
+	quint32 judgingTime_time = 0;
+	quint8 judgingTime_timespec = 0;
 	in >> judgingTime_date;
 	in >> judgingTime_time;
 	in >> judgingTime_timespec;
 	judgingTime = QDateTime(QDate::fromJulianDay(judgingTime_date),
 	                        QTime::fromMSecsSinceStartOfDay(static_cast<int>(judgingTime_time)),
 	                        Qt::TimeSpec(judgingTime_timespec));
-	int count;
-	int _count;
-	int __count;
-	int tmp;
+	int count = 0;
+	int _count = 0;
+	int __count = 0;
+	int tmp = 0;
 	in >> count;
 
 	for (int i = 0; i < count; i++)

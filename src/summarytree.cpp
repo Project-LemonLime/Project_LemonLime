@@ -143,7 +143,7 @@ void SummaryTree::setContest(Contest *contest)
 
 void SummaryTree::setSettings(Settings *_settings) { settings = _settings; }
 
-void SummaryTree::contextMenuEvent(QContextMenuEvent *event)
+void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/)
 {
 	auto *contextMenu = new QMenu(this);
 	QTreeWidgetItem *curItem = currentItem();

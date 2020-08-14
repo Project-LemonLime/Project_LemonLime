@@ -30,7 +30,7 @@
 
 #include "settings.h"
 #include "compiler.h"
-#include "math.h"
+#include <cmath>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
 #define swapItemsAt swap

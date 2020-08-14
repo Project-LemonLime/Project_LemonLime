@@ -151,7 +151,7 @@ void Lemon::changeEvent(QEvent *event)
 	}
 }
 
-void Lemon::closeEvent(QCloseEvent *event)
+void Lemon::closeEvent(QCloseEvent * /*event*/)
 {
 	if (curContest)
 		saveContest(curFile);

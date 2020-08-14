@@ -26,6 +26,7 @@
 
 #include "judgingthread.h"
 #include "judgesharedvariables.h"
+#include <cmath>
 #include "settings.h"
 #include "task.h"
 #include <QTime>
@@ -135,8 +136,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	bool chk2 = false;
 	bool chkEof1 = false;
 	bool chkEof2 = false;
-	short len1;
-	short len2;
+	short len1 = 0;
+	short len2 = 0;
 	int nowRow = 1;
 
 	while (true)
@@ -297,8 +298,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 	char ch2 = ' ';
 	char str1[23];
 	char str2[23];
-	int flag1;
-	int flag2;
+	int flag1 = 0;
+	int flag2 = 0;
 	int nowRow = 1;
 
 	while (true)
@@ -595,8 +596,8 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	for (int i = 0; i < task->getRealPrecision(); i++)
 		eps *= 0.1;
 
-	long double a;
-	long double b;
+	long double a = NAN;
+	long double b = NAN;
 	int nowRow = 1;
 
 	while (true)

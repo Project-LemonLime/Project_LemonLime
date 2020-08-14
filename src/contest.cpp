@@ -443,7 +443,7 @@ void Contest::writeToStream(QDataStream &out)
 
 void Contest::readFromStream(QDataStream &in)
 {
-	int count;
+	int count = 0;
 	in >> contestTitle;
 	in >> count;
 

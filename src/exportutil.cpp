@@ -32,6 +32,7 @@
 #include "contest.h"
 #include "contestant.h"
 #include "globaltype.h"
+#include <cmath>
 #include "settings.h"
 #include "subtaskdependencelib.h"
 #include "task.h"
@@ -392,9 +393,9 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 		if (allScore >= 0)
 		{
-			double h;
-			double s;
-			double l;
+			double h = NAN;
+			double s = NAN;
+			double l = NAN;
 			colors.getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
 			out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px; font-weight: "
@@ -416,9 +417,9 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 			if (score != -1)
 			{
-				double h;
-				double s;
-				double l;
+				double h = NAN;
+				double s = NAN;
+				double l = NAN;
 				QColor col = colors.getColorPer(score, fullScore[j]);
 				col.getHslF(&h, &s, &l);
 

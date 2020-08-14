@@ -31,7 +31,7 @@
 #define qAsConst
 #endif
 
-ExtTestCaseTable::ExtTestCaseTable(QWidget *parent)
+ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
 {
 	clear();
 
