@@ -32,7 +32,6 @@
 #include "contest.h"
 #include "contestant.h"
 #include "globaltype.h"
-#include <cmath>
 #include "settings.h"
 #include "subtaskdependencelib.h"
 #include "task.h"
@@ -42,6 +41,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)

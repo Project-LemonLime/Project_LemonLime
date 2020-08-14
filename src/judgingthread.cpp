@@ -26,7 +26,6 @@
 
 #include "judgingthread.h"
 #include "judgesharedvariables.h"
-#include <cmath>
 #include "settings.h"
 #include "task.h"
 #include <QTime>
