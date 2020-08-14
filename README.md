@@ -24,22 +24,23 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 曾在这些系统测试：
 
-|          系统名称         |    版本号    |     架构     |     DE / WM    |
-| :-------------------: | :-------: | :--------: | :------------: |
-|        Windows        |     7     | x86, amd64 |    Untitled    |
-|        Windows        |     10    |    amd64   |    Untitled    |
-|        Manjaro        |   20.0.1  |    amd64   | KDE-Xorg; i3WM |
-|          Arch         | 2020-8-11 |    amd64   |    KDE-Xorg    |
-|          Arch         | 2020-8-11 |    amd64   |   KDE-Wayland  |
-|         Ubuntu        |   20.04   |    amd64   |     GNOME 3    |
-|         Ubuntu        |  18.04.4  |    amd64   |     GNOME 3    |
-| NOI Linux (Ubuntu) \* |   14.04   |     x86    |     GNOME 2    |
-|       Linux Mint      |    19.3   |    amd64   |    Cinnamon    |
-|         Deepin        |   15.11   |    amd64   |       DDE      |
-|         Deepin        | 20 (1000) |    amd64   |       DDE      |
-|         Debian        |   10.3.0  |    amd64   | LXQt; KDE-Xorg |
-|         Fedora        |   31-1.9  |    amd64   |      XFCE      |
-|        openSUSE       | Leap 15.1 |    amd64   |      iceWM     |
+|          系统名称         |     版本号    |     架构     |     DE / WM    |
+| :-------------------: | :--------: | :--------: | :------------: |
+|        Windows        |      7     | x86, amd64 |    Untitled    |
+|        Windows        |     10     |    amd64   |    Untitled    |
+|        Manjaro        |   20.0.1   |    amd64   | KDE-Xorg; i3WM |
+|          Arch         |  2020-8-11 |    amd64   |    KDE-Xorg    |
+|          Arch         |  2020-8-11 |    amd64   |   KDE-Wayland  |
+|         Ubuntu        |    20.04   |    amd64   |     GNOME 3    |
+|         Ubuntu        |   18.04.4  |    amd64   |     GNOME 3    |
+| NOI Linux (Ubuntu) \* |    14.04   |     x86    |     GNOME 2    |
+|       Linux Mint      |    19.3    |    amd64   |    Cinnamon    |
+|         Deepin        |    15.11   |    amd64   |       DDE      |
+|         Deepin        |  20 (1000) |    amd64   |       DDE      |
+|         Debian        |   10.3.0   |    amd64   | LXQt; KDE-Xorg |
+|         Fedora        |   31-1.9   |    amd64   |      XFCE      |
+|        openSUSE       |  Leap 15.1 |    amd64   |      iceWM     |
+|        openSUSE       | Tumbleweed |    amd64   |    KDE-Xorg    |
 
 如果您在您的系统上做了测试，请前往 [#49](https://github.com/iotang/Project_LemonLime/issues/49) 告知
 
@@ -118,6 +119,8 @@ scoop install peach/lemon
 
 当然如果你装有 Qt 5，也可以下载源码编译。
 
+NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用。
+
 #### 非常严重的提示
 
 由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 的功能的完整性，比如是否能探测程序的运行时间和使用内存。不过如果使用源码构建 LemonLime 的话将不会出现这种问题，所以仍然推荐使用源码构建 LemonLime。
@@ -155,6 +158,8 @@ cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
 cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
 
+cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+
 ## 使用 QtCreator ##
 sudo apt install qtcreator
 ```
@@ -178,6 +183,8 @@ sudo yum install g++ make qt5 cmake ninja # 依赖环境(ninja 和 make 二选�
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
 cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
+
+cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
 ```
 
 #### openSUSE 系
@@ -205,7 +212,7 @@ PS：有可能会提示缺少 fuse, 请安装
 
 ```bash
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
-cmake --build . 
+cmake --build .
 ```
 
 ## 致谢
