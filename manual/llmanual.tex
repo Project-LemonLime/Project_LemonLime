@@ -413,7 +413,7 @@ cmake --install .
 				下面是一个例子。
 				
 				\begin{lstlisting}[language={C++},numbers=left,showspaces=false,showstringspaces=false,frame=shadowbox,basicstyle=\ttfamily]
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 ifstream fin, fout, fstd;
@@ -444,8 +444,10 @@ int main(int argc, char **argv)
 	fstd >> js;
 	int P = js.length(), Q = ps.length(), K = 0;
 	for (int i = 0; i < min(P, Q); i++)
-		if (js[i] == ps[i]) K++;
-	if (Q > P) K -= Q - P;
+		if (js[i] == ps[i])
+			K++;
+	if (Q > P)
+		K -= Q - P;
 	if (K >= P)
 	{
 		quit(fullScore, "Success");
@@ -457,9 +459,9 @@ int main(int argc, char **argv)
 		quit(0.4 * fullScore, "Great: 40%!");
 		return 0;
 	}
-		
+
 	quit(0, "Failed: @_@????????");
-	
+
 	return 0;
 }
 				\end{lstlisting}
@@ -477,8 +479,8 @@ int main(int argc, char **argv)
 				把上面的 spj 重写后如下所示：
 		
 				\begin{lstlisting}[language={C++},numbers=left,showspaces=false,showstringspaces=false,frame=shadowbox,basicstyle=\ttfamily]
-#include<bits/stdc++.h>
-#include"testlib_for_lemons.h"
+#include "testlib_for_lemons.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -490,8 +492,10 @@ int main(int argc, char **argv)
 	string js = ans.readToken();
 	int P = js.length(), Q = ps.length(), K = 0;
 	for (int i = 0; i < min(P, Q); i++)
-		if (js[i] == ps[i]) K++;
-	if (Q > P) K -= Q - P;
+		if (js[i] == ps[i])
+			K++;
+	if (Q > P)
+		K -= Q - P;
 	if (K >= P)
 	{
 		quitf(_ok, "Success");
@@ -504,10 +508,9 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	quitf(_wa, "Failed: @_@????????");
-	
+
 	return 0;
 }
-		
 				\end{lstlisting}
 				
 				
