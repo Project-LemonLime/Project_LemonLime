@@ -1131,13 +1131,16 @@ void Lemon::aboutLemon()
 {
 	QString text;
 	text += "<h2>Project LemonLime</h2>";
-    text += "<h3>" + tr("Version: %1").arg(QString(LEMON_VERSION_STRING) + QString(":") + QString::number(LEMON_VERSION_BUILD)) + "</h3>";
+	text += "<h3>" +
+	        tr("Version: %1")
+	            .arg(QString(LEMON_VERSION_STRING) + QString(":") + QString::number(LEMON_VERSION_BUILD)) +
+	        "</h3>";
 	text += tr("This is a tiny judging environment for OI contest based on Project LemonPlus.") + "<br>";
 	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
 	text += tr("Based on Project LemonPlus by Dust1404, 2019") + "<br>";
 	text += tr("Update by iotang and Coelacanthus") + "<br><br>";
-    text += tr("Build Info: %1").arg(QString(LEMON_BUILD_INFO_STR)) + "<br>";
-    text += tr("Build Extra Info: %1").arg(QString(LEMON_BUILD_EXTRA_INFO_STR)) + "<br>";
+	text += tr("Build Info: %1").arg(QString(LEMON_BUILD_INFO_STR)) + "<br>";
+	text += tr("Build Extra Info: %1").arg(QString(LEMON_BUILD_EXTRA_INFO_STR)) + "<br>";
 	text += tr("Build Date: %1").arg(QString(__DATE__) + QString(", ") + QString(__TIME__)) + "<br>";
 	text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> "
 	           "license") +
