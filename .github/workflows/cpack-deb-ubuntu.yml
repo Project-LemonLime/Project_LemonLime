@@ -67,7 +67,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --target package 
       - name: Get package name
         shell: bash

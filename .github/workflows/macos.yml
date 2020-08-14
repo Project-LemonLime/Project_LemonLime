@@ -53,7 +53,7 @@ jobs:
           brew install ninja pkg-config
       - name: build macos
         run: |
-          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for macOS" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
       # tag 打包
       - name: package
