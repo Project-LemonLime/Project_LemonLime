@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.9.0 )
 project(lemon)
 
 option(EMBED_TRANSLATIONS "Embed translations" ON)
+option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
@@ -261,11 +262,14 @@ set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 add_subdirectory(3rdparty/SingleApplication)
 
-if(WIN32)
-    target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core Qt5::AxContainer SingleApplication::SingleApplication)
-else()
-    target_link_libraries(lemon Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
+set(LEMON_LINK_LIB Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
+
+if(WIN32 AND ENABLE_XLS_EXPORT)
+    set(LEMON_LINK_LIB ${LEMON_LINK_LIB} Qt5::AxContainer)
+    add_definitions(-DENABLE_XLS_EXPORT)
 endif()
+
+target_link_libraries(lemon ${LEMON_LINK_LIB})
 
 include(CheckIPOSupported)
 check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)

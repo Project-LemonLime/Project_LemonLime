@@ -890,9 +890,9 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
+#ifdef ENABLE_XLS_EXPORT
 void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fileName)
 {
-#ifdef Q_OS_WIN32
 
 	if (QFile(fileName).exists())
 	{
@@ -1001,8 +1001,8 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	delete excel;
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
-#endif
 }
+#endif
 
 void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 {
@@ -1023,7 +1023,7 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 	}
 
 	QString filter = tr("HTML Document (*.html *.htm);;CSV (*.csv)");
-#ifdef Q_OS_WIN32
+#ifdef ENABLE_XLS_EXPORT
 	QAxObject *excel = new QAxObject("Excel.Application", widget);
 
 	if (! excel->isNull())
@@ -1050,7 +1050,8 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest)
 
 	if (QFileInfo(fileName).suffix() == "csv")
 		exportCsv(widget, contest, fileName);
-
+#ifdef ENABLE_XLS_EXPORT
 	if (QFileInfo(fileName).suffix() == "xls")
 		exportXls(widget, contest, fileName);
+#endif
 }

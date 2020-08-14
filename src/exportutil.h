@@ -28,7 +28,7 @@
 #include <QtCore>
 #include <QtGui>
 
-#ifdef Q_OS_WIN32
+#ifdef ENABLE_XLS_EXPORT
 #include <QAxObject>
 #endif
 
@@ -48,8 +48,9 @@ class ExportUtil : public QObject
 	static void exportHtml(QWidget *, Contest *, const QString &, int);
 	static void exportSmallerHtml(QWidget *, Contest *, const QString &);
 	static void exportCsv(QWidget *, Contest *, const QString &);
+#ifdef ENABLE_XLS_EXPORT
 	static void exportXls(QWidget *, Contest *, const QString &);
-
+#endif
   signals:
 
   public slots:

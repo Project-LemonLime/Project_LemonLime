@@ -79,7 +79,7 @@ jobs:
           CC: cl.exe
           CXX: cl.exe
         run: |
-          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for Windows" -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}"
+          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for Windows" -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}" -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
       - name: package
         env:
