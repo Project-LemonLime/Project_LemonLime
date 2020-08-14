@@ -807,7 +807,7 @@
     </message>
     <message>
         <source>Click names or task scores to jump to details. Judged By LemonLime</source>
-        <translation>點選名字或單題分數跳轉到詳細資訊。使用 LemonLime 評測</translation>
+        <translation>點選名稱或單題分數跳轉到詳細資訊。使用 LemonLime 評測</translation>
     </message>
     <message>
         <source>Rank</source>
@@ -1674,7 +1674,7 @@ Depends: </source>
     </message>
     <message>
         <source>Change the name of this contest...</source>
-        <translation>修改這場比賽的名字…</translation>
+        <translation>修改這場比賽的名稱…</translation>
     </message>
     <message>
         <source>Clean Up &amp;Files</source>
@@ -1774,7 +1774,7 @@ Depends: </source>
     </message>
     <message>
         <source>The name did not changes.</source>
-        <translation>名字沒有改變。</translation>
+        <translation>名稱沒有改變。</translation>
     </message>
     <message>
         <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
@@ -1810,11 +1810,11 @@ Depends: </source>
     </message>
     <message>
         <source>Write the name you want.</source>
-        <translation>輸入你想要的名字。</translation>
+        <translation>輸入你想要的名稱。</translation>
     </message>
     <message>
         <source>New Name</source>
-        <translation>新名字</translation>
+        <translation>新名稱</translation>
     </message>
     <message>
         <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
@@ -1844,15 +1844,15 @@ Depends: </source>
     </message>
     <message>
         <source>Version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>版本：%1</translation>
     </message>
     <message>
         <source>Build Info: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>編譯訊息：%1</translation>
     </message>
     <message>
         <source>Build Extra Info: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>附加編譯訊息：%1</translation>
     </message>
 </context>
 <context>
