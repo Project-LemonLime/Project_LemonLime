@@ -37,7 +37,7 @@ namespace Lemon
     {
         // Configuration Path
         QStringList list;
-#ifndef LEMON_CONFIG_DIR
+#ifdef LEMON_CONFIG_DIR
         list << LEMON_CONFIG_DIR + dirName;
 #endif
         list << ":/" + dirName;
