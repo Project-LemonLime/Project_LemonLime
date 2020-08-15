@@ -23,6 +23,7 @@
 #include "LemonBase.hpp"
 
 #include <iostream>
+#include <memory>
 
 namespace Lemon::base
 {

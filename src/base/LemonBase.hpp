@@ -53,10 +53,12 @@ namespace Lemon
         // For AppImage?
         list << QString(QDir(QCoreApplication::applicationDirPath() + "/../share/lemon-lime/" + dirName).absolutePath());
         // For Snap
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
         if (qEnvironmentVariableIsSet("SNAP"))
         {
             list << QString(qEnvironmentVariable("SNAP") + "/usr/share/lemon-lime/" + dirName);
         }
+#endif
 #elif defined(Q_OS_MAC)
         // macOS platform directories.
         list << QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + dirName).absolutePath();
