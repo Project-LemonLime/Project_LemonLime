@@ -183,7 +183,7 @@
           <string>Add</string>
          </property>
          <property name="icon">
-          <iconset resource="../../resource.qrc">
+          <iconset>
            <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
          </property>
         </widget>
@@ -246,7 +246,7 @@
           <string>Clear</string>
          </property>
          <property name="icon">
-          <iconset resource="../../resource.qrc">
+          <iconset>
            <normaloff>:/icon/edit-clear.svg</normaloff>:/icon/edit-clear.svg</iconset>
          </property>
         </widget>
@@ -496,8 +496,6 @@
    <header>filelineedit.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -103,7 +103,7 @@
         <string>Skip</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resource.qrc">
+        <iconset>
          <normaloff>:/icon/media-skip-forward.svg</normaloff>:/icon/media-skip-forward.svg</iconset>
        </property>
        <property name="autoDefault">
@@ -144,7 +144,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resource.qrc">
+        <iconset>
          <normaloff>:/icon/media-playback-stop.svg</normaloff>:/icon/media-playback-stop.svg</iconset>
        </property>
        <property name="autoDefault">
@@ -156,8 +156,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

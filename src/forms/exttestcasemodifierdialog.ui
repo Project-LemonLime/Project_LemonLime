@@ -20,7 +20,7 @@
    <string>Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resource.qrc">
+   <iconset>
     <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -49,8 +49,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

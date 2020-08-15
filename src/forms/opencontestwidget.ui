@@ -146,7 +146,7 @@
           <string>&amp;Add</string>
          </property>
          <property name="icon">
-          <iconset resource="../../resource.qrc">
+          <iconset>
            <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
          </property>
          <property name="toolButtonStyle">
@@ -176,7 +176,7 @@
           <string>&amp;Hide</string>
          </property>
          <property name="icon">
-          <iconset resource="../../resource.qrc">
+          <iconset>
            <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
          </property>
          <property name="toolButtonStyle">
@@ -190,8 +190,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
