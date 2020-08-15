@@ -27,7 +27,7 @@
 #ifndef JUDGINGDIALOG_H
 #define JUDGINGDIALOG_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QDialog>
 #include <QtCore>
 #include <QtGui>

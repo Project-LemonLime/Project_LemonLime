@@ -22,8 +22,8 @@
 
 namespace Lemon::base
 {
-    void __LEMON_LOG_FUNC__(int type, const std::string &func, int line, const QString &log);
-    QString readLastLog();
+	void __LEMON_LOG_FUNC__(int type, const std::string &func, int line, const QString &log);
+	QString readLastLog();
 } // namespace Lemon::base
 
 #define NEWLINE "\r\n"

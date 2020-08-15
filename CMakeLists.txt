@@ -94,11 +94,12 @@ endif()
 set(LEMON_BASE_HEADERS
     ${CMAKE_SOURCE_DIR}/src/base/LemonBase.hpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonLog.hpp
+    ${CMAKE_SOURCE_DIR}/src/base/LemonType.hpp
     )
 
 set(SRC
 	${CMAKE_SOURCE_DIR}/src/main.cpp
-        ${CMAKE_SOURCE_DIR}/src/base/LemonLog.cpp
+    ${CMAKE_SOURCE_DIR}/src/base/LemonLog.cpp
 	${CMAKE_SOURCE_DIR}/src/exttestcasemodifier.cpp
 	${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.cpp
 	${CMAKE_SOURCE_DIR}/src/exttestcasetable.cpp
@@ -164,7 +165,6 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/optionsdialog.h
 	${CMAKE_SOURCE_DIR}/src/resultviewer.h
 	${CMAKE_SOURCE_DIR}/src/assignmentthread.h
-	${CMAKE_SOURCE_DIR}/src/globaltype.h
 	${CMAKE_SOURCE_DIR}/src/detaildialog.h
 	${CMAKE_SOURCE_DIR}/src/newcontestwidget.h
 	${CMAKE_SOURCE_DIR}/src/opencontestwidget.h
@@ -230,11 +230,11 @@ add_custom_target(lupdate
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-set(QRC_RESOURCES 
-    resource.qrc 
+set(QRC_RESOURCES
+    resource.qrc
     manual/manual.qrc
     )
-	
+
 set(LEMON_FULL_SOURCES
     ${HEADERS}
     ${LEMON_BASE_HEADERS}
@@ -306,7 +306,7 @@ endif()
 
 if(UNIX AND NOT APPLE AND NOT WIN32)
     install(TARGETS lemon RUNTIME DESTINATION bin)
-    
+
     set(LEMON_LINUX_ICON_DIMENSIONS 16 22 24 32 36 44 48 64 72 96 128 150 192 256 310 512 1024)
     #install(FILES assets/lemon-lime.metainfo.xml DESTINATION share/metainfo)
     install(FILES assets/lemon-lime.desktop DESTINATION share/applications)

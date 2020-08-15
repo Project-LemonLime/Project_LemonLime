@@ -25,8 +25,8 @@
  **/
 
 #include "judgingdialog.h"
+#include "base/LemonType.hpp"
 #include "contest.h"
-#include "globaltype.h"
 #include "judgesharedvariables.h"
 #include "subtaskdependencelib.h"
 #include "task.h"

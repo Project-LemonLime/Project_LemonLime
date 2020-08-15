@@ -29,7 +29,7 @@
  **/
 
 #include "assignmentthread.h"
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include "subtaskdependencelib.h"
 
 #include "compiler.h"

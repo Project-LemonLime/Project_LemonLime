@@ -29,9 +29,9 @@
  **/
 
 #include "exportutil.h"
+#include "base/LemonType.hpp"
 #include "contest.h"
 #include "contestant.h"
-#include "globaltype.h"
 #include "settings.h"
 #include "subtaskdependencelib.h"
 #include "task.h"

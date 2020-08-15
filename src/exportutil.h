@@ -23,7 +23,7 @@
 #ifndef EXPORTUTIL_H
 #define EXPORTUTIL_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QObject>
 #include <QtCore>
 #include <QtGui>

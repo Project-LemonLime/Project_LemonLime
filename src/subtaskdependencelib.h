@@ -19,7 +19,7 @@
 #ifndef SUBTASKDEPENDENCELIB_H
 #define SUBTASKDEPENDENCELIB_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QObject>
 #include <QString>
 

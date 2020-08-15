@@ -17,9 +17,9 @@
 ***************************************************************************/
 
 #include "statisticsbrowser.h"
+#include "base/LemonType.hpp"
 #include "contest.h"
 #include "contestant.h"
-#include "globaltype.h"
 #include "settings.h"
 #include "task.h"
 #include "ui_statisticsbrowser.h"

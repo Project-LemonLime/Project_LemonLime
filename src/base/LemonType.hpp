@@ -1,5 +1,5 @@
 /***************************************************************************
-    This file is part of Project Lemon
+    This file is part of Project LemonLime
     Copyright (C) 2020 Coelacanthus
 
     This program is free software: you can redistribute it and/or modify

@@ -27,7 +27,7 @@
 #ifndef ASSIGNMENTTHREAD_H
 #define ASSIGNMENTTHREAD_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QThread>
 #include <QtCore>
 

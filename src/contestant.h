@@ -23,7 +23,7 @@
 #ifndef CONTESTANT_H
 #define CONTESTANT_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QObject>
 #include <QtCore>
 

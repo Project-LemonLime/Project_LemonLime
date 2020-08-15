@@ -23,7 +23,7 @@
 #ifndef JUDGINGTHREAD_H
 #define JUDGINGTHREAD_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QThread>
 #include <QtCore>
 

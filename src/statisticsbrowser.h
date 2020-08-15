@@ -19,8 +19,8 @@
 #ifndef STATISTICSBROWSER_H
 #define STATISTICSBROWSER_H
 
+#include "base/LemonType.hpp"
 #include "contestant.h"
-#include "globaltype.h"
 #include "task.h"
 #include "testcase.h"
 #include <QWidget>

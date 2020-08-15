@@ -25,9 +25,9 @@
  **/
 
 #include "detaildialog.h"
+#include "base/LemonType.hpp"
 #include "contest.h"
 #include "contestant.h"
-#include "globaltype.h"
 #include "judgingdialog.h"
 #include "settings.h"
 #include "subtaskdependencelib.h"

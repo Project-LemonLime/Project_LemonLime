@@ -23,7 +23,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include "globaltype.h"
+#include "base/LemonType.hpp"
 #include <QColor>
 #include <QObject>
 #include <QtCore>
