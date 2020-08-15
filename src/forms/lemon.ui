@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Lemon</class>
- <widget class="QMainWindow" name="Lemon">
+ <class>LemonLime</class>
+ <widget class="QMainWindow" name="LemonLime">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,7 +20,7 @@
    <string>LemonLime</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resource.qrc">
+   <iconset resource="../../resource.qrc">
     <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -91,6 +91,7 @@
             <widget class="SummaryTree" name="summary">
              <property name="font">
               <font>
+               <pointsize>10</pointsize>
                <weight>50</weight>
                <bold>false</bold>
               </font>
@@ -135,7 +136,7 @@
                 <string>Down</string>
                </property>
                <property name="icon">
-                <iconset resource="../resource.qrc">
+                <iconset resource="../../resource.qrc">
                  <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
                </property>
               </widget>
@@ -149,7 +150,7 @@
                 <string>Up</string>
                </property>
                <property name="icon">
-                <iconset resource="../resource.qrc">
+                <iconset resource="../../resource.qrc">
                  <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
                </property>
               </widget>
@@ -169,6 +170,7 @@
           </property>
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -207,6 +209,7 @@
          <widget class="ResultViewer" name="resultViewer">
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -282,7 +285,7 @@
              <string>Clean Up Files</string>
             </property>
             <property name="icon">
-             <iconset resource="../resource.qrc">
+             <iconset resource="../../resource.qrc">
               <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
             </property>
            </widget>
@@ -322,7 +325,7 @@
              <string>Refresh</string>
             </property>
             <property name="icon">
-             <iconset resource="../resource.qrc">
+             <iconset resource="../../resource.qrc">
               <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
             </property>
            </widget>
@@ -355,7 +358,7 @@
              <string>Judge Unjudged</string>
             </property>
             <property name="icon">
-             <iconset resource="../resource.qrc">
+             <iconset resource="../../resource.qrc">
               <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
             </property>
            </widget>
@@ -385,7 +388,7 @@
              <string>Judge Selected</string>
             </property>
             <property name="icon">
-             <iconset resource="../resource.qrc">
+             <iconset resource="../../resource.qrc">
               <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
             </property>
            </widget>
@@ -415,7 +418,7 @@
              <string>Judge All</string>
             </property>
             <property name="icon">
-             <iconset resource="../resource.qrc">
+             <iconset resource="../../resource.qrc">
               <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
             </property>
            </widget>
@@ -433,6 +436,7 @@
          <widget class="StatisticsBrowser" name="statisticsBrowser" native="true">
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -519,7 +523,7 @@
       <string>UI &amp;Language</string>
      </property>
      <property name="icon">
-      <iconset resource="../resource.qrc">
+      <iconset resource="../../resource.qrc">
        <normaloff>:/icon/amarok_change_language.svg</normaloff>:/icon/amarok_change_language.svg</iconset>
      </property>
      <addaction name="setEnglishAction"/>
@@ -544,7 +548,7 @@
       <string>&amp;Guides</string>
      </property>
      <property name="icon">
-      <iconset resource="../resource.qrc">
+      <iconset resource="../../resource.qrc">
        <normaloff>:/icon/system-help.svg</normaloff>:/icon/system-help.svg</iconset>
      </property>
      <addaction name="actionManual"/>
@@ -563,7 +567,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="newAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-new.svg</normaloff>:/icon/document-new.svg</iconset>
    </property>
    <property name="text">
@@ -575,7 +579,7 @@
   </action>
   <action name="openAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/quickopen-file.svg</normaloff>:/icon/quickopen-file.svg</iconset>
    </property>
    <property name="text">
@@ -587,7 +591,7 @@
   </action>
   <action name="exitAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/application-exit.svg</normaloff>:/icon/application-exit.svg</iconset>
    </property>
    <property name="text">
@@ -599,7 +603,7 @@
   </action>
   <action name="optionsAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/configure.svg</normaloff>:/icon/configure.svg</iconset>
    </property>
    <property name="text">
@@ -611,7 +615,7 @@
   </action>
   <action name="aboutAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/help-about.svg</normaloff>:/icon/help-about.svg</iconset>
    </property>
    <property name="text">
@@ -626,7 +630,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
    </property>
    <property name="text">
@@ -641,7 +645,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
    </property>
    <property name="text">
@@ -653,7 +657,7 @@
   </action>
   <action name="closeAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-close.svg</normaloff>:/icon/document-close.svg</iconset>
    </property>
    <property name="text">
@@ -673,7 +677,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/layer-new.svg</normaloff>:/icon/layer-new.svg</iconset>
    </property>
    <property name="text">
@@ -696,7 +700,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
    </property>
    <property name="text">
@@ -711,7 +715,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
    </property>
    <property name="text">
@@ -723,7 +727,7 @@
   </action>
   <action name="openFolderAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/go-parent-folder.svg</normaloff>:/icon/go-parent-folder.svg</iconset>
    </property>
    <property name="text">
@@ -735,7 +739,7 @@
   </action>
   <action name="saveAction">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-save.svg</normaloff>:/icon/document-save.svg</iconset>
    </property>
    <property name="text">
@@ -808,7 +812,7 @@
   </action>
   <action name="actionMore">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/globe.svg</normaloff>:/icon/globe.svg</iconset>
    </property>
    <property name="text">
@@ -823,7 +827,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/paint-unknown.svg</normaloff>:/icon/paint-unknown.svg</iconset>
    </property>
    <property name="text">
@@ -838,7 +842,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/deletecell.svg</normaloff>:/icon/deletecell.svg</iconset>
    </property>
    <property name="text">
@@ -850,7 +854,7 @@
   </action>
   <action name="actionChangeContestName">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-edit.svg</normaloff>:/icon/document-edit.svg</iconset>
    </property>
    <property name="text">
@@ -865,7 +869,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
    </property>
    <property name="text">
@@ -880,7 +884,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
    </property>
    <property name="text">
@@ -903,7 +907,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
    </property>
    <property name="text">
@@ -912,7 +916,7 @@
   </action>
   <action name="actionManual">
    <property name="icon">
-    <iconset resource="../resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/icon/acrobat.svg</normaloff>:/icon/acrobat.svg</iconset>
    </property>
    <property name="text">
@@ -964,7 +968,7 @@
   <tabstop>judgeAllButton</tabstop>
  </tabstops>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

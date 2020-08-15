@@ -29,6 +29,8 @@
  **/
 
 #include "lemon.h"
+#include "base/LemonBase.hpp"
+#include "base/LemonLog.hpp"
 #include "addcompilerwizard.h"
 #include "addtaskdialog.h"
 #include "compiler.h"
@@ -56,7 +58,7 @@
 #include <QUrl>
 #include <algorithm>
 
-Lemon::Lemon(QWidget *parent) : QMainWindow(parent), ui(new Ui::Lemon)
+LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLime)
 {
 	ui->setupUi(this);
 	curContest = nullptr;
@@ -109,6 +111,12 @@ Lemon::Lemon(QWidget *parent) : QMainWindow(parent), ui(new Ui::Lemon)
 	connect(ui->actionChangeContestName, SIGNAL(triggered()), this, SLOT(changeContestName()));
 	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
+    LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " + QSysInfo::currentCpuArchitecture())
+    DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()))
+    DEBUG(LEMON_BUILD_INFO)
+    DEBUG(LEMON_BUILD_EXTRA_INFO)
+    DEBUG(QString::number(LEMON_VERSION_BUILD))
+
 	appTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "lemon_*.qm", QDir::Files);
@@ -135,13 +143,13 @@ Lemon::Lemon(QWidget *parent) : QMainWindow(parent), ui(new Ui::Lemon)
 	resize(_size);
 }
 
-Lemon::~Lemon()
+LemonLime::~LemonLime()
 {
 	delete TaskMenu;
 	delete ui;
 }
 
-void Lemon::changeEvent(QEvent *event)
+void LemonLime::changeEvent(QEvent *event)
 {
 	if (event->type() == QEvent::LanguageChange)
 	{
@@ -151,7 +159,7 @@ void Lemon::changeEvent(QEvent *event)
 	}
 }
 
-void Lemon::closeEvent(QCloseEvent * /*event*/)
+void LemonLime::closeEvent(QCloseEvent * /*event*/)
 {
 	if (curContest)
 		saveContest(curFile);
@@ -161,9 +169,9 @@ void Lemon::closeEvent(QCloseEvent * /*event*/)
 	settings.setValue("WindowSize", size());
 }
 
-auto Lemon::getSplashTime() -> int { return settings->getSplashTime(); }
+auto LemonLime::getSplashTime() -> int { return settings->getSplashTime(); }
 
-void Lemon::welcome()
+void LemonLime::welcome()
 {
 	if (settings->getCompilerList().empty())
 	{
@@ -204,7 +212,7 @@ void Lemon::welcome()
 	delete dialog;
 }
 
-void Lemon::loadUiLanguage()
+void LemonLime::loadUiLanguage()
 {
 	ui->setEnglishAction->setChecked(false);
 
@@ -228,7 +236,7 @@ void Lemon::loadUiLanguage()
 	ui->setEnglishAction->setChecked(true);
 }
 
-void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
+void LemonLime::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 {
 	watcher->addPath(curDir);
 	QDir dir(curDir);
@@ -240,7 +248,7 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
 	}
 }
 
-void Lemon::resetDataWatcher()
+void LemonLime::resetDataWatcher()
 {
 	delete dataDirWatcher;
 	dataDirWatcher = new QFileSystemWatcher(this);
@@ -251,7 +259,7 @@ void Lemon::resetDataWatcher()
 	emit dataPathChanged();
 }
 
-void Lemon::refreshSummary()
+void LemonLime::refreshSummary()
 {
 	if (! ui->summary->isEnabled())
 		return;
@@ -259,7 +267,7 @@ void Lemon::refreshSummary()
 	ui->summary->setContest(curContest);
 }
 
-void Lemon::summarySelectionChanged()
+void LemonLime::summarySelectionChanged()
 {
 	if (! ui->summary->isEnabled())
 		return;
@@ -294,7 +302,7 @@ void Lemon::summarySelectionChanged()
 	}
 }
 
-void Lemon::showOptionsDialog()
+void LemonLime::showOptionsDialog()
 {
 	auto *dialog = new OptionsDialog(this);
 	dialog->resetEditSettings(settings);
@@ -318,7 +326,7 @@ void Lemon::showOptionsDialog()
 	delete dialog;
 }
 
-void Lemon::judgeExtButtonFlip(bool stat)
+void LemonLime::judgeExtButtonFlip(bool stat)
 {
 	ui->judgeAllButton->setEnabled(stat);
 	ui->judgeAllAction->setEnabled(stat);
@@ -328,7 +336,7 @@ void Lemon::judgeExtButtonFlip(bool stat)
 	ui->judgeMagentaAction->setEnabled(stat);
 }
 
-void Lemon::refreshButtonClicked()
+void LemonLime::refreshButtonClicked()
 {
 	curContest->refreshContestantList();
 	ui->resultViewer->refreshViewer();
@@ -390,7 +398,7 @@ void copyPath(const QString &fromPath, const QString &toPath)
 	}
 }
 
-void Lemon::cleanupButtonClicked()
+void LemonLime::cleanupButtonClicked()
 {
 	QString text;
 	text += tr("Are you sure to Clean up Files?") + "<br>";
@@ -630,7 +638,7 @@ void Lemon::cleanupButtonClicked()
 	}
 }
 
-void Lemon::tabIndexChanged(int index)
+void LemonLime::tabIndexChanged(int index)
 {
 	if (index != 1)
 	{
@@ -666,7 +674,7 @@ void Lemon::tabIndexChanged(int index)
 	}
 }
 
-void Lemon::moveUpTask()
+void LemonLime::moveUpTask()
 {
 	QTreeWidgetItem *curItem = ui->summary->currentItem();
 
@@ -687,7 +695,7 @@ void Lemon::moveUpTask()
 		ui->summary->setCurrentItem(curItem);
 }
 
-void Lemon::moveDownTask()
+void LemonLime::moveDownTask()
 {
 	QTreeWidgetItem *curItem = ui->summary->currentItem();
 
@@ -708,7 +716,7 @@ void Lemon::moveDownTask()
 		ui->summary->setCurrentItem(curItem);
 }
 
-void Lemon::viewerSelectionChanged()
+void LemonLime::viewerSelectionChanged()
 {
 	QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
@@ -724,14 +732,14 @@ void Lemon::viewerSelectionChanged()
 	}
 }
 
-void Lemon::contestantDeleted()
+void LemonLime::contestantDeleted()
 {
 	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 	ui->cleanupAction->setEnabled(true);
 	ui->refreshAction->setEnabled(true);
 }
 
-void Lemon::saveContest(const QString &fileName)
+void LemonLime::saveContest(const QString &fileName)
 {
 	QFile file(fileName);
 
@@ -754,7 +762,7 @@ void Lemon::saveContest(const QString &fileName)
 	ui->statusBar->showMessage(tr("Saved"), 1000);
 }
 
-void Lemon::loadContest(const QString &filePath)
+void LemonLime::loadContest(const QString &filePath)
 {
 	if (curContest)
 		closeAction();
@@ -826,7 +834,7 @@ void Lemon::loadContest(const QString &filePath)
 	ui->tabWidget->setCurrentIndex(0);
 }
 
-void Lemon::newContest(const QString &title, const QString &savingName, const QString &path)
+void LemonLime::newContest(const QString &title, const QString &savingName, const QString &path)
 {
 	if (! QDir(path).exists() && ! QDir().mkpath(path))
 	{
@@ -868,7 +876,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 	ui->tabWidget->setCurrentIndex(0);
 }
 
-void Lemon::newAction()
+void LemonLime::newAction()
 {
 	auto *dialog = new NewContestDialog(this);
 
@@ -880,7 +888,7 @@ void Lemon::newAction()
 	delete dialog;
 }
 
-void Lemon::closeAction()
+void LemonLime::closeAction()
 {
 	saveContest(curFile);
 	ui->summary->setContest(nullptr);
@@ -903,11 +911,11 @@ void Lemon::closeAction()
 	setWindowTitle(tr("LemonLime"));
 }
 
-void Lemon::saveAction() { saveContest(curFile); }
+void LemonLime::saveAction() { saveContest(curFile); }
 
-void Lemon::openFolderAction() { QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath())); }
+void LemonLime::openFolderAction() { QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath())); }
 
-void Lemon::loadAction()
+void LemonLime::loadAction()
 {
 	auto *dialog = new OpenContestDialog(this);
 	dialog->setRecentContest(settings->getRecentContest());
@@ -934,7 +942,7 @@ void Lemon::loadAction()
 	delete dialog;
 }
 
-void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QString, QString> &files)
+void LemonLime::getFiles(const QString &path, const QStringList &filters, QMap<QString, QString> &files)
 {
 	QDir dir(path);
 
@@ -949,7 +957,7 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
 	}
 }
 
-void Lemon::addTask(const QString &title, const QList<QPair<QString, QString>> &testCases, int fullScore,
+void LemonLime::addTask(const QString &title, const QList<QPair<QString, QString>> &testCases, int fullScore,
                     int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
@@ -973,7 +981,7 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString>> &
 	}
 }
 
-void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString>> &testCases,
+void LemonLime::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString>> &testCases,
                                   int sumScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
@@ -999,13 +1007,13 @@ void Lemon::addTaskWithScoreScale(const QString &title, const QList<QPair<QStrin
 	}
 }
 
-auto Lemon::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b) -> bool
+auto LemonLime::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b) -> bool
 {
 	return (a.first.length() < b.first.length()) ||
 	       (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
 
-void Lemon::addTasksAction()
+void LemonLime::addTasksAction()
 {
 	QStringList list = QDir(Settings::dataPath()).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	QSet<QString> nameSet;
@@ -1099,11 +1107,11 @@ void Lemon::addTasksAction()
 	ui->summary->setContest(curContest);
 }
 
-void Lemon::exportResult() { ExportUtil::exportResult(this, curContest); }
+void LemonLime::exportResult() { ExportUtil::exportResult(this, curContest); }
 
-void Lemon::exportStatstics() { StatisticsBrowser::exportStatstics(this, curContest); }
+void LemonLime::exportStatstics() { StatisticsBrowser::exportStatstics(this, curContest); }
 
-void Lemon::changeContestName()
+void LemonLime::changeContestName()
 {
 	if (! curContest)
 	{
@@ -1127,7 +1135,7 @@ void Lemon::changeContestName()
 	saveContest(curFile);
 }
 
-void Lemon::aboutLemon()
+void LemonLime::aboutLemon()
 {
 	QString text;
 	text += "<h2>Project LemonLime</h2>";
@@ -1148,7 +1156,7 @@ void Lemon::aboutLemon()
 	QMessageBox::about(this, tr("About LemonLime"), text);
 }
 
-void Lemon::actionManual()
+void LemonLime::actionManual()
 {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Manual"), "llmanual.pdf");
 
@@ -1159,12 +1167,12 @@ void Lemon::actionManual()
 	QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
 }
 
-void Lemon::actionMore()
+void LemonLime::actionMore()
 {
 	QDesktopServices::openUrl(QUrl(QString("https://github.com/iotang/Project_LemonLime")));
 }
 
-void Lemon::setUiLanguage()
+void LemonLime::setUiLanguage()
 {
 	auto *language = dynamic_cast<QAction *>(sender());
 	settings->setUiLanguage(language->data().toString());

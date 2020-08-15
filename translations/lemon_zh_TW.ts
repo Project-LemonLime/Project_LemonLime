@@ -1347,512 +1347,503 @@ Depends: </source>
 <context>
     <name>Lemon</name>
     <message>
-        <source>LemonLime</source>
-        <oldsource>Lemon</oldsource>
-        <translation>LemonLime</translation>
-    </message>
-    <message>
-        <source>Tasks</source>
-        <translation>試題</translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation>概要</translation>
-    </message>
-    <message>
-        <source>Detail</source>
-        <translation>詳情</translation>
-    </message>
-    <message>
-        <source>Contestants</source>
-        <translation>選手</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <oldsource>&amp;Refresh</oldsource>
-        <translation>重新整理</translation>
-    </message>
-    <message>
-        <source>Single &amp;Judge</source>
-        <oldsource>Single Judge</oldsource>
-        <translation>測試某一題(&amp;J)</translation>
-    </message>
-    <message>
-        <source>Judge &amp;All</source>
-        <translation>測試全部(&amp;A)</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>檔案(&amp;F)</translation>
-    </message>
-    <message>
-        <source>Judge Selected</source>
-        <translation>測試選中</translation>
-    </message>
-    <message>
-        <source>Judge All</source>
-        <translation>測試全部</translation>
-    </message>
-    <message>
-        <source>&amp;Control</source>
-        <translation>控制(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Tools</source>
-        <translation>工具(&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Guides</source>
-        <oldsource>Guides</oldsource>
-        <translation>指南(&amp;G)</translation>
-    </message>
-    <message>
-        <source>Export the result...</source>
-        <translation>匯出成績…</translation>
-    </message>
-    <message>
-        <source>Judge &amp;Unjudged</source>
-        <oldsource>Judge &amp;Single Task</oldsource>
-        <translation>測試未測試(&amp;U)</translation>
-    </message>
-    <message>
-        <source>Open Current Contest &amp;Folder</source>
-        <translation>開啟當前比賽的資料夾(&amp;F)</translation>
-    </message>
-    <message>
-        <source>Open the folder of this contest with file manager...</source>
-        <translation>在檔案管理器中開啟這個比賽的資料夾…</translation>
-    </message>
-    <message>
-        <source>&amp;Save Current Contest</source>
-        <translation>儲存比賽檔案(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Save this contest...</source>
-        <translation>儲存這個比賽…</translation>
-    </message>
-    <message>
-        <source>How to make Interaction Tasks...</source>
-        <translation>如何新增互動題…</translation>
-    </message>
-    <message>
-        <source>How to make Subtasks...</source>
-        <translation>如何建立打包的測試點（Subtasks）…</translation>
-    </message>
-    <message>
-        <source>What is Cleanup Files...</source>
-        <translation>什麼是整理檔案…</translation>
-    </message>
-    <message>
-        <source>The difference in compiling between Lemon and LemonLime...</source>
-        <translation>LemonLime 編譯檔案的不同…</translation>
-    </message>
-    <message>
-        <source>What is Skip...</source>
-        <translation>什麼是“跳過這一題”…</translation>
-    </message>
-    <message>
-        <source>How to write Special Judge...</source>
-        <translation>如何寫一個校驗器…</translation>
-    </message>
-    <message>
-        <source>New features of Exporting Result...</source>
-        <translation>LemonLime 新加的關於匯出檔案的特性…</translation>
-    </message>
-    <message>
-        <source>Online Guides...</source>
-        <translation>線上幫助…</translation>
-    </message>
-    <message>
-        <source>Judge &quot;No Source&quot;...</source>
-        <translation>測試“未測試”…</translation>
-    </message>
-    <message>
-        <source>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</source>
-        <translation>測試“編譯錯誤”、“編譯超時”等…</translation>
-    </message>
-    <message>
-        <source>C&amp;hange Contest Name</source>
-        <oldsource>Change Contest Name</oldsource>
-        <translation>更改比賽標題(&amp;H)</translation>
-    </message>
-    <message>
-        <source>Interaction</source>
-        <oldsource>&amp;Interaction</oldsource>
-        <translation>互動題設定</translation>
-    </message>
-    <message>
-        <source>Compile Features</source>
-        <oldsource>&amp;Compile Features</oldsource>
-        <translation>編譯選項</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>幫助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>&amp;New Contest</source>
-        <translation>新建比賽(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;Open Existing Contest</source>
-        <translation>開啟已有的比賽(&amp;O)</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>退出(&amp;X)</translation>
-    </message>
-    <message>
-        <source>&amp;About</source>
-        <translation>關於(&amp;A)</translation>
-    </message>
-    <message>
-        <source>&amp;Judge Selected</source>
-        <translation>測試選中選手(&amp;J)</translation>
-    </message>
-    <message>
-        <source>Clean up Files</source>
-        <oldsource>&amp;Clean up Files</oldsource>
-        <translation>整理檔案</translation>
-    </message>
-    <message>
-        <source>Viewing tasks...</source>
-        <translation>題目列表…</translation>
-    </message>
-    <message>
-        <source>Move down this task...</source>
-        <translation>下移這個題目…</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation>下移</translation>
-    </message>
-    <message>
-        <source>Move up this task...</source>
-        <translation>上移這個題目…</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation>上</translation>
-    </message>
-    <message>
-        <source>Editing task details...</source>
-        <translation>編輯題目詳細資訊…</translation>
-    </message>
-    <message>
-        <source>Contestant List...</source>
-        <translation>選手列表…</translation>
-    </message>
-    <message>
-        <source>Cleanup the files of all contestants...</source>
-        <translation>整理所有選手檔案…</translation>
-    </message>
-    <message>
-        <source>Clean Up Files</source>
-        <translation>整理檔案</translation>
-    </message>
-    <message>
-        <source>Refresh the contestant list...</source>
-        <translation>重新整理選手列表…</translation>
-    </message>
-    <message>
-        <source>Judge unjudged...</source>
-        <translation>測試未測試…</translation>
-    </message>
-    <message>
-        <source>Judge Unjudged</source>
-        <oldsource>&amp;Single Judge</oldsource>
-        <translation>測試未測試</translation>
-    </message>
-    <message>
-        <source>Judge selected area...</source>
-        <translation>測試指定區域…</translation>
-    </message>
-    <message>
-        <source>Judge all contestants...</source>
-        <translation>測試所有選手…</translation>
-    </message>
-    <message>
-        <source>Statistics</source>
-        <translation>統計</translation>
-    </message>
-    <message>
-        <source>The Statistics Browser...</source>
-        <translation>統計資料瀏覽…</translation>
-    </message>
-    <message>
-        <source>Open / Close / Rename contest and etc</source>
-        <translation>開啟 / 關閉 / 重新命名比賽等</translation>
-    </message>
-    <message>
-        <source>Switch Language...</source>
-        <translation>切換語言…</translation>
-    </message>
-    <message>
-        <source>UI &amp;Language</source>
-        <translation>設定語言(&amp;L)</translation>
-    </message>
-    <message>
-        <source>LemonLime Guides...</source>
-        <translation>LemonLime 教程…</translation>
-    </message>
-    <message>
-        <source>Make a new contest...</source>
-        <translation>建立新的比賽…</translation>
-    </message>
-    <message>
-        <source>Open an existing contest...</source>
-        <translation>找到一場比賽，並開啟它…</translation>
-    </message>
-    <message>
-        <source>Exit LemonLime...</source>
-        <translation>退出 LemonLime…</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>設定(&amp;S)</translation>
-    </message>
-    <message>
-        <source>LemonLime Settings...</source>
-        <translation>LemonLime 設定…</translation>
-    </message>
-    <message>
-        <source>About LemonLime...</source>
-        <translation>關於 LemonLime…</translation>
-    </message>
-    <message>
-        <source>&amp;Close Current Contest</source>
-        <translation>關閉當前的比賽(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Close this contest...</source>
-        <translation>關閉這個比賽…</translation>
-    </message>
-    <message>
-        <source>Add &amp;Tasks Automatically</source>
-        <translation>自動新增試題(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Find your tasks in ./data and add them automatically...</source>
-        <translation>在 ./data 裡尋找題目，並且自動新增它們…</translation>
-    </message>
-    <message>
-        <source>&amp;Make Self-testing Folder</source>
-        <translation>建立批處理測試資料夾(&amp;M)</translation>
-    </message>
-    <message>
-        <source>&amp;Export Result</source>
-        <translation>匯出成績(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Subtasks</source>
-        <translation>打包的測試點</translation>
-    </message>
-    <message>
-        <source>Skip</source>
-        <translation>跳過這一題</translation>
-    </message>
-    <message>
-        <source>Special Judge</source>
-        <translation>客製化校驗器(SPJ)</translation>
-    </message>
-    <message>
-        <source>Export Result</source>
-        <translation>匯出成績</translation>
-    </message>
-    <message>
-        <source>More</source>
-        <translation>更多</translation>
-    </message>
-    <message>
-        <source>Judge &amp;No Source</source>
-        <translation>測試無原始檔(&amp;N)</translation>
-    </message>
-    <message>
-        <source>Judge &amp;Compile Failed</source>
-        <translation>測試編譯問題(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Change the name of this contest...</source>
-        <translation>修改這場比賽的名稱…</translation>
-    </message>
-    <message>
-        <source>Clean Up &amp;Files</source>
-        <translation>整理檔案(&amp;F)</translation>
-    </message>
-    <message>
-        <source>&amp;Refresh</source>
-        <translation>重新整理(&amp;R)</translation>
-    </message>
-    <message>
-        <source>Communication</source>
-        <translation>通訊題</translation>
-    </message>
-    <message>
-        <source>How to make Communication Tasks...</source>
-        <translation>如何新增通訊題…</translation>
-    </message>
-    <message>
-        <source>Export &amp;Statistics</source>
-        <translation>匯出統計資訊(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Manual</source>
-        <translation>使用者手冊</translation>
-    </message>
-    <message>
         <source>English</source>
         <translation>繁體中文</translation>
     </message>
+</context>
+<context>
+    <name>LemonLime</name>
+    <message>
+        <source>LemonLime</source>
+        <translation type="unfinished">LemonLime</translation>
+    </message>
+    <message>
+        <source>Tasks</source>
+        <translation type="unfinished">試題</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished">概要</translation>
+    </message>
+    <message>
+        <source>Viewing tasks...</source>
+        <translation type="unfinished">題目列表…</translation>
+    </message>
+    <message>
+        <source>Move down this task...</source>
+        <translation type="unfinished">下移這個題目…</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished">下移</translation>
+    </message>
+    <message>
+        <source>Move up this task...</source>
+        <translation type="unfinished">上移這個題目…</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished">上</translation>
+    </message>
+    <message>
+        <source>Detail</source>
+        <translation type="unfinished">詳情</translation>
+    </message>
+    <message>
+        <source>Editing task details...</source>
+        <translation type="unfinished">編輯題目詳細資訊…</translation>
+    </message>
+    <message>
+        <source>Contestants</source>
+        <translation type="unfinished">選手</translation>
+    </message>
+    <message>
+        <source>Contestant List...</source>
+        <translation type="unfinished">選手列表…</translation>
+    </message>
+    <message>
+        <source>Cleanup the files of all contestants...</source>
+        <translation type="unfinished">整理所有選手檔案…</translation>
+    </message>
+    <message>
+        <source>Clean Up Files</source>
+        <translation type="unfinished">整理檔案</translation>
+    </message>
+    <message>
+        <source>Refresh the contestant list...</source>
+        <translation type="unfinished">重新整理選手列表…</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation type="unfinished">重新整理</translation>
+    </message>
+    <message>
+        <source>Judge unjudged...</source>
+        <translation type="unfinished">測試未測試…</translation>
+    </message>
+    <message>
+        <source>Judge Unjudged</source>
+        <translation type="unfinished">測試未測試</translation>
+    </message>
+    <message>
+        <source>Judge selected area...</source>
+        <translation type="unfinished">測試指定區域…</translation>
+    </message>
+    <message>
+        <source>Judge Selected</source>
+        <translation type="unfinished">測試選中</translation>
+    </message>
+    <message>
+        <source>Judge all contestants...</source>
+        <translation type="unfinished">測試所有選手…</translation>
+    </message>
+    <message>
+        <source>Judge All</source>
+        <translation type="unfinished">測試全部</translation>
+    </message>
+    <message>
+        <source>Statistics</source>
+        <translation type="unfinished">統計</translation>
+    </message>
+    <message>
+        <source>The Statistics Browser...</source>
+        <translation type="unfinished">統計資料瀏覽…</translation>
+    </message>
+    <message>
+        <source>Open / Close / Rename contest and etc</source>
+        <translation type="unfinished">開啟 / 關閉 / 重新命名比賽等</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation type="unfinished">檔案(&amp;F)</translation>
+    </message>
+    <message>
+        <source>&amp;Control</source>
+        <translation type="unfinished">控制(&amp;C)</translation>
+    </message>
+    <message>
+        <source>&amp;Tools</source>
+        <translation type="unfinished">工具(&amp;T)</translation>
+    </message>
+    <message>
+        <source>Switch Language...</source>
+        <translation type="unfinished">切換語言…</translation>
+    </message>
+    <message>
+        <source>UI &amp;Language</source>
+        <translation type="unfinished">設定語言(&amp;L)</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">幫助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>LemonLime Guides...</source>
+        <translation type="unfinished">LemonLime 教程…</translation>
+    </message>
+    <message>
+        <source>&amp;Guides</source>
+        <translation type="unfinished">指南(&amp;G)</translation>
+    </message>
+    <message>
+        <source>&amp;New Contest</source>
+        <translation type="unfinished">新建比賽(&amp;N)</translation>
+    </message>
+    <message>
+        <source>Make a new contest...</source>
+        <translation type="unfinished">建立新的比賽…</translation>
+    </message>
+    <message>
+        <source>&amp;Open Existing Contest</source>
+        <translation type="unfinished">開啟已有的比賽(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Open an existing contest...</source>
+        <translation type="unfinished">找到一場比賽，並開啟它…</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation type="unfinished">退出(&amp;X)</translation>
+    </message>
+    <message>
+        <source>Exit LemonLime...</source>
+        <translation type="unfinished">退出 LemonLime…</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation type="unfinished">設定(&amp;S)</translation>
+    </message>
+    <message>
+        <source>LemonLime Settings...</source>
+        <translation type="unfinished">LemonLime 設定…</translation>
+    </message>
+    <message>
+        <source>&amp;About</source>
+        <translation type="unfinished">關於(&amp;A)</translation>
+    </message>
+    <message>
+        <source>About LemonLime...</source>
+        <translation type="unfinished">關於 LemonLime…</translation>
+    </message>
+    <message>
+        <source>&amp;Judge Selected</source>
+        <translation type="unfinished">測試選中選手(&amp;J)</translation>
+    </message>
+    <message>
+        <source>Judge &amp;All</source>
+        <translation type="unfinished">測試全部(&amp;A)</translation>
+    </message>
+    <message>
+        <source>&amp;Close Current Contest</source>
+        <translation type="unfinished">關閉當前的比賽(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Close this contest...</source>
+        <translation type="unfinished">關閉這個比賽…</translation>
+    </message>
+    <message>
+        <source>Add &amp;Tasks Automatically</source>
+        <translation type="unfinished">自動新增試題(&amp;T)</translation>
+    </message>
+    <message>
+        <source>Find your tasks in ./data and add them automatically...</source>
+        <translation type="unfinished">在 ./data 裡尋找題目，並且自動新增它們…</translation>
+    </message>
+    <message>
+        <source>&amp;Make Self-testing Folder</source>
+        <translation type="unfinished">建立批處理測試資料夾(&amp;M)</translation>
+    </message>
+    <message>
+        <source>&amp;Export Result</source>
+        <translation type="unfinished">匯出成績(&amp;E)</translation>
+    </message>
+    <message>
+        <source>Export the result...</source>
+        <translation type="unfinished">匯出成績…</translation>
+    </message>
+    <message>
+        <source>Judge &amp;Unjudged</source>
+        <translation type="unfinished">測試未測試(&amp;U)</translation>
+    </message>
+    <message>
+        <source>Open Current Contest &amp;Folder</source>
+        <translation type="unfinished">開啟當前比賽的資料夾(&amp;F)</translation>
+    </message>
+    <message>
+        <source>Open the folder of this contest with file manager...</source>
+        <translation type="unfinished">在檔案管理器中開啟這個比賽的資料夾…</translation>
+    </message>
+    <message>
+        <source>&amp;Save Current Contest</source>
+        <translation type="unfinished">儲存比賽檔案(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Save this contest...</source>
+        <translation type="unfinished">儲存這個比賽…</translation>
+    </message>
+    <message>
+        <source>Interaction</source>
+        <translation type="unfinished">互動題</translation>
+    </message>
+    <message>
+        <source>How to make Interaction Tasks...</source>
+        <translation type="unfinished">如何新增互動題…</translation>
+    </message>
+    <message>
+        <source>Subtasks</source>
+        <translation type="unfinished">打包的測試點</translation>
+    </message>
+    <message>
+        <source>How to make Subtasks...</source>
+        <translation type="unfinished">如何建立打包的測試點（Subtasks）…</translation>
+    </message>
+    <message>
+        <source>Clean up Files</source>
+        <translation type="unfinished">整理檔案</translation>
+    </message>
+    <message>
+        <source>What is Cleanup Files...</source>
+        <translation type="unfinished">什麼是整理檔案…</translation>
+    </message>
+    <message>
+        <source>Compile Features</source>
+        <translation type="unfinished">編譯選項</translation>
+    </message>
+    <message>
+        <source>The difference in compiling between Lemon and LemonLime...</source>
+        <translation type="unfinished">LemonLime 編譯檔案的不同…</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation type="unfinished">跳過這一題</translation>
+    </message>
+    <message>
+        <source>What is Skip...</source>
+        <translation type="unfinished">什麼是“跳過這一題”…</translation>
+    </message>
+    <message>
+        <source>Special Judge</source>
+        <translation type="unfinished">客製化校驗器(SPJ)</translation>
+    </message>
+    <message>
+        <source>How to write Special Judge...</source>
+        <translation type="unfinished">如何寫一個校驗器…</translation>
+    </message>
+    <message>
+        <source>Single &amp;Judge</source>
+        <translation type="unfinished">測試某一題(&amp;J)</translation>
+    </message>
+    <message>
+        <source>Export Result</source>
+        <translation type="unfinished">匯出成績</translation>
+    </message>
+    <message>
+        <source>New features of Exporting Result...</source>
+        <translation type="unfinished">LemonLime 新加的關於匯出檔案的特性…</translation>
+    </message>
+    <message>
+        <source>More</source>
+        <translation type="unfinished">更多</translation>
+    </message>
+    <message>
+        <source>Online Guides...</source>
+        <translation type="unfinished">線上幫助…</translation>
+    </message>
+    <message>
+        <source>Judge &amp;No Source</source>
+        <translation type="unfinished">測試無原始檔(&amp;N)</translation>
+    </message>
+    <message>
+        <source>Judge &quot;No Source&quot;...</source>
+        <translation type="unfinished">測試“未測試”…</translation>
+    </message>
+    <message>
+        <source>Judge &amp;Compile Failed</source>
+        <translation type="unfinished">測試編譯問題(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</source>
+        <translation type="unfinished">測試“編譯錯誤”、“編譯超時”等…</translation>
+    </message>
+    <message>
+        <source>C&amp;hange Contest Name</source>
+        <translation type="unfinished">更改比賽標題(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Change the name of this contest...</source>
+        <translation type="unfinished">修改這場比賽的名稱…</translation>
+    </message>
+    <message>
+        <source>Clean Up &amp;Files</source>
+        <translation type="unfinished">整理檔案(&amp;F)</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation type="unfinished">重新整理(&amp;R)</translation>
+    </message>
+    <message>
+        <source>Communication</source>
+        <translation type="unfinished">通訊題</translation>
+    </message>
+    <message>
+        <source>How to make Communication Tasks...</source>
+        <translation type="unfinished">如何新增通訊題…</translation>
+    </message>
+    <message>
+        <source>Export &amp;Statistics</source>
+        <translation type="unfinished">匯出統計資訊(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation type="unfinished">使用者手冊</translation>
+    </message>
     <message>
         <source>Are you sure to Clean up Files?</source>
-        <translation>確定要整理檔案嗎？</translation>
+        <translation type="unfinished">確定要整理檔案嗎？</translation>
     </message>
     <message>
         <source>Reading guide are recommended.</source>
-        <translation>建議參看教程後再確認操作。</translation>
-    </message>
-    <message>
-        <source>Aborted.</source>
-        <translation>沒有進行整理。</translation>
-    </message>
-    <message>
-        <source>Making Backup...</source>
-        <translation>備份中…</translation>
-    </message>
-    <message>
-        <source>Cleaning</source>
-        <translation>整理中</translation>
-    </message>
-    <message>
-        <source>Working on it...</source>
-        <translation>正在整理…</translation>
-    </message>
-    <message>
-        <source>Fetching Data...</source>
-        <translation>抓取題目資料…</translation>
-    </message>
-    <message>
-        <source>Initing...</source>
-        <translation>預處理中…</translation>
-    </message>
-    <message>
-        <source>Now Cleaning...</source>
-        <translation>整理檔案中…</translation>
-    </message>
-    <message>
-        <source>Finished.</source>
-        <translation>整理完成。</translation>
-    </message>
-    <message>
-        <source>Aborted</source>
-        <translation>沒有進行整理</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>出錯了</translation>
-    </message>
-    <message>
-        <source>Cannot open file %1</source>
-        <translation>無法開啟 %1</translation>
-    </message>
-    <message>
-        <source>Save Failed</source>
-        <translation>儲存失敗</translation>
-    </message>
-    <message>
-        <source>Saved</source>
-        <translation>已儲存</translation>
-    </message>
-    <message>
-        <source>File %1 is broken</source>
-        <translation>%1 已損壞</translation>
-    </message>
-    <message>
-        <source>LemonLime - %1</source>
-        <translation>LemonLime - %1</translation>
-    </message>
-    <message>
-        <source>The name did not changes.</source>
-        <translation>名稱沒有改變。</translation>
-    </message>
-    <message>
-        <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
-        <translation>這是一個基於 LemonPlus 的簡易 OI 競賽測試環境。</translation>
-    </message>
-    <message>
-        <source>Based on Project LemonPlus by Dust1404, 2019</source>
-        <translation>基於 LemonPlus by Dust1404, 2019</translation>
-    </message>
-    <message>
-        <source>Update by iotang and Coelacanthus</source>
-        <translation>由 iotang 和 Coelacanthus 更新</translation>
-    </message>
-    <message>
-        <source>Rename Contest</source>
-        <translation>重新命名比賽</translation>
-    </message>
-    <message>
-        <source>Aborted: Cannot make dir `%1&apos;.</source>
-        <translation>沒有進行整理：沒法建立 `%1&apos;。</translation>
-    </message>
-    <message>
-        <source>Cannot make contest path</source>
-        <translation>無法建立比賽資料夾</translation>
-    </message>
-    <message>
-        <source>No task found</source>
-        <translation>找不到任何試題</translation>
-    </message>
-    <message>
-        <source>No Contest Yet</source>
-        <translation>還沒有比賽</translation>
-    </message>
-    <message>
-        <source>Write the name you want.</source>
-        <translation>輸入你想要的名稱。</translation>
-    </message>
-    <message>
-        <source>New Name</source>
-        <translation>新名稱</translation>
-    </message>
-    <message>
-        <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
-        <oldsource>Base on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</oldsource>
-        <translation>基於 Lemon v1.2 by Zhipeng Jia, 2011</translation>
+        <translation type="unfinished">建議參看教程後再確認操作。</translation>
     </message>
     <message>
         <source>Making backup files to dir &lt;br&gt; `%1&apos;?</source>
-        <translation>建立備份檔案到 &lt;br&gt; `%1&apos;？</translation>
+        <translation type="unfinished">建立備份檔案到 &lt;br&gt; `%1&apos;？</translation>
+    </message>
+    <message>
+        <source>Aborted.</source>
+        <translation type="unfinished">沒有進行整理。</translation>
     </message>
     <message>
         <source>Aborted: `%1&apos; already exist.</source>
-        <translation>沒有進行整理：`%1&apos; 已經存在。</translation>
+        <translation type="unfinished">沒有進行整理：`%1&apos; 已經存在。</translation>
     </message>
     <message>
-        <source>About LemonLime</source>
-        <oldsource>About LemonPlus</oldsource>
-        <translation>關於 LemonLime</translation>
+        <source>Aborted: Cannot make dir `%1&apos;.</source>
+        <translation type="unfinished">沒有進行整理：沒法建立 `%1&apos;。</translation>
     </message>
     <message>
-        <source>Build Date: %1</source>
-        <translation>構建日期：%1</translation>
+        <source>Making Backup...</source>
+        <translation type="unfinished">備份中…</translation>
     </message>
     <message>
-        <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
-        <translation>本程式基於&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;許可協議</translation>
+        <source>Cleaning</source>
+        <translation type="unfinished">整理中</translation>
+    </message>
+    <message>
+        <source>Working on it...</source>
+        <translation type="unfinished">正在整理…</translation>
+    </message>
+    <message>
+        <source>Fetching Data...</source>
+        <translation type="unfinished">抓取題目資料…</translation>
+    </message>
+    <message>
+        <source>Initing...</source>
+        <translation type="unfinished">預處理中…</translation>
+    </message>
+    <message>
+        <source>Now Cleaning...</source>
+        <translation type="unfinished">整理檔案中…</translation>
+    </message>
+    <message>
+        <source>Finished.</source>
+        <translation type="unfinished">整理完成。</translation>
+    </message>
+    <message>
+        <source>Aborted</source>
+        <translation type="unfinished">沒有進行整理</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">出錯了</translation>
+    </message>
+    <message>
+        <source>Cannot open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save Failed</source>
+        <translation type="unfinished">儲存失敗</translation>
+    </message>
+    <message>
+        <source>Saved</source>
+        <translation type="unfinished">已儲存</translation>
+    </message>
+    <message>
+        <source>File %1 is broken</source>
+        <translation type="unfinished">%1 已損壞</translation>
+    </message>
+    <message>
+        <source>LemonLime - %1</source>
+        <translation type="unfinished">LemonLime - %1</translation>
+    </message>
+    <message>
+        <source>Cannot make contest path</source>
+        <translation type="unfinished">無法建立比賽資料夾</translation>
+    </message>
+    <message>
+        <source>No task found</source>
+        <translation type="unfinished">找不到任何試題</translation>
+    </message>
+    <message>
+        <source>Rename Contest</source>
+        <translation type="unfinished">重新命名比賽</translation>
+    </message>
+    <message>
+        <source>No Contest Yet</source>
+        <translation type="unfinished">還沒有比賽</translation>
+    </message>
+    <message>
+        <source>Write the name you want.</source>
+        <translation type="unfinished">輸入你想要的名稱。</translation>
+    </message>
+    <message>
+        <source>New Name</source>
+        <translation type="unfinished">新名稱</translation>
+    </message>
+    <message>
+        <source>The name did not changes.</source>
+        <translation type="unfinished">名稱沒有改變。</translation>
     </message>
     <message>
         <source>Version: %1</source>
-        <translation>版本：%1</translation>
+        <translation type="unfinished">版本：%1</translation>
+    </message>
+    <message>
+        <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
+        <translation type="unfinished">這是一個基於 LemonPlus 的簡易 OI 競賽測試環境。</translation>
+    </message>
+    <message>
+        <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
+        <translation type="unfinished">基於 Lemon v1.2 by Zhipeng Jia, 2011</translation>
+    </message>
+    <message>
+        <source>Based on Project LemonPlus by Dust1404, 2019</source>
+        <translation type="unfinished">基於 LemonPlus by Dust1404, 2019</translation>
+    </message>
+    <message>
+        <source>Update by iotang and Coelacanthus</source>
+        <translation type="unfinished">由 iotang 和 Coelacanthus 更新</translation>
     </message>
     <message>
         <source>Build Info: %1</source>
-        <translation>編譯訊息：%1</translation>
+        <translation type="unfinished">編譯訊息：%1</translation>
     </message>
     <message>
         <source>Build Extra Info: %1</source>
-        <translation>附加編譯訊息：%1</translation>
+        <translation type="unfinished">附加編譯訊息：%1</translation>
+    </message>
+    <message>
+        <source>Build Date: %1</source>
+        <translation type="unfinished">構建日期：%1</translation>
+    </message>
+    <message>
+        <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
+        <translation type="unfinished">本程式基於&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;許可協議</translation>
+    </message>
+    <message>
+        <source>About LemonLime</source>
+        <translation type="unfinished">關於 LemonLime</translation>
     </message>
 </context>
 <context>

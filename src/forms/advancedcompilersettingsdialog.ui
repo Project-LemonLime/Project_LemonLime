@@ -331,7 +331,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../resource.qrc">
+         <iconset resource="../../resource.qrc">
           <normaloff>:/icon/edit-delete.svg</normaloff>:/icon/edit-delete.svg</iconset>
         </property>
        </widget>
@@ -421,7 +421,7 @@
   <tabstop>environmentVariablesButton</tabstop>
  </tabstops>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections>
   <connection>
