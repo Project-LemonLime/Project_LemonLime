@@ -102,7 +102,7 @@ $ git clone https://github.com/iotang/Project_LemonLime.git --recursive
 
 在很多地区，从 `码云` 下载的速度是从 `Github` 下载的速度的 100 倍。
 
-[这个仓库在码云下的复制](https://gitee.com/iotang/Project_LemonLime)
+[这个仓库在码云下的镜像](https://gitee.com/iotang/Project_LemonLime)
 
 ### Windows
 
