@@ -19,6 +19,10 @@
  * lemon.h @Project Lemon+
  * Update 2018 Dust1404
  **/
+/**
+ * lemon.h @Project LemonLime
+ * Update 2020 Coelacanthus
+ **/
 
 #ifndef LEMON_H
 #define LEMON_H
@@ -29,27 +33,27 @@
 
 namespace Ui
 {
-	class Lemon;
+	class LemonLime;
 }
 
 class Contest;
 class Settings;
 class OptionsDialog;
 
-class Lemon : public QMainWindow
+class LemonLime : public QMainWindow
 {
 	Q_OBJECT
 
   public:
-	explicit Lemon(QWidget *parent = nullptr);
-	~Lemon();
+	explicit LemonLime(QWidget *parent = nullptr);
+	~LemonLime();
 	void changeEvent(QEvent *);
 	void closeEvent(QCloseEvent *);
 	int getSplashTime();
 	void welcome();
 
   private:
-	Ui::Lemon *ui;
+	Ui::LemonLime *ui;
 	Contest *curContest;
 	Settings *settings;
 	QFileSystemWatcher *dataDirWatcher;

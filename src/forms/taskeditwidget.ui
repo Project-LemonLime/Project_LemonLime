@@ -71,7 +71,7 @@
         <string>Append</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
        </property>
       </widget>
@@ -87,7 +87,7 @@
         <string>Remove</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
        </property>
       </widget>
@@ -650,7 +650,7 @@
         <string>Append</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
        </property>
       </widget>
@@ -666,7 +666,7 @@
         <string>Remove</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
        </property>
       </widget>
@@ -919,7 +919,7 @@
   <tabstop>configurationSelect</tabstop>
  </tabstops>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -183,7 +183,7 @@
           <string>Add</string>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
          </property>
         </widget>
@@ -246,7 +246,7 @@
           <string>Clear</string>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/edit-clear.svg</normaloff>:/icon/edit-clear.svg</iconset>
          </property>
         </widget>
@@ -497,7 +497,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

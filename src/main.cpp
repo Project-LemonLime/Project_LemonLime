@@ -62,7 +62,7 @@ auto main(int argc, char *argv[]) -> int
 	Q_INIT_RESOURCE(resource);
 	QPixmap pixmap(":/logo/splash2.png");
 	QSplashScreen screen(pixmap.scaled(450, 191, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	Lemon w;
+	LemonLime w;
 	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
 	int splashTime = w.getSplashTime();
 

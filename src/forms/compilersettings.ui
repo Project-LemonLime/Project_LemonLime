@@ -76,7 +76,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
          </property>
          <property name="autoRaise">
@@ -105,7 +105,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
          </property>
          <property name="autoRaise">
@@ -147,7 +147,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
          </property>
          <property name="autoRaise">
@@ -176,7 +176,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../resource.qrc">
+          <iconset resource="../../resource.qrc">
            <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
          </property>
          <property name="autoRaise">
@@ -285,7 +285,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

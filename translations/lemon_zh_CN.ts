@@ -1347,8 +1347,14 @@ Depends: </source>
 <context>
     <name>Lemon</name>
     <message>
+        <source>English</source>
+        <translation>简体中文</translation>
+    </message>
+</context>
+<context>
+    <name>LemonLime</name>
+    <message>
         <source>LemonLime</source>
-        <oldsource>Lemon</oldsource>
         <translation>LemonLime</translation>
     </message>
     <message>
@@ -1358,162 +1364,6 @@ Depends: </source>
     <message>
         <source>Summary</source>
         <translation>概要</translation>
-    </message>
-    <message>
-        <source>Detail</source>
-        <translation>详情</translation>
-    </message>
-    <message>
-        <source>Contestants</source>
-        <translation>选手</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <oldsource>&amp;Refresh</oldsource>
-        <translation>刷新</translation>
-    </message>
-    <message>
-        <source>Single &amp;Judge</source>
-        <oldsource>Single Judge</oldsource>
-        <translation>测试某一题(&amp;J)</translation>
-    </message>
-    <message>
-        <source>Judge &amp;All</source>
-        <translation>测试全部(&amp;A)</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>文件(&amp;F)</translation>
-    </message>
-    <message>
-        <source>Judge Selected</source>
-        <translation>测试选中</translation>
-    </message>
-    <message>
-        <source>Judge All</source>
-        <translation>测试全部</translation>
-    </message>
-    <message>
-        <source>&amp;Control</source>
-        <translation>控制(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Tools</source>
-        <translation>工具(&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Guides</source>
-        <oldsource>Guides</oldsource>
-        <translation>指南(&amp;G)</translation>
-    </message>
-    <message>
-        <source>Export the result...</source>
-        <translation>导出成绩…</translation>
-    </message>
-    <message>
-        <source>Judge &amp;Unjudged</source>
-        <oldsource>Judge &amp;Single Task</oldsource>
-        <translation>测试未测试(&amp;U)</translation>
-    </message>
-    <message>
-        <source>Open Current Contest &amp;Folder</source>
-        <translation>打开当前比赛的目录(&amp;F)</translation>
-    </message>
-    <message>
-        <source>Open the folder of this contest with file manager...</source>
-        <translation>在文件管理器中打开这个比赛的目录…</translation>
-    </message>
-    <message>
-        <source>&amp;Save Current Contest</source>
-        <translation>保存比赛文件(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Save this contest...</source>
-        <translation>保存这个比赛…</translation>
-    </message>
-    <message>
-        <source>How to make Interaction Tasks...</source>
-        <translation>如何添加交互题…</translation>
-    </message>
-    <message>
-        <source>How to make Subtasks...</source>
-        <translation>如何创建打包的测试点（Subtasks）…</translation>
-    </message>
-    <message>
-        <source>What is Cleanup Files...</source>
-        <translation>什么是整理文件…</translation>
-    </message>
-    <message>
-        <source>The difference in compiling between Lemon and LemonLime...</source>
-        <translation>LemonLime 编译文件的不同…</translation>
-    </message>
-    <message>
-        <source>What is Skip...</source>
-        <translation>什么是“跳过这一题”…</translation>
-    </message>
-    <message>
-        <source>How to write Special Judge...</source>
-        <translation>如何写一个校验器…</translation>
-    </message>
-    <message>
-        <source>New features of Exporting Result...</source>
-        <translation>LemonLime 新加的关于导出文件的特性…</translation>
-    </message>
-    <message>
-        <source>Online Guides...</source>
-        <translation>在线帮助…</translation>
-    </message>
-    <message>
-        <source>Judge &quot;No Source&quot;...</source>
-        <translation>测试“未测试”…</translation>
-    </message>
-    <message>
-        <source>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</source>
-        <translation>测试“编译错误”、“编译超时”等…</translation>
-    </message>
-    <message>
-        <source>C&amp;hange Contest Name</source>
-        <oldsource>Change Contest Name</oldsource>
-        <translation>更改比赛标题(&amp;H)</translation>
-    </message>
-    <message>
-        <source>Interaction</source>
-        <oldsource>&amp;Interaction</oldsource>
-        <translation>交互题设置</translation>
-    </message>
-    <message>
-        <source>Compile Features</source>
-        <oldsource>&amp;Compile Features</oldsource>
-        <translation>编译选项</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>帮助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>&amp;New Contest</source>
-        <translation>新建比赛(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;Open Existing Contest</source>
-        <translation>打开已有的比赛(&amp;O)</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>退出(&amp;X)</translation>
-    </message>
-    <message>
-        <source>&amp;About</source>
-        <translation>关于(&amp;A)</translation>
-    </message>
-    <message>
-        <source>&amp;Judge Selected</source>
-        <translation>测试选中选手(&amp;J)</translation>
-    </message>
-    <message>
-        <source>Clean up Files</source>
-        <oldsource>&amp;Clean up Files</oldsource>
-        <translation>整理文件</translation>
     </message>
     <message>
         <source>Viewing tasks...</source>
@@ -1536,8 +1386,16 @@ Depends: </source>
         <translation>上</translation>
     </message>
     <message>
+        <source>Detail</source>
+        <translation>详情</translation>
+    </message>
+    <message>
         <source>Editing task details...</source>
         <translation>编辑题目详细信息…</translation>
+    </message>
+    <message>
+        <source>Contestants</source>
+        <translation>选手</translation>
     </message>
     <message>
         <source>Contestant List...</source>
@@ -1556,12 +1414,15 @@ Depends: </source>
         <translation>刷新选手列表…</translation>
     </message>
     <message>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
         <source>Judge unjudged...</source>
         <translation>测试未测试…</translation>
     </message>
     <message>
         <source>Judge Unjudged</source>
-        <oldsource>&amp;Single Judge</oldsource>
         <translation>测试未测试</translation>
     </message>
     <message>
@@ -1569,8 +1430,16 @@ Depends: </source>
         <translation>测试指定区域…</translation>
     </message>
     <message>
+        <source>Judge Selected</source>
+        <translation>测试选中</translation>
+    </message>
+    <message>
         <source>Judge all contestants...</source>
         <translation>测试所有选手…</translation>
+    </message>
+    <message>
+        <source>Judge All</source>
+        <translation>测试全部</translation>
     </message>
     <message>
         <source>Statistics</source>
@@ -1585,6 +1454,18 @@ Depends: </source>
         <translation>打开 / 关闭 / 重命名比赛等</translation>
     </message>
     <message>
+        <source>&amp;File</source>
+        <translation>文件(&amp;F)</translation>
+    </message>
+    <message>
+        <source>&amp;Control</source>
+        <translation>控制(&amp;C)</translation>
+    </message>
+    <message>
+        <source>&amp;Tools</source>
+        <translation>工具(&amp;T)</translation>
+    </message>
+    <message>
         <source>Switch Language...</source>
         <translation>切换语言…</translation>
     </message>
@@ -1593,16 +1474,36 @@ Depends: </source>
         <translation>设置语言(&amp;L)</translation>
     </message>
     <message>
+        <source>&amp;Help</source>
+        <translation>帮助(&amp;H)</translation>
+    </message>
+    <message>
         <source>LemonLime Guides...</source>
         <translation>LemonLime 教程…</translation>
+    </message>
+    <message>
+        <source>&amp;Guides</source>
+        <translation>指南(&amp;G)</translation>
+    </message>
+    <message>
+        <source>&amp;New Contest</source>
+        <translation>新建比赛(&amp;N)</translation>
     </message>
     <message>
         <source>Make a new contest...</source>
         <translation>创建新的比赛…</translation>
     </message>
     <message>
+        <source>&amp;Open Existing Contest</source>
+        <translation>打开已有的比赛(&amp;O)</translation>
+    </message>
+    <message>
         <source>Open an existing contest...</source>
         <translation>找到一场比赛，并打开它…</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>退出(&amp;X)</translation>
     </message>
     <message>
         <source>Exit LemonLime...</source>
@@ -1617,8 +1518,20 @@ Depends: </source>
         <translation>LemonLime 设置…</translation>
     </message>
     <message>
+        <source>&amp;About</source>
+        <translation>关于(&amp;A)</translation>
+    </message>
+    <message>
         <source>About LemonLime...</source>
         <translation>关于 LemonLime…</translation>
+    </message>
+    <message>
+        <source>&amp;Judge Selected</source>
+        <translation>测试选中选手(&amp;J)</translation>
+    </message>
+    <message>
+        <source>Judge &amp;All</source>
+        <translation>测试全部(&amp;A)</translation>
     </message>
     <message>
         <source>&amp;Close Current Contest</source>
@@ -1645,32 +1558,116 @@ Depends: </source>
         <translation>导出成绩(&amp;E)</translation>
     </message>
     <message>
+        <source>Export the result...</source>
+        <translation>导出成绩…</translation>
+    </message>
+    <message>
+        <source>Judge &amp;Unjudged</source>
+        <translation>测试未测试(&amp;U)</translation>
+    </message>
+    <message>
+        <source>Open Current Contest &amp;Folder</source>
+        <translation>打开当前比赛的目录(&amp;F)</translation>
+    </message>
+    <message>
+        <source>Open the folder of this contest with file manager...</source>
+        <translation>在文件管理器中打开这个比赛的目录…</translation>
+    </message>
+    <message>
+        <source>&amp;Save Current Contest</source>
+        <translation>保存比赛文件(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Save this contest...</source>
+        <translation>保存这个比赛…</translation>
+    </message>
+    <message>
+        <source>Interaction</source>
+        <translation>交互题</translation>
+    </message>
+    <message>
+        <source>How to make Interaction Tasks...</source>
+        <translation>如何添加交互题…</translation>
+    </message>
+    <message>
         <source>Subtasks</source>
         <translation>打包的测试点</translation>
+    </message>
+    <message>
+        <source>How to make Subtasks...</source>
+        <translation>如何创建打包的测试点（Subtasks）…</translation>
+    </message>
+    <message>
+        <source>Clean up Files</source>
+        <translation>整理文件</translation>
+    </message>
+    <message>
+        <source>What is Cleanup Files...</source>
+        <translation>什么是整理文件…</translation>
+    </message>
+    <message>
+        <source>Compile Features</source>
+        <translation>编译选项</translation>
+    </message>
+    <message>
+        <source>The difference in compiling between Lemon and LemonLime...</source>
+        <translation>LemonLime 编译文件的不同…</translation>
     </message>
     <message>
         <source>Skip</source>
         <translation>跳过这一题</translation>
     </message>
     <message>
+        <source>What is Skip...</source>
+        <translation>什么是“跳过这一题”…</translation>
+    </message>
+    <message>
         <source>Special Judge</source>
         <translation>自定义校验器(SPJ)</translation>
+    </message>
+    <message>
+        <source>How to write Special Judge...</source>
+        <translation>如何写一个校验器…</translation>
+    </message>
+    <message>
+        <source>Single &amp;Judge</source>
+        <translation>测试某一题(&amp;J)</translation>
     </message>
     <message>
         <source>Export Result</source>
         <translation>导出成绩</translation>
     </message>
     <message>
+        <source>New features of Exporting Result...</source>
+        <translation>LemonLime 新加的关于导出文件的特性…</translation>
+    </message>
+    <message>
         <source>More</source>
         <translation>更多</translation>
+    </message>
+    <message>
+        <source>Online Guides...</source>
+        <translation>在线帮助…</translation>
     </message>
     <message>
         <source>Judge &amp;No Source</source>
         <translation>测试无源文件(&amp;N)</translation>
     </message>
     <message>
+        <source>Judge &quot;No Source&quot;...</source>
+        <translation>测试“未测试”…</translation>
+    </message>
+    <message>
         <source>Judge &amp;Compile Failed</source>
         <translation>测试编译问题(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Judge &quot;Compile Error&quot;, &quot;Compile Time Limit Exceeded&quot;, etc...</source>
+        <translation>测试“编译错误”、“编译超时”等…</translation>
+    </message>
+    <message>
+        <source>C&amp;hange Contest Name</source>
+        <translation>更改比赛标题(&amp;H)</translation>
     </message>
     <message>
         <source>Change the name of this contest...</source>
@@ -1701,10 +1698,6 @@ Depends: </source>
         <translation>用户手册</translation>
     </message>
     <message>
-        <source>English</source>
-        <translation>简体中文</translation>
-    </message>
-    <message>
         <source>Are you sure to Clean up Files?</source>
         <translation>确定要整理文件吗？</translation>
     </message>
@@ -1713,8 +1706,20 @@ Depends: </source>
         <translation>建议参看教程后再确认操作。</translation>
     </message>
     <message>
+        <source>Making backup files to dir &lt;br&gt; `%1&apos;?</source>
+        <translation>创建备份文件到 &lt;br&gt; `%1&apos;？</translation>
+    </message>
+    <message>
         <source>Aborted.</source>
         <translation>没有进行整理。</translation>
+    </message>
+    <message>
+        <source>Aborted: `%1&apos; already exist.</source>
+        <translation>没有进行整理：`%1&apos; 已经存在。</translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot make dir `%1&apos;.</source>
+        <translation>没有进行整理：没法创建 `%1&apos;。</translation>
     </message>
     <message>
         <source>Making Backup...</source>
@@ -1754,7 +1759,7 @@ Depends: </source>
     </message>
     <message>
         <source>Cannot open file %1</source>
-        <translation>无法打开 %1</translation>
+        <translation>无法打开文件 %1</translation>
     </message>
     <message>
         <source>Save Failed</source>
@@ -1773,36 +1778,16 @@ Depends: </source>
         <translation>LemonLime - %1</translation>
     </message>
     <message>
-        <source>The name did not changes.</source>
-        <translation>名字没有改变。</translation>
-    </message>
-    <message>
-        <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
-        <translation>这是一个基于 LemonPlus 的简易 OI 竞赛测试环境。</translation>
-    </message>
-    <message>
-        <source>Based on Project LemonPlus by Dust1404, 2019</source>
-        <translation>基于 LemonPlus by Dust1404, 2019</translation>
-    </message>
-    <message>
-        <source>Update by iotang and Coelacanthus</source>
-        <translation>由 iotang 和 Coelacanthus 更新</translation>
-    </message>
-    <message>
-        <source>Rename Contest</source>
-        <translation>重命名比赛</translation>
-    </message>
-    <message>
-        <source>Aborted: Cannot make dir `%1&apos;.</source>
-        <translation>没有进行整理：没法创建 `%1&apos;。</translation>
-    </message>
-    <message>
         <source>Cannot make contest path</source>
         <translation>无法创建比赛目录</translation>
     </message>
     <message>
         <source>No task found</source>
         <translation>找不到任何试题</translation>
+    </message>
+    <message>
+        <source>Rename Contest</source>
+        <translation>重命名比赛</translation>
     </message>
     <message>
         <source>No Contest Yet</source>
@@ -1817,22 +1802,36 @@ Depends: </source>
         <translation>新名字</translation>
     </message>
     <message>
+        <source>The name did not changes.</source>
+        <translation>名字没有改变。</translation>
+    </message>
+    <message>
+        <source>Version: %1</source>
+        <translation>版本：%1</translation>
+    </message>
+    <message>
+        <source>This is a tiny judging environment for OI contest based on Project LemonPlus.</source>
+        <translation>这是一个基于 LemonPlus 的简易 OI 竞赛测试环境。</translation>
+    </message>
+    <message>
         <source>Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</source>
-        <oldsource>Base on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011</oldsource>
         <translation>基于 Lemon v1.2 by Zhipeng Jia, 2011</translation>
     </message>
     <message>
-        <source>Making backup files to dir &lt;br&gt; `%1&apos;?</source>
-        <translation>创建备份文件到 &lt;br&gt; `%1&apos;？</translation>
+        <source>Based on Project LemonPlus by Dust1404, 2019</source>
+        <translation>基于 LemonPlus by Dust1404, 2019</translation>
     </message>
     <message>
-        <source>Aborted: `%1&apos; already exist.</source>
-        <translation>没有进行整理：`%1&apos; 已经存在。</translation>
+        <source>Update by iotang and Coelacanthus</source>
+        <translation>由 iotang 和 Coelacanthus 更新</translation>
     </message>
     <message>
-        <source>About LemonLime</source>
-        <oldsource>About LemonPlus</oldsource>
-        <translation>关于 LemonLime</translation>
+        <source>Build Info: %1</source>
+        <translation>编译信息：%1</translation>
+    </message>
+    <message>
+        <source>Build Extra Info: %1</source>
+        <translation>额外编译信息：%1</translation>
     </message>
     <message>
         <source>Build Date: %1</source>
@@ -1843,16 +1842,8 @@ Depends: </source>
         <translation>本程序基于&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;许可协议</translation>
     </message>
     <message>
-        <source>Version: %1</source>
-        <translation>版本：%1</translation>
-    </message>
-    <message>
-        <source>Build Info: %1</source>
-        <translation>编译信息：%1</translation>
-    </message>
-    <message>
-        <source>Build Extra Info: %1</source>
-        <translation>额外编译信息：%1</translation>
+        <source>About LemonLime</source>
+        <translation>关于 LemonLime</translation>
     </message>
 </context>
 <context>

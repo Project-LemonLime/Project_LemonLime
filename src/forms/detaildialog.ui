@@ -55,7 +55,7 @@
         <string>&amp;Close</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/paint-none.svg</normaloff>:/icon/paint-none.svg</iconset>
        </property>
       </widget>
@@ -65,7 +65,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections>
   <connection>
