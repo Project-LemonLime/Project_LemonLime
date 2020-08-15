@@ -29,10 +29,10 @@
  **/
 
 #include "lemon.h"
-#include "base/LemonBase.hpp"
-#include "base/LemonLog.hpp"
 #include "addcompilerwizard.h"
 #include "addtaskdialog.h"
+#include "base/LemonBase.hpp"
+#include "base/LemonLog.hpp"
 #include "compiler.h"
 #include "contest.h"
 #include "contestant.h"
@@ -111,11 +111,12 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	connect(ui->actionChangeContestName, SIGNAL(triggered()), this, SLOT(changeContestName()));
 	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-    LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " + QSysInfo::currentCpuArchitecture())
-    DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()))
-    DEBUG(LEMON_BUILD_INFO)
-    DEBUG(LEMON_BUILD_EXTRA_INFO)
-    DEBUG(QString::number(LEMON_VERSION_BUILD))
+	LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " +
+	    QSysInfo::currentCpuArchitecture())
+	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()))
+	DEBUG(LEMON_BUILD_INFO)
+	DEBUG(LEMON_BUILD_EXTRA_INFO)
+	DEBUG(QString::number(LEMON_VERSION_BUILD))
 
 	appTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
@@ -958,7 +959,7 @@ void LemonLime::getFiles(const QString &path, const QStringList &filters, QMap<Q
 }
 
 void LemonLime::addTask(const QString &title, const QList<QPair<QString, QString>> &testCases, int fullScore,
-                    int timeLimit, int memoryLimit)
+                        int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
@@ -982,7 +983,7 @@ void LemonLime::addTask(const QString &title, const QList<QPair<QString, QString
 }
 
 void LemonLime::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString>> &testCases,
-                                  int sumScore, int timeLimit, int memoryLimit)
+                                      int sumScore, int timeLimit, int memoryLimit)
 {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);

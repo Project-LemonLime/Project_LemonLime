@@ -33,7 +33,7 @@
 
 namespace Ui
 {
-    class LemonLime;
+	class LemonLime;
 }
 
 class Contest;
@@ -45,15 +45,15 @@ class LemonLime : public QMainWindow
 	Q_OBJECT
 
   public:
-    explicit LemonLime(QWidget *parent = nullptr);
-    ~LemonLime();
+	explicit LemonLime(QWidget *parent = nullptr);
+	~LemonLime();
 	void changeEvent(QEvent *);
 	void closeEvent(QCloseEvent *);
 	int getSplashTime();
 	void welcome();
 
   private:
-    Ui::LemonLime *ui;
+	Ui::LemonLime *ui;
 	Contest *curContest;
 	Settings *settings;
 	QFileSystemWatcher *dataDirWatcher;
