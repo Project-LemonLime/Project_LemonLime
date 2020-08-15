@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
+// Refer to Qv2ray project log module
+
 #include "LemonLog.hpp"
 
 #include "LemonBase.hpp"
@@ -36,8 +38,6 @@ namespace Lemon::base
         auto funcPrepend = QString::fromStdString(func + ":" + std::to_string(line) + " ");
 
 #ifdef QT_DEBUG
-        // Debug build version, we only print info for DEBUG logs and print
-        // ALL info when debugLog presents,
         //if (type == LEMON_LOG_DEBUG || StartupOption.debugLog)
         if (type == LEMON_LOG_DEBUG)
         {
@@ -45,18 +45,13 @@ namespace Lemon::base
         }
 #else
         // We only process DEBUG log in Release mode
-        if (type == LEMON_LOG_DEBUG)
+        if (type == LEMON_LOG_DEBUG /* && StartupOption.debugLog */)
         {
-            if (StartupOption.debugLog)
-            {
                 logString.prepend(funcPrepend);
-            }
-            else
-            {
-                // Discard debug log in non-debug Qv2ray version with
-                // no-debugLog mode.
-                return;
-            }
+        }
+        else
+        {
+            return;
         }
 #endif
         std::cout << logString.toStdString() << std::endl;
