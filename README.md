@@ -6,13 +6,13 @@
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
 
-现已支持 Linux ![Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
-，Windows ![Windows](https://github.com/iotang/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/iotang/Project_LemonLime/workflows/MacOS/badge.svg)
+现已支持 Linux ![Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
+，Windows ![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
 
-![CPack - DEB - Debian](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
-![CPack - DEB - Ubuntu](https://github.com/iotang/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
+![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
+![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 
-![Linux - AppImage](https://github.com/iotang/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
+![Linux - AppImage](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
@@ -42,7 +42,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |        openSUSE       |  Leap 15.1 |    amd64   |      iceWM     |
 |        openSUSE       | Tumbleweed |    amd64   |    KDE-Xorg    |
 
-如果您在您的系统上做了测试，请前往 [#49](https://github.com/iotang/Project_LemonLime/issues/49) 告知
+如果您在您的系统上做了测试，请前往 [#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49) 告知
 
 ## 特色
 
@@ -89,7 +89,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 ### 源码下载
 
 ```plain
-$ git clone https://github.com/iotang/Project_LemonLime.git --recursive
+$ git clone https://github.com/Project-LemonLime/Project_LemonLime.git --recursive
 ```
 
 #### 下载的东西太大了？
