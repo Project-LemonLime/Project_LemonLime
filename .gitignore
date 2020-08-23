@@ -48,6 +48,8 @@ build.ninja
 cmake_install.cmake
 build/
 build-debug/
+.idea/
+cmake-build-debug/
 
 lemon
 lemon_autogen/
