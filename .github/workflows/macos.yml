@@ -45,9 +45,7 @@ jobs:
       
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 1
           submodules: true
-          ref: master
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages 
         run: |
           brew install ninja pkg-config

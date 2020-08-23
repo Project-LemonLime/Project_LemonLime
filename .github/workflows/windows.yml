@@ -44,7 +44,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-          ref: master
       - name: Install Python 3.7 version
         uses: actions/setup-python@v1
         with:
