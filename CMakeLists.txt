@@ -359,6 +359,8 @@ if(UNIX AND NOT APPLE AND NOT WIN32)
     foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
         install(FILES assets/icons/lemon-lime.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION share/icons/hicolor/${LEMON_LINUX_ICON_DIMENSION}x${LEMON_LINUX_ICON_DIMENSION}/apps RENAME lemon-lime.png)
     endforeach(LEMON_LINUX_ICON_DIMENSION)
+    include(GNUInstallDirs)
+    install(FILES assets/testlib_for_lemons.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
 if(UNIX)
