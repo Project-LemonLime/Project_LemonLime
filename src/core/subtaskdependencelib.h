@@ -40,4 +40,3 @@ inline QString statusRankingText(int ratio)
 
 	return QString::number(100.00 * ratio / mxDependValue, 'f', 3) + "%";
 }
-

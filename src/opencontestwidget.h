@@ -45,4 +45,3 @@ class OpenContestWidget : public QWidget
 	void selectionChanged();
 	void rowDoubleClicked();
 };
-

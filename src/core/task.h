@@ -132,4 +132,3 @@ class Task : public QObject
 	void problemTitleChanged(const QString &);
 	void compilerConfigurationRefreshed();
 };
-

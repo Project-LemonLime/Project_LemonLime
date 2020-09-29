@@ -50,4 +50,3 @@ class CompilerSettings : public QWidget
 	void compilerListCurrentRowChanged();
 	void advancedButtonClicked();
 };
-

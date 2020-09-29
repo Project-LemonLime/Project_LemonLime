@@ -57,4 +57,3 @@ class TestCaseEditWidget : public QWidget
   signals:
 	void dataPathChanged();
 };
-

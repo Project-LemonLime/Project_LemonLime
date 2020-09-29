@@ -76,4 +76,3 @@ class TaskEditWidget : public QWidget
   signals:
 	void dataPathChanged();
 };
-

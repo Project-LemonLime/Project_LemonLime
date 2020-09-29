@@ -84,4 +84,3 @@ class JudgingThread : public QThread
   public slots:
 	void stopJudgingSlot();
 };
-

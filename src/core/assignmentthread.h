@@ -89,4 +89,3 @@ class AssignmentThread : public QThread
 	void compileError(int, int);
 	void stopJudgingSignal();
 };
-

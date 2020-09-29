@@ -74,4 +74,3 @@ class Compiler : public QObject
 	double memoryLimitRatio;
 	bool disableMemoryLimitCheck;
 };
-

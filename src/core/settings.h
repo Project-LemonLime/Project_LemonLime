@@ -159,4 +159,3 @@ class Settings : public QObject
 
 	int splashTime{};
 };
-

@@ -60,4 +60,3 @@ class SummaryTree : public QTreeWidget
   signals:
 	void taskChanged();
 };
-

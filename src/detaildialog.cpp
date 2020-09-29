@@ -11,11 +11,11 @@
 #include "base/LemonType.hpp"
 #include "contest.h"
 #include "core/contestant.h"
-#include "judgingdialog.h"
 #include "core/settings.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 #include "core/testcase.h"
+#include "judgingdialog.h"
 #include "ui_detaildialog.h"
 #include <QMessageBox>
 #include <QScrollBar>

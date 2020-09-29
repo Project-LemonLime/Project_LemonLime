@@ -46,4 +46,3 @@ class StatisticsBrowser : public QWidget
 	                                     QList<QList<QList<ResultState>>>);
 	static void exportStatsticsHtml(QWidget *, const QString &);
 };
-

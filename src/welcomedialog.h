@@ -42,4 +42,3 @@ class WelcomeDialog : public QDialog
 	void informationChanged();
 	void tabIndexChanged(int);
 };
-

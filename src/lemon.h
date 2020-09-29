@@ -87,4 +87,3 @@ class LemonLime : public QMainWindow
   signals:
 	void dataPathChanged();
 };
-

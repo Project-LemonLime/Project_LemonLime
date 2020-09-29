@@ -41,4 +41,3 @@ class AddTaskDialog : public QDialog
 	void timeLimitChanged();
 	void memoryLimitChanged();
 };
-

@@ -42,4 +42,3 @@ class ExportUtil : public QObject
 
   public slots:
 };
-

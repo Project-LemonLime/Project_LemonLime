@@ -34,4 +34,3 @@ class ExtTestCaseModifierDialog : public QDialog
 
 	Task *editTask{};
 };
-

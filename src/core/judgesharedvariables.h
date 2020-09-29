@@ -9,4 +9,3 @@
 //
 
 extern int skipEnabled;
-

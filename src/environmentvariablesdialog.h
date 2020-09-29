@@ -38,4 +38,3 @@ class EnvironmentVariablesDialog : public QDialog
 	void deleteButtonClicked();
 	void viewerSelectionChanged();
 };
-
