@@ -1,50 +1,29 @@
-/***************************************************************************
-    This file is part of Project Lemon
-    Copyright (C) 2011 Zhipeng Jia
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-***************************************************************************/
-/**
- * lemon.cpp @Project Lemon+
- * Update 2018 Dust1404
- **/
-/**
- * lemon.cpp @Project LemonLime
- * Update 2019 iotang
- **/
-/**
- * lemon.cpp @Project LemonLime
- * Update 2020 Coelacanthus
- **/
+/*
+ * SPDX-FileCopyrightText: 2011-2018 Project Lemon, Zhipeng Jia
+ *                         2018-2019 Project LemonPlus, Dust1404
+ *                         2019      Project LemonLime
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ */
 
 #include "lemon.h"
 #include "addcompilerwizard.h"
 #include "addtaskdialog.h"
 #include "base/LemonBase.hpp"
 #include "base/LemonLog.hpp"
-#include "compiler.h"
+#include "component/exportutil/exportutil.h"
 #include "contest.h"
-#include "contestant.h"
+#include "core/compiler.h"
+#include "core/contestant.h"
+#include "core/settings.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include "detaildialog.h"
-#include "exportutil.h"
 #include "newcontestdialog.h"
 #include "opencontestdialog.h"
 #include "optionsdialog.h"
-#include "settings.h"
 #include "statisticsbrowser.h"
-#include "task.h"
-#include "testcase.h"
 #include "ui_lemon.h"
 #include "welcomedialog.h"
 #include <QDesktopServices>

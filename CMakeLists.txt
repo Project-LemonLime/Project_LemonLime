@@ -14,10 +14,34 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
+option(LEMON "Use Qt6 for Debugging" OFF)
+if(LEMON_QT6)
+    cmake_policy(SET CMP0072 NEW)
+    set(LEMON_QT_MAJOR_VERSION 6)
+    set(LEMON_QT_MINOR_VERSION 0)
+    set(LEMON_QT_LIBNAME Qt6)
+    #From: https://github.com/KDE/kwin/blob/master/cmake/modules/FindXKB.cmake#L35
+    find_package(PkgConfig)
+    pkg_check_modules(PKG_XKB QUIET xkbcommon)
+    set(XKB_DEFINITIONS ${PKG_XKB_CFLAGS_OTHER})
+    find_path(XKB_INCLUDE_DIR NAMES xkbcommon/xkbcommon.h HINTS ${PKG_XKB_INCLUDE_DIRS})
+    find_library(XKB_LIBRARY NAMES xkbcommon HINTS ${PKG_XKB_LIBRARY_DIRS})
+    add_library(XKB::XKB UNKNOWN IMPORTED)
+    set_target_properties(XKB::XKB PROPERTIES
+        IMPORTED_LOCATION "${XKB_LIBRARY}"
+        INTERFACE_COMPILE_OPTIONS "${XKB_DEFINITIONS}"
+        INTERFACE_INCLUDE_DIRECTORIES "${XKB_INCLUDE_DIR}"
+        )
+else()
+    set(LEMON_QT_MAJOR_VERSION 5)
+    set(LEMON_QT_MINOR_VERSION 5)
+    set(LEMON_QT_LIBNAME Qt5)
+endif()
+
+find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Network Core Gui Widgets Network REQUIRED)
+list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets ${LEMON_QT_LIBNAME}::Network)
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS AxContainer REQUIRED)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
     set(GUI_TYPE WIN32)
@@ -107,10 +131,6 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/visualsettings.cpp
 	${CMAKE_SOURCE_DIR}/src/lemon.cpp
 	${CMAKE_SOURCE_DIR}/src/contest.cpp
-	${CMAKE_SOURCE_DIR}/src/task.cpp
-	${CMAKE_SOURCE_DIR}/src/testcase.cpp
-	${CMAKE_SOURCE_DIR}/src/settings.cpp
-	${CMAKE_SOURCE_DIR}/src/compiler.cpp
 	${CMAKE_SOURCE_DIR}/src/filelineedit.cpp
 	${CMAKE_SOURCE_DIR}/src/summarytree.cpp
 	${CMAKE_SOURCE_DIR}/src/taskeditwidget.cpp
@@ -118,12 +138,9 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/generalsettings.cpp
 	${CMAKE_SOURCE_DIR}/src/compilersettings.cpp
 	${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.cpp
-	${CMAKE_SOURCE_DIR}/src/contestant.cpp
 	${CMAKE_SOURCE_DIR}/src/judgingdialog.cpp
-	${CMAKE_SOURCE_DIR}/src/judgingthread.cpp
 	${CMAKE_SOURCE_DIR}/src/optionsdialog.cpp
 	${CMAKE_SOURCE_DIR}/src/resultviewer.cpp
-	${CMAKE_SOURCE_DIR}/src/assignmentthread.cpp
 	${CMAKE_SOURCE_DIR}/src/detaildialog.cpp
 	${CMAKE_SOURCE_DIR}/src/newcontestwidget.cpp
 	${CMAKE_SOURCE_DIR}/src/opencontestwidget.cpp
@@ -135,8 +152,8 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.cpp
 	${CMAKE_SOURCE_DIR}/src/editvariabledialog.cpp
 	${CMAKE_SOURCE_DIR}/src/addcompilerwizard.cpp
-	${CMAKE_SOURCE_DIR}/src/exportutil.cpp
 	${CMAKE_SOURCE_DIR}/src/statisticsbrowser.cpp
+	${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.cpp
 	)
 
 set(HEADERS
@@ -146,12 +163,7 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.h
 	${CMAKE_SOURCE_DIR}/src/exttestcasetable.h
 	${CMAKE_SOURCE_DIR}/src/exttestcaseupdaterdialog.h
-	${CMAKE_SOURCE_DIR}/src/subtaskdependencelib.h
 	${CMAKE_SOURCE_DIR}/src/visualsettings.h
-	${CMAKE_SOURCE_DIR}/src/task.h
-	${CMAKE_SOURCE_DIR}/src/testcase.h
-	${CMAKE_SOURCE_DIR}/src/settings.h
-	${CMAKE_SOURCE_DIR}/src/compiler.h
 	${CMAKE_SOURCE_DIR}/src/filelineedit.h
 	${CMAKE_SOURCE_DIR}/src/summarytree.h
 	${CMAKE_SOURCE_DIR}/src/taskeditwidget.h
@@ -159,12 +171,9 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/generalsettings.h
 	${CMAKE_SOURCE_DIR}/src/compilersettings.h
 	${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.h
-	${CMAKE_SOURCE_DIR}/src/contestant.h
 	${CMAKE_SOURCE_DIR}/src/judgingdialog.h
-	${CMAKE_SOURCE_DIR}/src/judgingthread.h
 	${CMAKE_SOURCE_DIR}/src/optionsdialog.h
 	${CMAKE_SOURCE_DIR}/src/resultviewer.h
-	${CMAKE_SOURCE_DIR}/src/assignmentthread.h
 	${CMAKE_SOURCE_DIR}/src/detaildialog.h
 	${CMAKE_SOURCE_DIR}/src/newcontestwidget.h
 	${CMAKE_SOURCE_DIR}/src/opencontestwidget.h
@@ -176,9 +185,8 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.h
 	${CMAKE_SOURCE_DIR}/src/editvariabledialog.h
 	${CMAKE_SOURCE_DIR}/src/addcompilerwizard.h
-	${CMAKE_SOURCE_DIR}/src/exportutil.h
 	${CMAKE_SOURCE_DIR}/src/statisticsbrowser.h
-	${CMAKE_SOURCE_DIR}/src/judgesharedvariables.h
+	${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.h
 	)
 
 set(LEMON_UI_FORMS
@@ -230,6 +238,27 @@ add_custom_target(lupdate
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
+include(cmake/lemon-core.cmake)
+
+add_library(lemon-core STATIC
+    ${LEMON_CORE_SOURCES}
+    ${LEMON_BASE_HEADERS}
+    ${SINGLEAPPLICATION_SOURCES}
+    )
+
+target_link_libraries(lemon-core
+    ${LEMON_QT_LIBS}
+    ${SINGLEAPPLICATION_LIBRARY}
+    )
+
+target_include_directories(lemon-core PUBLIC
+    ${CMAKE_BINARY_DIR}
+    ${QV2RAY_BASEDIR_CORE}
+    ${SINGLEAPPLICATION_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
 set(QRC_RESOURCES
     resource.qrc
     manual/manual.qrc
@@ -238,6 +267,7 @@ set(QRC_RESOURCES
 set(LEMON_FULL_SOURCES
     ${HEADERS}
     ${LEMON_BASE_HEADERS}
+    ${LEMON_CORE_SOURCES}
     ${SRC}
     assets/lemon.rc
     ${LEMON_UI_FORMS}
@@ -273,14 +303,13 @@ set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 add_subdirectory(3rdparty/SingleApplication)
 
-set(LEMON_LINK_LIB Qt5::Widgets Qt5::Gui Qt5::Network Qt5::Core SingleApplication::SingleApplication)
-
 if(WIN32 AND ENABLE_XLS_EXPORT)
-    set(LEMON_LINK_LIB ${LEMON_LINK_LIB} Qt5::AxContainer)
+    find_package(${LEMON_QT_LIBNAME} COMPONENTS AxContainer REQUIRED)
+    list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
     add_definitions(-DENABLE_XLS_EXPORT)
 endif()
 
-target_link_libraries(lemon ${LEMON_LINK_LIB})
+target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core SingleApplication::SingleApplication)
 
 include(CheckIPOSupported)
 check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
@@ -314,6 +343,8 @@ if(UNIX AND NOT APPLE AND NOT WIN32)
     foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
         install(FILES assets/icons/lemon-lime.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION share/icons/hicolor/${LEMON_LINUX_ICON_DIMENSION}x${LEMON_LINUX_ICON_DIMENSION}/apps RENAME lemon-lime.png)
     endforeach(LEMON_LINUX_ICON_DIMENSION)
+    include(GNUInstallDirs)
+    install(FILES assets/testlib_for_lemons.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
 if(UNIX)
@@ -334,7 +365,7 @@ set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
 set(CPACK_PACKAGE_DESCRIPTION "A tiny judging environment for OI contest based on Lemon + LemonPlus.")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/Project-LemonLime/Project_LemonLime")
 set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/assets/lemon-lime.ico")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSES")
 
 if(UNIX)
     if(BUILD_DEB)

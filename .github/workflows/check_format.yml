@@ -13,7 +13,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install clang-format-9
       - name: "Format Codes"
-        run: clang-format-9 -i src/*.cpp src/*.h
+        run: clang-format-9 -i src/*.cpp src/*.h src/**/*.cpp src/**/*.h src/**/**/*.cpp src/**/**/*.h src/**/*.hpp
       - name: Check diff
         run: git diff --exit-code HEAD
       - name: Create Pull Request

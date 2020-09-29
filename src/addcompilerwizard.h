@@ -1,10 +1,13 @@
-/**
- * addcompilerwizard.h @Project Lemon+
- * Update 2018 Dust1404
- **/
+/*
+ * SPDX-FileCopyrightText: 2018-2019 Project LemonPlus, Dust1404
+ *                         2019      Project LemonLime
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ */
 
-#ifndef ADDCOMPILERWIZARD_H
-#define ADDCOMPILERWIZARD_H
+#pragma once
+//
 
 #include <QWizard>
 #include <QtCore>
@@ -45,5 +48,3 @@ class AddCompilerWizard : public QWizard
 	void selectJavaPath();
 	void selectPythonPath();
 };
-
-#endif // ADDCOMPILERWIZARD_H
