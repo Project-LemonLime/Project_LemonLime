@@ -36,4 +36,3 @@ class OpenContestDialog : public QDialog
   private slots:
 	void selectionChanged();
 };
-

@@ -38,4 +38,3 @@ class OptionsDialog : public QDialog
   private slots:
 	void okayButtonClicked();
 };
-

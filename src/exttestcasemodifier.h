@@ -48,4 +48,3 @@ class ExtTestCaseModifier : public QWidget
 	void appendNewSub();
 	void appendNewCase();
 };
-

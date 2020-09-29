@@ -37,4 +37,3 @@ class EditVariableDialog : public QDialog
   private slots:
 	void textChanged();
 };
-

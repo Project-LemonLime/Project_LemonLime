@@ -75,4 +75,3 @@ class ExtTestCaseUpdaterDialog : public QDialog
 	void outputFileChanged(const QString &);
 	void dependsChanged(const QString &);
 };
-
