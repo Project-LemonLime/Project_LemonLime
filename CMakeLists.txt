@@ -14,7 +14,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(LEMON "Use Qt6 for Debugging" OFF)
+option(LEMON_QT6 "Use Qt6 for Debugging" OFF)
 if(LEMON_QT6)
     cmake_policy(SET CMP0072 NEW)
     set(LEMON_QT_MAJOR_VERSION 6)
@@ -228,17 +228,19 @@ if(EMBED_TRANSLATIONS)
     set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
 endif()
 
+include(cmake/lemon-core.cmake)
+
 # Qt language translations
 add_custom_target(lupdate
     COMMAND lupdate ${HEADERS}
     ${LEMON_BASE_HEADERS}
+    ${LEMON_CORE_SOURCES}
     ${SRC}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-include(cmake/lemon-core.cmake)
 
 add_library(lemon-core STATIC
     ${LEMON_CORE_SOURCES}
