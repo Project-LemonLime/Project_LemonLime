@@ -62,4 +62,3 @@ class AddTestCasesWizard : public QWizard
 	void addArgument();
 	void deleteArgument();
 };
-

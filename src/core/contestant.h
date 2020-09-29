@@ -73,4 +73,3 @@ class Contestant : public QObject
 	void deleteTask(int);
 	void swapTask(int, int);
 };
-

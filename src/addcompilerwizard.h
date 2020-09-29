@@ -48,4 +48,3 @@ class AddCompilerWizard : public QWizard
 	void selectJavaPath();
 	void selectPythonPath();
 };
-

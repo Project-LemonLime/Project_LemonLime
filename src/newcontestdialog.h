@@ -36,4 +36,3 @@ class NewContestDialog : public QDialog
   private slots:
 	void informationChanged();
 };
-

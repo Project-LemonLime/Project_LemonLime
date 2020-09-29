@@ -11,10 +11,10 @@
 #include "base/LemonType.hpp"
 #include "contest.h"
 #include "core/contestant.h"
-#include "detaildialog.h"
-#include "judgingdialog.h"
 #include "core/settings.h"
 #include "core/task.h"
+#include "detaildialog.h"
+#include "judgingdialog.h"
 #include <QApplication>
 #include <QCheckBox>
 #include <QGridLayout>

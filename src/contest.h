@@ -78,4 +78,3 @@ class Contest : public QObject
 	void compileError(int, int);
 	void stopJudgingSignal();
 };
-

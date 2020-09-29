@@ -63,4 +63,3 @@ class ExtTestCaseTable : public QTableWidget
   signals:
 	void testCaseSelectionChanged();
 };
-

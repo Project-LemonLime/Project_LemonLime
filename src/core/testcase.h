@@ -51,4 +51,3 @@ class TestCase : public QObject
 	int timeLimit{};
 	int memoryLimit{};
 };
-

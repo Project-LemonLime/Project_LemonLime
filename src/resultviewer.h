@@ -48,4 +48,3 @@ class ResultViewer : public QTableWidget
   signals:
 	void contestantDeleted();
 };
-

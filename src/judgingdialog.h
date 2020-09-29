@@ -60,4 +60,3 @@ class JudgingDialog : public QDialog
   signals:
 	void stopJudgingSignal();
 };
-

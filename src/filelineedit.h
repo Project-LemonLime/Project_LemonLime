@@ -32,4 +32,3 @@ class FileLineEdit : public QLineEdit
   public slots:
 	void refreshFileList();
 };
-

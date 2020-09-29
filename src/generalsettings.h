@@ -46,4 +46,3 @@ class GeneralSettings : public QWidget
 	void inputFileExtensionsChanged(const QString &);
 	void outputFileExtensionsChanged(const QString &);
 };
-
