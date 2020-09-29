@@ -1,0 +1,6 @@
+set(LEMON_BASEDIR_CORE ${CMAKE_SOURCE_DIR}/src/core)
+
+set(LEMON_CORE_SOURCES
+    ${LEMON_BASEDIR_CORE}/
+    
+) 
