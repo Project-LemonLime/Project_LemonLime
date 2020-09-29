@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef ADDTESTCASESWIZARD_H
-#define ADDTESTCASESWIZARD_H
+#pragma once
+//
 
 #include <QWizard>
 #include <QtCore>
@@ -63,4 +63,3 @@ class AddTestCasesWizard : public QWizard
 	void deleteArgument();
 };
 
-#endif // ADDTESTCASESWIZARD_H

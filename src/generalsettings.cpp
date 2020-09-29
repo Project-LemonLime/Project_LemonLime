@@ -8,7 +8,7 @@
  */
 
 #include "generalsettings.h"
-#include "settings.h"
+#include "core/settings.h"
 #include "ui_generalsettings.h"
 #include <QMessageBox>
 

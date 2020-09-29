@@ -10,8 +10,8 @@
 #include "compilersettings.h"
 #include "addcompilerwizard.h"
 #include "advancedcompilersettingsdialog.h"
-#include "compiler.h"
-#include "settings.h"
+#include "core/compiler.h"
+#include "core/settings.h"
 #include "ui_compilersettings.h"
 #include <QAction>
 #include <QMessageBox>

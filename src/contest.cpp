@@ -8,13 +8,13 @@
  */
 
 #include "contest.h"
-#include "assignmentthread.h"
-#include "compiler.h"
-#include "contestant.h"
-#include "judgingthread.h"
-#include "settings.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/assignmentthread.h"
+#include "core/compiler.h"
+#include "core/contestant.h"
+#include "core/judgingthread.h"
+#include "core/settings.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include <QMessageBox>
 #include <utility>
 

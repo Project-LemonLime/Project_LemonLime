@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef TASK_H
-#define TASK_H
+#pragma once
+//
 
 #include <QObject>
 #include <QtCore>
@@ -133,4 +133,3 @@ class Task : public QObject
 	void compilerConfigurationRefreshed();
 };
 
-#endif // TASK_H

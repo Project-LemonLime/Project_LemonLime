@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NEWCONTESTDIALOG_H
-#define NEWCONTESTDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -37,4 +37,3 @@ class NewContestDialog : public QDialog
 	void informationChanged();
 };
 
-#endif // NEWCONTESTDIALOG_H

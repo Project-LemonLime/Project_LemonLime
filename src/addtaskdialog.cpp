@@ -8,7 +8,7 @@
  */
 
 #include "addtaskdialog.h"
-#include "settings.h"
+#include "core/settings.h"
 #include "ui_addtaskdialog.h"
 
 AddTaskDialog::AddTaskDialog(QWidget *parent) : QDialog(parent), ui(new Ui::AddTaskDialog)

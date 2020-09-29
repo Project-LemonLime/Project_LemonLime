@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef TESTCASE_H
-#define TESTCASE_H
+#pragma once
+//
 
 #include <QObject>
 #include <QtCore>
@@ -52,4 +52,3 @@ class TestCase : public QObject
 	int memoryLimit{};
 };
 
-#endif // TESTCASE_H

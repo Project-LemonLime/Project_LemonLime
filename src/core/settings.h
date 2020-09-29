@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QColor>
@@ -160,4 +160,3 @@ class Settings : public QObject
 	int splashTime{};
 };
 
-#endif // SETTINGS_H

@@ -8,8 +8,8 @@
  */
 
 #include "testcaseeditwidget.h"
-#include "settings.h"
-#include "testcase.h"
+#include "core/settings.h"
+#include "core/testcase.h"
 #include "ui_testcaseeditwidget.h"
 #include <QAction>
 

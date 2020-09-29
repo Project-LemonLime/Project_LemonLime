@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef COMPILERSETTINGS_H
-#define COMPILERSETTINGS_H
+#pragma once
+//
 
 #include <QWidget>
 #include <QtCore>
@@ -51,4 +51,3 @@ class CompilerSettings : public QWidget
 	void advancedButtonClicked();
 };
 
-#endif // COMPILERSETTINGS_H

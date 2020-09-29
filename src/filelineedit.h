@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef FILELINEEDIT_H
-#define FILELINEEDIT_H
+#pragma once
+//
 
 #include <QCompleter>
 #include <QLineEdit>
@@ -33,4 +33,3 @@ class FileLineEdit : public QLineEdit
 	void refreshFileList();
 };
 
-#endif // FILELINEEDIT_H

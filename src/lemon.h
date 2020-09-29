@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef LEMON_H
-#define LEMON_H
+#pragma once
+//
 
 #include <QMainWindow>
 #include <QtCore>
@@ -88,4 +88,3 @@ class LemonLime : public QMainWindow
 	void dataPathChanged();
 };
 
-#endif // LEMON_H

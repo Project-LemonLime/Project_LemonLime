@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef WELCOMEDIALOG_H
-#define WELCOMEDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -43,4 +43,3 @@ class WelcomeDialog : public QDialog
 	void tabIndexChanged(int);
 };
 
-#endif // WELCOMEDIALOG_H

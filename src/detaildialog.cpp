@@ -10,12 +10,12 @@
 #include "detaildialog.h"
 #include "base/LemonType.hpp"
 #include "contest.h"
-#include "contestant.h"
+#include "core/contestant.h"
 #include "judgingdialog.h"
-#include "settings.h"
-#include "subtaskdependencelib.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/settings.h"
+#include "core/subtaskdependencelib.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include "ui_detaildialog.h"
 #include <QMessageBox>
 #include <QScrollBar>

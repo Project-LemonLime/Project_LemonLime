@@ -8,7 +8,7 @@
  */
 
 #include "addcompilerwizard.h"
-#include "compiler.h"
+#include "core/compiler.h"
 #include "ui_addcompilerwizard.h"
 #include <QFileDialog>
 #include <QMessageBox>

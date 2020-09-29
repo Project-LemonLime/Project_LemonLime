@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NEWCONTESTWIDGET_H
-#define NEWCONTESTWIDGET_H
+#pragma once
+//
 
 #include <QWidget>
 #include <QtCore>
@@ -41,5 +41,3 @@ class NewContestWidget : public QWidget
 	void selectContestPath();
 	void savingNameChanged();
 };
-
-#endif // NEWCONTESTWIDGET_H

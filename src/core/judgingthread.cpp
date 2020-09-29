@@ -8,9 +8,9 @@
  */
 
 #include "judgingthread.h"
-#include "judgesharedvariables.h"
-#include "settings.h"
-#include "task.h"
+#include "core/judgesharedvariables.h"
+#include "core/settings.h"
+#include "core/task.h"
 #include <QTime>
 #include <cmath>
 #include <cstdio>

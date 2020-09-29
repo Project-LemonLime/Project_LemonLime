@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef EXTTESTCASEUPDATERDIALOG_H
-#define EXTTESTCASEUPDATERDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 
@@ -76,4 +76,3 @@ class ExtTestCaseUpdaterDialog : public QDialog
 	void dependsChanged(const QString &);
 };
 
-#endif // EXTTESTCASEUPDATERDIALOG_H

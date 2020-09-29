@@ -131,10 +131,6 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/visualsettings.cpp
 	${CMAKE_SOURCE_DIR}/src/lemon.cpp
 	${CMAKE_SOURCE_DIR}/src/contest.cpp
-	${CMAKE_SOURCE_DIR}/src/task.cpp
-	${CMAKE_SOURCE_DIR}/src/testcase.cpp
-	${CMAKE_SOURCE_DIR}/src/settings.cpp
-	${CMAKE_SOURCE_DIR}/src/compiler.cpp
 	${CMAKE_SOURCE_DIR}/src/filelineedit.cpp
 	${CMAKE_SOURCE_DIR}/src/summarytree.cpp
 	${CMAKE_SOURCE_DIR}/src/taskeditwidget.cpp
@@ -142,12 +138,9 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/generalsettings.cpp
 	${CMAKE_SOURCE_DIR}/src/compilersettings.cpp
 	${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.cpp
-	${CMAKE_SOURCE_DIR}/src/contestant.cpp
 	${CMAKE_SOURCE_DIR}/src/judgingdialog.cpp
-	${CMAKE_SOURCE_DIR}/src/judgingthread.cpp
 	${CMAKE_SOURCE_DIR}/src/optionsdialog.cpp
 	${CMAKE_SOURCE_DIR}/src/resultviewer.cpp
-	${CMAKE_SOURCE_DIR}/src/assignmentthread.cpp
 	${CMAKE_SOURCE_DIR}/src/detaildialog.cpp
 	${CMAKE_SOURCE_DIR}/src/newcontestwidget.cpp
 	${CMAKE_SOURCE_DIR}/src/opencontestwidget.cpp
@@ -159,8 +152,8 @@ set(SRC
 	${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.cpp
 	${CMAKE_SOURCE_DIR}/src/editvariabledialog.cpp
 	${CMAKE_SOURCE_DIR}/src/addcompilerwizard.cpp
-	${CMAKE_SOURCE_DIR}/src/exportutil.cpp
 	${CMAKE_SOURCE_DIR}/src/statisticsbrowser.cpp
+	${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.cpp
 	)
 
 set(HEADERS
@@ -170,12 +163,7 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.h
 	${CMAKE_SOURCE_DIR}/src/exttestcasetable.h
 	${CMAKE_SOURCE_DIR}/src/exttestcaseupdaterdialog.h
-	${CMAKE_SOURCE_DIR}/src/subtaskdependencelib.h
 	${CMAKE_SOURCE_DIR}/src/visualsettings.h
-	${CMAKE_SOURCE_DIR}/src/task.h
-	${CMAKE_SOURCE_DIR}/src/testcase.h
-	${CMAKE_SOURCE_DIR}/src/settings.h
-	${CMAKE_SOURCE_DIR}/src/compiler.h
 	${CMAKE_SOURCE_DIR}/src/filelineedit.h
 	${CMAKE_SOURCE_DIR}/src/summarytree.h
 	${CMAKE_SOURCE_DIR}/src/taskeditwidget.h
@@ -183,12 +171,9 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/generalsettings.h
 	${CMAKE_SOURCE_DIR}/src/compilersettings.h
 	${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.h
-	${CMAKE_SOURCE_DIR}/src/contestant.h
 	${CMAKE_SOURCE_DIR}/src/judgingdialog.h
-	${CMAKE_SOURCE_DIR}/src/judgingthread.h
 	${CMAKE_SOURCE_DIR}/src/optionsdialog.h
 	${CMAKE_SOURCE_DIR}/src/resultviewer.h
-	${CMAKE_SOURCE_DIR}/src/assignmentthread.h
 	${CMAKE_SOURCE_DIR}/src/detaildialog.h
 	${CMAKE_SOURCE_DIR}/src/newcontestwidget.h
 	${CMAKE_SOURCE_DIR}/src/opencontestwidget.h
@@ -200,9 +185,8 @@ set(HEADERS
 	${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.h
 	${CMAKE_SOURCE_DIR}/src/editvariabledialog.h
 	${CMAKE_SOURCE_DIR}/src/addcompilerwizard.h
-	${CMAKE_SOURCE_DIR}/src/exportutil.h
 	${CMAKE_SOURCE_DIR}/src/statisticsbrowser.h
-	${CMAKE_SOURCE_DIR}/src/judgesharedvariables.h
+	${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.h
 	)
 
 set(LEMON_UI_FORMS

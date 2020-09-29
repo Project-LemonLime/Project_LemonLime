@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef OPTIONSDIALOG_H
-#define OPTIONSDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -39,4 +39,3 @@ class OptionsDialog : public QDialog
 	void okayButtonClicked();
 };
 
-#endif // OPTIONSDIALOG_H

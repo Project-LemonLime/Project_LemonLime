@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef JUDGINGDIALOG_H
-#define JUDGINGDIALOG_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QDialog>
@@ -61,4 +61,3 @@ class JudgingDialog : public QDialog
 	void stopJudgingSignal();
 };
 
-#endif // JUDGINGDIALOG_H

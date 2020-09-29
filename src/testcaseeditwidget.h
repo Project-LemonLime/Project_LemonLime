@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef TESTCASEEDITWIDGET_H
-#define TESTCASEEDITWIDGET_H
+#pragma once
+//
 
 #include <QHeaderView>
 #include <QMessageBox>
@@ -58,4 +58,3 @@ class TestCaseEditWidget : public QWidget
 	void dataPathChanged();
 };
 
-#endif // TESTCASEEDITWIDGET_H

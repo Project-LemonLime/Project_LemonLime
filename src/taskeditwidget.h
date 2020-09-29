@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef TASKEDITWIDGET_H
-#define TASKEDITWIDGET_H
+#pragma once
+//
 
 #include <QWidget>
 #include <QtCore>
@@ -77,4 +77,3 @@ class TaskEditWidget : public QWidget
 	void dataPathChanged();
 };
 
-#endif // TASKEDITWIDGET_H

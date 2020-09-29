@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef EXTTESTCASEMODIFIERDIALOG_H
-#define EXTTESTCASEMODIFIERDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 
@@ -35,4 +35,3 @@ class ExtTestCaseModifierDialog : public QDialog
 	Task *editTask{};
 };
 
-#endif // EXTTESTCASEMODIFIERDIALOG_H

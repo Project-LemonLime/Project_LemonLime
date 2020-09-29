@@ -11,9 +11,9 @@
 #include "addtestcaseswizard.h"
 #include "contest.h"
 #include "exttestcasemodifierdialog.h"
-#include "settings.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/settings.h"
+#include "core/task.h"
+#include "core/testcase.h"
 
 SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent)
 {

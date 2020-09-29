@@ -10,9 +10,9 @@
 #include "judgingdialog.h"
 #include "base/LemonType.hpp"
 #include "contest.h"
-#include "judgesharedvariables.h"
-#include "subtaskdependencelib.h"
-#include "task.h"
+#include "core/judgesharedvariables.h"
+#include "core/subtaskdependencelib.h"
+#include "core/task.h"
 #include "ui_judgingdialog.h"
 #include <QScrollBar>
 

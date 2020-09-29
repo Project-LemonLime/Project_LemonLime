@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef ADVANCEDCOMPILERSETTINGSDIALOG_H
-#define ADVANCEDCOMPILERSETTINGSDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -54,5 +54,3 @@ class AdvancedCompilerSettingsDialog : public QDialog
 	void interpreterArgumentsChanged();
 	void environmentVariablesButtonClicked();
 };
-
-#endif // ADVANCEDCOMPILERSETTINGSDIALOG_H

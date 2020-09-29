@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef EDITVARIABLEDIALOG_H
-#define EDITVARIABLEDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -38,4 +38,3 @@ class EditVariableDialog : public QDialog
 	void textChanged();
 };
 
-#endif // EDITVARIABLEDIALOG_H

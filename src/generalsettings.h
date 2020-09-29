@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef GENERALSETTINGS_H
-#define GENERALSETTINGS_H
+#pragma once
+//
 
 #include <QWidget>
 #include <QtCore>
@@ -47,4 +47,3 @@ class GeneralSettings : public QWidget
 	void outputFileExtensionsChanged(const QString &);
 };
 
-#endif // GENERALSETTINGS_H

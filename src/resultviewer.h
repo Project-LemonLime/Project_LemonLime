@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef RESULTVIEWER_H
-#define RESULTVIEWER_H
+#pragma once
+//
 
 #include <QTableWidget>
 #include <QtCore>
@@ -49,4 +49,3 @@ class ResultViewer : public QTableWidget
 	void contestantDeleted();
 };
 
-#endif // RESULTVIEWER_H

@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef JUDGINGTHREAD_H
-#define JUDGINGTHREAD_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QThread>
@@ -85,4 +85,3 @@ class JudgingThread : public QThread
 	void stopJudgingSlot();
 };
 
-#endif // JUDGINGTHREAD_H

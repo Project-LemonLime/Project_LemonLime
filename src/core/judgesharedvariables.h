@@ -5,9 +5,8 @@
  *
  */
 
-#ifndef JUDGESHAREDVARIABLES_H
-#define JUDGESHAREDVARIABLES_H
+#pragma once
+//
 
 extern int skipEnabled;
 
-#endif // JUDGESHAREDVARIABLES_H

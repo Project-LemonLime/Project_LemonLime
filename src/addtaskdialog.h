@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef ADDTASKDIALOG_H
-#define ADDTASKDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 
@@ -42,4 +42,3 @@ class AddTaskDialog : public QDialog
 	void memoryLimitChanged();
 };
 
-#endif // ADDTASKDIALOG_H

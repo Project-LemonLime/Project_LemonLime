@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef ASSIGNMENTTHREAD_H
-#define ASSIGNMENTTHREAD_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QThread>
@@ -90,4 +90,3 @@ class AssignmentThread : public QThread
 	void stopJudgingSignal();
 };
 
-#endif // ASSIGNMENTTHREAD_H

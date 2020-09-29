@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef SUMMARYTREE_H
-#define SUMMARYTREE_H
+#pragma once
+//
 
 #include <QAction>
 #include <QApplication>
@@ -61,4 +61,3 @@ class SummaryTree : public QTreeWidget
 	void taskChanged();
 };
 
-#endif // SUMMARYTREE_H

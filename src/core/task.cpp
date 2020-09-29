@@ -9,9 +9,9 @@
 
 #include "task.h"
 
-#include "compiler.h"
-#include "settings.h"
-#include "testcase.h"
+#include "core/compiler.h"
+#include "core/settings.h"
+#include "core/testcase.h"
 #include <utility>
 
 Task::Task(QObject *parent, TaskType taskType, ComparisonMode comparisonMode, QString diffArguments,

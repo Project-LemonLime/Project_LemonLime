@@ -6,7 +6,7 @@
  */
 
 #include "visualsettings.h"
-#include "settings.h"
+#include "core/settings.h"
 #include "ui_visualsettings.h"
 
 VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings)

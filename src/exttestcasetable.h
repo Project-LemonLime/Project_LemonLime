@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef EXTTESTCASETABLE_H
-#define EXTTESTCASETABLE_H
+#pragma once
+//
 
 #include <QTableWidget>
 
@@ -64,4 +64,3 @@ class ExtTestCaseTable : public QTableWidget
 	void testCaseSelectionChanged();
 };
 
-#endif // EXTTESTCASETABLE_H

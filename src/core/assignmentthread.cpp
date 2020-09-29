@@ -9,14 +9,14 @@
 
 #include "assignmentthread.h"
 #include "base/LemonType.hpp"
-#include "subtaskdependencelib.h"
+#include "core/subtaskdependencelib.h"
 
-#include "compiler.h"
-#include "judgesharedvariables.h"
-#include "judgingthread.h"
-#include "settings.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/compiler.h"
+#include "core/judgesharedvariables.h"
+#include "core/judgingthread.h"
+#include "core/settings.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include <utility>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)

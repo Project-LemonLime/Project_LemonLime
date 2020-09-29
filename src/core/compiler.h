@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef COMPILER_H
-#define COMPILER_H
+#pragma once
+//
 
 #include <QObject>
 #include <QtCore>
@@ -75,4 +75,3 @@ class Compiler : public QObject
 	bool disableMemoryLimitCheck;
 };
 
-#endif // COMPILER_H

@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef VISUALSETTINGS_H
-#define VISUALSETTINGS_H
+#pragma once
+//
 
 #include <QWidget>
 
@@ -54,5 +54,3 @@ class VisualSettings : public QWidget
 
 	void whenResetToDefault();
 };
-
-#endif // VISUALSETTINGS_H

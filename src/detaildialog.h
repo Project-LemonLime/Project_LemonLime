@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef DETAILDIALOG_H
-#define DETAILDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -43,5 +43,3 @@ class DetailDialog : public QDialog
   signals:
 	void rejudgeSignal();
 };
-
-#endif // DETAILDIALOG_H

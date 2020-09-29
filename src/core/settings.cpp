@@ -8,7 +8,8 @@
  */
 
 #include "settings.h"
-#include "compiler.h"
+#include "core/compiler.h"
+#include "base/LemonLog.hpp"
 #include <cmath>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
@@ -216,43 +217,63 @@ auto Settings::getColorPer(double a, double b) -> QColor { return getColorPer(a 
 
 auto Settings::getColorGrand(double a, double b) -> QColor { return getColorGrand(a / b); }
 
-void Settings::setDefaultFullScore(int score) { defaultFullScore = score; }
+void Settings::setDefaultFullScore(int score) { defaultFullScore = score;
+    LOG("[Setting] Set Default Full Score to " + QString::number(score))
+}
 
-void Settings::setDefaultTimeLimit(int limit) { defaultTimeLimit = limit; }
+void Settings::setDefaultTimeLimit(int limit) { defaultTimeLimit = limit;
+    LOG("[Setting] Set Default Time Limit to " + QString::number(limit))
+}
 
-void Settings::setDefaultMemoryLimit(int limit) { defaultMemoryLimit = limit; }
+void Settings::setDefaultMemoryLimit(int limit) { defaultMemoryLimit = limit;
+    LOG("[Setting] Set Default Memory Limit to " + QString::number(limit))
+}
 
-void Settings::setCompileTimeLimit(int limit) { compileTimeLimit = limit; }
+void Settings::setCompileTimeLimit(int limit) { compileTimeLimit = limit;
+    LOG("[Setting] Set Compile Time Limit to " + QString::number(limit))
+}
 
-void Settings::setSpecialJudgeTimeLimit(int limit) { specialJudgeTimeLimit = limit; }
+void Settings::setSpecialJudgeTimeLimit(int limit) { specialJudgeTimeLimit = limit;
+    LOG("[Setting] Set SpecialJudge Time Limit to " + QString::number(limit))
+}
 
-void Settings::setFileSizeLimit(int limit) { fileSizeLimit = limit; }
+void Settings::setFileSizeLimit(int limit) { fileSizeLimit = limit;
+    LOG("[Setting] Set File Size Limit to " + QString::number(limit))
+}
 
-void Settings::setRejudgeTimes(int number) { rejudgeTimes = number; }
+void Settings::setRejudgeTimes(int number) { rejudgeTimes = number;
+    LOG("[Setting] Set Rejudge Times to " + QString::number(number))
+}
 
 void Settings::setDefaultInputFileExtension(const QString &extension)
 {
 	defaultInputFileExtension = extension;
+    LOG("[Setting] Set Default InputFile Extension to " + extension)
 }
 
 void Settings::setDefaultOutputFileExtension(const QString &extension)
 {
 	defaultOutputFileExtension = extension;
+    LOG("[Setting] Set Default OutputFile Extension to " + extension)
 }
 
 void Settings::setInputFileExtensions(const QString &extensions)
 {
 	inputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+    LOG("[Setting] Set InputFile Extensions to " + extensions)
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions)
 {
 	outputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+    LOG("[Setting] Set OutputFile Extensions to " + extensions)
 }
 
 void Settings::setRecentContest(const QStringList &list) { recentContest = list; }
 
-void Settings::setUiLanguage(const QString &language) { uiLanguage = language; }
+void Settings::setUiLanguage(const QString &language) { uiLanguage = language;
+    LOG("[Setting] Set Language to " + language)
+}
 
 void Settings::addCompiler(Compiler *compiler)
 {

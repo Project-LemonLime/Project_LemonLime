@@ -6,8 +6,8 @@
  */
 
 #include "exttestcaseupdaterdialog.h"
-#include "settings.h"
-#include "task.h"
+#include "core/settings.h"
+#include "core/task.h"
 #include "ui_exttestcaseupdaterdialog.h"
 #include <QFileDialog>
 #include <QMessageBox>

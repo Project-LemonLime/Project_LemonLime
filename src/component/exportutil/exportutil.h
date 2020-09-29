@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef EXPORTUTIL_H
-#define EXPORTUTIL_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QObject>
@@ -43,4 +43,3 @@ class ExportUtil : public QObject
   public slots:
 };
 
-#endif // EXPORTUTIL_H

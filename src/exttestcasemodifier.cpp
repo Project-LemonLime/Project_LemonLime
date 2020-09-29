@@ -7,8 +7,8 @@
 
 #include "exttestcasemodifier.h"
 #include "exttestcaseupdaterdialog.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include "ui_exttestcasemodifier.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)

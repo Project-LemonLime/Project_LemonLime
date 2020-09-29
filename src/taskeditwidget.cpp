@@ -8,9 +8,9 @@
  */
 
 #include "taskeditwidget.h"
-#include "compiler.h"
-#include "settings.h"
-#include "task.h"
+#include "core/compiler.h"
+#include "core/settings.h"
+#include "core/task.h"
 #include "ui_taskeditwidget.h"
 
 TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget)

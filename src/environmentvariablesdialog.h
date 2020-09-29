@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef ENVIRONMENTVARIABLESDIALOG_H
-#define ENVIRONMENTVARIABLESDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -39,4 +39,3 @@ class EnvironmentVariablesDialog : public QDialog
 	void viewerSelectionChanged();
 };
 
-#endif // ENVIRONMENTVARIABLESDIALOG_H

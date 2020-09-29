@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef ADDCOMPILERWIZARD_H
-#define ADDCOMPILERWIZARD_H
+#pragma once
+//
 
 #include <QWizard>
 #include <QtCore>
@@ -49,4 +49,3 @@ class AddCompilerWizard : public QWizard
 	void selectPythonPath();
 };
 
-#endif // ADDCOMPILERWIZARD_H

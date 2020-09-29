@@ -6,10 +6,9 @@
  */
 
 #include "exttestcasetable.h"
-#include "task.h"
-#include "testcase.h"
-#include <qheaderview.h>
-#include <qtablewidget.h>
+#include "core/task.h"
+#include "core/testcase.h"
+#include <QHeaderView>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
 #define qAsConst

@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef EXTTESTCASEMODIFIER_H
-#define EXTTESTCASEMODIFIER_H
+#pragma once
+//
 
 #include <QWidget>
 
@@ -49,4 +49,3 @@ class ExtTestCaseModifier : public QWidget
 	void appendNewCase();
 };
 
-#endif // EXTTESTCASEMODIFIER_H

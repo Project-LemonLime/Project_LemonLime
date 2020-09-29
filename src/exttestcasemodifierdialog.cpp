@@ -6,7 +6,7 @@
  */
 
 #include "exttestcasemodifierdialog.h"
-#include "task.h"
+#include "core/task.h"
 #include "ui_exttestcasemodifierdialog.h"
 #include <QtWidgets>
 

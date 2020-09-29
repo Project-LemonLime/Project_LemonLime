@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef OPENCONTESTDIALOG_H
-#define OPENCONTESTDIALOG_H
+#pragma once
+//
 
 #include <QDialog>
 #include <QtCore>
@@ -37,4 +37,3 @@ class OpenContestDialog : public QDialog
 	void selectionChanged();
 };
 
-#endif // OPENCONTESTDIALOG_H

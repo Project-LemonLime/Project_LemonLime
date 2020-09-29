@@ -7,7 +7,7 @@
  *
  */
 #include "testcase.h"
-#include "settings.h"
+#include "core/settings.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
 #define qAsConst

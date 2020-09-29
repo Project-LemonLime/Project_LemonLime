@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef SUBTASKDEPENDENCELIB_H
-#define SUBTASKDEPENDENCELIB_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QObject>
@@ -41,4 +41,3 @@ inline QString statusRankingText(int ratio)
 	return QString::number(100.00 * ratio / mxDependValue, 'f', 3) + "%";
 }
 
-#endif // SUBTASKDEPENDENCELIB_H

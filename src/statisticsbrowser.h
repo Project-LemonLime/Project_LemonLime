@@ -5,13 +5,13 @@
  *
  */
 
-#ifndef STATISTICSBROWSER_H
-#define STATISTICSBROWSER_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
-#include "contestant.h"
-#include "task.h"
-#include "testcase.h"
+#include "core/contestant.h"
+#include "core/task.h"
+#include "core/testcase.h"
 #include <QWidget>
 
 namespace Ui
@@ -47,4 +47,3 @@ class StatisticsBrowser : public QWidget
 	static void exportStatsticsHtml(QWidget *, const QString &);
 };
 
-#endif // STATISTICSBROWSER_H

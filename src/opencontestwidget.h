@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef OPENCONTESTWIDGET_H
-#define OPENCONTESTWIDGET_H
+#pragma once
+//
 
 #include <QMessageBox>
 #include <QWidget>
@@ -46,4 +46,3 @@ class OpenContestWidget : public QWidget
 	void rowDoubleClicked();
 };
 
-#endif // OPENCONTESTWIDGET_H

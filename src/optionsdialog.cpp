@@ -8,7 +8,7 @@
  */
 
 #include "optionsdialog.h"
-#include "settings.h"
+#include "core/settings.h"
 #include "ui_optionsdialog.h"
 //#include <QtGui>
 #include <QtWidgets>

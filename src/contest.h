@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef CONTEST_H
-#define CONTEST_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QObject>
@@ -79,4 +79,3 @@ class Contest : public QObject
 	void stopJudgingSignal();
 };
 
-#endif // CONTEST_H

@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef CONTESTANT_H
-#define CONTESTANT_H
+#pragma once
+//
 
 #include "base/LemonType.hpp"
 #include <QObject>
@@ -74,4 +74,3 @@ class Contestant : public QObject
 	void swapTask(int, int);
 };
 
-#endif // CONTESTANT_H
