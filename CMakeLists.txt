@@ -34,7 +34,7 @@ if(LEMON_QT6)
         )
 else()
     set(LEMON_QT_MAJOR_VERSION 5)
-    set(LEMON_QT_MINOR_VERSION 11)
+    set(LEMON_QT_MINOR_VERSION 5)
     set(LEMON_QT_LIBNAME Qt5)
 endif()
 
@@ -42,7 +42,6 @@ find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERS
 list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets ${LEMON_QT_LIBNAME}::Network)
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS AxContainer REQUIRED)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
     set(GUI_TYPE WIN32)
@@ -321,6 +320,7 @@ set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleAp
 add_subdirectory(3rdparty/SingleApplication)
 
 if(WIN32 AND ENABLE_XLS_EXPORT)
+    find_package(${LEMON_QT_LIBNAME} COMPONENTS AxContainer REQUIRED)
     list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
     add_definitions(-DENABLE_XLS_EXPORT)
 endif()
