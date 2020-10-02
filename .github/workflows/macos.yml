@@ -51,8 +51,8 @@ jobs:
           brew install ninja pkg-config
       - name: build macos
         run: |
-          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for macOS" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
-          cmake --build . --parallel $(nproc)
+          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for macOS" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
+          cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       # tag 打包
       - name: package
         run: |
