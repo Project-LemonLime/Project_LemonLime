@@ -99,7 +99,8 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 
 	appTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
-	QStringList fileList = QDir(":/translation").entryList(QStringList() << "lemon_*.qm", QDir::Files);
+	QStringList fileList = QDir(":/translation").entryList(QStringList() << "*.qm", QDir::Files);
+	DEBUG("Found Language: " + fileList.join(' '));
 
 	for (int i = 0; i < fileList.size(); i++)
 	{
@@ -107,7 +108,7 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 		auto *newLanguage = new QAction(appTranslator->translate("Lemon", "English"), this);
 		newLanguage->setCheckable(true);
 		QString language = QFileInfo(fileList[i]).baseName();
-		language.remove(0, language.indexOf('_') + 1);
+		// language.remove(0, language.indexOf('_') + 1);
 		newLanguage->setData(language);
 		connect(newLanguage, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
 		languageActions.append(newLanguage);
@@ -206,7 +207,7 @@ void LemonLime::loadUiLanguage()
 		if (languageAction->data().toString() == settings->getUiLanguage())
 		{
 			languageAction->setChecked(true);
-			appTranslator->load(QString(":/translation/lemon_%1.qm").arg(settings->getUiLanguage()));
+			appTranslator->load(QString(":/translation/%1.qm").arg(settings->getUiLanguage()));
 			return;
 		}
 	}
