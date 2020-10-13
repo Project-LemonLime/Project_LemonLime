@@ -1,0 +1,11 @@
+install(TARGETS lemon RUNTIME DESTINATION bin)
+
+set(LEMON_LINUX_ICON_DIMENSIONS 16 22 24 32 36 44 48 64 72 96 128 150 192 256 310 512 1024)
+#install(FILES assets/lemon-lime.metainfo.xml DESTINATION share/metainfo)
+install(FILES assets/lemon-lime.desktop DESTINATION share/applications)
+#install(FILES assets/icons/lemon-lime.svg DESTINATION share/icons/hicolor/scalable/apps)
+foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
+	install(FILES assets/icons/lemon-lime.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION share/icons/hicolor/${LEMON_LINUX_ICON_DIMENSION}x${LEMON_LINUX_ICON_DIMENSION}/apps RENAME lemon-lime.png)
+endforeach(LEMON_LINUX_ICON_DIMENSION)
+include(GNUInstallDirs)
+install(FILES assets/testlib_for_lemons.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

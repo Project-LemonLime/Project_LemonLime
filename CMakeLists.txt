@@ -10,6 +10,8 @@ option(EMBED_TRANSLATIONS "Embed translations" ON)
 LEMONLOG(EMBED_TRANSLATIONS)
 option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
 LEMONLOG(ENABLE_XLS_EXPORT)
+option(ENABLE_LTO "Link-Time Optimization" ON)
+LEMONLOG(ENABLE_LTO)
 option(BUILD_DEB "Build deb format package" OFF)
 LEMONLOG(BUILD_DEB)
 option(BUILD_RPM "Build rpm format package" OFF)
@@ -139,11 +141,15 @@ set(LEMON_BASE_HEADERS
     ${CMAKE_SOURCE_DIR}/src/base/LemonUtils.hpp
     )
 
-set(SRC
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
+set(LEMON_BASE_SOURCES
     ${CMAKE_SOURCE_DIR}/src/base/LemonConfig.cpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonTranslator.cpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonUtils.cpp
+    )
+    
+set(SRC
+    ${LEMON_BASE_SOURCES}
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
     ${CMAKE_SOURCE_DIR}/src/exttestcasemodifier.cpp
     ${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.cpp
     ${CMAKE_SOURCE_DIR}/src/exttestcasetable.cpp
@@ -236,31 +242,12 @@ set(LEMON_UI_FORMS
     ${CMAKE_SOURCE_DIR}/src/forms/statisticsbrowser.ui
     )
 
-# ==================================================================================
-# Lemon Translations
-# ==================================================================================
 
-include(cmake/translations.cmake)
-
-if(EMBED_TRANSLATIONS)
-    add_definitions(-DEMBED_TRANSLATIONS)
-    configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-    set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
-endif()
+# ==================================================================================
+# Lemon Core
+# ==================================================================================
 
 include(cmake/lemon-core.cmake)
-
-# Qt language translations
-add_custom_target(lupdate
-    COMMAND lupdate ${HEADERS}
-    ${LEMON_BASE_HEADERS}
-    ${LEMON_CORE_SOURCES}
-    ${SRC}
-    ${LEMON_UI_FORMS}
-    ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
-
 
 add_library(lemon-core STATIC
     ${LEMON_CORE_SOURCES}
@@ -280,6 +267,34 @@ target_include_directories(lemon-core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
+
+# ==================================================================================
+# Lemon Translations
+# ==================================================================================
+
+include(cmake/translations.cmake)
+
+if(EMBED_TRANSLATIONS)
+    add_definitions(-DEMBED_TRANSLATIONS)
+    configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+    set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+endif()
+
+# Qt language translations
+add_custom_target(lupdate
+    COMMAND lupdate ${HEADERS}
+    ${LEMON_BASE_HEADERS}
+    ${LEMON_CORE_SOURCES}
+    ${SRC}
+    ${LEMON_UI_FORMS}
+    ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
+
+# ==================================================================================
+# Lemon Build
+# ==================================================================================
 
 set(QRC_RESOURCES
     resource.qrc
@@ -333,83 +348,39 @@ endif()
 
 target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core SingleApplication::SingleApplication)
 
-include(CheckIPOSupported)
-check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
+if(ENABLE_LTO)
+	include(CheckIPOSupported)
+	check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
 
-if(LTO_SUPPORTED)
-    message(STATUS "IPO / LTO enabled")
-    set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-else()
-    message(STATUS "IPO / LTO not supported, disabled")
+	if(LTO_SUPPORTED)
+		set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+	else()
+		message(STATUS "IPO / LTO not supported, disabled")
+	endif()
 endif()
 
-# Need CMake 3.14
-#cmake_policy(SET CMP0083 NEW)
-#include(CheckPIESupported)
-#check_pie_supported(OUTPUT_VARIABLE output LANGUAGES C)
-#
-#if(CMAKE_C_LINK_PIE_SUPPORTED)
-#    message(STATUS "PIE enabled")
-#    set_property(TARGET lemon PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-#else()
-#    message(STATUS "PIE not supported, disabled")
-#endif()
+# ==================================================================================
+# Platform-dependent installation process and deployment
+# ==================================================================================
 
-if(UNIX AND NOT APPLE AND NOT WIN32)
-    install(TARGETS lemon RUNTIME DESTINATION bin)
-
-    set(LEMON_LINUX_ICON_DIMENSIONS 16 22 24 32 36 44 48 64 72 96 128 150 192 256 310 512 1024)
-    #install(FILES assets/lemon-lime.metainfo.xml DESTINATION share/metainfo)
-    install(FILES assets/lemon-lime.desktop DESTINATION share/applications)
-    #install(FILES assets/icons/lemon-lime.svg DESTINATION share/icons/hicolor/scalable/apps)
-    foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
-        install(FILES assets/icons/lemon-lime.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION share/icons/hicolor/${LEMON_LINUX_ICON_DIMENSION}x${LEMON_LINUX_ICON_DIMENSION}/apps RENAME lemon-lime.png)
-    endforeach(LEMON_LINUX_ICON_DIMENSION)
-    include(GNUInstallDirs)
-    install(FILES assets/testlib_for_lemons.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if(APPLE)
+    include(cmake/platforms/macos.cmake)
+elseif(UNIX AND NOT APPLE AND NOT WIN32)
+    include(cmake/platforms/linux.cmake)
+elseif(WIN32)
+    include(cmake/platforms/windows.cmake)
 endif()
-
-if(UNIX)
-    if(Qt5Core_VERSION VERSION_LESS  5.4.0)
-        execute_process(COMMAND sed -i '/<property name="tabBarAutoHide">/,+2d' ${CMAKE_SOURCE_DIR}/src/forms/lemon.ui)
-    endif()
-endif()
-
 
 # ==================================================================================
 # Lemon Package
 # ==================================================================================
 
-# Packaging
-set(CPACK_PACKAGE_NAME "LemonLime")
-set(CPACK_PACKAGE_VENDOR "Coelacanthus")
-set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
-set(CPACK_PACKAGE_DESCRIPTION "A tiny judging environment for OI contest based on Lemon + LemonPlus.")
-set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/Project-LemonLime/Project_LemonLime")
-set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/assets/lemon-lime.ico")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSES")
+include(cmake/deployment.cmake)
 
-if(UNIX)
-    if(BUILD_DEB)
-        set(CPACK_GENERATOR "DEB")
-        set(CPACK_DEBIAN_PACKAGE_NAME "LemonLime")
-        set(CPACK_PACKAGE_CONTACT "liuhongwu2003@outlook.com")
-        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Coelacanthus")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "qtbase5-dev, qttools5-dev")
-    endif()
-
-    #if(BUILD_RPM)
-    #    set(CPACK_GENERATOR "RPM")
-    #    set(CPACK_RPM_PACKAGE_LICENSE "GPL3")
-    #endif()
-endif()
-
-# Must Here
-include(CPack)
 
 LEMONLOG(VERSION_STRING)
 LEMONLOG(BUILD_VERSION)
-LEMONLOG(BUILD_TYPE)
+LEMONLOG(CMAKE_BUILD_TYPE)
 LEMONLOG(LEMON_BUILD_INFO)
 LEMONLOG(LEMON_BUILD_EXTRA_INFO)
 LEMONLOG(CMAKE_INSTALL_PREFIX)
