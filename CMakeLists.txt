@@ -2,8 +2,18 @@ cmake_minimum_required(VERSION 3.9.0 )
 
 project(lemon)
 
+macro(LEMONLOG MSG)
+    set(LEMON_BUILD_STATS "${LEMON_BUILD_STATS}${MSG}: ${${MSG}}\r\n")
+endmacro()
+
 option(EMBED_TRANSLATIONS "Embed translations" ON)
+LEMONLOG(EMBED_TRANSLATIONS)
 option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
+LEMONLOG(ENABLE_XLS_EXPORT)
+option(BUILD_DEB "Build deb format package" OFF)
+LEMONLOG(BUILD_DEB)
+option(BUILD_RPM "Build rpm format package" OFF)
+LEMONLOG(BUILD_RPM)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
@@ -15,11 +25,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(LEMON_QT6 "Use Qt6 for Debugging" OFF)
+LEMONLOG(LEMON_QT6)
 if(LEMON_QT6)
     cmake_policy(SET CMP0072 NEW)
     set(LEMON_QT_MAJOR_VERSION 6)
     set(LEMON_QT_MINOR_VERSION 0)
     set(LEMON_QT_LIBNAME Qt6)
+    set(QT_MAJOR_VERSION 6)
+    add_definitions(-DLEMON_QT6=1)
     #From: https://github.com/KDE/kwin/blob/master/cmake/modules/FindXKB.cmake#L35
     find_package(PkgConfig)
     pkg_check_modules(PKG_XKB QUIET xkbcommon)
@@ -36,6 +49,7 @@ else()
     set(LEMON_QT_MAJOR_VERSION 5)
     set(LEMON_QT_MINOR_VERSION 5)
     set(LEMON_QT_LIBNAME Qt5)
+    set(QT_MAJOR_VERSION 5)
 endif()
 
 find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Network Core Gui Widgets Network REQUIRED)
@@ -75,16 +89,16 @@ message(" ")
 message("LemonLime Version: ${VERSION_STRING}")
 message("LemonLime Build Version: ${BUILD_VERSION}")
 message("LemonLime Build Type: ${CMAKE_BUILD_TYPE}")
-message("|-----------------------------------------------------|")
-message("| LemonLime,                                          |")
-message("| A tiny judging environment for OI contest.          |")
-message("| Based on C++ & Qt.                                  |")
-message("| Licenced under GPLv3                                |")
-message("|                                                     |")
-message("|-----------------------------------------------------|")
+message("|----------------------------------------------------------------|")
+message("| LemonLime,                                                     |")
+message("| A tiny judging environment for OI contest.                     |")
+message("| Based on C++ & Qt.                                             |")
+message("| Licenced under GPLv3                                           |")
+message("|                                                                |")
+message("|----------------------------------------------------------------|")
 message("| GitHub: https://github.com/Project-LemonLime/Project_LemonLime |")
-message("| Welcome to contribute!                              |")
-message("|-----------------------------------------------------|")
+message("| Welcome to contribute!                                         |")
+message("|----------------------------------------------------------------|")
 message(" ")
 
 if(LEMON_BUILD_INFO)
@@ -113,6 +127,7 @@ message("LemonLime build info extra: ${_LEMON_BUILD_EXTRA_INFO_STR_}")
 
 if(LEMON_CONFIG_DIR)
     add_definitions(-DLEMON_CONFIG_DIR="${LEMON_CONFIG_DIR}")
+    LEMONLOG(LEMON_CONFIG_DIR)
 endif()
 
 set(LEMON_BASE_HEADERS
@@ -126,7 +141,6 @@ set(LEMON_BASE_HEADERS
 
 set(SRC
     ${CMAKE_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonLog.cpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonConfig.cpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonTranslator.cpp
     ${CMAKE_SOURCE_DIR}/src/base/LemonUtils.cpp
@@ -392,3 +406,16 @@ endif()
 
 # Must Here
 include(CPack)
+
+LEMONLOG(VERSION_STRING)
+LEMONLOG(BUILD_VERSION)
+LEMONLOG(BUILD_TYPE)
+LEMONLOG(LEMON_BUILD_INFO)
+LEMONLOG(LEMON_BUILD_EXTRA_INFO)
+LEMONLOG(CMAKE_INSTALL_PREFIX)
+LEMONLOG(CMAKE_BINARY_DIR)
+message("")
+message("======== LemonLime Build Statistics ========")
+message("${LEMON_BUILD_STATS}")
+message("============================================")
+message("")

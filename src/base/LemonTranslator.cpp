@@ -12,6 +12,8 @@
 #include <base/LemonUtils.hpp>
 //
 
+#define LEMON_MODULE_NAME "Translator"
+
 using namespace Lemon;
 
 // path searching list.
@@ -45,7 +47,7 @@ namespace Lemon::common
 		std::transform(languages.begin(), languages.end(), languages.begin(),
 		               [](QString &fileName) { return fileName.replace(".qm", ""); });
 		languages.removeDuplicates();
-		DEBUG("Found translations: " + languages.join(" "))
+		DEBUG("Found translations: " + languages.join(" "));
 	}
 
 	bool LemonTranslator::InstallTranslation(const QString &code)
@@ -54,17 +56,21 @@ namespace Lemon::common
 		{
 			if (FileExistsIn(QDir(path), code + ".qm"))
 			{
-				DEBUG("Found " + code + " in folder: " + path)
+				DEBUG("Found " + code + " in folder: " + path);
 				QTranslator *translatorNew = new QTranslator();
-				translatorNew->load(code + ".qm", path);
+				bool success = translatorNew->load(code + ".qm", path);
+				if (!success)
+				{
+					LOG("Cannot load translation: " + code);
+				}
 				if (pTranslator)
 				{
-					LOG("Removed translations")
+					LOG("Removed translations");
 					qApp->removeTranslator(pTranslator.get());
 				}
 				this->pTranslator.reset(translatorNew);
 				qApp->installTranslator(pTranslator.get());
-				LOG("Successfully installed a translator for " + code)
+				LOG("Successfully installed a translator for " + code);
 				return true;
 			}
 		}

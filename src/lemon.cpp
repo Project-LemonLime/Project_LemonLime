@@ -8,6 +8,8 @@
  */
 
 #include "lemon.h"
+#include "ui_lemon.h"
+//
 #include "addcompilerwizard.h"
 #include "addtaskdialog.h"
 #include "base/LemonBase.hpp"
@@ -24,8 +26,8 @@
 #include "opencontestdialog.h"
 #include "optionsdialog.h"
 #include "statisticsbrowser.h"
-#include "ui_lemon.h"
 #include "welcomedialog.h"
+//
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -36,6 +38,8 @@
 #include <QTextBrowser>
 #include <QUrl>
 #include <algorithm>
+//
+#define LEMON_MODULE_NAME "Main"
 
 LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLime)
 {
@@ -91,16 +95,16 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
 	LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " +
-	    QSysInfo::currentCpuArchitecture())
-	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()))
-	DEBUG(LEMON_BUILD_INFO)
-	DEBUG(LEMON_BUILD_EXTRA_INFO)
-	DEBUG(QString::number(LEMON_VERSION_BUILD))
+	    QSysInfo::currentCpuArchitecture());
+	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()));
+	DEBUG(LEMON_BUILD_INFO);
+	DEBUG(LEMON_BUILD_EXTRA_INFO);
+	DEBUG(QString::number(LEMON_VERSION_BUILD));
 
 	appTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "*.qm", QDir::Files);
-	DEBUG("Found Language: " + fileList.join(' '));
+	DEBUG("Found Language: " + fileList.join(' '));;
 
 	for (int i = 0; i < fileList.size(); i++)
 	{

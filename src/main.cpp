@@ -8,6 +8,7 @@
  */
 
 #include "lemon.h"
+//
 #include <QApplication>
 #include <QPixmap>
 #include <QSplashScreen>
@@ -17,7 +18,9 @@
 auto main(int argc, char *argv[]) -> int
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+#ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
+#endif
 #endif
 	SingleApplication a(argc, argv);
 
