@@ -39,6 +39,7 @@ ui_*.h
 qrc_resource.cpp
 lemon.pro.user
 
+# CMake
 .ninja_deps
 .ninja_log
 CMakeCache.txt
@@ -46,17 +47,9 @@ CMakeFiles/
 CMakeLists.txt.user
 build.ninja
 cmake_install.cmake
-build/
-build-debug/
-.idea/
-cmake-build-debug/
-
 lemon
-lemon_autogen/
+*_autogen/
 watcher_unix
-watcher_unix_autogen/
-
-
 CPackConfig.cmake
 CPackSourceConfig.cmake
 _CPack_Packages/
@@ -64,4 +57,14 @@ install_manifest.txt
 lemon-*-Linux.sh
 lemon-*-Linux.tar.Z
 lemon-*-Linux.tar.gz
+
+# KDevelop
+.kdev4/
+*.kdev4
+
+# Extra
+build/
+build-debug/
+.idea/
+cmake-build-debug/
 
