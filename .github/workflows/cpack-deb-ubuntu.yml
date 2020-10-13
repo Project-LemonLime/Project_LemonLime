@@ -72,11 +72,11 @@ jobs:
         shell: bash
         id: get_package
         run: |
-          echo ::set-output name=NAME::$(basename build/Lemon-*.deb)
+          echo ::set-output name=NAME::$(basename build/LemonLime-*.deb)
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: Lemon-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
+          name: LemonLime-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
           path: build/${{ steps.get_package.outputs.NAME }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
@@ -84,6 +84,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/${{ steps.get_package.outputs.NAME }}
-          asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
+          asset_name: LemonLime-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
           tag: ${{ github.ref }}
           overwrite: true
