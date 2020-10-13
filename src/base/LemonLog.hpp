@@ -58,7 +58,7 @@ namespace Lemon::base
         logStream << NEWLINE;
 #ifndef QT_DEBUG
         // We only process DEBUG log in Release mode
-        if (t == LEMON_LOG_DEBUG && !StartupOption.debugLog)
+        if (t == LEMON_LOG_DEBUG /* && !StartupOption.debugLog */)
         {
             // Discard debug log in non-debug Lemon version with
             // no-debugLog mode.
