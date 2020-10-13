@@ -104,7 +104,8 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	appTranslator = new QTranslator(this);
 	QApplication::installTranslator(appTranslator);
 	QStringList fileList = QDir(":/translation").entryList(QStringList() << "*.qm", QDir::Files);
-	DEBUG("Found Language: " + fileList.join(' '));;
+	DEBUG("Found Language: " + fileList.join(' '));
+	;
 
 	for (int i = 0; i < fileList.size(); i++)
 	{
