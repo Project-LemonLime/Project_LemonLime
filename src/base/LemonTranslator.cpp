@@ -59,7 +59,7 @@ namespace Lemon::common
 				DEBUG("Found " + code + " in folder: " + path);
 				QTranslator *translatorNew = new QTranslator();
 				bool success = translatorNew->load(code + ".qm", path);
-				if (!success)
+				if (! success)
 				{
 					LOG("Cannot load translation: " + code);
 				}
