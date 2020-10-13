@@ -42,8 +42,6 @@ class LemonLime : public QMainWindow
 	QFileSystemWatcher *dataDirWatcher;
 	QString curFile;
 	QList<QAction *> languageActions;
-	QTranslator *appTranslator;
-	QTranslator *qtTranslator{};
 	QSignalMapper *signalMapper;
 	QMenu *TaskMenu;
 	QList<QAction *> TaskList;
