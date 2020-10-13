@@ -111,14 +111,14 @@ void LemonLime::loadUiLanguage()
 {
 	const auto allTranslations = LemonLimeTranslator->GetAvailableLanguages();
 	const auto osLanguage = QLocale::system().name();
-	if (!allTranslations.contains(settings->getUiLanguage()))
+	if (! allTranslations.contains(settings->getUiLanguage()))
 	{
 		// If we need to reset the language.
 		if (allTranslations.contains(osLanguage))
 		{
 			settings->setUiLanguage(osLanguage);
 		}
-		else if (!allTranslations.isEmpty())
+		else if (! allTranslations.isEmpty())
 		{
 			settings->setUiLanguage(allTranslations.first());
 		}
@@ -132,9 +132,9 @@ void LemonLime::loadUiLanguage()
 		connect(newLanguage, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
 		languageActions.append(newLanguage);
 	}
-	
+
 	ui->languageMenu->addActions(languageActions);
-	
+
 	ui->setEnglishAction->setChecked(false);
 
 	for (auto &languageAction : languageActions)
