@@ -8,13 +8,32 @@
  */
 
 #include "generalsettings.h"
-#include "core/settings.h"
 #include "ui_generalsettings.h"
+//
+#include "base/LemonLog.hpp"
+#include "base/LemonTranslator.hpp"
+#include "core/settings.h"
+//
 #include <QMessageBox>
+//
+#define LEMON_MODULE_NAME "GeneralSettings"
 
 GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::GeneralSettings)
 {
 	ui->setupUi(this);
+
+	auto langs = LemonLimeTranslator->GetAvailableLanguages();
+	if (! langs.empty())
+	{
+		ui->languageComboBox->clear();
+		ui->languageComboBox->addItems(langs);
+	}
+	else
+	{
+		ui->languageComboBox->setDisabled(true);
+		ui->languageComboBox->setToolTip("Cannot find any language providers.");
+	}
+
 	ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
@@ -37,6 +56,8 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	        SLOT(inputFileExtensionsChanged(QString)));
 	connect(ui->outputFileExtensions, SIGNAL(textChanged(QString)), this,
 	        SLOT(outputFileExtensionsChanged(QString)));
+	connect(ui->languageComboBox, SIGNAL(currentTextChanged(QString)), this,
+	        SLOT(onLanguageComboBoxChanged(QString)));
 }
 
 GeneralSettings::~GeneralSettings() { delete ui; }
@@ -53,7 +74,10 @@ void GeneralSettings::resetEditSettings(Settings *settings)
 	ui->rejudgeTimes->setText(QString("%1").arg(editSettings->getRejudgeTimes()));
 	ui->inputFileExtensions->setText(editSettings->getInputFileExtensions().join(";"));
 	ui->outputFileExtensions->setText(editSettings->getOutputFileExtensions().join(";"));
+	ui->languageComboBox->setCurrentText(editSettings->getUiLanguage());
 }
+
+void GeneralSettings::onLanguageComboBoxChanged(const QString &arg) { editSettings->setUiLanguage(arg); }
 
 auto GeneralSettings::checkValid() -> bool
 {

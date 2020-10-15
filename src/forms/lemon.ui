@@ -458,7 +458,7 @@
      <x>0</x>
      <y>0</y>
      <width>725</width>
-     <height>32</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -510,26 +510,7 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
-    <widget class="QMenu" name="languageMenu">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Switch Language...</string>
-     </property>
-     <property name="title">
-      <string>UI &amp;Language</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>:/icon/amarok_change_language.svg</normaloff>:/icon/amarok_change_language.svg</iconset>
-     </property>
-     <addaction name="setEnglishAction"/>
-    </widget>
     <addaction name="optionsAction"/>
-    <addaction name="languageMenu"/>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="font">

@@ -41,9 +41,6 @@ class LemonLime : public QMainWindow
 	Settings *settings;
 	QFileSystemWatcher *dataDirWatcher;
 	QString curFile;
-	QList<QAction *> languageActions;
-	QTranslator *appTranslator;
-	QTranslator *qtTranslator{};
 	QSignalMapper *signalMapper;
 	QMenu *TaskMenu;
 	QList<QAction *> TaskList;
@@ -82,7 +79,6 @@ class LemonLime : public QMainWindow
 	void aboutLemon();
 	void actionManual();
 	static void actionMore();
-	void setUiLanguage();
 
   signals:
 	void dataPathChanged();

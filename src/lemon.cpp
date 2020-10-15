@@ -14,6 +14,7 @@
 #include "addtaskdialog.h"
 #include "base/LemonBase.hpp"
 #include "base/LemonLog.hpp"
+#include "base/LemonTranslator.hpp"
 #include "component/exportutil/exportutil.h"
 #include "contest.h"
 #include "core/compiler.h"
@@ -99,34 +100,31 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()));
 	DEBUG(LEMON_BUILD_INFO);
 	DEBUG(LEMON_BUILD_EXTRA_INFO);
-	DEBUG(QString::number(LEMON_VERSION_BUILD));
 
-	appTranslator = new QTranslator(this);
-	QApplication::installTranslator(appTranslator);
-	QStringList fileList = QDir(":/translation").entryList(QStringList() << "*.qm", QDir::Files);
-	DEBUG("Found Language: " + fileList.join(' '));
-	;
-
-	for (int i = 0; i < fileList.size(); i++)
-	{
-		appTranslator->load(QString(":/translation/%1").arg(fileList[i]));
-		auto *newLanguage = new QAction(appTranslator->translate("Lemon", "English"), this);
-		newLanguage->setCheckable(true);
-		QString language = QFileInfo(fileList[i]).baseName();
-		// language.remove(0, language.indexOf('_') + 1);
-		newLanguage->setData(language);
-		connect(newLanguage, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
-		languageActions.append(newLanguage);
-	}
-
-	ui->languageMenu->addActions(languageActions);
-	ui->setEnglishAction->setData("en");
-	ui->setEnglishAction->setCheckable(true);
-	connect(ui->setEnglishAction, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
-	loadUiLanguage();
 	QSettings settings("LemonLime", "lemon");
+	LemonLimeTranslator = std::make_unique<LemonTranslator>();
+	loadUiLanguage();
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
+}
+
+void LemonLime::loadUiLanguage()
+{
+	const auto allTranslations = LemonLimeTranslator->GetAvailableLanguages();
+	const auto osLanguage = QLocale::system().name();
+	if (! allTranslations.contains(settings->getUiLanguage()))
+	{
+		// If we need to reset the language.
+		if (allTranslations.contains(osLanguage))
+		{
+			settings->setUiLanguage(osLanguage);
+		}
+		else if (! allTranslations.isEmpty())
+		{
+			settings->setUiLanguage(allTranslations.first());
+		}
+	}
+	LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
 }
 
 LemonLime::~LemonLime()
@@ -196,30 +194,6 @@ void LemonLime::welcome()
 	}
 
 	delete dialog;
-}
-
-void LemonLime::loadUiLanguage()
-{
-	ui->setEnglishAction->setChecked(false);
-
-	for (auto &languageAction : languageActions)
-	{
-		languageAction->setChecked(false);
-	}
-
-	for (auto &languageAction : languageActions)
-	{
-		if (languageAction->data().toString() == settings->getUiLanguage())
-		{
-			languageAction->setChecked(true);
-			appTranslator->load(QString(":/translation/%1.qm").arg(settings->getUiLanguage()));
-			return;
-		}
-	}
-
-	settings->setUiLanguage("en");
-	appTranslator->load("");
-	ui->setEnglishAction->setChecked(true);
 }
 
 void LemonLime::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
@@ -296,6 +270,7 @@ void LemonLime::showOptionsDialog()
 	if (dialog->exec() == QDialog::Accepted)
 	{
 		settings->copyFrom(dialog->getEditSettings());
+		LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
 		ui->testCaseEdit->setSettings(settings);
 
 		if (curContest)
@@ -1156,11 +1131,4 @@ void LemonLime::actionManual()
 void LemonLime::actionMore()
 {
 	QDesktopServices::openUrl(QUrl(QString("https://github.com/Project-LemonLime/Project_LemonLime")));
-}
-
-void LemonLime::setUiLanguage()
-{
-	auto *language = dynamic_cast<QAction *>(sender());
-	settings->setUiLanguage(language->data().toString());
-	loadUiLanguage();
 }
