@@ -12,6 +12,10 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 ![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
 ![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 
+![CPack - RPM - Fedora](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20Fedora/badge.svg)
+![CPack - RPM - openSUSE Leap](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20openSUSE%20Leap/badge.svg)
+![CPack - RPM - openSUSE TW](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20openSUSE%20TW/badge.svg)
+
 ![Linux - AppImage](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
@@ -152,13 +156,16 @@ sudo pacman -S qtcreator
 #### Debian | Ubuntu 系
 
 ```bash
-## 使用 qmake ##
+## 使用 CMake ##
 sudo apt install qt5-default build-essential ninja-build qtbase5-dev qttools5-dev cmake # 依赖环境, ninja 可选
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
 cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
 
 cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+# 或者直接生成 DEB 包
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_DEB=ON
+cmake --build . --parallel $(nproc)
 
 ## 使用 QtCreator ##
 sudo apt install qtcreator
@@ -178,21 +185,35 @@ _arbiter 退出了群聊。_
 #### Fedora 系
 
 ```bash
-## 使用 qmake ##
-sudo yum install g++ make qt5 cmake ninja # 依赖环境(ninja 和 make 二选一)
+## 使用 CMake ##
+sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build make # 依赖环境(ninja 和 make 二选一)
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
 cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
 
 cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+
+# 或者直接生成 RPM 包
+sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core fedora-packager rpmdevtools
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_RPM=ON
+cmake --build . --parallel $(nproc)
 ```
 
 #### openSUSE 系
 
 ```bash
-## 使用 QtCreator ##
-sudo zypper install --type pattern devel_basis
-sudo zypper install libqt5-creator
+## 使用 CMake ##
+sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja # 依赖环境(ninja 和 make 二选一)
+cd 源代码的目录
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
+cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
+
+cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+
+# 或者直接生成 RPM 包
+sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja lsb-release rpm-build
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_RPM=ON
+cmake --build . --parallel $(nproc)
 ```
 
 ### etc.
