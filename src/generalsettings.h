@@ -45,4 +45,5 @@ class GeneralSettings : public QWidget
 	void rejudgeTimesChanged(const QString &);
 	void inputFileExtensionsChanged(const QString &);
 	void outputFileExtensionsChanged(const QString &);
+	void onLanguageComboBoxChanged(const QString &);
 };

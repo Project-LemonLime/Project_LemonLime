@@ -102,6 +102,7 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	DEBUG(LEMON_BUILD_EXTRA_INFO);
 
 	QSettings settings("LemonLime", "lemon");
+	LemonLimeTranslator = std::make_unique<LemonTranslator>();
 	loadUiLanguage();
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
@@ -124,33 +125,6 @@ void LemonLime::loadUiLanguage()
 		}
 	}
 	LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
-	for (const auto &translation : allTranslations)
-	{
-		auto *newLanguage = new QAction(tr("Lemon", "English"), this);
-		newLanguage->setCheckable(true);
-		newLanguage->setData(translation);
-		connect(newLanguage, SIGNAL(triggered()), this, SLOT(setUiLanguage()));
-		languageActions.append(newLanguage);
-	}
-
-	ui->languageMenu->addActions(languageActions);
-
-	ui->setEnglishAction->setChecked(false);
-
-	for (auto &languageAction : languageActions)
-	{
-		languageAction->setChecked(false);
-	}
-
-	for (auto &languageAction : languageActions)
-	{
-		if (languageAction->data().toString() == settings->getUiLanguage())
-		{
-			languageAction->setChecked(true);
-			return;
-		}
-	}
-	ui->setEnglishAction->setChecked(true);
 }
 
 LemonLime::~LemonLime()
@@ -296,6 +270,7 @@ void LemonLime::showOptionsDialog()
 	if (dialog->exec() == QDialog::Accepted)
 	{
 		settings->copyFrom(dialog->getEditSettings());
+		LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
 		ui->testCaseEdit->setSettings(settings);
 
 		if (curContest)
@@ -1156,11 +1131,4 @@ void LemonLime::actionManual()
 void LemonLime::actionMore()
 {
 	QDesktopServices::openUrl(QUrl(QString("https://github.com/Project-LemonLime/Project_LemonLime")));
-}
-
-void LemonLime::setUiLanguage()
-{
-	auto *language = dynamic_cast<QAction *>(sender());
-	settings->setUiLanguage(language->data().toString());
-	loadUiLanguage();
 }

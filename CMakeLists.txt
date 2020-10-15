@@ -275,7 +275,7 @@ target_include_directories(lemon-core PUBLIC
 include(cmake/translations.cmake)
 
 if(EMBED_TRANSLATIONS)
-    add_definitions(-DEMBED_TRANSLATIONS)
+    add_definitions(-DLEMON_EMBED_TRANSLATIONS)
     configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
     set(LEMON_EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
 endif()

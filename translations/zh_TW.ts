@@ -1345,13 +1345,6 @@ Depends: </source>
     </message>
 </context>
 <context>
-    <name>Lemon</name>
-    <message>
-        <source>English</source>
-        <translation>繁體中文</translation>
-    </message>
-</context>
-<context>
     <name>LemonLime</name>
     <message>
         <source>LemonLime</source>
@@ -1844,6 +1837,11 @@ Depends: </source>
     <message>
         <source>About LemonLime</source>
         <translation>關於 LemonLime</translation>
+    </message>
+    <message>
+        <source>Lemon</source>
+        <comment>English</comment>
+        <translation>繁體中文</translation>
     </message>
 </context>
 <context>

@@ -2,5 +2,6 @@
     <qresource prefix="/translation">
         <file>zh_CN.qm</file>
         <file>zh_TW.qm</file>
+        <file>en_US.qm</file>
     </qresource>
 </RCC>

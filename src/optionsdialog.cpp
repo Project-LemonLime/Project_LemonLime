@@ -8,9 +8,10 @@
  */
 
 #include "optionsdialog.h"
-#include "core/settings.h"
 #include "ui_optionsdialog.h"
-//#include <QtGui>
+//
+#include "core/settings.h"
+//
 #include <QtWidgets>
 
 OptionsDialog::OptionsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OptionsDialog)
