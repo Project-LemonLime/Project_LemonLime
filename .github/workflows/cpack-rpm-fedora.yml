@@ -56,7 +56,7 @@ jobs:
           submodules: 'recursive'
       - name: Install build dependencies
         run: |
-          dnf install -y cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core
+          dnf install -y cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core fedora-packager rpmdevtools
       - name: Build
         run: |
           mkdir build
