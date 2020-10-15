@@ -1,0 +1,94 @@
+# disable debug packages, use explicit glibc-langpack follow openSUSE:Tools/obs-service-tar_scm
+%if 0%{?fedora_version} || 0%{?centos_version} || 0%{?rhel_version}
+%global debug_package %{nil}
+%define locale_package glibc-langpack-en
+%endif
+%define interface_version 3
+
+Name:           LemonLime
+Version:        @CPACK_PACKAGE_VERSION@
+Release:        0
+Summary:        A tiny judging environment for OI contest based on Lemon + LemonPlus
+License:        GPL-3.0-only
+Url:            https://github.com/Project-LemonLime/Project_LemonLime
+Source0:        https://github.com/Project-LemonLime/Project_LemonLime/releases/download/@CPACK_PACKAGE_VERSION@/Lemon-@CPACK_PACKAGE_VERSION@-source-all.7z
+%if 0%{?suse_version}
+# for openSUSE
+BuildRequires:  cmake >= 3.9
+BuildRequires:  libqt5-qtbase-common-devel >= 5.11
+BuildRequires:  libQt5Core-devel
+BuildRequires:  libQt5Gui-devel
+BuildRequires:  libQt5Network-devel
+BuildRequires:  libQt5Widgets-devel
+BuildRequires:  libQt5Concurrent-devel
+BuildRequires:  libqt5-linguist-devel
+BuildRequires:  libqt5-qtsvg-devel
+BuildRequires:  update-desktop-files
+BuildRequires:  ninja
+%else
+# for Fedora/CentOS/ ...
+%if 0%{?rhel}
+BuildRequires:  epel-rpm-macros
+%endif
+BuildRequires:  cmake >= 3.9
+BuildRequires:  qt5-qtbase-devel >= 5.11
+BuildRequires:  qt5-linguist
+BuildRequires:  qt5-qtsvg-devel
+#BuildRequires:  %{locale_package}
+BuildRequires:  desktop-file-utils
+BuildRequires:  ninja-build
+%endif
+
+
+%description
+A tiny judging environment for OI contest based on Lemon + LemonPlus.
+
+
+%prep
+#%setup -qn Lemon-%{version}
+%define INSTALL_PREFIX %{buildroot}/usr
+%define BUILD_SOURCE %{_builddir}/LemonLime-%{version}
+%define BUILD_DIR %{_builddir}/LemonLime-%{version}/build
+mkdir -p %{BUILD_DIR}
+
+%build
+# build
+export _LEMON_BUILD_INFO_="LemonLime built by openSUSE Build Service"
+export _LEMON_BUILD_EXTRA_INFO_="(Official Build) $(uname -a | cut -d ' ' -f3,13), Qt $(pkg-config --modversion Qt5Core)"
+
+%if 0%{?fedora_version}
+# Like https://bugzilla.redhat.com/show_bug.cgi?id=1873903
+# And https://src.fedoraproject.org/rpms/clementine/c/adc754c0da013db875db9d8f8934f31403cbf624
+# But can't fix by -fPIC, so disable LTO is the only way
+%endif
+
+%define _lto_cflags %{nil}
+%if 0%{?centos_version}
+cd %{BUILD_DIR}
+cmake .. \
+%else
+cmake -S %{BUILD_SOURCE} -B %{BUILD_DIR} \
+%endif
+    -DCMAKE_INSTALL_PREFIX="%{INSTALL_PREFIX}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -GNinja 
+ninja -C %{BUILD_DIR}
+
+%install
+ninja -C %{BUILD_DIR} install
+
+%post
+%postun
+
+%files
+%license LICENSE
+%doc README.md
+%{_bindir}/lemon-lime
+%{_datadir}/applications/lemon-lime.desktop
+%{_datadir}/icons/hicolor
+#%{_datadir}/metainfo/lemon-lime.metainfo.xml
+%{_datadir}/lemon-lime/lang/*.qm
+%dir %{_datadir}/lemon-lime
+%dir %{_datadir}/lemon-lime/lang
+
+%changelog
