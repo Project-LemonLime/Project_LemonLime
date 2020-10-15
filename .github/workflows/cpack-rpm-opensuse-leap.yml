@@ -1,4 +1,4 @@
-name: CPack - DEB - Ubuntu
+name: CPack - RPM - openSUSE Leap
 
 on:
   # push代码时触发workflow
@@ -33,23 +33,19 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          #distro: [14.04, 16.04, 18.04, 20.04]
-          distro: [18.04, 20.04]
-          #arch: [x86, x64]
+          distro: [15, latest]
+          #distro: [testing, sid]
     needs: check_commit_msg
-    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
-    name: Ubuntu ${{ matrix.distro }}
+    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_RPM') }}
+    name: openSUSE Leap ${{ matrix.distro }}
     runs-on: ubuntu-latest
-    container: ubuntu:${{ matrix.distro }}
+    container: opensuse/leap:${{ matrix.distro }}
 
     steps:
       - name: Install git
         run: |
-          apt-get update
-          apt-get install -y software-properties-common
-          add-apt-repository ppa:git-core/ppa
-          apt-get update
-          apt-get install -y git
+          zypper -n update
+          zypper -n in git
       - name: Get the version
         id: get_version
         shell: bash
@@ -60,30 +56,29 @@ jobs:
           submodules: 'recursive'
       - name: Install build dependencies
         run: |
-          DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash
+          zypper -n in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja
       - name: Build
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
-          cmake --build . --target package 
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_RPM=ON -DLEMON_BUILD_INFO="Build for openSUSE Leap" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake --build . --target package --parallel $(nproc)
       - name: Get package name
         shell: bash
         id: get_package
         run: |
-          echo ::set-output name=NAME::$(basename build/LemonLime-*.deb)
+          echo ::set-output name=NAME::$(basename build/LemonLime-*.rpm)
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: LemonLime-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
+          name: LemonLime-${{ steps.get_version.outputs.VERSION }}-openSUSE-Leap-${{ matrix.distro }}.rpm
           path: build/${{ steps.get_package.outputs.NAME }}
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
-        if: github.event_name == 'release'
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/${{ steps.get_package.outputs.NAME }}
-          asset_name: LemonLime-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
-          tag: ${{ github.ref }}
-          overwrite: true
+#      - name: Upload binaries to release
+#        uses: svenstaro/upload-release-action@v1-release
+#        if: github.event_name == 'release'
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          file: build/${{ steps.get_package.outputs.NAME }}
+#          asset_name: LemonLime-${{ steps.get_version.outputs.VERSION }}-openSUSE-Leap-${{ matrix.distro }}.rpm
+#          tag: ${{ github.ref }}
+#          overwrite: true
