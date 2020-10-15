@@ -493,7 +493,7 @@ void Settings::copyFrom(Settings *other)
 	setGrandRateS(other->getGrandRateS());
 	setGrandRateL(other->getGrandRateL());
 	setSplashTime(other->getSplashTime());
-	setUiLanguage(other->getUiLanguage());  // 为什么这个没复制啊！！！
+	setUiLanguage(other->getUiLanguage()); // 为什么这个没复制啊！！！
 
 	for (auto &i : compilerList)
 	{

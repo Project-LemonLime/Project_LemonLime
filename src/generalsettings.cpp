@@ -33,7 +33,7 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 		ui->languageComboBox->setDisabled(true);
 		ui->languageComboBox->setToolTip("Cannot find any language providers.");
 	}
-	
+
 	ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
