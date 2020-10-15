@@ -10,8 +10,6 @@ option(EMBED_TRANSLATIONS "Embed translations" ON)
 LEMONLOG(EMBED_TRANSLATIONS)
 option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
 LEMONLOG(ENABLE_XLS_EXPORT)
-option(ENABLE_LTO "Link-Time Optimization" ON)
-LEMONLOG(ENABLE_LTO)
 option(BUILD_DEB "Build deb format package" OFF)
 LEMONLOG(BUILD_DEB)
 option(BUILD_RPM "Build rpm format package" OFF)
@@ -358,16 +356,6 @@ endif()
 
 target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core SingleApplication::SingleApplication)
 
-if(ENABLE_LTO)
-	include(CheckIPOSupported)
-	check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
-
-	if(LTO_SUPPORTED)
-		set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-	else()
-		message(STATUS "IPO / LTO not supported, disabled")
-	endif()
-endif()
 
 # ==================================================================================
 # Platform-dependent installation process and deployment
