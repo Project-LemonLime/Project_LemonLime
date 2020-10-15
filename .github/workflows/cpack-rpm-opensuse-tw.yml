@@ -44,7 +44,6 @@ jobs:
     steps:
       - name: Install git
         run: |
-          zypper -n update
           zypper -n in git
       - name: Get the version
         id: get_version
@@ -56,7 +55,7 @@ jobs:
           submodules: 'recursive'
       - name: Install build dependencies
         run: |
-          zypper -n in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja lsb-release
+          zypper -n in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja lsb-release gzip rpm-build
       - name: Build
         run: |
           mkdir build
