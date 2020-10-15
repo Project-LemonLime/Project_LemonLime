@@ -58,7 +58,6 @@ list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${L
 if(WIN32)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
-	add_definitions(-D_WIN32_WINNT=0x600 -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
     set(GUI_TYPE WIN32)
 endif()
 
