@@ -9,24 +9,37 @@
 
 #include "lemon.h"
 //
+#include "base/LemonBase.hpp"
+#include "base/LemonBaseApplication.hpp"
+#include "base/LemonLog.hpp"
+//
 #include <QApplication>
 #include <QPixmap>
 #include <QSplashScreen>
-#include <SingleApplication>
-#include <iostream>
 
-auto main(int argc, char *argv[]) -> int
+#define LEMON_MODULE_NAME "Main"
+
+int main(int argc, char *argv[])
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 #endif
 #endif
-	SingleApplication a(argc, argv);
 
-	if (a.sendMessage(""))
+	LemonBaseApplication app(argc, argv);
+
+	LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " +
+	    QSysInfo::currentCpuArchitecture());
+	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()));
+	DEBUG(LEMON_BUILD_INFO);
+	DEBUG(LEMON_BUILD_EXTRA_INFO);
+
+	app.Initialize();
+
+	if (app.sendMessage(""))
 	{
-		a.activeWindow();
+		app.activeWindow();
 		return 0;
 	}
 
@@ -60,8 +73,8 @@ auto main(int argc, char *argv[]) -> int
 		screen.finish(&w);
 	}
 
-	a.setActiveWindow(&w);
+	app.setActiveWindow(&w);
 	w.show();
 	w.welcome();
-	return a.exec();
+	return app.exec();
 }

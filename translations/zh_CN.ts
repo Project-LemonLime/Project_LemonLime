@@ -1140,6 +1140,10 @@ Depends: </source>
         <source>Maximum Rejudge Times</source>
         <translation>最大重测次数</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
 </context>
 <context>
     <name>JudgingDialog</name>
@@ -1457,14 +1461,6 @@ Depends: </source>
     <message>
         <source>&amp;Tools</source>
         <translation>工具(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Switch Language...</source>
-        <translation>切换语言…</translation>
-    </message>
-    <message>
-        <source>UI &amp;Language</source>
-        <translation>设置语言(&amp;L)</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -1838,11 +1834,6 @@ Depends: </source>
         <source>About LemonLime</source>
         <translation>关于 LemonLime</translation>
     </message>
-    <message>
-        <source>Lemon</source>
-        <comment>English</comment>
-        <translation>简体中文</translation>
-    </message>
 </context>
 <context>
     <name>NewContestDialog</name>
@@ -1952,6 +1943,14 @@ Depends: </source>
     <message>
         <source>Lost</source>
         <translation>Lost</translation>
+    </message>
+    <message>
+        <source>Enable debug output</source>
+        <translation>启用 Debug 输出</translation>
+    </message>
+    <message>
+        <source>LemonLime - A tiny judging environment for OI contest.</source>
+        <translation>LemonLime - 为了 OI 比赛而生的轻量评测系统。</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="zh_TW">
 <context>
     <name>AddCompilerWizard</name>
     <message>
@@ -1140,6 +1140,10 @@ Depends: </source>
         <source>Maximum Rejudge Times</source>
         <translation>最大重測次數</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation>語言</translation>
+    </message>
 </context>
 <context>
     <name>JudgingDialog</name>
@@ -1457,14 +1461,6 @@ Depends: </source>
     <message>
         <source>&amp;Tools</source>
         <translation>工具(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Switch Language...</source>
-        <translation>切換語言…</translation>
-    </message>
-    <message>
-        <source>UI &amp;Language</source>
-        <translation>設定語言(&amp;L)</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -1838,11 +1834,6 @@ Depends: </source>
         <source>About LemonLime</source>
         <translation>關於 LemonLime</translation>
     </message>
-    <message>
-        <source>Lemon</source>
-        <comment>English</comment>
-        <translation>繁體中文</translation>
-    </message>
 </context>
 <context>
     <name>NewContestDialog</name>
@@ -1952,6 +1943,14 @@ Depends: </source>
     <message>
         <source>Lost</source>
         <translation>Lost</translation>
+    </message>
+    <message>
+        <source>Enable debug output</source>
+        <translation>啓用 Debug 輸出</translation>
+    </message>
+    <message>
+        <source>LemonLime - A tiny judging environment for OI contest.</source>
+        <translation>LemonLime - 為了 OI 比賽而生的輕量評測系統。</translation>
     </message>
 </context>
 <context>
