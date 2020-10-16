@@ -40,7 +40,7 @@
 #include <QUrl>
 #include <algorithm>
 //
-#define LEMON_MODULE_NAME "Main"
+#define LEMON_MODULE_NAME "Lemon"
 
 LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLime)
 {
@@ -95,36 +95,9 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	connect(ui->actionChangeContestName, SIGNAL(triggered()), this, SLOT(changeContestName()));
 	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-	LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " +
-	    QSysInfo::currentCpuArchitecture());
-	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()));
-	DEBUG(LEMON_BUILD_INFO);
-	DEBUG(LEMON_BUILD_EXTRA_INFO);
-
 	QSettings settings("LemonLime", "lemon");
-	LemonLimeTranslator = std::make_unique<LemonTranslator>();
-	loadUiLanguage();
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
-}
-
-void LemonLime::loadUiLanguage()
-{
-	const auto allTranslations = LemonLimeTranslator->GetAvailableLanguages();
-	const auto osLanguage = QLocale::system().name();
-	if (! allTranslations.contains(settings->getUiLanguage()))
-	{
-		// If we need to reset the language.
-		if (allTranslations.contains(osLanguage))
-		{
-			settings->setUiLanguage(osLanguage);
-		}
-		else if (! allTranslations.isEmpty())
-		{
-			settings->setUiLanguage(allTranslations.first());
-		}
-	}
-	LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
 }
 
 LemonLime::~LemonLime()

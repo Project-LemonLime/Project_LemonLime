@@ -55,6 +55,10 @@ endif()
 find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Network Core Gui Widgets Network REQUIRED)
 list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets ${LEMON_QT_LIBNAME}::Network)
 
+set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
+set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
+add_subdirectory(3rdparty/SingleApplication)
+
 if(WIN32)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
@@ -139,21 +143,63 @@ if(LEMON_CONFIG_DIR)
     LEMONLOG(LEMON_CONFIG_DIR)
 endif()
 
-set(LEMON_BASE_HEADERS
-    ${CMAKE_SOURCE_DIR}/src/base/LemonBase.hpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonLog.hpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonType.hpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonConfig.hpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonTranslator.hpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonUtils.hpp
+# ==================================================================================
+# Lemon Base
+# ==================================================================================
+
+include(cmake/lemon-base.cmake)
+
+add_library(lemon-base STATIC
+    ${LEMON_BASE_SOURCES}
+    ${LEMON_BASE_HEADERS}
+    ${SINGLEAPPLICATION_SOURCES}
     )
 
-set(LEMON_BASE_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/base/LemonConfig.cpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonTranslator.cpp
-    ${CMAKE_SOURCE_DIR}/src/base/LemonUtils.cpp
+target_link_libraries(lemon-base
+    ${LEMON_QT_LIBS}
+    ${SINGLEAPPLICATION_LIBRARY}
     )
+
+target_include_directories(lemon-base PUBLIC
+    ${CMAKE_BINARY_DIR}
+    ${LEMON_BASEDIR_BASE}
+    ${SINGLEAPPLICATION_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
+
+# ==================================================================================
+# Lemon Core
+# ==================================================================================
+
+include(cmake/lemon-core.cmake)
+
+add_library(lemon-core STATIC
+    ${LEMON_CORE_SOURCES}
+    ${LEMON_BASE_HEADERS}
+    ${SINGLEAPPLICATION_SOURCES}
+    )
+
+target_link_libraries(lemon-core
+    lemon-base
+    ${LEMON_QT_LIBS}
+    ${SINGLEAPPLICATION_LIBRARY}
+    )
+
+target_include_directories(lemon-core PUBLIC
+    ${CMAKE_BINARY_DIR}
+    ${LEMON_BASEDIR_CORE}
+    ${SINGLEAPPLICATION_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
     
+# ==================================================================================
+# Lemon UI
+# ==================================================================================
+
 set(SRC
     ${LEMON_BASE_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/main.cpp
@@ -248,33 +294,7 @@ set(LEMON_UI_FORMS
     ${CMAKE_SOURCE_DIR}/src/forms/addcompilerwizard.ui
     ${CMAKE_SOURCE_DIR}/src/forms/statisticsbrowser.ui
     )
-
-
-# ==================================================================================
-# Lemon Core
-# ==================================================================================
-
-include(cmake/lemon-core.cmake)
-
-add_library(lemon-core STATIC
-    ${LEMON_CORE_SOURCES}
-    ${LEMON_BASE_HEADERS}
-    ${SINGLEAPPLICATION_SOURCES}
-    )
-
-target_link_libraries(lemon-core
-    ${LEMON_QT_LIBS}
-    ${SINGLEAPPLICATION_LIBRARY}
-    )
-
-target_include_directories(lemon-core PUBLIC
-    ${CMAKE_BINARY_DIR}
-    ${QV2RAY_BASEDIR_CORE}
-    ${SINGLEAPPLICATION_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    )
-
+    
 # ==================================================================================
 # Lemon Translations
 # ==================================================================================
@@ -343,17 +363,13 @@ endif()
 
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
-set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
-set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
-add_subdirectory(3rdparty/SingleApplication)
-
 if(WIN32 AND ENABLE_XLS_EXPORT)
     find_package(${LEMON_QT_LIBNAME} COMPONENTS AxContainer REQUIRED)
     list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
     add_definitions(-DENABLE_XLS_EXPORT)
 endif()
 
-target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core SingleApplication::SingleApplication)
+target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
 
 
 # ==================================================================================

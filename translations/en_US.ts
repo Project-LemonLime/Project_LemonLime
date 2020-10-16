@@ -1119,6 +1119,10 @@ Depends: </source>
         <source>Empty maximum rejudge times!</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>JudgingDialog</name>
@@ -1434,14 +1438,6 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>Switch Language...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>UI &amp;Language</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&amp;Help</source>
         <translation></translation>
     </message>
@@ -1664,11 +1660,6 @@ Depends: </source>
     <message>
         <source>Manual</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Lemon</source>
-        <comment>English</comment>
-        <translation>American English</translation>
     </message>
     <message>
         <source>Are you sure to Clean up Files?</source>
@@ -1926,6 +1917,14 @@ Depends: </source>
     </message>
     <message>
         <source>Lost</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Enable debug output</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>LemonLime - A tiny judging environment for OI contest.</source>
         <translation></translation>
     </message>
 </context>
