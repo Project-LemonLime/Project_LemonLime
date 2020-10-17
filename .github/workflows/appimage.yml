@@ -79,7 +79,6 @@ jobs:
           cd build
           wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
           chmod +x ./linuxdeployqt-7-x86_64.AppImage
-          ./linuxdeployqt-7-x86_64.AppImage --appimage-extract
           cd AppDir
           wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
           chmod a+x AppRun
@@ -93,8 +92,7 @@ jobs:
           mkdir -p ./usr/plugins/platforminputcontexts/
           cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
           cd ..
-          squashfs-root/AppRun AppDir/usr/share/applications/lemon-lime.desktop -appimage -no-strip -always-overwrite -qmake=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
-          ls .
+          ./linuxdeployqt-7-x86_64.AppImage AppDir/usr/share/applications/lemon-lime.desktop -appimage -no-strip -always-overwrite -qmake=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./Lemon*.AppImage ./Lemon.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
