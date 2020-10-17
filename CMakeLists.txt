@@ -8,6 +8,8 @@ endmacro()
 
 option(EMBED_TRANSLATIONS "Embed translations" ON)
 LEMONLOG(EMBED_TRANSLATIONS)
+option(EMBED_DOCS "Embed documents" ON)
+LEMONLOG(EMBED_DOCS)
 option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
 LEMONLOG(ENABLE_XLS_EXPORT)
 option(BUILD_DEB "Build deb format package" OFF)
@@ -195,6 +197,11 @@ target_include_directories(lemon-core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
 
+# ==================================================================================
+# Lemon Documents
+# ==================================================================================
+
+include(cmake/docs.cmake)
     
 # ==================================================================================
 # Lemon UI
@@ -325,7 +332,7 @@ set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 set(QRC_RESOURCES
     resource.qrc
-    manual/manual.qrc
+    ${LEMON_EMBED_DOC_QRC}
     )
 
 set(LEMON_FULL_SOURCES

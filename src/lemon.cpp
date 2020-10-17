@@ -1092,12 +1092,16 @@ void LemonLime::aboutLemon()
 
 void LemonLime::actionManual()
 {
+#ifndef LEMON_EMBED_DOCS
+	QString fileName("/usr/share/doc/lemon-lime/llmanual.pdf");
+#else
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Manual"), "llmanual.pdf");
 
 	if (fileName.isEmpty())
 		return;
 
 	QFile::copy(":/manual/llmanual.pdf", fileName);
+#endif
 	QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
 }
 
