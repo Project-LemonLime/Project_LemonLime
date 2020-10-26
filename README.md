@@ -236,9 +236,16 @@ cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
 cmake --build .
 ```
 
-## 致谢
+## Credit
+```
+Copyright (c) 2019-2020 Project LemonLime.
 
--   [SingleApplication](https://github.com/itay-grudev/SingleApplication): 是 Qt5 中 QtSingleApplication 的支持实例通信的增强版。
+Libraries and other files that have been used in LemonLime are listed below:
+
+Copyright (c) 2020 Itay Grudev (@itay-grudev): SingleApplication (MIT)
+
+Copyright (c) 2020 Qv2ray Development Group (@Qv2ray): Design of Translator/Log, Project Structure and CI files (GPLv3)
+```
 
 ## License
 

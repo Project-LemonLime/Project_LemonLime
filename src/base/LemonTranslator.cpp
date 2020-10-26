@@ -1,5 +1,6 @@
 /*
- * SPDX-FileCopyrightText: 2020  Project LemonLime
+ * SPDX-FileCopyrightText: 2019-2020  Qv2ray Development Group
+ *                         2020       Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
