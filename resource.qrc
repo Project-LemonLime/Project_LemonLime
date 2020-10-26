@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/logo">
-        <file alias="splash.png">pics/splash.png</file>
-        <file alias="splash2.png">pics/splash2.png</file>
+        <file alias="splash.png">assets/pics/splash.png</file>
+        <file alias="splash2.png">assets/pics/splash2.png</file>
     </qresource>
     <qresource prefix="/asset">
         <file>makespec/VERSION</file>
@@ -11,39 +11,38 @@
     </qresource>
     <qresource prefix="/icon">
         <file alias="icon.png">assets/icons/lemon-lime.png</file>
-        <file alias="code-function.svg">pics/code-function.svg</file>
-        <file alias="configure.svg">pics/configure.svg</file>
-        <file alias="dialog-cancel.svg">pics/dialog-cancel.svg</file>
-        <file alias="dialog-ok-apply.svg">pics/dialog-ok-apply.svg</file>
-        <file alias="document-edit.svg">pics/document-edit.svg</file>
-        <file alias="edit-clear.svg">pics/edit-clear.svg</file>
-        <file alias="edit-delete.svg">pics/edit-delete.svg</file>
-        <file alias="edit-find-replace.svg">pics/edit-find-replace.svg</file>
-        <file alias="edit-find.svg">pics/edit-find.svg</file>
-        <file alias="go-down.svg">pics/go-down.svg</file>
-        <file alias="go-up.svg">pics/go-up.svg</file>
-        <file alias="list-add.svg">pics/list-add.svg</file>
-        <file alias="list-remove.svg">pics/list-remove.svg</file>
-        <file alias="media-playback-stop.svg">pics/media-playback-stop.svg</file>
-        <file alias="media-skip-forward.svg">pics/media-skip-forward.svg</file>
-        <file alias="paint-none.svg">pics/paint-none.svg</file>
-        <file alias="view-refresh.svg">pics/view-refresh.svg</file>
-        <file alias="view-sort.svg">pics/view-sort.svg</file>
-        <file alias="amarok_change_language.svg">pics/amarok_change_language.svg</file>
-        <file alias="application-exit.svg">pics/application-exit.svg</file>
-        <file alias="deletecell.svg">pics/deletecell.svg</file>
-        <file alias="document-close.svg">pics/document-close.svg</file>
-        <file alias="document-export.svg">pics/document-export.svg</file>
-        <file alias="document-new.svg">pics/document-new.svg</file>
-        <file alias="document-save.svg">pics/document-save.svg</file>
-        <file alias="globe.svg">pics/globe.svg</file>
-        <file alias="go-parent-folder.svg">pics/go-parent-folder.svg</file>
-        <file alias="help-about.svg">pics/help-about.svg</file>
-        <file alias="layer-new.svg">pics/layer-new.svg</file>
-        <file alias="paint-unknown.svg">pics/paint-unknown.svg</file>
-        <file alias="quickopen-file.svg">pics/quickopen-file.svg</file>
-        <file alias="system-help.svg">pics/system-help.svg</file>
-        <file>pics/splash.png</file>
-        <file alias="acrobat.svg">pics/acrobat.svg</file>
+        <file alias="code-function.svg">assets/pics/code-function.svg</file>
+        <file alias="configure.svg">assets/pics/configure.svg</file>
+        <file alias="dialog-cancel.svg">assets/pics/dialog-cancel.svg</file>
+        <file alias="dialog-ok-apply.svg">assets/pics/dialog-ok-apply.svg</file>
+        <file alias="document-edit.svg">assets/pics/document-edit.svg</file>
+        <file alias="edit-clear.svg">assets/pics/edit-clear.svg</file>
+        <file alias="edit-delete.svg">assets/pics/edit-delete.svg</file>
+        <file alias="edit-find-replace.svg">assets/pics/edit-find-replace.svg</file>
+        <file alias="edit-find.svg">assets/pics/edit-find.svg</file>
+        <file alias="go-down.svg">assets/pics/go-down.svg</file>
+        <file alias="go-up.svg">assets/pics/go-up.svg</file>
+        <file alias="list-add.svg">assets/pics/list-add.svg</file>
+        <file alias="list-remove.svg">assets/pics/list-remove.svg</file>
+        <file alias="media-playback-stop.svg">assets/pics/media-playback-stop.svg</file>
+        <file alias="media-skip-forward.svg">assets/pics/media-skip-forward.svg</file>
+        <file alias="paint-none.svg">assets/pics/paint-none.svg</file>
+        <file alias="view-refresh.svg">assets/pics/view-refresh.svg</file>
+        <file alias="view-sort.svg">assets/pics/view-sort.svg</file>
+        <file alias="application-exit.svg">assets/pics/application-exit.svg</file>
+        <file alias="deletecell.svg">assets/pics/deletecell.svg</file>
+        <file alias="document-close.svg">assets/pics/document-close.svg</file>
+        <file alias="document-export.svg">assets/pics/document-export.svg</file>
+        <file alias="document-new.svg">assets/pics/document-new.svg</file>
+        <file alias="document-save.svg">assets/pics/document-save.svg</file>
+        <file alias="globe.svg">assets/pics/globe.svg</file>
+        <file alias="go-parent-folder.svg">assets/pics/go-parent-folder.svg</file>
+        <file alias="help-about.svg">assets/pics/help-about.svg</file>
+        <file alias="layer-new.svg">assets/pics/layer-new.svg</file>
+        <file alias="paint-unknown.svg">assets/pics/paint-unknown.svg</file>
+        <file alias="quickopen-file.svg">assets/pics/quickopen-file.svg</file>
+        <file alias="system-help.svg">assets/pics/system-help.svg</file>
+        <file>assets/pics/splash.png</file>
+        <file alias="acrobat.svg">assets/pics/acrobat.svg</file>
     </qresource>
 </RCC>
