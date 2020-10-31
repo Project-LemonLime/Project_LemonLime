@@ -8,6 +8,7 @@
  */
 
 #include "exportutil.h"
+//
 #include "base/LemonType.hpp"
 #include "contest.h"
 #include "core/contestant.h"
@@ -16,6 +17,7 @@
 #include "core/task.h"
 #include "core/testcase.h"
 #include "visualsettings.h"
+//
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>

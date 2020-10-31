@@ -8,11 +8,13 @@
  */
 
 #include "compilersettings.h"
+#include "ui_compilersettings.h"
+//
 #include "addcompilerwizard.h"
 #include "advancedcompilersettingsdialog.h"
 #include "core/compiler.h"
 #include "core/settings.h"
-#include "ui_compilersettings.h"
+//
 #include <QAction>
 #include <QMessageBox>
 
@@ -20,7 +22,8 @@ CompilerSettings::CompilerSettings(QWidget *parent) : QWidget(parent), ui(new Ui
 {
 	ui->setupUi(this);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-	ui->sourceExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->sourceExtensions->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 #else
 	ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 #endif

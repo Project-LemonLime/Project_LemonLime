@@ -8,9 +8,11 @@
  */
 
 #include "testcaseeditwidget.h"
+#include "ui_testcaseeditwidget.h"
+//
 #include "core/settings.h"
 #include "core/testcase.h"
-#include "ui_testcaseeditwidget.h"
+//
 #include <QAction>
 
 TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TestCaseEditWidget)
@@ -23,7 +25,8 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(ne
 	deleteAction->setEnabled(false);
 	ui->fileList->addAction(deleteAction);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-	QValidator *subtaskDependenceValidator = new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->subtaskDependecne);
+	QValidator *subtaskDependenceValidator =
+	    new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->subtaskDependecne);
 #else
 	QValidator *subtaskDependenceValidator = new QRegExpValidator(QRegExp("[0-9,]+$"), ui->subtaskDependecne);
 #endif

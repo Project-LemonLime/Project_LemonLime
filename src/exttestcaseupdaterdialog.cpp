@@ -6,9 +6,11 @@
  */
 
 #include "exttestcaseupdaterdialog.h"
+#include "ui_exttestcaseupdaterdialog.h"
+//
 #include "core/settings.h"
 #include "core/task.h"
-#include "ui_exttestcaseupdaterdialog.h"
+//
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QValidator>
@@ -41,7 +43,8 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	ui->lineEditInput->setFilters(QDir::Files);
 	ui->lineEditOutput->setFilters(QDir::Files);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-	QValidator *subtaskDependenceValidator = new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->lineEditDepends);
+	QValidator *subtaskDependenceValidator =
+	    new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->lineEditDepends);
 #else
 	QValidator *subtaskDependenceValidator = new QRegExpValidator(QRegExp("[0-9,]+$"), ui->lineEditDepends);
 #endif

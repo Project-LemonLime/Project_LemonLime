@@ -8,8 +8,10 @@
  */
 
 #include "addtestcaseswizard.h"
-#include "core/settings.h"
 #include "ui_addtestcaseswizard.h"
+//
+#include "core/settings.h"
+//
 #include <QMessageBox>
 #include <algorithm>
 
@@ -202,7 +204,9 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 					if (QRegularExpression("^" + regExp + "$").match(str.mid(i, j - i + 1)).hasMatch())
 					{
-						if (QRegularExpression("^" + getFullRegExp(pattern.mid(pos + 3)) + "$").match(str.mid(j + 1)).hasMatch())
+						if (QRegularExpression("^" + getFullRegExp(pattern.mid(pos + 3)) + "$")
+						        .match(str.mid(j + 1))
+						        .hasMatch())
 						{
 							result[index] = str.mid(i, j - i + 1);
 							i = j;

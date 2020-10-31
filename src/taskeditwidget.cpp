@@ -8,10 +8,11 @@
  */
 
 #include "taskeditwidget.h"
+#include "ui_taskeditwidget.h"
+//
 #include "core/compiler.h"
 #include "core/settings.h"
 #include "core/task.h"
-#include "ui_taskeditwidget.h"
 
 TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget)
 {
@@ -25,9 +26,12 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	connect(this, SIGNAL(dataPathChanged()), ui->graderPath, SLOT(refreshFileList()));
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	ui->sourceFileName->setValidator(new QRegularExpressionValidator(QRegularExpression("\\w+"), this));
-	ui->inputFileName->setValidator(new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
-	ui->outputFileName->setValidator(new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
-	ui->interactorName->setValidator(new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
+	ui->inputFileName->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
+	ui->outputFileName->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
+	ui->interactorName->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
 	ui->answerFileExtension->setValidator(new QRegularExpressionValidator(QRegularExpression("\\w+"), this));
 #else
 	ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));

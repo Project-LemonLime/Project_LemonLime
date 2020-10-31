@@ -6,12 +6,14 @@
  */
 
 #include "statisticsbrowser.h"
+#include "ui_statisticsbrowser.h"
+//
 #include "base/LemonType.hpp"
 #include "contest.h"
 #include "core/contestant.h"
 #include "core/settings.h"
 #include "core/task.h"
-#include "ui_statisticsbrowser.h"
+//
 #include <QApplication>
 #include <QCheckBox>
 #include <QFileDialog>

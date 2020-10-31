@@ -10,6 +10,7 @@
 #include "addcompilerwizard.h"
 #include "core/compiler.h"
 #include "ui_addcompilerwizard.h"
+//
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -17,8 +18,10 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new 
 {
 	ui->setupUi(this);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-	ui->sourceFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
-	ui->bytecodeFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->sourceFileExtensions->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->bytecodeFileExtensions->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 #else
 	ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));

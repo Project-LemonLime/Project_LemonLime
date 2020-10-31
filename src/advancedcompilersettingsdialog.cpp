@@ -8,9 +8,11 @@
  */
 
 #include "advancedcompilersettingsdialog.h"
+#include "ui_advancedcompilersettingsdialog.h"
+//
 #include "core/compiler.h"
 #include "environmentvariablesdialog.h"
-#include "ui_advancedcompilersettingsdialog.h"
+//
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -20,7 +22,8 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	ui->setupUi(this);
 	editCompiler = new Compiler(this);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-	ui->bytecodeExtension->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->bytecodeExtension->setValidator(
+	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 #else
 	ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 #endif
