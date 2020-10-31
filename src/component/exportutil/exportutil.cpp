@@ -374,9 +374,9 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 		if (allScore >= 0)
 		{
-			double h = NAN;
-			double s = NAN;
-			double l = NAN;
+			float h = NAN;
+			float s = NAN;
+			float l = NAN;
 			colors.getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
 			out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px; font-weight: "
@@ -398,9 +398,9 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 			if (score != -1)
 			{
-				double h = NAN;
-				double s = NAN;
-				double l = NAN;
+				float h = NAN;
+				float s = NAN;
+				float l = NAN;
 				QColor col = colors.getColorPer(score, fullScore[j]);
 				col.getHslF(&h, &s, &l);
 
