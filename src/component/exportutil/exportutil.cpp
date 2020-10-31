@@ -377,13 +377,13 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		if (allScore >= 0)
 		{
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-				float h = NAN;
-				float s = NAN;
-				float l = NAN;
+			float h = NAN;
+			float s = NAN;
+			float l = NAN;
 #else
-				double h = NAN;
-				double s = NAN;
-				double l = NAN;
+			double h = NAN;
+			double s = NAN;
+			double l = NAN;
 #endif
 			colors.getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
