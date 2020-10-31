@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
+	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 #endif
 
