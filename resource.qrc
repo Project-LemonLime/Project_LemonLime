@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/logo">
-        <file alias="splash.png">assets/pics/splash.png</file>
         <file alias="splash2.png">assets/pics/splash2.png</file>
     </qresource>
     <qresource prefix="/asset">
@@ -42,7 +41,6 @@
         <file alias="paint-unknown.svg">assets/pics/paint-unknown.svg</file>
         <file alias="quickopen-file.svg">assets/pics/quickopen-file.svg</file>
         <file alias="system-help.svg">assets/pics/system-help.svg</file>
-        <file>assets/pics/splash.png</file>
         <file alias="acrobat.svg">assets/pics/acrobat.svg</file>
     </qresource>
 </RCC>

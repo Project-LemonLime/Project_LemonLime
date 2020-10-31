@@ -34,6 +34,7 @@ if(LEMON_QT6)
     set(LEMON_QT_MINOR_VERSION 0)
     set(LEMON_QT_LIBNAME Qt6)
     set(QT_MAJOR_VERSION 6)
+    set(QT_DEFAULT_MAJOR_VERSION 6)
     add_definitions(-DLEMON_QT6=1)
     #From: https://github.com/KDE/kwin/blob/master/cmake/modules/FindXKB.cmake#L35
     find_package(PkgConfig)
@@ -146,56 +147,11 @@ if(LEMON_CONFIG_DIR)
 endif()
 
 # ==================================================================================
-# Lemon Base
+# Lemon Base && Core
 # ==================================================================================
 
 include(cmake/lemon-base.cmake)
-
-add_library(lemon-base STATIC
-    ${LEMON_BASE_SOURCES}
-    ${LEMON_BASE_HEADERS}
-    ${SINGLEAPPLICATION_SOURCES}
-    )
-
-target_link_libraries(lemon-base
-    ${LEMON_QT_LIBS}
-    ${SINGLEAPPLICATION_LIBRARY}
-    )
-
-target_include_directories(lemon-base PUBLIC
-    ${CMAKE_BINARY_DIR}
-    ${LEMON_BASEDIR_BASE}
-    ${SINGLEAPPLICATION_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    )
-
-
-# ==================================================================================
-# Lemon Core
-# ==================================================================================
-
 include(cmake/lemon-core.cmake)
-
-add_library(lemon-core STATIC
-    ${LEMON_CORE_SOURCES}
-    ${LEMON_BASE_HEADERS}
-    ${SINGLEAPPLICATION_SOURCES}
-    )
-
-target_link_libraries(lemon-core
-    lemon-base
-    ${LEMON_QT_LIBS}
-    ${SINGLEAPPLICATION_LIBRARY}
-    )
-
-target_include_directories(lemon-core PUBLIC
-    ${CMAKE_BINARY_DIR}
-    ${LEMON_BASEDIR_CORE}
-    ${SINGLEAPPLICATION_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    )
 
 # ==================================================================================
 # Lemon Documents
@@ -207,100 +163,7 @@ include(cmake/docs.cmake)
 # Lemon UI
 # ==================================================================================
 
-set(SRC
-    ${LEMON_BASE_SOURCES}
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_SOURCE_DIR}/src/exttestcasemodifier.cpp
-    ${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/exttestcasetable.cpp
-    ${CMAKE_SOURCE_DIR}/src/exttestcaseupdaterdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/visualsettings.cpp
-    ${CMAKE_SOURCE_DIR}/src/lemon.cpp
-    ${CMAKE_SOURCE_DIR}/src/contest.cpp
-    ${CMAKE_SOURCE_DIR}/src/filelineedit.cpp
-    ${CMAKE_SOURCE_DIR}/src/summarytree.cpp
-    ${CMAKE_SOURCE_DIR}/src/taskeditwidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/testcaseeditwidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/generalsettings.cpp
-    ${CMAKE_SOURCE_DIR}/src/compilersettings.cpp
-    ${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.cpp
-    ${CMAKE_SOURCE_DIR}/src/judgingdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/optionsdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/resultviewer.cpp
-    ${CMAKE_SOURCE_DIR}/src/detaildialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/newcontestwidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/opencontestwidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/newcontestdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/opencontestdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/welcomedialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/addtaskdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/advancedcompilersettingsdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/editvariabledialog.cpp
-    ${CMAKE_SOURCE_DIR}/src/addcompilerwizard.cpp
-    ${CMAKE_SOURCE_DIR}/src/statisticsbrowser.cpp
-    ${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.cpp
-    )
-
-set(HEADERS
-    ${CMAKE_SOURCE_DIR}/src/lemon.h
-    ${CMAKE_SOURCE_DIR}/src/exttestcasemodifier.h
-    ${CMAKE_SOURCE_DIR}/src/contest.h
-    ${CMAKE_SOURCE_DIR}/src/exttestcasemodifierdialog.h
-    ${CMAKE_SOURCE_DIR}/src/exttestcasetable.h
-    ${CMAKE_SOURCE_DIR}/src/exttestcaseupdaterdialog.h
-    ${CMAKE_SOURCE_DIR}/src/visualsettings.h
-    ${CMAKE_SOURCE_DIR}/src/filelineedit.h
-    ${CMAKE_SOURCE_DIR}/src/summarytree.h
-    ${CMAKE_SOURCE_DIR}/src/taskeditwidget.h
-    ${CMAKE_SOURCE_DIR}/src/testcaseeditwidget.h
-    ${CMAKE_SOURCE_DIR}/src/generalsettings.h
-    ${CMAKE_SOURCE_DIR}/src/compilersettings.h
-    ${CMAKE_SOURCE_DIR}/src/addtestcaseswizard.h
-    ${CMAKE_SOURCE_DIR}/src/judgingdialog.h
-    ${CMAKE_SOURCE_DIR}/src/optionsdialog.h
-    ${CMAKE_SOURCE_DIR}/src/resultviewer.h
-    ${CMAKE_SOURCE_DIR}/src/detaildialog.h
-    ${CMAKE_SOURCE_DIR}/src/newcontestwidget.h
-    ${CMAKE_SOURCE_DIR}/src/opencontestwidget.h
-    ${CMAKE_SOURCE_DIR}/src/newcontestdialog.h
-    ${CMAKE_SOURCE_DIR}/src/opencontestdialog.h
-    ${CMAKE_SOURCE_DIR}/src/welcomedialog.h
-    ${CMAKE_SOURCE_DIR}/src/addtaskdialog.h
-    ${CMAKE_SOURCE_DIR}/src/advancedcompilersettingsdialog.h
-    ${CMAKE_SOURCE_DIR}/src/environmentvariablesdialog.h
-    ${CMAKE_SOURCE_DIR}/src/editvariabledialog.h
-    ${CMAKE_SOURCE_DIR}/src/addcompilerwizard.h
-    ${CMAKE_SOURCE_DIR}/src/statisticsbrowser.h
-    ${CMAKE_SOURCE_DIR}/src/component/exportutil/exportutil.h
-    )
-
-set(LEMON_UI_FORMS
-    ${CMAKE_SOURCE_DIR}/src/forms/lemon.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/exttestcasemodifierdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/exttestcasemodifier.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/exttestcaseupdaterdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/taskeditwidget.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/testcaseeditwidget.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/generalsettings.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/compilersettings.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/addtestcaseswizard.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/judgingdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/optionsdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/detaildialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/newcontestwidget.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/opencontestwidget.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/newcontestdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/opencontestdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/visualsettings.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/welcomedialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/addtaskdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/advancedcompilersettingsdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/environmentvariablesdialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/editvariabledialog.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/addcompilerwizard.ui
-    ${CMAKE_SOURCE_DIR}/src/forms/statisticsbrowser.ui
-    )
+include(cmake/lemon-ui.cmake)
     
 # ==================================================================================
 # Lemon Translations
@@ -316,10 +179,10 @@ endif()
 
 # Qt language translations
 add_custom_target(lupdate
-    COMMAND lupdate ${HEADERS}
+    COMMAND lupdate ${LEMON_UI_HEADERS}
     ${LEMON_BASE_HEADERS}
     ${LEMON_CORE_SOURCES}
-    ${SRC}
+    ${LEMON_UI_SOURCES}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -336,10 +199,10 @@ set(QRC_RESOURCES
     )
 
 set(LEMON_FULL_SOURCES
-    ${HEADERS}
+    ${LEMON_UI_HEADERS}
     ${LEMON_BASE_HEADERS}
     ${LEMON_CORE_SOURCES}
-    ${SRC}
+    ${LEMON_UI_SOURCES}
     assets/lemon.rc
     ${LEMON_UI_FORMS}
     ${LEMON_UI_RESOURCES}
@@ -364,7 +227,8 @@ else()
         add_executable(watcher_unix unix/watcher_linux.cpp)
     endif()
     configure_file(unix/watcher.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-    add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES} ${CMAKE_BINARY_DIR}/watcher.qrc)
+    list(APPEND LEMON_FULL_SOURCES ${CMAKE_BINARY_DIR}/watcher.qrc)
+    add_executable(lemon ${GUI_TYPE} ${LEMON_FULL_SOURCES})
     add_dependencies(lemon watcher_unix)
 endif()
 
