@@ -16,8 +16,13 @@
 AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddCompilerWizard)
 {
 	ui->setupUi(this);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+	ui->sourceFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->bytecodeFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+#else
 	ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
+#endif
 	ui->javaMemoryLimit->setValidator(new QIntValidator(64, 2048, this));
 #ifdef Q_OS_LINUX
 

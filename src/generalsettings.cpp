@@ -41,8 +41,13 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	ui->specialJudgeTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->fileSizeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForFileSizeLimit(), this));
 	ui->rejudgeTimes->setValidator(new QIntValidator(0, Settings::upperBoundForRejudgeTimes(), this));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+	ui->inputFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+	ui->outputFileExtensions->setValidator(new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
+#else
 	ui->inputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
 	ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
+#endif
 	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)), this, SLOT(defaultFullScoreChanged(QString)));
 	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(defaultTimeLimitChanged(QString)));
 	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)), this,
