@@ -66,7 +66,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --target package 
       - name: Get package name
         shell: bash
