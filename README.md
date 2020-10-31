@@ -6,6 +6,8 @@
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
 
+同时支持 Qt5 和 Qt6, 使用 `-DLEMON_QT6=ON` 以使用 Qt6 编译。
+
 现已支持 Linux ![Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 ，Windows ![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
 
@@ -33,8 +35,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |        Windows        |      7     | x86, amd64 |    Untitled    |
 |        Windows        |     10     |    amd64   |    Untitled    |
 |        Manjaro        |   20.0.1   |    amd64   | KDE-Xorg; i3WM |
-|          Arch         |  2020-8-11 |    amd64   |    KDE-Xorg    |
-|          Arch         |  2020-8-11 |    amd64   |   KDE-Wayland  |
+|          Arch         | 2020-10-31 |    amd64   |    KDE-Xorg    |
+|          Arch         | 2020-10-31 |    amd64   |   KDE-Wayland  |
 |         Ubuntu        |    20.04   |    amd64   |     GNOME 3    |
 |         Ubuntu        |   18.04.4  |    amd64   |     GNOME 3    |
 | NOI Linux (Ubuntu) \* |    14.04   |     x86    |     GNOME 2    |
@@ -121,7 +123,7 @@ scoop bucket add peach https://github.com/ChungZH/peach
 scoop install peach/lemon
 ```
 
-当然如果你装有 Qt 5，也可以下载源码编译。
+当然如果你装有 Qt 5/6，也可以下载源码编译。
 
 NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用。
 
