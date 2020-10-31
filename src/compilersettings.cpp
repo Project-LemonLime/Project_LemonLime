@@ -21,12 +21,8 @@
 CompilerSettings::CompilerSettings(QWidget *parent) : QWidget(parent), ui(new Ui::CompilerSettings)
 {
 	ui->setupUi(this);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	ui->sourceExtensions->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
-#else
-	ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
-#endif
 	deleteCompilerKeyAction = new QAction(ui->compilerList);
 	deleteCompilerKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);

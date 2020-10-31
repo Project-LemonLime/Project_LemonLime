@@ -42,12 +42,8 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	ui->lineEditMemory->setValidator(new QIntValidator(1, nowSettings->upperBoundForMemoryLimit(), this));
 	ui->lineEditInput->setFilters(QDir::Files);
 	ui->lineEditOutput->setFilters(QDir::Files);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	QValidator *subtaskDependenceValidator =
 	    new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->lineEditDepends);
-#else
-	QValidator *subtaskDependenceValidator = new QRegExpValidator(QRegExp("[0-9,]+$"), ui->lineEditDepends);
-#endif
 	ui->lineEditDepends->setValidator(subtaskDependenceValidator);
 
 	connect(ui->lineEditScore, SIGNAL(textChanged(QString)), this, SLOT(fullScoreChanged(QString)));

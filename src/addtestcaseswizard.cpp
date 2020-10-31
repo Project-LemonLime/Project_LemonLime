@@ -201,7 +201,6 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 
 				for (int j = i; j < str.length(); j++)
 				{
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 					if (QRegularExpression("^" + regExp + "$").match(str.mid(i, j - i + 1)).hasMatch())
 					{
 						if (QRegularExpression("^" + getFullRegExp(pattern.mid(pos + 3)) + "$")
@@ -213,17 +212,6 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 							break;
 						}
 					}
-#else
-					if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
-					{
-						if (QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1)))
-						{
-							result[index] = str.mid(i, j - i + 1);
-							i = j;
-							break;
-						}
-					}
-#endif
 				}
 
 				pos += 2;
@@ -244,11 +232,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	for (int i = 0; i < inputFiles.size(); i++)
 	{
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression("^" + regExp + "$").match(inputFiles[i]).hasMatch())
-#else
-		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
-#endif
 		{
 			inputFiles.removeAt(i);
 			i--;
@@ -259,11 +243,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	for (int i = 0; i < outputFiles.size(); i++)
 	{
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression("^" + regExp + "$").match(inputFiles[i]).hasMatch())
-#else
-		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
-#endif
 		{
 			outputFiles.removeAt(i);
 			i--;
@@ -427,11 +407,7 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool
 			}
 
 			QString regExp = ui->argumentList->item(i, 1)->text();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 			if (! QRegularExpression(regExp).isValid())
-#else
-			if (! QRegExp(regExp).isValid())
-#endif
 			{
 				ui->argumentList->setCurrentCell(i, 1);
 				QMessageBox::warning(this, tr("Error"), tr("Invalid regular expression!"),

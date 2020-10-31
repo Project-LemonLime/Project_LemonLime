@@ -21,12 +21,8 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 	editCompiler = new Compiler(this);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	ui->bytecodeExtension->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
-#else
-	ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
-#endif
 	ui->configurationSelect->setLineEdit(new QLineEdit(this));
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(okayButtonClicked()));
 	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(compilerTypeChanged()));

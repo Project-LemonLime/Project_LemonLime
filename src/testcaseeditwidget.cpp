@@ -24,12 +24,8 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(ne
 	deleteAction->setShortcut(QKeySequence::Delete);
 	deleteAction->setEnabled(false);
 	ui->fileList->addAction(deleteAction);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	QValidator *subtaskDependenceValidator =
 	    new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->subtaskDependecne);
-#else
-	QValidator *subtaskDependenceValidator = new QRegExpValidator(QRegExp("[0-9,]+$"), ui->subtaskDependecne);
-#endif
 	ui->subtaskDependecne->setValidator(subtaskDependenceValidator);
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
