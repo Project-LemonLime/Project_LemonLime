@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.9.0 )
 
-project(lemon)
+project(lemon LANGUAGES CXX)
+
+# ==================================================================================
+# CMake Macros
+# ==================================================================================
+include(FeatureSummary)
 
 macro(LEMONLOG MSG)
     set(LEMON_BUILD_STATS "${LEMON_BUILD_STATS}${MSG}: ${${MSG}}\r\n")
 endmacro()
+
 
 option(EMBED_TRANSLATIONS "Embed translations" ON)
 LEMONLOG(EMBED_TRANSLATIONS)
@@ -55,8 +61,8 @@ else()
     set(QT_MAJOR_VERSION 5)
 endif()
 
-find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Network Core Gui Widgets Network REQUIRED)
-list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets ${LEMON_QT_LIBNAME}::Network)
+find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
+list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets)
 
 set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
@@ -179,9 +185,11 @@ endif()
 
 # Qt language translations
 add_custom_target(lupdate
-    COMMAND lupdate ${LEMON_UI_HEADERS}
+    COMMAND lupdate
     ${LEMON_BASE_HEADERS}
+    ${LEMON_BASE_SOURCES}
     ${LEMON_CORE_SOURCES}
+    ${LEMON_UI_HEADERS}
     ${LEMON_UI_SOURCES}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
@@ -261,6 +269,7 @@ endif()
 
 include(cmake/deployment.cmake)
 
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 LEMONLOG(VERSION_STRING)
 LEMONLOG(BUILD_VERSION)
