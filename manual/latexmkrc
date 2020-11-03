@@ -1,0 +1,5 @@
+$pdf_mode = 5;
+
+$pdflatex = "pdflatex -file-line-error -halt-on-error -interaction=nonstopmode -synctex=1 %O %S";
+$xelatex = "xelatex -8bit -shell-escape -file-line-error -halt-on-error -interaction=nonstopmode -no-pdf %O %S";
+$xdvipdfmx = "xdvipdfmx -q -E -o %D %O %S";
