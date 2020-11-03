@@ -857,10 +857,6 @@
 <context>
     <name>ExtTestCaseModifier</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Modify</source>
         <translation>修改选中</translation>
     </message>
@@ -891,6 +887,10 @@
     <message>
         <source>Move Up</source>
         <translation>上移</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1143,6 +1143,18 @@ Depends: </source>
     <message>
         <source>Language</source>
         <translation>语言</translation>
+    </message>
+    <message>
+        <source>Default Extra Time Limit Ratio</source>
+        <translation>默认额外时间比率</translation>
+    </message>
+    <message>
+        <source>Empty default extra time ratio</source>
+        <translation type="obsolete">默认额外时间比率为空！</translation>
+    </message>
+    <message>
+        <source>Empty default extra time ratio!</source>
+        <translation>默认额外时间比率为空！</translation>
     </message>
 </context>
 <context>
@@ -2072,18 +2084,6 @@ Depends: </source>
 <context>
     <name>StatisticsBrowser</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>No contest yet</source>
         <translation>还没有比赛</translation>
     </message>
@@ -2206,6 +2206,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Export Statstics</source>
         <translation>导出统计信息</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

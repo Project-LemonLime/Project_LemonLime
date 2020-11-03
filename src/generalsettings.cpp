@@ -36,6 +36,8 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 
 	ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+	ui->defaultExtraTimeRatio->setValidator(
+	    new QDoubleValidator(0.0, Settings::upperBoundForExtraTimeRatio(), 6, this));
 	ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
 	ui->compileTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->specialJudgeTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
@@ -47,6 +49,8 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)), this, SLOT(defaultFullScoreChanged(QString)));
 	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(defaultTimeLimitChanged(QString)));
+	connect(ui->defaultExtraTimeRatio, SIGNAL(textChanged(QString)), this,
+	        SLOT(defaultExtraTimeRatioChanged(QString)));
 	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)), this,
 	        SLOT(defaultMemoryLimitChanged(QString)));
 	connect(ui->compileTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(compileTimeLimitChanged(QString)));
@@ -69,6 +73,7 @@ void GeneralSettings::resetEditSettings(Settings *settings)
 	editSettings = settings;
 	ui->defaultFullScore->setText(QString("%1").arg(editSettings->getDefaultFullScore()));
 	ui->defaultTimeLimit->setText(QString("%1").arg(editSettings->getDefaultTimeLimit()));
+	ui->defaultExtraTimeRatio->setText(QString("%1").arg(editSettings->getDefaultExtraTimeRatio()));
 	ui->defaultMemoryLimit->setText(QString("%1").arg(editSettings->getDefaultMemoryLimit()));
 	ui->compileTimeLimit->setText(QString("%1").arg(editSettings->getCompileTimeLimit()));
 	ui->specialJudgeTimeLimit->setText(QString("%1").arg(editSettings->getSpecialJudgeTimeLimit()));
@@ -94,6 +99,13 @@ auto GeneralSettings::checkValid() -> bool
 	{
 		ui->defaultTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default time limit!"), QMessageBox::Close);
+		return false;
+	}
+
+	if (ui->defaultExtraTimeRatio->text().isEmpty())
+	{
+		ui->defaultExtraTimeRatio->setFocus();
+		QMessageBox::warning(this, tr("Error"), tr("Empty default extra time ratio!"), QMessageBox::Close);
 		return false;
 	}
 
@@ -143,7 +155,10 @@ void GeneralSettings::defaultTimeLimitChanged(const QString &text)
 {
 	editSettings->setDefaultTimeLimit(text.toInt());
 }
-
+void GeneralSettings::defaultExtraTimeRatioChanged(const QString &text)
+{
+	editSettings->setDefaultExtraTimeRatio(text.toDouble());
+}
 void GeneralSettings::defaultMemoryLimitChanged(const QString &text)
 {
 	editSettings->setDefaultMemoryLimit(text.toInt());

@@ -38,6 +38,7 @@ class GeneralSettings : public QWidget
   private slots:
 	void defaultFullScoreChanged(const QString &);
 	void defaultTimeLimitChanged(const QString &);
+	void defaultExtraTimeRatioChanged(const QString &);
 	void defaultMemoryLimitChanged(const QString &);
 	void compileTimeLimitChanged(const QString &);
 	void specialJudgeTimeLimitChanged(const QString &);

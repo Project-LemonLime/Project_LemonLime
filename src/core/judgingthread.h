@@ -48,7 +48,9 @@ class JudgingThread : public QThread
 
   private:
 	// bool checkRejudgeMode;
+
 	bool needRejudge;
+	// Control some extra time program used, like kernel time, judge system fluctuation
 	double extraTimeRatio{};
 	QProcessEnvironment environment;
 	QString workingDirectory;

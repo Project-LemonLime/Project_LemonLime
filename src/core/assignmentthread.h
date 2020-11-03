@@ -52,8 +52,8 @@ class AssignmentThread : public QThread
 	QString executableFile;
 	QString arguments;
 	QString diffPath;
-	double timeLimitRatio{};
-	double memoryLimitRatio{};
+	double compilerTimeLimitRatio{};
+	double compilerMemoryLimitRatio{};
 	bool disableMemoryLimitCheck{};
 	QProcessEnvironment environment;
 	QList<int> overallStatus;

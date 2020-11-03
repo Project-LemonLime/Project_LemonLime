@@ -30,6 +30,7 @@ class Settings : public QObject
 	int getSpecialJudgeTimeLimit() const;
 	int getFileSizeLimit() const;
 	int getRejudgeTimes() const;
+	double getDefaultExtraTimeRatio() const;
 	const QString &getDefaultInputFileExtension() const;
 	const QString &getDefaultOutputFileExtension() const;
 	const QStringList &getInputFileExtensions() const;
@@ -70,6 +71,7 @@ class Settings : public QObject
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
+	void setDefaultExtraTimeRatio(double);
 	void setDefaultMemoryLimit(int);
 	void setCompileTimeLimit(int);
 	void setSpecialJudgeTimeLimit(int);
@@ -115,6 +117,7 @@ class Settings : public QObject
 	static int upperBoundForMemoryLimit();
 	static int upperBoundForFileSizeLimit();
 	static int upperBoundForRejudgeTimes();
+	static double upperBoundForExtraTimeRatio();
 	static QString dataPath();
 	static QString sourcePath();
 	static QString temporaryPath();
@@ -129,6 +132,7 @@ class Settings : public QObject
 	int specialJudgeTimeLimit{};
 	int fileSizeLimit{};
 	int rejudgeTimes{};
+	double defaultExtraTimeRatio{};
 	QString defaultInputFileExtension;
 	QString defaultOutputFileExtension;
 	QStringList inputFileExtensions;
