@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.lemonlime.LemonLime</id>
+  <metadata_license>GPL-3.0+</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>LemonLime</name>
+  <summary>A tiny judging environment for OI contest</summary>
+  <description>
+    <p>
+      A tiny judging environment for OI contest based on Project_LemonPlus and Lemon
+    </p>
+  </description>
+  <url type="homepage">https://github.com/Project-LemonLime/Project_LemonLime</url>
+  <url type="bugtracker">https://github.com/Project-LemonLime/Project_LemonLime/issues</url>
+  <categories>
+    <category>Development</category>
+	<category>Education</category>
+  </categories>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Project-LemonLime/Project_LemonLime/master/assets/icons/lemon-lime.png</image>
+    </screenshot>
+  </screenshots>
+  <provides>
+    <binary>lemon</binary>
+  </provides>
+  <releases>
+    <release version="0.2.6" date="2020-10-31"/>
+  </releases>
+</component>
