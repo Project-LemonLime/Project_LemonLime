@@ -185,9 +185,11 @@ endif()
 
 # Qt language translations
 add_custom_target(lupdate
-    COMMAND lupdate ${LEMON_UI_HEADERS}
+    COMMAND lupdate
     ${LEMON_BASE_HEADERS}
+    ${LEMON_BASE_SOURCES}
     ${LEMON_CORE_SOURCES}
+    ${LEMON_UI_HEADERS}
     ${LEMON_UI_SOURCES}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
