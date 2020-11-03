@@ -1144,6 +1144,14 @@ Depends: </source>
         <source>Language</source>
         <translation>語言</translation>
     </message>
+    <message>
+        <source>Default Extra Time Limit Ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Empty default extra time ratio!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JudgingDialog</name>
