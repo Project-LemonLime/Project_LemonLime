@@ -888,7 +888,7 @@ void JudgingThread::runProgram()
 		}
 	}
 
-	bool flag = false;
+	bool isProgramFinishedInExtraTimeLimit = false;
 	QElapsedTimer timer;
 	timer.start();
 
@@ -896,7 +896,7 @@ void JudgingThread::runProgram()
 	{
 		if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0)
 		{
-			flag = true;
+			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
 
@@ -953,7 +953,7 @@ void JudgingThread::runProgram()
 		Sleep(10);
 	}
 
-	if (! flag)
+	if (! isProgramFinishedInExtraTimeLimit)
 	{
 		TerminateProcess(pi.hProcess, 0);
 
@@ -1003,10 +1003,15 @@ void JudgingThread::runProgram()
 
 	FILETIME creationTime, exitTime, kernelTime, userTime;
 	GetProcessTimes(pi.hProcess, &creationTime, &exitTime, &kernelTime, &userTime);
-	SYSTEMTIME realTime;
-	FileTimeToSystemTime(&userTime, &realTime);
-	timeUsed = realTime.wMilliseconds + realTime.wSecond * 1000 + realTime.wMinute * 60 * 1000 +
-	           realTime.wHour * 60 * 60 * 1000;
+	SYSTEMTIME realUserTime, realKernelTime;
+	FileTimeToSystemTime(&userTime, &realUserTime);
+	FileTimeToSystemTime(&kernelTime, &realKernelTime);
+	timeUsed = realUserTime.wMilliseconds + realUserTime.wSecond * 1000 + realUserTime.wMinute * 60 * 1000 +
+	           realUserTime.wHour * 60 * 60 * 1000;
+	int kernelTimeUsed = realKernelTime.wMilliseconds + realKernelTime.wSecond * 1000 +
+	                     realKernelTime.wMinute * 60 * 1000 + realKernelTime.wHour * 60 * 60 * 1000;
+	qDebug() << "User Time Used" << timeUsed;
+	qDebug() << "Kernel Time Used" << kernelTimeUsed;
 	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 	memoryUsed = info.PeakWorkingSetSize;
 
@@ -1061,7 +1066,7 @@ void JudgingThread::runProgram()
 		return;
 	}
 
-	bool flag = false;
+	bool isProgramFinishedInExtraTimeLimit = false;
 	QElapsedTimer timer;
 	timer.start();
 
@@ -1069,7 +1074,7 @@ void JudgingThread::runProgram()
 	{
 		if (runner->state() != QProcess::Running)
 		{
-			flag = true;
+			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
 
@@ -1094,7 +1099,7 @@ void JudgingThread::runProgram()
 		msleep(10);
 	}
 
-	if (! flag)
+	if (! isProgramFinishedInExtraTimeLimit)
 	{
 		runner->terminate();
 		runner->waitForFinished(-1);
@@ -1265,7 +1270,6 @@ void JudgingThread::judgeTraditionalTask()
 		{
 			needRejudge = true;
 		}
-
 		score = 0;
 		result = TimeLimitExceeded;
 		message = "";

@@ -182,8 +182,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 			{
 				if (configurationNames[j] == currentConfiguration)
 				{
-					timeLimitRatio = i->getTimeLimitRatio();
-					memoryLimitRatio = i->getMemoryLimitRatio();
+					compilerTimeLimitRatio = i->getTimeLimitRatio();
+					compilerMemoryLimitRatio = i->getMemoryLimitRatio();
 					disableMemoryLimitCheck = i->getDisableMemoryLimitCheck();
 					environment = i->getEnvironment();
 					QStringList values = QProcessEnvironment::systemEnvironment().toStringList();
@@ -458,7 +458,7 @@ void AssignmentThread::assign()
 	}
 
 	auto *thread = new JudgingThread();
-	thread->setExtraTimeRatio(0.1);
+	thread->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 	QString workingDirectory =
 	    QDir::toNativeSeparators(
 	        QDir(Settings::temporaryPath() + QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
@@ -515,7 +515,7 @@ void AssignmentThread::assign()
 	if (task->getTaskType() != Task::AnswersOnly)
 	{
 		thread->setEnvironment(environment);
-		thread->setTimeLimit(qCeil(curTestCase->getTimeLimit() * timeLimitRatio));
+		thread->setTimeLimit(qCeil(curTestCase->getTimeLimit() * compilerTimeLimitRatio));
 
 		if (disableMemoryLimitCheck)
 		{
@@ -523,7 +523,7 @@ void AssignmentThread::assign()
 		}
 		else
 		{
-			thread->setMemoryLimit(qCeil(curTestCase->getMemoryLimit() * memoryLimitRatio));
+			thread->setMemoryLimit(qCeil(curTestCase->getMemoryLimit() * compilerMemoryLimitRatio));
 		}
 	}
 

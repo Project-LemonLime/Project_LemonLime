@@ -42,6 +42,8 @@ auto Settings::getFileSizeLimit() const -> int { return fileSizeLimit; }
 
 auto Settings::getRejudgeTimes() const -> int { return rejudgeTimes; }
 
+auto Settings::getDefaultExtraTimeRatio() const -> double { return defaultExtraTimeRatio; }
+
 auto Settings::getDefaultInputFileExtension() const -> const QString & { return defaultInputFileExtension; }
 
 auto Settings::getDefaultOutputFileExtension() const -> const QString & { return defaultOutputFileExtension; }
@@ -233,6 +235,11 @@ void Settings::setDefaultTimeLimit(int limit)
 	LOG("Set Default Time Limit to " + QString::number(limit));
 }
 
+void Settings::setDefaultExtraTimeRatio(double ratio)
+{
+	defaultExtraTimeRatio = ratio;
+	LOG("Set Default Extra Time Ratio to " + QString::number(ratio));
+}
 void Settings::setDefaultMemoryLimit(int limit)
 {
 	defaultMemoryLimit = limit;
@@ -465,6 +472,7 @@ void Settings::copyFrom(Settings *other)
 {
 	setDefaultFullScore(other->getDefaultFullScore());
 	setDefaultTimeLimit(other->getDefaultTimeLimit());
+	setDefaultExtraTimeRatio(other->getDefaultExtraTimeRatio());
 	setDefaultMemoryLimit(other->getDefaultMemoryLimit());
 	setCompileTimeLimit(other->getCompileTimeLimit());
 	setSpecialJudgeTimeLimit(other->getSpecialJudgeTimeLimit());
@@ -518,6 +526,7 @@ void Settings::saveSettings()
 	settings.beginGroup("GeneralSettings");
 	settings.setValue("DefaultFullScore", defaultFullScore);
 	settings.setValue("DefaultTimeLimit", defaultTimeLimit);
+	settings.setValue("DefaultExtraTimeRatio", defaultExtraTimeRatio);
 	settings.setValue("DefaultMemoryLimit", defaultMemoryLimit);
 	settings.setValue("CompileTimeLimit", compileTimeLimit);
 	settings.setValue("SpecialJudgeTimeLimit", specialJudgeTimeLimit);
@@ -604,6 +613,7 @@ void Settings::loadSettings()
 	settings.beginGroup("GeneralSettings");
 	defaultFullScore = settings.value("DefaultFullScore", 10).toInt();
 	defaultTimeLimit = settings.value("DefaultTimeLimit", 1000).toInt();
+	defaultExtraTimeRatio = settings.value("DefaultExtraTimeRatio", 0.1).toDouble();
 	defaultMemoryLimit = settings.value("DefaultMemoryLimit", 512).toInt();
 	compileTimeLimit = settings.value("CompileTimeLimit", 10000).toInt();
 	specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
@@ -700,6 +710,8 @@ void Settings::loadSettings()
 auto Settings::upperBoundForFullScore() -> int { return 10000000; }
 
 auto Settings::upperBoundForTimeLimit() -> int { return 1000 * 60 * 60 * 24; }
+
+auto Settings::upperBoundForExtraTimeRatio() -> double { return 100; }
 
 auto Settings::upperBoundForMemoryLimit() -> int { return 16777216; }
 
