@@ -8,6 +8,7 @@
  */
 
 #include "contest.h"
+//
 #include "core/assignmentthread.h"
 #include "core/compiler.h"
 #include "core/contestant.h"
@@ -15,6 +16,7 @@
 #include "core/settings.h"
 #include "core/task.h"
 #include "core/testcase.h"
+//
 #include <QMessageBox>
 #include <utility>
 

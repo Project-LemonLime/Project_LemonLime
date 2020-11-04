@@ -12,7 +12,6 @@ set(LEMON_UI_SOURCES
     ${LEMON_BASEDIR_UI}/exttestcaseupdaterdialog.cpp
     ${LEMON_BASEDIR_UI}/visualsettings.cpp
     ${LEMON_BASEDIR_UI}/lemon.cpp
-    ${LEMON_BASEDIR_UI}/contest.cpp
     ${LEMON_BASEDIR_UI}/filelineedit.cpp
     ${LEMON_BASEDIR_UI}/summarytree.cpp
     ${LEMON_BASEDIR_UI}/taskeditwidget.cpp
@@ -41,7 +40,6 @@ set(LEMON_UI_SOURCES
 set(LEMON_UI_HEADERS
     ${LEMON_BASEDIR_UI}/lemon.h
     ${LEMON_BASEDIR_UI}/exttestcasemodifier.h
-    ${LEMON_BASEDIR_UI}/contest.h
     ${LEMON_BASEDIR_UI}/exttestcasemodifierdialog.h
     ${LEMON_BASEDIR_UI}/exttestcasetable.h
     ${LEMON_BASEDIR_UI}/exttestcaseupdaterdialog.h

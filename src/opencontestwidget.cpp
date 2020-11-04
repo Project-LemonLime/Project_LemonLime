@@ -8,19 +8,22 @@
  */
 
 #include "opencontestwidget.h"
-#include "contest.h"
 #include "ui_opencontestwidget.h"
+//
+#include "core/contest.h"
+//
 #include <QFileDialog>
 
 OpenContestWidget::OpenContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::OpenContestWidget)
 {
 	ui->setupUi(this);
-	connect(ui->recentContest, SIGNAL(itemSelectionChanged()), this, SIGNAL(selectionChanged()));
-	connect(ui->recentContest, SIGNAL(cellDoubleClicked(int, int)), this, SIGNAL(rowDoubleClicked()));
-	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addContest()));
-	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteContest()));
-	connect(ui->recentContest, SIGNAL(currentCellChanged(int, int, int, int)), this,
-	        SLOT(currentRowChanged()));
+	connect(ui->recentContest, &QTableWidget::itemSelectionChanged, this,
+	        &OpenContestWidget::selectionChanged);
+	connect(ui->recentContest, &QTableWidget::cellDoubleClicked, this, &OpenContestWidget::rowDoubleClicked);
+	connect(ui->addButton, &QToolButton::clicked, this, &OpenContestWidget::addContest);
+	connect(ui->deleteButton, &QToolButton::clicked, this, &OpenContestWidget::deleteContest);
+	connect(ui->recentContest, &QTableWidget::currentCellChanged, this,
+	        &OpenContestWidget::currentRowChanged);
 }
 
 OpenContestWidget::~OpenContestWidget() { delete ui; }

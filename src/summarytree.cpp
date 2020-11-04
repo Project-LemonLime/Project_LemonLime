@@ -8,8 +8,9 @@
  */
 
 #include "summarytree.h"
+//
 #include "addtestcaseswizard.h"
-#include "contest.h"
+#include "core/contest.h"
 #include "core/settings.h"
 #include "core/task.h"
 #include "core/testcase.h"
@@ -45,19 +46,18 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent)
 	addAction(addTestCaseKeyAction);
 	addAction(deleteTaskKeyAction);
 	addAction(deleteTestCaseKeyAction);
-	connect(addTaskAction, SIGNAL(triggered()), this, SLOT(addTask()));
-	connect(addTestCaseAction, SIGNAL(triggered()), this, SLOT(addTestCase()));
-	connect(addTestCasesAction, SIGNAL(triggered()), this, SLOT(addTestCases()));
-	connect(ExtTestCaseModifierAction, SIGNAL(triggered()), this, SLOT(launchExtTestCaseModifier()));
-	connect(addTaskKeyAction, SIGNAL(triggered()), this, SLOT(addTask()));
-	connect(addTestCaseKeyAction, SIGNAL(triggered()), this, SLOT(addTestCase()));
-	connect(deleteTaskAction, SIGNAL(triggered()), this, SLOT(deleteTask()));
-	connect(deleteTestCaseAction, SIGNAL(triggered()), this, SLOT(deleteTestCase()));
-	connect(deleteTaskKeyAction, SIGNAL(triggered()), this, SLOT(deleteTask()));
-	connect(deleteTestCaseKeyAction, SIGNAL(triggered()), this, SLOT(deleteTestCase()));
-	connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this,
-	        SLOT(selectionChanged()));
-	connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(itemChanged(QTreeWidgetItem *)));
+	connect(addTaskAction, &QAction::triggered, this, &SummaryTree::addTask);
+	connect(addTestCaseAction, &QAction::triggered, this, &SummaryTree::addTestCase);
+	connect(addTestCasesAction, &QAction::triggered, this, &SummaryTree::addTestCases);
+	connect(ExtTestCaseModifierAction, &QAction::triggered, this, &SummaryTree::launchExtTestCaseModifier);
+	connect(addTaskKeyAction, &QAction::triggered, this, &SummaryTree::addTask);
+	connect(addTestCaseKeyAction, &QAction::triggered, this, &SummaryTree::addTestCase);
+	connect(deleteTaskAction, &QAction::triggered, this, &SummaryTree::deleteTask);
+	connect(deleteTestCaseAction, &QAction::triggered, this, &SummaryTree::deleteTestCase);
+	connect(deleteTaskKeyAction, &QAction::triggered, this, &SummaryTree::deleteTask);
+	connect(deleteTestCaseKeyAction, &QAction::triggered, this, &SummaryTree::deleteTestCase);
+	connect(this, &SummaryTree::currentItemChanged, this, &SummaryTree::selectionChanged);
+	connect(this, &SummaryTree::itemChanged, this, &SummaryTree::itemChanged);
 }
 
 void SummaryTree::changeEvent(QEvent *event)

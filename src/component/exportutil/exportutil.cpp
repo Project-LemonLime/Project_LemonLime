@@ -10,7 +10,7 @@
 #include "exportutil.h"
 //
 #include "base/LemonType.hpp"
-#include "contest.h"
+#include "core/contest.h"
 #include "core/contestant.h"
 #include "core/settings.h"
 #include "core/subtaskdependencelib.h"

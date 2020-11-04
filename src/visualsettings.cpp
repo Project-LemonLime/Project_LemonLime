@@ -6,32 +6,48 @@
  */
 
 #include "visualsettings.h"
-#include "core/settings.h"
 #include "ui_visualsettings.h"
+//
+#include "core/settings.h"
 
 VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings)
 {
 	ui->setupUi(this);
-	connect(ui->spinBoxMxH, SIGNAL(valueChanged(int)), this, SLOT(colorMxHChanged(int)));
-	connect(ui->doubleSpinBoxMxS, SIGNAL(valueChanged(double)), this, SLOT(colorMxSChanged(double)));
-	connect(ui->doubleSpinBoxMxL, SIGNAL(valueChanged(double)), this, SLOT(colorMxLChanged(double)));
-	connect(ui->spinBoxMiH, SIGNAL(valueChanged(int)), this, SLOT(colorMiHChanged(int)));
-	connect(ui->doubleSpinBoxMiS, SIGNAL(valueChanged(double)), this, SLOT(colorMiSChanged(double)));
-	connect(ui->doubleSpinBoxMiL, SIGNAL(valueChanged(double)), this, SLOT(colorMiLChanged(double)));
-	connect(ui->spinBoxNfH, SIGNAL(valueChanged(int)), this, SLOT(colorNfHChanged(int)));
-	connect(ui->doubleSpinBoxNfS, SIGNAL(valueChanged(double)), this, SLOT(colorNfSChanged(double)));
-	connect(ui->doubleSpinBoxNfL, SIGNAL(valueChanged(double)), this, SLOT(colorNfLChanged(double)));
-	connect(ui->spinBoxCeH, SIGNAL(valueChanged(int)), this, SLOT(colorCeHChanged(int)));
-	connect(ui->doubleSpinBoxCeS, SIGNAL(valueChanged(double)), this, SLOT(colorCeSChanged(double)));
-	connect(ui->doubleSpinBoxCeL, SIGNAL(valueChanged(double)), this, SLOT(colorCeLChanged(double)));
-	connect(ui->grandCompH, SIGNAL(valueChanged(double)), this, SLOT(grandCompHChanged(double)));
-	connect(ui->grandCompS, SIGNAL(valueChanged(double)), this, SLOT(grandCompSChanged(double)));
-	connect(ui->grandCompL, SIGNAL(valueChanged(double)), this, SLOT(grandCompLChanged(double)));
-	connect(ui->grandRateH, SIGNAL(valueChanged(double)), this, SLOT(grandRateHChanged(double)));
-	connect(ui->grandRateS, SIGNAL(valueChanged(double)), this, SLOT(grandRateSChanged(double)));
-	connect(ui->grandRateL, SIGNAL(valueChanged(double)), this, SLOT(grandRateLChanged(double)));
-	connect(ui->splashTime, SIGNAL(valueChanged(int)), this, SLOT(splashTimeChanged(int)));
-	connect(ui->resetToDefaultButton, SIGNAL(clicked()), this, SLOT(whenResetToDefault()));
+	connect(ui->spinBoxMxH, qOverload<int>(&QSpinBox::valueChanged), this, &VisualSettings::colorMxHChanged);
+	connect(ui->doubleSpinBoxMxS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorMxSChanged);
+	connect(ui->doubleSpinBoxMxL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorMxLChanged);
+	connect(ui->spinBoxMiH, qOverload<int>(&QSpinBox::valueChanged), this, &VisualSettings::colorMiHChanged);
+	connect(ui->doubleSpinBoxMiS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorMiSChanged);
+	connect(ui->doubleSpinBoxMiL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorMiLChanged);
+	connect(ui->spinBoxNfH, qOverload<int>(&QSpinBox::valueChanged), this, &VisualSettings::colorNfHChanged);
+	connect(ui->doubleSpinBoxNfS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorNfSChanged);
+	connect(ui->doubleSpinBoxNfL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorNfLChanged);
+	connect(ui->spinBoxCeH, qOverload<int>(&QSpinBox::valueChanged), this, &VisualSettings::colorCeHChanged);
+	connect(ui->doubleSpinBoxCeS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorCeSChanged);
+	connect(ui->doubleSpinBoxCeL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::colorCeLChanged);
+	connect(ui->grandCompH, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandCompHChanged);
+	connect(ui->grandCompS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandCompSChanged);
+	connect(ui->grandCompL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandCompLChanged);
+	connect(ui->grandRateH, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandRateHChanged);
+	connect(ui->grandRateS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandRateSChanged);
+	connect(ui->grandRateL, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &VisualSettings::grandRateLChanged);
+	connect(ui->splashTime, qOverload<int>(&QSpinBox::valueChanged), this,
+	        &VisualSettings::splashTimeChanged);
+	connect(ui->resetToDefaultButton, &QPushButton::clicked, this, &VisualSettings::whenResetToDefault);
 }
 
 void VisualSettings::resetToDefault()

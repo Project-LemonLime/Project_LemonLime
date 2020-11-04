@@ -6,16 +6,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  */
+
 #include "editvariabledialog.h"
 #include "ui_editvariabledialog.h"
+//
 #include <QPushButton>
 
 EditVariableDialog::EditVariableDialog(QWidget *parent) : QDialog(parent), ui(new Ui::EditVariableDialog)
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	connect(ui->variableName, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
-	connect(ui->variableValue, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
+	connect(ui->variableName, &QLineEdit::textChanged, this, &EditVariableDialog::textChanged);
+	connect(ui->variableValue, &QLineEdit::textChanged, this, &EditVariableDialog::textChanged);
 }
 
 EditVariableDialog::~EditVariableDialog() { delete ui; }

@@ -25,9 +25,9 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) : QWizard(parent), ui(ne
 	ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
 	ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
-	connect(ui->fullScore, SIGNAL(textChanged(QString)), this, SLOT(fullScoreChanged(QString)));
-	connect(ui->timeLimit, SIGNAL(textChanged(QString)), this, SLOT(timeLimitChanged(QString)));
-	connect(ui->memoryLimit, SIGNAL(textChanged(QString)), this, SLOT(memoryLimitChanged(QString)));
+	connect(ui->fullScore, &QLineEdit::textChanged, this, &AddTestCasesWizard::fullScoreChanged);
+	connect(ui->timeLimit, &QLineEdit::textChanged, this, &AddTestCasesWizard::timeLimitChanged);
+	connect(ui->memoryLimit, &QLineEdit::textChanged, this, &AddTestCasesWizard::memoryLimitChanged);
 	QHeaderView *header = ui->argumentList->horizontalHeader();
 
 	for (int i = 0; i < 3; i++)
@@ -35,12 +35,12 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) : QWizard(parent), ui(ne
 		header->resizeSection(i, header->sectionSizeHint(i));
 	}
 
-	connect(ui->inputFilesPattern, SIGNAL(textChanged(QString)), this,
-	        SLOT(inputFilesPatternChanged(QString)));
-	connect(ui->outputFilesPattern, SIGNAL(textChanged(QString)), this,
-	        SLOT(outputFilesPatternChanged(QString)));
-	connect(ui->addArgumentButton, SIGNAL(clicked()), this, SLOT(addArgument()));
-	connect(ui->deleteArgumentButton, SIGNAL(clicked()), this, SLOT(deleteArgument()));
+	connect(ui->inputFilesPattern, &QLineEdit::textChanged, this,
+	        &AddTestCasesWizard::inputFilesPatternChanged);
+	connect(ui->outputFilesPattern, &QLineEdit::textChanged, this,
+	        &AddTestCasesWizard::outputFilesPatternChanged);
+	connect(ui->addArgumentButton, &QToolButton::clicked, this, &AddTestCasesWizard::addArgument);
+	connect(ui->deleteArgumentButton, &QToolButton::clicked, this, &AddTestCasesWizard::deleteArgument);
 }
 
 AddTestCasesWizard::~AddTestCasesWizard() { delete ui; }

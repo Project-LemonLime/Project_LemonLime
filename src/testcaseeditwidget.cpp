@@ -33,19 +33,20 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(ne
 	ui->fileList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->inputFileEdit->setFilters(QDir::Files);
 	ui->outputFileEdit->setFilters(QDir::Files);
-	connect(this, SIGNAL(dataPathChanged()), ui->inputFileEdit, SLOT(refreshFileList()));
-	connect(this, SIGNAL(dataPathChanged()), ui->outputFileEdit, SLOT(refreshFileList()));
-	connect(ui->subtaskDependecne, SIGNAL(editingFinished()), this,
-	        SLOT(subtaskDependenceChanged())); // auto save subtaskDependence
-	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addSingleCase()));
-	connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteSingleCase()));
-	connect(ui->fullScore, SIGNAL(textChanged(QString)), this, SLOT(fullScoreChanged(QString)));
-	connect(ui->timeLimit, SIGNAL(textChanged(QString)), this, SLOT(timeLimitChanged(QString)));
-	connect(ui->memoryLimit, SIGNAL(textChanged(QString)), this, SLOT(memoryLimitChanged(QString)));
-	connect(ui->subtaskDependenceClearButton, SIGNAL(clicked()), this, SLOT(subtaskDependenceClear()));
-	connect(ui->fileList, SIGNAL(itemSelectionChanged()), this, SLOT(fileListSelectionChanged()));
-	connect(ui->fileList, SIGNAL(itemChanged(QTableWidgetItem *)), this,
-	        SLOT(fileListItemChanged(QTableWidgetItem *)));
+	connect(this, &TestCaseEditWidget::dataPathChanged, ui->inputFileEdit, &FileLineEdit::refreshFileList);
+	connect(this, &TestCaseEditWidget::dataPathChanged, ui->outputFileEdit, &FileLineEdit::refreshFileList);
+	connect(ui->subtaskDependecne, &QLineEdit::editingFinished, this,
+	        &TestCaseEditWidget::subtaskDependenceChanged); // auto save subtaskDependence
+	connect(ui->addButton, &QPushButton::clicked, this, &TestCaseEditWidget::addSingleCase);
+	connect(deleteAction, &QAction::triggered, this, &TestCaseEditWidget::deleteSingleCase);
+	connect(ui->fullScore, &QLineEdit::textChanged, this, &TestCaseEditWidget::fullScoreChanged);
+	connect(ui->timeLimit, &QLineEdit::textChanged, this, &TestCaseEditWidget::timeLimitChanged);
+	connect(ui->memoryLimit, &QLineEdit::textChanged, this, &TestCaseEditWidget::memoryLimitChanged);
+	connect(ui->subtaskDependenceClearButton, &QPushButton::clicked, this,
+	        &TestCaseEditWidget::subtaskDependenceClear);
+	connect(ui->fileList, &QTableWidget::itemSelectionChanged, this,
+	        &TestCaseEditWidget::fileListSelectionChanged);
+	connect(ui->fileList, &QTableWidget::itemChanged, this, &TestCaseEditWidget::fileListItemChanged);
 }
 
 TestCaseEditWidget::~TestCaseEditWidget() { delete ui; }

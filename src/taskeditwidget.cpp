@@ -35,33 +35,38 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	ui->sourceFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->graderFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	// ui->interactionButton->setVisible(false); //rebuilding interaction, remove it temporarily
-	connect(ui->problemTitle, SIGNAL(textChanged(QString)), this, SLOT(problemTitleChanged(QString)));
-	connect(ui->traditionalButton, SIGNAL(toggled(bool)), this, SLOT(setToTraditional(bool)));
-	connect(ui->answersOnlyButton, SIGNAL(toggled(bool)), this, SLOT(setToAnswersOnly(bool)));
-	connect(ui->interactionButton, SIGNAL(toggled(bool)), this, SLOT(setToInteraction(bool)));
-	connect(ui->communicationButton, SIGNAL(toggled(bool)), this, SLOT(setToCommunication(bool)));
-	connect(ui->sourceFileName, SIGNAL(textChanged(QString)), this, SLOT(sourceFileNameChanged(QString)));
-	connect(ui->subFolderCheck, SIGNAL(stateChanged(int)), this, SLOT(subFolderCheckChanged()));
-	connect(ui->inputFileName, SIGNAL(textChanged(QString)), this, SLOT(inputFileNameChanged(QString)));
-	connect(ui->outputFileName, SIGNAL(textChanged(QString)), this, SLOT(outputFileNameChanged(QString)));
-	connect(ui->standardInputCheck, SIGNAL(stateChanged(int)), this, SLOT(standardInputCheckChanged()));
-	connect(ui->standardOutputCheck, SIGNAL(stateChanged(int)), this, SLOT(standardOutputCheckChanged()));
-	connect(ui->comparisonMode, SIGNAL(currentIndexChanged(int)), this, SLOT(comparisonModeChanged()));
-	connect(ui->diffArguments, SIGNAL(textChanged(QString)), this, SLOT(diffArgumentsChanged(QString)));
-	connect(ui->realPrecision, SIGNAL(valueChanged(int)), this, SLOT(realPrecisionChanged(int)));
-	connect(ui->specialJudge, SIGNAL(textChanged(QString)), this, SLOT(specialJudgeChanged(QString)));
-	connect(ui->interactorPath, SIGNAL(textChanged(QString)), this, SLOT(interactorChanged(QString)));
-	connect(ui->interactorName, SIGNAL(textChanged(QString)), this, SLOT(interactorNameChanged(QString)));
-	connect(ui->graderPath, SIGNAL(textChanged(QString)), this, SLOT(graderChanged(QString)));
-	connect(ui->compilersList, SIGNAL(currentRowChanged(int)), this, SLOT(compilerSelectionChanged()));
-	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)), this,
-	        SLOT(configurationSelectionChanged()));
-	connect(ui->answerFileExtension, SIGNAL(textChanged(QString)), this,
-	        SLOT(answerFileExtensionChanged(QString)));
-	connect(ui->sourceFilesAppendButton, SIGNAL(clicked()), this, SLOT(addSourceFileClicked()));
-	connect(ui->graderFilesAppendButton, SIGNAL(clicked()), this, SLOT(addGraderFileClicked()));
-	connect(ui->sourceFilesRemoveButton, SIGNAL(clicked()), this, SLOT(rmSourceFileClicked()));
-	connect(ui->graderFilesRemoveButton, SIGNAL(clicked()), this, SLOT(rmGraderFileClicked()));
+	connect(ui->problemTitle, &QLineEdit::textChanged, this, &TaskEditWidget::problemTitleChanged);
+	connect(ui->traditionalButton, &QRadioButton::toggled, this, &TaskEditWidget::setToTraditional);
+	connect(ui->answersOnlyButton, &QRadioButton::toggled, this, &TaskEditWidget::setToAnswersOnly);
+	connect(ui->interactionButton, &QRadioButton::toggled, this, &TaskEditWidget::setToInteraction);
+	connect(ui->communicationButton, &QRadioButton::toggled, this, &TaskEditWidget::setToCommunication);
+	connect(ui->sourceFileName, &QLineEdit::textChanged, this, &TaskEditWidget::sourceFileNameChanged);
+	connect(ui->subFolderCheck, &QCheckBox::stateChanged, this, &TaskEditWidget::subFolderCheckChanged);
+	connect(ui->inputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::inputFileNameChanged);
+	connect(ui->outputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::outputFileNameChanged);
+	connect(ui->standardInputCheck, &QCheckBox::stateChanged, this,
+	        &TaskEditWidget::standardInputCheckChanged);
+	connect(ui->standardOutputCheck, &QCheckBox::stateChanged, this,
+	        &TaskEditWidget::standardOutputCheckChanged);
+	connect(ui->comparisonMode, qOverload<int>(&QComboBox::currentIndexChanged), this,
+	        &TaskEditWidget::comparisonModeChanged);
+	connect(ui->diffArguments, &QLineEdit::textChanged, this, &TaskEditWidget::diffArgumentsChanged);
+	connect(ui->realPrecision, qOverload<int>(&QSpinBox::valueChanged), this,
+	        &TaskEditWidget::realPrecisionChanged);
+	connect(ui->specialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
+	connect(ui->interactorPath, &QLineEdit::textChanged, this, &TaskEditWidget::interactorChanged);
+	connect(ui->interactorName, &QLineEdit::textChanged, this, &TaskEditWidget::interactorNameChanged);
+	connect(ui->graderPath, &QLineEdit::textChanged, this, &TaskEditWidget::graderChanged);
+	connect(ui->compilersList, &QListWidget::currentRowChanged, this,
+	        &TaskEditWidget::compilerSelectionChanged);
+	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
+	        &TaskEditWidget::configurationSelectionChanged);
+	connect(ui->answerFileExtension, &QLineEdit::textChanged, this,
+	        &TaskEditWidget::answerFileExtensionChanged);
+	connect(ui->sourceFilesAppendButton, &QPushButton::clicked, this, &TaskEditWidget::addSourceFileClicked);
+	connect(ui->graderFilesAppendButton, &QPushButton::clicked, this, &TaskEditWidget::addGraderFileClicked);
+	connect(ui->sourceFilesRemoveButton, &QPushButton::clicked, this, &TaskEditWidget::rmSourceFileClicked);
+	connect(ui->graderFilesRemoveButton, &QPushButton::clicked, this, &TaskEditWidget::rmGraderFileClicked);
 }
 
 TaskEditWidget::~TaskEditWidget() { delete ui; }

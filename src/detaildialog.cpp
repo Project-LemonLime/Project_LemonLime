@@ -8,15 +8,17 @@
  */
 
 #include "detaildialog.h"
+#include "ui_detaildialog.h"
+//
 #include "base/LemonType.hpp"
-#include "contest.h"
+#include "core/contest.h"
 #include "core/contestant.h"
 #include "core/settings.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 #include "core/testcase.h"
 #include "judgingdialog.h"
-#include "ui_detaildialog.h"
+//
 #include <QMessageBox>
 #include <QScrollBar>
 
@@ -29,7 +31,7 @@
 DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog)
 {
 	ui->setupUi(this);
-	connect(ui->detailViewer, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClicked(QUrl)));
+	connect(ui->detailViewer, &QTextBrowser::anchorClicked, this, &DetailDialog::anchorClicked);
 }
 
 DetailDialog::~DetailDialog() { delete ui; }

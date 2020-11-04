@@ -8,13 +8,15 @@
  */
 
 #include "resultviewer.h"
+//
 #include "base/LemonType.hpp"
-#include "contest.h"
+#include "core/contest.h"
 #include "core/contestant.h"
 #include "core/settings.h"
 #include "core/task.h"
 #include "detaildialog.h"
 #include "judgingdialog.h"
+//
 #include <QApplication>
 #include <QCheckBox>
 #include <QGridLayout>
@@ -33,11 +35,11 @@ ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent)
 	deleteContestantKeyAction->setShortcut(QKeySequence::Delete);
 	deleteContestantKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	addAction(deleteContestantKeyAction);
-	connect(deleteContestantAction, SIGNAL(triggered()), this, SLOT(deleteContestant()));
-	connect(detailInformationAction, SIGNAL(triggered()), this, SLOT(detailInformation()));
-	connect(judgeSelectedAction, SIGNAL(triggered()), this, SLOT(judgeSelected()));
-	connect(deleteContestantKeyAction, SIGNAL(triggered()), this, SLOT(deleteContestant()));
-	connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(detailInformation()));
+	connect(deleteContestantAction, &QAction::triggered, this, &ResultViewer::deleteContestant);
+	connect(detailInformationAction, &QAction::triggered, this, &ResultViewer::detailInformation);
+	connect(judgeSelectedAction, &QAction::triggered, this, &ResultViewer::judgeSelected);
+	connect(deleteContestantKeyAction, &QAction::triggered, this, &ResultViewer::deleteContestant);
+	connect(this, &ResultViewer::cellDoubleClicked, this, &ResultViewer::detailInformation);
 }
 
 void ResultViewer::changeEvent(QEvent *event)

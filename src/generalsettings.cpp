@@ -47,23 +47,23 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 	ui->outputFileExtensions->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
-	connect(ui->defaultFullScore, SIGNAL(textChanged(QString)), this, SLOT(defaultFullScoreChanged(QString)));
-	connect(ui->defaultTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(defaultTimeLimitChanged(QString)));
-	connect(ui->defaultExtraTimeRatio, SIGNAL(textChanged(QString)), this,
-	        SLOT(defaultExtraTimeRatioChanged(QString)));
-	connect(ui->defaultMemoryLimit, SIGNAL(textChanged(QString)), this,
-	        SLOT(defaultMemoryLimitChanged(QString)));
-	connect(ui->compileTimeLimit, SIGNAL(textChanged(QString)), this, SLOT(compileTimeLimitChanged(QString)));
-	connect(ui->specialJudgeTimeLimit, SIGNAL(textChanged(QString)), this,
-	        SLOT(specialJudgeTimeLimitChanged(QString)));
-	connect(ui->fileSizeLimit, SIGNAL(textChanged(QString)), this, SLOT(fileSizeLimitChanged(QString)));
-	connect(ui->rejudgeTimes, SIGNAL(textChanged(QString)), this, SLOT(rejudgeTimesChanged(QString)));
-	connect(ui->inputFileExtensions, SIGNAL(textChanged(QString)), this,
-	        SLOT(inputFileExtensionsChanged(QString)));
-	connect(ui->outputFileExtensions, SIGNAL(textChanged(QString)), this,
-	        SLOT(outputFileExtensionsChanged(QString)));
-	connect(ui->languageComboBox, SIGNAL(currentTextChanged(QString)), this,
-	        SLOT(onLanguageComboBoxChanged(QString)));
+	connect(ui->defaultFullScore, &QLineEdit::textChanged, this, &GeneralSettings::defaultFullScoreChanged);
+	connect(ui->defaultTimeLimit, &QLineEdit::textChanged, this, &GeneralSettings::defaultTimeLimitChanged);
+	connect(ui->defaultExtraTimeRatio, &QLineEdit::textChanged, this,
+	        &GeneralSettings::defaultExtraTimeRatioChanged);
+	connect(ui->defaultMemoryLimit, &QLineEdit::textChanged, this,
+	        &GeneralSettings::defaultMemoryLimitChanged);
+	connect(ui->compileTimeLimit, &QLineEdit::textChanged, this, &GeneralSettings::compileTimeLimitChanged);
+	connect(ui->specialJudgeTimeLimit, &QLineEdit::textChanged, this,
+	        &GeneralSettings::specialJudgeTimeLimitChanged);
+	connect(ui->fileSizeLimit, &QLineEdit::textChanged, this, &GeneralSettings::fileSizeLimitChanged);
+	connect(ui->rejudgeTimes, &QLineEdit::textChanged, this, &GeneralSettings::rejudgeTimesChanged);
+	connect(ui->inputFileExtensions, &QLineEdit::textChanged, this,
+	        &GeneralSettings::inputFileExtensionsChanged);
+	connect(ui->outputFileExtensions, &QLineEdit::textChanged, this,
+	        &GeneralSettings::outputFileExtensionsChanged);
+	connect(ui->languageComboBox, qOverload<const QString &>(&QComboBox::currentTextChanged), this,
+	        &GeneralSettings::onLanguageComboBoxChanged);
 }
 
 GeneralSettings::~GeneralSettings() { delete ui; }
