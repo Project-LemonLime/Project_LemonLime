@@ -72,7 +72,7 @@ jobs:
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           sudo apt update
-          sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5
+          sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
       # ========================================================================================================= Generate MakeFile and Build
       - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
