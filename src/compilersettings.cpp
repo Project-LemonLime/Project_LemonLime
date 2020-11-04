@@ -28,15 +28,16 @@ CompilerSettings::CompilerSettings(QWidget *parent) : QWidget(parent), ui(new Ui
 	deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);
 	deleteCompilerKeyAction->setEnabled(false);
 	ui->compilerList->addAction(deleteCompilerKeyAction);
-	connect(ui->moveUpButton, SIGNAL(clicked()), this, SLOT(moveUpCompiler()));
-	connect(ui->moveDownButton, SIGNAL(clicked()), this, SLOT(moveDownCompiler()));
-	connect(ui->addCompilerButton, SIGNAL(clicked()), this, SLOT(addCompiler()));
-	connect(ui->deleteCompilerButton, SIGNAL(clicked()), this, SLOT(deleteCompiler()));
-	connect(ui->compilerName, SIGNAL(textChanged(QString)), this, SLOT(compilerNameChanged(QString)));
-	connect(ui->sourceExtensions, SIGNAL(textChanged(QString)), this, SLOT(sourceExtensionsChanged(QString)));
-	connect(ui->compilerList, SIGNAL(currentRowChanged(int)), this, SLOT(compilerListCurrentRowChanged()));
-	connect(ui->advancedButton, SIGNAL(clicked()), this, SLOT(advancedButtonClicked()));
-	connect(deleteCompilerKeyAction, SIGNAL(triggered()), this, SLOT(deleteCompiler()));
+	connect(ui->moveUpButton, &QToolButton::clicked, this, &CompilerSettings::moveUpCompiler);
+	connect(ui->moveDownButton, &QToolButton::clicked, this, &CompilerSettings::moveDownCompiler);
+	connect(ui->addCompilerButton, &QToolButton::clicked, this, &CompilerSettings::addCompiler);
+	connect(ui->deleteCompilerButton, &QToolButton::clicked, this, &CompilerSettings::deleteCompiler);
+	connect(ui->compilerName, &QLineEdit::textChanged, this, &CompilerSettings::compilerNameChanged);
+	connect(ui->sourceExtensions, &QLineEdit::textChanged, this, &CompilerSettings::sourceExtensionsChanged);
+	connect(ui->compilerList, &QListWidget::currentRowChanged, this,
+	        &CompilerSettings::compilerListCurrentRowChanged);
+	connect(ui->advancedButton, &QPushButton::clicked, this, &CompilerSettings::advancedButtonClicked);
+	connect(deleteCompilerKeyAction, &QAction::triggered, this, &CompilerSettings::deleteCompiler);
 }
 
 CompilerSettings::~CompilerSettings() { delete ui; }

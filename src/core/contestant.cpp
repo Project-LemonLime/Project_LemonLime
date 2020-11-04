@@ -9,7 +9,7 @@
 
 #include "contestant.h"
 
-#include "contest.h"
+#include "core/contest.h"
 #include <utility>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)

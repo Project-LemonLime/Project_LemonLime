@@ -24,26 +24,38 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	ui->bytecodeExtension->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 	ui->configurationSelect->setLineEdit(new QLineEdit(this));
-	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(okayButtonClicked()));
-	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(compilerTypeChanged()));
-	connect(ui->compilerLocation, SIGNAL(textChanged(QString)), this, SLOT(compilerLocationChanged()));
-	connect(ui->interpreterLocation, SIGNAL(textChanged(QString)), this, SLOT(interpreterLocationChanged()));
-	connect(ui->compilerSelectButton, SIGNAL(clicked()), this, SLOT(selectCompilerLocation()));
-	connect(ui->interpreterSelectButton, SIGNAL(clicked()), this, SLOT(selectInterpreterLocation()));
-	connect(ui->bytecodeExtension, SIGNAL(textChanged(QString)), this, SLOT(bytecodeExtensionsChanged()));
-	connect(ui->timeLimitRatio, SIGNAL(valueChanged(double)), this, SLOT(timeLimitRatioChanged()));
-	connect(ui->memoryLimitRatio, SIGNAL(valueChanged(double)), this, SLOT(memoryLimitRatioChanged()));
-	connect(ui->disableMemoryLimit, SIGNAL(stateChanged(int)), this, SLOT(disableMemoryLimitCheckChanged()));
-	connect(ui->configurationSelect, SIGNAL(currentIndexChanged(int)), this,
-	        SLOT(configurationIndexChanged()));
-	connect(ui->configurationSelect, SIGNAL(editTextChanged(QString)), this,
-	        SLOT(configurationTextChanged()));
-	connect(ui->deleteConfigurationButton, SIGNAL(clicked()), this, SLOT(deleteConfiguration()));
-	connect(ui->compilerArguments, SIGNAL(textChanged(QString)), this, SLOT(compilerArgumentsChanged()));
-	connect(ui->interpreterArguments, SIGNAL(textChanged(QString)), this,
-	        SLOT(interpreterArgumentsChanged()));
-	connect(ui->environmentVariablesButton, SIGNAL(clicked()), this,
-	        SLOT(environmentVariablesButtonClicked()));
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this,
+	        &AdvancedCompilerSettingsDialog::okayButtonClicked);
+	connect(ui->typeSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
+	        &AdvancedCompilerSettingsDialog::compilerTypeChanged);
+	connect(ui->compilerLocation, &QLineEdit::textChanged, this,
+	        &AdvancedCompilerSettingsDialog::compilerLocationChanged);
+	connect(ui->interpreterLocation, &QLineEdit::textChanged, this,
+	        &AdvancedCompilerSettingsDialog::interpreterLocationChanged);
+	connect(ui->compilerSelectButton, &QToolButton::clicked, this,
+	        &AdvancedCompilerSettingsDialog::selectCompilerLocation);
+	connect(ui->interpreterSelectButton, &QToolButton::clicked, this,
+	        &AdvancedCompilerSettingsDialog::selectInterpreterLocation);
+	connect(ui->bytecodeExtension, &QLineEdit::textChanged, this,
+	        &AdvancedCompilerSettingsDialog::bytecodeExtensionsChanged);
+	connect(ui->timeLimitRatio, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &AdvancedCompilerSettingsDialog::timeLimitRatioChanged);
+	connect(ui->memoryLimitRatio, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
+	        &AdvancedCompilerSettingsDialog::memoryLimitRatioChanged);
+	connect(ui->disableMemoryLimit, &QCheckBox::stateChanged, this,
+	        &AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged);
+	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
+	        &AdvancedCompilerSettingsDialog::configurationIndexChanged);
+	connect(ui->configurationSelect, &QComboBox::editTextChanged, this,
+	        &AdvancedCompilerSettingsDialog::configurationTextChanged);
+	connect(ui->deleteConfigurationButton, &QToolButton::clicked, this,
+	        &AdvancedCompilerSettingsDialog::deleteConfiguration);
+	connect(ui->compilerArguments, &QLineEdit::textChanged, this,
+	        &AdvancedCompilerSettingsDialog::compilerArgumentsChanged);
+	connect(ui->interpreterArguments, &QLineEdit::textChanged, this,
+	        &AdvancedCompilerSettingsDialog::interpreterArgumentsChanged);
+	connect(ui->environmentVariablesButton, &QPushButton::clicked, this,
+	        &AdvancedCompilerSettingsDialog::environmentVariablesButtonClicked);
 }
 
 AdvancedCompilerSettingsDialog::~AdvancedCompilerSettingsDialog() { delete ui; }

@@ -16,8 +16,8 @@
 #include "base/LemonLog.hpp"
 #include "base/LemonTranslator.hpp"
 #include "component/exportutil/exportutil.h"
-#include "contest.h"
 #include "core/compiler.h"
+#include "core/contest.h"
 #include "core/contestant.h"
 #include "core/settings.h"
 #include "core/task.h"
@@ -59,41 +59,40 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	ui->summary->setSettings(settings);
 	ui->taskEdit->setSettings(settings);
 	ui->testCaseEdit->setSettings(settings);
-	connect(this, SIGNAL(dataPathChanged()), ui->taskEdit, SIGNAL(dataPathChanged()));
-	connect(this, SIGNAL(dataPathChanged()), ui->testCaseEdit, SIGNAL(dataPathChanged()));
-	connect(ui->summary, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this,
-	        SLOT(summarySelectionChanged()));
-	connect(ui->optionsAction, SIGNAL(triggered()), this, SLOT(showOptionsDialog()));
-	connect(ui->cleanupButton, SIGNAL(clicked()), this, SLOT(cleanupButtonClicked()));
-	connect(ui->refreshButton, SIGNAL(clicked()), this, SLOT(refreshButtonClicked()));
-	connect(ui->judgeButton, SIGNAL(clicked()), ui->resultViewer, SLOT(judgeSelected()));
-	connect(ui->judgeAllButton, SIGNAL(clicked()), ui->resultViewer, SLOT(judgeAll()));
-	connect(ui->judgeUnjudgedButton, SIGNAL(clicked()), ui->resultViewer, SLOT(judgeUnjudged()));
-	connect(ui->judgeAction, SIGNAL(triggered()), ui->resultViewer, SLOT(judgeSelected()));
-	connect(ui->judgeAllAction, SIGNAL(triggered()), ui->resultViewer, SLOT(judgeAll()));
-	connect(ui->judgeUnjudgedAction, SIGNAL(triggered()), ui->resultViewer, SLOT(judgeUnjudged()));
-	connect(ui->cleanupAction, SIGNAL(triggered()), this, SLOT(cleanupButtonClicked()));
-	connect(ui->refreshAction, SIGNAL(triggered()), this, SLOT(refreshButtonClicked()));
-	connect(ui->judgeGreyAction, SIGNAL(triggered()), ui->resultViewer, SLOT(judgeGrey()));
-	connect(ui->judgeMagentaAction, SIGNAL(triggered()), ui->resultViewer, SLOT(judgeMagenta()));
-	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabIndexChanged(int)));
-	connect(ui->moveUpButton, SIGNAL(clicked()), this, SLOT(moveUpTask()));
-	connect(ui->moveDownButton, SIGNAL(clicked()), this, SLOT(moveDownTask()));
-	connect(ui->resultViewer, SIGNAL(itemSelectionChanged()), this, SLOT(viewerSelectionChanged()));
-	connect(ui->resultViewer, SIGNAL(contestantDeleted()), this, SLOT(contestantDeleted()));
-	connect(ui->newAction, SIGNAL(triggered()), this, SLOT(newAction()));
-	connect(ui->openAction, SIGNAL(triggered()), this, SLOT(loadAction()));
-	connect(ui->saveAction, SIGNAL(triggered()), this, SLOT(saveAction()));
-	connect(ui->openFolderAction, SIGNAL(triggered()), this, SLOT(openFolderAction()));
-	connect(ui->closeAction, SIGNAL(triggered()), this, SLOT(closeAction()));
-	connect(ui->addTasksAction, SIGNAL(triggered()), this, SLOT(addTasksAction()));
-	connect(ui->exportAction, SIGNAL(triggered()), this, SLOT(exportResult()));
-	connect(ui->actionExportStatistics, SIGNAL(triggered()), this, SLOT(exportStatstics()));
-	connect(ui->aboutAction, SIGNAL(triggered()), this, SLOT(aboutLemon()));
-	connect(ui->actionManual, SIGNAL(triggered()), this, SLOT(actionManual()));
-	connect(ui->actionMore, SIGNAL(triggered()), this, SLOT(actionMore()));
-	connect(ui->actionChangeContestName, SIGNAL(triggered()), this, SLOT(changeContestName()));
-	connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
+	connect(this, &LemonLime::dataPathChanged, ui->taskEdit, &TaskEditWidget::dataPathChanged);
+	connect(this, &LemonLime::dataPathChanged, ui->testCaseEdit, &TestCaseEditWidget::dataPathChanged);
+	connect(ui->summary, &SummaryTree::currentItemChanged, this, &LemonLime::summarySelectionChanged);
+	connect(ui->optionsAction, &QAction::triggered, this, &LemonLime::showOptionsDialog);
+	connect(ui->cleanupButton, &QPushButton::clicked, this, &LemonLime::cleanupButtonClicked);
+	connect(ui->refreshButton, &QPushButton::clicked, this, &LemonLime::refreshButtonClicked);
+	connect(ui->judgeButton, &QPushButton::clicked, ui->resultViewer, &ResultViewer::judgeSelected);
+	connect(ui->judgeAllButton, &QPushButton::clicked, ui->resultViewer, &ResultViewer::judgeAll);
+	connect(ui->judgeUnjudgedButton, &QPushButton::clicked, ui->resultViewer, &ResultViewer::judgeUnjudged);
+	connect(ui->judgeAction, &QAction::triggered, ui->resultViewer, &ResultViewer::judgeSelected);
+	connect(ui->judgeAllAction, &QAction::triggered, ui->resultViewer, &ResultViewer::judgeAll);
+	connect(ui->judgeUnjudgedAction, &QAction::triggered, ui->resultViewer, &ResultViewer::judgeUnjudged);
+	connect(ui->cleanupAction, &QAction::triggered, this, &LemonLime::cleanupButtonClicked);
+	connect(ui->refreshAction, &QAction::triggered, this, &LemonLime::refreshButtonClicked);
+	connect(ui->judgeGreyAction, &QAction::triggered, ui->resultViewer, &ResultViewer::judgeGrey);
+	connect(ui->judgeMagentaAction, &QAction::triggered, ui->resultViewer, &ResultViewer::judgeMagenta);
+	connect(ui->tabWidget, &QTabWidget::currentChanged, this, &LemonLime::tabIndexChanged);
+	connect(ui->moveUpButton, &QToolButton::clicked, this, &LemonLime::moveUpTask);
+	connect(ui->moveDownButton, &QToolButton::clicked, this, &LemonLime::moveDownTask);
+	connect(ui->resultViewer, &ResultViewer::itemSelectionChanged, this, &LemonLime::viewerSelectionChanged);
+	connect(ui->resultViewer, &ResultViewer::contestantDeleted, this, &LemonLime::contestantDeleted);
+	connect(ui->newAction, &QAction::triggered, this, &LemonLime::newAction);
+	connect(ui->openAction, &QAction::triggered, this, &LemonLime::loadAction);
+	connect(ui->saveAction, &QAction::triggered, this, &LemonLime::saveAction);
+	connect(ui->openFolderAction, &QAction::triggered, this, &LemonLime::openFolderAction);
+	connect(ui->closeAction, &QAction::triggered, this, &LemonLime::closeAction);
+	connect(ui->addTasksAction, &QAction::triggered, this, &LemonLime::addTasksAction);
+	connect(ui->exportAction, &QAction::triggered, this, &LemonLime::exportResult);
+	connect(ui->actionExportStatistics, &QAction::triggered, this, &LemonLime::exportStatstics);
+	connect(ui->aboutAction, &QAction::triggered, this, &LemonLime::aboutLemon);
+	connect(ui->actionManual, &QAction::triggered, this, &LemonLime::actionManual);
+	connect(ui->actionMore, &QAction::triggered, this, &LemonLime::actionMore);
+	connect(ui->actionChangeContestName, &QAction::triggered, this, &LemonLime::changeContestName);
+	connect(ui->exitAction, &QAction::triggered, this, &LemonLime::close);
 
 	QSettings settings("LemonLime", "lemon");
 	QSize _size = settings.value("WindowSize", size()).toSize();

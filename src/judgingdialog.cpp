@@ -8,20 +8,22 @@
  */
 
 #include "judgingdialog.h"
+#include "ui_judgingdialog.h"
+//
 #include "base/LemonType.hpp"
-#include "contest.h"
+#include "core/contest.h"
 #include "core/judgesharedvariables.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
-#include "ui_judgingdialog.h"
+//
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::JudgingDialog)
 {
 	ui->setupUi(this);
 	cursor = new QTextCursor(ui->logViewer->document());
-	connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(stopJudgingSlot()));
-	connect(ui->skipButton, SIGNAL(clicked()), this, SLOT(skipJudging()));
+	connect(ui->cancelButton, &QPushButton::clicked, this, &JudgingDialog::stopJudgingSlot);
+	connect(ui->skipButton, &QPushButton::clicked, this, &JudgingDialog::skipJudging);
 }
 
 JudgingDialog::~JudgingDialog()
@@ -33,20 +35,17 @@ JudgingDialog::~JudgingDialog()
 void JudgingDialog::setContest(Contest *contest)
 {
 	curContest = contest;
-	connect(curContest, SIGNAL(dialogAlert(QString)), this, SLOT(dialogAlert(QString)));
-	connect(curContest, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
-	        SLOT(singleCaseFinished(int, int, int, int, int, int, int)));
-	connect(curContest, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
-	        SLOT(singleSubtaskDependenceFinished(int, int, int)));
-	connect(curContest, SIGNAL(taskJudgingStarted(QString)), this, SLOT(taskJudgingStarted(QString)));
-	connect(curContest, SIGNAL(taskJudgedDisplay(QString, QList<QList<int>>, int)), this,
-	        SLOT(taskJudgedDisplay(QString, QList<QList<int>>, int)));
-	connect(curContest, SIGNAL(contestantJudgingStart(QString)), this, SLOT(contestantJudgingStart(QString)));
-	connect(curContest, SIGNAL(contestantJudgingFinished()), this, SLOT(contestantJudgingFinished()));
-	connect(curContest, SIGNAL(contestantJudgedDisplay(QString, int, int)), this,
-	        SLOT(contestantJudgedDisplay(QString, int, int)));
-	connect(curContest, SIGNAL(compileError(int, int)), this, SLOT(compileError(int, int)));
-	connect(this, SIGNAL(stopJudgingSignal()), curContest, SLOT(stopJudgingSlot()));
+	connect(curContest, &Contest::dialogAlert, this, &JudgingDialog::dialogAlert);
+	connect(curContest, &Contest::singleCaseFinished, this, &JudgingDialog::singleCaseFinished);
+	connect(curContest, &Contest::singleSubtaskDependenceFinished, this,
+	        &JudgingDialog::singleSubtaskDependenceFinished);
+	connect(curContest, &Contest::taskJudgingStarted, this, &JudgingDialog::taskJudgingStarted);
+	connect(curContest, &Contest::taskJudgedDisplay, this, &JudgingDialog::taskJudgedDisplay);
+	connect(curContest, &Contest::contestantJudgingStart, this, &JudgingDialog::contestantJudgingStart);
+	connect(curContest, &Contest::contestantJudgingFinished, this, &JudgingDialog::contestantJudgingFinished);
+	connect(curContest, &Contest::contestantJudgedDisplay, this, &JudgingDialog::contestantJudgedDisplay);
+	connect(curContest, &Contest::compileError, this, &JudgingDialog::compileError);
+	connect(this, &JudgingDialog::stopJudgingSignal, curContest, &Contest::stopJudgingSlot);
 }
 
 void JudgingDialog::judge(const QStringList &nameList)

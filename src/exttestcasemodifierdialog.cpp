@@ -6,8 +6,10 @@
  */
 
 #include "exttestcasemodifierdialog.h"
-#include "core/task.h"
 #include "ui_exttestcasemodifierdialog.h"
+//
+#include "core/task.h"
+//
 #include <QtWidgets>
 
 ExtTestCaseModifierDialog::ExtTestCaseModifierDialog(QWidget *parent)
@@ -15,8 +17,10 @@ ExtTestCaseModifierDialog::ExtTestCaseModifierDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 	setWindowTitle(QString(tr("Advanced Test Case Modifier")));
-	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
-	connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this,
+	        &ExtTestCaseModifierDialog::accept);
+	connect(ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this,
+	        &ExtTestCaseModifierDialog::reject);
 }
 
 ExtTestCaseModifierDialog::~ExtTestCaseModifierDialog() { delete ui; }

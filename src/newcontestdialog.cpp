@@ -9,13 +9,15 @@
 
 #include "newcontestdialog.h"
 #include "ui_newcontestdialog.h"
+//
 #include <QPushButton>
 
 NewContestDialog::NewContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::NewContestDialog)
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	connect(ui->newContestWidget, SIGNAL(informationChanged()), this, SLOT(informationChanged()));
+	connect(ui->newContestWidget, &NewContestWidget::informationChanged, this,
+	        &NewContestDialog::informationChanged);
 }
 
 NewContestDialog::~NewContestDialog() { delete ui; }

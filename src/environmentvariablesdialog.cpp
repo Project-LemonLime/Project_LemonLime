@@ -8,18 +8,21 @@
  */
 
 #include "environmentvariablesdialog.h"
-#include "editvariabledialog.h"
 #include "ui_environmentvariablesdialog.h"
+//
+#include "editvariabledialog.h"
+//
 #include <QMessageBox>
 
 EnvironmentVariablesDialog::EnvironmentVariablesDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::EnvironmentVariablesDialog)
 {
 	ui->setupUi(this);
-	connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
-	connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
-	connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
-	connect(ui->valueViewer, SIGNAL(itemSelectionChanged()), this, SLOT(viewerSelectionChanged()));
+	connect(ui->addButton, &QPushButton::clicked, this, &EnvironmentVariablesDialog::addButtonClicked);
+	connect(ui->editButton, &QPushButton::clicked, this, &EnvironmentVariablesDialog::editButtonClicked);
+	connect(ui->deleteButton, &QPushButton::clicked, this, &EnvironmentVariablesDialog::deleteButtonClicked);
+	connect(ui->valueViewer, &QTableWidget::itemSelectionChanged, this,
+	        &EnvironmentVariablesDialog::viewerSelectionChanged);
 }
 
 EnvironmentVariablesDialog::~EnvironmentVariablesDialog() { delete ui; }

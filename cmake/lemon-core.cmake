@@ -9,6 +9,8 @@ set(LEMON_CORE_SOURCES
     ${LEMON_BASEDIR_CORE}/settings.cpp
     ${LEMON_BASEDIR_CORE}/compiler.h
     ${LEMON_BASEDIR_CORE}/compiler.cpp
+    ${LEMON_BASEDIR_CORE}/contest.cpp
+    ${LEMON_BASEDIR_CORE}/contest.h
     ${LEMON_BASEDIR_CORE}/testcase.h
     ${LEMON_BASEDIR_CORE}/testcase.cpp
     ${LEMON_BASEDIR_CORE}/task.h

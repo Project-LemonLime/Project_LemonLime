@@ -9,16 +9,19 @@
 
 #include "welcomedialog.h"
 #include "ui_welcomedialog.h"
+//
 #include <QPushButton>
 
 WelcomeDialog::WelcomeDialog(QWidget *parent) : QDialog(parent), ui(new Ui::WelcomeDialog)
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	connect(ui->openContestWidget, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
-	connect(ui->newContestWidget, SIGNAL(informationChanged()), this, SLOT(informationChanged()));
-	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabIndexChanged(int)));
-	connect(ui->openContestWidget, SIGNAL(rowDoubleClicked()), this, SLOT(accept()));
+	connect(ui->openContestWidget, &OpenContestWidget::selectionChanged, this,
+	        &WelcomeDialog::selectionChanged);
+	connect(ui->newContestWidget, &NewContestWidget::informationChanged, this,
+	        &WelcomeDialog::informationChanged);
+	connect(ui->tabWidget, &QTabWidget::currentChanged, this, &WelcomeDialog::tabIndexChanged);
+	connect(ui->openContestWidget, &OpenContestWidget::rowDoubleClicked, this, &WelcomeDialog::accept);
 }
 
 WelcomeDialog::~WelcomeDialog() { delete ui; }

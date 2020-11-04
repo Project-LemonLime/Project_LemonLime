@@ -11,8 +11,10 @@
 //
 
 #include "base/LemonType.hpp"
+//
 #include <QObject>
 #include <QtCore>
+
 #define MagicNumber 0x20111127
 
 class Task;

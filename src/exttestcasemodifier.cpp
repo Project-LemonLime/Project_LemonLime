@@ -6,10 +6,11 @@
  */
 
 #include "exttestcasemodifier.h"
+#include "ui_exttestcasemodifier.h"
+//
 #include "core/task.h"
 #include "core/testcase.h"
 #include "exttestcaseupdaterdialog.h"
-#include "ui_exttestcasemodifier.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
 #define qAsConst
@@ -22,14 +23,14 @@ ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) : QWidget(parent), ui(
 	connect(ui->testCaseTable, &ExtTestCaseTable::testCaseSelectionChanged, this,
 	        &ExtTestCaseModifier::whenTestCaseSelectionChanged);
 
-	connect(ui->buttonModify, SIGNAL(clicked()), this, SLOT(modifySelected()));
-	connect(ui->buttonUp, SIGNAL(clicked()), this, SLOT(moveUpSelected()));
-	connect(ui->buttonDown, SIGNAL(clicked()), this, SLOT(moveDownSelected()));
-	connect(ui->buttonRemove, SIGNAL(clicked()), this, SLOT(removeSelected()));
-	connect(ui->buttonMerge, SIGNAL(clicked()), this, SLOT(mergeSelected()));
-	connect(ui->buttonSplit, SIGNAL(clicked()), this, SLOT(splitSelected()));
-	connect(ui->buttonNewSub, SIGNAL(clicked()), this, SLOT(appendNewSub()));
-	connect(ui->buttonNewCase, SIGNAL(clicked()), this, SLOT(appendNewCase()));
+	connect(ui->buttonModify, &QPushButton::clicked, this, &ExtTestCaseModifier::modifySelected);
+	connect(ui->buttonUp, &QPushButton::clicked, this, &ExtTestCaseModifier::moveUpSelected);
+	connect(ui->buttonDown, &QPushButton::clicked, this, &ExtTestCaseModifier::moveDownSelected);
+	connect(ui->buttonRemove, &QPushButton::clicked, this, &ExtTestCaseModifier::removeSelected);
+	connect(ui->buttonMerge, &QPushButton::clicked, this, &ExtTestCaseModifier::mergeSelected);
+	connect(ui->buttonSplit, &QPushButton::clicked, this, &ExtTestCaseModifier::splitSelected);
+	connect(ui->buttonNewSub, &QPushButton::clicked, this, &ExtTestCaseModifier::appendNewSub);
+	connect(ui->buttonNewCase, &QPushButton::clicked, this, &ExtTestCaseModifier::appendNewCase);
 }
 
 ExtTestCaseModifier::~ExtTestCaseModifier() { delete ui; }

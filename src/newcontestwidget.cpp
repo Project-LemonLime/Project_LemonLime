@@ -9,16 +9,17 @@
 
 #include "newcontestwidget.h"
 #include "ui_newcontestwidget.h"
+//
 #include <QFileDialog>
 
 NewContestWidget::NewContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::NewContestWidget)
 {
 	ui->setupUi(this);
-	connect(ui->selectButton, SIGNAL(clicked()), this, SLOT(selectContestPath()));
-	connect(ui->savingName, SIGNAL(textChanged(QString)), this, SLOT(savingNameChanged()));
-	connect(ui->contestTitle, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
-	connect(ui->savingName, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
-	connect(ui->contestPath, SIGNAL(textChanged(QString)), this, SIGNAL(informationChanged()));
+	connect(ui->selectButton, &QToolButton::clicked, this, &NewContestWidget::selectContestPath);
+	connect(ui->savingName, &QLineEdit::textChanged, this, &NewContestWidget::savingNameChanged);
+	connect(ui->contestTitle, &QLineEdit::textChanged, this, &NewContestWidget::informationChanged);
+	connect(ui->savingName, &QLineEdit::textChanged, this, &NewContestWidget::informationChanged);
+	connect(ui->contestPath, &QLineEdit::textChanged, this, &NewContestWidget::informationChanged);
 }
 
 NewContestWidget::~NewContestWidget() { delete ui; }

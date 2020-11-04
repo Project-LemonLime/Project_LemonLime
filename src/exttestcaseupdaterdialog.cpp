@@ -46,14 +46,16 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	    new QRegularExpressionValidator(QRegularExpression("[0-9,]+$"), ui->lineEditDepends);
 	ui->lineEditDepends->setValidator(subtaskDependenceValidator);
 
-	connect(ui->lineEditScore, SIGNAL(textChanged(QString)), this, SLOT(fullScoreChanged(QString)));
-	connect(ui->lineEditTime, SIGNAL(textChanged(QString)), this, SLOT(timeLimitChanged(QString)));
-	connect(ui->lineEditMemory, SIGNAL(textChanged(QString)), this, SLOT(memoryLimitChanged(QString)));
-	connect(ui->buttonFindInput, SIGNAL(clicked()), this, SLOT(whenButtonFindInputClicked()));
-	connect(ui->buttonFindOutput, SIGNAL(clicked()), this, SLOT(whenButtonFindOutputClicked()));
-	connect(ui->lineEditInput, SIGNAL(textChanged(QString)), this, SLOT(inputFileChanged(QString)));
-	connect(ui->lineEditOutput, SIGNAL(textChanged(QString)), this, SLOT(outputFileChanged(QString)));
-	connect(ui->lineEditDepends, SIGNAL(textChanged(QString)), this, SLOT(dependsChanged(QString)));
+	connect(ui->lineEditScore, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::fullScoreChanged);
+	connect(ui->lineEditTime, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::timeLimitChanged);
+	connect(ui->lineEditMemory, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::memoryLimitChanged);
+	connect(ui->buttonFindInput, &QPushButton::clicked, this,
+	        &ExtTestCaseUpdaterDialog::whenButtonFindInputClicked);
+	connect(ui->buttonFindOutput, &QPushButton::clicked, this,
+	        &ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked);
+	connect(ui->lineEditInput, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::inputFileChanged);
+	connect(ui->lineEditOutput, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::outputFileChanged);
+	connect(ui->lineEditDepends, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::dependsChanged);
 
 	if (editScore == NO_EDIT)
 		ui->labelScore->hide(), ui->lineEditScore->hide(), defScore = NO_EDIT;

@@ -8,8 +8,9 @@
  */
 
 #include "addcompilerwizard.h"
-#include "core/compiler.h"
 #include "ui_addcompilerwizard.h"
+//
+#include "core/compiler.h"
 //
 #include <QFileDialog>
 #include <QMessageBox>
@@ -43,16 +44,19 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new 
 		ui->pythonPath->setText("/usr/bin/python");
 
 #endif
-	connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(compilerTypeChanged()));
-	connect(ui->compilerSelectButton, SIGNAL(clicked()), this, SLOT(selectCompilerLocation()));
-	connect(ui->interpreterSelectButton, SIGNAL(clicked()), this, SLOT(selectInterpreterLocation()));
-	connect(ui->gccSelectButton, SIGNAL(clicked()), this, SLOT(selectGccPath()));
-	connect(ui->gppSelectButton, SIGNAL(clicked()), this, SLOT(selectGppPath()));
-	connect(ui->fpcSelectButton, SIGNAL(clicked()), this, SLOT(selectFpcPath()));
-	connect(ui->fbcSelectButton, SIGNAL(clicked()), this, SLOT(selectFbcPath()));
-	connect(ui->javacSelectButton, SIGNAL(clicked()), this, SLOT(selectJavacPath()));
-	connect(ui->javaSelectButton, SIGNAL(clicked()), this, SLOT(selectJavaPath()));
-	connect(ui->pythonSelectButton, SIGNAL(clicked()), this, SLOT(selectPythonPath()));
+	connect(ui->typeSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
+	        &AddCompilerWizard::compilerTypeChanged);
+	connect(ui->compilerSelectButton, &QToolButton::clicked, this,
+	        &AddCompilerWizard::selectCompilerLocation);
+	connect(ui->interpreterSelectButton, &QToolButton::clicked, this,
+	        &AddCompilerWizard::selectInterpreterLocation);
+	connect(ui->gccSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectGccPath);
+	connect(ui->gppSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectGppPath);
+	connect(ui->fpcSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectFpcPath);
+	connect(ui->fbcSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectFbcPath);
+	connect(ui->javacSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectJavacPath);
+	connect(ui->javaSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectJavaPath);
+	connect(ui->pythonSelectButton, &QToolButton::clicked, this, &AddCompilerWizard::selectPythonPath);
 }
 
 AddCompilerWizard::~AddCompilerWizard() { delete ui; }
