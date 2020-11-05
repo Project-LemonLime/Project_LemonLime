@@ -205,7 +205,8 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 					regExp = QRegularExpression::anchoredPattern(regExp);
 					if (QRegularExpression(regExp).match(str.mid(i, j - i + 1)).hasMatch())
 					{
-						if (QRegularExpression(QRegularExpression::anchoredPattern(getFullRegExp(pattern.mid(pos + 3)) + "$"))
+						if (QRegularExpression(QRegularExpression::anchoredPattern(
+						                           getFullRegExp(pattern.mid(pos + 3)) + "$"))
 						        .match(str.mid(j + 1))
 						        .hasMatch())
 						{
@@ -248,7 +249,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(inputFiles[i]).hasMatch())
 #else
-		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
+			if (! QRegExp(regExp).exactMatch(inputFiles[i]))
 #endif
 		{
 			inputFiles.removeAt(i);
@@ -261,9 +262,11 @@ void AddTestCasesWizard::searchMatchedFiles()
 	for (int i = 0; i < outputFiles.size(); i++)
 	{
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(outputFiles[i]).hasMatch())
+		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
+		          .match(outputFiles[i])
+		          .hasMatch())
 #else
-		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
+			if (! QRegExp(regExp).exactMatch(inputFiles[i]))
 #endif
 		{
 			outputFiles.removeAt(i);
