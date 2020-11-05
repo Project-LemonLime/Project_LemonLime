@@ -248,7 +248,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(inputFiles[i]).hasMatch())
 #else
-			if (! QRegExp(regExp).exactMatch(inputFiles[i]))
+		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
 #endif
 		{
 			inputFiles.removeAt(i);
@@ -265,7 +265,7 @@ void AddTestCasesWizard::searchMatchedFiles()
 		          .match(outputFiles[i])
 		          .hasMatch())
 #else
-			if (! QRegExp(regExp).exactMatch(outputFiles[i]))
+		if (! QRegExp(regExp).exactMatch(outputFiles[i]))
 #endif
 		{
 			outputFiles.removeAt(i);
