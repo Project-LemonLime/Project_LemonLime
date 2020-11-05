@@ -201,9 +201,11 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 
 				for (int j = i; j < str.length(); j++)
 				{
-					if (QRegularExpression("^" + regExp + "$").match(str.mid(i, j - i + 1)).hasMatch())
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+					regExp = QRegularExpression::anchoredPattern(regExp);
+					if (QRegularExpression(regExp).match(str.mid(i, j - i + 1)).hasMatch())
 					{
-						if (QRegularExpression("^" + getFullRegExp(pattern.mid(pos + 3)) + "$")
+						if (QRegularExpression(QRegularExpression::anchoredPattern(getFullRegExp(pattern.mid(pos + 3)) + "$"))
 						        .match(str.mid(j + 1))
 						        .hasMatch())
 						{
@@ -213,6 +215,17 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 						}
 					}
 				}
+#else
+					if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
+					{
+						if (QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1)))
+						{
+							result[index] = str.mid(i, j - i + 1);
+							i = j;
+							break;
+						}
+					}
+#endif
 
 				pos += 2;
 			}
@@ -232,7 +245,11 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	for (int i = 0; i < inputFiles.size(); i++)
 	{
-		if (! QRegularExpression("^" + regExp + "$").match(inputFiles[i]).hasMatch())
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(inputFiles[i]).hasMatch())
+#else
+		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
+#endif
 		{
 			inputFiles.removeAt(i);
 			i--;
@@ -243,7 +260,11 @@ void AddTestCasesWizard::searchMatchedFiles()
 
 	for (int i = 0; i < outputFiles.size(); i++)
 	{
-		if (! QRegularExpression("^" + regExp + "$").match(inputFiles[i]).hasMatch())
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(outputFiles[i]).hasMatch())
+#else
+		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
+#endif
 		{
 			outputFiles.removeAt(i);
 			i--;
