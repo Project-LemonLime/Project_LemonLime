@@ -215,7 +215,6 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 							break;
 						}
 					}
-				}
 #else
 					if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
 					{
@@ -227,7 +226,7 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 						}
 					}
 #endif
-
+				}
 				pos += 2;
 			}
 		}
