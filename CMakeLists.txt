@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.9.0 )
 
 project(lemon LANGUAGES CXX)
 
+## Add paths to check for cmake modules:
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # ==================================================================================
 # CMake Macros
 # ==================================================================================
@@ -31,6 +34,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(LEMON_QT6 "Use Qt6 for Debugging" OFF)
 LEMONLOG(LEMON_QT6)
@@ -163,7 +167,7 @@ include(cmake/lemon-core.cmake)
 # Lemon Documents
 # ==================================================================================
 
-include(cmake/docs.cmake)
+include(cmake/LemonDocs.cmake)
     
 # ==================================================================================
 # Lemon UI
@@ -175,7 +179,7 @@ include(cmake/lemon-ui.cmake)
 # Lemon Translations
 # ==================================================================================
 
-include(cmake/translations.cmake)
+include(cmake/LemonTranslations.cmake)
 
 if(EMBED_TRANSLATIONS)
     add_definitions(-DLEMON_EMBED_TRANSLATIONS)
