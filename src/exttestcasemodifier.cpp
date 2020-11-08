@@ -393,7 +393,7 @@ void ExtTestCaseModifier::splitSelected()
 		auto out = now->getOutputFiles();
 		int allScore = now->getFullScore(), gar = 0;
 
-		if (!in.empty())
+		if (! in.empty())
 			gar = in.size() - allScore % in.size();
 		else
 			gar = 0;

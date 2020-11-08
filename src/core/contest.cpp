@@ -202,8 +202,7 @@ void Contest::judge(Contestant *contestant)
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-		connect(thread, &AssignmentThread::singleCaseFinished, this,
-		        &Contest::singleCaseFinished);
+		connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
 		        &Contest::singleSubtaskDependenceFinished);
 		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
@@ -262,8 +261,7 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-		connect(thread, &AssignmentThread::singleCaseFinished, this,
-		        &Contest::singleCaseFinished);
+		connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
 		        &Contest::singleSubtaskDependenceFinished);
 		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
@@ -316,10 +314,9 @@ void Contest::judge(Contestant *contestant, int index)
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 	auto *thread = new AssignmentThread();
 	connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-	connect(thread, &AssignmentThread::singleCaseFinished, this,
-			&Contest::singleCaseFinished);
+	connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
 	connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
-		        &Contest::singleSubtaskDependenceFinished);
+	        &Contest::singleSubtaskDependenceFinished);
 	connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
 	connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 	thread->setSettings(settings);

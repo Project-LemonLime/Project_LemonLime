@@ -289,7 +289,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool
 						else if (compiler->exitCode() != 0)
 						{
 							compileState = CompileError;
-							compileMessage = QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
+							compileMessage =
+							    QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
 						}
 						else
 						{
