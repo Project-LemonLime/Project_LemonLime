@@ -456,7 +456,7 @@ void ResultViewer::detailInformation()
 	auto *dialog = new DetailDialog(this);
 	dialog->setModal(true);
 	dialog->refreshViewer(curContest, curContest->getContestant(item(index, 1)->text()));
-	connect(dialog, SIGNAL(rejudgeSignal()), this, SLOT(refreshViewer()));
+	connect(dialog, &DetailDialog::rejudgeSignal, this, &ResultViewer::refreshViewer);
 	dialog->showDialog();
 	delete dialog;
 }

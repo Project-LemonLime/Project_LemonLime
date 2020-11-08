@@ -506,8 +506,8 @@ void AssignmentThread::assign()
 	}
 
 	thread->setTask(task);
-	connect(thread, SIGNAL(finished()), this, SLOT(threadFinished()));
-	connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
+	connect(thread, &JudgingThread::finished, this, &AssignmentThread::threadFinished);
+	connect(this, &AssignmentThread::stopJudgingSignal, thread, &JudgingThread::stopJudgingSlot);
 	thread->setInputFile(Settings::dataPath() + curTestCase->getInputFiles().at(curSingleCaseIndex));
 	thread->setOutputFile(Settings::dataPath() + curTestCase->getOutputFiles().at(curSingleCaseIndex));
 	thread->setFullScore(curTestCase->getFullScore());

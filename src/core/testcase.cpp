@@ -166,7 +166,7 @@ void TestCase::readFromStream(QDataStream &in)
 		{
 			int temp(0);
 
-			for (auto itr = i.constBegin(); *itr != '_'; ++itr)
+			for (const auto itr = i.constBegin(); *itr != '_'; ++itr)
 				(temp *= 10) += itr->toLatin1() ^ '0';
 
 			dependenceSubtask.push_back(temp);
