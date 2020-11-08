@@ -76,7 +76,7 @@ auto Contest::getTotalTimeLimit() const -> int
 {
 	int total = 0;
 
-	for (auto i : taskList)
+	for (auto *i : taskList)
 	{
 		QList<TestCase *> testCaseList = i->getTestCaseList();
 
@@ -93,7 +93,7 @@ auto Contest::getTotalScore() const -> int
 {
 	int total = 0;
 
-	for (auto i : taskList)
+	for (auto *i : taskList)
 	{
 		total += i->getTotalScore();
 	}

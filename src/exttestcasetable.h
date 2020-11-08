@@ -22,14 +22,14 @@ class ExtTestCaseTable : public QTableWidget
 
 	void refreshTask(Task *);
 
-	int canModify();
-	int canAddSub();
-	int canAddCase();
-	int canRemove();
-	int canUp();
-	int canDown();
-	int canMerge();
-	int canSplit();
+	bool canModify();
+	bool canAddSub();
+	bool canAddCase();
+	bool canRemove();
+	bool canUp();
+	bool canDown();
+	bool canMerge();
+	bool canSplit();
 
 	QList<int> getSelectedHaveSub();
 	QList<QPair<int, QPair<int, int>>> getSelectedResSub();
@@ -45,17 +45,17 @@ class ExtTestCaseTable : public QTableWidget
 	QList<int> haveSub;
 	QList<QPair<int, QPair<int, int>>> resSub;
 
-	int isCanModify;
-	int isCanAddSub;
-	int isCanAddCase;
-	int isCanRemove;
-	int isCanUp;
-	int isCanDown;
-	int isCanMerge;
-	int isCanSplit;
-	int selectMi{};
-	int selectMx{};
-	int noDfs;
+	bool isCanModify;
+	bool isCanAddSub;
+	bool isCanAddCase;
+	bool isCanRemove;
+	bool isCanUp;
+	bool isCanDown;
+	bool isCanMerge;
+	bool isCanSplit;
+	bool selectMi{};
+	bool selectMx{};
+	bool noDfs;
 
   private slots:
 	void whenItemSelectionChanged();

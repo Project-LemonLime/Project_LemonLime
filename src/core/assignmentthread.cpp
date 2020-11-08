@@ -381,7 +381,7 @@ void AssignmentThread::run()
 		}
 	}
 
-	skipEnabled = 0;
+	skipEnabled = false;
 	assign();
 	exec();
 }
@@ -397,7 +397,7 @@ void AssignmentThread::assign()
 	}
 
 	TestCase *curTestCase = task->getTestCase(curTestCaseIndex);
-	bool isSkipped = 0;
+	bool isSkipped = false;
 
 	if (curSingleCaseIndex == curTestCase->getInputFiles().size())
 	{
@@ -432,7 +432,7 @@ void AssignmentThread::assign()
 			emit singleSubtaskDependenceFinished(curTestCaseIndex, dependenceSubtask[i], status);
 
 			if (status < 0)
-				isSkipped = 1;
+				isSkipped = true;
 
 			overallStatus[curTestCaseIndex] = qMin(overallStatus[curTestCaseIndex], status);
 		}

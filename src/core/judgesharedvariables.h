@@ -8,4 +8,4 @@
 #pragma once
 //
 
-extern int skipEnabled;
+extern bool skipEnabled;

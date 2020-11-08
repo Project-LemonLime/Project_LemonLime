@@ -254,7 +254,7 @@ auto Task::getTotalTimeLimit() const -> int
 {
 	int total = 0;
 
-	for (auto i : testCaseList)
+	for (auto *i : testCaseList)
 	{
 		total += i->getTimeLimit() * i->getInputFiles().size();
 	}
@@ -266,7 +266,7 @@ auto Task::getTotalScore() const -> int
 {
 	int total = 0;
 
-	for (auto i : testCaseList)
+	for (auto *i : testCaseList)
 	{
 		total += i->getFullScore();
 	}

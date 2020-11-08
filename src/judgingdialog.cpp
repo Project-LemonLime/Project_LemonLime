@@ -499,8 +499,8 @@ void JudgingDialog::stopJudgingSlot()
 	emit stopJudgingSignal();
 }
 
-int skipEnabled;
+bool skipEnabled;
 
-void JudgingDialog::skipJudging() { skipEnabled = 1; }
+void JudgingDialog::skipJudging() { skipEnabled = true; }
 
 void JudgingDialog::reject() { stopJudgingSlot(); }
