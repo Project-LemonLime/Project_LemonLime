@@ -50,8 +50,8 @@ auto main(int  /*argc*/, char *argv[]) -> int
 			if (WEXITSTATUS(status) == 1)
 				return 1;
 
-			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) * 1024);
+			printf("%d\n", static_cast<int>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
+			printf("%d\n", static_cast<int>(usage.ru_maxrss) * 1024);
 
 			if (WEXITSTATUS(status) != 0)
 				return 2;
@@ -61,8 +61,8 @@ auto main(int  /*argc*/, char *argv[]) -> int
 
 		if (WIFSIGNALED(status))
 		{
-			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) * 1024);
+			printf("%d\n", static_cast<int>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
+			printf("%d\n", static_cast<int>(usage.ru_maxrss) * 1024);
 
 			if (WTERMSIG(status) == SIGXCPU)
 				return 3;
@@ -97,7 +97,7 @@ auto main(int  /*argc*/, char *argv[]) -> int
 		else
 		{
 			memlim = (rlimit){RLIM_INFINITY, RLIM_INFINITY};
-			stalim = (rlimit){(rlim_t)2147483647ll, (rlim_t)2147483647ll};
+			stalim = (rlimit){(rlim_t)2147483647LL, (rlim_t)2147483647LL};
 		}
 
 		timlim = (rlimit){(rlim_t)timeLimit, (rlim_t)(timeLimit + 1)};
