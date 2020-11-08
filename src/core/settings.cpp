@@ -60,70 +60,70 @@ auto Settings::getUiLanguage() const -> const QString & { return uiLanguage; }
 
 auto Settings::getDiffPath() const -> const QString & { return diffPath; }
 
-auto Settings::getColorMxH() -> int { return colorMxH; }
+auto Settings::getColorMxH() const -> int { return colorMxH; }
 
-auto Settings::getColorMxS() -> double { return colorMxS; }
+auto Settings::getColorMxS() const -> double { return colorMxS; }
 
-auto Settings::getColorMxL() -> double { return colorMxL; }
+auto Settings::getColorMxL() const -> double { return colorMxL; }
 
-auto Settings::getColorMiH() -> int { return colorMiH; }
+auto Settings::getColorMiH() const -> int { return colorMiH; }
 
-auto Settings::getColorMiS() -> double { return colorMiS; }
+auto Settings::getColorMiS() const -> double { return colorMiS; }
 
-auto Settings::getColorMiL() -> double { return colorMiL; }
+auto Settings::getColorMiL() const -> double { return colorMiL; }
 
-auto Settings::getColorNfH() -> int { return colorNfH; }
+auto Settings::getColorNfH() const -> int { return colorNfH; }
 
-auto Settings::getColorNfS() -> double { return colorNfS; }
+auto Settings::getColorNfS() const -> double { return colorNfS; }
 
-auto Settings::getColorNfL() -> double { return colorNfL; }
+auto Settings::getColorNfL() const -> double { return colorNfL; }
 
-auto Settings::getColorCeH() -> int { return colorCeH; }
+auto Settings::getColorCeH() const -> int { return colorCeH; }
 
-auto Settings::getColorCeS() -> double { return colorCeS; }
+auto Settings::getColorCeS() const -> double { return colorCeS; }
 
-auto Settings::getColorCeL() -> double { return colorCeL; }
+auto Settings::getColorCeL() const -> double { return colorCeL; }
 
-auto Settings::getGrandCompH() -> double { return grandCompH; }
+auto Settings::getGrandCompH() const -> double { return grandCompH; }
 
-auto Settings::getGrandCompS() -> double { return grandCompS; }
+auto Settings::getGrandCompS() const -> double { return grandCompS; }
 
-auto Settings::getGrandCompL() -> double { return grandCompL; }
+auto Settings::getGrandCompL() const -> double { return grandCompL; }
 
-auto Settings::getGrandRateH() -> double { return grandRateH; }
+auto Settings::getGrandRateH() const -> double { return grandRateH; }
 
-auto Settings::getGrandRateS() -> double { return grandRateS; }
+auto Settings::getGrandRateS() const -> double { return grandRateS; }
 
-auto Settings::getGrandRateL() -> double { return grandRateL; }
+auto Settings::getGrandRateL() const -> double { return grandRateL; }
 
-auto Settings::getSplashTime() -> int { return splashTime; }
+auto Settings::getSplashTime() const -> int { return splashTime; }
 
-auto Settings::getColorMx() -> QColor
+auto Settings::getColorMx() const -> QColor
 {
 	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
 }
 
-auto Settings::getColorMi() -> QColor
+auto Settings::getColorMi() const -> QColor
 {
 	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, colorMiL / 100.00);
 }
 
-auto Settings::getColorNf() -> QColor
+auto Settings::getColorNf() const -> QColor
 {
 	return QColor::fromHslF(colorNfH / 360.00, colorNfS / 100.00, colorNfL / 100.00);
 }
 
-auto Settings::getColorCe() -> QColor
+auto Settings::getColorCe() const -> QColor
 {
 	return QColor::fromHslF(colorCeH / 360.00, colorCeS / 100.00, colorCeL / 100.00);
 }
 
-auto Settings::getColorAntiMi() -> QColor
+auto Settings::getColorAntiMi() const -> QColor
 {
 	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, 1.00 - colorMiL / 100.00);
 }
 
-auto Settings::getColorPer(double p) -> QColor
+auto Settings::getColorPer(double p) const -> QColor
 {
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
@@ -171,7 +171,7 @@ auto Settings::getColorPer(double p) -> QColor
 	return QColor::fromHslF(h, s, l);
 }
 
-auto Settings::getColorGrand(double p) -> QColor
+auto Settings::getColorGrand(double p) const -> QColor
 {
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
@@ -219,9 +219,9 @@ auto Settings::getColorGrand(double p) -> QColor
 	return QColor::fromHslF(h, s, l);
 }
 
-auto Settings::getColorPer(double a, double b) -> QColor { return getColorPer(a / b); }
+auto Settings::getColorPer(double a, double b) const -> QColor { return getColorPer(a / b); }
 
-auto Settings::getColorGrand(double a, double b) -> QColor { return getColorGrand(a / b); }
+auto Settings::getColorGrand(double a, double b) const -> QColor { return getColorGrand(a / b); }
 
 void Settings::setDefaultFullScore(int score)
 {
@@ -511,7 +511,7 @@ void Settings::copyFrom(Settings *other)
 	compilerList.clear();
 	const QList<Compiler *> &list = other->getCompilerList();
 
-	for (auto i : list)
+	for (auto *i : list)
 	{
 		auto *compiler = new Compiler;
 		compiler->copyFrom(i);
@@ -677,11 +677,11 @@ void Settings::loadSettings()
 		QStringList values = settings.value("EnvironmentVariables").toStringList();
 		QProcessEnvironment environment;
 
-		for (int i = 0; i < values.size(); i++)
+		for (auto &i : values)
 		{
-			int tmp = values[i].indexOf('=');
-			QString variable = values[i].mid(0, tmp);
-			QString value = values[i].mid(tmp + 1);
+			int tmp = i.indexOf('=');
+			QString variable = i.mid(0, tmp);
+			QString value = i.mid(tmp + 1);
 			environment.insert(variable, value);
 		}
 
