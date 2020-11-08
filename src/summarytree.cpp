@@ -57,7 +57,7 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent)
 	connect(deleteTaskKeyAction, &QAction::triggered, this, &SummaryTree::deleteTask);
 	connect(deleteTestCaseKeyAction, &QAction::triggered, this, &SummaryTree::deleteTestCase);
 	connect(this, &SummaryTree::currentItemChanged, this, &SummaryTree::selectionChanged);
-	connect(this, &SummaryTree::itemChanged, this, &SummaryTree::itemChanged);
+	connect(this, &QTreeWidget::itemChanged, this, &SummaryTree::itemChanged);
 }
 
 void SummaryTree::changeEvent(QEvent *event)

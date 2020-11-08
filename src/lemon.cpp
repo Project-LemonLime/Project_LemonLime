@@ -185,9 +185,9 @@ void LemonLime::resetDataWatcher()
 	delete dataDirWatcher;
 	dataDirWatcher = new QFileSystemWatcher(this);
 	insertWatchPath(Settings::dataPath(), dataDirWatcher);
-	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)), this, SLOT(resetDataWatcher()));
-	connect(dataDirWatcher, SIGNAL(fileChanged(QString)), this, SIGNAL(dataPathChanged()));
-	connect(dataDirWatcher, SIGNAL(directoryChanged(QString)), this, SIGNAL(dataPathChanged()));
+	connect(dataDirWatcher, &QFileSystemWatcher::directoryChanged, this, &LemonLime::resetDataWatcher);
+	connect(dataDirWatcher, &QFileSystemWatcher::fileChanged, this, &LemonLime::dataPathChanged);
+	connect(dataDirWatcher, &QFileSystemWatcher::directoryChanged, this, &LemonLime::dataPathChanged);
 	emit dataPathChanged();
 }
 

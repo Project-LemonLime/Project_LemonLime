@@ -105,7 +105,7 @@ void Contest::addTask(Task *task)
 {
 	task->setParent(this);
 	taskList.append(task);
-	connect(task, SIGNAL(problemTitleChanged(QString)), this, SIGNAL(problemTitleChanged()));
+	connect(task, &Task::problemTitleChanged, this, &Contest::problemTitleChanged);
 	emit taskAddedForContestant();
 	emit taskAddedForViewer();
 }
@@ -150,8 +150,8 @@ void Contest::refreshContestantList()
 			}
 
 			contestantList.insert(nameList[i], newContestant);
-			connect(this, SIGNAL(taskAddedForContestant()), newContestant, SLOT(addTask()));
-			connect(this, SIGNAL(taskDeletedForContestant(int)), newContestant, SLOT(deleteTask(int)));
+			connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
+			connect(this, &Contest::taskDeletedForContestant, newContestant, &Contestant::deleteTask);
 		}
 	}
 }
@@ -201,18 +201,18 @@ void Contest::judge(Contestant *contestant)
 	{
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
-		connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
-		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
-		        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
-		        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-		connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
-		connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
+		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
+		connect(thread, &AssignmentThread::singleCaseFinished, this,
+		        &Contest::singleCaseFinished);
+		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
+		        &Contest::singleSubtaskDependenceFinished);
+		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
+		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
 		auto *eventLoop = new QEventLoop(this);
-		connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
+		connect(thread, &AssignmentThread::finished, eventLoop, &QEventLoop::quit);
 		thread->start();
 		eventLoop->exec();
 		delete eventLoop;
@@ -261,18 +261,18 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index)
 
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
 		auto *thread = new AssignmentThread();
-		connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
-		connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
-		        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-		connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
-		        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-		connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
-		connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
+		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
+		connect(thread, &AssignmentThread::singleCaseFinished, this,
+		        &Contest::singleCaseFinished);
+		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
+		        &Contest::singleSubtaskDependenceFinished);
+		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
+		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 		thread->setSettings(settings);
 		thread->setTask(taskList[i]);
 		thread->setContestantName(contestant->getContestantName());
 		auto *eventLoop = new QEventLoop(this);
-		connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
+		connect(thread, &AssignmentThread::finished, eventLoop, &QEventLoop::quit);
 		thread->start();
 		eventLoop->exec();
 		delete eventLoop;
@@ -315,18 +315,18 @@ void Contest::judge(Contestant *contestant, int index)
 	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 	auto *thread = new AssignmentThread();
-	connect(thread, SIGNAL(dialogAlert(QString)), this, SIGNAL(dialogAlert(QString)));
-	connect(thread, SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)), this,
-	        SIGNAL(singleCaseFinished(int, int, int, int, int, int, int)));
-	connect(thread, SIGNAL(singleSubtaskDependenceFinished(int, int, int)), this,
-	        SIGNAL(singleSubtaskDependenceFinished(int, int, int)));
-	connect(thread, SIGNAL(compileError(int, int)), this, SIGNAL(compileError(int, int)));
-	connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
+	connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
+	connect(thread, &AssignmentThread::singleCaseFinished, this,
+			&Contest::singleCaseFinished);
+	connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
+		        &Contest::singleSubtaskDependenceFinished);
+	connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
+	connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 	thread->setSettings(settings);
 	thread->setTask(taskList[index]);
 	thread->setContestantName(contestant->getContestantName());
 	auto *eventLoop = new QEventLoop(this);
-	connect(thread, SIGNAL(finished()), eventLoop, SLOT(quit()));
+	connect(thread, &AssignmentThread::finished, eventLoop, &QEventLoop::quit);
 	thread->start();
 	eventLoop->exec();
 	delete eventLoop;
@@ -442,8 +442,8 @@ void Contest::readFromStream(QDataStream &in)
 	{
 		auto *newContestant = new Contestant(this);
 		newContestant->readFromStream(in);
-		connect(this, SIGNAL(taskAddedForContestant()), newContestant, SLOT(addTask()));
-		connect(this, SIGNAL(taskDeletedForContestant(int)), newContestant, SLOT(deleteTask(int)));
+		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
+		connect(this, &Contest::taskDeletedForContestant, newContestant, &Contestant::deleteTask);
 		contestantList.insert(newContestant->getContestantName(), newContestant);
 	}
 }

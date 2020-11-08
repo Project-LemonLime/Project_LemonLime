@@ -21,9 +21,9 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	ui->specialJudge->setFilters(QDir::Files | QDir::Executable);
 	ui->interactorPath->setFilters(QDir::Files);
 	ui->graderPath->setFilters(QDir::Files);
-	connect(this, SIGNAL(dataPathChanged()), ui->specialJudge, SLOT(refreshFileList()));
-	connect(this, SIGNAL(dataPathChanged()), ui->interactorPath, SLOT(refreshFileList()));
-	connect(this, SIGNAL(dataPathChanged()), ui->graderPath, SLOT(refreshFileList()));
+	connect(this, &TaskEditWidget::dataPathChanged, ui->specialJudge, &FileLineEdit::refreshFileList);
+	connect(this, &TaskEditWidget::dataPathChanged, ui->interactorPath, &FileLineEdit::refreshFileList);
+	connect(this, &TaskEditWidget::dataPathChanged, ui->graderPath, &FileLineEdit::refreshFileList);
 	ui->sourceFileName->setValidator(new QRegularExpressionValidator(QRegularExpression("\\w+"), this));
 	ui->inputFileName->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression(R"((\w+)(\.\w+)?)"), this));
