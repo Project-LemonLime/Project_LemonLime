@@ -350,7 +350,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			}
 		}
 
-		int isNewRowStarted = false;
+		bool isNewRowStarted = false;
 
 		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
 		{
@@ -1139,7 +1139,7 @@ void JudgingThread::runProgram()
 		return;
 	}
 
-	QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().data());
+	QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
 	QTextStream stream(&out, QIODevice::ReadOnly);
 	stream >> timeUsed >> memoryUsed;
 
