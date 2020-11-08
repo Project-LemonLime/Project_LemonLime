@@ -448,7 +448,7 @@ void ExtTestCaseModifier::appendNewSub()
 void ExtTestCaseModifier::appendNewCase()
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 6, 0)
-	int who = ui->testCaseTable->getSelectedHaveSub().Back();
+	int who = ui->testCaseTable->getSelectedHaveSub().back();
 #else
 	int who = ui->testCaseTable->getSelectedHaveSub().constLast();
 #endif
