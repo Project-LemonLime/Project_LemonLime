@@ -163,7 +163,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		chkEof1 = ch == EOF;
 		len2 = 0;
 
-		int isNewRowStarted = 0;
+		bool isNewRowStarted = false;
 
 		while (len2 < 20)
 		{
@@ -177,7 +177,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 			if (! chk2 && ch == '\n')
 			{
-				isNewRowStarted = 1;
+				isNewRowStarted = true;
 				break;
 			}
 
@@ -189,7 +189,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 			if (ch == '\r')
 			{
-				isNewRowStarted = 1;
+				isNewRowStarted = true;
 				chk2 = true;
 				break;
 			}
@@ -350,7 +350,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 			}
 		}
 
-		int isNewRowStarted = 0;
+		int isNewRowStarted = false;
 
 		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
 		{
@@ -366,7 +366,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
 			}
 
-			isNewRowStarted = 1;
+			isNewRowStarted = true;
 
 			while (ch2 == ' ' || ch2 == '\t')
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
@@ -396,7 +396,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
-					isNewRowStarted = 1;
+					isNewRowStarted = true;
 
 					while (ch2 == ' ' || ch2 == '\t')
 					{

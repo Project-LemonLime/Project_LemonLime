@@ -6,8 +6,10 @@
  */
 
 #include "exttestcasetable.h"
+//
 #include "core/task.h"
 #include "core/testcase.h"
+//
 #include <QHeaderView>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
@@ -36,15 +38,15 @@ ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
 		}
 	});
 
-	isCanModify = 0;
-	isCanAddSub = 1;
-	isCanAddCase = 0;
-	isCanRemove = 0;
-	isCanUp = 0;
-	isCanDown = 0;
-	isCanMerge = 0;
-	isCanSplit = 0;
-	noDfs = 0;
+	isCanModify = false;
+	isCanAddSub = true;
+	isCanAddCase = false;
+	isCanRemove = false;
+	isCanUp = false;
+	isCanDown = false;
+	isCanMerge = false;
+	isCanSplit = false;
+	noDfs = false;
 
 	clear();
 	setRowCount(0);
@@ -52,17 +54,17 @@ ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
 	setHorizontalHeaderLabels({tr("Informations"), tr("Input"), tr("Output")});
 }
 
-auto ExtTestCaseTable::canModify() -> int { return isCanModify; }
+auto ExtTestCaseTable::canModify() -> bool { return isCanModify; }
 
-auto ExtTestCaseTable::canAddSub() -> int { return isCanAddSub; }
+auto ExtTestCaseTable::canAddSub() -> bool { return isCanAddSub; }
 
-auto ExtTestCaseTable::canAddCase() -> int { return isCanAddCase; }
+auto ExtTestCaseTable::canAddCase() -> bool { return isCanAddCase; }
 
-auto ExtTestCaseTable::canRemove() -> int { return isCanRemove; }
-auto ExtTestCaseTable::canUp() -> int { return isCanUp; }
-auto ExtTestCaseTable::canDown() -> int { return isCanDown; }
-auto ExtTestCaseTable::canMerge() -> int { return isCanMerge; }
-auto ExtTestCaseTable::canSplit() -> int { return isCanSplit; }
+auto ExtTestCaseTable::canRemove() -> bool { return isCanRemove; }
+auto ExtTestCaseTable::canUp() -> bool { return isCanUp; }
+auto ExtTestCaseTable::canDown() -> bool { return isCanDown; }
+auto ExtTestCaseTable::canMerge() -> bool { return isCanMerge; }
+auto ExtTestCaseTable::canSplit() -> bool { return isCanSplit; }
 
 auto ExtTestCaseTable::getSelectedHaveSub() -> QList<int> { return haveSub; }
 
@@ -159,7 +161,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 			setSpan(nowrow - xlen, 0, xlen, 1);
 	}
 
-	noDfs = 0;
+	noDfs = false;
 }
 
 void ExtTestCaseTable::whenItemSelectionChanged()
@@ -167,16 +169,16 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 	if (noDfs)
 		return;
 
-	noDfs = 1;
+	noDfs = false;
 
-	isCanModify = 0;
-	isCanAddSub = 1;
-	isCanAddCase = 0;
-	isCanRemove = 0;
-	isCanUp = 0;
-	isCanDown = 0;
-	isCanMerge = 0;
-	isCanSplit = 0;
+	isCanModify = false;
+	isCanAddSub = true;
+	isCanAddCase = false;
+	isCanRemove = false;
+	isCanUp = false;
+	isCanDown = false;
+	isCanMerge = false;
+	isCanSplit = false;
 
 	haveSub.clear();
 	resSub.clear();
@@ -196,7 +198,7 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 
 	if (mi > mx)
 	{
-		noDfs = 0;
+		noDfs = false;
 		return;
 	}
 
@@ -234,35 +236,35 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 	if ((haveSub.size() == 1 && ! resSub.empty() &&
 	     resSub.front().second.first == resSub.front().second.second) ||
 	    resSub.empty())
-		isCanModify = 1;
+		isCanModify = true;
 
 	if (haveSub.size() == 1 && resSub.empty())
-		isCanAddCase = 1;
+		isCanAddCase = true;
 
 	if (! haveSub.empty())
-		isCanRemove = 1;
+		isCanRemove = true;
 
 	if (haveSub.size() == 1 && resSub.size() == 1 && resSub[0].second.first > 0)
-		isCanUp = 1;
+		isCanUp = true;
 
 	if (resSub.empty() && haveSub.first() != 0)
-		isCanUp = 1;
+		isCanUp = true;
 
 	if (haveSub.size() == 1 && resSub.size() == 1 && resSub[0].second.second < subSize[resSub[0].first] - 1)
-		isCanDown = 1;
+		isCanDown = true;
 
 	if (resSub.empty() && haveSub.last() != subCnt - 1)
-		isCanDown = 1;
+		isCanDown = true;
 
 	if (haveSub.size() >= 2 && resSub.empty())
-		isCanMerge = 1;
+		isCanMerge = true;
 
 	if (haveSub.size() >= 1 && resSub.empty())
-		isCanSplit = 1;
+		isCanSplit = true;
 
 	emit testCaseSelectionChanged();
 
-	noDfs = 0;
+	noDfs = false;
 }
 
 void ExtTestCaseTable::modifySelected(int mi, int mx)

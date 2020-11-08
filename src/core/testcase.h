@@ -34,7 +34,7 @@ class TestCase : public QObject
 	void setDependenceSubtask(const QStringList &);
 	void setDependenceSubtask(const QList<int> &);
 	void setDependenceSubtask(const QSet<int> &);
-	bool checkDependenceSubtask(const QStringList &);
+	bool checkDependenceSubtask(const QStringList &) const;
 	void addSingleCase(const QString &, const QString &);
 	void deleteSingleCase(int);
 	void writeToStream(QDataStream &);
