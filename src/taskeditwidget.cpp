@@ -417,7 +417,7 @@ void TaskEditWidget::refreshCompilerConfiguration()
 	if (compilerList.isEmpty())
 		return;
 
-	for (auto i : compilerList)
+	for (auto *i : compilerList)
 	{
 		ui->compilersList->addItem(i->getCompilerName());
 	}
@@ -442,7 +442,7 @@ void TaskEditWidget::compilerSelectionChanged()
 	ui->configurationSelect->addItem("disable");
 	const QList<Compiler *> &compilerList = settings->getCompilerList();
 
-	for (auto i : compilerList)
+	for (auto *i : compilerList)
 	{
 		if (i->getCompilerName() == ui->compilersList->currentItem()->text())
 		{

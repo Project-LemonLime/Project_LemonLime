@@ -241,25 +241,25 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
 	return buffer;
 }
 
-auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList) -> int
+auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList) -> bool
 {
-	for (auto i : taskList)
+	for (auto *i : taskList)
 	{
-		for (auto j : i->getTestCaseList())
+		for (auto *j : i->getTestCaseList())
 		{
 			if (j->getInputFiles().length() != j->getOutputFiles().length())
-				return 0;
+				return false;
 		}
 	}
 
-	for (auto i : contestantList)
+	for (auto *i : contestantList)
 	{
 		for (int j = 0; j < taskList.length(); j++)
 		{
 			QList<QList<int>> scoreList;
 			QList<QList<ResultState>> resultList;
 			QList<TestCase *> testCaseList;
-			int isJudged = 0;
+			bool isJudged = false;
 
 			try
 			{
@@ -270,37 +270,37 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 			}
 			catch (...)
 			{
-				return 0;
+				return false;
 			}
 
 			if (! isJudged)
-				return 0;
+				return false;
 
 			if (scoreList.length() != resultList.length())
-				return 0;
+				return false;
 
 			if (scoreList.length() > 0 && resultList.length() > 0 && testCaseList.length() > 0)
 			{
 				if (scoreList.length() != testCaseList.length())
-					return 0;
+					return false;
 
 				if (resultList.length() != testCaseList.length())
-					return 0;
+					return false;
 
 				for (int k = 0; k < testCaseList.length(); k++)
 				{
 					if (scoreList[k].length() - (! testCaseList[k]->getDependenceSubtask().empty()) !=
 					    testCaseList[k]->getInputFiles().length())
-						return 0;
+						return false;
 
 					if (resultList[k].length() != testCaseList[k]->getInputFiles().length())
-						return 0;
+						return false;
 				}
 			}
 		}
 	}
 
-	return 1;
+	return true;
 }
 
 void StatisticsBrowser::refresh()
@@ -345,20 +345,20 @@ void StatisticsBrowser::refresh()
 	buffer += "</head><body>";
 	buffer += "<h1>" + QString("%1 %2").arg(tr("Contest")).arg(curContest->getContestTitle()) + "</h1>";
 	buffer += "<h2>" + tr("Overall") + "</h2>";
-	int haveError = 0;
+	bool haveError = false;
 	QMap<int, int> scoreCount;
 
 	for (auto &i : contestantList)
 	{
 		int contestantTotalScore = 0;
-		int loss = 0;
+		bool loss = false;
 
 		for (int j = 0; j < taskList.size(); j++)
 		{
 			contestantTotalScore += i->getTaskScore(j);
 
 			if (i->getTaskScore(j) < 0)
-				haveError = 1, loss = 1;
+				haveError = true, loss = true;
 		}
 
 		if (! loss)

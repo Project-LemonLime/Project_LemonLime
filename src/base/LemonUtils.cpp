@@ -11,12 +11,12 @@
 namespace Lemon::common
 {
 
-	QStringList GetFileList(const QDir &dir)
+	auto GetFileList(const QDir &dir) -> QStringList
 	{
 		return dir.entryList(QStringList{"*", "*.*"}, QDir::Hidden | QDir::Files);
 	}
 
-	bool FileExistsIn(const QDir &dir, const QString &fileName)
+	auto FileExistsIn(const QDir &dir, const QString &fileName) -> bool
 	{
 		return GetFileList(dir).contains(fileName);
 	}

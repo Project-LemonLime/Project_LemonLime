@@ -119,17 +119,17 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 
 ExtTestCaseUpdaterDialog::~ExtTestCaseUpdaterDialog() { delete ui; }
 
-auto ExtTestCaseUpdaterDialog::getScore() -> int { return score; }
+auto ExtTestCaseUpdaterDialog::getScore() const -> int { return score; }
 
-auto ExtTestCaseUpdaterDialog::getInput() -> QString { return input; }
+auto ExtTestCaseUpdaterDialog::getInput() const -> QString { return input; }
 
-auto ExtTestCaseUpdaterDialog::getOutput() -> QString { return output; }
+auto ExtTestCaseUpdaterDialog::getOutput() const -> QString { return output; }
 
-auto ExtTestCaseUpdaterDialog::getTimeLimit() -> int { return timeLimit; }
+auto ExtTestCaseUpdaterDialog::getTimeLimit() const -> int { return timeLimit; }
 
-auto ExtTestCaseUpdaterDialog::getMemoryLimit() -> int { return memoryLimit; }
+auto ExtTestCaseUpdaterDialog::getMemoryLimit() const -> int { return memoryLimit; }
 
-auto ExtTestCaseUpdaterDialog::getDepends() -> QStringList { return depends; }
+auto ExtTestCaseUpdaterDialog::getDepends() const -> QStringList { return depends; }
 
 void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked()
 {

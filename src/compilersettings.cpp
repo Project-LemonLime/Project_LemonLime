@@ -48,7 +48,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	ui->compilerList->clear();
 
-	for (auto i : compilerList)
+	for (auto *i : compilerList)
 	{
 		ui->compilerList->addItem(i->getCompilerName());
 	}
@@ -71,7 +71,7 @@ auto CompilerSettings::checkValid() -> bool
 	const QList<Compiler *> &compilerList = editSettings->getCompilerList();
 	QStringList compilerNames;
 
-	for (auto i : compilerList)
+	for (auto *i : compilerList)
 	{
 		compilerNames.append(i->getCompilerName());
 	}

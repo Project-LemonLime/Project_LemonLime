@@ -7,6 +7,7 @@
  *
  */
 #include "testcase.h"
+//
 #include "core/settings.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
@@ -166,7 +167,7 @@ void TestCase::readFromStream(QDataStream &in)
 		{
 			int temp(0);
 
-			for (auto itr = i.constBegin(); *itr != '_'; ++itr)
+			for (auto *itr = i.constBegin(); *itr != '_'; ++itr)
 				(temp *= 10) += itr->toLatin1() ^ '0';
 
 			dependenceSubtask.push_back(temp);

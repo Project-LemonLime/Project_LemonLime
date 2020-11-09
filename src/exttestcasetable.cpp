@@ -54,23 +54,23 @@ ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
 	setHorizontalHeaderLabels({tr("Informations"), tr("Input"), tr("Output")});
 }
 
-auto ExtTestCaseTable::canModify() -> bool { return isCanModify; }
+auto ExtTestCaseTable::canModify() const -> bool { return isCanModify; }
 
-auto ExtTestCaseTable::canAddSub() -> bool { return isCanAddSub; }
+auto ExtTestCaseTable::canAddSub() const -> bool { return isCanAddSub; }
 
-auto ExtTestCaseTable::canAddCase() -> bool { return isCanAddCase; }
+auto ExtTestCaseTable::canAddCase() const -> bool { return isCanAddCase; }
 
-auto ExtTestCaseTable::canRemove() -> bool { return isCanRemove; }
-auto ExtTestCaseTable::canUp() -> bool { return isCanUp; }
-auto ExtTestCaseTable::canDown() -> bool { return isCanDown; }
-auto ExtTestCaseTable::canMerge() -> bool { return isCanMerge; }
-auto ExtTestCaseTable::canSplit() -> bool { return isCanSplit; }
+auto ExtTestCaseTable::canRemove() const -> bool { return isCanRemove; }
+auto ExtTestCaseTable::canUp() const -> bool { return isCanUp; }
+auto ExtTestCaseTable::canDown() const -> bool { return isCanDown; }
+auto ExtTestCaseTable::canMerge() const -> bool { return isCanMerge; }
+auto ExtTestCaseTable::canSplit() const -> bool { return isCanSplit; }
 
-auto ExtTestCaseTable::getSelectedHaveSub() -> QList<int> { return haveSub; }
+auto ExtTestCaseTable::getSelectedHaveSub() const -> QList<int> { return haveSub; }
 
-auto ExtTestCaseTable::getSelectedResSub() -> QList<QPair<int, QPair<int, int>>> { return resSub; }
+auto ExtTestCaseTable::getSelectedResSub() const -> QList<QPair<int, QPair<int, int>>> { return resSub; }
 
-auto ExtTestCaseTable::getSelectRange() -> QPair<int, int> { return qMakePair(selectMi, selectMx); }
+auto ExtTestCaseTable::getSelectRange() const -> QPair<int, int> { return qMakePair(selectMi, selectMx); }
 
 void ExtTestCaseTable::addItem(int row, int column, const QString &text)
 {
@@ -103,7 +103,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 
 	for (int i = 0; i < testCases.size(); i++)
 	{
-		auto nowsub = editTask->getTestCase(i);
+		auto *nowsub = editTask->getTestCase(i);
 
 		int score = nowsub->getFullScore();
 		auto inputs = nowsub->getInputFiles();

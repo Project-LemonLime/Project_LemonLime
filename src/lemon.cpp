@@ -249,7 +249,7 @@ void LemonLime::showOptionsDialog()
 		{
 			const QList<Task *> &taskList = curContest->getTaskList();
 
-			for (auto i : taskList)
+			for (auto *i : taskList)
 				i->refreshCompilerConfiguration(settings);
 		}
 	}
@@ -438,7 +438,7 @@ void LemonLime::cleanupButtonClicked()
 
 			if (taskList[i]->getTaskType() == Task::AnswersOnly)
 			{
-				for (auto j : taskList[i]->getTestCaseList())
+				for (auto *j : taskList[i]->getTestCaseList())
 				{
 					for (const auto &k : j->getInputFiles())
 					{

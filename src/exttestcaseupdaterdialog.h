@@ -34,12 +34,12 @@ class ExtTestCaseUpdaterDialog : public QDialog
 	                                  QList<int> tempDepends = QList<int>());
 	~ExtTestCaseUpdaterDialog();
 
-	int getScore();
-	QString getInput();
-	QString getOutput();
-	int getTimeLimit();
-	int getMemoryLimit();
-	QStringList getDepends();
+	int getScore() const;
+	QString getInput() const;
+	QString getOutput() const;
+	int getTimeLimit() const;
+	int getMemoryLimit() const;
+	QStringList getDepends() const;
 
 	int checkDepends();
 

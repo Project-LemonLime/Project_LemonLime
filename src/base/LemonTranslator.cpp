@@ -18,7 +18,7 @@
 using namespace Lemon;
 
 // path searching list.
-QStringList getLanguageSearchPaths()
+auto getLanguageSearchPaths() -> QStringList
 {
 	// Configuration Path
 	QStringList list = LemonAssetsPaths("lang");
@@ -55,7 +55,7 @@ namespace Lemon::common
 		DEBUG("Found translations: " + languages.join(" "));
 	}
 
-	bool LemonTranslator::InstallTranslation(const QString &code)
+	auto LemonTranslator::InstallTranslation(const QString &code) -> bool
 	{
 #if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
 		for (const auto &path : searchPaths)

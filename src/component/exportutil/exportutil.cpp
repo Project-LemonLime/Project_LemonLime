@@ -261,7 +261,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 	return htmlCode;
 }
 
-void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName, int isDefaultTheme)
+void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName, bool isDefaultTheme)
 {
 	Settings colors;
 	contest->copySettings(colors);
