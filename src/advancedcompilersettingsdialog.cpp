@@ -10,7 +10,7 @@
 #include "advancedcompilersettingsdialog.h"
 #include "ui_advancedcompilersettingsdialog.h"
 //
-#include "core/compiler.h"
+#include "base/compiler.h"
 #include "environmentvariablesdialog.h"
 //
 #include <QFileDialog>

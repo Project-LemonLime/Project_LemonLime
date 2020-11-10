@@ -5,10 +5,6 @@
 set(LEMON_BASEDIR_CORE ${CMAKE_SOURCE_DIR}/src/core)
 
 set(LEMON_CORE_SOURCES
-    ${LEMON_BASEDIR_CORE}/settings.h
-    ${LEMON_BASEDIR_CORE}/settings.cpp
-    ${LEMON_BASEDIR_CORE}/compiler.h
-    ${LEMON_BASEDIR_CORE}/compiler.cpp
     ${LEMON_BASEDIR_CORE}/contest.cpp
     ${LEMON_BASEDIR_CORE}/contest.h
     ${LEMON_BASEDIR_CORE}/testcase.h

@@ -9,11 +9,11 @@
 
 #include "contest.h"
 //
+#include "base/settings.h"
 #include "core/assignmentthread.h"
-#include "core/compiler.h"
+#include "base/compiler.h"
 #include "core/contestant.h"
 #include "core/judgingthread.h"
-#include "core/settings.h"
 #include "core/task.h"
 #include "core/testcase.h"
 //

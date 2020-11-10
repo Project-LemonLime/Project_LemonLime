@@ -10,9 +10,9 @@
 #include "resultviewer.h"
 //
 #include "base/LemonType.hpp"
+#include "base/settings.h"
 #include "core/contest.h"
 #include "core/contestant.h"
-#include "core/settings.h"
 #include "core/task.h"
 #include "detaildialog.h"
 #include "judgingdialog.h"

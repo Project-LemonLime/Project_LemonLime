@@ -9,8 +9,8 @@
 
 #include "judgingthread.h"
 //
+#include "base/settings.h"
 #include "core/judgesharedvariables.h"
-#include "core/settings.h"
 #include "core/task.h"
 //
 #include <QTime>

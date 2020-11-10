@@ -9,7 +9,7 @@
 
 #include "filelineedit.h"
 //
-#include "core/settings.h"
+#include "base/settings.h"
 
 FileLineEdit::FileLineEdit(QWidget *parent) : QLineEdit(parent) { completer = nullptr; }
 

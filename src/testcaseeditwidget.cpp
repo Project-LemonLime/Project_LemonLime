@@ -10,7 +10,7 @@
 #include "testcaseeditwidget.h"
 #include "ui_testcaseeditwidget.h"
 //
-#include "core/settings.h"
+#include "base/settings.h"
 #include "core/testcase.h"
 //
 #include <QAction>

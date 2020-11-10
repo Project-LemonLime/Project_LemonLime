@@ -9,7 +9,7 @@
 //
 #include "base/LemonLog.hpp"
 #include "base/LemonTranslator.hpp"
-#include "core/settings.h" // TODO: Config Refactor
+#include "base/settings.h" // TODO: Config Refactor
 //
 #include <QCoreApplication>
 //

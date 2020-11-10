@@ -10,8 +10,8 @@
 #include "summarytree.h"
 //
 #include "addtestcaseswizard.h"
+#include "base/settings.h"
 #include "core/contest.h"
-#include "core/settings.h"
 #include "core/task.h"
 #include "core/testcase.h"
 #include "exttestcasemodifierdialog.h"

@@ -10,7 +10,7 @@
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 //
-#include "core/settings.h"
+#include "base/settings.h"
 //
 #include <QtWidgets>
 

@@ -8,7 +8,7 @@
 #include "visualsettings.h"
 #include "ui_visualsettings.h"
 //
-#include "core/settings.h"
+#include "base/settings.h"
 
 VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings)
 {

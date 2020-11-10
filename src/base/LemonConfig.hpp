@@ -9,14 +9,17 @@
 //
 
 #include <base/LemonBase.hpp>
-#include <core/compiler.h>
 //
+#include <QJsonObject>
+
+class Compiler;
 
 namespace Lemon::base::config
 {
 
-	struct LemonConfigJudge
+	class LemonConfigJudge
 	{
+	  private:
 		QList<Compiler *> compilerList;
 		int defaultFullScore{};
 		int defaultTimeLimit{};
@@ -31,13 +34,41 @@ namespace Lemon::base::config
 		QStringList outputFileExtensions;
 		QStringList recentContest;
 		QString diffPath;
+
+	  public:
+		void read(const QJsonObject &json);
+		void write(QJsonObject &json) const;
 	};
 
-	struct LemonConfigUI
+	class LemonConfigUI
 	{
+	  private:
 		QString language = "en_US";
 		// Prepare for theme setting
 		// QString theme = ;
+	  public:
+		void read(const QJsonObject &json);
+		void write(QJsonObject &json) const;
+	};
+
+	class LemonConfig
+	{
+	  private:
+		LemonConfigJudge judgeConfig;
+		LemonConfigUI uiConfig;
+		int splashTime{};
+
+	  public:
+		enum SaveFormat
+		{
+			Json,
+			Binary,
+			Yaml
+		};
+		void read(const QJsonObject &json);
+		void write(QJsonObject &json) const;
+		bool loadConfig(SaveFormat saveFormat);
+		bool saveConfig(SaveFormat saveFormat) const;
 	};
 
 } // namespace Lemon::base::config

@@ -12,7 +12,7 @@
 //
 #include "base/LemonLog.hpp"
 #include "base/LemonTranslator.hpp"
-#include "core/settings.h"
+#include "base/settings.h"
 //
 #include <QMessageBox>
 //

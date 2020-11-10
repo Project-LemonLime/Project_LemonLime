@@ -10,7 +10,7 @@
 #include "addcompilerwizard.h"
 #include "ui_addcompilerwizard.h"
 //
-#include "core/compiler.h"
+#include "base/compiler.h"
 //
 #include <QFileDialog>
 #include <QMessageBox>

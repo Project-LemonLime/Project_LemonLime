@@ -8,6 +8,8 @@
  */
 
 #include "compiler.h"
+//
+#include "base/LemonUtils.hpp"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
 #define QT_SkipEmptyParts Qt::SkipEmptyParts
@@ -131,4 +133,60 @@ void Compiler::copyFrom(Compiler *other)
 	timeLimitRatio = other->getTimeLimitRatio();
 	memoryLimitRatio = other->getMemoryLimitRatio();
 	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
+}
+
+void Compiler::read(const QJsonObject &json) {
+	
+	if (json.contains("compilerType") && json["compilerType"].isDouble())
+        compilerType = CompilerType(json["compilerType"].toInt());
+	
+	READ_JSON_STR(compilerName)
+	READ_JSON_STR(compilerLocation)
+	READ_JSON_STR(interpreterLocation)
+	
+	READ_JSON_STRLIST(sourceExtensions)
+	READ_JSON_STRLIST(bytecodeExtensions)
+	READ_JSON_STRLIST(configurationNames)
+	READ_JSON_STRLIST(compilerArguments)
+	READ_JSON_STRLIST(interpreterArguments)
+	
+	QStringList _environment;
+	if (json.contains("environment") && json["environment"].isString()) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+		_environment = json["environment"].toString().split(QLatin1Char(';'), Qt::SkipEmptyParts);
+#else
+		_environment = json["environment"].toString().split(QLatin1Char(';'), QString::SkipEmptyParts);
+#endif
+	}
+
+	for (auto &i : _environment)
+	{
+		int tmp = i.indexOf('=');
+		QString variable = i.mid(0, tmp);
+		QString value = i.mid(tmp + 1);
+		environment.insert(variable, value);
+	}
+	
+	READ_JSON_DOUBLE(timeLimitRatio)
+	READ_JSON_DOUBLE(memoryLimitRatio)
+	READ_JSON_BOOL(disableMemoryLimitCheck)
+}
+
+void Compiler::write(QJsonObject &json) const {
+	WRITE_JSON(compilerType)
+	WRITE_JSON(compilerName)
+	WRITE_JSON(compilerLocation)
+	WRITE_JSON(interpreterLocation)
+	
+	WRITE_JSON_STRLIST(sourceExtensions)
+	WRITE_JSON_STRLIST(bytecodeExtensions)
+	WRITE_JSON_STRLIST(configurationNames)
+	WRITE_JSON_STRLIST(compilerArguments)
+	WRITE_JSON_STRLIST(interpreterArguments)
+	
+	WRITE_JSON_STRLIST(environment.toStringList())
+	
+	WRITE_JSON(timeLimitRatio)  // double
+	WRITE_JSON(memoryLimitRatio)  // double
+	WRITE_JSON(disableMemoryLimitCheck)  // bool
 }

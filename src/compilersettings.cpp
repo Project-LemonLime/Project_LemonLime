@@ -12,8 +12,8 @@
 //
 #include "addcompilerwizard.h"
 #include "advancedcompilersettingsdialog.h"
-#include "core/compiler.h"
-#include "core/settings.h"
+#include "base/settings.h"
+#include "base/compiler.h"
 //
 #include <QAction>
 #include <QMessageBox>

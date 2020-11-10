@@ -11,10 +11,10 @@
 #include "base/LemonType.hpp"
 #include "core/subtaskdependencelib.h"
 
-#include "core/compiler.h"
+#include "base/settings.h"
+#include "base/compiler.h"
 #include "core/judgesharedvariables.h"
 #include "core/judgingthread.h"
-#include "core/settings.h"
 #include "core/task.h"
 #include "core/testcase.h"
 #include <utility>

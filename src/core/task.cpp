@@ -9,8 +9,8 @@
 
 #include "task.h"
 
-#include "core/compiler.h"
-#include "core/settings.h"
+#include "base/settings.h"
+#include "base/compiler.h"
 #include "core/testcase.h"
 #include <utility>
 

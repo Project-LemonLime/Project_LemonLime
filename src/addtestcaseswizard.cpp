@@ -10,7 +10,7 @@
 #include "addtestcaseswizard.h"
 #include "ui_addtestcaseswizard.h"
 //
-#include "core/settings.h"
+#include "base/settings.h"
 //
 #include <QMessageBox>
 #include <algorithm>

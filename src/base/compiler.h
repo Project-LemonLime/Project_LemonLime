@@ -23,6 +23,7 @@ class Compiler : public QObject
 		InterpretiveWithByteCode,
 		InterpretiveWithoutByteCode
 	};
+	Q_ENUM(CompilerType)
 
 	explicit Compiler(QObject *parent = nullptr);
 
@@ -58,6 +59,9 @@ class Compiler : public QObject
 	void deleteConfiguration(int);
 
 	void copyFrom(Compiler *);
+	
+	void read(const QJsonObject &json);
+	void write(QJsonObject &json) const;
 
   private:
 	CompilerType compilerType;
