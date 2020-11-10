@@ -10,8 +10,7 @@
 //
 #include "base/settings.h"
 
-VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings)
-{
+VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualSettings) {
 	ui->setupUi(this);
 	connect(ui->spinBoxMxH, qOverload<int>(&QSpinBox::valueChanged), this, &VisualSettings::colorMxHChanged);
 	connect(ui->doubleSpinBoxMxS, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
@@ -50,8 +49,7 @@ VisualSettings::VisualSettings(QWidget *parent) : QWidget(parent), ui(new Ui::Vi
 	connect(ui->resetToDefaultButton, &QPushButton::clicked, this, &VisualSettings::whenResetToDefault);
 }
 
-void VisualSettings::resetToDefault()
-{
+void VisualSettings::resetToDefault() {
 	ui->spinBoxMxH->setValue(120);
 	ui->doubleSpinBoxMxS->setValue(50);
 	ui->doubleSpinBoxMxL->setValue(57.5);
@@ -94,8 +92,7 @@ void VisualSettings::resetToDefault()
 
 void VisualSettings::whenResetToDefault() { VisualSettings::resetToDefault(); }
 
-void VisualSettings::resetEditSettings(Settings *settings)
-{
+void VisualSettings::resetEditSettings(Settings *settings) {
 	editSettings = settings;
 	ui->spinBoxMxH->setValue(editSettings->getColorMxH());
 	ui->doubleSpinBoxMxS->setValue(editSettings->getColorMxS());

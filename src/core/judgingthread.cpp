@@ -26,8 +26,7 @@
 #include <Psapi.h>
 #endif
 
-JudgingThread::JudgingThread(QObject *parent) : QThread(parent)
-{
+JudgingThread::JudgingThread(QObject *parent) : QThread(parent) {
 	moveToThread(this);
 	// checkRejudgeMode = false;
 	needRejudge = false;
@@ -90,12 +89,10 @@ auto JudgingThread::getNeedRejudge() const -> bool { return needRejudge; }
 
 void JudgingThread::stopJudgingSlot() { stopJudging = true; }
 
-void JudgingThread::compareLineByLine(const QString &contestantOutput)
-{
+void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == nullptr)
-	{
+	if (contestantOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open contestant's output file)");
@@ -104,8 +101,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == nullptr)
-	{
+	if (standardOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr("Cannot open standard output file");
@@ -124,12 +120,10 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	short len2 = 0;
 	int nowRow = 1;
 
-	while (true)
-	{
+	while (true) {
 		len1 = 0;
 
-		while (len1 < 20)
-		{
+		while (len1 < 20) {
 			if (feof(contestantOutputFile))
 				break;
 
@@ -141,14 +135,12 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			if (! chk1 && ch == '\n')
 				break;
 
-			if (chk1 && ch == '\n')
-			{
+			if (chk1 && ch == '\n') {
 				chk1 = false;
 				continue;
 			}
 
-			if (ch == '\r')
-			{
+			if (ch == '\r') {
 				chk1 = true;
 				break;
 			}
@@ -165,8 +157,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		bool isNewRowStarted = false;
 
-		while (len2 < 20)
-		{
+		while (len2 < 20) {
 			if (feof(standardOutputFile))
 				break;
 
@@ -175,20 +166,17 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			if (ch == EOF)
 				break;
 
-			if (! chk2 && ch == '\n')
-			{
+			if (! chk2 && ch == '\n') {
 				isNewRowStarted = true;
 				break;
 			}
 
-			if (chk2 && ch == '\n')
-			{
+			if (chk2 && ch == '\n') {
 				chk2 = false;
 				continue;
 			}
 
-			if (ch == '\r')
-			{
+			if (ch == '\r') {
 				isNewRowStarted = true;
 				chk2 = true;
 				break;
@@ -203,8 +191,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 		str2[len2++] = '\0';
 		chkEof2 = ch == EOF;
 
-		if (len1 != len2 || strcmp(str1, str2) != 0)
-		{
+		if (len1 != len2 || strcmp(str1, str2) != 0) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
@@ -213,8 +200,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			return;
 		}
 
-		if (chkEof1 && ! chkEof2)
-		{
+		if (chkEof1 && ! chkEof2) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
@@ -223,8 +209,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 			return;
 		}
 
-		if (! chkEof1 && chkEof2)
-		{
+		if (! chkEof1 && chkEof2) {
 			score = 0;
 			result = OutputLimitExceeded;
 			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
@@ -238,8 +223,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
-		{
+		if (stopJudging) {
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -255,12 +239,10 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
 	fclose(standardOutputFile);
 }
 
-void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
-{
+void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == nullptr)
-	{
+	if (contestantOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open contestant's output file)");
@@ -269,8 +251,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == nullptr)
-	{
+	if (standardOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr("Cannot open standard output file");
@@ -286,83 +267,60 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 	int flag2 = 0;
 	int nowRow = 1;
 
-	while (true)
-	{
-		if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF)
-		{
-			if (ch1 == '\r')
-			{
+	while (true) {
+		if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
+			if (ch1 == '\r') {
 				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 
 				if (ch1 == '\n')
 					ch1 = static_cast<char>(fgetc(contestantOutputFile));
-			}
-			else
-			{
+			} else {
 				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 			}
 
-			while (ch1 == ' ' || ch1 == '\t')
-			{
+			while (ch1 == ' ' || ch1 == '\t') {
 				ch1 = static_cast<char>(fgetc(contestantOutputFile));
 			}
 
 			flag1 = 2;
-		}
-		else
-		{
-			if (ch1 == ' ' || ch1 == '\t')
-			{
-				while (ch1 == ' ' || ch1 == '\t')
-				{
+		} else {
+			if (ch1 == ' ' || ch1 == '\t') {
+				while (ch1 == ' ' || ch1 == '\t') {
 					ch1 = static_cast<char>(fgetc(contestantOutputFile));
 				}
 
-				if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF)
-				{
-					if (ch1 == '\r')
-					{
+				if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
+					if (ch1 == '\r') {
 						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 
 						if (ch1 == '\n')
 							ch1 = static_cast<char>(fgetc(contestantOutputFile));
-					}
-					else
-					{
+					} else {
 						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 					}
 
-					while (ch1 == ' ' || ch1 == '\t')
-					{
+					while (ch1 == ' ' || ch1 == '\t') {
 						ch1 = static_cast<char>(fgetc(contestantOutputFile));
 					}
 
 					flag1 = 2;
-				}
-				else
-				{
+				} else {
 					flag1 = 1;
 				}
-			}
-			else
-			{
+			} else {
 				flag1 = 0;
 			}
 		}
 
 		bool isNewRowStarted = false;
 
-		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
-		{
-			if (ch2 == '\r')
-			{
+		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
+			if (ch2 == '\r') {
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
 
 				if (ch2 == '\n')
 					ch2 = static_cast<char>(fgetc(standardOutputFile));
-			}
-			else
-			{
+			} else {
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
 			}
 
@@ -372,54 +330,39 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				ch2 = static_cast<char>(fgetc(standardOutputFile));
 
 			flag2 = 2;
-		}
-		else
-		{
-			if (ch2 == ' ' || ch2 == '\t')
-			{
-				while (ch2 == ' ' || ch2 == '\t')
-				{
+		} else {
+			if (ch2 == ' ' || ch2 == '\t') {
+				while (ch2 == ' ' || ch2 == '\t') {
 					ch2 = static_cast<char>(fgetc(standardOutputFile));
 				}
 
-				if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF)
-				{
-					if (ch2 == '\r')
-					{
+				if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
+					if (ch2 == '\r') {
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
 
 						if (ch2 == '\n')
 							ch2 = static_cast<char>(fgetc(standardOutputFile));
-					}
-					else
-					{
+					} else {
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
 					isNewRowStarted = true;
 
-					while (ch2 == ' ' || ch2 == '\t')
-					{
+					while (ch2 == ' ' || ch2 == '\t') {
 						ch2 = static_cast<char>(fgetc(standardOutputFile));
 					}
 
 					flag2 = 2;
-				}
-				else
-				{
+				} else {
 					flag2 = 1;
 				}
-			}
-			else
-			{
+			} else {
 				flag2 = 0;
 			}
 		}
 
-		if (flag1 != flag2)
-		{
-			if (ch1 == EOF && ch2 != EOF)
-			{
+		if (flag1 != flag2) {
+			if (ch1 == EOF && ch2 != EOF) {
 				score = 0;
 				result = WrongAnswer;
 				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
@@ -428,8 +371,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				return;
 			}
 
-			if (ch1 != EOF && ch2 == EOF)
-			{
+			if (ch1 != EOF && ch2 == EOF) {
 				score = 0;
 				result = OutputLimitExceeded;
 				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
@@ -451,14 +393,10 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		int len1 = 0;
 
-		while (len1 < 20)
-		{
-			if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF)
-			{
+		while (len1 < 20) {
+			if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF) {
 				str1[len1++] = ch1;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 
@@ -468,14 +406,10 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 		str1[len1] = '\0';
 		int len2 = 0;
 
-		while (len2 < 20)
-		{
-			if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF)
-			{
+		while (len2 < 20) {
+			if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF) {
 				str2[len2++] = ch2;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 
@@ -484,10 +418,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		str2[len2] = '\0';
 
-		if (len1 != len2 || strcmp(str1, str2) != 0)
-		{
-			if (len1 <= 0)
-			{
+		if (len1 != len2 || strcmp(str1, str2) != 0) {
+			if (len1 <= 0) {
 				score = 0;
 				result = WrongAnswer;
 				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
@@ -496,8 +428,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 				return;
 			}
 
-			if (len2 <= 0)
-			{
+			if (len2 <= 0) {
 				score = 0;
 				result = OutputLimitExceeded;
 				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
@@ -519,8 +450,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
-		{
+		if (stopJudging) {
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -533,31 +463,25 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
 	fclose(standardOutputFile);
 }
 
-void JudgingThread::compareWithDiff(const QString &contestantOutput)
-{
+void JudgingThread::compareWithDiff(const QString &contestantOutput) {
 	QString cmd = diffPath;
 	QStringList cmdArgs =
 	    (QStringList(task->getDiffArguments())
 	     << QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator()) << contestantOutput);
 
-	if (QProcess::execute(cmd, cmdArgs) != 0)
-	{
+	if (QProcess::execute(cmd, cmdArgs) != 0) {
 		score = 0;
 		result = WrongAnswer;
-	}
-	else
-	{
+	} else {
 		score = fullScore;
 		result = CorrectAnswer;
 	}
 }
 
-void JudgingThread::compareRealNumbers(const QString &contestantOutput)
-{
+void JudgingThread::compareRealNumbers(const QString &contestantOutput) {
 	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
 
-	if (contestantOutputFile == nullptr)
-	{
+	if (contestantOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open contestant's output file)");
@@ -566,8 +490,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 
 	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
 
-	if (standardOutputFile == nullptr)
-	{
+	if (standardOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open standard output file)");
@@ -584,15 +507,13 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	long double b = NAN;
 	int nowRow = 1;
 
-	while (true)
-	{
+	while (true) {
 		int cnt1 = fscanf(contestantOutputFile, "%Lf", &a);
 		int cnt2 = fscanf(standardOutputFile, "%Lf", &b);
 
 		char temps = fgetc(standardOutputFile);
 
-		if (cnt1 == 0)
-		{
+		if (cnt1 == 0) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %1, Invalid characters in contestant's output file)").arg(nowRow);
@@ -601,8 +522,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			return;
 		}
 
-		if (cnt2 == 0)
-		{
+		if (cnt2 == 0) {
 			score = 0;
 			result = FileError;
 			message = tr(R"(On line %1, Invalid characters in standard output file)").arg(nowRow);
@@ -614,8 +534,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		if (cnt1 == EOF && cnt2 == EOF)
 			break;
 
-		if (cnt1 == EOF && cnt2 == 1)
-		{
+		if (cnt1 == EOF && cnt2 == 1) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %1, Contestant's Output has less contents)").arg(nowRow);
@@ -624,8 +543,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 			return;
 		}
 
-		if (cnt1 == 1 && cnt2 == EOF)
-		{
+		if (cnt1 == 1 && cnt2 == EOF) {
 			score = 0;
 			result = OutputLimitExceeded;
 			message = tr(R"(On line %1, Contestant's Output has too much contents)").arg(nowRow);
@@ -635,8 +553,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 		}
 
 		if (std::isnan(a) != std::isnan(b) || std::isinf(a) != std::isinf(b) ||
-		    (std::abs(a - b) > eps && std::abs(a - b) > eps * std::abs(b)))
-		{
+		    (std::abs(a - b) > eps && std::abs(a - b) > eps * std::abs(b))) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
@@ -650,8 +567,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
-		{
+		if (stopJudging) {
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);
 			return;
@@ -667,26 +583,22 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 	fclose(standardOutputFile);
 }
 
-void JudgingThread::specialJudge(const QString &fileName)
-{
-	if (! QFileInfo::exists(inputFile))
-	{
+void JudgingThread::specialJudge(const QString &fileName) {
+	if (! QFileInfo::exists(inputFile)) {
 		score = 0;
 		result = FileError;
 		message = tr("Cannot find standard input file");
 		return;
 	}
 
-	if (! QFileInfo::exists(fileName))
-	{
+	if (! QFileInfo::exists(fileName)) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot find contestant's output file)");
 		return;
 	}
 
-	if (! QFileInfo::exists(outputFile))
-	{
+	if (! QFileInfo::exists(outputFile)) {
 		score = 0;
 		result = FileError;
 		message = tr("Cannot find standard output file");
@@ -700,8 +612,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 	arguments << workingDirectory + "_message";
 	judge->start(Settings::dataPath() + task->getSpecialJudge(), arguments);
 
-	if (! judge->waitForStarted(-1))
-	{
+	if (! judge->waitForStarted(-1)) {
 		score = 0;
 		result = InvalidSpecialJudge;
 		delete judge;
@@ -712,18 +623,15 @@ void JudgingThread::specialJudge(const QString &fileName)
 	timer.start();
 	bool flag = false;
 
-	while (timer.elapsed() < specialJudgeTimeLimit)
-	{
-		if (judge->state() != QProcess::Running)
-		{
+	while (timer.elapsed() < specialJudgeTimeLimit) {
+		if (judge->state() != QProcess::Running) {
 			flag = true;
 			break;
 		}
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging)
-		{
+		if (stopJudging) {
 			judge->kill();
 			delete judge;
 			return;
@@ -732,8 +640,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 		msleep(10);
 	}
 
-	if (! flag)
-	{
+	if (! flag) {
 		judge->kill();
 		score = 0;
 		result = SpecialJudgeTimeLimitExceeded;
@@ -741,8 +648,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 		return;
 	}
 
-	if (judge->exitCode() != 0)
-	{
+	if (judge->exitCode() != 0) {
 		score = 0;
 		result = SpecialJudgeRunTimeError;
 		delete judge;
@@ -752,8 +658,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 	delete judge;
 	QFile scoreFile(workingDirectory + "_score");
 
-	if (! scoreFile.open(QFile::ReadOnly))
-	{
+	if (! scoreFile.open(QFile::ReadOnly)) {
 		score = 0;
 		result = InvalidSpecialJudge;
 		return;
@@ -762,8 +667,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 	QTextStream scoreStream(&scoreFile);
 	scoreStream >> score;
 
-	if (scoreStream.status() == QTextStream::ReadCorruptData)
-	{
+	if (scoreStream.status() == QTextStream::ReadCorruptData) {
 		score = 0;
 		result = InvalidSpecialJudge;
 		return;
@@ -771,8 +675,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 
 	scoreFile.close();
 
-	if (score < 0)
-	{
+	if (score < 0) {
 		score = 0;
 		result = InvalidSpecialJudge;
 		return;
@@ -780,8 +683,7 @@ void JudgingThread::specialJudge(const QString &fileName)
 
 	QFile messageFile(workingDirectory + "_message");
 
-	if (messageFile.open(QFile::ReadOnly))
-	{
+	if (messageFile.open(QFile::ReadOnly)) {
 		QTextStream messageStream(&messageFile);
 		message = messageStream.readAll();
 		messageFile.close();
@@ -800,13 +702,11 @@ void JudgingThread::specialJudge(const QString &fileName)
 	messageFile.remove();
 }
 
-void JudgingThread::runProgram()
-{
+void JudgingThread::runProgram() {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
 
-	if (skipEnabled)
-	{
+	if (skipEnabled) {
 		result = TimeLimitExceeded;
 		score = 0;
 		return;
@@ -824,15 +724,13 @@ void JudgingThread::runProgram()
 	ZeroMemory(&sa, sizeof(sa));
 	sa.bInheritHandle = TRUE;
 
-	if (task->getStandardInputCheck())
-	{
+	if (task->getStandardInputCheck()) {
 		si.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
 		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
 		                           FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
-	if (task->getStandardOutputCheck())
-	{
+	if (task->getStandardOutputCheck()) {
 		si.hStdOutput = CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
 		                            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
 		                            CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -846,8 +744,7 @@ void JudgingThread::runProgram()
 	if (! CreateProcessW(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
 	                     &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
 	                     (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()),
-	                     &si, &pi))
-	{
+	                     &si, &pi)) {
 		if (task->getStandardInputCheck())
 			CloseHandle(si.hStdInput);
 
@@ -864,12 +761,10 @@ void JudgingThread::runProgram()
 	ZeroMemory(&info, sizeof(info));
 	info.cb = sizeof(info);
 
-	if (memoryLimit != -1)
-	{
+	if (memoryLimit != -1) {
 		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 
-		if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024)
-		{
+		if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024) {
 			TerminateProcess(pi.hProcess, 0);
 
 			if (task->getStandardInputCheck())
@@ -892,20 +787,16 @@ void JudgingThread::runProgram()
 	QElapsedTimer timer;
 	timer.start();
 
-	while (timer.elapsed() <= timeLimit + extraTime)
-	{
-		if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0)
-		{
+	while (timer.elapsed() <= timeLimit + extraTime) {
+		if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0) {
 			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
 
-		if (memoryLimit != -1)
-		{
+		if (memoryLimit != -1) {
 			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
 
-			if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024U * 1024)
-			{
+			if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024U * 1024) {
 				TerminateProcess(pi.hProcess, 0);
 
 				if (task->getStandardInputCheck())
@@ -926,8 +817,7 @@ void JudgingThread::runProgram()
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging || skipEnabled)
-		{
+		if (stopJudging || skipEnabled) {
 			TerminateProcess(pi.hProcess, 0);
 
 			if (task->getStandardInputCheck())
@@ -940,8 +830,7 @@ void JudgingThread::runProgram()
 			CloseHandle(pi.hProcess);
 			CloseHandle(pi.hThread);
 
-			if (skipEnabled)
-			{
+			if (skipEnabled) {
 				score = 0;
 				result = TimeLimitExceeded;
 				timeUsed = memoryUsed = -1;
@@ -953,8 +842,7 @@ void JudgingThread::runProgram()
 		Sleep(10);
 	}
 
-	if (! isProgramFinishedInExtraTimeLimit)
-	{
+	if (! isProgramFinishedInExtraTimeLimit) {
 		TerminateProcess(pi.hProcess, 0);
 
 		if (task->getStandardInputCheck())
@@ -975,8 +863,7 @@ void JudgingThread::runProgram()
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
-	if (exitCode != 0)
-	{
+	if (exitCode != 0) {
 		if (task->getStandardInputCheck())
 			CloseHandle(si.hStdInput);
 
@@ -990,8 +877,7 @@ void JudgingThread::runProgram()
 		result = RunTimeError;
 		QFile file(workingDirectory + "_tmperr");
 
-		if (file.open(QFile::ReadOnly))
-		{
+		if (file.open(QFile::ReadOnly)) {
 			QTextStream stream(&file);
 			message = stream.readAll();
 			file.close();
@@ -1032,21 +918,15 @@ void JudgingThread::runProgram()
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
 
-	if (task->getStandardInputCheck())
-	{
+	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
-	}
-	else
-	{
+	} else {
 		argumentsList << "";
 	}
 
-	if (task->getStandardOutputCheck())
-	{
+	if (task->getStandardOutputCheck()) {
 		argumentsList << "_tmpout";
-	}
-	else
-	{
+	} else {
 		argumentsList << "";
 	}
 
@@ -1058,8 +938,7 @@ void JudgingThread::runProgram()
 	runner->setWorkingDirectory(workingDirectory);
 	runner->start(workingDirectory + "watcher", argumentsList);
 
-	if (! runner->waitForStarted(-1))
-	{
+	if (! runner->waitForStarted(-1)) {
 		delete runner;
 		score = 0;
 		result = CannotStartProgram;
@@ -1070,24 +949,20 @@ void JudgingThread::runProgram()
 	QElapsedTimer timer;
 	timer.start();
 
-	while (timer.elapsed() <= timeLimit + extraTime)
-	{
-		if (runner->state() != QProcess::Running)
-		{
+	while (timer.elapsed() <= timeLimit + extraTime) {
+		if (runner->state() != QProcess::Running) {
 			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
 
 		QCoreApplication::processEvents();
 
-		if (stopJudging || skipEnabled)
-		{
+		if (stopJudging || skipEnabled) {
 			runner->terminate();
 			runner->waitForFinished(-1);
 			delete runner;
 
-			if (skipEnabled)
-			{
+			if (skipEnabled) {
 				score = 0;
 				result = TimeLimitExceeded;
 				timeUsed = memoryUsed = -1;
@@ -1099,8 +974,7 @@ void JudgingThread::runProgram()
 		msleep(10);
 	}
 
-	if (! isProgramFinishedInExtraTimeLimit)
-	{
+	if (! isProgramFinishedInExtraTimeLimit) {
 		runner->terminate();
 		runner->waitForFinished(-1);
 		delete runner;
@@ -1112,8 +986,7 @@ void JudgingThread::runProgram()
 
 	int code = runner->exitCode();
 
-	if (code == 1)
-	{
+	if (code == 1) {
 		delete runner;
 		score = 0;
 		result = CannotStartProgram;
@@ -1121,15 +994,13 @@ void JudgingThread::runProgram()
 		return;
 	}
 
-	if (code == 2)
-	{
+	if (code == 2) {
 		delete runner;
 		score = 0;
 		result = RunTimeError;
 		QFile file(workingDirectory + "_tmperr");
 
-		if (file.open(QFile::ReadOnly))
-		{
+		if (file.open(QFile::ReadOnly)) {
 			QTextStream stream(&file);
 			message = stream.readAll();
 			file.close();
@@ -1146,8 +1017,7 @@ void JudgingThread::runProgram()
 	if (memoryUsed <= 0)
 		memoryLimit = -1;
 
-	if (code == 3)
-	{
+	if (code == 3) {
 		delete runner;
 		score = 0;
 		result = TimeLimitExceeded;
@@ -1155,8 +1025,7 @@ void JudgingThread::runProgram()
 		return;
 	}
 
-	if (code == 4)
-	{
+	if (code == 4) {
 		delete runner;
 		score = 0;
 		result = MemoryLimitExceeded;
@@ -1164,8 +1033,7 @@ void JudgingThread::runProgram()
 		return;
 	}
 
-	if (memoryUsed > memoryLimit * 1024LL * 1024)
-	{
+	if (memoryUsed > memoryLimit * 1024LL * 1024) {
 		delete runner;
 		score = 0;
 		result = MemoryLimitExceeded;
@@ -1176,21 +1044,16 @@ void JudgingThread::runProgram()
 #endif
 }
 
-void JudgingThread::judgeOutput()
-{
+void JudgingThread::judgeOutput() {
 	QString fileName;
 
-	if (task->getStandardOutputCheck())
-	{
+	if (task->getStandardOutputCheck()) {
 		fileName = workingDirectory + "_tmpout";
-	}
-	else
-	{
+	} else {
 		fileName = workingDirectory + task->getOutputFileName();
 	}
 
-	switch (task->getComparisonMode())
-	{
+	switch (task->getComparisonMode()) {
 		case Task::LineByLineMode:
 			compareLineByLine(fileName);
 			break;
@@ -1213,20 +1076,16 @@ void JudgingThread::judgeOutput()
 	}
 }
 
-void JudgingThread::judgeTraditionalTask()
-{
-	if (! QFileInfo::exists(inputFile))
-	{
+void JudgingThread::judgeTraditionalTask() {
+	if (! QFileInfo::exists(inputFile)) {
 		score = 0;
 		result = FileError;
 		message = tr("Cannot find standard input file");
 		return;
 	}
 
-	if (! task->getStandardInputCheck())
-	{
-		if (! QFile::copy(inputFile, workingDirectory + task->getInputFileName()))
-		{
+	if (! task->getStandardInputCheck()) {
+		if (! QFile::copy(inputFile, workingDirectory + task->getInputFileName())) {
 			score = 0;
 			result = FileError;
 			message = tr("Cannot copy standard input file");
@@ -1239,19 +1098,14 @@ void JudgingThread::judgeTraditionalTask()
 	if (stopJudging)
 		return;
 
-	if (result != CorrectAnswer)
-	{
-		if (! task->getStandardInputCheck())
-		{
+	if (result != CorrectAnswer) {
+		if (! task->getStandardInputCheck()) {
 			QFile::remove(workingDirectory + task->getInputFileName());
 		}
 
-		if (! task->getStandardOutputCheck())
-		{
+		if (! task->getStandardOutputCheck()) {
 			QFile::remove(workingDirectory + task->getOutputFileName());
-		}
-		else
-		{
+		} else {
 			QFile::remove(workingDirectory + "_tmpout");
 		}
 
@@ -1263,11 +1117,9 @@ void JudgingThread::judgeTraditionalTask()
 	if (stopJudging)
 		return;
 
-	if (timeUsed > timeLimit)
-	{
+	if (timeUsed > timeLimit) {
 		if (score > 0 &&
-		    (timeUsed <= timeLimit * (1 + extraTimeRatio) || timeUsed <= timeLimit + 1000 * extraTimeRatio))
-		{
+		    (timeUsed <= timeLimit * (1 + extraTimeRatio) || timeUsed <= timeLimit + 1000 * extraTimeRatio)) {
 			needRejudge = true;
 		}
 		score = 0;
@@ -1275,25 +1127,19 @@ void JudgingThread::judgeTraditionalTask()
 		message = "";
 	}
 
-	if (! task->getStandardInputCheck())
-	{
+	if (! task->getStandardInputCheck()) {
 		QFile::remove(workingDirectory + task->getInputFileName());
 	}
 
-	if (! task->getStandardOutputCheck())
-	{
+	if (! task->getStandardOutputCheck()) {
 		QFile::remove(workingDirectory + task->getOutputFileName());
-	}
-	else
-	{
+	} else {
 		QFile::remove(workingDirectory + "_tmpout");
 	}
 }
 
-void JudgingThread::judgeAnswersOnlyTask()
-{
-	switch (task->getComparisonMode())
-	{
+void JudgingThread::judgeAnswersOnlyTask() {
+	switch (task->getComparisonMode()) {
 		case Task::LineByLineMode:
 			compareLineByLine(answerFile);
 			break;
@@ -1420,13 +1266,11 @@ void JudgingThread::judgeInteractionTask()
 */
 // rebuild interaction task, built in tradtional task
 
-void JudgingThread::run()
-{
+void JudgingThread::run() {
 	++judgedTimes;
 	needRejudge = false;
 
-	switch (task->getTaskType())
-	{
+	switch (task->getTaskType()) {
 		case Task::Interaction:
 		case Task::Traditional:
 		case Task::Communication:

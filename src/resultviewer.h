@@ -16,8 +16,7 @@
 
 class Contest;
 
-class ResultViewer : public QTableWidget
-{
+class ResultViewer : public QTableWidget {
 	Q_OBJECT
   public:
 	explicit ResultViewer(QWidget *parent = nullptr);

@@ -10,15 +10,13 @@
 
 #include <QWidget>
 
-namespace Ui
-{
+namespace Ui {
 	class VisualSettings;
 }
 
 class Settings;
 
-class VisualSettings : public QWidget
-{
+class VisualSettings : public QWidget {
 	Q_OBJECT
 
   public:

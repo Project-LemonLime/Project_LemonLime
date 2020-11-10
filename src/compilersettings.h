@@ -14,16 +14,14 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class CompilerSettings;
 }
 
 class Settings;
 class Compiler;
 
-class CompilerSettings : public QWidget
-{
+class CompilerSettings : public QWidget {
 	Q_OBJECT
 
   public:

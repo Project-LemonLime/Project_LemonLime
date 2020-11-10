@@ -13,15 +13,13 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class AddCompilerWizard;
 }
 
 class Compiler;
 
-class AddCompilerWizard : public QWizard
-{
+class AddCompilerWizard : public QWizard {
 	Q_OBJECT
 
   public:

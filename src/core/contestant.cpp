@@ -62,15 +62,13 @@ void Contestant::setScore(int index, const QList<QList<int>> &_score) { score[in
 
 void Contestant::setTimeUsed(int index, const QList<QList<int>> &_timeUsed) { timeUsed[index] = _timeUsed; }
 
-void Contestant::setMemoryUsed(int index, const QList<QList<int>> &_memoryUsed)
-{
+void Contestant::setMemoryUsed(int index, const QList<QList<int>> &_memoryUsed) {
 	memoryUsed[index] = _memoryUsed;
 }
 
 void Contestant::setJudgingTime(QDateTime time) { judgingTime = std::move(time); }
 
-void Contestant::addTask()
-{
+void Contestant::addTask() {
 	checkJudged.append(false);
 	compileState.append(NoValidSourceFile);
 	sourceFile.append("");
@@ -83,8 +81,7 @@ void Contestant::addTask()
 	memoryUsed.append(QList<QList<int>>());
 }
 
-void Contestant::deleteTask(int index)
-{
+void Contestant::deleteTask(int index) {
 	checkJudged.removeAt(index);
 	compileState.removeAt(index);
 	sourceFile.removeAt(index);
@@ -97,8 +94,7 @@ void Contestant::deleteTask(int index)
 	memoryUsed.removeAt(index);
 }
 
-void Contestant::swapTask(int a, int b)
-{
+void Contestant::swapTask(int a, int b) {
 	if (a < 0 || a >= checkJudged.size())
 		return;
 
@@ -117,8 +113,7 @@ void Contestant::swapTask(int a, int b)
 	memoryUsed.swapItemsAt(a, b);
 }
 
-auto Contestant::getTaskScore(int index) const -> int
-{
+auto Contestant::getTaskScore(int index) const -> int {
 	if (0 > index || index >= checkJudged.size())
 		return -1;
 
@@ -127,12 +122,10 @@ auto Contestant::getTaskScore(int index) const -> int
 
 	int total = 0;
 
-	for (const auto &i : score[index])
-	{
+	for (const auto &i : score[index]) {
 		int minv = 1000000000;
 
-		for (int j : i)
-		{
+		for (int j : i) {
 			if (j < minv && j >= 0)
 				minv = j;
 		}
@@ -146,46 +139,38 @@ auto Contestant::getTaskScore(int index) const -> int
 	return total;
 }
 
-auto Contestant::getTotalScore() const -> int
-{
+auto Contestant::getTotalScore() const -> int {
 	if (checkJudged.empty())
 		return -1;
 
-	for (bool i : checkJudged)
-	{
+	for (bool i : checkJudged) {
 		if (! i)
 			return -1;
 	}
 
 	int total = 0;
 
-	for (int i = 0; i < score.size(); i++)
-	{
+	for (int i = 0; i < score.size(); i++) {
 		total += getTaskScore(i);
 	}
 
 	return total;
 }
 
-auto Contestant::getTotalUsedTime() const -> int
-{
+auto Contestant::getTotalUsedTime() const -> int {
 	if (checkJudged.empty())
 		return -1;
 
-	for (bool i : checkJudged)
-	{
+	for (bool i : checkJudged) {
 		if (! i)
 			return -1;
 	}
 
 	int total = 0;
 
-	for (const auto &i : timeUsed)
-	{
-		for (const auto &j : i)
-		{
-			for (int k : j)
-			{
+	for (const auto &i : timeUsed) {
+		for (const auto &j : i) {
+			for (int k : j) {
 				if (k >= 0)
 					total += k;
 			}
@@ -195,8 +180,7 @@ auto Contestant::getTotalUsedTime() const -> int
 	return total;
 }
 
-void Contestant::writeToStream(QDataStream &out)
-{
+void Contestant::writeToStream(QDataStream &out) {
 	out << contestantName;
 	out << checkJudged;
 	out << sourceFile;
@@ -211,31 +195,26 @@ void Contestant::writeToStream(QDataStream &out)
 	out << static_cast<quint8>(judgingTime.timeSpec());
 	out << compileState.size();
 
-	for (auto &i : compileState)
-	{
+	for (auto &i : compileState) {
 		out << int(i);
 	}
 
 	out << result.size();
 
-	for (auto &i : result)
-	{
+	for (auto &i : result) {
 		out << i.size();
 
-		for (auto &j : i)
-		{
+		for (auto &j : i) {
 			out << j.size();
 
-			for (auto &k : j)
-			{
+			for (auto &k : j) {
 				out << int(k);
 			}
 		}
 	}
 }
 
-void Contestant::readFromStream(QDataStream &in)
-{
+void Contestant::readFromStream(QDataStream &in) {
 	in >> contestantName;
 	in >> checkJudged;
 	in >> sourceFile;
@@ -260,26 +239,22 @@ void Contestant::readFromStream(QDataStream &in)
 	int tmp = 0;
 	in >> count;
 
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		in >> tmp;
 		compileState.append(CompileState(tmp));
 	}
 
 	in >> count;
 
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		result.append(QList<QList<ResultState>>());
 		in >> _count;
 
-		for (int j = 0; j < _count; j++)
-		{
+		for (int j = 0; j < _count; j++) {
 			result[i].append(QList<ResultState>());
 			in >> __count;
 
-			for (int k = 0; k < __count; k++)
-			{
+			for (int k = 0; k < __count; k++) {
 				in >> tmp;
 				result[i][j].append(ResultState(tmp));
 			}

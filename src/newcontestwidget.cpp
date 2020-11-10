@@ -12,8 +12,7 @@
 //
 #include <QFileDialog>
 
-NewContestWidget::NewContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::NewContestWidget)
-{
+NewContestWidget::NewContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::NewContestWidget) {
 	ui->setupUi(this);
 	connect(ui->selectButton, &QToolButton::clicked, this, &NewContestWidget::selectContestPath);
 	connect(ui->savingName, &QLineEdit::textChanged, this, &NewContestWidget::savingNameChanged);
@@ -30,22 +29,19 @@ auto NewContestWidget::getSavingName() -> QString { return ui->savingName->text(
 
 auto NewContestWidget::getContestPath() -> QString { return ui->contestPath->text(); }
 
-auto NewContestWidget::checkReady() const -> bool
-{
+auto NewContestWidget::checkReady() const -> bool {
 	return ! ui->contestTitle->text().isEmpty() && ! ui->contestPath->text().isEmpty() &&
 	       ! ui->savingName->text().isEmpty();
 }
 
-void NewContestWidget::selectContestPath()
-{
+void NewContestWidget::selectContestPath() {
 	QString path = QFileDialog::getExistingDirectory(this, tr("Select Contest Path"), QDir::homePath());
 
 	if (! path.isEmpty())
 		ui->contestPath->setText(QDir::toNativeSeparators(path));
 }
 
-void NewContestWidget::savingNameChanged()
-{
+void NewContestWidget::savingNameChanged() {
 	QString path = QDir::homePath();
 	path = QDir::toNativeSeparators(path);
 	path += QDir::separator();

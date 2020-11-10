@@ -8,8 +8,7 @@
 #pragma once
 //
 
-enum CompileState
-{
+enum CompileState {
 	CompileSuccessfully,
 	NoValidSourceFile,
 	CompileError,
@@ -17,8 +16,7 @@ enum CompileState
 	InvalidCompiler
 };
 
-enum ResultState
-{
+enum ResultState {
 	CorrectAnswer,
 	WrongAnswer,
 	PartlyCorrect,

@@ -12,8 +12,7 @@
 //
 #include <QPushButton>
 
-EditVariableDialog::EditVariableDialog(QWidget *parent) : QDialog(parent), ui(new Ui::EditVariableDialog)
-{
+EditVariableDialog::EditVariableDialog(QWidget *parent) : QDialog(parent), ui(new Ui::EditVariableDialog) {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->variableName, &QLineEdit::textChanged, this, &EditVariableDialog::textChanged);
@@ -30,14 +29,10 @@ auto EditVariableDialog::getVariableName() const -> QString { return ui->variabl
 
 auto EditVariableDialog::getVariableValue() const -> QString { return ui->variableValue->text(); }
 
-void EditVariableDialog::textChanged()
-{
-	if (! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty())
-	{
+void EditVariableDialog::textChanged() {
+	if (! ui->variableName->text().isEmpty() && ! ui->variableValue->text().isEmpty()) {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-	}
-	else
-	{
+	} else {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	}
 }

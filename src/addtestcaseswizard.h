@@ -14,15 +14,13 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class AddTestCasesWizard;
 }
 
 class Settings;
 
-class AddTestCasesWizard : public QWizard
-{
+class AddTestCasesWizard : public QWizard {
 	Q_OBJECT
 
   public:

@@ -28,16 +28,14 @@
 #define QT_SkipEmptyParts QString::SkipEmptyParts
 #endif
 
-DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog)
-{
+DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog) {
 	ui->setupUi(this);
 	connect(ui->detailViewer, &QTextBrowser::anchorClicked, this, &DetailDialog::anchorClicked);
 }
 
 DetailDialog::~DetailDialog() { delete ui; }
 
-void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
-{
+void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 	contest = _contest;
 	contestant = _contestant;
 	setWindowTitle(tr("Contestant: %1").arg(contestant->getContestantName()));
@@ -48,8 +46,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	htmlCode += "</head><body>";
 	QList<Task *> taskList = contest->getTaskList();
 
-	for (int i = 0; i < taskList.size(); i++)
-	{
+	for (int i = 0; i < taskList.size(); i++) {
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode +=
 		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
@@ -63,8 +60,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 	htmlCode += "<HR>";
 
-	for (int i = 0; i < taskList.size(); i++)
-	{
+	for (int i = 0; i < taskList.size(); i++) {
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
 		htmlCode +=
 		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
@@ -75,20 +71,16 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 		        .arg(contestant->getTaskScore(i))
 		        .arg(taskList[i]->getTotalScore());
 
-		if (! contestant->getCheckJudged(i))
-		{
+		if (! contestant->getCheckJudged(i)) {
 			htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Not judged"));
 			continue;
 		}
 
 		if (taskList[i]->getTaskType() == Task::Traditional ||
 		    taskList[i]->getTaskType() == Task::Interaction ||
-		    taskList[i]->getTaskType() == Task::Communication)
-		{
-			if (contestant->getCompileState(i) != CompileSuccessfully)
-			{
-				switch (contestant->getCompileState(i))
-				{
+		    taskList[i]->getTaskType() == Task::Communication) {
+			if (contestant->getCompileState(i) != CompileSuccessfully) {
+				switch (contestant->getCompileState(i)) {
 					case NoValidSourceFile:
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
 						break;
@@ -144,14 +136,11 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 		QList<QList<int>> memoryUsed = contestant->getMemoryUsed(i);
 		QList<QList<int>> score = contestant->getSocre(i);
 
-		for (int j = 0; j < inputFiles.size(); j++)
-		{
-			for (int k = 0; k < inputFiles[j].size(); k++)
-			{
+		for (int j = 0; j < inputFiles.size(); j++) {
+			for (int k = 0; k < inputFiles[j].size(); k++) {
 				htmlCode += "<tr>";
 
-				if (k == 0)
-				{
+				if (k == 0) {
 					if (score[j].size() == inputFiles[j].size())
 						htmlCode +=
 						    QString(
@@ -181,8 +170,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				        .arg(bgColor)
 				        .arg(frColor);
 
-				if (! message[j][k].isEmpty())
-				{
+				if (! message[j][k].isEmpty()) {
 					htmlCode +=
 					    QString(R"(<a href="Message %1 %2 %3" style="text-decoration: none"> (...)</a>)")
 					        .arg(i)
@@ -193,39 +181,32 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 				htmlCode += "</td>";
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
-				if (timeUsed[j][k] != -1)
-				{
+				if (timeUsed[j][k] != -1) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
 #else
 					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
 #endif
-				}
-				else
-				{
+				} else {
 					htmlCode += tr("Invalid");
 				}
 
 				htmlCode += "</td>";
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
-				if (memoryUsed[j][k] != -1)
-				{
+				if (memoryUsed[j][k] != -1) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
 #else
 					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
 #endif
-				}
-				else
-				{
+				} else {
 					htmlCode += tr("Invalid");
 				}
 
 				htmlCode += "</td>";
 
-				if (k == 0)
-				{
+				if (k == 0) {
 					int minv = 2147483647;
 					int maxv = testCases[j]->getFullScore();
 
@@ -235,8 +216,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 
 					int tempStatus = mxDependValue + 1;
 
-					if (! testCases[j]->getDependenceSubtask().empty())
-					{
+					if (! testCases[j]->getDependenceSubtask().empty()) {
 						tempStatus = score[j].back();
 						minv = qMin(minv, statusToScore(score[j].back(), maxv));
 					}
@@ -277,8 +257,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
 	ui->detailViewer->setHtml(htmlCode);
 }
 
-void DetailDialog::showDialog()
-{
+void DetailDialog::showDialog() {
 	show();
 	QScrollBar *bar = ui->detailViewer->verticalScrollBar();
 	bar->setValue(bar->minimum());
@@ -287,12 +266,10 @@ void DetailDialog::showDialog()
 	exec();
 }
 
-void DetailDialog::anchorClicked(const QUrl &url)
-{
+void DetailDialog::anchorClicked(const QUrl &url) {
 	QStringList list = url.path().split(' ', QT_SkipEmptyParts);
 
-	if (list[0] == "Rejudge")
-	{
+	if (list[0] == "Rejudge") {
 		auto *dialog = new JudgingDialog(this);
 		dialog->setModal(true);
 		dialog->setContest(contest);
@@ -303,16 +280,14 @@ void DetailDialog::anchorClicked(const QUrl &url)
 		refreshViewer(contest, contestant);
 	}
 
-	if (list[0] == "CompileMessage")
-	{
+	if (list[0] == "CompileMessage") {
 		QMessageBox(QMessageBox::NoIcon, tr("Compile Message"),
 		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
 		            QMessageBox::Close, this)
 		    .exec();
 	}
 
-	if (list[0] == "Message")
-	{
+	if (list[0] == "Message") {
 		QList<QStringList> message = contestant->getMessage(list[1].toInt());
 		QMessageBox(QMessageBox::NoIcon, tr("Message"),
 		            QString("<code>%1<br></code>").arg(message[list[2].toInt()][list[3].toInt()]),

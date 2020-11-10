@@ -12,8 +12,7 @@
 //
 #include <QPushButton>
 
-OpenContestDialog::OpenContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OpenContestDialog)
-{
+OpenContestDialog::OpenContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OpenContestDialog) {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->openContestWidget, &OpenContestWidget::selectionChanged, this,
@@ -23,29 +22,22 @@ OpenContestDialog::OpenContestDialog(QWidget *parent) : QDialog(parent), ui(new 
 
 OpenContestDialog::~OpenContestDialog() { delete ui; }
 
-void OpenContestDialog::setRecentContest(const QStringList &list)
-{
+void OpenContestDialog::setRecentContest(const QStringList &list) {
 	ui->openContestWidget->setRecentContest(list);
 }
 
-void OpenContestDialog::selectionChanged()
-{
-	if (ui->openContestWidget->getCurrentRow() != -1)
-	{
+void OpenContestDialog::selectionChanged() {
+	if (ui->openContestWidget->getCurrentRow() != -1) {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-	}
-	else
-	{
+	} else {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	}
 }
 
-auto OpenContestDialog::getRecentContest() const -> const QStringList &
-{
+auto OpenContestDialog::getRecentContest() const -> const QStringList & {
 	return ui->openContestWidget->getRecentContest();
 }
 
-auto OpenContestDialog::getSelectedContest() -> QString
-{
+auto OpenContestDialog::getSelectedContest() -> QString {
 	return ui->openContestWidget->getRecentContest().at(ui->openContestWidget->getCurrentRow());
 }

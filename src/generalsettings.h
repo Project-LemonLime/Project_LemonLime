@@ -14,15 +14,13 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class GeneralSettings;
 }
 
 class Settings;
 
-class GeneralSettings : public QWidget
-{
+class GeneralSettings : public QWidget {
 	Q_OBJECT
 
   public:

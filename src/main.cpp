@@ -19,8 +19,7 @@
 
 #define LEMON_MODULE_NAME "Main"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
@@ -38,8 +37,7 @@ int main(int argc, char *argv[])
 
 	app.Initialize();
 
-	if (app.sendMessage(""))
-	{
+	if (app.sendMessage("")) {
 		app.activeWindow();
 		return 0;
 	}
@@ -62,12 +60,10 @@ int main(int argc, char *argv[])
 	qint64 startTime = QDateTime::currentMSecsSinceEpoch();
 	int splashTime = w.getSplashTime();
 
-	if (splashTime > 0)
-	{
+	if (splashTime > 0) {
 		screen.show();
 
-		do
-		{
+		do {
 			SingleApplication::processEvents();
 		} while (QDateTime::currentMSecsSinceEpoch() - startTime <= splashTime);
 

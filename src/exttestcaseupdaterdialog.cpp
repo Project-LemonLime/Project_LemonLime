@@ -25,8 +25,7 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
                                                    int editDepend, QList<int> tempDepends)
     : QDialog(parent), ui(new Ui::ExtTestCaseUpdaterDialog), nowTask(nowTask), nowSettings(nowSettings),
       nowCaseNumber(nowCaseNumber), editScore(editScore), editData(editData), editTime(editTime),
-      editMemory(editMemory), editDepend(editDepend)
-{
+      editMemory(editMemory), editDepend(editDepend) {
 	ui->setupUi(this);
 
 	if (! nowTask)
@@ -67,8 +66,7 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	else
 		score = defScore = editScore, ui->lineEditScore->setText(QString::number(defScore));
 
-	if (editData == NO_EDIT)
-	{
+	if (editData == NO_EDIT) {
 		ui->labelInput->hide(), ui->labelOutput->hide();
 		ui->lineEditInput->hide(), ui->lineEditOutput->hide();
 		ui->buttonFindInput->hide(), ui->buttonFindOutput->hide();
@@ -77,26 +75,19 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	if (nowTask->getTaskType() == Task::AnswersOnly)
 		editTime = editMemory = NO_EDIT;
 
-	if (editTime == NO_EDIT)
-	{
+	if (editTime == NO_EDIT) {
 		ui->labelTimeLimit->hide(), ui->labelMemoryLimit->hide();
 		ui->lineEditTime->hide(), ui->lineEditMemory->hide();
 		ui->label->hide(), ui->label_2->hide();
-	}
-	else if (editTime == MAY_EDIT)
-	{
+	} else if (editTime == MAY_EDIT) {
 		timeLimit = defTimeLimit = MAY_EDIT;
 		memoryLimit = defMemoryLimit = MAY_EDIT;
-	}
-	else if (editTime == EDIT_WITH_DEFAULT)
-	{
+	} else if (editTime == EDIT_WITH_DEFAULT) {
 		timeLimit = defTimeLimit = nowSettings->getDefaultTimeLimit();
 		memoryLimit = defMemoryLimit = nowSettings->getDefaultMemoryLimit();
 		ui->lineEditTime->setText(QString::number(defTimeLimit));
 		ui->lineEditMemory->setText(QString::number(defMemoryLimit));
-	}
-	else
-	{
+	} else {
 		timeLimit = defTimeLimit = editTime;
 		memoryLimit = defMemoryLimit = editMemory;
 		ui->lineEditTime->setText(QString::number(defTimeLimit));
@@ -131,8 +122,7 @@ auto ExtTestCaseUpdaterDialog::getMemoryLimit() const -> int { return memoryLimi
 
 auto ExtTestCaseUpdaterDialog::getDepends() const -> QStringList { return depends; }
 
-void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked()
-{
+void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked() {
 	QString filter = tr("Input Data") + " (";
 
 	auto temp = nowSettings->getInputFileExtensions();
@@ -148,15 +138,13 @@ void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked()
 	QString filePath = QFileDialog::getOpenFileName(
 	    this, tr("Choose Input File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
 
-	if (! filePath.isEmpty())
-	{
+	if (! filePath.isEmpty()) {
 		QString realPath = filePath.mid(curPath.length() + 1);
 		ui->lineEditInput->setText(realPath);
 	}
 }
 
-void ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked()
-{
+void ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked() {
 	QString filter = tr("Output Data") + " (";
 
 	auto temp = nowSettings->getOutputFileExtensions();
@@ -172,29 +160,24 @@ void ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked()
 	QString filePath = QFileDialog::getOpenFileName(
 	    this, tr("Choose Output File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
 
-	if (! filePath.isEmpty())
-	{
+	if (! filePath.isEmpty()) {
 		QString realPath = filePath.mid(curPath.length() + 1);
 		ui->lineEditOutput->setText(realPath);
 	}
 }
 
-void ExtTestCaseUpdaterDialog::accept()
-{
-	if (editData != NO_EDIT && input.isEmpty())
-	{
+void ExtTestCaseUpdaterDialog::accept() {
+	if (editData != NO_EDIT && input.isEmpty()) {
 		QMessageBox::warning(this, tr("Error"), tr("Input File is Empty!"), QMessageBox::Close);
 		return;
 	}
 
-	if (editData != NO_EDIT && output.isEmpty())
-	{
+	if (editData != NO_EDIT && output.isEmpty()) {
 		QMessageBox::warning(this, tr("Error"), tr("Output File is Empty!"), QMessageBox::Close);
 		return;
 	}
 
-	if (editDepend != NO_EDIT && checkDepends() != 0)
-	{
+	if (editDepend != NO_EDIT && checkDepends() != 0) {
 		QMessageBox::warning(this, tr("Error"), tr("Dependence subtask index error!"), QMessageBox::Close);
 		return;
 	}
@@ -202,42 +185,33 @@ void ExtTestCaseUpdaterDialog::accept()
 	return QDialog::accept();
 }
 
-void ExtTestCaseUpdaterDialog::fullScoreChanged(const QString &text)
-{
-	if (text.isEmpty())
-	{
+void ExtTestCaseUpdaterDialog::fullScoreChanged(const QString &text) {
+	if (text.isEmpty()) {
 		if (editScore == MAY_EDIT)
 			score = MAY_EDIT;
 		else
 			ui->lineEditScore->setText(QString::number(defScore));
-	}
-	else
+	} else
 		score = text.toInt();
 }
 
-void ExtTestCaseUpdaterDialog::timeLimitChanged(const QString &text)
-{
-	if (text.isEmpty())
-	{
+void ExtTestCaseUpdaterDialog::timeLimitChanged(const QString &text) {
+	if (text.isEmpty()) {
 		if (editTime == MAY_EDIT)
 			timeLimit = MAY_EDIT;
 		else
 			ui->lineEditTime->setText(QString::number(defTimeLimit));
-	}
-	else
+	} else
 		timeLimit = text.toInt();
 }
 
-void ExtTestCaseUpdaterDialog::memoryLimitChanged(const QString &text)
-{
-	if (text.isEmpty())
-	{
+void ExtTestCaseUpdaterDialog::memoryLimitChanged(const QString &text) {
+	if (text.isEmpty()) {
 		if (editMemory == MAY_EDIT)
 			memoryLimit = MAY_EDIT;
 		else
 			ui->lineEditMemory->setText(QString::number(defMemoryLimit));
-	}
-	else
+	} else
 		memoryLimit = text.toInt();
 }
 
@@ -245,17 +219,14 @@ void ExtTestCaseUpdaterDialog::inputFileChanged(const QString &text) { input = t
 
 void ExtTestCaseUpdaterDialog::outputFileChanged(const QString &text) { output = text; }
 
-void ExtTestCaseUpdaterDialog::dependsChanged(const QString &text)
-{
+void ExtTestCaseUpdaterDialog::dependsChanged(const QString &text) {
 	depends = text.isEmpty() ? QStringList() : text.split(',');
 }
 
-auto ExtTestCaseUpdaterDialog::checkDepends() -> int
-{
+auto ExtTestCaseUpdaterDialog::checkDepends() -> int {
 	QSet<int> hav;
 
-	for (const auto &i_ : qAsConst(depends))
-	{
+	for (const auto &i_ : qAsConst(depends)) {
 		int i = i_.toInt();
 
 		if (i <= 0 || i >= nowCaseNumber || hav.contains(i))

@@ -13,8 +13,7 @@
 #include <QtWidgets>
 
 ExtTestCaseModifierDialog::ExtTestCaseModifierDialog(QWidget *parent)
-    : QDialog(parent), ui(new Ui::ExtTestCaseModifierDialog)
-{
+    : QDialog(parent), ui(new Ui::ExtTestCaseModifierDialog) {
 	ui->setupUi(this);
 	setWindowTitle(QString(tr("Advanced Test Case Modifier")));
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this,
@@ -25,8 +24,7 @@ ExtTestCaseModifierDialog::ExtTestCaseModifierDialog(QWidget *parent)
 
 ExtTestCaseModifierDialog::~ExtTestCaseModifierDialog() { delete ui; }
 
-void ExtTestCaseModifierDialog::init(Task *theTask, const Settings *theSettings)
-{
+void ExtTestCaseModifierDialog::init(Task *theTask, const Settings *theSettings) {
 	editTask = new Task;
 
 	theTask->copyTo(editTask);

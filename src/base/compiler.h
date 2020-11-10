@@ -13,16 +13,10 @@
 #include <QObject>
 #include <QtCore>
 
-class Compiler : public QObject
-{
+class Compiler : public QObject {
 	Q_OBJECT
   public:
-	enum CompilerType
-	{
-		Typical,
-		InterpretiveWithByteCode,
-		InterpretiveWithoutByteCode
-	};
+	enum CompilerType { Typical, InterpretiveWithByteCode, InterpretiveWithoutByteCode };
 	Q_ENUM(CompilerType)
 
 	explicit Compiler(QObject *parent = nullptr);
@@ -59,7 +53,7 @@ class Compiler : public QObject
 	void deleteConfiguration(int);
 
 	void copyFrom(Compiler *);
-	
+
 	void read(const QJsonObject &json);
 	void write(QJsonObject &json) const;
 

@@ -13,10 +13,8 @@
 #include <memory>
 #include <optional>
 
-namespace Lemon::common
-{
-	class LemonTranslator
-	{
+namespace Lemon::common {
+	class LemonTranslator {
 	  public:
 		explicit LemonTranslator();
 

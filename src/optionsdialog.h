@@ -14,15 +14,13 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class OptionsDialog;
 }
 
 class Settings;
 
-class OptionsDialog : public QDialog
-{
+class OptionsDialog : public QDialog {
 	Q_OBJECT
 
   public:

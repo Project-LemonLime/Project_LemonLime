@@ -14,13 +14,11 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class EnvironmentVariablesDialog;
 }
 
-class EnvironmentVariablesDialog : public QDialog
-{
+class EnvironmentVariablesDialog : public QDialog {
 	Q_OBJECT
 
   public:

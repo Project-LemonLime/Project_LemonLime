@@ -16,19 +16,11 @@
 class TestCase;
 class Settings;
 
-class Task : public QObject
-{
+class Task : public QObject {
 	Q_OBJECT
   public:
-	enum TaskType
-	{
-		Traditional,
-		AnswersOnly,
-		Interaction,
-		Communication
-	};
-	enum ComparisonMode
-	{
+	enum TaskType { Traditional, AnswersOnly, Interaction, Communication };
+	enum ComparisonMode {
 		LineByLineMode,
 		IgnoreSpacesMode,
 		ExternalToolMode,

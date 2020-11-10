@@ -18,8 +18,7 @@ class Settings;
 class Task;
 class JudgingThread;
 
-class AssignmentThread : public QThread
-{
+class AssignmentThread : public QThread {
 	Q_OBJECT
   public:
 	explicit AssignmentThread(QObject *parent = nullptr);

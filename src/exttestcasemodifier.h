@@ -10,16 +10,14 @@
 
 #include <QWidget>
 
-namespace Ui
-{
+namespace Ui {
 	class ExtTestCaseModifier;
 }
 
 class Task;
 class Settings;
 
-class ExtTestCaseModifier : public QWidget
-{
+class ExtTestCaseModifier : public QWidget {
 	Q_OBJECT
 
   public:

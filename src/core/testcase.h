@@ -13,8 +13,7 @@
 #include <QObject>
 #include <QtCore>
 
-class TestCase : public QObject
-{
+class TestCase : public QObject {
 	Q_OBJECT
   public:
 	explicit TestCase(QObject *parent = nullptr);

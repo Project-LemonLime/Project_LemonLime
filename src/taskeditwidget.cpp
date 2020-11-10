@@ -10,12 +10,11 @@
 #include "taskeditwidget.h"
 #include "ui_taskeditwidget.h"
 //
-#include "base/settings.h"
 #include "base/compiler.h"
+#include "base/settings.h"
 #include "core/task.h"
 
-TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget)
-{
+TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget) {
 	ui->setupUi(this);
 	editTask = nullptr;
 	ui->specialJudge->setFilters(QDir::Files | QDir::Executable);
@@ -71,10 +70,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 
 TaskEditWidget::~TaskEditWidget() { delete ui; }
 
-void TaskEditWidget::changeEvent(QEvent *event)
-{
-	if (event->type() == QEvent::LanguageChange)
-	{
+void TaskEditWidget::changeEvent(QEvent *event) {
+	if (event->type() == QEvent::LanguageChange) {
 		Task *bak = editTask;
 		setEditTask(nullptr);
 		ui->retranslateUi(this);
@@ -82,10 +79,8 @@ void TaskEditWidget::changeEvent(QEvent *event)
 	}
 }
 
-void TaskEditWidget::setEditTask(Task *task)
-{
-	if (editTask)
-	{
+void TaskEditWidget::setEditTask(Task *task) {
+	if (editTask) {
 		disconnect(editTask, SIGNAL(problemTitleChanged(QString)), this, SLOT(refreshProblemTitle(QString)));
 		disconnect(editTask, SIGNAL(compilerConfigurationRefreshed()), this,
 		           SLOT(refreshCompilerConfiguration()));
@@ -125,23 +120,19 @@ void TaskEditWidget::setEditTask(Task *task)
 	ui->answerFileExtension->setText(editTask->getAnswerFileExtension());
 	refreshCompilerConfiguration();
 
-	if (editTask->getTaskType() == Task::Traditional)
-	{
+	if (editTask->getTaskType() == Task::Traditional) {
 		ui->traditionalButton->setChecked(true);
 	}
 
-	if (editTask->getTaskType() == Task::AnswersOnly)
-	{
+	if (editTask->getTaskType() == Task::AnswersOnly) {
 		ui->answersOnlyButton->setChecked(true);
 	}
 
-	if (editTask->getTaskType() == Task::Interaction)
-	{
+	if (editTask->getTaskType() == Task::Interaction) {
 		ui->interactionButton->setChecked(true);
 	}
 
-	if (editTask->getTaskType() == Task::Communication)
-	{
+	if (editTask->getTaskType() == Task::Communication) {
 		ui->communicationButton->setChecked(true);
 	}
 
@@ -150,8 +141,7 @@ void TaskEditWidget::setEditTask(Task *task)
 
 void TaskEditWidget::setSettings(Settings *_settings) { settings = _settings; }
 
-void TaskEditWidget::refreshWidgetState()
-{
+void TaskEditWidget::refreshWidgetState() {
 	if (! editTask)
 		return;
 
@@ -217,16 +207,14 @@ void TaskEditWidget::refreshWidgetState()
 	multiFilesRefresh();
 }
 
-void TaskEditWidget::problemTitleChanged(const QString &text)
-{
+void TaskEditWidget::problemTitleChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setProblemTitle(text);
 }
 
-void TaskEditWidget::setToTraditional(bool check)
-{
+void TaskEditWidget::setToTraditional(bool check) {
 	if (! check || ! editTask)
 		return;
 
@@ -236,8 +224,7 @@ void TaskEditWidget::setToTraditional(bool check)
 	refreshWidgetState();
 }
 
-void TaskEditWidget::setToAnswersOnly(bool check)
-{
+void TaskEditWidget::setToAnswersOnly(bool check) {
 	if (! check || ! editTask)
 		return;
 
@@ -247,8 +234,7 @@ void TaskEditWidget::setToAnswersOnly(bool check)
 	refreshWidgetState();
 }
 
-void TaskEditWidget::setToInteraction(bool check)
-{
+void TaskEditWidget::setToInteraction(bool check) {
 	if (! check || ! editTask)
 		return;
 
@@ -258,8 +244,7 @@ void TaskEditWidget::setToInteraction(bool check)
 	refreshWidgetState();
 }
 
-void TaskEditWidget::setToCommunication(bool check)
-{
+void TaskEditWidget::setToCommunication(bool check) {
 	if (! check || ! editTask)
 		return;
 
@@ -267,8 +252,7 @@ void TaskEditWidget::setToCommunication(bool check)
 	refreshWidgetState();
 }
 
-void TaskEditWidget::sourceFileNameChanged(const QString &text)
-{
+void TaskEditWidget::sourceFileNameChanged(const QString &text) {
 	if (! editTask)
 		return;
 
@@ -282,19 +266,16 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
 
 	editTask->setSourceFileName(trueText);
 
-	if (ui->inputFileName->isEnabled())
-	{
+	if (ui->inputFileName->isEnabled()) {
 		ui->inputFileName->setText(trueText + "." + settings->getDefaultInputFileExtension());
 	}
 
-	if (ui->outputFileName->isEnabled())
-	{
+	if (ui->outputFileName->isEnabled()) {
 		ui->outputFileName->setText(trueText + "." + settings->getDefaultOutputFileExtension());
 	}
 }
 
-void TaskEditWidget::subFolderCheckChanged()
-{
+void TaskEditWidget::subFolderCheckChanged() {
 	if (! editTask)
 		return;
 
@@ -302,24 +283,21 @@ void TaskEditWidget::subFolderCheckChanged()
 	editTask->setSubFolderCheck(check);
 }
 
-void TaskEditWidget::inputFileNameChanged(const QString &text)
-{
+void TaskEditWidget::inputFileNameChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setInputFileName(text);
 }
 
-void TaskEditWidget::outputFileNameChanged(const QString &text)
-{
+void TaskEditWidget::outputFileNameChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setOutputFileName(text);
 }
 
-void TaskEditWidget::standardInputCheckChanged()
-{
+void TaskEditWidget::standardInputCheckChanged() {
 	if (! editTask)
 		return;
 
@@ -328,8 +306,7 @@ void TaskEditWidget::standardInputCheckChanged()
 	ui->inputFileName->setEnabled(! check);
 }
 
-void TaskEditWidget::standardOutputCheckChanged()
-{
+void TaskEditWidget::standardOutputCheckChanged() {
 	if (! editTask)
 		return;
 
@@ -338,72 +315,63 @@ void TaskEditWidget::standardOutputCheckChanged()
 	ui->outputFileName->setEnabled(! check);
 }
 
-void TaskEditWidget::comparisonModeChanged()
-{
+void TaskEditWidget::comparisonModeChanged() {
 	if (! editTask)
 		return;
 
 	editTask->setComparisonMode(Task::ComparisonMode(ui->comparisonMode->currentIndex()));
 }
 
-void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList)
-{
+void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList) {
 	if (! editTask)
 		return;
 
 	editTask->setDiffArguments(argumentsList);
 }
 
-void TaskEditWidget::realPrecisionChanged(int precision)
-{
+void TaskEditWidget::realPrecisionChanged(int precision) {
 	if (! editTask)
 		return;
 
 	editTask->setRealPrecision(precision);
 }
 
-void TaskEditWidget::specialJudgeChanged(const QString &text)
-{
+void TaskEditWidget::specialJudgeChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setSpecialJudge(text);
 }
 
-void TaskEditWidget::interactorChanged(const QString &text)
-{
+void TaskEditWidget::interactorChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setInteractor(text);
 }
 
-void TaskEditWidget::interactorNameChanged(const QString &text)
-{
+void TaskEditWidget::interactorNameChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setInteractorName(text);
 }
 
-void TaskEditWidget::graderChanged(const QString &text)
-{
+void TaskEditWidget::graderChanged(const QString &text) {
 	if (! editTask)
 		return;
 
 	editTask->setGrader(text);
 }
 
-void TaskEditWidget::refreshProblemTitle(const QString &title)
-{
+void TaskEditWidget::refreshProblemTitle(const QString &title) {
 	if (! editTask)
 		return;
 
 	ui->problemTitle->setText(title);
 }
 
-void TaskEditWidget::refreshCompilerConfiguration()
-{
+void TaskEditWidget::refreshCompilerConfiguration() {
 	if (! editTask)
 		return;
 
@@ -417,8 +385,7 @@ void TaskEditWidget::refreshCompilerConfiguration()
 	if (compilerList.isEmpty())
 		return;
 
-	for (auto *i : compilerList)
-	{
+	for (auto *i : compilerList) {
 		ui->compilersList->addItem(i->getCompilerName());
 	}
 
@@ -429,8 +396,7 @@ void TaskEditWidget::refreshCompilerConfiguration()
 	compilerSelectionChanged();
 }
 
-void TaskEditWidget::compilerSelectionChanged()
-{
+void TaskEditWidget::compilerSelectionChanged() {
 	if (! editTask)
 		return;
 
@@ -442,10 +408,8 @@ void TaskEditWidget::compilerSelectionChanged()
 	ui->configurationSelect->addItem("disable");
 	const QList<Compiler *> &compilerList = settings->getCompilerList();
 
-	for (auto *i : compilerList)
-	{
-		if (i->getCompilerName() == ui->compilersList->currentItem()->text())
-		{
+	for (auto *i : compilerList) {
+		if (i->getCompilerName() == ui->compilersList->currentItem()->text()) {
 			ui->configurationSelect->addItems(i->getConfigurationNames());
 		}
 	}
@@ -455,8 +419,7 @@ void TaskEditWidget::compilerSelectionChanged()
 	ui->configurationSelect->setEnabled(true);
 }
 
-void TaskEditWidget::configurationSelectionChanged()
-{
+void TaskEditWidget::configurationSelectionChanged() {
 	if (! editTask)
 		return;
 
@@ -467,16 +430,14 @@ void TaskEditWidget::configurationSelectionChanged()
 	                                   ui->configurationSelect->currentText());
 }
 
-void TaskEditWidget::answerFileExtensionChanged(const QString &extension)
-{
+void TaskEditWidget::answerFileExtensionChanged(const QString &extension) {
 	if (! editTask)
 		return;
 
 	editTask->setAnswerFileExtension(extension);
 }
 
-void TaskEditWidget::multiFilesRefresh()
-{
+void TaskEditWidget::multiFilesRefresh() {
 	if (! editTask)
 		return;
 
@@ -487,8 +448,7 @@ void TaskEditWidget::multiFilesRefresh()
 	QStringList sourceNames = editTask->getSourceFilesName();
 	ui->sourceFilesTable->setRowCount(sourcePaths.length());
 
-	for (int i = 0; i < sourcePaths.length(); i++)
-	{
+	for (int i = 0; i < sourcePaths.length(); i++) {
 		ui->sourceFilesTable->setItem(i, 0, new QTableWidgetItem(sourcePaths[i]));
 		ui->sourceFilesTable->setItem(i, 1, new QTableWidgetItem(sourceNames[i]));
 	}
@@ -497,47 +457,41 @@ void TaskEditWidget::multiFilesRefresh()
 	QStringList graderNames = editTask->getGraderFilesName();
 	ui->graderFilesTable->setRowCount(graderPaths.length());
 
-	for (int i = 0; i < graderPaths.length(); i++)
-	{
+	for (int i = 0; i < graderPaths.length(); i++) {
 		ui->graderFilesTable->setItem(i, 0, new QTableWidgetItem(graderPaths[i]));
 		ui->graderFilesTable->setItem(i, 1, new QTableWidgetItem(graderNames[i]));
 	}
 }
 
-void TaskEditWidget::addSourceFiles(const QString &path, const QString &name)
-{
+void TaskEditWidget::addSourceFiles(const QString &path, const QString &name) {
 	if (! editTask)
 		return;
 
 	editTask->appendSourceFiles(path, name);
 }
 
-void TaskEditWidget::rmSourceFilesAt(int loca)
-{
+void TaskEditWidget::rmSourceFilesAt(int loca) {
 	if (! editTask)
 		return;
 
 	editTask->removeSourceFilesAt(loca);
 }
 
-void TaskEditWidget::rmGraderFilesAt(int loca)
-{
+void TaskEditWidget::rmGraderFilesAt(int loca) {
 	if (! editTask)
 		return;
 
 	editTask->removeGraderFilesAt(loca);
 }
 
-void TaskEditWidget::addGraderFiles(const QString &path, const QString &name)
-{
+void TaskEditWidget::addGraderFiles(const QString &path, const QString &name) {
 	if (! editTask)
 		return;
 
 	editTask->appendGraderFiles(path, name);
 }
 
-void TaskEditWidget::addSourceFileClicked()
-{
+void TaskEditWidget::addSourceFileClicked() {
 	if (! editTask)
 		return;
 
@@ -553,8 +507,7 @@ void TaskEditWidget::addSourceFileClicked()
 	multiFilesRefresh();
 }
 
-void TaskEditWidget::addGraderFileClicked()
-{
+void TaskEditWidget::addGraderFileClicked() {
 	if (! editTask)
 		return;
 
@@ -570,8 +523,7 @@ void TaskEditWidget::addGraderFileClicked()
 	multiFilesRefresh();
 }
 
-void TaskEditWidget::rmSourceFileClicked()
-{
+void TaskEditWidget::rmSourceFileClicked() {
 	if (! editTask)
 		return;
 
@@ -584,8 +536,7 @@ void TaskEditWidget::rmSourceFileClicked()
 	multiFilesRefresh();
 }
 
-void TaskEditWidget::rmGraderFileClicked()
-{
+void TaskEditWidget::rmGraderFileClicked() {
 	if (! editTask)
 		return;
 

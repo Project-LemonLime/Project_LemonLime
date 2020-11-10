@@ -14,16 +14,14 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class TaskEditWidget;
 }
 
 class Settings;
 class Task;
 
-class TaskEditWidget : public QWidget
-{
+class TaskEditWidget : public QWidget {
 	Q_OBJECT
 
   public:

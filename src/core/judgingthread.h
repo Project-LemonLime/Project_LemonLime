@@ -16,8 +16,7 @@
 
 class Task;
 
-class JudgingThread : public QThread
-{
+class JudgingThread : public QThread {
 	Q_OBJECT
   public:
 	explicit JudgingThread(QObject *parent = nullptr);

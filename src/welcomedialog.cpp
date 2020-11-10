@@ -12,8 +12,7 @@
 //
 #include <QPushButton>
 
-WelcomeDialog::WelcomeDialog(QWidget *parent) : QDialog(parent), ui(new Ui::WelcomeDialog)
-{
+WelcomeDialog::WelcomeDialog(QWidget *parent) : QDialog(parent), ui(new Ui::WelcomeDialog) {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->openContestWidget, &OpenContestWidget::selectionChanged, this,
@@ -26,8 +25,7 @@ WelcomeDialog::WelcomeDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Welc
 
 WelcomeDialog::~WelcomeDialog() { delete ui; }
 
-void WelcomeDialog::setRecentContest(const QStringList &list)
-{
+void WelcomeDialog::setRecentContest(const QStringList &list) {
 	ui->openContestWidget->setRecentContest(list);
 }
 
@@ -37,43 +35,32 @@ auto WelcomeDialog::getSavingName() -> QString { return ui->newContestWidget->ge
 
 auto WelcomeDialog::getContestPath() -> QString { return ui->newContestWidget->getContestPath(); }
 
-auto WelcomeDialog::getRecentContest() const -> const QStringList &
-{
+auto WelcomeDialog::getRecentContest() const -> const QStringList & {
 	return ui->openContestWidget->getRecentContest();
 }
 
-auto WelcomeDialog::getSelectedContest() -> QString
-{
+auto WelcomeDialog::getSelectedContest() -> QString {
 	return ui->openContestWidget->getRecentContest().at(ui->openContestWidget->getCurrentRow());
 }
 
 auto WelcomeDialog::getCurrentTab() const -> int { return ui->tabWidget->currentIndex(); }
 
-void WelcomeDialog::selectionChanged()
-{
-	if (ui->openContestWidget->getCurrentRow() != -1)
-	{
+void WelcomeDialog::selectionChanged() {
+	if (ui->openContestWidget->getCurrentRow() != -1) {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-	}
-	else
-	{
+	} else {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	}
 }
 
-void WelcomeDialog::informationChanged()
-{
+void WelcomeDialog::informationChanged() {
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ui->newContestWidget->checkReady());
 }
 
-void WelcomeDialog::tabIndexChanged(int index)
-{
-	if (index == 0)
-	{
+void WelcomeDialog::tabIndexChanged(int index) {
+	if (index == 0) {
 		selectionChanged();
-	}
-	else
-	{
+	} else {
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ui->newContestWidget->checkReady());
 	}
 }

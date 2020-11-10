@@ -14,13 +14,11 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class EditVariableDialog;
 }
 
-class EditVariableDialog : public QDialog
-{
+class EditVariableDialog : public QDialog {
 	Q_OBJECT
 
   public:

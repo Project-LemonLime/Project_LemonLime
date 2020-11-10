@@ -8,16 +8,13 @@
 #include "LemonUtils.hpp"
 //
 
-namespace Lemon::common
-{
+namespace Lemon::common {
 
-	auto GetFileList(const QDir &dir) -> QStringList
-	{
+	auto GetFileList(const QDir &dir) -> QStringList {
 		return dir.entryList(QStringList{"*", "*.*"}, QDir::Hidden | QDir::Files);
 	}
 
-	auto FileExistsIn(const QDir &dir, const QString &fileName) -> bool
-	{
+	auto FileExistsIn(const QDir &dir, const QString &fileName) -> bool {
 		return GetFileList(dir).contains(fileName);
 	}
 

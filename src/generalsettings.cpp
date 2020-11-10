@@ -18,18 +18,14 @@
 //
 #define LEMON_MODULE_NAME "GeneralSettings"
 
-GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::GeneralSettings)
-{
+GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::GeneralSettings) {
 	ui->setupUi(this);
 
 	auto langs = LemonLimeTranslator->GetAvailableLanguages();
-	if (! langs.empty())
-	{
+	if (! langs.empty()) {
 		ui->languageComboBox->clear();
 		ui->languageComboBox->addItems(langs);
-	}
-	else
-	{
+	} else {
 		ui->languageComboBox->setDisabled(true);
 		ui->languageComboBox->setToolTip("Cannot find any language providers.");
 	}
@@ -68,8 +64,7 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 
 GeneralSettings::~GeneralSettings() { delete ui; }
 
-void GeneralSettings::resetEditSettings(Settings *settings)
-{
+void GeneralSettings::resetEditSettings(Settings *settings) {
 	editSettings = settings;
 	ui->defaultFullScore->setText(QString("%1").arg(editSettings->getDefaultFullScore()));
 	ui->defaultTimeLimit->setText(QString("%1").arg(editSettings->getDefaultTimeLimit()));
@@ -86,59 +81,50 @@ void GeneralSettings::resetEditSettings(Settings *settings)
 
 void GeneralSettings::onLanguageComboBoxChanged(const QString &arg) { editSettings->setUiLanguage(arg); }
 
-auto GeneralSettings::checkValid() -> bool
-{
-	if (ui->defaultFullScore->text().isEmpty())
-	{
+auto GeneralSettings::checkValid() -> bool {
+	if (ui->defaultFullScore->text().isEmpty()) {
 		ui->defaultFullScore->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default full score!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->defaultTimeLimit->text().isEmpty())
-	{
+	if (ui->defaultTimeLimit->text().isEmpty()) {
 		ui->defaultTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->defaultExtraTimeRatio->text().isEmpty())
-	{
+	if (ui->defaultExtraTimeRatio->text().isEmpty()) {
 		ui->defaultExtraTimeRatio->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default extra time ratio!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->defaultMemoryLimit->text().isEmpty())
-	{
+	if (ui->defaultMemoryLimit->text().isEmpty()) {
 		ui->defaultMemoryLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty default memory limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->compileTimeLimit->text().isEmpty())
-	{
+	if (ui->compileTimeLimit->text().isEmpty()) {
 		ui->compileTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty compile time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->specialJudgeTimeLimit->text().isEmpty())
-	{
+	if (ui->specialJudgeTimeLimit->text().isEmpty()) {
 		ui->specialJudgeTimeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty special judge time limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->fileSizeLimit->text().isEmpty())
-	{
+	if (ui->fileSizeLimit->text().isEmpty()) {
 		ui->fileSizeLimit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty source file size limit!"), QMessageBox::Close);
 		return false;
 	}
 
-	if (ui->rejudgeTimes->text().isEmpty())
-	{
+	if (ui->rejudgeTimes->text().isEmpty()) {
 		ui->rejudgeTimes->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty maximum rejudge times!"), QMessageBox::Close);
 	}
@@ -146,50 +132,40 @@ auto GeneralSettings::checkValid() -> bool
 	return true;
 }
 
-void GeneralSettings::defaultFullScoreChanged(const QString &text)
-{
+void GeneralSettings::defaultFullScoreChanged(const QString &text) {
 	editSettings->setDefaultFullScore(text.toInt());
 }
 
-void GeneralSettings::defaultTimeLimitChanged(const QString &text)
-{
+void GeneralSettings::defaultTimeLimitChanged(const QString &text) {
 	editSettings->setDefaultTimeLimit(text.toInt());
 }
-void GeneralSettings::defaultExtraTimeRatioChanged(const QString &text)
-{
+void GeneralSettings::defaultExtraTimeRatioChanged(const QString &text) {
 	editSettings->setDefaultExtraTimeRatio(text.toDouble());
 }
-void GeneralSettings::defaultMemoryLimitChanged(const QString &text)
-{
+void GeneralSettings::defaultMemoryLimitChanged(const QString &text) {
 	editSettings->setDefaultMemoryLimit(text.toInt());
 }
 
-void GeneralSettings::compileTimeLimitChanged(const QString &text)
-{
+void GeneralSettings::compileTimeLimitChanged(const QString &text) {
 	editSettings->setCompileTimeLimit(text.toInt());
 }
 
-void GeneralSettings::specialJudgeTimeLimitChanged(const QString &text)
-{
+void GeneralSettings::specialJudgeTimeLimitChanged(const QString &text) {
 	editSettings->setSpecialJudgeTimeLimit(text.toInt());
 }
 
-void GeneralSettings::fileSizeLimitChanged(const QString &text)
-{
+void GeneralSettings::fileSizeLimitChanged(const QString &text) {
 	editSettings->setFileSizeLimit(text.toInt());
 }
 
-void GeneralSettings::rejudgeTimesChanged(const QString &text)
-{
+void GeneralSettings::rejudgeTimesChanged(const QString &text) {
 	editSettings->setRejudgeTimes(text.toInt());
 }
 
-void GeneralSettings::inputFileExtensionsChanged(const QString &text)
-{
+void GeneralSettings::inputFileExtensionsChanged(const QString &text) {
 	editSettings->setInputFileExtensions(text);
 }
 
-void GeneralSettings::outputFileExtensionsChanged(const QString &text)
-{
+void GeneralSettings::outputFileExtensionsChanged(const QString &text) {
 	editSettings->setOutputFileExtensions(text);
 }

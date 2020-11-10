@@ -98,33 +98,27 @@ auto Settings::getGrandRateL() const -> double { return grandRateL; }
 
 auto Settings::getSplashTime() const -> int { return splashTime; }
 
-auto Settings::getColorMx() const -> QColor
-{
+auto Settings::getColorMx() const -> QColor {
 	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
 }
 
-auto Settings::getColorMi() const -> QColor
-{
+auto Settings::getColorMi() const -> QColor {
 	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, colorMiL / 100.00);
 }
 
-auto Settings::getColorNf() const -> QColor
-{
+auto Settings::getColorNf() const -> QColor {
 	return QColor::fromHslF(colorNfH / 360.00, colorNfS / 100.00, colorNfL / 100.00);
 }
 
-auto Settings::getColorCe() const -> QColor
-{
+auto Settings::getColorCe() const -> QColor {
 	return QColor::fromHslF(colorCeH / 360.00, colorCeS / 100.00, colorCeL / 100.00);
 }
 
-auto Settings::getColorAntiMi() const -> QColor
-{
+auto Settings::getColorAntiMi() const -> QColor {
 	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, 1.00 - colorMiL / 100.00);
 }
 
-auto Settings::getColorPer(double p) const -> QColor
-{
+auto Settings::getColorPer(double p) const -> QColor {
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
 
@@ -171,8 +165,7 @@ auto Settings::getColorPer(double p) const -> QColor
 	return QColor::fromHslF(h, s, l);
 }
 
-auto Settings::getColorGrand(double p) const -> QColor
-{
+auto Settings::getColorGrand(double p) const -> QColor {
 	if (qIsNaN(p) || qIsInf(p))
 		p = 0;
 
@@ -223,116 +216,95 @@ auto Settings::getColorPer(double a, double b) const -> QColor { return getColor
 
 auto Settings::getColorGrand(double a, double b) const -> QColor { return getColorGrand(a / b); }
 
-void Settings::setDefaultFullScore(int score)
-{
+void Settings::setDefaultFullScore(int score) {
 	defaultFullScore = score;
 	DEBUG("Set Default Full Score to " + QString::number(score));
 }
 
-void Settings::setDefaultTimeLimit(int limit)
-{
+void Settings::setDefaultTimeLimit(int limit) {
 	defaultTimeLimit = limit;
 	DEBUG("Set Default Time Limit to " + QString::number(limit));
 }
 
-void Settings::setDefaultExtraTimeRatio(double ratio)
-{
+void Settings::setDefaultExtraTimeRatio(double ratio) {
 	defaultExtraTimeRatio = ratio;
 	DEBUG("Set Default Extra Time Ratio to " + QString::number(ratio));
 }
-void Settings::setDefaultMemoryLimit(int limit)
-{
+void Settings::setDefaultMemoryLimit(int limit) {
 	defaultMemoryLimit = limit;
 	DEBUG("Set Default Memory Limit to " + QString::number(limit));
 }
 
-void Settings::setCompileTimeLimit(int limit)
-{
+void Settings::setCompileTimeLimit(int limit) {
 	compileTimeLimit = limit;
 	DEBUG("Set Compile Time Limit to " + QString::number(limit));
 }
 
-void Settings::setSpecialJudgeTimeLimit(int limit)
-{
+void Settings::setSpecialJudgeTimeLimit(int limit) {
 	specialJudgeTimeLimit = limit;
 	DEBUG("Set SpecialJudge Time Limit to " + QString::number(limit));
 }
 
-void Settings::setFileSizeLimit(int limit)
-{
+void Settings::setFileSizeLimit(int limit) {
 	fileSizeLimit = limit;
 	DEBUG("Set File Size Limit to " + QString::number(limit));
 }
 
-void Settings::setRejudgeTimes(int number)
-{
+void Settings::setRejudgeTimes(int number) {
 	rejudgeTimes = number;
 	DEBUG("Set Rejudge Times to " + QString::number(number));
 }
 
-void Settings::setDefaultInputFileExtension(const QString &extension)
-{
+void Settings::setDefaultInputFileExtension(const QString &extension) {
 	defaultInputFileExtension = extension;
 	DEBUG("Set Default InputFile Extension to " + extension);
 }
 
-void Settings::setDefaultOutputFileExtension(const QString &extension)
-{
+void Settings::setDefaultOutputFileExtension(const QString &extension) {
 	defaultOutputFileExtension = extension;
 	DEBUG("Set Default OutputFile Extension to " + extension);
 }
 
-void Settings::setInputFileExtensions(const QString &extensions)
-{
+void Settings::setInputFileExtensions(const QString &extensions) {
 	inputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
 	DEBUG("Set InputFile Extensions to " + extensions);
 }
 
-void Settings::setOutputFileExtensions(const QString &extensions)
-{
+void Settings::setOutputFileExtensions(const QString &extensions) {
 	outputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
 	DEBUG("Set OutputFile Extensions to " + extensions);
 }
 
 void Settings::setRecentContest(const QStringList &list) { recentContest = list; }
 
-void Settings::setUiLanguage(const QString &language)
-{
+void Settings::setUiLanguage(const QString &language) {
 	uiLanguage = language;
 	DEBUG("Set Language to " + language);
 }
 
-void Settings::addCompiler(Compiler *compiler)
-{
+void Settings::addCompiler(Compiler *compiler) {
 	compiler->setParent(this);
 	compilerList.append(compiler);
 }
 
-void Settings::deleteCompiler(int index)
-{
-	if (0 <= index && index < compilerList.size())
-	{
+void Settings::deleteCompiler(int index) {
+	if (0 <= index && index < compilerList.size()) {
 		delete compilerList[index];
 		compilerList.removeAt(index);
 	}
 }
 
-auto Settings::getCompiler(int index) -> Compiler *
-{
-	if (0 <= index && index < compilerList.size())
-	{
+auto Settings::getCompiler(int index) -> Compiler * {
+	if (0 <= index && index < compilerList.size()) {
 		return compilerList[index];
 	}
 
 	return nullptr;
 }
 
-void Settings::swapCompiler(int a, int b)
-{
-	if (0 <= a && a < compilerList.size())
-	{
-		if (0 <= b && b < compilerList.size())
-		{
+void Settings::swapCompiler(int a, int b) {
+	if (0 <= a && a < compilerList.size()) {
+		if (0 <= b && b < compilerList.size()) {
 			compilerList.swapItemsAt(a, b);
 		}
 	}
@@ -376,14 +348,12 @@ void Settings::setGrandRateL(double x) { grandRateL = x; }
 
 void Settings::setSplashTime(int x) { splashTime = x; }
 
-void Settings::setTextAndColor(ResultState result, QString &text, QString &frColor, QString &bgColor)
-{
+void Settings::setTextAndColor(ResultState result, QString &text, QString &frColor, QString &bgColor) {
 	text = "";
 	bgColor = "rgb(255, 255, 255)";
 	frColor = "rgb(0, 0, 0)";
 
-	switch (result)
-	{
+	switch (result) {
 		case CorrectAnswer:
 			text = tr("Correct Answer");
 			bgColor = "rgb(192, 255, 192)";
@@ -468,8 +438,7 @@ void Settings::setTextAndColor(ResultState result, QString &text, QString &frCol
 	}
 }
 
-void Settings::copyFrom(Settings *other)
-{
+void Settings::copyFrom(Settings *other) {
 	setDefaultFullScore(other->getDefaultFullScore());
 	setDefaultTimeLimit(other->getDefaultTimeLimit());
 	setDefaultExtraTimeRatio(other->getDefaultExtraTimeRatio());
@@ -503,24 +472,21 @@ void Settings::copyFrom(Settings *other)
 	setSplashTime(other->getSplashTime());
 	setUiLanguage(other->getUiLanguage()); // 为什么这个没复制啊！！！
 
-	for (auto &i : compilerList)
-	{
+	for (auto &i : compilerList) {
 		delete i;
 	}
 
 	compilerList.clear();
 	const QList<Compiler *> &list = other->getCompilerList();
 
-	for (auto *i : list)
-	{
+	for (auto *i : list) {
 		auto *compiler = new Compiler;
 		compiler->copyFrom(i);
 		addCompiler(compiler);
 	}
 }
 
-void Settings::saveSettings()
-{
+void Settings::saveSettings() {
 	QSettings settings("LemonLime", "lemon");
 	settings.setValue("UiLanguage", uiLanguage);
 	settings.beginGroup("GeneralSettings");
@@ -560,8 +526,7 @@ void Settings::saveSettings()
 	settings.endGroup();
 	settings.beginWriteArray("v1.2/CompilerSettings");
 
-	for (int i = 0; i < compilerList.size(); i++)
-	{
+	for (int i = 0; i < compilerList.size(); i++) {
 		settings.setArrayIndex(i);
 		settings.setValue("CompilerType", static_cast<int>(compilerList[i]->getCompilerType()));
 		settings.setValue("CompilerName", compilerList[i]->getCompilerName());
@@ -577,8 +542,7 @@ void Settings::saveSettings()
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
 		settings.beginWriteArray("Configuration");
 
-		for (int j = 0; j < configurationNames.size(); j++)
-		{
+		for (int j = 0; j < configurationNames.size(); j++) {
 			settings.setArrayIndex(j);
 			settings.setValue("Name", configurationNames[j]);
 			settings.setValue("CompilerArguments", compilerArguments[j]);
@@ -592,8 +556,7 @@ void Settings::saveSettings()
 	settings.endArray();
 	settings.beginWriteArray("v1.2/RecentContest");
 
-	for (int i = 0; i < recentContest.size(); i++)
-	{
+	for (int i = 0; i < recentContest.size(); i++) {
 		settings.setArrayIndex(i);
 		settings.setValue("Location", recentContest[i]);
 	}
@@ -601,8 +564,7 @@ void Settings::saveSettings()
 	settings.endArray();
 }
 
-void Settings::loadSettings()
-{
+void Settings::loadSettings() {
 	for (auto &i : compilerList)
 		delete i;
 
@@ -650,8 +612,7 @@ void Settings::loadSettings()
 	settings.endGroup();
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
 
-	for (int i = 0; i < compilerCount; i++)
-	{
+	for (int i = 0; i < compilerCount; i++) {
 		settings.setArrayIndex(i);
 		auto *compiler = new Compiler;
 		compiler->setCompilerType(
@@ -666,8 +627,7 @@ void Settings::loadSettings()
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
 		int configurationCount = settings.beginReadArray("Configuration");
 
-		for (int j = 0; j < configurationCount; j++)
-		{
+		for (int j = 0; j < configurationCount; j++) {
 			settings.setArrayIndex(j);
 			compiler->addConfiguration(settings.value("Name").toString(),
 			                           settings.value("CompilerArguments").toString(),
@@ -677,8 +637,7 @@ void Settings::loadSettings()
 		QStringList values = settings.value("EnvironmentVariables").toStringList();
 		QProcessEnvironment environment;
 
-		for (auto &i : values)
-		{
+		for (auto &i : values) {
 			int tmp = i.indexOf('=');
 			QString variable = i.mid(0, tmp);
 			QString value = i.mid(tmp + 1);
@@ -693,8 +652,7 @@ void Settings::loadSettings()
 	settings.endArray();
 	int listCount = settings.beginReadArray("v1.2/RecentContest");
 
-	for (int i = 0; i < listCount; i++)
-	{
+	for (int i = 0; i < listCount; i++) {
 		settings.setArrayIndex(i);
 		recentContest.append(settings.value("Location").toString());
 	}

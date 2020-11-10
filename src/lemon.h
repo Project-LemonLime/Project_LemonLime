@@ -14,8 +14,7 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class LemonLime;
 }
 
@@ -23,8 +22,7 @@ class Contest;
 class Settings;
 class OptionsDialog;
 
-class LemonLime : public QMainWindow
-{
+class LemonLime : public QMainWindow {
 	Q_OBJECT
 
   public:

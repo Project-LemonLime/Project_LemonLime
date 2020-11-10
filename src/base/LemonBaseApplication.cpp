@@ -17,21 +17,16 @@
 
 using namespace Lemon;
 
-auto LemonBaseApplication::Initialize() -> bool
-{
+auto LemonBaseApplication::Initialize() -> bool {
 	QString errorMessage;
 	bool canContinue;
 	const auto hasError = parseCommandLine(&canContinue, &errorMessage);
-	if (hasError)
-	{
+	if (hasError) {
 		// LOG("Command line: " + A(errorMessage));
-		if (! canContinue)
-		{
+		if (! canContinue) {
 			LOG("Fatal Error, LemonLime cannot continue.");
 			return false;
-		}
-		else
-		{
+		} else {
 			LOG("Non-fatal error, LemonLime will continue starting up.");
 		}
 	}
@@ -42,15 +37,11 @@ auto LemonBaseApplication::Initialize() -> bool
 	LemonLimeTranslator = std::make_unique<LemonTranslator>();
 	const auto allTranslations = LemonLimeTranslator->GetAvailableLanguages();
 	const auto osLanguage = QLocale::system().name();
-	if (! allTranslations.contains(settings->getUiLanguage()))
-	{
+	if (! allTranslations.contains(settings->getUiLanguage())) {
 		// If we need to reset the language.
-		if (allTranslations.contains(osLanguage))
-		{
+		if (allTranslations.contains(osLanguage)) {
 			settings->setUiLanguage(osLanguage);
-		}
-		else if (! allTranslations.isEmpty())
-		{
+		} else if (! allTranslations.isEmpty()) {
 			settings->setUiLanguage(allTranslations.first());
 		}
 	}
@@ -59,12 +50,10 @@ auto LemonBaseApplication::Initialize() -> bool
 	return true;
 }
 
-auto LemonBaseApplication::parseCommandLine(bool *canContinue, QString *errorMessage) -> bool
-{
+auto LemonBaseApplication::parseCommandLine(bool *canContinue, QString *errorMessage) -> bool {
 	*canContinue = true;
 	QStringList filteredArgs;
-	for (const auto &arg : arguments())
-	{
+	for (const auto &arg : arguments()) {
 #ifdef Q_OS_MACOS
 		if (arg.contains("-psn"))
 			continue;
@@ -83,21 +72,18 @@ auto LemonBaseApplication::parseCommandLine(bool *canContinue, QString *errorMes
 	const auto helpOption = parser.addHelpOption();
 	const auto versionOption = parser.addVersionOption();
 
-	if (! parser.parse(filteredArgs))
-	{
+	if (! parser.parse(filteredArgs)) {
 		*canContinue = true;
 		*errorMessage = parser.errorText();
 		return false;
 	}
 
-	if (parser.isSet(versionOption))
-	{
+	if (parser.isSet(versionOption)) {
 		parser.showVersion();
 		return true;
 	}
 
-	if (parser.isSet(helpOption))
-	{
+	if (parser.isSet(helpOption)) {
 		parser.showHelp();
 		return true;
 	}

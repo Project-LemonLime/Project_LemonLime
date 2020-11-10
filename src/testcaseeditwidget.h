@@ -17,16 +17,14 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class TestCaseEditWidget;
 }
 
 class Settings;
 class TestCase;
 
-class TestCaseEditWidget : public QWidget
-{
+class TestCaseEditWidget : public QWidget {
 	Q_OBJECT
 
   public:

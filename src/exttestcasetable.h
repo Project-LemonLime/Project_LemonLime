@@ -13,8 +13,7 @@
 class Task;
 class TestCase;
 
-class ExtTestCaseTable : public QTableWidget
-{
+class ExtTestCaseTable : public QTableWidget {
 	Q_OBJECT
 
   public:

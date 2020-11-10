@@ -15,13 +15,11 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class OpenContestWidget;
 }
 
-class OpenContestWidget : public QWidget
-{
+class OpenContestWidget : public QWidget {
 	Q_OBJECT
 
   public:

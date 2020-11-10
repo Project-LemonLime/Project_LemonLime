@@ -10,8 +10,7 @@
 
 #include <QDialog>
 
-namespace Ui
-{
+namespace Ui {
 	class ExtTestCaseUpdaterDialog;
 }
 
@@ -22,8 +21,7 @@ const int NO_EDIT = -400;
 const int MAY_EDIT = -300;
 const int EDIT_WITH_DEFAULT = -200;
 
-class ExtTestCaseUpdaterDialog : public QDialog
-{
+class ExtTestCaseUpdaterDialog : public QDialog {
 	Q_OBJECT
 
   public:

@@ -14,11 +14,9 @@
 
 class Compiler;
 
-namespace Lemon::base::config
-{
+namespace Lemon::base::config {
 
-	class LemonConfigJudge
-	{
+	class LemonConfigJudge {
 	  private:
 		QList<Compiler *> compilerList;
 		int defaultFullScore{};
@@ -40,8 +38,7 @@ namespace Lemon::base::config
 		void write(QJsonObject &json) const;
 	};
 
-	class LemonConfigUI
-	{
+	class LemonConfigUI {
 	  private:
 		QString language = "en_US";
 		// Prepare for theme setting
@@ -51,20 +48,14 @@ namespace Lemon::base::config
 		void write(QJsonObject &json) const;
 	};
 
-	class LemonConfig
-	{
+	class LemonConfig {
 	  private:
 		LemonConfigJudge judgeConfig;
 		LemonConfigUI uiConfig;
 		int splashTime{};
 
 	  public:
-		enum SaveFormat
-		{
-			Json,
-			Binary,
-			Yaml
-		};
+		enum SaveFormat { Json, Binary, Yaml };
 		void read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
 		bool loadConfig(SaveFormat saveFormat);

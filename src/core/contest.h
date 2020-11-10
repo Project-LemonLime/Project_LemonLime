@@ -21,8 +21,7 @@ class Task;
 class Settings;
 class Contestant;
 
-class Contest : public QObject
-{
+class Contest : public QObject {
 	Q_OBJECT
   public:
 	explicit Contest(QObject *parent = nullptr);

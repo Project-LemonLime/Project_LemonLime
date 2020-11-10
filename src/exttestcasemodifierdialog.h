@@ -10,16 +10,14 @@
 
 #include <QDialog>
 
-namespace Ui
-{
+namespace Ui {
 	class ExtTestCaseModifierDialog;
 }
 
 class Task;
 class Settings;
 
-class ExtTestCaseModifierDialog : public QDialog
-{
+class ExtTestCaseModifierDialog : public QDialog {
 	Q_OBJECT
 
   public:

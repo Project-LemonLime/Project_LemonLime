@@ -12,13 +12,11 @@
 
 #include <QDialog>
 
-namespace Ui
-{
+namespace Ui {
 	class AddTaskDialog;
 }
 
-class AddTaskDialog : public QDialog
-{
+class AddTaskDialog : public QDialog {
 	Q_OBJECT
 
   public:

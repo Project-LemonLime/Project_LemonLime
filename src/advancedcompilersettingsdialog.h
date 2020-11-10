@@ -16,13 +16,11 @@
 
 class Compiler;
 
-namespace Ui
-{
+namespace Ui {
 	class AdvancedCompilerSettingsDialog;
 }
 
-class AdvancedCompilerSettingsDialog : public QDialog
-{
+class AdvancedCompilerSettingsDialog : public QDialog {
 	Q_OBJECT
 
   public:

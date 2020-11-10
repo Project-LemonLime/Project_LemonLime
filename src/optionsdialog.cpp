@@ -14,8 +14,7 @@
 //
 #include <QtWidgets>
 
-OptionsDialog::OptionsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OptionsDialog)
-{
+OptionsDialog::OptionsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OptionsDialog) {
 	ui->setupUi(this);
 	editSettings = new Settings(this);
 	connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this,
@@ -26,8 +25,7 @@ OptionsDialog::~OptionsDialog() { delete ui; }
 
 auto OptionsDialog::getEditSettings() -> Settings * { return editSettings; }
 
-void OptionsDialog::resetEditSettings(Settings *settings)
-{
+void OptionsDialog::resetEditSettings(Settings *settings) {
 	editSettings->copyFrom(settings);
 	ui->generalSettings->resetEditSettings(editSettings);
 	ui->compilerSettings->resetEditSettings(editSettings);
@@ -35,8 +33,7 @@ void OptionsDialog::resetEditSettings(Settings *settings)
 	ui->tabWidget->setCurrentIndex(0);
 }
 
-void OptionsDialog::okayButtonClicked()
-{
+void OptionsDialog::okayButtonClicked() {
 	ui->tabWidget->setCurrentIndex(0);
 
 	if (! ui->generalSettings->checkValid())

@@ -17,13 +17,11 @@
 class Contestant;
 class Contest;
 
-namespace Ui
-{
+namespace Ui {
 	class DetailDialog;
 }
 
-class DetailDialog : public QDialog
-{
+class DetailDialog : public QDialog {
 	Q_OBJECT
 
   public:

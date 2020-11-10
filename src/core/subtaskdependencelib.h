@@ -14,8 +14,7 @@
 
 const int mxDependValue = 1000000;
 
-inline int stateToStatus(ResultState in, int score, int mxScore)
-{
+inline int stateToStatus(ResultState in, int score, int mxScore) {
 	if (in == CorrectAnswer)
 		return mxDependValue;
 
@@ -30,8 +29,7 @@ inline int stateToStatus(ResultState in, int score, int mxScore)
 
 inline int statusToScore(int ratio, int mxScore) { return 1ll * mxScore * ratio / mxDependValue; }
 
-inline QString statusRankingText(int ratio)
-{
+inline QString statusRankingText(int ratio) {
 	if (ratio >= mxDependValue)
 		return QObject::tr("Pure");
 

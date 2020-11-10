@@ -15,8 +15,7 @@
 //
 #include <QAction>
 
-TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TestCaseEditWidget)
-{
+TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TestCaseEditWidget) {
 	ui->setupUi(this);
 	editTestCase = nullptr;
 	deleteAction = new QAction(this);
@@ -51,10 +50,8 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) : QWidget(parent), ui(ne
 
 TestCaseEditWidget::~TestCaseEditWidget() { delete ui; }
 
-void TestCaseEditWidget::changeEvent(QEvent *event)
-{
-	if (event->type() == QEvent::LanguageChange)
-	{
+void TestCaseEditWidget::changeEvent(QEvent *event) {
+	if (event->type() == QEvent::LanguageChange) {
 		TestCase *bak = editTestCase;
 		setEditTestCase(nullptr, true);
 		ui->retranslateUi(this);
@@ -62,8 +59,7 @@ void TestCaseEditWidget::changeEvent(QEvent *event)
 	}
 }
 
-void TestCaseEditWidget::refreshFileList()
-{
+void TestCaseEditWidget::refreshFileList() {
 	if (! editTestCase)
 		return;
 
@@ -72,8 +68,7 @@ void TestCaseEditWidget::refreshFileList()
 	QStringList outputFiles = editTestCase->getOutputFiles();
 	ui->fileList->setRowCount(inputFiles.size());
 
-	for (int i = 0; i < ui->fileList->rowCount(); i++)
-	{
+	for (int i = 0; i < ui->fileList->rowCount(); i++) {
 		auto *inputFile = new QTableWidgetItem(inputFiles[i]);
 		auto *outputFile = new QTableWidgetItem(outputFiles[i]);
 		ui->fileList->setItem(i, 0, inputFile);
@@ -81,8 +76,7 @@ void TestCaseEditWidget::refreshFileList()
 	}
 }
 
-void TestCaseEditWidget::setEditTestCase(TestCase *testCase, bool check)
-{
+void TestCaseEditWidget::setEditTestCase(TestCase *testCase, bool check) {
 	editTestCase = testCase;
 
 	if (! editTestCase)
@@ -108,24 +102,20 @@ void TestCaseEditWidget::setEditTestCase(TestCase *testCase, bool check)
 	// ui->outputFileEdit->setDisabled(check2);
 }
 
-void TestCaseEditWidget::setSettings(Settings *_settings)
-{
+void TestCaseEditWidget::setSettings(Settings *_settings) {
 	settings = _settings;
 	ui->inputFileEdit->setFileExtensions(settings->getInputFileExtensions());
 	ui->outputFileEdit->setFileExtensions(settings->getOutputFileExtensions());
 }
 
-void TestCaseEditWidget::addSingleCase()
-{
-	if (ui->inputFileEdit->text().isEmpty())
-	{
+void TestCaseEditWidget::addSingleCase() {
+	if (ui->inputFileEdit->text().isEmpty()) {
 		ui->inputFileEdit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty input file name!"), QMessageBox::Close);
 		return;
 	}
 
-	if (ui->outputFileEdit->text().isEmpty())
-	{
+	if (ui->outputFileEdit->text().isEmpty()) {
 		ui->outputFileEdit->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty output file name!"), QMessageBox::Close);
 		return;
@@ -140,55 +130,43 @@ void TestCaseEditWidget::addSingleCase()
 	ui->subtaskDependecne->clear();
 }
 
-void TestCaseEditWidget::deleteSingleCase()
-{
+void TestCaseEditWidget::deleteSingleCase() {
 	QTableWidgetSelectionRange range = ui->fileList->selectedRanges().at(0);
 
-	for (int i = 0; i <= range.rowCount(); i++)
-	{
+	for (int i = 0; i <= range.rowCount(); i++) {
 		editTestCase->deleteSingleCase(range.topRow());
 	}
 
 	refreshFileList();
 }
 
-void TestCaseEditWidget::fileListSelectionChanged()
-{
+void TestCaseEditWidget::fileListSelectionChanged() {
 	if (! editTestCase)
 		return;
 
 	QList<QTableWidgetSelectionRange> range = ui->fileList->selectedRanges();
 
-	if (range.size() == 1 && range[0].columnCount() == 2)
-	{
+	if (range.size() == 1 && range[0].columnCount() == 2) {
 		deleteAction->setEnabled(true);
-	}
-	else
-	{
+	} else {
 		deleteAction->setEnabled(false);
 	}
 }
 
-void TestCaseEditWidget::fileListItemChanged(QTableWidgetItem *item)
-{
+void TestCaseEditWidget::fileListItemChanged(QTableWidgetItem *item) {
 	if (! editTestCase)
 		return;
 
-	if (item)
-	{
-		if (item->column() == 0)
-		{
+	if (item) {
+		if (item->column() == 0) {
 			editTestCase->setInputFiles(item->row(), item->text());
-		}
-		else
-		{
+		} else {
 			editTestCase->setOutputFiles(item->row(), item->text());
 		}
 	}
 }
 
-void TestCaseEditWidget::subtaskDependenceChanged()
-{
+void TestCaseEditWidget::subtaskDependenceChanged() {
 	const QString &text = ui->subtaskDependecne->text();
 
 	if (! editTestCase)
@@ -196,21 +174,17 @@ void TestCaseEditWidget::subtaskDependenceChanged()
 
 	QStringList list = text.isEmpty() ? QStringList() : text.split(',');
 
-	if (editTestCase->checkDependenceSubtask(list))
-	{
+	if (editTestCase->checkDependenceSubtask(list)) {
 		// QMessageBox::information(this, tr("Information"), tr("Finished!"), QMessageBox::Close);
 		editTestCase->setDependenceSubtask(list);
-	}
-	else
-	{
+	} else {
 		ui->subtaskDependecne->setFocus();
 		// ui->subtaskDependecne->set
 		QMessageBox::warning(this, tr("Error"), tr("Dependence subtask index error!"), QMessageBox::Close);
 	}
 }
 
-void TestCaseEditWidget::subtaskDependenceClear()
-{
+void TestCaseEditWidget::subtaskDependenceClear() {
 	ui->subtaskDependecne->clear();
 
 	if (! editTestCase)
@@ -219,24 +193,21 @@ void TestCaseEditWidget::subtaskDependenceClear()
 	editTestCase->clearDependenceSubtask();
 }
 
-void TestCaseEditWidget::fullScoreChanged(const QString &text)
-{
+void TestCaseEditWidget::fullScoreChanged(const QString &text) {
 	if (! editTestCase)
 		return;
 
 	editTestCase->setFullScore(text.toInt());
 }
 
-void TestCaseEditWidget::timeLimitChanged(const QString &text)
-{
+void TestCaseEditWidget::timeLimitChanged(const QString &text) {
 	if (! editTestCase)
 		return;
 
 	editTestCase->setTimeLimit(text.toInt());
 }
 
-void TestCaseEditWidget::memoryLimitChanged(const QString &text)
-{
+void TestCaseEditWidget::memoryLimitChanged(const QString &text) {
 	if (! editTestCase)
 		return;
 

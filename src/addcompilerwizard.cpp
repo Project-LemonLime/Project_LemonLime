@@ -15,8 +15,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddCompilerWizard)
-{
+AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddCompilerWizard) {
 	ui->setupUi(this);
 	ui->sourceFileExtensions->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
@@ -63,12 +62,9 @@ AddCompilerWizard::~AddCompilerWizard() { delete ui; }
 
 auto AddCompilerWizard::getCompilerList() const -> const QList<Compiler *> & { return compilerList; }
 
-auto AddCompilerWizard::nextId() const -> int
-{
-	if (currentId() == 0)
-	{
-		if (ui->customRadioButton->isChecked())
-		{
+auto AddCompilerWizard::nextId() const -> int {
+	if (currentId() == 0) {
+		if (ui->customRadioButton->isChecked()) {
 			return 1;
 		}
 
@@ -81,40 +77,33 @@ auto AddCompilerWizard::nextId() const -> int
 	return 3;
 }
 
-auto AddCompilerWizard::validateCurrentPage() -> bool
-{
-	if (currentId() == 1)
-	{
-		if (ui->compilerName->text().isEmpty())
-		{
+auto AddCompilerWizard::validateCurrentPage() -> bool {
+	if (currentId() == 1) {
+		if (ui->compilerName->text().isEmpty()) {
 			ui->compilerName->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty compiler name!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty())
-		{
+		if (ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty()) {
 			ui->compilerLocation->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty compiler location!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->interpreterLocation->isEnabled() && ui->interpreterLocation->text().isEmpty())
-		{
+		if (ui->interpreterLocation->isEnabled() && ui->interpreterLocation->text().isEmpty()) {
 			ui->interpreterLocation->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty interpreter location!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->sourceFileExtensions->text().isEmpty())
-		{
+		if (ui->sourceFileExtensions->text().isEmpty()) {
 			ui->sourceFileExtensions->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty source file extensions!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->bytecodeFileExtensions->isEnabled() && ui->bytecodeFileExtensions->text().isEmpty())
-		{
+		if (ui->bytecodeFileExtensions->isEnabled() && ui->bytecodeFileExtensions->text().isEmpty()) {
 			ui->bytecodeFileExtensions->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty byte-code file extensions!"),
 			                     QMessageBox::Close);
@@ -126,82 +115,69 @@ auto AddCompilerWizard::validateCurrentPage() -> bool
 		text += tr("Compiler Name: ") + ui->compilerName->text() + "\n";
 		text += tr("Compiler Type: ") + ui->typeSelect->currentText() + "\n";
 
-		if (ui->compilerLocation->isEnabled())
-		{
+		if (ui->compilerLocation->isEnabled()) {
 			text += tr("Compiler\'s Location: ") + ui->compilerLocation->text() + "\n";
 		}
 
-		if (ui->interpreterLocation->isEnabled())
-		{
+		if (ui->interpreterLocation->isEnabled()) {
 			text += tr("Interpreter\'s Location: ") + ui->interpreterLocation->text() + "\n";
 		}
 
 		text += tr("Source File Extensions: ") + ui->sourceFileExtensions->text() + "\n";
 
-		if (ui->bytecodeFileExtensions->isEnabled())
-		{
+		if (ui->bytecodeFileExtensions->isEnabled()) {
 			text += tr("Byte-code File Extensions: ") + ui->bytecodeFileExtensions->text() + "\n";
 		}
 
-		if (ui->defaultCompilerArguments->isEnabled())
-		{
+		if (ui->defaultCompilerArguments->isEnabled()) {
 			text += tr("Default Compiler\'s Arguments: ") + ui->defaultCompilerArguments->text() + "\n";
 		}
 
-		if (ui->defaultInterpreterArguments->isEnabled())
-		{
+		if (ui->defaultInterpreterArguments->isEnabled()) {
 			text += tr("Default Interpreter\'s Arguments: ") + ui->defaultInterpreterArguments->text() + "\n";
 		}
 
 		ui->logViewer->setPlainText(text);
 	}
 
-	if (currentId() == 2)
-	{
-		if (ui->gccGroupBox->isEnabled() && ui->gccPath->text().isEmpty())
-		{
+	if (currentId() == 2) {
+		if (ui->gccGroupBox->isEnabled() && ui->gccPath->text().isEmpty()) {
 			ui->gccPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty gcc path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->gppGroupBox->isEnabled() && ui->gppPath->text().isEmpty())
-		{
+		if (ui->gppGroupBox->isEnabled() && ui->gppPath->text().isEmpty()) {
 			ui->gppPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty g++ path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->fpcGroupBox->isEnabled() && ui->fpcPath->text().isEmpty())
-		{
+		if (ui->fpcGroupBox->isEnabled() && ui->fpcPath->text().isEmpty()) {
 			ui->fpcPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty fpc path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->fbcGroupBox->isEnabled() && ui->fbcPath->text().isEmpty())
-		{
+		if (ui->fbcGroupBox->isEnabled() && ui->fbcPath->text().isEmpty()) {
 			ui->fbcPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty fbc path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->javaGroupBox->isEnabled() && ui->javacPath->text().isEmpty())
-		{
+		if (ui->javaGroupBox->isEnabled() && ui->javacPath->text().isEmpty()) {
 			ui->javacPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty javac path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->javaGroupBox->isEnabled() && ui->javaPath->text().isEmpty())
-		{
+		if (ui->javaGroupBox->isEnabled() && ui->javaPath->text().isEmpty()) {
 			ui->javaPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty java path!"), QMessageBox::Close);
 			return false;
 		}
 
-		if (ui->pythonGroupBox->isEnabled() && ui->pythonPath->text().isEmpty())
-		{
+		if (ui->pythonGroupBox->isEnabled() && ui->pythonPath->text().isEmpty()) {
 			ui->pythonPath->setFocus();
 			QMessageBox::warning(this, tr("Error"), tr("Empty python path!"), QMessageBox::Close);
 			return false;
@@ -209,53 +185,45 @@ auto AddCompilerWizard::validateCurrentPage() -> bool
 
 		QString text;
 
-		if (ui->gccGroupBox->isEnabled())
-		{
+		if (ui->gccGroupBox->isEnabled()) {
 			text += tr("[gcc Compiler]") + "\n";
 			text += tr("gcc Path: ") + ui->gccPath->text() + "\n";
 
-			if (ui->gccRecommendedCheck->isChecked())
-			{
+			if (ui->gccRecommendedCheck->isChecked()) {
 				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
 		}
 
-		if (ui->gppGroupBox->isEnabled())
-		{
+		if (ui->gppGroupBox->isEnabled()) {
 			text += tr("[g++ Compiler]") + "\n";
 			text += tr("g++ Path: ") + ui->gppPath->text() + "\n";
 
-			if (ui->gppRecommendedCheck->isChecked())
-			{
+			if (ui->gppRecommendedCheck->isChecked()) {
 				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
 		}
 
-		if (ui->fpcGroupBox->isEnabled())
-		{
+		if (ui->fpcGroupBox->isEnabled()) {
 			text += tr("[fpc Compiler]") + "\n";
 			text += tr("fpc Path: ") + ui->fpcPath->text() + "\n";
 
-			if (ui->fpcRecommendedCheck->isChecked())
-			{
+			if (ui->fpcRecommendedCheck->isChecked()) {
 				text += tr("Add recommended configurations") + "\n";
 			}
 
 			text += "\n";
 		}
 
-		if (ui->fbcGroupBox->isEnabled())
-		{
+		if (ui->fbcGroupBox->isEnabled()) {
 			text += tr("[fbc Compiler]") + "\n";
 			text += tr("fbc Path: ") + ui->fbcPath->text() + "\n\n";
 		}
 
-		if (ui->javaGroupBox->isEnabled())
-		{
+		if (ui->javaGroupBox->isEnabled()) {
 			text += tr("[Java Compiler]") + "\n";
 			text += tr("javac Path: ") + ui->javacPath->text() + "\n";
 			text += tr("java Path: ") + ui->javaPath->text() + "\n";
@@ -263,8 +231,7 @@ auto AddCompilerWizard::validateCurrentPage() -> bool
 			text += "\n";
 		}
 
-		if (ui->pythonGroupBox->isEnabled())
-		{
+		if (ui->pythonGroupBox->isEnabled()) {
 			text += tr("[Python Compiler]") + "\n";
 			text += tr("python Path: ") + ui->pythonPath->text() + "\n";
 			text += "\n";
@@ -276,18 +243,14 @@ auto AddCompilerWizard::validateCurrentPage() -> bool
 	return true;
 }
 
-void AddCompilerWizard::compilerTypeChanged()
-{
-	if (ui->typeSelect->currentIndex() == 0)
-	{
+void AddCompilerWizard::compilerTypeChanged() {
+	if (ui->typeSelect->currentIndex() == 0) {
 		ui->interpreterLocationLabel->setEnabled(false);
 		ui->interpreterLocation->setEnabled(false);
 		ui->interpreterSelectButton->setEnabled(false);
 		ui->defaultInterpreterArgumentsLabel->setEnabled(false);
 		ui->defaultInterpreterArguments->setEnabled(false);
-	}
-	else
-	{
+	} else {
 		ui->interpreterLocationLabel->setEnabled(true);
 		ui->interpreterLocation->setEnabled(true);
 		ui->interpreterSelectButton->setEnabled(true);
@@ -295,27 +258,21 @@ void AddCompilerWizard::compilerTypeChanged()
 		ui->defaultInterpreterArguments->setEnabled(true);
 	}
 
-	if (ui->typeSelect->currentIndex() == 1)
-	{
+	if (ui->typeSelect->currentIndex() == 1) {
 		ui->bytecodeFileExtensionsLabel->setEnabled(true);
 		ui->bytecodeFileExtensions->setEnabled(true);
-	}
-	else
-	{
+	} else {
 		ui->bytecodeFileExtensionsLabel->setEnabled(false);
 		ui->bytecodeFileExtensions->setEnabled(false);
 	}
 
-	if (ui->typeSelect->currentIndex() == 2)
-	{
+	if (ui->typeSelect->currentIndex() == 2) {
 		ui->compilerLocationLabel->setEnabled(false);
 		ui->compilerLocation->setEnabled(false);
 		ui->compilerSelectButton->setEnabled(false);
 		ui->defaultCompilerArgumentsLabel->setEnabled(false);
 		ui->defaultCompilerArguments->setEnabled(false);
-	}
-	else
-	{
+	} else {
 		ui->compilerLocationLabel->setEnabled(true);
 		ui->compilerLocation->setEnabled(true);
 		ui->compilerSelectButton->setEnabled(true);
@@ -324,8 +281,7 @@ void AddCompilerWizard::compilerTypeChanged()
 	}
 }
 
-void AddCompilerWizard::selectCompilerLocation()
-{
+void AddCompilerWizard::selectCompilerLocation() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                tr("Executable files (*.exe)"));
@@ -334,15 +290,13 @@ void AddCompilerWizard::selectCompilerLocation()
 	                                                tr("Executable files (*.*)"));
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->compilerLocation->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectInterpreterLocation()
-{
+void AddCompilerWizard::selectInterpreterLocation() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
 	                                                QDir::rootPath(), tr("Executable files (*.exe)"));
@@ -351,15 +305,13 @@ void AddCompilerWizard::selectInterpreterLocation()
 	                                                QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->interpreterLocation->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectGccPath()
-{
+void AddCompilerWizard::selectGccPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                "gcc (gcc.exe)");
@@ -368,15 +320,13 @@ void AddCompilerWizard::selectGccPath()
 	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "gcc (gcc)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->gccPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectGppPath()
-{
+void AddCompilerWizard::selectGppPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                "g++ (g++.exe)");
@@ -385,15 +335,13 @@ void AddCompilerWizard::selectGppPath()
 	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "g++ (g++)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->gppPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectFpcPath()
-{
+void AddCompilerWizard::selectFpcPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                "fpc (fpc.exe)");
@@ -402,15 +350,13 @@ void AddCompilerWizard::selectFpcPath()
 	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fpc (fpc)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->fpcPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectFbcPath()
-{
+void AddCompilerWizard::selectFbcPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                "fbc (fbc.exe)");
@@ -419,15 +365,13 @@ void AddCompilerWizard::selectFbcPath()
 	    QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(), "fbc (fbc)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->fbcPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectJavacPath()
-{
+void AddCompilerWizard::selectJavacPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"), QDir::rootPath(),
 	                                                "javac (javac.exe)");
@@ -436,15 +380,13 @@ void AddCompilerWizard::selectJavacPath()
 	                                                "javac (javac)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->javacPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectJavaPath()
-{
+void AddCompilerWizard::selectJavaPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
 	                                                QDir::rootPath(), "java (java.exe)");
@@ -453,15 +395,13 @@ void AddCompilerWizard::selectJavaPath()
 	                                                QDir::rootPath(), "java (java)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->javaPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::selectPythonPath()
-{
+void AddCompilerWizard::selectPythonPath() {
 #ifdef Q_OS_WIN32
 	QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
 	                                                QDir::rootPath(), "python (python.exe)");
@@ -470,17 +410,14 @@ void AddCompilerWizard::selectPythonPath()
 	                                                QDir::rootPath(), "python (python)");
 #endif
 
-	if (! location.isEmpty())
-	{
+	if (! location.isEmpty()) {
 		location = location.replace('/', QDir::separator());
 		ui->pythonPath->setText(location);
 	}
 }
 
-void AddCompilerWizard::accept()
-{
-	if (ui->customRadioButton->isChecked())
-	{
+void AddCompilerWizard::accept() {
+	if (ui->customRadioButton->isChecked()) {
 		auto *compiler = new Compiler;
 		compiler->setCompilerType(static_cast<Compiler::CompilerType>(ui->typeSelect->currentIndex()));
 		compiler->setCompilerName(ui->compilerName->text());
@@ -493,10 +430,8 @@ void AddCompilerWizard::accept()
 		compilerList.append(compiler);
 	}
 
-	if (ui->builtinRadioButton->isChecked())
-	{
-		if (ui->gccGroupBox->isEnabled())
-		{
+	if (ui->builtinRadioButton->isChecked()) {
+		if (ui->gccGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("gcc");
 			compiler->setCompilerLocation(ui->gccPath->text());
@@ -507,8 +442,7 @@ void AddCompilerWizard::accept()
 #endif
 			compiler->addConfiguration("default", "-o %s %s.* -lm" + stackArg, "");
 
-			if (ui->gccRecommendedCheck->isChecked())
-			{
+			if (ui->gccRecommendedCheck->isChecked()) {
 				compiler->addConfiguration("C89", "-o %s %s.* -lm -std=c89" + stackArg, "");
 				compiler->addConfiguration("C89 O2", "-o %s %s.* -lm -std=c89 -O2" + stackArg, "");
 				compiler->addConfiguration("C99", "-o %s %s.* -lm -std=c99" + stackArg, "");
@@ -540,8 +474,7 @@ void AddCompilerWizard::accept()
 			compilerList.append(compiler);
 		}
 
-		if (ui->gppGroupBox->isEnabled())
-		{
+		if (ui->gppGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("g++");
 			compiler->setCompilerLocation(ui->gppPath->text());
@@ -552,8 +485,7 @@ void AddCompilerWizard::accept()
 #endif
 			compiler->addConfiguration("default", "-o %s %s.* -lm" + stackArg, "");
 
-			if (ui->gppRecommendedCheck->isChecked())
-			{
+			if (ui->gppRecommendedCheck->isChecked()) {
 				compiler->addConfiguration("C++98", "-o %s %s.* -lm -std=c++98" + stackArg, "");
 				compiler->addConfiguration("C++98 O2", "-o %s %s.* -lm -std=c++98 -O2" + stackArg, "");
 				compiler->addConfiguration("C++03", "-o %s %s.* -lm -std=c++03" + stackArg, "");
@@ -594,24 +526,21 @@ void AddCompilerWizard::accept()
 			compilerList.append(compiler);
 		}
 
-		if (ui->fpcGroupBox->isEnabled())
-		{
+		if (ui->fpcGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("fpc");
 			compiler->setCompilerLocation(ui->fpcPath->text());
 			compiler->setSourceExtensions("pas;pp;inc");
 			compiler->addConfiguration("default", "%s.*", "");
 
-			if (ui->fpcRecommendedCheck->isChecked())
-			{
+			if (ui->fpcRecommendedCheck->isChecked()) {
 				compiler->addConfiguration("O2", "%s.* -O2", "");
 			}
 
 			compilerList.append(compiler);
 		}
 
-		if (ui->fbcGroupBox->isEnabled())
-		{
+		if (ui->fbcGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("fbc");
 			compiler->setCompilerLocation(ui->fbcPath->text());
@@ -620,8 +549,7 @@ void AddCompilerWizard::accept()
 			compilerList.append(compiler);
 		}
 
-		if (ui->javaGroupBox->isEnabled())
-		{
+		if (ui->javaGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("jdk");
 			compiler->setCompilerType(Compiler::InterpretiveWithByteCode);
@@ -636,8 +564,7 @@ void AddCompilerWizard::accept()
 			compilerList.append(compiler);
 		}
 
-		if (ui->pythonGroupBox->isEnabled())
-		{
+		if (ui->pythonGroupBox->isEnabled()) {
 			auto *compiler = new Compiler;
 			compiler->setCompilerName("python");
 			compiler->setSourceExtensions("py");

@@ -14,13 +14,11 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class NewContestDialog;
 }
 
-class NewContestDialog : public QDialog
-{
+class NewContestDialog : public QDialog {
 	Q_OBJECT
 
   public:

@@ -15,8 +15,7 @@
 #include <QtCore>
 #include <QtGui>
 
-class FileLineEdit : public QLineEdit
-{
+class FileLineEdit : public QLineEdit {
 	Q_OBJECT
   public:
 	explicit FileLineEdit(QWidget *parent = nullptr);

@@ -9,12 +9,9 @@
 //
 #include <SingleApplication>
 
-namespace Lemon
-{
-	struct LemonStartupArguments
-	{
-		enum Argument
-		{
+namespace Lemon {
+	struct LemonStartupArguments {
+		enum Argument {
 			NORMAL = 0,
 			EXIT = 1,
 			LEMON_LINK = 2 // Maybe support URL...
@@ -31,8 +28,7 @@ namespace Lemon
 	};
 } // namespace Lemon
 
-class LemonBaseApplication : public SingleApplication
-{
+class LemonBaseApplication : public SingleApplication {
 	Q_OBJECT
 
   public:

@@ -16,8 +16,7 @@
 #include "core/testcase.h"
 #include "exttestcasemodifierdialog.h"
 
-SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent)
-{
+SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent) {
 	curContest = nullptr;
 	addCount = 0;
 	addTaskAction = new QAction(tr("Add a New Task"), this);
@@ -60,10 +59,8 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent)
 	connect(this, &QTreeWidget::itemChanged, this, &SummaryTree::itemChanged);
 }
 
-void SummaryTree::changeEvent(QEvent *event)
-{
-	if (event->type() == QEvent::LanguageChange)
-	{
+void SummaryTree::changeEvent(QEvent *event) {
+	if (event->type() == QEvent::LanguageChange) {
 		addTaskAction->setText(QApplication::translate("SummaryTree", "Add a New Task", nullptr));
 		addTestCaseAction->setText(QApplication::translate("SummaryTree", "Add a Test Case", nullptr));
 		addTestCasesAction->setText(QApplication::translate("SummaryTree", "Add Test Cases ...", nullptr));
@@ -73,12 +70,10 @@ void SummaryTree::changeEvent(QEvent *event)
 		ExtTestCaseModifierAction->setText(
 		    QApplication::translate("SummaryTree", "Advanced Test Case Modifier", nullptr));
 
-		for (int i = 0; i < topLevelItemCount(); i++)
-		{
+		for (int i = 0; i < topLevelItemCount(); i++) {
 			QTreeWidgetItem *taskItem = topLevelItem(i);
 
-			for (int j = 0; j < taskItem->childCount(); j++)
-			{
+			for (int j = 0; j < taskItem->childCount(); j++) {
 				taskItem->child(j)->setText(
 				    0, QApplication::translate("SummaryTree", "Test Case #%1", nullptr).arg(j + 1));
 			}
@@ -86,10 +81,8 @@ void SummaryTree::changeEvent(QEvent *event)
 	}
 }
 
-void SummaryTree::setContest(Contest *contest)
-{
-	if (curContest)
-	{
+void SummaryTree::setContest(Contest *contest) {
+	if (curContest) {
 		QList<Task *> taskList = curContest->getTaskList();
 
 		for (auto &i : taskList)
@@ -106,15 +99,13 @@ void SummaryTree::setContest(Contest *contest)
 	clear();
 	QList<Task *> taskList = curContest->getTaskList();
 
-	for (auto &i : taskList)
-	{
+	for (auto &i : taskList) {
 		connect(i, SIGNAL(problemTitleChanged(QString)), this, SLOT(titleChanged(QString)));
 		auto *newTaskItem = new QTreeWidgetItem(this);
 		newTaskItem->setText(0, i->getProblemTile());
 		newTaskItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-		for (int j = 0; j < i->getTestCaseList().size(); j++)
-		{
+		for (int j = 0; j < i->getTestCaseList().size(); j++) {
 			auto *newTestCaseItem = new QTreeWidgetItem(newTaskItem);
 			newTestCaseItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 			newTestCaseItem->setText(0, tr("Test Case #%1").arg(newTaskItem->childCount()));
@@ -130,13 +121,11 @@ void SummaryTree::setContest(Contest *contest)
 
 void SummaryTree::setSettings(Settings *_settings) { settings = _settings; }
 
-void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/)
-{
+void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/) {
 	auto *contextMenu = new QMenu(this);
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (! curItem)
-	{
+	if (! curItem) {
 		contextMenu->addAction(addTaskAction);
 		contextMenu->exec(QCursor::pos());
 		delete contextMenu;
@@ -145,8 +134,7 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/)
 
 	int index = indexOfTopLevelItem(curItem);
 
-	if (index != -1)
-	{
+	if (index != -1) {
 		contextMenu->addAction(addTaskAction);
 		contextMenu->addAction(deleteTaskAction);
 		contextMenu->addSeparator();
@@ -156,9 +144,7 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/)
 		contextMenu->addAction(ExtTestCaseModifierAction);
 		contextMenu->exec(QCursor::pos());
 		delete contextMenu;
-	}
-	else
-	{
+	} else {
 		contextMenu->addAction(addTaskAction);
 		contextMenu->addAction(deleteTaskAction);
 		contextMenu->addSeparator();
@@ -170,8 +156,7 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/)
 	}
 }
 
-void SummaryTree::addTask()
-{
+void SummaryTree::addTask() {
 	Task *newTask = new Task;
 	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
 	curContest->addTask(newTask);
@@ -185,12 +170,10 @@ void SummaryTree::addTask()
 	emit taskChanged();
 }
 
-void SummaryTree::addTestCase()
-{
+void SummaryTree::addTestCase() {
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (indexOfTopLevelItem(curItem) == -1)
-	{
+	if (indexOfTopLevelItem(curItem) == -1) {
 		curItem = curItem->parent();
 	}
 
@@ -207,12 +190,10 @@ void SummaryTree::addTestCase()
 	setCurrentItem(newItem);
 }
 
-void SummaryTree::addTestCases()
-{
+void SummaryTree::addTestCases() {
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (indexOfTopLevelItem(curItem) == -1)
-	{
+	if (indexOfTopLevelItem(curItem) == -1) {
 		curItem = curItem->parent();
 	}
 
@@ -223,13 +204,11 @@ void SummaryTree::addTestCases()
 	                                  curTask->getTaskType() == Task::Interaction ||
 	                                  curTask->getTaskType() == Task::Communication);
 
-	if (wizard->exec() == QDialog::Accepted)
-	{
+	if (wizard->exec() == QDialog::Accepted) {
 		QList<QStringList> inputFiles = wizard->getMatchedInputFiles();
 		QList<QStringList> outputFiles = wizard->getMatchedOutputFiles();
 
-		for (int i = 0; i < inputFiles.size(); i++)
-		{
+		for (int i = 0; i < inputFiles.size(); i++) {
 			addTestCase();
 			QTreeWidgetItem *curItem = currentItem();
 			QTreeWidgetItem *parentItem = curItem->parent();
@@ -241,8 +220,7 @@ void SummaryTree::addTestCases()
 			curTestCase->setTimeLimit(wizard->getTimeLimit());
 			curTestCase->setMemoryLimit(wizard->getMemoryLimit());
 
-			for (int j = 0; j < inputFiles[i].size(); j++)
-			{
+			for (int j = 0; j < inputFiles[i].size(); j++) {
 				curTestCase->addSingleCase(inputFiles[i][j], outputFiles[i][j]);
 			}
 
@@ -254,35 +232,26 @@ void SummaryTree::addTestCases()
 	delete wizard;
 }
 
-void SummaryTree::deleteTask()
-{
+void SummaryTree::deleteTask() {
 	if (QMessageBox::warning(this, tr("LemonLime"), tr("Are you sure to delete this task?"), QMessageBox::Yes,
-	                         QMessageBox::Cancel) == QMessageBox::Cancel)
-	{
+	                         QMessageBox::Cancel) == QMessageBox::Cancel) {
 		return;
 	}
 
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (indexOfTopLevelItem(curItem) == -1)
-	{
+	if (indexOfTopLevelItem(curItem) == -1) {
 		curItem = curItem->parent();
 	}
 
 	int index = indexOfTopLevelItem(curItem);
 
-	if (index + 1 < topLevelItemCount())
-	{
+	if (index + 1 < topLevelItemCount()) {
 		setCurrentItem(topLevelItem(index + 1));
-	}
-	else
-	{
-		if (index - 1 >= 0)
-		{
+	} else {
+		if (index - 1 >= 0) {
 			setCurrentItem(topLevelItem(index - 1));
-		}
-		else
-		{
+		} else {
 			setCurrentItem(nullptr);
 		}
 	}
@@ -292,8 +261,7 @@ void SummaryTree::deleteTask()
 	emit taskChanged();
 }
 
-void SummaryTree::deleteTestCase()
-{
+void SummaryTree::deleteTestCase() {
 	QTreeWidgetItem *curItem = currentItem();
 	QTreeWidgetItem *parentItem = curItem->parent();
 	int taskIndex = indexOfTopLevelItem(parentItem);
@@ -302,21 +270,18 @@ void SummaryTree::deleteTestCase()
 	delete curItem;
 	curTask->deleteTestCase(testCaseIndex);
 
-	for (int i = 0; i < parentItem->childCount(); i++)
-	{
+	for (int i = 0; i < parentItem->childCount(); i++) {
 		parentItem->child(i)->setText(0, tr("Test Case #%1").arg(i + 1));
 	}
 }
 
-void SummaryTree::selectionChanged()
-{
+void SummaryTree::selectionChanged() {
 	if (! isEnabled())
 		return;
 
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (! curItem)
-	{
+	if (! curItem) {
 		addTestCaseKeyAction->setEnabled(false);
 		deleteTaskKeyAction->setEnabled(false);
 		deleteTestCaseKeyAction->setEnabled(false);
@@ -325,33 +290,27 @@ void SummaryTree::selectionChanged()
 
 	int index = indexOfTopLevelItem(curItem);
 
-	if (index != -1)
-	{
+	if (index != -1) {
 		addTestCaseKeyAction->setEnabled(true);
 		deleteTaskKeyAction->setEnabled(true);
 		deleteTestCaseKeyAction->setEnabled(false);
-	}
-	else
-	{
+	} else {
 		addTestCaseKeyAction->setEnabled(true);
 		deleteTaskKeyAction->setEnabled(false);
 		deleteTestCaseKeyAction->setEnabled(true);
 	}
 }
 
-void SummaryTree::itemChanged(QTreeWidgetItem *item)
-{
+void SummaryTree::itemChanged(QTreeWidgetItem *item) {
 	int index = indexOfTopLevelItem(item);
 
-	if (index != -1)
-	{
+	if (index != -1) {
 		Task *curTask = curContest->getTask(index);
 		curTask->setProblemTitle(item->text(0));
 	}
 }
 
-void SummaryTree::titleChanged(const QString &title)
-{
+void SummaryTree::titleChanged(const QString &title) {
 	QTreeWidgetItem *curItem = currentItem();
 
 	if (curItem)
@@ -360,12 +319,10 @@ void SummaryTree::titleChanged(const QString &title)
 	emit taskChanged();
 }
 
-void SummaryTree::launchExtTestCaseModifier()
-{
+void SummaryTree::launchExtTestCaseModifier() {
 	QTreeWidgetItem *curItem = currentItem();
 
-	if (indexOfTopLevelItem(curItem) == -1)
-	{
+	if (indexOfTopLevelItem(curItem) == -1) {
 		curItem = curItem->parent();
 	}
 
@@ -376,8 +333,7 @@ void SummaryTree::launchExtTestCaseModifier()
 
 	dialog->init(curTask, settings);
 
-	if (dialog->exec() == QDialog::Accepted)
-	{
+	if (dialog->exec() == QDialog::Accepted) {
 		dialog->getEditTask()->copyTo(curTask);
 	}
 

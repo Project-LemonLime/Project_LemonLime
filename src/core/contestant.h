@@ -14,8 +14,7 @@
 #include <QObject>
 #include <QtCore>
 
-class Contestant : public QObject
-{
+class Contestant : public QObject {
 	Q_OBJECT
   public:
 	explicit Contestant(QObject *parent = nullptr);

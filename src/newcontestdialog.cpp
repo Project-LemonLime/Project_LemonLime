@@ -12,8 +12,7 @@
 //
 #include <QPushButton>
 
-NewContestDialog::NewContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::NewContestDialog)
-{
+NewContestDialog::NewContestDialog(QWidget *parent) : QDialog(parent), ui(new Ui::NewContestDialog) {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(ui->newContestWidget, &NewContestWidget::informationChanged, this,
@@ -28,7 +27,6 @@ auto NewContestDialog::getSavingName() -> QString { return ui->newContestWidget-
 
 auto NewContestDialog::getContestPath() -> QString { return ui->newContestWidget->getContestPath(); }
 
-void NewContestDialog::informationChanged()
-{
+void NewContestDialog::informationChanged() {
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ui->newContestWidget->checkReady());
 }

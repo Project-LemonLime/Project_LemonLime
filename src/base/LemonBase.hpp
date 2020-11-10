@@ -18,10 +18,8 @@
 #define LEMON_BUILD_INFO QString(LEMON_BUILD_INFO_STR)
 #define LEMON_BUILD_EXTRA_INFO QString(LEMON_BUILD_EXTRA_INFO_STR)
 
-namespace Lemon
-{
-	inline QStringList LemonAssetsPaths(const QString &dirName)
-	{
+namespace Lemon {
+	inline QStringList LemonAssetsPaths(const QString &dirName) {
 #define makeAbs(p) QDir(p).absolutePath()
 		// Configuration Path
 		QStringList list;
@@ -50,8 +48,7 @@ namespace Lemon
 		list << makeAbs(QCoreApplication::applicationDirPath() + "/../share/lemon-lime/" + dirName);
 		// For Snap
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-		if (qEnvironmentVariableIsSet("SNAP"))
-		{
+		if (qEnvironmentVariableIsSet("SNAP")) {
 			list << makeAbs(qEnvironmentVariable("SNAP") + "/usr/share/lemon-lime/" + dirName);
 		}
 		if (qEnvironmentVariableIsSet("APPIMAGE"))

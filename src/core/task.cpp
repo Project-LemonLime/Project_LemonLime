@@ -9,8 +9,8 @@
 
 #include "task.h"
 
-#include "base/settings.h"
 #include "base/compiler.h"
+#include "base/settings.h"
 #include "core/testcase.h"
 #include <utility>
 
@@ -19,12 +19,9 @@ Task::Task(QObject *parent, TaskType taskType, ComparisonMode comparisonMode, QS
     : QObject(parent), taskType(taskType), comparisonMode(comparisonMode),
       diffArguments(std::move(diffArguments)), realPrecision(realPrecision),
       standardInputCheck(standardInputCheck), standardOutputCheck(standardOutputCheck),
-      subFolderCheck(subFolderCheck)
-{
-}
+      subFolderCheck(subFolderCheck) {}
 
-void Task::copyTo(Task *to)
-{
+void Task::copyTo(Task *to) {
 	QByteArray data;
 	QDataStream tmpin(&data, QIODevice::WriteOnly);
 	writeToStream(tmpin);
@@ -64,8 +61,7 @@ auto Task::getInteractorName() const -> const QString & { return interactorName;
 
 auto Task::getGrader() const -> const QString & { return grader; }
 
-auto Task::getCompilerConfiguration(const QString &compilerName) const -> QString
-{
+auto Task::getCompilerConfiguration(const QString &compilerName) const -> QString {
 	return compilerConfiguration.value(compilerName);
 }
 
@@ -79,8 +75,7 @@ auto Task::getGraderFilesPath() const -> const QStringList & { return graderFile
 
 auto Task::getGraderFilesName() const -> const QStringList & { return graderFilesName; }
 
-void Task::setProblemTitle(const QString &title)
-{
+void Task::setProblemTitle(const QString &title) {
 	bool changed = problemTitle != title;
 	problemTitle = title;
 
@@ -116,8 +111,7 @@ void Task::setInteractorName(const QString &fileName) { interactorName = fileNam
 
 void Task::setGrader(const QString &fileName) { grader = fileName; }
 
-void Task::setCompilerConfiguration(const QString &compiler, const QString &configuration)
-{
+void Task::setCompilerConfiguration(const QString &compiler, const QString &configuration) {
 	compilerConfiguration.insert(compiler, configuration);
 }
 
@@ -131,63 +125,51 @@ void Task::setGraderFilesPath(const QStringList &pathList) { graderFilesPath = p
 
 void Task::setGraderFilesName(const QStringList &nameList) { graderFilesName = nameList; }
 
-void Task::appendSourceFiles(const QString &path, const QString &name)
-{
+void Task::appendSourceFiles(const QString &path, const QString &name) {
 	sourceFilesPath.append(path);
 	sourceFilesName.append(name);
 }
 
-void Task::appendGraderFiles(const QString &path, const QString &name)
-{
+void Task::appendGraderFiles(const QString &path, const QString &name) {
 	graderFilesPath.append(path);
 	graderFilesName.append(name);
 }
 
-void Task::removeSourceFilesAt(int num)
-{
-	if (num < sourceFilesPath.length())
-	{
+void Task::removeSourceFilesAt(int num) {
+	if (num < sourceFilesPath.length()) {
 		sourceFilesPath.removeAt(num);
 		sourceFilesName.removeAt(num);
 	}
 }
 
-void Task::removeGraderFilesAt(int num)
-{
-	if (num < graderFilesPath.length())
-	{
+void Task::removeGraderFilesAt(int num) {
+	if (num < graderFilesPath.length()) {
 		graderFilesPath.removeAt(num);
 		graderFilesName.removeAt(num);
 	}
 }
 
-void Task::addTestCase(TestCase *testCase)
-{
+void Task::addTestCase(TestCase *testCase) {
 	testCase->setParent(this);
 	testCase->setIndex(testCaseList.size() + 1);
 	testCaseList.append(testCase);
 }
 
-void Task::addTestCase(TestCase *testCase, int loc)
-{
+void Task::addTestCase(TestCase *testCase, int loc) {
 	testCase->setParent(this);
 	testCaseList.insert(loc, testCase);
 }
 
-auto Task::getTestCase(int index) const -> TestCase *
-{
-	if (0 <= index && index < testCaseList.size())
-	{
+auto Task::getTestCase(int index) const -> TestCase * {
+	if (0 <= index && index < testCaseList.size()) {
 		return testCaseList[index];
 	}
 
 	return nullptr;
 }
 
-void Task::deleteTestCase(int index)
-{
-	if (0 <= index && index < testCaseList.size())
-	{
+void Task::deleteTestCase(int index) {
+	if (0 <= index && index < testCaseList.size()) {
 		for (int i = index; i < testCaseList.size(); ++i)
 			testCaseList[i]->clearDependenceSubtask();
 
@@ -196,8 +178,7 @@ void Task::deleteTestCase(int index)
 	}
 }
 
-void Task::swapTestCase(int a, int b)
-{
+void Task::swapTestCase(int a, int b) {
 	if (a < 0 || a >= testCaseList.size())
 		return;
 
@@ -207,8 +188,7 @@ void Task::swapTestCase(int a, int b)
 	qSwap(testCaseList[a], testCaseList[b]);
 }
 
-void Task::refreshCompilerConfiguration(Settings *settings)
-{
+void Task::refreshCompilerConfiguration(Settings *settings) {
 	QList<Compiler *> compilerList = settings->getCompilerList();
 	QStringList compilerNames;
 
@@ -217,32 +197,23 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 
 	QMap<QString, QString>::iterator p;
 
-	for (p = compilerConfiguration.begin(); p != compilerConfiguration.end();)
-	{
-		if (! compilerNames.contains(p.key()))
-		{
+	for (p = compilerConfiguration.begin(); p != compilerConfiguration.end();) {
+		if (! compilerNames.contains(p.key())) {
 			p = compilerConfiguration.erase(p);
-		}
-		else
-		{
+		} else {
 			++p;
 		}
 	}
 
-	for (auto &i : compilerList)
-	{
-		if (compilerConfiguration.contains(i->getCompilerName()))
-		{
+	for (auto &i : compilerList) {
+		if (compilerConfiguration.contains(i->getCompilerName())) {
 			const QString &config = compilerConfiguration.value(i->getCompilerName());
 			const QStringList &configurationNames = i->getConfigurationNames();
 
-			if (! configurationNames.contains(config))
-			{
+			if (! configurationNames.contains(config)) {
 				compilerConfiguration.insert(i->getCompilerName(), "default");
 			}
-		}
-		else
-		{
+		} else {
 			compilerConfiguration.insert(i->getCompilerName(), "default");
 		}
 	}
@@ -250,32 +221,27 @@ void Task::refreshCompilerConfiguration(Settings *settings)
 	emit compilerConfigurationRefreshed();
 }
 
-auto Task::getTotalTimeLimit() const -> int
-{
+auto Task::getTotalTimeLimit() const -> int {
 	int total = 0;
 
-	for (auto *i : testCaseList)
-	{
+	for (auto *i : testCaseList) {
 		total += i->getTimeLimit() * i->getInputFiles().size();
 	}
 
 	return total;
 }
 
-auto Task::getTotalScore() const -> int
-{
+auto Task::getTotalScore() const -> int {
 	int total = 0;
 
-	for (auto *i : testCaseList)
-	{
+	for (auto *i : testCaseList) {
 		total += i->getFullScore();
 	}
 
 	return total;
 }
 
-void Task::writeToStream(QDataStream &out)
-{
+void Task::writeToStream(QDataStream &out) {
 	out << problemTitle;
 	out << sourceFileName;
 	out << inputFileName;
@@ -290,8 +256,7 @@ void Task::writeToStream(QDataStream &out)
 	_specialJudge.replace(QDir::separator(), '/');
 	out << _specialJudge;
 
-	if (taskType == Task::Interaction)
-	{
+	if (taskType == Task::Interaction) {
 		QString _temp = interactor;
 		_temp.replace(QDir::separator(), '/');
 		out << _temp;
@@ -301,12 +266,10 @@ void Task::writeToStream(QDataStream &out)
 		out << interactorName;
 	}
 
-	if (taskType == Task::Communication)
-	{
+	if (taskType == Task::Communication) {
 		out << sourceFilesPath.length();
 
-		for (int i = 0; i < sourceFilesPath.length(); i++)
-		{
+		for (int i = 0; i < sourceFilesPath.length(); i++) {
 			QString temp = sourceFilesPath[i];
 			temp.replace(QDir::separator(), '/');
 			out << temp;
@@ -317,8 +280,7 @@ void Task::writeToStream(QDataStream &out)
 
 		out << graderFilesPath.length();
 
-		for (int i = 0; i < graderFilesPath.length(); i++)
-		{
+		for (int i = 0; i < graderFilesPath.length(); i++) {
 			QString temp = graderFilesPath[i];
 			temp.replace(QDir::separator(), '/');
 			out << temp;
@@ -332,14 +294,12 @@ void Task::writeToStream(QDataStream &out)
 	out << answerFileExtension;
 	out << testCaseList.size();
 
-	for (auto &i : testCaseList)
-	{
+	for (auto &i : testCaseList) {
 		i->writeToStream(out);
 	}
 }
 
-void Task::readFromStream(QDataStream &in)
-{
+void Task::readFromStream(QDataStream &in) {
 	int tmp = 0;
 	int count = 0;
 	in >> problemTitle;
@@ -358,8 +318,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> specialJudge;
 	specialJudge.replace('/', QDir::separator());
 
-	if (taskType == Task::Interaction)
-	{
+	if (taskType == Task::Interaction) {
 		in >> interactor;
 		interactor.replace('/', QDir::separator());
 		in >> grader;
@@ -367,15 +326,13 @@ void Task::readFromStream(QDataStream &in)
 		in >> interactorName;
 	}
 
-	if (taskType == Task::Communication)
-	{
+	if (taskType == Task::Communication) {
 		int length = 0;
 		in >> length;
 		sourceFilesPath.clear();
 		sourceFilesName.clear();
 
-		for (int i = 0; i < length; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			QString temp;
 			in >> temp;
 			temp.replace('/', QDir::separator());
@@ -389,8 +346,7 @@ void Task::readFromStream(QDataStream &in)
 		graderFilesPath.clear();
 		graderFilesName.clear();
 
-		for (int i = 0; i < length; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			QString temp;
 			in >> temp;
 			temp.replace('/', QDir::separator());
@@ -406,8 +362,7 @@ void Task::readFromStream(QDataStream &in)
 	in >> count;
 	testCaseList.clear();
 
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		auto *newTestCase = new TestCase(this);
 		newTestCase->readFromStream(in);
 		newTestCase->setIndex(testCaseList.size() + 1);

@@ -23,8 +23,7 @@
 #include <QMenu>
 #include <QMessageBox>
 
-StatisticsBrowser::StatisticsBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::StatisticsBrowser)
-{
+StatisticsBrowser::StatisticsBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::StatisticsBrowser) {
 	ui->setupUi(this);
 	curContest = nullptr;
 }
@@ -34,8 +33,7 @@ StatisticsBrowser::~StatisticsBrowser() { delete ui; }
 void StatisticsBrowser::setContest(Contest *contest) { curContest = contest; }
 
 auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize, int totalScore)
-    -> QString
-{
+    -> QString {
 	QString buffer = "";
 	long long overallScoreSum = 0;
 	double scoreDiscrim = 0;
@@ -44,8 +42,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 	int lastScoreTier = -1;
 	int lastScoreTierNum = -1;
 
-	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
-	{
+	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();) {
 		i--;
 		int curScoreTier = i.key();
 		int curScoreTierNum = i.value();
@@ -73,8 +70,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 	        .arg(tr("Prefix"))
 	        .arg(tr("Suffix"));
 
-	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();)
-	{
+	for (auto i = scoreCount.constEnd(); i != scoreCount.constBegin();) {
 		i--;
 		int curScoreTier = i.key();
 		int curScoreTierNum = i.value();
@@ -107,8 +103,7 @@ auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, in
 
 auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
                                               QList<QList<QList<int>>> scoreList,
-                                              QList<QList<QList<ResultState>>> resultList) -> QString
-{
+                                              QList<QList<QList<ResultState>>> resultList) -> QString {
 	QString buffer = "";
 	buffer += "<table border=\"-1\">";
 	buffer +=
@@ -122,35 +117,30 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
 	        .arg(tr("Lost"))
 	        .arg(tr("Average"));
 
-	for (int i = 0; i < testCaseList.length(); i++)
-	{
+	for (int i = 0; i < testCaseList.length(); i++) {
 		QStringList inFileList = testCaseList[i]->getInputFiles();
 		QStringList outFileList = testCaseList[i]->getOutputFiles();
 		int mxScore = testCaseList[i]->getFullScore();
 		QList<int> miScoreRecord;
 		QList<int> miStatRecord;
 
-		for (int j = 0; j < scoreList.length(); j++)
-		{
+		for (int j = 0; j < scoreList.length(); j++) {
 			miScoreRecord.append(mxScore);
 			miStatRecord.append(2);
 		}
 
-		for (int j = 0; j < inFileList.length(); j++)
-		{
+		for (int j = 0; j < inFileList.length(); j++) {
 			int cntFail = 0;
 			int cntPati = 0;
 			int cntSucc = 0;
 			long long sumscore = 0;
 
-			for (int k = 0; k < scoreList.length(); k++)
-			{
+			for (int k = 0; k < scoreList.length(); k++) {
 				int score = 0;
 				int statVal = 2;
 				ResultState stat = WrongAnswer;
 
-				if (scoreList[k].length() > i && scoreList[k][i].length() > j)
-				{
+				if (scoreList[k].length() > i && scoreList[k][i].length() > j) {
 					score = scoreList[k][i][j];
 					stat = resultList[k][i][j];
 				}
@@ -191,15 +181,13 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
 			buffer += "</tr>";
 		}
 
-		if (inFileList.length() > 1)
-		{
+		if (inFileList.length() > 1) {
 			int sumCntFail = 0;
 			int sumCntPati = 0;
 			int sumCntSucc = 0;
 			long long sumSumScore = 0;
 
-			for (int j = 0; j < scoreList.length(); j++)
-			{
+			for (int j = 0; j < scoreList.length(); j++) {
 				sumSumScore += miScoreRecord[j];
 
 				if (miStatRecord[j] >= 2)
@@ -241,35 +229,28 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
 	return buffer;
 }
 
-auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList) -> bool
-{
-	for (auto *i : taskList)
-	{
-		for (auto *j : i->getTestCaseList())
-		{
+auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList)
+    -> bool {
+	for (auto *i : taskList) {
+		for (auto *j : i->getTestCaseList()) {
 			if (j->getInputFiles().length() != j->getOutputFiles().length())
 				return false;
 		}
 	}
 
-	for (auto *i : contestantList)
-	{
-		for (int j = 0; j < taskList.length(); j++)
-		{
+	for (auto *i : contestantList) {
+		for (int j = 0; j < taskList.length(); j++) {
 			QList<QList<int>> scoreList;
 			QList<QList<ResultState>> resultList;
 			QList<TestCase *> testCaseList;
 			bool isJudged = false;
 
-			try
-			{
+			try {
 				scoreList = i->getSocre(j);
 				resultList = i->getResult(j);
 				testCaseList = taskList[j]->getTestCaseList();
 				isJudged = i->getCheckJudged(j);
-			}
-			catch (...)
-			{
+			} catch (...) {
 				return false;
 			}
 
@@ -279,16 +260,14 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 			if (scoreList.length() != resultList.length())
 				return false;
 
-			if (scoreList.length() > 0 && resultList.length() > 0 && testCaseList.length() > 0)
-			{
+			if (scoreList.length() > 0 && resultList.length() > 0 && testCaseList.length() > 0) {
 				if (scoreList.length() != testCaseList.length())
 					return false;
 
 				if (resultList.length() != testCaseList.length())
 					return false;
 
-				for (int k = 0; k < testCaseList.length(); k++)
-				{
+				for (int k = 0; k < testCaseList.length(); k++) {
 					if (scoreList[k].length() - (! testCaseList[k]->getDependenceSubtask().empty()) !=
 					    testCaseList[k]->getInputFiles().length())
 						return false;
@@ -303,12 +282,10 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 	return true;
 }
 
-void StatisticsBrowser::refresh()
-{
+void StatisticsBrowser::refresh() {
 	QString buffer;
 
-	if (! curContest)
-	{
+	if (! curContest) {
 		buffer = tr("No contest yet");
 		ui->textBrowser->setHtml(buffer);
 		return;
@@ -317,22 +294,19 @@ void StatisticsBrowser::refresh()
 	QList<Task *> taskList = curContest->getTaskList();
 	QList<Contestant *> contestantList = curContest->getContestantList();
 
-	if (taskList.empty())
-	{
+	if (taskList.empty()) {
 		buffer = tr("No task yet");
 		ui->textBrowser->setHtml(buffer);
 		return;
 	}
 
-	if (contestantList.empty())
-	{
+	if (contestantList.empty()) {
 		buffer = tr("No contestant yet");
 		ui->textBrowser->setHtml(buffer);
 		return;
 	}
 
-	if (! checkValid(curContest->getTaskList(), curContest->getContestantList()))
-	{
+	if (! checkValid(curContest->getTaskList(), curContest->getContestantList())) {
 		buffer = tr("Some unhandled situation happened. May not all contestants are well judged, or not "
 		            "rejudged after changing testcases. Please refresh and rejudge.");
 		ui->textBrowser->setHtml(buffer);
@@ -348,13 +322,11 @@ void StatisticsBrowser::refresh()
 	bool haveError = false;
 	QMap<int, int> scoreCount;
 
-	for (auto &i : contestantList)
-	{
+	for (auto &i : contestantList) {
 		int contestantTotalScore = 0;
 		bool loss = false;
 
-		for (int j = 0; j < taskList.size(); j++)
-		{
+		for (int j = 0; j < taskList.size(); j++) {
 			contestantTotalScore += i->getTaskScore(j);
 
 			if (i->getTaskScore(j) < 0)
@@ -367,8 +339,7 @@ void StatisticsBrowser::refresh()
 			scoreCount[-1]++;
 	}
 
-	if (haveError)
-	{
+	if (haveError) {
 		buffer += "<p style=\"font-size: large; color: red;\">" + tr("Warning: Judgement is not finished.") +
 		          "</p><br>";
 	}
@@ -378,8 +349,7 @@ void StatisticsBrowser::refresh()
 	buffer += "<br>";
 	buffer += "<h2>" + tr("Problems") + "</h2>";
 
-	for (int i = 0; i < taskList.size(); i++)
-	{
+	for (int i = 0; i < taskList.size(); i++) {
 		buffer += "<h3>";
 		buffer += QString("%1 %2: %3").arg(tr("Task")).arg(i + 1).arg(taskList[i]->getProblemTile());
 		buffer += "</h3>";
@@ -388,8 +358,7 @@ void StatisticsBrowser::refresh()
 		QList<QList<QList<int>>> TestcaseScoreList;
 		QList<QList<QList<ResultState>>> resultList;
 
-		for (auto &j : contestantList)
-		{
+		for (auto &j : contestantList) {
 			cnts[j->getTaskScore(i)]++;
 
 			if (j->getCompileState(i) != NoValidSourceFile)
@@ -413,12 +382,10 @@ void StatisticsBrowser::refresh()
 	nowBrowserText = buffer;
 }
 
-void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &fileName)
-{
+void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &fileName) {
 	QFile file(fileName);
 
-	if (! file.open(QFile::WriteOnly))
-	{
+	if (! file.open(QFile::WriteOnly)) {
 		QMessageBox::warning(widget, tr("LemonLime"),
 		                     tr("Cannot open file %1").arg(QFileInfo(file).fileName()), QMessageBox::Ok);
 		return;
@@ -434,10 +401,8 @@ void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &file
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
-void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest)
-{
-	if (! curContest)
-	{
+void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest) {
+	if (! curContest) {
 		QMessageBox::warning(widget, tr("LemonLime"), tr("No contest yet"), QMessageBox::Ok);
 		return;
 	}
@@ -445,14 +410,12 @@ void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest)
 	QList<Task *> taskList = curContest->getTaskList();
 	QList<Contestant *> contestantList = curContest->getContestantList();
 
-	if (taskList.empty())
-	{
+	if (taskList.empty()) {
 		QMessageBox::warning(widget, tr("LemonLime"), tr("No task yet"), QMessageBox::Ok);
 		return;
 	}
 
-	if (contestantList.empty())
-	{
+	if (contestantList.empty()) {
 		QMessageBox::warning(widget, tr("LemonLime"), tr("No contestant yet"), QMessageBox::Ok);
 		return;
 	}

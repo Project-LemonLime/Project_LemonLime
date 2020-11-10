@@ -14,8 +14,7 @@
 #include "core/testcase.h"
 #include <QWidget>
 
-namespace Ui
-{
+namespace Ui {
 	class StatisticsBrowser;
 }
 
@@ -24,8 +23,7 @@ class TestCase;
 
 static QString nowBrowserText;
 
-class StatisticsBrowser : public QWidget
-{
+class StatisticsBrowser : public QWidget {
 	Q_OBJECT
 
   public:

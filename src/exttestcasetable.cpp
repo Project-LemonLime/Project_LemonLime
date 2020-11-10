@@ -16,8 +16,7 @@
 #define qAsConst
 #endif
 
-ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
-{
+ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/) {
 	clear();
 
 	horizontalHeader()->setMinimumHeight(25);
@@ -30,8 +29,7 @@ ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/)
 
 	connect(this, &QTableWidget::itemSelectionChanged, this, &ExtTestCaseTable::whenItemSelectionChanged);
 	connect(this, &QTableWidget::itemClicked, this, [this](QTableWidgetItem *item) {
-		if (! item->column())
-		{
+		if (! item->column()) {
 			int p = item->row();
 			QTableWidgetSelectionRange range(p, 0, p + rowSpan(p, 0) - 1, this->columnCount() - 1);
 			this->setRangeSelected(range, true);
@@ -72,24 +70,21 @@ auto ExtTestCaseTable::getSelectedResSub() const -> QList<QPair<int, QPair<int, 
 
 auto ExtTestCaseTable::getSelectRange() const -> QPair<int, int> { return qMakePair(selectMi, selectMx); }
 
-void ExtTestCaseTable::addItem(int row, int column, const QString &text)
-{
+void ExtTestCaseTable::addItem(int row, int column, const QString &text) {
 	auto *item = new QTableWidgetItem(text);
 	item->setTextAlignment(Qt::AlignCenter);
 	item->setToolTip(text);
 	this->setItem(row, column, item);
 }
 
-void ExtTestCaseTable::addItem(int row, int column, const QString &text, const QString &tipText)
-{
+void ExtTestCaseTable::addItem(int row, int column, const QString &text, const QString &tipText) {
 	auto *item = new QTableWidgetItem(text);
 	item->setTextAlignment(Qt::AlignCenter);
 	item->setToolTip(tipText);
 	this->setItem(row, column, item);
 }
 
-void ExtTestCaseTable::refreshTask(Task *nowTask)
-{
+void ExtTestCaseTable::refreshTask(Task *nowTask) {
 	editTask = nowTask;
 
 	if (editTask == nullptr)
@@ -101,8 +96,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 
 	int nowrow = 0;
 
-	for (int i = 0; i < testCases.size(); i++)
-	{
+	for (int i = 0; i < testCases.size(); i++) {
 		auto *nowsub = editTask->getTestCase(i);
 
 		int score = nowsub->getFullScore();
@@ -113,8 +107,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 		auto depends = nowsub->getDependenceSubtask();
 		int xlen = nowsub->getInputFiles().size();
 
-		for (int j = 0; j < xlen; j++)
-		{
+		for (int j = 0; j < xlen; j++) {
 			insertRow(nowrow);
 
 			addItem(nowrow, 1, inputs[j]);
@@ -133,8 +126,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 
 			if (depends.empty())
 				depStr = "(-)", tipStr = tipStr + tr("\nNo Depends");
-			else
-			{
+			else {
 				depStr = QString("(%1)").arg(depends.size());
 				tipStr = tipStr + QString(tr("\nDepends: "));
 
@@ -164,8 +156,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask)
 	noDfs = false;
 }
 
-void ExtTestCaseTable::whenItemSelectionChanged()
-{
+void ExtTestCaseTable::whenItemSelectionChanged() {
 	if (noDfs)
 		return;
 
@@ -187,8 +178,7 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 
 	int mi = 1e9, mx = -1;
 
-	for (const auto &i : qAsConst(setLists))
-	{
+	for (const auto &i : qAsConst(setLists)) {
 		mi = qMin(mi, i.topRow());
 		mx = qMax(mx, i.bottomRow());
 	}
@@ -196,8 +186,7 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 	selectMi = mi;
 	selectMx = mx;
 
-	if (mi > mx)
-	{
+	if (mi > mx) {
 		noDfs = false;
 		return;
 	}
@@ -213,21 +202,17 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 	haveSub.clear();
 	resSub.clear();
 
-	for (int i = 0, j = 0; i < rowCount(); i = j + 1, subCnt++)
-	{
+	for (int i = 0, j = 0; i < rowCount(); i = j + 1, subCnt++) {
 		j = i + rowSpan(i, 0) - 1;
 		subSize.append(j - i + 1);
 
-		if (mi <= i && j <= mx)
-		{
+		if (mi <= i && j <= mx) {
 			QTableWidgetSelectionRange range(i, 0, j, columnCount() - 1);
 			setRangeSelected(range, true);
 			haveSub.append(subCnt);
-		}
-		else if (j < mi || i > mx)
+		} else if (j < mi || i > mx)
 			continue;
-		else
-		{
+		else {
 			haveSub.append(subCnt);
 			resSub.append(qMakePair(subCnt, qMakePair(qMax(0, mi - i), qMin(j - i, mx - i))));
 		}
@@ -267,8 +252,7 @@ void ExtTestCaseTable::whenItemSelectionChanged()
 	noDfs = false;
 }
 
-void ExtTestCaseTable::modifySelected(int mi, int mx)
-{
+void ExtTestCaseTable::modifySelected(int mi, int mx) {
 	QTableWidgetSelectionRange range(mi, 1, mx, columnCount() - 1);
 	setRangeSelected(range, true);
 	whenItemSelectionChanged();

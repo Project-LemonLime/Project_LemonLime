@@ -14,13 +14,11 @@
 #include <QtCore>
 #include <QtGui>
 
-namespace Ui
-{
+namespace Ui {
 	class WelcomeDialog;
 }
 
-class WelcomeDialog : public QDialog
-{
+class WelcomeDialog : public QDialog {
 	Q_OBJECT
 
   public:

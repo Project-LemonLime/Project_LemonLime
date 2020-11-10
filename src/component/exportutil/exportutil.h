@@ -22,8 +22,7 @@
 class Contest;
 class Contestant;
 
-class ExportUtil : public QObject
-{
+class ExportUtil : public QObject {
 	Q_OBJECT
   public:
 	explicit ExportUtil(QObject *parent = nullptr);

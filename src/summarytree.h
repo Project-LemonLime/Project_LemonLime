@@ -21,8 +21,7 @@
 class Settings;
 class Contest;
 
-class SummaryTree : public QTreeWidget
-{
+class SummaryTree : public QTreeWidget {
 	Q_OBJECT
   public:
 	explicit SummaryTree(QWidget *parent = nullptr);
