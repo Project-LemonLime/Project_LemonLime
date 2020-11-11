@@ -33,13 +33,13 @@ scoop install peach/lemon
 
 NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用。
 
-### 非常严重的提示
+### 非常重要的提示
 
-由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 的功能的完整性，比如是否能探测程序的运行时间和使用内存。不过如果使用源码构建 LemonLime 的话将不会出现这种问题，所以仍然推荐使用源码构建 LemonLime。
+由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 功能的完整性，包括能否探测程序的运行时间和使用内存。不过，如果使用源码构建 LemonLime，这一问题将不会出现，因此推荐使用源码构建 LemonLime。
 
-> 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 &lt; 从 Github 上下载可执行文件的时间。
+> 在访问 GitHub 较慢或连接质量较差的地区，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 &lt; 从 Github 上下载可执行文件的时间。
 >
-> 下载 Qt 请考虑一个快速的国内镜像。
+> 请使用一个速度较快的国内镜像下载 Qt 。
 
 ## Linux
 
