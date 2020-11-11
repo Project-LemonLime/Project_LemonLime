@@ -61,6 +61,7 @@ lemon-*-Linux.tar.gz
 # KDevelop
 .kdev4/
 *.kdev4
+.cache/
 
 # Extra
 build/
