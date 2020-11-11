@@ -399,11 +399,7 @@ void ExtTestCaseModifier::appendNewSub() {
 }
 
 void ExtTestCaseModifier::appendNewCase() {
-#if QT_VERSION < QT_VERSION_CHECK(5, 6, 0)
-	int who = ui->testCaseTable->getSelectedHaveSub().back();
-#else
 	int who = ui->testCaseTable->getSelectedHaveSub().constLast();
-#endif
 
 	auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, who + 1, NO_EDIT, 1, NO_EDIT,
 	                                            NO_EDIT, NO_EDIT);
