@@ -6,12 +6,14 @@ on:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - 'BUILD.md'
   # pull_request时触发workflow
   pull_request:
     # 忽略README.md
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - 'BUILD.md'
   release:
     types: [published]
 jobs:

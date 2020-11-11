@@ -79,16 +79,15 @@ cmake --build . --parallel $(nproc)
 sudo apt install qtcreator
 ```
 
-#### \* Ubuntu 18 及更老 (包括 NOI Linux 这种毒瘤
+#### 官方镜像源版本无法支持编译的系统
 
-Ubuntu 18 用 apt 安装的 Qt 版本只能到 5.9。
+| 操作系统 | 原因 |
+|:----------:|----------|
+| Ubuntu 18 | 用 apt 安装的 Qt 版本只能到 5.9。 |
+| Ubuntu 16 | <p>用 apt 安装的 Qt 版本只能到 5.5。<br>GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命<br>（目前还是可以的，等到迁移 Qt6 估计就不行了</p> |
+| NOI Linux | 因为是 Ubuntu 14.04 的换皮 原因同上 |
 
-Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
-GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命（目前还是可以的，等到迁移 Qt6 估计就不行了
-
-NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
-
-_arbiter 退出了群聊。_
+~~_arbiter 退出了群聊。_~~
 
 ### Fedora 系
 
