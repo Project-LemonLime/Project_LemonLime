@@ -33,13 +33,13 @@ scoop install peach/lemon
 
 NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用。
 
-### 非常严重的提示
+### 非常重要的提示
 
-由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 的功能的完整性，比如是否能探测程序的运行时间和使用内存。不过如果使用源码构建 LemonLime 的话将不会出现这种问题，所以仍然推荐使用源码构建 LemonLime。
+由于 Windows 的特殊性，请在下载 `Releases` 后检查 LemonLime 功能的完整性，包括能否探测程序的运行时间和使用内存。不过，如果使用源码构建 LemonLime，这一问题将不会出现，因此推荐使用源码构建 LemonLime。
 
-> 在很多地方，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 &lt; 从 Github 上下载可执行文件的时间。
+> 在访问 GitHub 较慢或连接质量较差的地区，下载 Qt 的时间 + 安装 Qt 的时间 + 下载 LemonLime 源代码的时间 + 编译的时间 &lt; 从 Github 上下载可执行文件的时间。
 >
-> 下载 Qt 请考虑一个快速的国内镜像。
+> 请使用一个速度较快的国内镜像下载 Qt 。
 
 ## Linux
 
@@ -79,16 +79,15 @@ cmake --build . --parallel $(nproc)
 sudo apt install qtcreator
 ```
 
-#### \* Ubuntu 18 及更老 (包括 NOI Linux 这种毒瘤
+#### 官方镜像源版本无法支持编译的系统
 
-Ubuntu 18 用 apt 安装的 Qt 版本只能到 5.9。
+| 操作系统 | 原因 |
+|:----------:|----------|
+| Ubuntu 18 | 用 apt 安装的 Qt 版本只能到 5.9。 |
+| Ubuntu 16 | <p>用 apt 安装的 Qt 版本只能到 5.5。<br>GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命<br>（目前还是可以的，等到迁移 Qt6 估计就不行了</p> |
+| NOI Linux | 因为是 Ubuntu 14.04 的换皮 原因同上 |
 
-Ubuntu 16 用 apt 安装的 Qt 版本只能到 5.5。
-GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命（目前还是可以的，等到迁移 Qt6 估计就不行了
-
-NOI Linux 是 Ubuntu 14.04 的换皮，所以用 apt 安装的 Qt 版本只能到 5.2。
-
-_arbiter 退出了群聊。_
+~~_arbiter 退出了群聊。_~~
 
 ### Fedora 系
 
