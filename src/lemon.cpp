@@ -261,9 +261,8 @@ void removePath(const QString &path) {
 		return;
 
 	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
-	QFileInfoList fileList = dir.entryInfoList();
 
-	foreach (QFileInfo fi, fileList) {
+	for (const auto &fi : dir.entryInfoList()) {
 		if (fi.isFile() || fi.isSymLink())
 			fi.dir().remove(fi.fileName());
 		else
@@ -282,9 +281,8 @@ void copyPath(const QString &fromPath, const QString &toPath) {
 	QString fpath = fromPath + QDir::separator();
 	QString tpath = toPath + QDir::separator();
 	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
-	QFileInfoList fileList = dir.entryInfoList();
 
-	foreach (QFileInfo fi, fileList) {
+	for (const auto &fi : dir.entryInfoList()) {
 		QString fn = fpath + fi.fileName();
 		QString tn = tpath + fi.fileName();
 
@@ -354,9 +352,8 @@ void LemonLime::cleanupButtonClicked() {
 			bkProcess->setValue(0);
 			QCoreApplication::processEvents();
 			basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-			basDirLis = basDir.entryInfoList();
 
-			foreach (QFileInfo conDirWho, basDirLis) {
+			for (const auto &conDirWho : basDir.entryInfoList()) {
 				bkLoca.mkpath(conDirWho.fileName());
 				copyPath(conDirWho.path() + QDir::separator() + conDirWho.fileName(),
 				         bkLoca.path() + QDir::separator() + conDirWho.fileName());
@@ -421,27 +418,24 @@ void LemonLime::cleanupButtonClicked() {
 		process->setLabelText(tr("Now Cleaning..."));
 		QCoreApplication::processEvents();
 		basDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-		basDirLis = basDir.entryInfoList();
 
-		foreach (QFileInfo conDirWho, basDirLis) {
+		for (const auto &conDirWho : basDir.entryInfoList()) {
 			QDir conDir(conDirWho.filePath());
 			conDir.setFilter(QDir::Files | QDir::Hidden);
-			QFileInfoList conDirLis = conDir.entryInfoList();
 
-			foreach (QFileInfo proFilWho, conDirLis) {
+			for (const auto &proFilWho : conDir.entryInfoList()) {
 				if (proFilWho.suffix().length() <= 0 || proFilWho.suffix().toUpper() == "EXE")
 					QFile::remove(proFilWho.absoluteFilePath());
 			}
 
 			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-			conDirLis = conDir.entryInfoList();
 
-			foreach (QFileInfo proDirWho, conDirLis) {
+			for (const auto &proDirWho : conDir.entryInfoList()) {
 				if (nameSet.contains(proDirWho.fileName())) {
 					QDir proDir(proDirWho.filePath());
 					proDir.setFilter(QDir::Files | QDir::Hidden);
 
-					foreach (QFileInfo sorFilWho, proDir.entryInfoList()) {
+					for (const auto &sorFilWho : proDir.entryInfoList()) {
 						if (sorFilWho.suffix().length() > 0 && sorFilWho.suffix().toUpper() != "EXE")
 							QFile::copy(sorFilWho.filePath(),
 							            conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
@@ -456,9 +450,8 @@ void LemonLime::cleanupButtonClicked() {
 			}
 
 			conDir.setFilter(QDir::Files | QDir::Hidden);
-			conDirLis = conDir.entryInfoList();
 
-			foreach (QFileInfo proFilWho, conDirLis) {
+			for (const auto &proFilWho : conDir.entryInfoList()) {
 				QString proFilName = proFilWho.fileName();
 				QString proName = proFilName;
 				proName.truncate(proName.lastIndexOf("."));
@@ -485,13 +478,12 @@ void LemonLime::cleanupButtonClicked() {
 			}
 
 			conDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-			conDirLis = conDir.entryInfoList();
 
-			foreach (QFileInfo proDirWho, conDirLis) {
+			for (const auto &proDirWho : conDir.entryInfoList()) {
 				QDir proDir(proDirWho.filePath());
 				proDir.setFilter(QDir::Files | QDir::Hidden);
 
-				foreach (QFileInfo sorFilWho, proDir.entryInfoList())
+				for (const auto &sorFilWho : proDir.entryInfoList())
 					QFile::copy(sorFilWho.filePath(),
 					            conDirWho.filePath() + QDir::separator() + sorFilWho.fileName());
 			}
