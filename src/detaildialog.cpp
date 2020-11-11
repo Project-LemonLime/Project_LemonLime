@@ -182,11 +182,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (timeUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#else
-					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}
@@ -195,11 +191,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (memoryUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#else
-					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}

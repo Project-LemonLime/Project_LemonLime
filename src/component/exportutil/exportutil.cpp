@@ -183,11 +183,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				            "border-color: #ccc;\">";
 
 				if (timeUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#else
-					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}
@@ -197,11 +193,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				            "border-color: #ccc;\">";
 
 				if (memoryUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#else
-					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}
@@ -540,11 +532,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				htmlCode += "<td>";
 
 				if (timeUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#else
-					htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}
@@ -553,11 +541,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				htmlCode += "<td>";
 
 				if (memoryUsed[j][k] != -1) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#else
-					htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-#endif
 				} else {
 					htmlCode += tr("Invalid");
 				}
