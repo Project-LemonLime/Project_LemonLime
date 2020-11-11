@@ -15,10 +15,6 @@
 #include <QMessageBox>
 #include <QValidator>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
-#define qAsConst
-#endif
-
 ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTask,
                                                    const Settings *nowSettings, int nowCaseNumber,
                                                    int editScore, int editData, int editTime, int editMemory,

@@ -12,10 +12,6 @@
 //
 #include <QHeaderView>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
-#define qAsConst
-#endif
-
 ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/) {
 	clear();
 

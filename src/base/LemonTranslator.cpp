@@ -38,12 +38,7 @@ namespace Lemon::common {
 	void LemonTranslator::refreshTranslations() {
 		searchPaths = getLanguageSearchPaths();
 		languages.clear();
-#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
-		for (const auto &path : searchPaths)
-#else
-		for (const auto &path : qAsConst(searchPaths))
-#endif
-		{
+		for (const auto &path : qAsConst(searchPaths)) {
 			languages << QDir(path).entryList({"*.qm"}, QDir::Hidden | QDir::Files);
 		}
 		std::transform(languages.begin(), languages.end(), languages.begin(),
@@ -53,12 +48,7 @@ namespace Lemon::common {
 	}
 
 	auto LemonTranslator::InstallTranslation(const QString &code) -> bool {
-#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
-		for (const auto &path : searchPaths)
-#else
-		for (const auto &path : qAsConst(searchPaths))
-#endif
-		{
+		for (const auto &path : qAsConst(searchPaths)) {
 			if (FileExistsIn(QDir(path), code + ".qm")) {
 				DEBUG("Found " + code + " in folder: " + path);
 				QTranslator *translatorNew = new QTranslator();

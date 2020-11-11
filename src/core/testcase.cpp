@@ -10,10 +10,6 @@
 //
 #include "base/settings.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 7, 0)
-#define qAsConst
-#endif
-
 TestCase::TestCase(QObject *parent) : QObject(parent) {}
 
 void TestCase::copyTo(TestCase *to) {
