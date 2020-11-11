@@ -42,7 +42,9 @@ namespace Lemon::base::config {
 	  private:
 		QString language = "en_US";
 		// Prepare for theme setting
-		// QString theme = ;
+		// TODO: Theme support
+		QString theme = "";
+
 	  public:
 		int read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
