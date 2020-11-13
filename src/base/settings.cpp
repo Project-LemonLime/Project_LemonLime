@@ -681,6 +681,4 @@ auto Settings::dataPath() -> QString { return QString("data") + QDir::separator(
 
 auto Settings::sourcePath() -> QString { return QString("source") + QDir::separator(); }
 
-auto Settings::temporaryPath() -> QString { return QString("temp") + QDir::separator(); }
-
 auto Settings::selfTestPath() -> QString { return QString("selftest") + QDir::separator(); }

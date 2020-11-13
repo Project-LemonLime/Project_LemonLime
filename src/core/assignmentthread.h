@@ -41,6 +41,7 @@ class AssignmentThread : public QThread {
 
   private:
 	// bool checkRejudgeMode;
+
 	bool interpreterFlag{};
 	Settings *settings{};
 	Task *task{};
@@ -63,6 +64,7 @@ class AssignmentThread : public QThread {
 	QList<QStringList> message;
 	QList<QStringList> inputFiles;
 	// QList< QPair<int, int> > needRejudge;
+
 	QList<int> testCaseScore;
 	int curTestCaseIndex;
 	int curSingleCaseIndex;
@@ -74,6 +76,7 @@ class AssignmentThread : public QThread {
 	void assign();
 	void taskSkipped(const QPair<int, int> &);
 	void makeDialogAlert(QString);
+	QTemporaryDir temporaryDir;
 
   private slots:
 	void threadFinished();
