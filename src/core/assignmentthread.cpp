@@ -107,7 +107,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 		}
 
 		if (! sourceFile.isEmpty()) {
-			QDir(Settings::temporaryPath()).mkdir(contestantName);
+			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator()).mkdir(contestantName);
 
 			if (task->getTaskType() == Task::Communication) {
 				sourceFile = "";
@@ -119,8 +119,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 					                (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName()
 					                                           : QString("")) +
 					                QDir::separator() + sourcePaths[i],
-					            Settings::temporaryPath() + contestantName + QDir::separator() +
-					                sourceNames[i]);
+					            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+					                contestantName + QDir::separator() + sourceNames[i]);
 					sourceFile = sourceFile + " " + sourceNames[i] + " ";
 				}
 			} else {
@@ -128,17 +128,19 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 				                (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName()
 				                                           : QString("")) +
 				                QDir::separator() + sourceFile,
-				            Settings::temporaryPath() + contestantName + QDir::separator() + sourceFile);
+				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+				                contestantName + QDir::separator() + sourceFile);
 			}
 
 			QString extraFiles = "";
 
 			if (task->getTaskType() == Task::Interaction) {
 				QFile::copy(Settings::dataPath() + task->getInteractor(),
-				            Settings::temporaryPath() + contestantName + QDir::separator() +
-				                task->getInteractorName());
+				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+				                contestantName + QDir::separator() + task->getInteractorName());
 				QFile::copy(Settings::dataPath() + task->getGrader(),
-				            Settings::temporaryPath() + contestantName + QDir::separator() + "__grader.cpp");
+				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+				                contestantName + QDir::separator() + "__grader.cpp");
 			}
 
 			if (task->getTaskType() == Task::Communication) {
@@ -147,8 +149,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 
 				for (int i = 0; i < graderPaths.length(); i++) {
 					QFile::copy(Settings::dataPath() + graderPaths[i],
-					            Settings::temporaryPath() + contestantName + QDir::separator() +
-					                graderNames[i]);
+					            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+					                contestantName + QDir::separator() + graderNames[i]);
 					extraFiles = extraFiles + " " + graderNames[i] + " ";
 				}
 			}
@@ -213,7 +215,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 						auto *compiler = new QProcess(this);
 						compiler->setProcessChannelMode(QProcess::MergedChannels);
 						compiler->setProcessEnvironment(environment);
-						compiler->setWorkingDirectory(Settings::temporaryPath() + contestantName);
+						compiler->setWorkingDirectory(QDir::toNativeSeparators(temporaryDir.path()) +
+						                              QDir::separator() + contestantName);
 						// TODO: 需要重构代码来处理含空格路径问题
 
 						compiler->start(i->getCompilerLocation(),
@@ -255,7 +258,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 							    QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
 						} else {
 							if (i->getCompilerType() == Compiler::Typical) {
-								if (! QDir(Settings::temporaryPath() + contestantName)
+								if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+								           contestantName)
 								          .exists(executableFile)) {
 									compileState = InvalidCompiler;
 								} else {
@@ -268,7 +272,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 									filters[k] = QString("*.") + filters[k];
 								}
 
-								if (QDir(Settings::temporaryPath() + contestantName)
+								if (QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+								         contestantName)
 								        .entryList(filters, QDir::Files)
 								        .empty()) {
 									compileState = InvalidCompiler;
@@ -302,6 +307,9 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 }
 
 void AssignmentThread::run() {
+	if (! temporaryDir.isValid())
+		return;
+
 	if (task->getTaskType() != Task::AnswersOnly)
 		if (! traditionalTaskPrepare())
 			return;
@@ -401,16 +409,20 @@ void AssignmentThread::assign() {
 	auto *thread = new JudgingThread();
 	thread->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 	QString workingDirectory =
-	    QDir::toNativeSeparators(
-	        QDir(Settings::temporaryPath() + QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
-	            .absolutePath()) +
+	    QDir::toNativeSeparators(QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+	                                  QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
+	                                 .absolutePath()) +
 	    QDir::separator();
 	thread->setWorkingDirectory(workingDirectory);
-	QDir(Settings::temporaryPath()).mkdir(QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex));
-	QStringList entryList = QDir(Settings::temporaryPath() + contestantName).entryList(QDir::Files);
+	QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator())
+	    .mkdir(QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex));
+	QStringList entryList =
+	    QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName)
+	        .entryList(QDir::Files);
 
 	for (int i = 0; i < entryList.size(); i++) {
-		QFile::copy(Settings::temporaryPath() + contestantName + QDir::separator() + entryList[i],
+		QFile::copy(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName +
+		                QDir::separator() + entryList[i],
 		            workingDirectory + entryList[i]);
 	}
 

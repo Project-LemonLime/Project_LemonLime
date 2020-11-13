@@ -168,7 +168,6 @@ void Contest::clearPath(const QString &curDir) {
 
 void Contest::judge(Contestant *contestant) {
 	emit contestantJudgingStart(contestant->getContestantName());
-	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 
 	for (int i = 0; i < taskList.size(); i++) {
 		emit taskJudgingStarted(taskList[i]->getProblemTile());
@@ -187,11 +186,8 @@ void Contest::judge(Contestant *contestant) {
 		thread->start();
 		eventLoop->exec();
 		delete eventLoop;
-
 		if (stopJudging) {
-			delete thread;
-			clearPath(Settings::temporaryPath());
-			QDir().rmdir(Settings::temporaryPath());
+			delete thread;	
 			return;
 		}
 
@@ -208,12 +204,10 @@ void Contest::judge(Contestant *contestant) {
 		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(),
 		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
-		delete thread;
-		clearPath(Settings::temporaryPath());
+		delete thread;	
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
-	QDir().rmdir(Settings::temporaryPath());
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore());
 	emit contestantJudgingFinished();
@@ -221,8 +215,6 @@ void Contest::judge(Contestant *contestant) {
 
 void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 	emit contestantJudgingStart(contestant->getContestantName());
-	QDir(QDir::current()).mkdir(Settings::temporaryPath());
-
 	for (int i = 0; i < taskList.size(); i++) {
 		if (! index.contains(i))
 			continue;
@@ -245,9 +237,7 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 		delete eventLoop;
 
 		if (stopJudging) {
-			delete thread;
-			clearPath(Settings::temporaryPath());
-			QDir().rmdir(Settings::temporaryPath());
+			delete thread;	
 			return;
 		}
 
@@ -265,11 +255,10 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
 		delete thread;
-		clearPath(Settings::temporaryPath());
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
-	QDir().rmdir(Settings::temporaryPath());
+	
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore());
 	emit contestantJudgingFinished();
@@ -277,7 +266,6 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 
 void Contest::judge(Contestant *contestant, int index) {
 	emit contestantJudgingStart(contestant->getContestantName());
-	QDir(QDir::current()).mkdir(Settings::temporaryPath());
 	emit taskJudgingStarted(taskList[index]->getProblemTile());
 	auto *thread = new AssignmentThread();
 	connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
@@ -296,9 +284,7 @@ void Contest::judge(Contestant *contestant, int index) {
 	delete eventLoop;
 
 	if (stopJudging) {
-		delete thread;
-		clearPath(Settings::temporaryPath());
-		QDir().rmdir(Settings::temporaryPath());
+		delete thread;	
 		return;
 	}
 
@@ -316,34 +302,30 @@ void Contest::judge(Contestant *contestant, int index) {
 	                       taskList[index]->getTotalScore());
 	emit taskJudgingFinished();
 	delete thread;
-	clearPath(Settings::temporaryPath());
+	
 	contestant->setJudgingTime(QDateTime::currentDateTime());
-	QDir().rmdir(Settings::temporaryPath());
+	
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore());
 	emit contestantJudgingFinished();
 }
 
 void Contest::judge(const QString &name) {
-	clearPath(Settings::temporaryPath());
 	stopJudging = false;
 	judge(contestantList.value(name));
 }
 
 void Contest::judge(const QString &name, const QSet<int> &index) {
-	clearPath(Settings::temporaryPath());
 	stopJudging = false;
 	judge(contestantList.value(name), index);
 }
 
 void Contest::judge(const QString &name, int index) {
-	clearPath(Settings::temporaryPath());
 	stopJudging = false;
 	judge(contestantList.value(name), index);
 }
 
 void Contest::judgeAll() {
-	clearPath(Settings::temporaryPath());
 	stopJudging = false;
 	QList<Contestant *> contestants = contestantList.values();
 
