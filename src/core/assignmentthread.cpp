@@ -368,7 +368,6 @@ void AssignmentThread::assign() {
 		if (curTestCaseIndex == task->getTestCaseList().size()) {
 			if (countFinished == totalSingleCase)
 				quit();
-
 			return;
 		}
 

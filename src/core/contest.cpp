@@ -187,7 +187,7 @@ void Contest::judge(Contestant *contestant) {
 		eventLoop->exec();
 		delete eventLoop;
 		if (stopJudging) {
-			delete thread;	
+			delete thread;
 			return;
 		}
 
@@ -204,7 +204,7 @@ void Contest::judge(Contestant *contestant) {
 		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(),
 		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
-		delete thread;	
+		delete thread;
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
@@ -237,7 +237,7 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 		delete eventLoop;
 
 		if (stopJudging) {
-			delete thread;	
+			delete thread;
 			return;
 		}
 
@@ -258,7 +258,7 @@ void Contest::judge(Contestant *contestant, const QSet<int> &index) {
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
-	
+
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore());
 	emit contestantJudgingFinished();
@@ -284,7 +284,7 @@ void Contest::judge(Contestant *contestant, int index) {
 	delete eventLoop;
 
 	if (stopJudging) {
-		delete thread;	
+		delete thread;
 		return;
 	}
 
@@ -302,9 +302,9 @@ void Contest::judge(Contestant *contestant, int index) {
 	                       taskList[index]->getTotalScore());
 	emit taskJudgingFinished();
 	delete thread;
-	
+
 	contestant->setJudgingTime(QDateTime::currentDateTime());
-	
+
 	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore());
 	emit contestantJudgingFinished();

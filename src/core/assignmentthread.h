@@ -76,7 +76,7 @@ class AssignmentThread : public QThread {
 	void assign();
 	void taskSkipped(const QPair<int, int> &);
 	void makeDialogAlert(QString);
-	QTemporaryDir temporaryDir; 
+	QTemporaryDir temporaryDir;
 
   private slots:
 	void threadFinished();
