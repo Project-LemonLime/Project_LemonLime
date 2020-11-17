@@ -1,5 +1,5 @@
 name: MacOS
-on: 
+on:
   push:
     paths-ignore:
       - 'README.md'
@@ -30,36 +30,41 @@ jobs:
         with:
           path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
           key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-      - name: setupQt
-        if: steps.MacosCacheQt.outputs.cache-hit == 'true'
-        shell: pwsh
-        env:
-          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-        run: |
-          $qt_Path=${env:QtPath}
-          echo "::set-env name=Qt5_Dir::$qt_Path"
-          echo "::add-path::$qt_Path/bin"    
+#      - name: setupQt
+#        if: steps.MacosCacheQt.outputs.cache-hit == 'true'
+#        shell: bash
+#        env:
+#          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+#        run: |
+#          qt_Path=${env:QtPath}
+#          echo "Qt5_DIR=\"$QtPath\"" >> $GITHUB_ENV
+#          echo "${qt_Path}/bin" >> $GITHUB_PATH
       - name: Install Qt
         if: steps.MacosCacheQt.outputs.cache-hit != 'true'
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
-      
+
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages 
+      - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           brew install ninja pkg-config
       - name: build macos
+        env:
+          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for macOS" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       # tag 打包
       - name: package
+        env:
+          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           # 拷贝依赖
           #mv ${targetName} ${targetName}.app
+          export PATH=$Qt5_DIR/bin:$PATH
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
