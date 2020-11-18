@@ -1,5 +1,5 @@
 name: Windows
-on: 
+on:
   # push代码时触发workflow
   push:
     # 忽略README.md
@@ -22,7 +22,7 @@ jobs:
         qt_version: [5.15.0]
         platform: [windows-latest]
         arch: [x86, x64]
-        include: 
+        include:
           - platform: windows-latest
             arch: x86
             qtarch: win32_msvc2019
@@ -54,7 +54,7 @@ jobs:
 # =========================================================================================================
       - name: Install MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1
-        with: 
+        with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
           toolset: 14.2
           arch: ${{ matrix.arch }}
@@ -71,7 +71,7 @@ jobs:
           arch: ${{ matrix.qtarch }}
           mirror: 'http://mirrors.ocf.berkeley.edu/qt/'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-          
+
       - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
         env:
@@ -95,7 +95,7 @@ jobs:
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           # 记录环境变量packageName给后续step
           $name = ${env:archiveName}
-          echo "::set-env name=packageName::$name"
+          echo "packageName=\"$name\"" >> $GITHUB_ENV
           # 打印环境变量packageName
           Write-Host 'packageName:'${env:packageName}
       - name: Upload artifact

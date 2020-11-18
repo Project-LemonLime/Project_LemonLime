@@ -28,7 +28,6 @@ jobs:
         id: get_message
         run: |
           echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
-          echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
   linux:
     strategy:
         fail-fast: false
