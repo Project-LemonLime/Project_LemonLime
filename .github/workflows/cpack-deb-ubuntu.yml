@@ -30,7 +30,6 @@ jobs:
         id: get_message
         run: |
           echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
-          echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
   linux:
     strategy:
         fail-fast: false
@@ -69,7 +68,7 @@ jobs:
           mkdir build
           cd build
           cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
-          cmake --build . --target package 
+          cmake --build . --target package
       - name: Get package name
         shell: bash
         id: get_package
