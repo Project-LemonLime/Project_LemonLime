@@ -123,15 +123,15 @@ void AddTestCasesWizard::refreshButtonState() {
 void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, QStringList &files) {
 	QStringList list = QDir(curDir).entryList(QDir::Files);
 
-	for (int i = 0; i < list.size(); i++) {
-		list[i] = prefix + list[i];
+	for (auto &list_i : list) {
+		list_i = prefix + list_i;
 	}
 
 	files.append(list);
 	list = QDir(curDir).entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-	for (int i = 0; i < list.size(); i++) {
-		getFiles(curDir + list[i] + QDir::separator(), prefix + list[i] + QDir::separator(), files);
+	for (const auto &i : list) {
+		getFiles(curDir + i + QDir::separator(), prefix + i + QDir::separator(), files);
 	}
 }
 
@@ -242,12 +242,12 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	QList<QStringList> inputFilesMatchedPart;
 	QList<QStringList> outputFilesMatchedPart;
 
-	for (int i = 0; i < inputFiles.size(); i++) {
-		inputFilesMatchedPart.append(getMatchedPart(inputFiles[i], inputFilesPattern));
+	for (auto &inputFile : inputFiles) {
+		inputFilesMatchedPart.append(getMatchedPart(inputFile, inputFilesPattern));
 	}
 
-	for (int i = 0; i < outputFiles.size(); i++) {
-		outputFilesMatchedPart.append(getMatchedPart(outputFiles[i], outputFilesPattern));
+	for (auto &outputFile : inputFiles) {
+		outputFilesMatchedPart.append(getMatchedPart(outputFile, outputFilesPattern));
 	}
 
 	QMultiMap<QString, int> loc;
