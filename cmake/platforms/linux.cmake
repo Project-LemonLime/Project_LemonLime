@@ -4,6 +4,7 @@ include(GNUInstallDirs)
 
 set(LEMON_LINUX_ICON_DIMENSIONS 16 22 24 32 36 44 48 64 72 96 128 150 192 256 310 512 1024)
 install(FILES assets/lemon-lime.metainfo.xml.in DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo" RENAME lemon-lime.metainfo.xml)
+install(FILES assets/x-lemon-contest.xml.in DESTINATION "${CMAKE_INSTALL_DATADIR}/mime/application" RENAME x-lemon-contest.xml)
 install(FILES assets/lemon-lime.desktop.in DESTINATION "${CMAKE_INSTALL_DATADIR}/applications" RENAME lemon-lime.desktop)
 #install(FILES assets/icons/lemon-lime.svg DESTINATION "${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps")
 foreach(LEMON_LINUX_ICON_DIMENSION ${LEMON_LINUX_ICON_DIMENSIONS})
