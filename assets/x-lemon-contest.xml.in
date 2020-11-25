@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+ <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+   <mime-type type="application/x-lemon-contest">
+   <generic-icon name="package-x-generic"/>
+   <comment>Lemon Contest File</comment>
+   <glob pattern="*.cdf"/>
+  </mime-type>
+ </mime-info>
