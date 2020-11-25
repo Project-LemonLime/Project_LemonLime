@@ -176,7 +176,7 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 					regExp = QRegularExpression::anchoredPattern(regExp);
 					if (QRegularExpression(regExp).match(str.mid(i, j - i + 1)).hasMatch()) {
 						if (QRegularExpression(QRegularExpression::anchoredPattern(
-						                           getFullRegExp(pattern.mid(pos + 3)) + "$"))
+						                           getFullRegExp(pattern.mid(pos + 3))))
 						        .match(str.mid(j + 1))
 						        .hasMatch()) {
 							result[index] = str.mid(i, j - i + 1);
