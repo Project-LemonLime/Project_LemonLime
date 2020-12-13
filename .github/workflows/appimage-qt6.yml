@@ -84,7 +84,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. -GNinja -DLEMON=ON -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
           cmake --install .
       # ========================================================================================================= Deployments
@@ -115,7 +115,7 @@ jobs:
           path: build/Lemon.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
-        if: github.event_name == 'release' && matrix.platform == 'ubuntu-16.04' && matrix.qt_version == '5.15.0'
+        if: github.event_name == 'release' && matrix.platform == 'ubuntu-16.04'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/Lemon.AppImage
