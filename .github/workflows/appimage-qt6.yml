@@ -37,6 +37,7 @@ jobs:
       matrix:
         qt_version: [6.0.0]
         platform: [ubuntu-16.04]
+        build_type: [Release, RelWithDebInfo]
         arch: [x64]
       fail-fast: false
 
@@ -83,7 +84,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
           cmake --install .
       # ========================================================================================================= Deployments
@@ -110,7 +111,7 @@ jobs:
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Lemon-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
+          name: Lemon-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}-${{ matrix.build_type }}.AppImage
           path: build/Lemon.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
@@ -118,6 +119,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/Lemon.AppImage
-          asset_name: Lemon.${{ steps.get_version.outputs.VERSION }}.linux-qt6-${{ matrix.arch }}.AppImage
+          asset_name: Lemon.${{ steps.get_version.outputs.VERSION }}.linux-qt6-${{ matrix.arch }}-${{ matrix.build_type }}.AppImage
           tag: ${{ github.ref }}
           overwrite: true

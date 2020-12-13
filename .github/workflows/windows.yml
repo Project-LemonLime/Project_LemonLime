@@ -23,6 +23,7 @@ jobs:
       matrix:
         qt_version: [5.15.2]
         platform: [windows-latest]
+        build_type: [Release, RelWithDebInfo]
         arch: [x86, x64]
         include:
           - platform: windows-latest
@@ -81,7 +82,7 @@ jobs:
           CC: cl.exe
           CXX: cl.exe
         run: |
-          cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for Windows" -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}" -DENABLE_XLS_EXPORT=ON
+          cmake . -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for Windows" -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}" -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
       - name: package
         env:
@@ -104,7 +105,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: lemon-win-${{matrix.arch}}.zip
+          name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
           path: ${{ env.packageName }}.zip
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -112,6 +113,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.packageName }}.zip
-          asset_name: lemon-win-${{matrix.arch}}.zip
+          asset_name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true

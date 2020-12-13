@@ -22,6 +22,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.0.0]
+        build_type: [Release, RelWithDebInfo]
         platform: [windows-latest]
         include:
           - platform: windows-latest
@@ -79,7 +80,7 @@ jobs:
         run: |
           cmake . \
             -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DLEMON_QT6=ON \
             -DLEMON_BUILD_INFO="Build for Windows" \
             -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
@@ -106,7 +107,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: lemon-win-qt6-x64.zip
+          name: lemon-win-qt6-x64-${{ matrix.build_type }}.zip
           path: ${{ env.packageName }}.zip
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -114,6 +115,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.packageName }}.zip
-          asset_name: lemon-win-qt6-x64.zip
+          asset_name: lemon-win-qt6-x64-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true

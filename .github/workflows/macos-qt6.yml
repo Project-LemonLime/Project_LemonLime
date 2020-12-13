@@ -19,6 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
+        build_type: [Release, RelWithDebInfo]
         qt_ver: [6.0.0]
         qt_arch: [clang_64]
     env:
@@ -57,7 +58,7 @@ jobs:
         run: |
           cmake . \
             -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DLEMON_QT6=ON \
             -DLEMON_BUILD_INFO="Build for macOS" \
             -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
@@ -75,7 +76,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ env.targetName }}.dmg
+          name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
           path: ${{ env.targetName }}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -83,5 +84,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.targetName }}.dmg
-          asset_name: ${{ env.targetName }}.dmg
+          asset_name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
           tag: ${{ github.ref }}
