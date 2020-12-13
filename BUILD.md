@@ -31,7 +31,7 @@ scoop install peach/lemon
 
 当然如果你装有 Qt 5/6，也可以下载源码编译。
 
-NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用。
+NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE_XLS_EXPORT` 启用(Qt6 不可用)。
 
 ### 非常重要的提示
 
