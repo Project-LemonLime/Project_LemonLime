@@ -34,7 +34,6 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          #distro: [14.04, 16.04, 18.04, 20.04]
           distro: [20.04]
           #arch: [x86, x64]
     needs: check_commit_msg
