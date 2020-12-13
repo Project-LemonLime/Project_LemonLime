@@ -246,7 +246,7 @@ void AddTestCasesWizard::searchMatchedFiles() {
 		inputFilesMatchedPart.append(getMatchedPart(inputFile, inputFilesPattern));
 	}
 
-	for (auto &outputFile : inputFiles) {
+	for (auto &outputFile : outputFiles) {
 		outputFilesMatchedPart.append(getMatchedPart(outputFile, outputFilesPattern));
 	}
 
