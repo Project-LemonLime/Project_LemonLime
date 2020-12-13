@@ -1,0 +1,119 @@
+name: Windows Qt6
+on:
+  # push代码时触发workflow
+  push:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  # pull_request时触发workflow
+  pull_request:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  release:
+    types: [published]
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        qt_version: [6.0.0]
+        platform: [windows-latest]
+        include:
+          - platform: windows-latest
+            arch: x64
+            qtarch: win64_msvc2019_64
+      fail-fast: false
+
+    runs-on: ${{ matrix.platform }}
+    env:
+      targetName: lemon.exe
+    # 步骤
+    steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Checking out sources
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Install Python 3.9 version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+          architecture: x64
+      - name: Restoring submodules
+        run: git submodule update --init
+# =========================================================================================================
+      - name: Install MSVC compiler
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+          toolset: 14.2
+          arch: x64
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
+      - name: Installing Qt - x64
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          arch: ${{ matrix.qtarch }}
+          mirror: 'http://mirrors.ocf.berkeley.edu/qt/'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          setup-python: 'false'
+
+      - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
+        shell: bash
+        env:
+          CC: cl.exe
+          CXX: cl.exe
+        run: |
+          cmake . \
+            -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLEMON_QT6=ON \
+            -DLEMON_BUILD_INFO="Build for Windows" \
+            -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
+            -DENABLE_XLS_EXPORT=ON
+          cmake --build . --parallel $(nproc)
+      - name: package
+        env:
+          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        shell: pwsh
+        run: |
+          # 创建文件夹
+          New-Item -ItemType Directory ${env:archiveName}
+          # 拷贝exe
+          Copy-Item ${env:targetName} ${env:archiveName}\
+          # 拷贝依赖
+          windeployqt --qmldir . ${env:archiveName}\${env:targetName}
+          # 打包zip
+          Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
+          # 记录环境变量packageName给后续step
+          $name = ${env:archiveName}
+          echo "packageName=\"$name\"" >> $GITHUB_ENV
+          # 打印环境变量packageName
+          Write-Host 'packageName:'${env:packageName}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: lemon-win-qt6-x64.zip
+          path: ${{ env.packageName }}.zip
+      - name: uploadRelease
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.packageName }}.zip
+          asset_name: lemon-win-qt6-x64.zip
+          tag: ${{ github.ref }}
+          overwrite: true

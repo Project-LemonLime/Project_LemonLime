@@ -1,0 +1,123 @@
+name: Lemon build matrix - AppImage
+
+on:
+  # push代码时触发workflow
+  push:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  # pull_request时触发workflow
+  pull_request:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  release:
+    types: [published]
+
+jobs:
+  check_commit_msg:
+    outputs:
+      commit_message: ${{ steps.get_message.outputs.message }}
+    name: Check if the workflow has been disabled.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get commit message
+        id: get_message
+        run: |
+          echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+  build:
+    needs: check_commit_msg
+    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
+    strategy:
+      matrix:
+        qt_version: [6.0.0]
+        platform: [ubuntu-16.04]
+        arch: [x64]
+      fail-fast: false
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Checking out sources
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Install Python 3.7 version
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+          architecture: ${{ matrix.arch }}
+      - name: Restoring submodules
+        run: git submodule update --init
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+      - name: Installing Qt - ${{ matrix.arch }}
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          arch: ${{ matrix.qtarch }}
+          mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+      - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
+      # ========================================================================================================= Generate MakeFile and Build
+      - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
+        shell: bash
+        env:
+          CC: /usr/bin/gcc-7
+          CXX: /usr/bin/g++-7
+        run: |
+          mkdir build
+          cd build
+          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake --build . --parallel $(nproc)
+          cmake --install .
+      # ========================================================================================================= Deployments
+      - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
+        run: |
+          cd build
+          wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
+          chmod +x ./linuxdeployqt-7-x86_64.AppImage
+          cd AppDir
+          wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
+          chmod a+x AppRun
+          mkdir -p ./usr/{lib,optional}/
+          wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./usr/optional/exec.so
+          mkdir -p ./usr/optional/libstdc++/
+          cp -fv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./usr/optional/libstdc++/
+          mkdir -p ./usr/optional/libgcc_s/
+          cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
+          cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
+          mkdir -p ./usr/plugins/platforminputcontexts/
+          cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
+          cd ..
+          ./linuxdeployqt-7-x86_64.AppImage AppDir/usr/share/applications/lemon-lime.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
+          mv ./Lemon*.AppImage ./Lemon.AppImage
+      - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Lemon-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
+          path: build/Lemon.AppImage
+      - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        if: github.event_name == 'release' && matrix.platform == 'ubuntu-16.04' && matrix.qt_version == '5.15.0'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/Lemon.AppImage
+          asset_name: Lemon.${{ steps.get_version.outputs.VERSION }}.linux-qt6-${{ matrix.arch }}.AppImage
+          tag: ${{ github.ref }}
+          overwrite: true
