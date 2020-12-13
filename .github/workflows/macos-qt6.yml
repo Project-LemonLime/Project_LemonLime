@@ -54,7 +54,7 @@ jobs:
           brew install ninja pkg-config
       - name: build macos
         env:
-          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           cmake . \
             -GNinja \
@@ -67,11 +67,11 @@ jobs:
       # tag 打包
       - name: package
         env:
-          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           # 拷贝依赖
           #mv ${targetName} ${targetName}.app
-          export PATH=$Qt5_DIR/bin:$PATH
+          export PATH=$Qt6_DIR/bin:$PATH
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
