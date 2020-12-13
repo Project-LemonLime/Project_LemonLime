@@ -146,7 +146,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 				addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0)
-				scoretext = tr("  %1 Pt").arg(scoreGot);
+				scoretext = tr("  %1 %2").arg(scoreGot).arg(scoreGot == 1 ? tr("Pt") : tr("Pts"));
 
 			charFormat.setForeground(QBrush(Qt::darkGreen));
 			scorecharFormat.setForeground(QBrush(Qt::darkCyan));
@@ -163,11 +163,11 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 				addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0) {
-				scoretext = tr("  %1 Pt").arg(scoreGot);
+				scoretext = tr("  %1 %2").arg(scoreGot).arg(scoreGot == 1 ? tr("Pt") : tr("Pts"));
 				scorecharFormat.setForeground(QBrush(Qt::darkCyan));
 				scorecharFormat.setFontWeight(QFont::Bold);
 			} else {
-				scoretext = tr("  %1 Pt").arg(qAbs(scoreGot));
+				scoretext = tr("  %1 %2").arg(qAbs(scoreGot)).arg(qAbs(scoreGot) == 1 ? tr("Pt") : tr("Pts"));
 				scorecharFormat.setForeground(QBrush(Qt::darkYellow));
 			}
 
