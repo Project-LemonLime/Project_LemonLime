@@ -84,7 +84,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DLEMON=ON -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. -GNinja -DLEMON_QT6=ON -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for AppImage" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
           cmake --install .
       # ========================================================================================================= Deployments
