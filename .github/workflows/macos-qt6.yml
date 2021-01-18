@@ -25,26 +25,11 @@ jobs:
     env:
       targetName: lemon
     steps:
-      - name: cacheQt
-        id: MacosCacheQt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-          key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-#      - name: setupQt
-#        if: steps.MacosCacheQt.outputs.cache-hit == 'true'
-#        shell: bash
-#        env:
-#          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-#        run: |
-#          qt_Path=${env:QtPath}
-#          echo "Qt5_DIR=\"$QtPath\"" >> $GITHUB_ENV
-#          echo "${qt_Path}/bin" >> $GITHUB_PATH
       - name: Install Qt
-        if: steps.MacosCacheQt.outputs.cache-hit != 'true'
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_ver }}
+          cached: ${{ steps.MacosCacheQt.outputs.cache-hit }}
 
       - uses: actions/checkout@v2
         with:
@@ -53,8 +38,6 @@ jobs:
         run: |
           brew install ninja pkg-config
       - name: build macos
-        env:
-          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           cmake . \
             -GNinja \
@@ -62,7 +45,7 @@ jobs:
             -DLEMON_QT6=ON \
             -DLEMON_BUILD_INFO="Build for macOS" \
             -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       # tag 打包
       - name: package
