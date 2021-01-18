@@ -7,7 +7,7 @@
  *
  */
 #include "testcase.h"
-//
+#include "base/LemonUtils.hpp"
 #include "base/settings.h"
 
 TestCase::TestCase(QObject *parent) : QObject(parent) {}
@@ -130,6 +130,34 @@ void TestCase::writeToStream(QDataStream &out) {
 	out << _outputFiles;
 }
 
+int TestCase::readFromJson(const QJsonObject &in) {
+	READ_JSON(in, fullScore);
+	READ_JSON(in, timeLimit);
+	READ_JSON(in, memoryLimit);
+
+	QJsonArray inputFiles;
+	this->inputFiles.clear();
+	READ_JSON(in, inputFiles);
+	for (const auto &i : inputFiles) {
+		if (! i.isString())
+			return -1;
+		auto fileName = i.toString();
+		if (fileName.endsWith("_lemon_SUbtaskDEPENDENCE_fLAg")) {
+			int temp{0};
+			for (auto c : fileName) {
+				temp *= 10;
+				temp += c.toLatin1() ^ '0';
+			}
+			dependenceSubtask.push_back(temp);
+		} else {
+			fileName.replace('/', QDir::separator());
+			this->inputFiles.push_back(fileName);
+		}
+	}
+
+	READ_JSON(in, outputFiles);
+	return 0;
+}
 void TestCase::readFromStream(QDataStream &in) {
 	in >> fullScore;
 	in >> timeLimit;

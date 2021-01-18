@@ -38,6 +38,7 @@ class TestCase : public QObject {
 	void deleteSingleCase(int);
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
+	int readFromJson(const QJsonObject &);
 	void clearDependenceSubtask();
 	void swapFiles(int, int);
 

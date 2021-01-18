@@ -615,6 +615,8 @@ void LemonLime::loadContest(const QString &filePath) {
 	if (curContest)
 		closeAction();
 
+	curContest = new Contest(this);
+
 	QFile file(filePath);
 
 	if (! file.open(QFile::ReadOnly)) {
@@ -622,43 +624,69 @@ void LemonLime::loadContest(const QString &filePath) {
 		                     QMessageBox::Close);
 		return;
 	}
+	char firstChar;
+	file.peek(&firstChar, 1);
+	// Don't support RFC 7159, but support RFC 4627
+	if (firstChar == '[' || firstChar == '{') {
+		QJsonParseError parseError;
+		QJsonObject inObj(QJsonDocument::fromJson(file.readAll(), &parseError).object());
+		if (parseError.error != 0) {
+			QMessageBox::warning(this, tr("Error"),
+			                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()) + "\n" +
+			                         parseError.errorString() + "at position" +
+			                         QString("%1").arg(parseError.offset),
+			                     QMessageBox::Close);
+			return;
+			QApplication::setOverrideCursor(Qt::WaitCursor);
+			curContest->setSettings(settings);
+			if (curContest->readFromJson(inObj) != -1) {
+				QMessageBox::warning(this, tr("Error"),
+				                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
+				                     QMessageBox::Close);
+				QApplication::restoreOverrideCursor();
+				return;
+			}
+		}
 
-	QDataStream _in(&file);
-	unsigned checkNumber = 0;
-	_in >> checkNumber;
+	} else {
+		QDataStream _in(&file);
+		unsigned checkNumber = 0;
+		_in >> checkNumber;
 
-	if (checkNumber != unsigned(MagicNumber)) {
-		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-		                     QMessageBox::Close);
-		return;
-	}
+		if (checkNumber != unsigned(MagicNumber)) {
+			QMessageBox::warning(this, tr("Error"),
+			                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
+			                     QMessageBox::Close);
+			return;
+		}
 
-	quint16 checksum = 0;
-	int len = 0;
-	_in >> checksum >> len;
-	char *raw = new char[len];
-	_in.readRawData(raw, len);
+		quint16 checksum = 0;
+		int len = 0;
+		_in >> checksum >> len;
+		char *raw = new char[len];
+		_in.readRawData(raw, len);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-	if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
+		if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
 #else
-	if (qChecksum(raw, static_cast<uint>(len)) != checksum)
+		if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 #endif
-	{
-		QMessageBox::warning(this, tr("Error"), tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-		                     QMessageBox::Close);
-		delete[] raw;
-		return;
-	}
+		{
+			QMessageBox::warning(this, tr("Error"),
+			                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
+			                     QMessageBox::Close);
+			delete[] raw;
+			return;
+		}
 
-	QByteArray data(raw, len);
-	delete[] raw;
-	data = qUncompress(data);
-	QDataStream in(data);
-	QApplication::setOverrideCursor(Qt::WaitCursor);
-	curContest = new Contest(this);
-	curContest->setSettings(settings);
-	curContest->readFromStream(in);
+		QByteArray data(raw, len);
+		delete[] raw;
+		data = qUncompress(data);
+		QDataStream in(data);
+		QApplication::setOverrideCursor(Qt::WaitCursor);
+		curContest->setSettings(settings);
+		curContest->readFromStream(in);
+	}
 	curFile = QFileInfo(filePath).fileName();
 	QDir::setCurrent(QFileInfo(filePath).path());
 	QDir().mkdir(Settings::dataPath());
@@ -680,8 +708,8 @@ void LemonLime::loadContest(const QString &filePath) {
 	ui->cleanupAction->setEnabled(false);
 	ui->refreshAction->setEnabled(false);
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
-	QApplication::restoreOverrideCursor();
 	ui->tabWidget->setCurrentIndex(0);
+	QApplication::restoreOverrideCursor();
 }
 
 void LemonLime::newContest(const QString &title, const QString &savingName, const QString &path) {

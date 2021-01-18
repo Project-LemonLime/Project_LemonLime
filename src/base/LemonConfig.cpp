@@ -12,22 +12,22 @@
 
 namespace Lemon::base::config {
 
-	void LemonConfigJudge::read(const QJsonObject &json) {
-		READ_JSON_INT(defaultFullScore)
-		READ_JSON_INT(defaultTimeLimit)
-		READ_JSON_INT(defaultMemoryLimit)
-		READ_JSON_INT(compileTimeLimit)
-		READ_JSON_INT(specialJudgeTimeLimit)
-		READ_JSON_INT(fileSizeLimit)
-		READ_JSON_INT(rejudgeTimes)
+	int LemonConfigJudge::read(const QJsonObject &json) {
+		READ_JSON(json, defaultFullScore);
+		READ_JSON(json, defaultTimeLimit);
+		READ_JSON(json, defaultMemoryLimit);
+		READ_JSON(json, compileTimeLimit);
+		READ_JSON(json, specialJudgeTimeLimit);
+		READ_JSON(json, fileSizeLimit);
+		READ_JSON(json, rejudgeTimes);
 
-		READ_JSON_STR(defaultInputFileExtension)
-		READ_JSON_STR(defaultOutputFileExtension)
-		READ_JSON_STR(diffPath)
+		READ_JSON(json, defaultInputFileExtension);
+		READ_JSON(json, defaultOutputFileExtension);
+		READ_JSON(json, diffPath);
 
-		READ_JSON_STRLIST(inputFileExtensions)
-		READ_JSON_STRLIST(outputFileExtensions)
-		READ_JSON_STRLIST(recentContest)
+		READ_JSON(json, inputFileExtensions);
+		READ_JSON(json, outputFileExtensions);
+		READ_JSON(json, recentContest);
 
 		// CompilerList
 		if (json.contains("compilerList") && json["compilerList"].isArray()) {
@@ -37,12 +37,16 @@ namespace Lemon::base::config {
 			for (int compilerIndex = 0; compilerIndex < _compilerList.size(); ++compilerIndex) {
 				QJsonObject compilerObject = _compilerList[compilerIndex].toObject();
 				Compiler *compiler = new Compiler;
-				compiler->read(compilerObject);
+				if (compiler->read(compilerObject) == -1)
+					return -1;
 				compilerList.append(compiler);
 			}
 		}
+		return 0;
 	}
 
-	void LemonConfigJudge::write(QJsonObject &json) const {}
+	void LemonConfigJudge::write(QJsonObject &json) const {
+		// TODO: Write Config
+	}
 
 } // namespace Lemon::base::config

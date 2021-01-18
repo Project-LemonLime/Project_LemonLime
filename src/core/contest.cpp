@@ -9,6 +9,7 @@
 
 #include "contest.h"
 //
+#include "base/LemonUtils.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
 #include "core/assignmentthread.h"
@@ -357,7 +358,34 @@ void Contest::writeToStream(QDataStream &out) {
 		i->writeToStream(out);
 	}
 }
+int Contest::readFromJson(const QJsonObject &in) {
+	READ_JSON(in, contestTitle);
 
+	QJsonArray tasks;
+	READ_JSON(in, tasks);
+
+	taskList.clear();
+	for (const auto &task : tasks) {
+		Task *newTask = new Task(this);
+		if (newTask->readFromJson(task.toObject()) == -1)
+			return -1;
+		taskList.append(newTask);
+	}
+
+	QJsonArray contestants;
+	READ_JSON(in, contestants);
+
+	contestantList.clear();
+	for (const auto &contestant : contestants) {
+		auto *newContestant = new Contestant(this);
+		if (newContestant->readFromJson(contestant.toObject()) == -1)
+			return -1;
+		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
+		connect(this, &Contest::taskDeletedForContestant, newContestant, &Contestant::deleteTask);
+		contestantList.insert(newContestant->getContestantName(), newContestant);
+	}
+	return 0;
+}
 void Contest::readFromStream(QDataStream &in) {
 	int count = 0;
 	in >> contestTitle;

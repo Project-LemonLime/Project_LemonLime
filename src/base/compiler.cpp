@@ -122,20 +122,20 @@ void Compiler::copyFrom(Compiler *other) {
 	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
 }
 
-void Compiler::read(const QJsonObject &json) {
+int Compiler::read(const QJsonObject &json) {
 
 	if (json.contains("compilerType") && json["compilerType"].isDouble())
 		compilerType = CompilerType(json["compilerType"].toInt());
 
-	READ_JSON_STR(compilerName)
-	READ_JSON_STR(compilerLocation)
-	READ_JSON_STR(interpreterLocation)
+	READ_JSON(json, compilerName);
+	READ_JSON(json, compilerLocation);
+	READ_JSON(json, interpreterLocation);
 
-	READ_JSON_STRLIST(sourceExtensions)
-	READ_JSON_STRLIST(bytecodeExtensions)
-	READ_JSON_STRLIST(configurationNames)
-	READ_JSON_STRLIST(compilerArguments)
-	READ_JSON_STRLIST(interpreterArguments)
+	READ_JSON(json, sourceExtensions);
+	READ_JSON(json, bytecodeExtensions);
+	READ_JSON(json, configurationNames);
+	READ_JSON(json, compilerArguments);
+	READ_JSON(json, interpreterArguments);
 
 	QStringList _environment;
 	if (json.contains("environment") && json["environment"].isString()) {
@@ -153,26 +153,27 @@ void Compiler::read(const QJsonObject &json) {
 		environment.insert(variable, value);
 	}
 
-	READ_JSON_DOUBLE(timeLimitRatio)
-	READ_JSON_DOUBLE(memoryLimitRatio)
-	READ_JSON_BOOL(disableMemoryLimitCheck)
+	READ_JSON(json, timeLimitRatio);
+	READ_JSON(json, memoryLimitRatio);
+	READ_JSON(json, disableMemoryLimitCheck);
+	return 0;
 }
 
 void Compiler::write(QJsonObject &json) const {
-	WRITE_JSON(compilerType)
-	WRITE_JSON(compilerName)
-	WRITE_JSON(compilerLocation)
-	WRITE_JSON(interpreterLocation)
+	WRITE_JSON(json, compilerType)
+	WRITE_JSON(json, compilerName)
+	WRITE_JSON(json, compilerLocation)
+	WRITE_JSON(json, interpreterLocation)
 
-	WRITE_JSON_STRLIST(sourceExtensions)
-	WRITE_JSON_STRLIST(bytecodeExtensions)
-	WRITE_JSON_STRLIST(configurationNames)
-	WRITE_JSON_STRLIST(compilerArguments)
-	WRITE_JSON_STRLIST(interpreterArguments)
+	WRITE_JSON_STRLIST(json, sourceExtensions)
+	WRITE_JSON_STRLIST(json, bytecodeExtensions)
+	WRITE_JSON_STRLIST(json, configurationNames)
+	WRITE_JSON_STRLIST(json, compilerArguments)
+	WRITE_JSON_STRLIST(json, interpreterArguments)
 
-	WRITE_JSON_STRLIST(environment.toStringList())
+	WRITE_JSON_STRLIST(json, environment.toStringList())
 
-	WRITE_JSON(timeLimitRatio)          // double
-	WRITE_JSON(memoryLimitRatio)        // double
-	WRITE_JSON(disableMemoryLimitCheck) // bool
+	WRITE_JSON(json, timeLimitRatio)          // double
+	WRITE_JSON(json, memoryLimitRatio)        // double
+	WRITE_JSON(json, disableMemoryLimitCheck) // bool
 }
