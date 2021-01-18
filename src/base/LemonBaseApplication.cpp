@@ -19,15 +19,15 @@ using namespace Lemon;
 
 auto LemonBaseApplication::Initialize() -> bool {
 	QString errorMessage;
-	bool canContinue;
+	bool canContinue = false;
 	const auto hasError = parseCommandLine(&canContinue, &errorMessage);
 	if (hasError) {
 		// LOG("Command line: " + A(errorMessage));
-		if (! canContinue) {
+		if (canContinue) {
+			LOG("Non-fatal error, LemonLime will continue starting up.");
+		} else {
 			LOG("Fatal Error, LemonLime cannot continue.");
 			return false;
-		} else {
-			LOG("Non-fatal error, LemonLime will continue starting up.");
 		}
 	}
 

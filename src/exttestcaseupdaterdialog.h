@@ -29,7 +29,7 @@ class ExtTestCaseUpdaterDialog : public QDialog {
 	                                  const Settings *nowSettings = nullptr, int nowCaseNumber = 0,
 	                                  int editScore = NO_EDIT, int editData = NO_EDIT, int editTime = NO_EDIT,
 	                                  int editMemory = NO_EDIT, int editDepend = NO_EDIT,
-	                                  QList<int> tempDepends = QList<int>());
+	                                  const QList<int> &tempDepends = QList<int>());
 	~ExtTestCaseUpdaterDialog();
 
 	int getScore() const;

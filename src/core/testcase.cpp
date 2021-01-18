@@ -144,7 +144,7 @@ void TestCase::readFromStream(QDataStream &in) {
 		if (i.endsWith("_lemon_SUbtaskDEPENDENCE_fLAg")) {
 			int temp(0);
 
-			for (auto *itr = i.constBegin(); *itr != '_'; ++itr)
+			for (const auto *itr = i.constBegin(); *itr != '_'; ++itr)
 				(temp *= 10) += itr->toLatin1() ^ '0';
 
 			dependenceSubtask.push_back(temp);

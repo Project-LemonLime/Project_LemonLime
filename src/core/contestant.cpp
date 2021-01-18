@@ -235,7 +235,8 @@ void Contestant::readFromStream(QDataStream &in) {
 	                        Qt::TimeSpec(judgingTime_timespec));
 	int count = 0;
 	int _count = 0;
-	int __count = 0;
+	int ___count = 0; // NOLINT
+	// FIXME: using semantic variables
 	int tmp = 0;
 	in >> count;
 
@@ -252,9 +253,9 @@ void Contestant::readFromStream(QDataStream &in) {
 
 		for (int j = 0; j < _count; j++) {
 			result[i].append(QList<ResultState>());
-			in >> __count;
+			in >> ___count;
 
-			for (int k = 0; k < __count; k++) {
+			for (int k = 0; k < ___count; k++) {
 				in >> tmp;
 				result[i][j].append(ResultState(tmp));
 			}

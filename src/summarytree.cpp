@@ -33,7 +33,7 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent) {
 	addTestCaseKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteTaskKeyAction->setShortcutContext(Qt::WidgetShortcut);
 	deleteTestCaseKeyAction->setShortcutContext(Qt::WidgetShortcut);
-	addTaskKeyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Insert));
+	addTaskKeyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Insert)); // NOLINT: Qt issue
 	addTestCaseKeyAction->setShortcut(QKeySequence(Qt::Key_Insert));
 	deleteTaskKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));
 	deleteTestCaseKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));

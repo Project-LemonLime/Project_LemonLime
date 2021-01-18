@@ -34,6 +34,7 @@ namespace Lemon::base::config {
 			QJsonArray _compilerList = json["compilerList"].toArray();
 			compilerList.clear();
 			compilerList.reserve(_compilerList.size());
+			// NOLINTNEXTLINE
 			for (int compilerIndex = 0; compilerIndex < _compilerList.size(); ++compilerIndex) {
 				QJsonObject compilerObject = _compilerList[compilerIndex].toObject();
 				Compiler *compiler = new Compiler;
