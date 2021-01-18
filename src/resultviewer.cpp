@@ -113,7 +113,7 @@ void ResultViewer::refreshViewer() {
 	setHorizontalHeaderLabels(headerList);
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	QList<Contestant *> contestantList = curContest->getContestantList();
-	QList<QPair<int, QString>> sortList;
+	QList<std::pair<int, QString>> sortList;
 	QList<int> fullScore;
 	int sfullScore = curContest->getTotalScore();
 
@@ -221,7 +221,7 @@ void ResultViewer::judgeSelected() {
 		}
 	}
 
-	QList<QPair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(qMakePair(i.key(), i.value()));
@@ -261,7 +261,7 @@ void ResultViewer::judgeUnjudged() {
 		}
 	}
 
-	QList<QPair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(qMakePair(i.key(), i.value()));
@@ -291,7 +291,7 @@ void ResultViewer::judgeGrey() {
 		}
 	}
 
-	QList<QPair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(qMakePair(i.key(), i.value()));
@@ -323,7 +323,7 @@ void ResultViewer::judgeMagenta() {
 		}
 	}
 
-	QList<QPair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(qMakePair(i.key(), i.value()));

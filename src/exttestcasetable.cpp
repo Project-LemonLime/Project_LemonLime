@@ -62,9 +62,9 @@ auto ExtTestCaseTable::canSplit() const -> bool { return isCanSplit; }
 
 auto ExtTestCaseTable::getSelectedHaveSub() const -> QList<int> { return haveSub; }
 
-auto ExtTestCaseTable::getSelectedResSub() const -> QList<QPair<int, QPair<int, int>>> { return resSub; }
+auto ExtTestCaseTable::getSelectedResSub() const -> QList<std::pair<int, std::pair<int, int>>> { return resSub; }
 
-auto ExtTestCaseTable::getSelectRange() const -> QPair<int, int> { return qMakePair(selectMi, selectMx); }
+auto ExtTestCaseTable::getSelectRange() const -> std::pair<int, int> { return qMakePair(selectMi, selectMx); }
 
 void ExtTestCaseTable::addItem(int row, int column, const QString &text) {
 	auto *item = new QTableWidgetItem(text);

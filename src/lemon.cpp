@@ -796,7 +796,7 @@ void LemonLime::getFiles(const QString &path, const QStringList &filters, QMap<Q
 	}
 }
 
-void LemonLime::addTask(const QString &title, const QList<QPair<QString, QString>> &testCases, int fullScore,
+void LemonLime::addTask(const QString &title, const QList<std::pair<QString, QString>> &testCases, int fullScore,
                         int timeLimit, int memoryLimit) {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
@@ -818,7 +818,7 @@ void LemonLime::addTask(const QString &title, const QList<QPair<QString, QString
 	}
 }
 
-void LemonLime::addTaskWithScoreScale(const QString &title, const QList<QPair<QString, QString>> &testCases,
+void LemonLime::addTaskWithScoreScale(const QString &title, const QList<std::pair<QString, QString>> &testCases,
                                       int sumScore, int timeLimit, int memoryLimit) {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
@@ -842,7 +842,7 @@ void LemonLime::addTaskWithScoreScale(const QString &title, const QList<QPair<QS
 	}
 }
 
-auto LemonLime::compareFileName(const QPair<QString, QString> &a, const QPair<QString, QString> &b) -> bool {
+auto LemonLime::compareFileName(const std::pair<QString, QString> &a, const std::pair<QString, QString> &b) -> bool {
 	return (a.first.length() < b.first.length()) ||
 	       (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
@@ -857,7 +857,7 @@ void LemonLime::addTasksAction() {
 	}
 
 	QStringList nameList;
-	QList<QList<QPair<QString, QString>>> testCases;
+	QList<QList<std::pair<QString, QString>>> testCases;
 
 	for (int i = 0; i < list.size(); i++) {
 		if (! nameSet.contains(list[i])) {
@@ -885,7 +885,7 @@ void LemonLime::addTasksAction() {
 
 			QMap<QString, QString> outputFiles;
 			getFiles(Settings::dataPath() + list[i], filters, outputFiles);
-			QList<QPair<QString, QString>> cases;
+			QList<std::pair<QString, QString>> cases;
 			QStringList baseNameList = inputFiles.keys();
 
 			for (int j = 0; j < baseNameList.size(); j++) {

@@ -475,7 +475,7 @@ void AssignmentThread::assign() {
 
 void AssignmentThread::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
 
-void AssignmentThread::taskSkipped(const QPair<int, int> &cur) {
+void AssignmentThread::taskSkipped(const std::pair<int, int> &cur) {
 	++countFinished;
 	emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(), cur.first, cur.second,
 	                        int(result[cur.first][cur.second]), 0, 0, 0);
@@ -498,7 +498,7 @@ void AssignmentThread::threadFinished() {
 	if (thread->getNeedRejudge() && thread->getJudgeTimes() != settings->getRejudgeTimes() + 1) {
 		thread->start();
 	} else {
-		QPair<int, int> cur = running[thread];
+		std::pair<int, int> cur = running[thread];
 		timeUsed[cur.first][cur.second] = thread->getTimeUsed();
 		memoryUsed[cur.first][cur.second] = thread->getMemoryUsed();
 		score[cur.first][cur.second] = thread->getScore();

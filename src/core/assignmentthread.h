@@ -23,7 +23,7 @@ class AssignmentThread : public QThread {
   public:
 	explicit AssignmentThread(QObject *parent = nullptr);
 	// void setCheckRejudgeMode(bool);
-	void setNeedRejudge(const QList<QPair<int, int>> &);
+	void setNeedRejudge(const QList<std::pair<int, int>> &);
 	void setSettings(Settings *);
 	void setTask(Task *);
 	void setContestantName(const QString &);
@@ -36,7 +36,7 @@ class AssignmentThread : public QThread {
 	const QList<QList<ResultState>> &getResult() const;
 	const QList<QStringList> &getMessage() const;
 	const QList<QStringList> &getInputFiles() const;
-	// const QList< QPair<int, int> >& getNeedRejudge() const;
+	// const QList< std::pair<int, int> >& getNeedRejudge() const;
 	void run();
 
   private:
@@ -63,18 +63,18 @@ class AssignmentThread : public QThread {
 	QList<QList<ResultState>> result;
 	QList<QStringList> message;
 	QList<QStringList> inputFiles;
-	// QList< QPair<int, int> > needRejudge;
+	// QList< std::pair<int, int> > needRejudge;
 
 	QList<int> testCaseScore;
 	int curTestCaseIndex;
 	int curSingleCaseIndex;
 	int countFinished;
 	int totalSingleCase;
-	QMap<JudgingThread *, QPair<int, int>> running;
+	QMap<JudgingThread *, std::pair<int, int>> running;
 	bool stopJudging;
 	bool traditionalTaskPrepare();
 	void assign();
-	void taskSkipped(const QPair<int, int> &);
+	void taskSkipped(const std::pair<int, int> &);
 	void makeDialogAlert(QString);
 	QTemporaryDir temporaryDir;
 

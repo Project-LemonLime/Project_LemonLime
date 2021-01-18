@@ -31,8 +31,8 @@ class ExtTestCaseTable : public QTableWidget {
 	bool canSplit() const;
 
 	QList<int> getSelectedHaveSub() const;
-	QList<QPair<int, QPair<int, int>>> getSelectedResSub() const;
-	QPair<int, int> getSelectRange() const;
+	QList<std::pair<int, std::pair<int, int>>> getSelectedResSub() const;
+	std::pair<int, int> getSelectRange() const;
 	void modifySelected(int, int);
 
   private:
@@ -42,7 +42,7 @@ class ExtTestCaseTable : public QTableWidget {
 	void addItem(int row, int column, const QString &text, const QString &tipText);
 
 	QList<int> haveSub;
-	QList<QPair<int, QPair<int, int>>> resSub;
+	QList<std::pair<int, std::pair<int, int>>> resSub;
 
 	bool isCanModify;
 	bool isCanAddSub;
