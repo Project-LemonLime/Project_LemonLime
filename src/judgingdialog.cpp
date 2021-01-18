@@ -176,11 +176,14 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			if (memoryUsed >= 0)
 				addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
-			if (scoreGot > 0) {
+			if (scoreGot > 0)
+			{
 				scoretext = tr("  %1 %2").arg(scoreGot).arg(scoreGot == 1 ? tr("Pt") : tr("Pts"));
 				scorecharFormat.setForeground(QBrush(Qt::darkCyan));
 				scorecharFormat.setFontWeight(QFont::Bold);
-			} else {
+			}
+			else
+			{
 				scoretext = tr("  %1 %2").arg(qAbs(scoreGot)).arg(qAbs(scoreGot) == 1 ? tr("Pt") : tr("Pts"));
 				scorecharFormat.setForeground(QBrush(Qt::darkYellow));
 			}
