@@ -76,7 +76,7 @@ void JudgingDialog::judge(const QString &name, int index) {
 	accept();
 }
 
-void JudgingDialog::judge(const QList<QPair<QString, QSet<int>>> &lists) {
+void JudgingDialog::judge(const QList<std::pair<QString, QSet<int>>> &lists) {
 	stopJudging = false;
 	int allTime = 0;
 	int listsSize = lists.size();

@@ -266,7 +266,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	       "text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
-	QList<QPair<int, QString>> sortList;
+	QList<std::pair<int, QString>> sortList;
 
 	for (auto &i : contestantList) {
 		int totalScore = i->getTotalScore();
@@ -597,7 +597,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	       "text-align: center; verticle-align: middle;}</style>";
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
-	QList<QPair<int, QString>> sortList;
+	QList<std::pair<int, QString>> sortList;
 
 	for (auto &i : contestantList) {
 		int totalScore = i->getTotalScore();
@@ -695,7 +695,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	QTextStream out(&file);
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList<QPair<int, QString>> sortList;
+	QList<std::pair<int, QString>> sortList;
 
 	for (auto &i : contestantList) {
 		int totalScore = i->getTotalScore();
@@ -783,7 +783,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList<QPair<int, QString>> sortList;
+	QList<std::pair<int, QString>> sortList;
 
 	for (int i = 0; i < contestantList.size(); i++) {
 		int totalScore = contestantList[i]->getTotalScore();

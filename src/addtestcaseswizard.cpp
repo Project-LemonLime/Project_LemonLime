@@ -251,7 +251,7 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	}
 
 	QMultiMap<QString, int> loc;
-	QList<QPair<QString, QString>> singleCases;
+	QList<std::pair<QString, QString>> singleCases;
 	QList<QStringList> matchedPart;
 
 	// if(ui->outputFilesPattern->isEnabled()) {

@@ -30,7 +30,7 @@ class JudgingDialog : public QDialog {
 	void setContest(Contest *);
 	void judge(const QStringList &);
 	void judge(const QString &, int);
-	void judge(const QList<QPair<QString, QSet<int>>> &);
+	void judge(const QList<std::pair<QString, QSet<int>>> &);
 	void judgeAll();
 	void reject();
 
