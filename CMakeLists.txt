@@ -25,6 +25,8 @@ option(BUILD_DEB "Build deb format package" OFF)
 LEMONLOG(BUILD_DEB)
 option(BUILD_RPM "Build rpm format package" OFF)
 LEMONLOG(BUILD_RPM)
+option(USE_CLANG_TIDY "Use clang-tidy to lint the files" OFF)
+LEMONLOG(USE_CLANG_TIDY)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
@@ -88,6 +90,11 @@ if(UNIX AND NOT APPLE)
 	)
 endif()
 LEMONLOG(LSB_RELEASE_ID_SHORT)
+
+if(USE_CLANG_TIDY)
+	set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
+	message(STATUS "clang-tidy checks will be performed")
+endif()
 
 # ==================================================================================
 # Lemon Build Info
