@@ -796,8 +796,8 @@ void LemonLime::getFiles(const QString &path, const QStringList &filters, QMap<Q
 	}
 }
 
-void LemonLime::addTask(const QString &title, const QList<std::pair<QString, QString>> &testCases, int fullScore,
-                        int timeLimit, int memoryLimit) {
+void LemonLime::addTask(const QString &title, const QList<std::pair<QString, QString>> &testCases,
+                        int fullScore, int timeLimit, int memoryLimit) {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
 	newTask->setSourceFileName(title);
@@ -818,8 +818,9 @@ void LemonLime::addTask(const QString &title, const QList<std::pair<QString, QSt
 	}
 }
 
-void LemonLime::addTaskWithScoreScale(const QString &title, const QList<std::pair<QString, QString>> &testCases,
-                                      int sumScore, int timeLimit, int memoryLimit) {
+void LemonLime::addTaskWithScoreScale(const QString &title,
+                                      const QList<std::pair<QString, QString>> &testCases, int sumScore,
+                                      int timeLimit, int memoryLimit) {
 	Task *newTask = new Task;
 	newTask->setProblemTitle(title);
 	newTask->setSourceFileName(title);
@@ -842,7 +843,8 @@ void LemonLime::addTaskWithScoreScale(const QString &title, const QList<std::pai
 	}
 }
 
-auto LemonLime::compareFileName(const std::pair<QString, QString> &a, const std::pair<QString, QString> &b) -> bool {
+auto LemonLime::compareFileName(const std::pair<QString, QString> &a, const std::pair<QString, QString> &b)
+    -> bool {
 	return (a.first.length() < b.first.length()) ||
 	       (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
@@ -890,7 +892,7 @@ void LemonLime::addTasksAction() {
 
 			for (int j = 0; j < baseNameList.size(); j++) {
 				if (outputFiles.contains(baseNameList[j])) {
-					cases.append(qMakePair(inputFiles[baseNameList[j]], outputFiles[baseNameList[j]]));
+					cases.append(std::make_pair(inputFiles[baseNameList[j]], outputFiles[baseNameList[j]]));
 				}
 			}
 

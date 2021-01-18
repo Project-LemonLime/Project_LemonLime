@@ -401,7 +401,7 @@ void AssignmentThread::assign() {
 
 	if (overallStatus[curTestCaseIndex] < 0 || isSkipped) {
 		overallStatus[curTestCaseIndex] = -1;
-		taskSkipped(qMakePair(curTestCaseIndex, curSingleCaseIndex++));
+		taskSkipped(std::make_pair(curTestCaseIndex, curSingleCaseIndex++));
 		return;
 	}
 
@@ -469,7 +469,7 @@ void AssignmentThread::assign() {
 		}
 	}
 
-	running[thread] = qMakePair(curTestCaseIndex, curSingleCaseIndex++);
+	running[thread] = std::make_pair(curTestCaseIndex, curSingleCaseIndex++);
 	thread->start();
 }
 

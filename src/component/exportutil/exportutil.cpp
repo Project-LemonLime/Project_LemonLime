@@ -272,9 +272,9 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(qMakePair(-totalScore, i->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
 		} else {
-			sortList.append(qMakePair(1, i->getContestantName()));
+			sortList.append(std::make_pair(1, i->getContestantName()));
 		}
 	}
 
@@ -603,9 +603,9 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(qMakePair(-totalScore, i->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
 		} else {
-			sortList.append(qMakePair(1, i->getContestantName()));
+			sortList.append(std::make_pair(1, i->getContestantName()));
 		}
 	}
 
@@ -701,9 +701,9 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(qMakePair(-totalScore, i->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
 		} else {
-			sortList.append(qMakePair(1, i->getContestantName()));
+			sortList.append(std::make_pair(1, i->getContestantName()));
 		}
 	}
 
@@ -789,9 +789,9 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 		int totalScore = contestantList[i]->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, contestantList[i]->getContestantName()));
 		} else {
-			sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+			sortList.append(std::make_pair(1, contestantList[i]->getContestantName()));
 		}
 	}
 
