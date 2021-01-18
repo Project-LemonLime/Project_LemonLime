@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.0.0]
-        platform: [ubuntu-16.04]
+        platform: [ubuntu-18.04]
         build_type: [Release, RelWithDebInfo]
         arch: [x64]
       fail-fast: false
@@ -104,7 +104,7 @@ jobs:
           cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
           cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
           mkdir -p ./usr/plugins/platforminputcontexts/
-          cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
+          cp -fv /usr/lib/x86_64-linux-gnu/qt6/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
           cd ..
           ./linuxdeployqt-7-x86_64.AppImage AppDir/usr/share/applications/lemon-lime.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./Lemon*.AppImage ./Lemon.AppImage
