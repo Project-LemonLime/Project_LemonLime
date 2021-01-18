@@ -8,14 +8,13 @@
 
 #pragma once
 
-
 #include <QString>
 #include <QTextStream>
 #include <iostream>
 
 #define NEWLINE "\r\n"
 #define ___LOG_EXPAND(___x)                                                                                  \
-	, std::pair {                                                                                                \
+	, std::pair {                                                                                            \
 #___x, [&] { return ___x; }()                                                                        \
 	}
 #define A(...) FOREACH_CALL_FUNC(___LOG_EXPAND, __VA_ARGS__)

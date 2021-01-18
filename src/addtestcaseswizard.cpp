@@ -262,14 +262,14 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	for (int i = 0; i < outputFiles.size(); i++) {
 		if (loc.count(outputFilesMatchedPart[i].join("*")) > 0) {
 			int partner = loc.value(outputFilesMatchedPart[i].join("*"));
-			singleCases.append(qMakePair(inputFiles[partner], outputFiles[i]));
+			singleCases.append(std::make_pair(inputFiles[partner], outputFiles[i]));
 			matchedPart.append(outputFilesMatchedPart[i]);
 		}
 	}
 
 	/*} else {
 	    for (int i = 0; i < inputFiles.size(); i ++) {
-	            singleCases.append(qMakePair(inputFiles[i], QString("")));
+	            singleCases.append(std::make_pair(inputFiles[i], QString("")));
 	            matchedPart.append(inputFilesMatchedPart[i]);
 	    }
 	}*/

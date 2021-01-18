@@ -166,7 +166,7 @@ void ResultViewer::refreshViewer() {
 			item(i, taskList.size() + 3)->setData(Qt::DisplayRole, double(totalUsedTime) / 1000);
 			item(i, taskList.size() + 4)
 			    ->setData(Qt::DisplayRole, judgingTime.toString("yyyy-MM-dd hh:mm:ss"));
-			sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, contestantList[i]->getContestantName()));
 		} else {
 			item(i, 2)->setText(tr("Invalid"));
 			item(i, taskList.size() + 3)->setText(tr("Invalid"));
@@ -224,7 +224,7 @@ void ResultViewer::judgeSelected() {
 	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(qMakePair(i.key(), i.value()));
+		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -264,7 +264,7 @@ void ResultViewer::judgeUnjudged() {
 	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(qMakePair(i.key(), i.value()));
+		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -294,7 +294,7 @@ void ResultViewer::judgeGrey() {
 	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(qMakePair(i.key(), i.value()));
+		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -326,7 +326,7 @@ void ResultViewer::judgeMagenta() {
 	QList<std::pair<QString, QSet<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(qMakePair(i.key(), i.value()));
+		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
 	auto *dialog = new JudgingDialog(this);
