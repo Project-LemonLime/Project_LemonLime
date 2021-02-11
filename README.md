@@ -96,7 +96,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 ## Credit
 ```
-Copyright (c) 2019-2020 Project LemonLime.
+Copyright (c) 2019-2021 Project LemonLime.
 
 Libraries and other files that have been used in LemonLime are listed below:
 
