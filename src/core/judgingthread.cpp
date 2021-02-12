@@ -26,6 +26,7 @@
 #include <Psapi.h>
 #endif
 
+// NOLINTNEXTLINE
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent) {
 	moveToThread(this);
 	// checkRejudgeMode = false;
@@ -148,10 +149,10 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 			if (chk1)
 				chk1 = false;
 
-			str1[len1++] = ch;
+			str1[len1++] = ch; // NOLINT
 		}
 
-		str1[len1++] = '\0';
+		str1[len1++] = '\0'; // NOLINT
 		chkEof1 = ch == EOF;
 		len2 = 0;
 
@@ -185,10 +186,10 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 			if (chk2)
 				chk2 = false;
 
-			str2[len2++] = ch;
+			str2[len2++] = ch; // NOLINT
 		}
 
-		str2[len2++] = '\0';
+		str2[len2++] = '\0'; // NOLINT
 		chkEof2 = ch == EOF;
 
 		if (len1 != len2 || strcmp(str1, str2) != 0) {
@@ -395,7 +396,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 
 		while (len1 < 20) {
 			if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF) {
-				str1[len1++] = ch1;
+				str1[len1++] = ch1; // NOLINT
 			} else {
 				break;
 			}
@@ -403,12 +404,12 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 			ch1 = static_cast<char>(fgetc(contestantOutputFile));
 		}
 
-		str1[len1] = '\0';
+		str1[len1] = '\0'; // NOLINT
 		int len2 = 0;
 
 		while (len2 < 20) {
 			if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF) {
-				str2[len2++] = ch2;
+				str2[len2++] = ch2; // NOLINT
 			} else {
 				break;
 			}
@@ -416,7 +417,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 			ch2 = static_cast<char>(fgetc(standardOutputFile));
 		}
 
-		str2[len2] = '\0';
+		str2[len2] = '\0'; // NOLINT
 
 		if (len1 != len2 || strcmp(str1, str2) != 0) {
 			if (len1 <= 0) {
@@ -511,7 +512,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput) {
 		int cnt1 = fscanf(contestantOutputFile, "%Lf", &a);
 		int cnt2 = fscanf(standardOutputFile, "%Lf", &b);
 
-		char temps = fgetc(standardOutputFile);
+		char temps = static_cast<char>(fgetc(standardOutputFile));
 
 		if (cnt1 == 0) {
 			score = 0;
@@ -557,8 +558,8 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
-			              .arg(a, 0, 'g', 18)
-			              .arg(b, 0, 'g', 18)
+			              .arg(a, 0, 'g', 18) // NOLINT
+			              .arg(b, 0, 'g', 18) // NOLINT
 			              .arg(nowRow);
 			fclose(contestantOutputFile);
 			fclose(standardOutputFile);

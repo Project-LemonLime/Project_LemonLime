@@ -244,7 +244,7 @@ void ExtTestCaseTable::whenItemSelectionChanged() {
 	if (haveSub.size() >= 2 && resSub.empty())
 		isCanMerge = true;
 
-	if (haveSub.size() >= 1 && resSub.empty())
+	if (haveSub.size() >= 1 && resSub.empty()) // NOLINT
 		isCanSplit = true;
 
 	emit testCaseSelectionChanged();

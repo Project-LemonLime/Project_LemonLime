@@ -18,7 +18,7 @@
 ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTask,
                                                    const Settings *nowSettings, int nowCaseNumber,
                                                    int editScore, int editData, int editTime, int editMemory,
-                                                   int editDepend, QList<int> tempDepends)
+                                                   int editDepend, const QList<int> &tempDepends)
     : QDialog(parent), ui(new Ui::ExtTestCaseUpdaterDialog), nowTask(nowTask), nowSettings(nowSettings),
       nowCaseNumber(nowCaseNumber), editScore(editScore), editData(editData), editTime(editTime),
       editMemory(editMemory), editDepend(editDepend) {
