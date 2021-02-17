@@ -104,9 +104,11 @@ jobs:
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
+        env:
+          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.packageName }}.zip
-          asset_name: lemon-win-${{matrix.arch}}.zip
+          file: ./${{ env.archiveName }}.zip
+          asset_name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true
