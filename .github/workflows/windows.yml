@@ -109,6 +109,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}.zip
-          asset_name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          asset_name: lemon-win-${{matrix.arch}}.zip
           tag: ${{ github.ref }}
           overwrite: true
