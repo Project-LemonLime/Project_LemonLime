@@ -12,7 +12,7 @@
 
 #include <QTableWidget>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 class Contest;
 

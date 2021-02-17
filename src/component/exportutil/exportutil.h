@@ -13,7 +13,7 @@
 #include "base/LemonType.hpp"
 #include <QObject>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 #ifdef ENABLE_XLS_EXPORT
 #include <QAxObject>

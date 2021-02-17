@@ -13,7 +13,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 namespace Ui {
 	class OpenContestWidget;

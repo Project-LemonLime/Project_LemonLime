@@ -12,7 +12,7 @@
 
 #include <QDialog>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 class Compiler;
 

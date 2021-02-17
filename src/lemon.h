@@ -12,7 +12,7 @@
 
 #include <QMainWindow>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 namespace Ui {
 	class LemonLime;

@@ -13,7 +13,7 @@
 #include <QCompleter>
 #include <QLineEdit>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 class FileLineEdit : public QLineEdit {
 	Q_OBJECT

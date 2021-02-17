@@ -11,7 +11,7 @@
 
 #include <QWizard>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 namespace Ui {
 	class AddCompilerWizard;
