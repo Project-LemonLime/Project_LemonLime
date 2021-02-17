@@ -795,7 +795,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i++) {
