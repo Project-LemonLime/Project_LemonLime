@@ -1163,10 +1163,6 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>  %1 Pt</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Partly correct</source>
         <translation></translation>
     </message>
@@ -1269,6 +1265,18 @@ Depends: </source>
     </message>
     <message>
         <source>Compile Successfully</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>  %1 %2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pt</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pts</source>
         <translation></translation>
     </message>
 </context>

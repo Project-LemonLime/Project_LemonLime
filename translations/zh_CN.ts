@@ -1194,10 +1194,6 @@ Depends: </source>
         <translation> %1 ms</translation>
     </message>
     <message>
-        <source>  %1 Pt</source>
-        <translation>  %1 Pt</translation>
-    </message>
-    <message>
         <source>Time limit exceeded</source>
         <translation>超过时间限制</translation>
     </message>
@@ -1295,6 +1291,18 @@ Depends: </source>
     <message>
         <source>Compile Successfully</source>
         <translation>编译完成</translation>
+    </message>
+    <message>
+        <source>  %1 %2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pt</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pts</source>
+        <translation></translation>
     </message>
 </context>
 <context>

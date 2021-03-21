@@ -1146,11 +1146,11 @@ Depends: </source>
     </message>
     <message>
         <source>Default Extra Time Limit Ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>預設額外時間比率</translation>
     </message>
     <message>
         <source>Empty default extra time ratio!</source>
-        <translation type="unfinished"></translation>
+        <translation>預設額外時間比率為空！</translation>
     </message>
 </context>
 <context>
@@ -1192,10 +1192,6 @@ Depends: </source>
         <source> %1 ms</source>
         <oldsource>  %1 ms  %2 MB</oldsource>
         <translation> %1 ms</translation>
-    </message>
-    <message>
-        <source>  %1 Pt</source>
-        <translation>  %1 Pt</translation>
     </message>
     <message>
         <source>Time limit exceeded</source>
@@ -1295,6 +1291,18 @@ Depends: </source>
     <message>
         <source>Compile Successfully</source>
         <translation>編譯完成</translation>
+    </message>
+    <message>
+        <source>  %1 %2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pt</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Pts</source>
+        <translation></translation>
     </message>
 </context>
 <context>
