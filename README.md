@@ -14,10 +14,6 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 ![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
 ![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 
-![CPack - RPM - Fedora](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20Fedora/badge.svg)
-![CPack - RPM - openSUSE Leap](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20openSUSE%20Leap/badge.svg)
-![CPack - RPM - openSUSE TW](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20RPM%20-%20openSUSE%20TW/badge.svg)
-
 ![Linux - AppImage](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
