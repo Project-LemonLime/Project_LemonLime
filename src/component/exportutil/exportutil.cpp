@@ -25,12 +25,6 @@
 #include <cmath>
 #include <iostream>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-#define ENDL Qt::endl
-#else
-#define ENDL endl
-#endif
-
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
 auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num) -> QString {
@@ -734,7 +728,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		    << ",";
 	}
 
-	out << "\"" << tr("Total Score") << "\"" << ENDL;
+	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
 
 	for (auto &i : sortList) {
 		Contestant *contestant = contest->getContestant(i.second);
@@ -758,9 +752,9 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		int score = contestant->getTotalScore();
 
 		if (score != -1) {
-			out << "\"" << score << "\"" << ENDL;
+			out << "\"" << score << "\"" << Qt::endl;
 		} else {
-			out << "\"" << tr("Invalid") << "\"" << ENDL;
+			out << "\"" << tr("Invalid") << "\"" << Qt::endl;
 		}
 	}
 
