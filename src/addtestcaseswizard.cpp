@@ -200,8 +200,9 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	QString regExp = getFullRegExp(inputFilesPattern);
 
 	for (int i = 0; i < inputFiles.size(); i++) {
-		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(inputFiles[i]).hasMatch())
-		{
+		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
+		          .match(inputFiles[i])
+		          .hasMatch()) {
 			inputFiles.removeAt(i);
 			i--;
 		}
@@ -212,8 +213,7 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	for (int i = 0; i < outputFiles.size(); i++) {
 		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
 		          .match(outputFiles[i])
-		          .hasMatch())
-		{
+		          .hasMatch()) {
 			outputFiles.removeAt(i);
 			i--;
 		}
