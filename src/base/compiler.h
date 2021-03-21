@@ -54,7 +54,7 @@ class Compiler : public QObject {
 
 	void copyFrom(Compiler *);
 
-	void read(const QJsonObject &json);
+	int read(const QJsonObject &json);
 	void write(QJsonObject &json) const;
 
   private:

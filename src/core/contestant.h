@@ -27,7 +27,7 @@ class Contestant : public QObject {
 	const QList<QStringList> &getInputFiles(int) const;
 	const QList<QList<ResultState>> &getResult(int) const;
 	const QList<QStringList> &getMessage(int) const;
-	const QList<QList<int>> &getSocre(int) const;
+	const QList<QList<int>> &getScore(int) const;
 	const QList<QList<int>> &getTimeUsed(int) const;
 	const QList<QList<int>> &getMemoryUsed(int) const;
 	QDateTime getJudingTime() const;
@@ -49,6 +49,7 @@ class Contestant : public QObject {
 	void setJudgingTime(QDateTime);
 
 	void writeToStream(QDataStream &);
+	int readFromJson(const QJsonObject &);
 	void readFromStream(QDataStream &);
 
   private:

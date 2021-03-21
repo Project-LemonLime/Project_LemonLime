@@ -9,6 +9,7 @@
 
 #include "contestant.h"
 
+#include "base/LemonUtils.hpp"
 #include "core/contest.h"
 #include <utility>
 
@@ -30,7 +31,7 @@ auto Contestant::getResult(int index) const -> const QList<QList<ResultState>> &
 
 auto Contestant::getMessage(int index) const -> const QList<QStringList> & { return message[index]; }
 
-auto Contestant::getSocre(int index) const -> const QList<QList<int>> & { return score[index]; }
+auto Contestant::getScore(int index) const -> const QList<QList<int>> & { return score[index]; }
 
 auto Contestant::getTimeUsed(int index) const -> const QList<QList<int>> & { return timeUsed[index]; }
 
@@ -208,6 +209,29 @@ void Contestant::writeToStream(QDataStream &out) {
 			}
 		}
 	}
+}
+int Contestant::readFromJson(const QJsonObject &in) {
+	READ_JSON(in, contestantName);
+	READ_JSON(in, checkJudged);
+	READ_JSON(in, sourceFile);
+	READ_JSON(in, compileMesaage);
+	READ_JSON(in, inputFiles);
+	READ_JSON(in, message);
+	READ_JSON(in, score);
+	READ_JSON(in, timeUsed);
+	READ_JSON(in, memoryUsed);
+	int judgingTime_date = 0;
+	int judgingTime_time = 0;
+	int judgingTime_timespec = 0;
+	READ_JSON(in, judgingTime_date);
+	READ_JSON(in, judgingTime_time);
+	READ_JSON(in, judgingTime_timespec);
+	judgingTime =
+	    QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(judgingTime_time),
+	              Qt::TimeSpec(judgingTime_timespec));
+	READ_JSON(in, compileState);
+	READ_JSON(in, result);
+	return 0;
 }
 
 void Contestant::readFromStream(QDataStream &in) {

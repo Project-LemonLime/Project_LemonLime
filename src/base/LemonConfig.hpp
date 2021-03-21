@@ -34,7 +34,7 @@ namespace Lemon::base::config {
 		QString diffPath;
 
 	  public:
-		void read(const QJsonObject &json);
+		int read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
 	};
 
@@ -44,7 +44,7 @@ namespace Lemon::base::config {
 		// Prepare for theme setting
 		// QString theme = ;
 	  public:
-		void read(const QJsonObject &json);
+		int read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
 	};
 

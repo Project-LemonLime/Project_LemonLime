@@ -42,6 +42,7 @@ class Contest : public QObject {
 	void deleteContestant(const QString &);
 	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
+	int readFromJson(const QJsonObject &);
 
   private:
 	QString contestTitle;

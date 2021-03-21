@@ -129,7 +129,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		QList<QStringList> message = contestant->getMessage(i);
 		QList<QList<int>> timeUsed = contestant->getTimeUsed(i);
 		QList<QList<int>> memoryUsed = contestant->getMemoryUsed(i);
-		QList<QList<int>> score = contestant->getSocre(i);
+		QList<QList<int>> score = contestant->getScore(i);
 
 		for (int j = 0; j < inputFiles.size(); j++) {
 			for (int k = 0; k < inputFiles[j].size(); k++) {
@@ -490,7 +490,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 		QList<QStringList> message = contestant->getMessage(i);
 		QList<QList<int>> timeUsed = contestant->getTimeUsed(i);
 		QList<QList<int>> memoryUsed = contestant->getMemoryUsed(i);
-		QList<QList<int>> score = contestant->getSocre(i);
+		QList<QList<int>> score = contestant->getScore(i);
 
 		for (int j = 0; j < inputFiles.size(); j++) {
 			for (int k = 0; k < inputFiles[j].size(); k++) {

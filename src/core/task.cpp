@@ -9,6 +9,7 @@
 
 #include "task.h"
 
+#include "base/LemonUtils.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
 #include "core/testcase.h"
@@ -297,6 +298,78 @@ void Task::writeToStream(QDataStream &out) {
 	for (auto &i : testCaseList) {
 		i->writeToStream(out);
 	}
+}
+int Task::readFromJson(const QJsonObject &in) {
+	READ_JSON(in, problemTitle);
+	READ_JSON(in, sourceFileName);
+	READ_JSON(in, inputFileName);
+	READ_JSON(in, outputFileName);
+	READ_JSON(in, standardInputCheck);
+	READ_JSON(in, standardOutputCheck);
+	int taskType;
+	READ_JSON(in, taskType);
+	this->taskType = TaskType(taskType);
+	READ_JSON(in, subFolderCheck);
+	int comparisonMode;
+	READ_JSON(in, comparisonMode);
+	this->comparisonMode = ComparisonMode(comparisonMode);
+	READ_JSON(in, diffArguments);
+	READ_JSON(in, realPrecision);
+	READ_JSON(in, specialJudge);
+	specialJudge.replace('/', QDir::separator());
+	if (taskType == Task::Interaction) {
+		READ_JSON(in, interactor);
+		interactor.replace('/', QDir::separator());
+		READ_JSON(in, grader);
+		grader.replace('/', QDir::separator());
+		READ_JSON(in, interactorName);
+	}
+
+	if (taskType == Task::Communication) {
+		READ_JSON(in, sourceFilesPath);
+		READ_JSON(in, sourceFilesName);
+		for (auto &filePath : sourceFilesPath) {
+			filePath.replace('/', QDir::separator());
+		}
+
+		for (auto &fileName : sourceFilesName) {
+			fileName.replace('/', QDir::separator());
+		}
+
+		READ_JSON(in, graderFilesPath);
+		READ_JSON(in, graderFilesName);
+
+		for (auto &filePath : graderFilesPath) {
+			filePath.replace('/', QDir::separator());
+		}
+
+		for (auto &fileName : graderFilesName) {
+			fileName.replace('/', QDir::separator());
+		}
+	}
+
+	QJsonObject compilerConfiguration;
+	READ_JSON(in, compilerConfiguration);
+	for (const auto &i : compilerConfiguration.toVariantMap().toStdMap()) {
+		if (! i.second.canConvert(QMetaType::QString))
+			return -1;
+		this->compilerConfiguration[i.first] = i.second.toString();
+	}
+
+	READ_JSON(in, answerFileExtension);
+
+	testCaseList.clear();
+	QJsonArray testCases;
+	READ_JSON(in, testCases);
+	for (const auto &testCase : testCases) {
+		auto *newTestCase = new TestCase(this);
+		if (newTestCase->readFromJson(testCase.toObject()) == -1)
+			return -1;
+		newTestCase->setIndex(testCaseList.size() + 1);
+		testCaseList.append(newTestCase);
+	}
+
+	return 0;
 }
 
 void Task::readFromStream(QDataStream &in) {
