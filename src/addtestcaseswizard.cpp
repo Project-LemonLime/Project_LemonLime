@@ -172,7 +172,6 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 				QString regExp = ui->argumentList->item(index, 1)->text();
 
 				for (int j = i; j < str.length(); j++) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
 					regExp = QRegularExpression::anchoredPattern(regExp);
 					if (QRegularExpression(regExp).match(str.mid(i, j - i + 1)).hasMatch()) {
 						if (QRegularExpression(
@@ -184,15 +183,6 @@ auto AddTestCasesWizard::getMatchedPart(const QString &str, const QString &patte
 							break;
 						}
 					}
-#else
-					if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1))) {
-						if (QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1))) {
-							result[index] = str.mid(i, j - i + 1);
-							i = j;
-							break;
-						}
-					}
-#endif
 				}
 				pos += 2;
 			}
@@ -210,11 +200,7 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	QString regExp = getFullRegExp(inputFilesPattern);
 
 	for (int i = 0; i < inputFiles.size(); i++) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp)).match(inputFiles[i]).hasMatch())
-#else
-		if (! QRegExp(regExp).exactMatch(inputFiles[i]))
-#endif
 		{
 			inputFiles.removeAt(i);
 			i--;
@@ -224,13 +210,9 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	regExp = getFullRegExp(outputFilesPattern);
 
 	for (int i = 0; i < outputFiles.size(); i++) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
 		          .match(outputFiles[i])
 		          .hasMatch())
-#else
-		if (! QRegExp(regExp).exactMatch(outputFiles[i]))
-#endif
 		{
 			outputFiles.removeAt(i);
 			i--;
