@@ -19,12 +19,6 @@
 #include "core/testcase.h"
 #include <utility>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
-
 AssignmentThread::AssignmentThread(QObject *parent) : QThread(parent) {
 	moveToThread(this);
 	curTestCaseIndex = 0;
@@ -220,7 +214,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 						// TODO: 需要重构代码来处理含空格路径问题
 
 						compiler->start(i->getCompilerLocation(),
-						                arguments.split(QLatin1Char(' '), QT_SkipEmptyParts));
+						                arguments.split(QLatin1Char(' '), Qt::SkipEmptyParts));
 
 						if (! compiler->waitForStarted(-1)) {
 							compileState = InvalidCompiler;

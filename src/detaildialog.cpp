@@ -22,12 +22,6 @@
 #include <QMessageBox>
 #include <QScrollBar>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
-
 DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog) {
 	ui->setupUi(this);
 	connect(ui->detailViewer, &QTextBrowser::anchorClicked, this, &DetailDialog::anchorClicked);
@@ -259,7 +253,7 @@ void DetailDialog::showDialog() {
 }
 
 void DetailDialog::anchorClicked(const QUrl &url) {
-	QStringList list = url.path().split(' ', QT_SkipEmptyParts);
+	QStringList list = url.path().split(' ', Qt::SkipEmptyParts);
 
 	if (list[0] == "Rejudge") {
 		auto *dialog = new JudgingDialog(this);

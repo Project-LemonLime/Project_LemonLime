@@ -11,12 +11,6 @@
 //
 #include "base/LemonUtils.hpp"
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
-
 Compiler::Compiler(QObject *parent) : QObject(parent) {
 	compilerType = Typical;
 	timeLimitRatio = 1;
@@ -55,7 +49,7 @@ void Compiler::setCompilerType(Compiler::CompilerType type) { compilerType = typ
 void Compiler::setCompilerName(const QString &name) { compilerName = name; }
 
 void Compiler::setSourceExtensions(const QString &extensions) {
-	sourceExtensions = extensions.split(";", QT_SkipEmptyParts);
+	sourceExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Compiler::setCompilerLocation(const QString &location) { compilerLocation = location; }
@@ -63,7 +57,7 @@ void Compiler::setCompilerLocation(const QString &location) { compilerLocation =
 void Compiler::setInterpreterLocation(const QString &location) { interpreterLocation = location; }
 
 void Compiler::setBytecodeExtensions(const QString &extensions) {
-	bytecodeExtensions = extensions.split(";", QT_SkipEmptyParts);
+	bytecodeExtensions = extensions.split(";", Qt::SkipEmptyParts);
 }
 
 void Compiler::setEnvironment(const QProcessEnvironment &env) { environment = env; }
@@ -139,11 +133,7 @@ void Compiler::read(const QJsonObject &json) {
 
 	QStringList _environment;
 	if (json.contains("environment") && json["environment"].isString()) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
 		_environment = json["environment"].toString().split(QLatin1Char(';'), Qt::SkipEmptyParts);
-#else
-		_environment = json["environment"].toString().split(QLatin1Char(';'), QString::SkipEmptyParts);
-#endif
 	}
 
 	for (auto &i : _environment) {

@@ -16,12 +16,6 @@
 //
 #define LEMON_MODULE_NAME "Setting"
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
-
 Settings::Settings(QObject *parent) : QObject(parent) {}
 
 auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
@@ -262,12 +256,12 @@ void Settings::setDefaultOutputFileExtension(const QString &extension) {
 }
 
 void Settings::setInputFileExtensions(const QString &extensions) {
-	inputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+	inputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 	DEBUG("Set InputFile Extensions to " + extensions);
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions) {
-	outputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 	DEBUG("Set OutputFile Extensions to " + extensions);
 }
 
