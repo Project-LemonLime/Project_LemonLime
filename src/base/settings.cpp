@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2011-2018 Project Lemon, Zhipeng Jia
  *                         2018-2019 Project LemonPlus, Dust1404
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -15,16 +15,6 @@
 #include <cmath>
 //
 #define LEMON_MODULE_NAME "Setting"
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#define swapItemsAt swap
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
 
 Settings::Settings(QObject *parent) : QObject(parent) {}
 
@@ -266,12 +256,12 @@ void Settings::setDefaultOutputFileExtension(const QString &extension) {
 }
 
 void Settings::setInputFileExtensions(const QString &extensions) {
-	inputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+	inputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 	DEBUG("Set InputFile Extensions to " + extensions);
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions) {
-	outputFileExtensions = extensions.split(";", QT_SkipEmptyParts);
+	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
 	DEBUG("Set OutputFile Extensions to " + extensions);
 }
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2020  Project LemonLime
+ * SPDX-FileCopyrightText: 2020-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -44,16 +44,12 @@ namespace Lemon {
 		//
 		list << makeAbs("/usr/share/lemon-lime/" + dirName);
 		list << makeAbs("/usr/local/share/lemon-lime/" + dirName);
-		// For AppImage?
-		list << makeAbs(QCoreApplication::applicationDirPath() + "/../share/lemon-lime/" + dirName);
 		// For Snap
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 		if (qEnvironmentVariableIsSet("SNAP")) {
 			list << makeAbs(qEnvironmentVariable("SNAP") + "/usr/share/lemon-lime/" + dirName);
 		}
 		if (qEnvironmentVariableIsSet("APPIMAGE"))
 			list << makeAbs(QCoreApplication::applicationDirPath() + "/../share/lemon-lime/" + dirName);
-#endif
 #elif defined(Q_OS_MAC)
 		// macOS platform directories.
 		list << QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + dirName).absolutePath();

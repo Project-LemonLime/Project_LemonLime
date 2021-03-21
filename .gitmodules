@@ -1,3 +1,6 @@
 [submodule "3rdparty/SingleApplication"]
 	path = 3rdparty/SingleApplication
 	url = https://github.com/itay-grudev/SingleApplication.git
+[submodule "assets/Testlib-for-Lemons"]
+	path = assets/Testlib-for-Lemons
+	url = https://github.com/GitPinkRabbit/Testlib-for-Lemons.git

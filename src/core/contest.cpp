@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2011-2018 Project Lemon, Zhipeng Jia
  *                         2018-2019 Project LemonPlus, Dust1404
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -20,10 +20,6 @@
 //
 #include <QMessageBox>
 #include <utility>
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#define swapItemsAt swap
-#endif
 
 Contest::Contest(QObject *parent) : QObject(parent) {}
 

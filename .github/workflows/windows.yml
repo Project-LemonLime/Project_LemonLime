@@ -27,9 +27,6 @@ jobs:
         arch: [x86, x64]
         include:
           - platform: windows-latest
-            arch: x86
-            qtarch: win32_msvc2019
-          - platform: windows-latest
             arch: x64
             qtarch: win64_msvc2019_64
       fail-fast: false
@@ -72,7 +69,6 @@ jobs:
         with:
           version: ${{ matrix.qt_version }}
           arch: ${{ matrix.qtarch }}
-          mirror: 'http://mirrors.ocf.berkeley.edu/qt/'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
           setup-python: 'false'
 
@@ -90,29 +86,28 @@ jobs:
         shell: pwsh
         run: |
           # 创建文件夹
-          New-Item -ItemType Directory ${env:archiveName}
+          New-Item -ItemType Directory ${{ env.archiveName }}
           # 拷贝exe
-          Copy-Item ${env:targetName} ${env:archiveName}\
+          Copy-Item ${{ env.targetName }} ${{ env.archiveName}}\
           # 拷贝依赖
-          windeployqt --qmldir . ${env:archiveName}\${env:targetName}
+          windeployqt --qmldir . ${{ env.archiveName }}\${{ env.targetName }}
           # 打包zip
-          Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
-          # 记录环境变量packageName给后续step
-          $name = ${env:archiveName}
-          echo "packageName=\"$name\"" >> $GITHUB_ENV
-          # 打印环境变量packageName
-          Write-Host 'packageName:'${env:packageName}
+          Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
+        env:
+          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
-          path: ${{ env.packageName }}.zip
+          path: ${{ env.archiveName }}.zip
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
+        env:
+          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.packageName }}.zip
+          file: ./${{ env.archiveName }}.zip
           asset_name: lemon-win-${{matrix.arch}}-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true

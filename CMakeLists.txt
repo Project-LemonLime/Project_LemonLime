@@ -45,22 +45,10 @@ if(LEMON_QT6)
     set(LEMON_QT_LIBNAME Qt6)
     set(QT_MAJOR_VERSION 6)
     set(QT_DEFAULT_MAJOR_VERSION 6)
-    add_definitions(-DLEMON_QT6=1)
-    #From: https://github.com/KDE/kwin/blob/master/cmake/modules/FindXKB.cmake#L35
-    find_package(PkgConfig)
-    pkg_check_modules(PKG_XKB QUIET xkbcommon)
-    set(XKB_DEFINITIONS ${PKG_XKB_CFLAGS_OTHER})
-    find_path(XKB_INCLUDE_DIR NAMES xkbcommon/xkbcommon.h HINTS ${PKG_XKB_INCLUDE_DIRS})
-    find_library(XKB_LIBRARY NAMES xkbcommon HINTS ${PKG_XKB_LIBRARY_DIRS})
-    add_library(XKB::XKB UNKNOWN IMPORTED)
-    set_target_properties(XKB::XKB PROPERTIES
-        IMPORTED_LOCATION "${XKB_LIBRARY}"
-        INTERFACE_COMPILE_OPTIONS "${XKB_DEFINITIONS}"
-        INTERFACE_INCLUDE_DIRECTORIES "${XKB_INCLUDE_DIR}"
-        )
+    add_definitions(-DLEMON_QT6)
 else()
     set(LEMON_QT_MAJOR_VERSION 5)
-    set(LEMON_QT_MINOR_VERSION 10)
+    set(LEMON_QT_MINOR_VERSION 15)
     set(LEMON_QT_LIBNAME Qt5)
     set(QT_MAJOR_VERSION 5)
 endif()
@@ -254,7 +242,7 @@ if(WIN32 AND ENABLE_XLS_EXPORT AND NOT LEMON_QT6)
     add_definitions(-DENABLE_XLS_EXPORT)
 endif()
 
-target_link_libraries(lemon ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
+target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
 
 
 # ==================================================================================

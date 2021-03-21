@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2018-2019 Project LemonPlus, Dust1404
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -11,7 +11,7 @@
 
 #include <QWizard>
 #include <QtCore>
-#include <QtGui>
+#include <QtWidgets>
 
 namespace Ui {
 	class AddCompilerWizard;

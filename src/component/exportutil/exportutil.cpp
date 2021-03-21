@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2011-2018 Project Lemon, Zhipeng Jia
  *                         2018-2019 Project LemonPlus, Dust1404
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -24,12 +24,6 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-#define ENDL Qt::endl
-#else
-#define ENDL endl
-#endif
 
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
@@ -734,7 +728,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		    << ",";
 	}
 
-	out << "\"" << tr("Total Score") << "\"" << ENDL;
+	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
 
 	for (auto &i : sortList) {
 		Contestant *contestant = contest->getContestant(i.second);
@@ -758,9 +752,9 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		int score = contestant->getTotalScore();
 
 		if (score != -1) {
-			out << "\"" << score << "\"" << ENDL;
+			out << "\"" << score << "\"" << Qt::endl;
 		} else {
-			out << "\"" << tr("Invalid") << "\"" << ENDL;
+			out << "\"" << tr("Invalid") << "\"" << Qt::endl;
 		}
 	}
 
@@ -795,7 +789,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 		}
 	}
 
-	qSort(sortList);
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i++) {

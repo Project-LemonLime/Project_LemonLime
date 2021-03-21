@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -19,14 +19,12 @@
 
 int pid;
 
-void cleanUp(int dummy)
-{
+void cleanUp(int dummy) {
 	kill(pid, SIGKILL);
 	exit(0);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	int timeLimit, memoryLimit;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
@@ -34,8 +32,7 @@ int main(int argc, char *argv[])
 	memoryLimit *= 1024;
 	pid = fork();
 
-	if (pid > 0)
-	{
+	if (pid > 0) {
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
@@ -45,8 +42,7 @@ int main(int argc, char *argv[])
 		if (wait4(pid, &status, 0, &usage) == -1)
 			return 1;
 
-		if (WIFEXITED(status))
-		{
+		if (WIFEXITED(status)) {
 			if (WEXITSTATUS(status) == 1)
 				return 1;
 
@@ -59,8 +55,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		if (WIFSIGNALED(status))
-		{
+		if (WIFSIGNALED(status)) {
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss));
 
@@ -75,9 +70,7 @@ int main(int argc, char *argv[])
 
 			return 2;
 		}
-	}
-	else
-	{
+	} else {
 		if (strlen(argv[2]) > 0)
 			assert(freopen(argv[2], "r", stdin));
 
@@ -89,13 +82,10 @@ int main(int argc, char *argv[])
 
 		rlimit memlim, stalim, timlim;
 
-		if (memoryLimit > 0)
-		{
+		if (memoryLimit > 0) {
 			memlim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
 			stalim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
-		}
-		else
-		{
+		} else {
 			memlim = (rlimit){RLIM_INFINITY, RLIM_INFINITY};
 			stalim = (rlimit){(rlim_t)2147483647ll, (rlim_t)2147483647ll};
 		}

@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2011-2018 Project Lemon, Zhipeng Jia
  *                         2018-2019 Project LemonPlus, Dust1404
- *                         2019      Project LemonLime
+ *                         2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -21,12 +21,6 @@
 //
 #include <QMessageBox>
 #include <QScrollBar>
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define QT_SkipEmptyParts Qt::SkipEmptyParts
-#else
-#define QT_SkipEmptyParts QString::SkipEmptyParts
-#endif
 
 DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog) {
 	ui->setupUi(this);
@@ -259,7 +253,7 @@ void DetailDialog::showDialog() {
 }
 
 void DetailDialog::anchorClicked(const QUrl &url) {
-	QStringList list = url.path().split(' ', QT_SkipEmptyParts);
+	QStringList list = url.path().split(' ', Qt::SkipEmptyParts);
 
 	if (list[0] == "Rejudge") {
 		auto *dialog = new JudgingDialog(this);
