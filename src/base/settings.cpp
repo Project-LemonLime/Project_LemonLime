@@ -16,10 +16,6 @@
 //
 #define LEMON_MODULE_NAME "Setting"
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#define swapItemsAt swap
-#endif
-
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
 #define QT_SkipEmptyParts Qt::SkipEmptyParts
 #else

@@ -12,10 +12,6 @@
 #include "core/contest.h"
 #include <utility>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-#define swapItemsAt swap
-#endif
-
 Contestant::Contestant(QObject *parent) : QObject(parent) {}
 
 auto Contestant::getContestantName() const -> const QString & { return contestantName; }
