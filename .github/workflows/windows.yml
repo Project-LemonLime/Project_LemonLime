@@ -24,7 +24,7 @@ jobs:
         qt_version: [5.15.2]
         platform: [windows-latest]
         build_type: [Release, RelWithDebInfo]
-        arch: [x86, x64]
+        arch: [x64]
         include:
           - platform: windows-latest
             arch: x64
