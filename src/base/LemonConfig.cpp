@@ -12,7 +12,6 @@
 
 namespace Lemon::base::config {
 
-<<<<<<< HEAD
 	int LemonConfigJudge::read(const QJsonObject &json) {
 		READ_JSON(json, defaultFullScore);
 		READ_JSON(json, defaultTimeLimit);
@@ -21,18 +20,6 @@ namespace Lemon::base::config {
 		READ_JSON(json, specialJudgeTimeLimit);
 		READ_JSON(json, fileSizeLimit);
 		READ_JSON(json, rejudgeTimes);
-=======
-	void LemonConfigJudge::read(const QJsonObject &json) {
-		READ_JSON_INT(defaultFullScore)
-		READ_JSON_INT(defaultTimeLimit)
-		READ_JSON_INT(defaultMemoryLimit)
-		READ_JSON_INT(compileTimeLimit)
-		READ_JSON_INT(specialJudgeTimeLimit)
-		READ_JSON_INT(fileSizeLimit)
-		READ_JSON_INT(rejudgeTimes)
-        
-		READ_JSON_DOUBLE(defaultExtraTimeRatio)
->>>>>>> 4862b98 (fix(config): add lost defaultExtraTimeRatio)
 
 		READ_JSON(json, defaultInputFileExtension);
 		READ_JSON(json, defaultOutputFileExtension);
