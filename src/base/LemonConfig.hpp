@@ -26,6 +26,7 @@ namespace Lemon::base::config {
 		int specialJudgeTimeLimit{};
 		int fileSizeLimit{};
 		int rejudgeTimes{};
+        double defaultExtraTimeRatio{};
 		QString defaultInputFileExtension;
 		QString defaultOutputFileExtension;
 		QStringList inputFileExtensions;
@@ -42,7 +43,9 @@ namespace Lemon::base::config {
 	  private:
 		QString language = "en_US";
 		// Prepare for theme setting
-		// QString theme = ;
+		// TODO: Theme support
+		QString theme = "";
+
 	  public:
 		int read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
