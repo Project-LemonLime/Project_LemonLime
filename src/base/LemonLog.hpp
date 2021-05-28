@@ -9,6 +9,7 @@
 #pragma once
 
 #include <QString>
+#include <QPair>
 #include <QTextStream>
 #include <iostream>
 //
