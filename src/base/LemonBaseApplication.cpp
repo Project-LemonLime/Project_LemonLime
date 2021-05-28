@@ -88,9 +88,8 @@ auto LemonBaseApplication::parseCommandLine(bool *canContinue, QString *errorMes
 		return true;
 	}
 
-
 #define ProcessExtraStartupOptions(option)                                                                   \
-	DEBUG("Startup Options:" GEN_PAIR(parser.isSet(option##Option)));                                             \
+	DEBUG("Startup Options:" GEN_PAIR(parser.isSet(option##Option)));                                        \
 	StartupArguments.option = parser.isSet(option##Option);
 
 	ProcessExtraStartupOptions(debugLog);
