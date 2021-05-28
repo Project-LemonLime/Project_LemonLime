@@ -8,38 +8,22 @@
 #pragma once
 //
 #include <SingleApplication>
+//
+#include "base/LemonApplicationInterface.hpp"
 
 namespace Lemon {
-	struct LemonStartupArguments {
-		enum Argument {
-			NORMAL = 0,
-			EXIT = 1,
-			LEMON_LINK = 2 // Maybe support URL...
-		};
-		QList<Argument> arguments;
-		QString version;
-		int buildVersion;
-		QString data;
-		QList<QString> links;
-		QList<QString> fullArgs;
-		//
-		bool debugLog;
-		bool exitLemon;
-	};
-} // namespace Lemon
-
-class LemonBaseApplication : public SingleApplication {
+class LemonBaseApplication : public SingleApplication, public LemonApplicationInterface {
 	Q_OBJECT
 
   public:
 	LemonBaseApplication(int &argc, char *argv[])
-	    : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion){};
+	    : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion), LemonApplicationInterface(){};
 	virtual ~LemonBaseApplication(){};
-
-	Lemon::LemonStartupArguments StartupArguments;
 
 	virtual bool Initialize() final;
 
   private:
 	bool parseCommandLine(bool *canContinue, QString *errorMessage);
 };
+} // namespace Lemon
+

@@ -14,6 +14,7 @@ set(LEMON_BASE_HEADERS
     ${LEMON_BASEDIR_BASE}/LemonTranslator.hpp
     ${LEMON_BASEDIR_BASE}/LemonUtils.hpp
     ${LEMON_BASEDIR_BASE}/LemonBaseApplication.hpp
+    ${LEMON_BASEDIR_BASE}/LemonApplicationInterface.hpp
     )
 
 set(LEMON_BASE_SOURCES
@@ -23,6 +24,7 @@ set(LEMON_BASE_SOURCES
     ${LEMON_BASEDIR_BASE}/LemonTranslator.cpp
     ${LEMON_BASEDIR_BASE}/LemonUtils.cpp
     ${LEMON_BASEDIR_BASE}/LemonBaseApplication.cpp
+    ${LEMON_BASEDIR_BASE}/LemonApplicationInterface.cpp
     )
 
 add_library(lemon-base STATIC

@@ -25,13 +25,7 @@ int main(int argc, char *argv[]) {
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 
-	LemonBaseApplication app(argc, argv);
-
-	LOG("LemonLime " LEMON_VERSION_STRING " on " + QSysInfo::prettyProductName() + " " +
-	    QSysInfo::currentCpuArchitecture());
-	DEBUG("LemonLime Start Time: " + QString::number(QTime::currentTime().msecsSinceStartOfDay()));
-	DEBUG(LEMON_BUILD_INFO);
-	DEBUG(LEMON_BUILD_EXTRA_INFO);
+	Lemon::LemonBaseApplication app(argc, argv);
 
 	app.Initialize();
 
