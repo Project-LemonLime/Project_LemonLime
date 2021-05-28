@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
 
 	Lemon::LemonBaseApplication app(argc, argv);
 
+	Lemon::base::app = &app;
+
 	app.Initialize();
 
 	if (app.sendMessage("")) {
