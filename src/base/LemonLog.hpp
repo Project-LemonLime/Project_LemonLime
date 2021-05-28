@@ -11,23 +11,28 @@
 #include <QString>
 #include <QTextStream>
 #include <iostream>
+//
+#include <base/LemonMacro.hpp>
+#include <base/LemonBaseApplication.hpp>
 
 #define NEWLINE "\r\n"
-#define ___LOG_EXPAND(___x)                                                                                  \
-	, std::pair {                                                                                            \
-#___x, [&] { return ___x; }()                                                                        \
-	}
+#define ___LOG_EXPAND(___x) , QPair<std::string, decltype(___x)>(std::string(#___x), [&] { return ___x; }())
+
+// Generate pairs for each variable passed as args to use in the log.
+// with line 73: QTextStream &operator<<(QTextStream &stream, const std::pair<TKey, TVal> &pair)
 #define A(...) FOREACH_CALL_FUNC(___LOG_EXPAND, __VA_ARGS__)
 
 #ifdef QT_DEBUG
 #define LEMON_IS_DEBUG true
 // __FILE__ ":" QT_STRINGIFY(__LINE__),
+// https://doc.qt.io/qt-5/qtglobal.html#Q_FUNC_INFO
 #define LEMON_LOG_PREPEND_CONTENT Q_FUNC_INFO,
 #else
 #define LEMON_IS_DEBUG false
 #define LEMON_LOG_PREPEND_CONTENT
 #endif
 
+// prepend module name in log
 #define _LOG_ARG_(...) LEMON_LOG_PREPEND_CONTENT "[" LEMON_MODULE_NAME "]", __VA_ARGS__
 
 #define LOG(...) Lemon::base::log_concat<LEMON_LOG_NORMAL>(_LOG_ARG_(__VA_ARGS__))
@@ -51,7 +56,7 @@ namespace Lemon::base {
 		logStream << NEWLINE;
 #ifndef QT_DEBUG
 		// We only process DEBUG log in Release mode
-		if (t == LEMON_LOG_DEBUG /* && !StartupOption.debugLog */) {
+		if (t == LEMON_LOG_DEBUG && LemonBaseApplication && !LemonBaseApplication->StartupArguments.debugLog) {
 			// Discard debug log in non-debug Lemon version with
 			// no-debugLog mode.
 			return;
