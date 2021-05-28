@@ -8,13 +8,13 @@
 
 #pragma once
 
-#include <QString>
 #include <QPair>
+#include <QString>
 #include <QTextStream>
 #include <iostream>
 //
-#include <base/LemonMacro.hpp>
 #include <base/LemonBaseApplication.hpp>
+#include <base/LemonMacro.hpp>
 
 #define NEWLINE "\r\n"
 #define ___LOG_EXPAND(___x) , QPair<std::string, decltype(___x)>(std::string(#___x), [&] { return ___x; }())
@@ -57,7 +57,8 @@ namespace Lemon::base {
 		logStream << NEWLINE;
 #ifndef QT_DEBUG
 		// We only process DEBUG log in Release mode
-		if (t == LEMON_LOG_DEBUG && LemonCoreApplication && !LemonCoreApplication->StartupArguments.debugLog) {
+		if (t == LEMON_LOG_DEBUG && LemonCoreApplication &&
+		    ! LemonCoreApplication->StartupArguments.debugLog) {
 			// Discard debug log in non-debug Lemon version with
 			// no-debugLog mode.
 			return;
