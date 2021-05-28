@@ -5,7 +5,6 @@
  *
  */
 
-
 #pragma once
 
 #define CONCATENATE1(arg1, arg2) CONCATENATE2(arg1, arg2)

@@ -12,18 +12,18 @@
 #include "base/LemonApplicationInterface.hpp"
 
 namespace Lemon {
-class LemonBaseApplication : public SingleApplication, public LemonApplicationInterface {
-	Q_OBJECT
+	class LemonBaseApplication : public SingleApplication, public LemonApplicationInterface {
+		Q_OBJECT
 
-  public:
-	LemonBaseApplication(int &argc, char *argv[])
-	    : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion), LemonApplicationInterface(){};
-	virtual ~LemonBaseApplication(){};
+	  public:
+		LemonBaseApplication(int &argc, char *argv[])
+		    : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion),
+		      LemonApplicationInterface(){};
+		virtual ~LemonBaseApplication(){};
 
-	virtual bool Initialize() final;
+		virtual bool Initialize() final;
 
-  private:
-	bool parseCommandLine(bool *canContinue, QString *errorMessage);
-};
+	  private:
+		bool parseCommandLine(bool *canContinue, QString *errorMessage);
+	};
 } // namespace Lemon
-
