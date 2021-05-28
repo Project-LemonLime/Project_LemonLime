@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <QString>
 #include <QPair>
+#include <QString>
 #include <QTextStream>
 #include <iostream>
 //
