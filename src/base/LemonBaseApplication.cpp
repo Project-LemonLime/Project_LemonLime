@@ -22,7 +22,7 @@ auto LemonBaseApplication::Initialize() -> bool {
 	bool canContinue;
 	const auto hasError = parseCommandLine(&canContinue, &errorMessage);
 	if (hasError) {
-		// LOG("Command line: " + A(errorMessage));
+		LOG("Command line: " A(errorMessage));
 		if (! canContinue) {
 			LOG("Fatal Error, LemonLime cannot continue.");
 			return false;
@@ -88,13 +88,11 @@ auto LemonBaseApplication::parseCommandLine(bool *canContinue, QString *errorMes
 		return true;
 	}
 
-	/*
+
 #define ProcessExtraStartupOptions(option)                                                                   \
-	DEBUG("Startup Options:" + A(parser.isSet(option##Option)));                                             \
+	DEBUG("Startup Options:" A(parser.isSet(option##Option)));                                             \
 	StartupArguments.option = parser.isSet(option##Option);
 
 	ProcessExtraStartupOptions(debugLog);
-	*/
-	StartupArguments.debugLog = parser.isSet(debugLogOption);
 	return true;
 }

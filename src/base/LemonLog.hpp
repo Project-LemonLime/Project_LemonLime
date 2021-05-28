@@ -70,7 +70,7 @@ namespace Lemon::base {
 } // namespace Lemon::base
 
 template <typename TKey, typename TVal>
-QTextStream &operator<<(QTextStream &stream, const std::pair<TKey, TVal> &pair) {
+QTextStream &operator<<(QTextStream &stream, const QPair<TKey, TVal> &pair) {
 	return stream << pair.first << ": " << pair.second;
 }
 
@@ -80,7 +80,7 @@ template <typename TKey, typename TVal>
 QTextStream &operator<<(QTextStream &stream, const QMap<TKey, TVal> &map) {
 	stream << "{ ";
 	for (const auto &[k, v] : map.toStdMap())
-		stream << std::pair(k, v) << "; ";
+		stream << QPair(k, v) << "; ";
 	stream << "}";
 	return stream;
 }
