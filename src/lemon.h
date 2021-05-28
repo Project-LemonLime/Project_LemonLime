@@ -42,6 +42,7 @@ class LemonLime : public QMainWindow {
 	QSignalMapper *signalMapper;
 	QMenu *TaskMenu;
 	QList<QAction *> TaskList;
+	QTimer autoSaveTimer;
 	void judgeExtButtonFlip(bool);
 	void loadUiLanguage();
 	void insertWatchPath(const QString &, QFileSystemWatcher *);

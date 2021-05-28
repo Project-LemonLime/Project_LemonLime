@@ -39,6 +39,7 @@
 #include <QTextBrowser>
 #include <QUrl>
 #include <algorithm>
+#include <chrono>
 //
 #define LEMON_MODULE_NAME "Lemon"
 
@@ -96,6 +97,13 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	QSettings settings("LemonLime", "lemon");
 	QSize _size = settings.value("WindowSize", size()).toSize();
 	resize(_size);
+
+	autoSaveTimer.callOnTimeout([this]() {
+		if (curContest)
+			saveAction();
+	});
+	using namespace std::chrono_literals;
+	autoSaveTimer.start(30s);
 }
 
 LemonLime::~LemonLime() {
