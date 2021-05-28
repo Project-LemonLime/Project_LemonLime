@@ -20,7 +20,7 @@
 
 // Generate pairs for each variable passed as args to use in the log.
 // with line 73: QTextStream &operator<<(QTextStream &stream, const std::pair<TKey, TVal> &pair)
-#define A(...) FOREACH_CALL_FUNC(___LOG_EXPAND, __VA_ARGS__)
+#define GEN_PAIR(...) FOREACH_CALL_FUNC(___LOG_EXPAND, __VA_ARGS__)
 
 #ifdef QT_DEBUG
 #define LEMON_IS_DEBUG true
