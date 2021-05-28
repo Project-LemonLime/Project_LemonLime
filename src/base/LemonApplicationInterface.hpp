@@ -7,9 +7,9 @@
 
 #pragma once
 //
-#include <QString>
 #include <QList>
 #include <QObject>
+#include <QString>
 
 namespace Lemon {
 	struct LemonStartupArguments {
