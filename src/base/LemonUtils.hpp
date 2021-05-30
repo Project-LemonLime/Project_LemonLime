@@ -96,9 +96,7 @@ namespace Lemon::detail {
 		else
 			return -1;
 	}
-	inline void jsonWriteHelper(const QStringList &val, QJsonValue &jval) {
-		jsonWriteHelper(static_cast<QList<QString>>(val), jval);
-	}
+
 	template <typename T> void jsonWriteHelper(const QList<T> &val, QJsonValue &jval) {
 		QJsonArray arr;
 		for (const T &i : val) {
@@ -107,6 +105,10 @@ namespace Lemon::detail {
 			arr.append(x);
 		}
 		jval = arr;
+	}
+	inline void jsonWriteHelper(const QStringList &val, QJsonValue &jval) {
+		QList<QString> s = val;
+		jsonWriteHelper(s, jval);
 	}
 	template <typename T> void jsonWriteHelper(const T &val, QJsonValue &jval) {
 		if constexpr (std::is_integral_v<T> || std::is_floating_point_v<T> ||
