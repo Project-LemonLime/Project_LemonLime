@@ -106,6 +106,30 @@ void TestCase::deleteSingleCase(int index) {
 	outputFiles.removeAt(index);
 }
 
+int TestCase::writeToJson(QJsonObject &out) {
+	WRITE_JSON(out, fullScore);
+	WRITE_JSON(out, timeLimit);
+	WRITE_JSON(out, memoryLimit);
+
+	QStringList inputFiles = this->inputFiles;
+	for (auto &filename : inputFiles) {
+		filename.replace('/', QDir::separator());
+	}
+	for (int i : qAsConst(dependenceSubtask)) {
+		inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
+	}
+
+	WRITE_JSON(out, inputFiles);
+
+	QStringList outputFiles = this->outputFiles;
+
+	for (auto &filename : inputFiles) {
+		filename.replace('/', QDir::separator());
+	}
+
+	WRITE_JSON(out, outputFiles);
+	return 0;
+}
 void TestCase::writeToStream(QDataStream &out) {
 	out << fullScore;
 	out << timeLimit;

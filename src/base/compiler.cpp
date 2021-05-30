@@ -131,16 +131,14 @@ int Compiler::read(const QJsonObject &json) {
 	READ_JSON(json, compilerArguments);
 	READ_JSON(json, interpreterArguments);
 
-	QStringList _environment;
-	if (json.contains("environment") && json["environment"].isString()) {
-		_environment = json["environment"].toString().split(QLatin1Char(';'), Qt::SkipEmptyParts);
-	}
+	QStringList environment;
+	READ_JSON(json, environment);
 
-	for (auto &i : _environment) {
+	for (auto &i : environment) {
 		int tmp = i.indexOf('=');
 		QString variable = i.mid(0, tmp);
 		QString value = i.mid(tmp + 1);
-		environment.insert(variable, value);
+		this->environment.insert(variable, value);
 	}
 
 	READ_JSON(json, timeLimitRatio);
@@ -150,20 +148,20 @@ int Compiler::read(const QJsonObject &json) {
 }
 
 void Compiler::write(QJsonObject &json) const {
-	WRITE_JSON(json, compilerType)
-	WRITE_JSON(json, compilerName)
-	WRITE_JSON(json, compilerLocation)
-	WRITE_JSON(json, interpreterLocation)
+	WRITE_JSON(json, compilerType);
+	WRITE_JSON(json, compilerName);
+	WRITE_JSON(json, compilerLocation);
+	WRITE_JSON(json, interpreterLocation);
 
-	WRITE_JSON_STRLIST(json, sourceExtensions)
-	WRITE_JSON_STRLIST(json, bytecodeExtensions)
-	WRITE_JSON_STRLIST(json, configurationNames)
-	WRITE_JSON_STRLIST(json, compilerArguments)
-	WRITE_JSON_STRLIST(json, interpreterArguments)
+	WRITE_JSON(json, sourceExtensions);
+	WRITE_JSON(json, bytecodeExtensions);
+	WRITE_JSON(json, configurationNames);
+	WRITE_JSON(json, compilerArguments);
+	WRITE_JSON(json, interpreterArguments);
 
-	WRITE_JSON_STRLIST(json, environment.toStringList())
+	WRITE_JSON(json, environment.toStringList());
 
-	WRITE_JSON(json, timeLimitRatio)          // double
-	WRITE_JSON(json, memoryLimitRatio)        // double
-	WRITE_JSON(json, disableMemoryLimitCheck) // bool
+	WRITE_JSON(json, timeLimitRatio);          // double
+	WRITE_JSON(json, memoryLimitRatio);        // double
+	WRITE_JSON(json, disableMemoryLimitCheck); // bool
 }
