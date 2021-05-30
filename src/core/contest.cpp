@@ -354,6 +354,29 @@ void Contest::writeToStream(QDataStream &out) {
 		i->writeToStream(out);
 	}
 }
+void Contest::writeToJson(QJsonObject &out) {
+	WRITE_JSON(out, contestTitle);
+
+	QJsonArray tasks;
+
+	for (const auto &i : taskList) {
+		QJsonObject obj;
+		i->writeToJson(obj);
+		tasks.append(obj);
+	}
+
+	WRITE_JSON(out, tasks);
+
+	QJsonArray contestants;
+
+	for (const auto &i : contestantList) {
+		QJsonObject obj;
+		i->writeToJson(out);
+		contestants.append(obj);
+	}
+
+	WRITE_JSON(out, contestants);
+}
 int Contest::readFromJson(const QJsonObject &in) {
 	READ_JSON(in, contestTitle);
 

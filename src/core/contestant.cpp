@@ -176,7 +176,26 @@ auto Contestant::getTotalUsedTime() const -> int {
 
 	return total;
 }
-
+int Contestant::writeToJson(QJsonObject &out) {
+	WRITE_JSON(out, contestantName);
+	WRITE_JSON(out, checkJudged);
+	WRITE_JSON(out, sourceFile);
+	WRITE_JSON(out, compileMesaage);
+	WRITE_JSON(out, inputFiles);
+	WRITE_JSON(out, message);
+	WRITE_JSON(out, score);
+	WRITE_JSON(out, timeUsed);
+	WRITE_JSON(out, memoryUsed);
+	int judgingTime_date = judgingTime.date().toJulianDay();
+	int judgingTime_time = judgingTime.time().msecsSinceStartOfDay();
+	int judgingTime_timespec = judgingTime.timeSpec();
+	WRITE_JSON(out, judgingTime_date);
+	WRITE_JSON(out, judgingTime_time);
+	WRITE_JSON(out, judgingTime_timespec);
+	WRITE_JSON(out, compileState);
+	WRITE_JSON(out, result);
+	return 0;
+}
 void Contestant::writeToStream(QDataStream &out) {
 	out << contestantName;
 	out << checkJudged;
