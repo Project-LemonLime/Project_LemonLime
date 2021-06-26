@@ -11,10 +11,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <errno.h>
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/sysctl.h>
 #include <unistd.h>
 
 int pid;
@@ -24,12 +26,28 @@ void cleanUp(int dummy) {
 	exit(0);
 }
 
+int processIsTranslated() {
+	int ret = 0;
+	size_t size = sizeof(ret);
+	if (sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0) == -1) 
+	{
+		if (errno == ENOENT)
+			return 0;
+		return -1;
+	}
+	return ret;
+}
+
 int main(int argc, char *argv[]) {
+	int isARM = processIsTranslated();
+	if (isARM == -1)
+		return 1;
+
 	int timeLimit, memoryLimit;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
-	memoryLimit *= 1024;
+	memoryLimit *= 1024 * (isARM ? 4 : 1);
 	pid = fork();
 
 	if (pid > 0) {
@@ -47,7 +65,7 @@ int main(int argc, char *argv[]) {
 				return 1;
 
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss));
+			printf("%d\n", (int)(usage.ru_maxrss) / (isARM ? 4 : 1));
 
 			if (WEXITSTATUS(status) != 0)
 				return 2;
@@ -57,7 +75,7 @@ int main(int argc, char *argv[]) {
 
 		if (WIFSIGNALED(status)) {
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss));
+			printf("%d\n", (int)(usage.ru_maxrss) / (isARM ? 4 : 1));
 
 			if (WTERMSIG(status) == SIGXCPU)
 				return 3;
