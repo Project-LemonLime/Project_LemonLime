@@ -13,10 +13,10 @@
 #include <cstring>
 #include <errno.h>
 #include <sys/resource.h>
+#include <sys/sysctl.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/sysctl.h>
 #include <unistd.h>
 
 int pid;
@@ -30,8 +30,7 @@ void cleanUp(int dummy)
 int processIsTranslated() {
 	int ret = 0;
 	size_t size = sizeof(ret);
-	if (sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0) == -1) 
-	{
+	if (sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0) == -1) {
 		if (errno == ENOENT)
 			return 0;
 		return -1;
@@ -96,13 +95,13 @@ int main(int argc, char *argv[]) {
 	else
 	{
 		if (strlen(argv[2]) > 0)
-			assert(freopen(argv[2], "r", stdin));
+			freopen(argv[2], "r", stdin);
 
 		if (strlen(argv[3]) > 0)
-			assert(freopen(argv[3], "w", stdout));
+			freopen(argv[3], "w", stdout);
 
 		if (strlen(argv[4]) > 0)
-			assert(freopen(argv[4], "w", stderr));
+			freopen(argv[4], "w", stderr);
 
 		rlimit memlim, stalim, timlim;
 
