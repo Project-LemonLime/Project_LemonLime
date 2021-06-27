@@ -79,13 +79,13 @@ auto main(int  /*argc*/, char *argv[]) -> int
 	else
 	{
 		if (strlen(argv[2]) > 0)
-			assert(freopen(argv[2], "r", stdin));
+			freopen(argv[2], "r", stdin);
 
 		if (strlen(argv[3]) > 0)
-			assert(freopen(argv[3], "w", stdout));
+			freopen(argv[3], "w", stdout);
 
 		if (strlen(argv[4]) > 0)
-			assert(freopen(argv[4], "w", stderr));
+			freopen(argv[4], "w", stderr);
 
 		rlimit memlim{}, stalim{}, timlim{};
 
