@@ -16,6 +16,83 @@
 //
 #define LEMON_MODULE_NAME "Setting"
 
+ColorTheme::ColorTheme(QObject *parent) : QObject(parent) {}
+
+void ColorTheme::setColor(hslTuple _mx, hslTuple _mi, hslTuple _nf, hslTuple _ce, dddTuple _gc,
+                          dddTuple _gr) {
+	mxColor = _mx;
+	miColor = _mi;
+	nfColor = _nf;
+	ceColor = _ce;
+	colorNf = _nf.toHsl();
+	colorCe = _ce.toHsl();
+	grandComp = _gc;
+	grandRate = _gr;
+}
+
+void ColorTheme::setName(QString newName) { name = newName; }
+
+QString ColorTheme::getName() const { return name; }
+
+hslTuple ColorTheme::getMxColor() const { return mxColor; }
+
+hslTuple ColorTheme::getMiColor() const { return miColor; }
+
+hslTuple ColorTheme::getNfColor() const { return nfColor; }
+
+hslTuple ColorTheme::getCeColor() const { return ceColor; }
+
+dddTuple ColorTheme::getGrandComp() const { return grandComp; }
+
+dddTuple ColorTheme::getGrandRate() const { return grandRate; }
+
+QColor ColorTheme::getColorNf() const { return colorNf; }
+
+QColor ColorTheme::getColorCe() const { return colorCe; }
+
+void ColorTheme::copyFrom(ColorTheme *others) {
+	setName(others->getName());
+	setColor(others->getMxColor(), others->getMiColor(), others->getNfColor(), others->getCeColor(),
+	         others->getGrandComp(), others->getGrandRate());
+}
+
+double makePer(double p, double l, double r, double bound, double distanRate = 1.00, double resComp = 0.00) {
+	double distan = distanRate * (r - l) / bound / 110.00;
+	double res = (resComp + l) / bound + 100.00 * p * distan;
+	if (p > 0)
+		res += distan * 5;
+	if (p >= 1 - 1e-12)
+		res += distan * 5;
+	while (res < -1e-12)
+		res += 1;
+	while (res > 1 + 1e-12)
+		res -= 1;
+	res = fmax(0, fmin(res, 1));
+	return res;
+}
+
+QColor ColorTheme::getColorPer(double p) const {
+	if (qIsNaN(p) || qIsInf(p))
+		p = 0;
+
+	return QColor::fromHslF(makePer(p, miColor.h, mxColor.h, 360.00),
+	                        makePer(p, miColor.s, mxColor.s, 100.00),
+	                        makePer(p, miColor.l, mxColor.l, 100.00));
+}
+
+QColor ColorTheme::getColorGrand(double p) const {
+	if (qIsNaN(p) || qIsInf(p))
+		p = 0;
+
+	return QColor::fromHslF(makePer(p, miColor.h, mxColor.h, 360.00, grandRate.h, grandComp.h),
+	                        makePer(p, miColor.s, mxColor.s, 100.00, grandRate.s, grandComp.s),
+	                        makePer(p, miColor.l, mxColor.l, 100.00, grandRate.l, grandComp.l));
+}
+
+QColor ColorTheme::getColorPer(double a, double b) const { return getColorPer(a / b); }
+
+QColor ColorTheme::getColorGrand(double a, double b) const { return getColorGrand(a / b); }
+
 Settings::Settings(QObject *parent) : QObject(parent) {}
 
 auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
@@ -46,165 +123,15 @@ auto Settings::getRecentContest() const -> const QStringList & { return recentCo
 
 auto Settings::getCompilerList() const -> const QList<Compiler *> & { return compilerList; }
 
+const QList<ColorTheme *> &Settings::getColorThemeList() const { return colorThemeList; }
+
+const ColorTheme *Settings::getCurrentColorTheme() const { return colorThemeList[currentColorTheme]; }
+
 auto Settings::getUiLanguage() const -> const QString & { return uiLanguage; }
 
 auto Settings::getDiffPath() const -> const QString & { return diffPath; }
 
-auto Settings::getColorMxH() const -> int { return colorMxH; }
-
-auto Settings::getColorMxS() const -> double { return colorMxS; }
-
-auto Settings::getColorMxL() const -> double { return colorMxL; }
-
-auto Settings::getColorMiH() const -> int { return colorMiH; }
-
-auto Settings::getColorMiS() const -> double { return colorMiS; }
-
-auto Settings::getColorMiL() const -> double { return colorMiL; }
-
-auto Settings::getColorNfH() const -> int { return colorNfH; }
-
-auto Settings::getColorNfS() const -> double { return colorNfS; }
-
-auto Settings::getColorNfL() const -> double { return colorNfL; }
-
-auto Settings::getColorCeH() const -> int { return colorCeH; }
-
-auto Settings::getColorCeS() const -> double { return colorCeS; }
-
-auto Settings::getColorCeL() const -> double { return colorCeL; }
-
-auto Settings::getGrandCompH() const -> double { return grandCompH; }
-
-auto Settings::getGrandCompS() const -> double { return grandCompS; }
-
-auto Settings::getGrandCompL() const -> double { return grandCompL; }
-
-auto Settings::getGrandRateH() const -> double { return grandRateH; }
-
-auto Settings::getGrandRateS() const -> double { return grandRateS; }
-
-auto Settings::getGrandRateL() const -> double { return grandRateL; }
-
 auto Settings::getSplashTime() const -> int { return splashTime; }
-
-auto Settings::getColorMx() const -> QColor {
-	return QColor::fromHslF(colorMxH / 360.00, colorMxS / 100.00, colorMxL / 100.00);
-}
-
-auto Settings::getColorMi() const -> QColor {
-	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, colorMiL / 100.00);
-}
-
-auto Settings::getColorNf() const -> QColor {
-	return QColor::fromHslF(colorNfH / 360.00, colorNfS / 100.00, colorNfL / 100.00);
-}
-
-auto Settings::getColorCe() const -> QColor {
-	return QColor::fromHslF(colorCeH / 360.00, colorCeS / 100.00, colorCeL / 100.00);
-}
-
-auto Settings::getColorAntiMi() const -> QColor {
-	return QColor::fromHslF(colorMiH / 360.00, colorMiS / 100.00, 1.00 - colorMiL / 100.00);
-}
-
-auto Settings::getColorPer(double p) const -> QColor {
-	if (qIsNaN(p) || qIsInf(p))
-		p = 0;
-
-	double distan = NAN;
-	double h = NAN;
-	double s = NAN;
-	double l = NAN;
-	distan = (colorMxH - colorMiH) / 360.00 / 110.00;
-	h = colorMiH / 360.00 + 100 * p * distan;
-
-	if (p > 0)
-		h += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		h += distan * 5;
-
-	distan = (colorMxS - colorMiS) / 100.00 / 110.00;
-	s = colorMiS / 100.00 + 100 * p * distan;
-
-	if (p > 0)
-		s += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		s += distan * 5;
-
-	distan = (colorMxL - colorMiL) / 100.00 / 110.00;
-	l = colorMiL / 100.00 + 100 * p * distan;
-
-	if (p > 0)
-		l += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		l += distan * 5;
-
-	while (h < -1e-12)
-		h += 1;
-
-	while (h > 1 + 1e-12)
-		h -= 1;
-
-	h = fmax(0, fmin(h, 1));
-	s = fmax(0, fmin(s, 1));
-	l = fmax(0, fmin(l, 1));
-	return QColor::fromHslF(h, s, l);
-}
-
-auto Settings::getColorGrand(double p) const -> QColor {
-	if (qIsNaN(p) || qIsInf(p))
-		p = 0;
-
-	double distan = NAN;
-	double h = NAN;
-	double s = NAN;
-	double l = NAN;
-	distan = grandRateH * (colorMxH - colorMiH) / 360.00 / 110.00;
-	h = grandCompH / 360.00 + colorMiH / 360.00 + 100 * p * distan;
-
-	if (p > 0)
-		h += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		h += distan * 5;
-
-	distan = grandRateS * (colorMxS - colorMiS) / 100.00 / 110.00;
-	s = grandCompS / 100.00 + colorMiS / 100.00 + 100 * p * distan;
-
-	if (p > 0)
-		s += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		s += distan * 5;
-
-	distan = grandRateL * (colorMxL - colorMiL) / 100.00 / 110.00;
-	l = grandCompL / 100.0 + colorMiL / 100.00 + 100 * p * distan;
-
-	if (p > 0)
-		l += distan * 5;
-
-	if (p >= 1 - 1e-12)
-		l += distan * 5;
-
-	while (h < -1e-12)
-		h += 1;
-
-	while (h > 1 + 1e-12)
-		h -= 1;
-
-	h = fmax(0, fmin(h, 1));
-	s = fmax(0, fmin(s, 1));
-	l = fmax(0, fmin(l, 1));
-	return QColor::fromHslF(h, s, l);
-}
-
-auto Settings::getColorPer(double a, double b) const -> QColor { return getColorPer(a / b); }
-
-auto Settings::getColorGrand(double a, double b) const -> QColor { return getColorGrand(a / b); }
 
 void Settings::setDefaultFullScore(int score) {
 	defaultFullScore = score;
@@ -300,41 +227,40 @@ void Settings::swapCompiler(int a, int b) {
 	}
 }
 
-void Settings::setColorMxH(int x) { colorMxH = x; }
+void Settings::addColorTheme(ColorTheme *colortheme) {
+	colortheme->setParent(this);
+	colorThemeList.append(colortheme);
+}
 
-void Settings::setColorMxS(double x) { colorMxS = x; }
+void Settings::deleteColorTheme(int index) {
+	if (0 <= index && index < colorThemeList.size()) {
+		delete colorThemeList[index];
+		colorThemeList.removeAt(index);
+	}
+}
 
-void Settings::setColorMxL(double x) { colorMxL = x; }
+ColorTheme *Settings::getColorTheme(int index) {
+	if (0 <= index && index < colorThemeList.size()) {
+		return colorThemeList[index];
+	}
 
-void Settings::setColorMiH(int x) { colorMiH = x; }
+	return nullptr;
+}
 
-void Settings::setColorMiS(double x) { colorMiS = x; }
+int Settings::getCurrentColorThemeIndex() const { return currentColorTheme; }
 
-void Settings::setColorMiL(double x) { colorMiL = x; }
+void Settings::setColorTheme(ColorTheme *x, int index) {
+	if (0 <= index && index < colorThemeList.size()) {
+		colorThemeList[index] = x;
+	}
+}
 
-void Settings::setColorNfH(int x) { colorNfH = x; }
+void Settings::setCurrendColorTheme(ColorTheme *x) { colorThemeList[currentColorTheme] = x; }
 
-void Settings::setColorNfS(double x) { colorNfS = x; }
-
-void Settings::setColorNfL(double x) { colorNfL = x; }
-
-void Settings::setColorCeH(int x) { colorCeH = x; }
-
-void Settings::setColorCeS(double x) { colorCeS = x; }
-
-void Settings::setColorCeL(double x) { colorCeL = x; }
-
-void Settings::setGrandCompH(double x) { grandCompH = x; }
-
-void Settings::setGrandCompS(double x) { grandCompS = x; }
-
-void Settings::setGrandCompL(double x) { grandCompL = x; }
-
-void Settings::setGrandRateH(double x) { grandRateH = x; }
-
-void Settings::setGrandRateS(double x) { grandRateS = x; }
-
-void Settings::setGrandRateL(double x) { grandRateL = x; }
+void Settings::setCurrentColorThemeIndex(int x) {
+	if (0 <= x && x < colorThemeList.size())
+		currentColorTheme = x;
+}
 
 void Settings::setSplashTime(int x) { splashTime = x; }
 
@@ -441,39 +367,36 @@ void Settings::copyFrom(Settings *other) {
 	setDefaultOutputFileExtension(other->getDefaultOutputFileExtension());
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
 	setOutputFileExtensions(other->getOutputFileExtensions().join(";"));
-	setColorMxH(other->getColorMxH());
-	setColorMxS(other->getColorMxS());
-	setColorMxL(other->getColorMxL());
-	setColorMiH(other->getColorMiH());
-	setColorMiS(other->getColorMiS());
-	setColorMiL(other->getColorMiL());
-	setColorNfH(other->getColorNfH());
-	setColorNfS(other->getColorNfS());
-	setColorNfL(other->getColorNfL());
-	setColorCeH(other->getColorCeH());
-	setColorCeS(other->getColorCeS());
-	setColorCeL(other->getColorCeL());
-	setGrandCompH(other->getGrandCompH());
-	setGrandCompS(other->getGrandCompS());
-	setGrandCompL(other->getGrandCompL());
-	setGrandRateH(other->getGrandRateH());
-	setGrandRateS(other->getGrandRateS());
-	setGrandRateL(other->getGrandRateL());
 	setSplashTime(other->getSplashTime());
-	setUiLanguage(other->getUiLanguage()); // 为什么这个没复制啊！！！
+	setUiLanguage(other->getUiLanguage()); // 为什么这个没复制啊！！！// 草
 
 	for (auto &i : compilerList) {
 		delete i;
 	}
 
 	compilerList.clear();
-	const QList<Compiler *> &list = other->getCompilerList();
+	const QList<Compiler *> &newComplierList = other->getCompilerList();
 
-	for (auto *i : list) {
+	for (auto *i : newComplierList) {
 		auto *compiler = new Compiler;
 		compiler->copyFrom(i);
 		addCompiler(compiler);
 	}
+
+	for (auto &i : colorThemeList) {
+		delete i;
+	}
+
+	colorThemeList.clear();
+	const QList<ColorTheme *> &newColorThemeList = other->getColorThemeList();
+
+	for (auto *i : newColorThemeList) {
+		auto *colorTheme = new ColorTheme;
+		colorTheme->copyFrom(i);
+		addColorTheme(colorTheme);
+	}
+
+	setCurrentColorThemeIndex(other->getCurrentColorThemeIndex());
 }
 
 void Settings::saveSettings() {
@@ -493,27 +416,44 @@ void Settings::saveSettings() {
 	settings.setValue("InputFileExtensions", inputFileExtensions);
 	settings.setValue("OutputFileExtensions", outputFileExtensions);
 	settings.endGroup();
+
 	settings.beginGroup("VisualSettings");
-	settings.setValue("ColorMxH", colorMxH);
-	settings.setValue("ColorMxS", colorMxS);
-	settings.setValue("ColorMxL", colorMxL);
-	settings.setValue("ColorMiH", colorMiH);
-	settings.setValue("ColorMiS", colorMiS);
-	settings.setValue("ColorMiL", colorMiL);
-	settings.setValue("ColorNfH", colorNfH);
-	settings.setValue("ColorNfS", colorNfS);
-	settings.setValue("ColorNfL", colorNfL);
-	settings.setValue("ColorCeH", colorCeH);
-	settings.setValue("ColorCeS", colorCeS);
-	settings.setValue("ColorCeL", colorCeL);
-	settings.setValue("GrandCompH", grandCompH);
-	settings.setValue("GrandCompS", grandCompS);
-	settings.setValue("GrandCompL", grandCompL);
-	settings.setValue("GrandRateH", grandRateH);
-	settings.setValue("GrandRateS", grandRateS);
-	settings.setValue("GrandRateL", grandRateL);
+	settings.beginWriteArray("ColorThemes");
+	for (int i = 0; i < colorThemeList.size(); i++) {
+		settings.setArrayIndex(i);
+		settings.setValue("ThemeName", colorThemeList[i]->getName());
+		settings.setValue("MxColorH", colorThemeList[i]->getMxColor().h);
+		settings.setValue("MxColorS", colorThemeList[i]->getMxColor().s);
+		settings.setValue("MxColorL", colorThemeList[i]->getMxColor().l);
+		settings.setValue("MiColorH", colorThemeList[i]->getMiColor().h);
+		settings.setValue("MiColorS", colorThemeList[i]->getMiColor().s);
+		settings.setValue("MiColorL", colorThemeList[i]->getMiColor().l);
+		settings.setValue("NfColorH", colorThemeList[i]->getNfColor().h);
+		settings.setValue("NfColorS", colorThemeList[i]->getNfColor().s);
+		settings.setValue("NfColorL", colorThemeList[i]->getNfColor().l);
+		settings.setValue("CeColorH", colorThemeList[i]->getCeColor().h);
+		settings.setValue("CeColorS", colorThemeList[i]->getCeColor().s);
+		settings.setValue("CeColorL", colorThemeList[i]->getCeColor().l);
+		settings.setValue("GrandCompH", colorThemeList[i]->getGrandComp().h);
+		settings.setValue("GrandCompS", colorThemeList[i]->getGrandComp().s);
+		settings.setValue("GrandCompL", colorThemeList[i]->getGrandComp().l);
+		settings.setValue("GrandRateH", colorThemeList[i]->getGrandRate().h);
+		settings.setValue("GrandRateS", colorThemeList[i]->getGrandRate().s);
+		settings.setValue("GrandRateL", colorThemeList[i]->getGrandRate().l);
+		/*
+		settings.setValue("MxColor", QVariant::fromValue(colorThemeList[i]->getMxColor()));
+		settings.setValue("MiColor", QVariant::fromValue(colorThemeList[i]->getMiColor()));
+		settings.setValue("NfColor", QVariant::fromValue(colorThemeList[i]->getNfColor()));
+		settings.setValue("CeColor", QVariant::fromValue(colorThemeList[i]->getCeColor()));
+		settings.setValue("GrandComp", QVariant::fromValue(colorThemeList[i]->getGrandComp()));
+		settings.setValue("GrandRate", QVariant::fromValue(colorThemeList[i]->getGrandRate()));
+		*/
+	}
+	settings.endArray();
+	settings.setValue("CurrentColorTheme", currentColorTheme);
 	settings.setValue("SplashTime", splashTime);
 	settings.endGroup();
+
 	settings.beginWriteArray("v1.2/CompilerSettings");
 
 	for (int i = 0; i < compilerList.size(); i++) {
@@ -557,8 +497,11 @@ void Settings::saveSettings() {
 void Settings::loadSettings() {
 	for (auto &i : compilerList)
 		delete i;
+	for (auto &i : colorThemeList)
+		delete i;
 
 	compilerList.clear();
+	colorThemeList.clear();
 	recentContest.clear();
 	QSettings settings("LemonLime", "lemon");
 	uiLanguage = settings.value("UiLanguage", QLocale::system().name()).toString();
@@ -580,26 +523,61 @@ void Settings::loadSettings() {
 	                           .toStringList();
 	settings.endGroup();
 	settings.beginGroup("VisualSettings");
-	colorMxH = settings.value("ColorMxH", 120).toInt();
-	colorMxS = settings.value("ColorMxS", 50).toDouble();
-	colorMxL = settings.value("ColorMxL", 57.5).toDouble();
-	colorMiH = settings.value("ColorMiH", 120).toInt();
-	colorMiS = settings.value("ColorMiS", 50).toDouble();
-	colorMiL = settings.value("ColorMiL", 100).toDouble();
-	colorNfH = settings.value("ColorNfH", 0).toInt();
-	colorNfS = settings.value("ColorNfS", 0).toDouble();
-	colorNfL = settings.value("ColorNfL", 91.67).toDouble();
-	colorCeH = settings.value("ColorCeH", 300).toInt();
-	colorCeS = settings.value("ColorCeS", 100).toDouble();
-	colorCeL = settings.value("ColorCeL", 83.33).toDouble();
-	grandCompH = settings.value("GrandCompH", 0).toDouble();
-	grandCompS = settings.value("GrandCompS", 0).toDouble();
-	grandCompL = settings.value("GrandCompL", 0).toDouble();
-	grandRateH = settings.value("GrandRateH", 1).toDouble();
-	grandRateS = settings.value("GrandRateS", 1).toDouble();
-	grandRateL = settings.value("GrandRateL", 1.33).toDouble();
+
+	int themesCount = settings.beginReadArray("ColorThemes");
+	for (int i = 0; i < themesCount; i++) {
+		settings.setArrayIndex(i);
+		auto *colorTheme = new ColorTheme;
+		colorTheme->setName(settings.value("ThemeName").toString());
+		/*
+		colorTheme->setColor(
+		    settings.value("MxColor").value<hslTuple>(), settings.value("MiColor").value<hslTuple>(),
+		    settings.value("NfColor").value<hslTuple>(), settings.value("CeColor").value<hslTuple>(),
+		    settings.value("GrandComp").value<dddTuple>(), settings.value("GrandRate").value<dddTuple>());
+		*/
+		colorTheme->setColor(
+		    hslTuple(settings.value("MxColorH").toInt(), settings.value("MxColorS").toDouble(),
+		             settings.value("MxColorL").toDouble()),
+		    hslTuple(settings.value("MiColorH").toInt(), settings.value("MiColorS").toDouble(),
+		             settings.value("MiColorL").toDouble()),
+		    hslTuple(settings.value("NfColorH").toInt(), settings.value("NfColorS").toDouble(),
+		             settings.value("NfColorL").toDouble()),
+		    hslTuple(settings.value("CeColorH").toInt(), settings.value("CeColorS").toDouble(),
+		             settings.value("CeColorL").toDouble()),
+		    dddTuple(settings.value("GrandCompH").toDouble(), settings.value("GrandCompS").toDouble(),
+		             settings.value("GrandCompL").toDouble()),
+		    dddTuple(settings.value("GrandRateH").toDouble(), settings.value("GrandRateS").toDouble(),
+		             settings.value("GrandRateL").toDouble()));
+		addColorTheme(colorTheme);
+	}
+	settings.endArray();
+	currentColorTheme = settings.value("CurrentColorTheme", 0).toInt();
+	DEBUG("read CurrentColorTheme " + QString::number(currentColorTheme));
 	splashTime = settings.value("SplashTime", 500).toInt();
 	settings.endGroup();
+
+	if (colorThemeList.isEmpty()) {
+		{
+			auto *colorTheme = new ColorTheme;
+			colorTheme->setName(tr("ranking.ioi2021.sg"));
+			colorTheme->setColor(hslTuple(120, 28.9, 64.7), hslTuple(120, 28.9, 100.0), hslTuple(0, 0, 75.0),
+			                     hslTuple(320, 60.0, 75.0), dddTuple(0.00, 1.10, 0.00),
+			                     dddTuple(1, 1, 64.7 / 55.0));
+
+			addColorTheme(colorTheme);
+		} // dmy ak ioi !!!
+
+		currentColorTheme = 0;
+
+		{
+			auto *colorTheme = new ColorTheme;
+			colorTheme->setName(tr("mock joi2020"));
+			colorTheme->setColor(hslTuple(120, 70.0, 60.0), hslTuple(0, 70.0, 60.0), hslTuple(0, 0.0, 91.67),
+			                     hslTuple(240, 70.0, 60.0), dddTuple(0.00, 0.00, 0.00), dddTuple(1, 1, 1.33));
+			addColorTheme(colorTheme);
+		}
+	}
+
 	int compilerCount = settings.beginReadArray("v1.2/CompilerSettings");
 
 	for (int i = 0; i < compilerCount; i++) {

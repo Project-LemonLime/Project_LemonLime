@@ -17,6 +17,54 @@
 
 class Compiler;
 
+struct hslTuple {
+	int h;
+	double s;
+	double l;
+	hslTuple(int _h = 0, double _s = 0.00, double _l = 0.00) : h(_h), s(_s), l(_l) {}
+	QColor toHsl() { return QColor::fromHslF(h / 360.0, s / 100.0, l / 100.0); }
+};
+Q_DECLARE_METATYPE(hslTuple)
+
+struct dddTuple {
+	double h;
+	double s;
+	double l;
+	dddTuple(double _h = 0, double _s = 0.00, double _l = 0.00) : h(_h), s(_s), l(_l) {}
+};
+Q_DECLARE_METATYPE(dddTuple)
+
+class ColorTheme : public QObject {
+	Q_OBJECT
+  public:
+	explicit ColorTheme(QObject *parent = nullptr);
+
+	void setName(QString);
+	void setColor(hslTuple, hslTuple, hslTuple, hslTuple, dddTuple, dddTuple);
+	void copyFrom(ColorTheme *);
+
+	QString getName() const;
+	hslTuple getMxColor() const;
+	hslTuple getMiColor() const;
+	hslTuple getNfColor() const;
+	hslTuple getCeColor() const;
+	dddTuple getGrandComp() const;
+	dddTuple getGrandRate() const;
+
+	QColor getColorNf() const;
+	QColor getColorCe() const;
+	QColor getColorPer(double) const;
+	QColor getColorGrand(double) const;
+	QColor getColorPer(double, double) const;
+	QColor getColorGrand(double, double) const;
+
+  private:
+	QString name;
+	hslTuple mxColor, miColor, nfColor, ceColor;
+	QColor colorNf, colorCe;
+	dddTuple grandComp, grandRate;
+};
+
 class Settings : public QObject {
 	Q_OBJECT
   public:
@@ -36,37 +84,10 @@ class Settings : public QObject {
 	const QStringList &getOutputFileExtensions() const;
 	const QStringList &getRecentContest() const;
 	const QList<Compiler *> &getCompilerList() const;
+	const QList<ColorTheme *> &getColorThemeList() const;
 	const QString &getUiLanguage() const;
 	const QString &getDiffPath() const;
-	int getColorMxH() const;
-	double getColorMxS() const;
-	double getColorMxL() const;
-	int getColorMiH() const;
-	double getColorMiS() const;
-	double getColorMiL() const;
-	int getColorNfH() const;
-	double getColorNfS() const;
-	double getColorNfL() const;
-	int getColorCeH() const;
-	double getColorCeS() const;
-	double getColorCeL() const;
-	double getGrandCompH() const;
-	double getGrandCompS() const;
-	double getGrandCompL() const;
-	double getGrandRateH() const;
-	double getGrandRateS() const;
-	double getGrandRateL() const;
 	int getSplashTime() const;
-
-	QColor getColorMx() const;
-	QColor getColorMi() const;
-	QColor getColorNf() const;
-	QColor getColorCe() const;
-	QColor getColorAntiMi() const;
-	QColor getColorPer(double) const;
-	QColor getColorGrand(double) const;
-	QColor getColorPer(double, double) const;
-	QColor getColorGrand(double, double) const;
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
@@ -82,30 +103,23 @@ class Settings : public QObject {
 	void setOutputFileExtensions(const QString &);
 	void setRecentContest(const QStringList &);
 	void setUiLanguage(const QString &);
-	void setColorMxH(int);
-	void setColorMxS(double);
-	void setColorMxL(double);
-	void setColorMiH(int);
-	void setColorMiS(double);
-	void setColorMiL(double);
-	void setColorNfH(int);
-	void setColorNfS(double);
-	void setColorNfL(double);
-	void setColorCeH(int);
-	void setColorCeS(double);
-	void setColorCeL(double);
-	void setGrandCompH(double);
-	void setGrandCompS(double);
-	void setGrandCompL(double);
-	void setGrandRateH(double);
-	void setGrandRateS(double);
-	void setGrandRateL(double);
 	void setSplashTime(int);
 
 	void addCompiler(Compiler *);
 	void deleteCompiler(int);
 	Compiler *getCompiler(int);
 	void swapCompiler(int, int);
+
+	void addColorTheme(ColorTheme *);
+	void deleteColorTheme(int);
+	ColorTheme *getColorTheme(int);
+	const ColorTheme *getCurrentColorTheme() const;
+	int getCurrentColorThemeIndex() const;
+
+	void setColorTheme(ColorTheme *, int);
+	void setCurrendColorTheme(ColorTheme *);
+	void setCurrentColorThemeIndex(int);
+
 	void copyFrom(Settings *);
 	void saveSettings();
 	void loadSettings();
@@ -139,26 +153,8 @@ class Settings : public QObject {
 	QStringList recentContest;
 	QString uiLanguage;
 	QString diffPath;
-
-	int colorMxH{};
-	double colorMxS{};
-	double colorMxL{};
-	int colorMiH{};
-	double colorMiS{};
-	double colorMiL{};
-	int colorNfH{};
-	double colorNfS{};
-	double colorNfL{};
-	int colorCeH{};
-	double colorCeS{};
-	double colorCeL{};
-
-	double grandCompH{};
-	double grandCompS{};
-	double grandCompL{};
-	double grandRateH{};
-	double grandRateS{};
-	double grandRateL{};
+	QList<ColorTheme *> colorThemeList;
+	int currentColorTheme{};
 
 	int splashTime{};
 };

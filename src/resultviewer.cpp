@@ -9,6 +9,7 @@
 
 #include "resultviewer.h"
 //
+#include "base/LemonLog.hpp"
 #include "base/LemonType.hpp"
 #include "base/settings.h"
 #include "core/contest.h"
@@ -24,6 +25,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>
+#define LEMON_MODULE_NAME "ResultViewer"
 
 ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent) {
 	curContest = nullptr;
@@ -103,6 +105,7 @@ void ResultViewer::refreshViewer() {
 	QList<Task *> taskList = curContest->getTaskList();
 	Settings setting;
 	curContest->copySettings(setting);
+	const ColorTheme *colors = setting.getCurrentColorTheme();
 
 	for (auto &i : taskList) {
 		headerList << i->getProblemTile();
@@ -139,13 +142,15 @@ void ResultViewer::refreshViewer() {
 				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
 				    contestantList[i]->getCompileState(j) != CompileSuccessfully) {
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
-						bg = setting.getColorNf();
+						bg = colors->getColorNf();
 					else
-						bg = setting.getColorCe();
+						bg = colors->getColorCe();
 				} else
-					bg = setting.getColorPer(score, fullScore[j]);
+					bg = colors->getColorPer(score, fullScore[j]);
 
 				item(i, j + 3)->setBackground(bg);
+
+				qDebug() << i << j << bg;
 			} else {
 				item(i, j + 3)->setText(tr("Invalid"));
 			}
@@ -159,7 +164,7 @@ void ResultViewer::refreshViewer() {
 
 		if (totalScore != -1) {
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackground(setting.getColorGrand(totalScore, sfullScore));
+			item(i, 2)->setBackground(colors->getColorGrand(totalScore, sfullScore));
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);

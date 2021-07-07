@@ -31,7 +31,7 @@ class ExportUtil : public QObject {
   private:
 	static QString getContestantHtmlCode(Contest *, Contestant *, int);
 	static QString getSmallerContestantHtmlCode(Contest *, Contestant *);
-	static void exportHtml(QWidget *, Contest *, const QString &, bool);
+    static void exportHtml(QWidget *, Contest *, const QString &);
 	static void exportSmallerHtml(QWidget *, Contest *, const QString &);
 	static void exportCsv(QWidget *, Contest *, const QString &);
 #ifdef ENABLE_XLS_EXPORT

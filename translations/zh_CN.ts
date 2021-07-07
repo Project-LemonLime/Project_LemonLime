@@ -778,7 +778,7 @@
     </message>
     <message>
         <source>Use Default Color Theme?</source>
-        <translation>使用默认的颜色主题吗？</translation>
+        <translation type="vanished">使用默认的颜色主题吗？</translation>
     </message>
     <message>
         <source>Invalid</source>
@@ -2084,6 +2084,14 @@ Depends: </source>
         <source>Interactor Error</source>
         <translation>交互库错误</translation>
     </message>
+    <message>
+        <source>ranking.ioi2021.sg</source>
+        <translation>ranking.ioi2021.sg</translation>
+    </message>
+    <message>
+        <source>mock joi2020</source>
+        <translation>仿 joi2020</translation>
+    </message>
 </context>
 <context>
     <name>StatisticsBrowser</name>
@@ -2589,6 +2597,44 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ThemeEditDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>设定</translation>
+    </message>
+</context>
+<context>
+    <name>VisualMainSettings</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation>配色方案</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>编辑</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Splash Time</source>
+        <translation>启动横幅毫秒数</translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>New Theme</source>
+        <translation>新配色方案</translation>
+    </message>
+</context>
+<context>
     <name>VisualSettings</name>
     <message>
         <source>Form</source>
@@ -2620,11 +2666,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Splash Time (MS)</source>
-        <translation>启动横幅毫秒数</translation>
+        <translation type="vanished">启动横幅毫秒数</translation>
     </message>
     <message>
         <source>Reset to Default</source>
-        <translation>重置到默认</translation>
+        <translation type="vanished">重置到默认</translation>
+    </message>
+    <message>
+        <source>Theme Name</source>
+        <translation>配色方案名</translation>
     </message>
 </context>
 <context>
