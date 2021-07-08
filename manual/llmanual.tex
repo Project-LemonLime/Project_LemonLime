@@ -24,7 +24,7 @@
 \usepackage[cache=false]{minted}
 \setminted{tabsize=4}
 \usepackage{geometry}
-\geometry{a4paper,centering,scale=0.7}
+\geometry{a4paper,centering,scale=0.8}
 \usepackage[format=hang,font=small,textfont=it]{caption}
 \usepackage[nottoc]{tocbibind}
 
@@ -245,7 +245,7 @@ $ cmake --build . --parallel $(nproc)
 				\begin{description}
 					\item[默认分值] 新建一个测试点时的默认分值，默认为 10，可以设置的最大值为 10000000。
 					\item[默认时间限制] 新建一个测试点默认的时间限制，默认为 1000 ms，可以设置的最大值为 86400000 ms，即 1 天。
-					\item[默认额外时间限制比率] 新建一个测试点默认的额外时间限制比率，默认为 0.1。 \emph{因 LemonLime 采用 realtime 作为判定 TLE 的标准，需要适当调整此值以免造成误判，参见\href{https://github.com/Project-LemonLime/Project_LemonLime/issues/84}{issues/84}}
+					\item[默认额外时间限制比率] 新建一个测试点默认的额外时间限制比率，默认为 0.1。 \emph{（因 LemonLime 采用 realtime 作为判定 TLE 的标准，需要适当调整此值以免造成误判，参见 \href{https://github.com/Project-LemonLime/Project_LemonLime/issues/84}{issues/84}。）}
 					\item[默认空间限制] 新建一个测试点时默认的空间限制，默认为 512 MB，可以设置的最大值为 16777216 MB。
 					\item[编译时间限制] 测试时允许编译器运行的最长时间，默认为 10000 ms，可以设置的最大值为 86400000 ms，即 1 天。
 					\item[检验器时间限制] 对于使用自定义校验器的试题，测试时允许校验器运行的最长时间，默认为 10000 ms，可以设置的最大值为 86400000 ms，即 1 天。
@@ -318,21 +318,41 @@ $ cmake --build . --parallel $(nproc)
 				这个配置用于改善 LemonLime 的美观度以及提升定制性。
 
 				\begin{center}
-				\includegraphics[scale=0.7]{pics/visualsettings.png}
+				\includegraphics[scale=0.7]{pics/visualmainsettings.png}
 				\end{center}
 
 				\begin{description}
-					\item[满分 HSL 颜色] 满分时的背景颜色，用 HSL 标准表示。从左往右第 1 个框是 H 值，范围为 0 到 720。第 2 个框是 S 值，范围为 0 到 100。第 3 个框是 L 值，范围为 0 到 100。
+					\item[配色方案] 上面的下拉框是当前所应用的主题名字。下面的“编辑”按钮可以编辑当前主题，“+”按钮可以新增一个空配置在最后，“垃圾桶”按钮可以删除当前主题。\uline{注意:如果不点击最下方的“确定”的话， 针对配色方案的更改会全部丢失！}
+					\item[启动横幅毫秒数] 启动时横幅显示的毫秒数。0 表示关闭。
+				\end{description}
+			
+				LemonLime 提供了两种默认的配色方案：\texttt{ranking.ioi2021.sg} 和 \texttt{仿 joi2020}。前一个就是从 \href{https://ranking.ioi2021.sg/}{IOI 2021 的实时成绩榜}上扒下来的配色方案，而后一个是 iotang 凭感觉，根据 JOI 2020（的某一次比赛）的实时成绩榜配的配色方案，之所以凭感觉是因为它打不开原网址了。%dmy ak ioi
+				
+				点击配色方案的下拉框可以选择配色方案。
+				
+				\begin{center}
+					\includegraphics[scale=0.7]{pics/visualmainsettings_whenchoosingtheme.png}
+				\end{center}
+			
+				点击“编辑”按钮编辑当前主题时会弹出一个这样的对话框：
+			
+				\begin{center}
+					\includegraphics[scale=0.7]{pics/visualsettings.png}
+				\end{center}
+			
+				\begin{description}
+					\item[配色方案名] 配色方案的名字。
+					\item[满分 HSL 颜色] 满分时的背景颜色，用 HSL 标准表示（什么是 HSL 标准？\href{https://zh.wikipedia.org/zh-hans/HSL和HSV色彩空间}{中文维基} \href{https://baike.baidu.com/item/HSL/1443144?fr=aladdin}{百度百科}）。从左往右第 1 个框是 H 值，范围为 0 到 720。第 2 个框是 S 值，范围为 0 到 100。第 3 个框是 L 值，范围为 0 到 100。
 					\item[背景 HSL 颜色] 背景的颜色。不是满分的颜色为从背景 HSL 颜色到满分 HSL 颜色的根据得分与满分的比例的平滑变换。
 					\item[无文件 HSL 颜色] 当某个选手某个题目找不到文件的时候的背景颜色。
 					\item[编译错误 HSL 颜色] 当某个选手某个题编译错误的时候的背景颜色。
 					\item[总分颜色补正] 总分一栏的颜色会对应地加上总分颜色补正的值。
 					\item[总分颜色变化倍率] 总分一栏的颜色的变化倍率会对应地乘上总分颜色变化倍率的值。
-					\item[启动横幅毫秒数] 启动时横幅显示的毫秒数。0 表示关闭。
-					\item[重置到默认] 将以上所有值重置到默认。
 				\end{description}
 
 				你可以恰当地调整它们的值，来实现一些精彩的效果，比如实现暗色主题。
+				
+				点击“取消”会放弃此次的任何修改。
 
 		\newpage
 
@@ -374,7 +394,7 @@ $ cmake --build . --parallel $(nproc)
 			\begin{description}
 				\item[概要下的一对箭头] 点击它们可以改变当前题目在列表的位置。
 				\item[试题标题] 试题在列表中显示的名称。
-				\item[试题类型] 试题的类型，目前可用的选择有传统题、提交答案题、交互题和通信题，其中交互型只支持 NOI 风格的 C++ 语言交互。
+				\item[试题类型] 试题的类型，目前可用的选择有传统题、提交答案题、交互题和通信题，其中交互题只确保支持 NOI 风格的 C++ 语言交互。
 				\item[源文件名称] 源程序的文件名，注意不要带扩展名。并不一定要和试题标题相同。
 				\item[在子文件夹中寻找] 若勾选，选手目录中需要为每个题单独建一个以源文件名称命名的文件夹，将源程序放在文件夹内；否则只需要将源程序放在选手目录下即可。
 				\item[输入、输出文件名] 选手程序使用的输入输出文件名。
@@ -427,48 +447,48 @@ ofstream fscore, freport;
 
 inline void quit(int score, const char *msg)
 {
-	fscore << score;
-	freport << msg;
-	fin.close();
-	fout.close();
-	fstd.close();
-	fscore.close();
-	freport.close();
-	exit(0);
+    fscore << score;
+    freport << msg;
+    fin.close();
+    fout.close();
+    fstd.close();
+    fscore.close();
+    freport.close();
+    exit(0);
 }
 
 int main(int argc, char **argv)
 {
-	fin.open(argv[1]);
-	fout.open(argv[2]);
-	fstd.open(argv[3]);
-	int fullScore = atoi(argv[4]);
-	fscore.open(argv[5]);
-	freport.open(argv[6]);
-	string ps, js;
-	fout >> ps;
-	fstd >> js;
-	int P = js.length(), Q = ps.length(), K = 0;
-	for (int i = 0; i < min(P, Q); i++)
-		if (js[i] == ps[i])
-			K++;
-	if (Q > P)
-		K -= Q - P;
-	if (K >= P)
-	{
-		quit(fullScore, "Success");
-		return 0;
-	}
-	double ratio = 1.00 * K / P;
-	if (ratio >= 0.6)
-	{
-		quit(0.4 * fullScore, "Great: 40%!");
-		return 0;
-	}
+    fin.open(argv[1]);
+    fout.open(argv[2]);
+    fstd.open(argv[3]);
+    int fullScore = atoi(argv[4]);
+    fscore.open(argv[5]);
+    freport.open(argv[6]);
+    string ps, js;
+    fout >> ps;
+    fstd >> js;
+    int P = js.length(), Q = ps.length(), K = 0;
+    for (int i = 0; i < min(P, Q); i++)
+        if (js[i] == ps[i])
+            K++;
+    if (Q > P)
+        K -= Q - P;
+    if (K >= P)
+    {
+        quit(fullScore, "Success");
+        return 0;
+    }
+    double ratio = 1.00 * K / P;
+    if (ratio >= 0.6)
+    {
+        quit(0.4 * fullScore, "Great: 40%!");
+        return 0;
+    }
 
-	quit(0, "Failed: @_@????????");
+    quit(0, "Failed: @_@????????");
 
-	return 0;
+    return 0;
 }
 				\end{minted}
 
@@ -492,30 +512,30 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	registerLemonChecker(argc, argv);
-	int fullScore = perfectScore;
-	string ps = ouf.readToken();
-	string js = ans.readToken();
-	int P = js.length(), Q = ps.length(), K = 0;
-	for (int i = 0; i < min(P, Q); i++)
-		if (js[i] == ps[i])
-			K++;
-	if (Q > P)
-		K -= Q - P;
-	if (K >= P)
-	{
-		quitf(_ok, "Success");
-		return 0;
-	}
-	double ratio = 1.00 * K / P;
-	if (ratio >= 0.6)
-	{
-		quitp(0.4 * fullScore, "Great: 40%%!");
-		return 0;
-	}
-	quitf(_wa, "Failed: @_@????????");
+    registerLemonChecker(argc, argv);
+    int fullScore = perfectScore;
+    string ps = ouf.readToken();
+    string js = ans.readToken();
+    int P = js.length(), Q = ps.length(), K = 0;
+    for (int i = 0; i < min(P, Q); i++)
+        if (js[i] == ps[i])
+            K++;
+    if (Q > P)
+        K -= Q - P;
+    if (K >= P)
+    {
+        quitf(_ok, "Success");
+        return 0;
+    }
+    double ratio = 1.00 * K / P;
+    if (ratio >= 0.6)
+    {
+        quitp(0.4 * fullScore, "Great: 40%%!");
+        return 0;
+    }
+    quitf(_wa, "Failed: @_@????????");
 
-	return 0;
+    return 0;
 }
 				\end{minted}
 
@@ -708,7 +728,7 @@ int main(int argc, char **argv)
 
 		推荐使用 HTML 格式，可以导出完整的结果信息，导出成表格的话只能导出选手总分和每道题的得分。
 
-		表格有两种格式可以选择：csv 格式和 xls 格式（仅 Windows 可用并需要安装 Excel，并且需编译时使用 \verb|-DENABLE_XLS_EXPORT=ON| 参数启用）。 \emph{注意：xls 格式的导出将有可能在将来的版本移除}
+		表格有两种格式可以选择：csv 格式和 xls 格式（仅 Windows 可用并需要安装 Excel，并且需编译时使用 \verb|-DENABLE_XLS_EXPORT=ON| 参数启用）。 \emph{注意：xls 格式的导出将有可能在将来的版本移除。}
 
 		csv 格式是逗号分隔符，多数表格编辑软件都能查看。xls 格式的导出需要利用 ActiveX 调用 Excel，写入速度非常慢，除非特别需要，否则不推荐使用。
 
