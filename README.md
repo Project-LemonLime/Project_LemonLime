@@ -18,7 +18,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9034d385758e485b8d8364b6e7c86f59)](https://app.codacy.com/manual/iotang/Project_LemonLime?utm_source=github.com&utm_medium=referral&utm_content=iotang/Project_LemonLime&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ea760fd4674f44eaa6ca8273abc0669d)](https://www.codacy.com/gh/Project-LemonLime/Project_LemonLime/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Project-LemonLime/Project_LemonLime&amp;utm_campaign=Badge_Grade)
 
 [![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/) ![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
 

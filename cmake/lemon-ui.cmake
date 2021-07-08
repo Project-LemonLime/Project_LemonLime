@@ -10,7 +10,9 @@ set(LEMON_UI_SOURCES
     ${LEMON_BASEDIR_UI}/exttestcasemodifierdialog.cpp
     ${LEMON_BASEDIR_UI}/exttestcasetable.cpp
     ${LEMON_BASEDIR_UI}/exttestcaseupdaterdialog.cpp
+    ${LEMON_BASEDIR_UI}/visualmainsettings.cpp
     ${LEMON_BASEDIR_UI}/visualsettings.cpp
+    ${LEMON_BASEDIR_UI}/themeeditdialog.cpp
     ${LEMON_BASEDIR_UI}/lemon.cpp
     ${LEMON_BASEDIR_UI}/filelineedit.cpp
     ${LEMON_BASEDIR_UI}/summarytree.cpp
@@ -43,7 +45,9 @@ set(LEMON_UI_HEADERS
     ${LEMON_BASEDIR_UI}/exttestcasemodifierdialog.h
     ${LEMON_BASEDIR_UI}/exttestcasetable.h
     ${LEMON_BASEDIR_UI}/exttestcaseupdaterdialog.h
+    ${LEMON_BASEDIR_UI}/visualmainsettings.h
     ${LEMON_BASEDIR_UI}/visualsettings.h
+    ${LEMON_BASEDIR_UI}/themeeditdialog.h
     ${LEMON_BASEDIR_UI}/filelineedit.h
     ${LEMON_BASEDIR_UI}/summarytree.h
     ${LEMON_BASEDIR_UI}/taskeditwidget.h
@@ -86,7 +90,9 @@ set(LEMON_UI_FORMS
     ${LEMON_BASEDIR_UI}/forms/opencontestwidget.ui
     ${LEMON_BASEDIR_UI}/forms/newcontestdialog.ui
     ${LEMON_BASEDIR_UI}/forms/opencontestdialog.ui
+    ${LEMON_BASEDIR_UI}/forms/visualmainsettings.ui
     ${LEMON_BASEDIR_UI}/forms/visualsettings.ui
+    ${LEMON_BASEDIR_UI}/forms/themeeditdialog.ui
     ${LEMON_BASEDIR_UI}/forms/welcomedialog.ui
     ${LEMON_BASEDIR_UI}/forms/addtaskdialog.ui
     ${LEMON_BASEDIR_UI}/forms/advancedcompilersettingsdialog.ui

@@ -16,6 +16,8 @@
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 #include "core/testcase.h"
+#include "settings.h"
+#include "visualmainsettings.h"
 #include "visualsettings.h"
 //
 #include <QApplication>
@@ -229,15 +231,11 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 	return htmlCode;
 }
 
-void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName, bool isDefaultTheme) {
-	Settings colors;
-	contest->copySettings(colors);
-
-	if (isDefaultTheme) {
-		VisualSettings tempVisualSettings;
-		tempVisualSettings.resetEditSettings(&colors);
-		tempVisualSettings.resetToDefault();
-	}
+void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName) {
+	Settings settings;
+	const ColorTheme *colors;
+	contest->copySettings(settings);
+	colors = settings.getCurrentColorTheme();
 
 	QFile file(fileName);
 
@@ -338,7 +336,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 			double s = NAN;
 			double l = NAN;
 #endif
-			colors.getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
+			colors->getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
 			out << QString("<td style=\"background-color: hsl(%2,%3%,%4%); border-radius: 5px; font-weight: "
 			               "bold; border: 2px solid hsl(%2,%3%,%5%);\">%1</td>")
@@ -364,15 +362,15 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 				double s = NAN;
 				double l = NAN;
 #endif
-				QColor col = colors.getColorPer(score, fullScore[j]);
+				QColor col = colors->getColorPer(score, fullScore[j]);
 				col.getHslF(&h, &s, &l);
 
 				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
 				    contestant->getCompileState(j) != CompileSuccessfully) {
 					if (contestant->getCompileState(j) == NoValidSourceFile) {
-						colors.getColorNf().getHslF(&h, &s, &l);
+						colors->getColorNf().getHslF(&h, &s, &l);
 					} else {
-						colors.getColorCe().getHslF(&h, &s, &l);
+						colors->getColorCe().getHslF(&h, &s, &l);
 					}
 				}
 
@@ -886,12 +884,8 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest) {
 	if (fileName.isEmpty())
 		return;
 	// TODO: refactor
-	if (QFileInfo(fileName).suffix() == "html") {
-		QMessageBox::StandardButton res =
-		    QMessageBox::warning(widget, tr("Export Result"), tr("Use Default Color Theme?"),
-		                         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-		exportHtml(widget, contest, fileName, res == QMessageBox::Yes);
-	}
+	if (QFileInfo(fileName).suffix() == "html")
+		exportHtml(widget, contest, fileName);
 
 	if (QFileInfo(fileName).suffix() == "htm")
 		exportSmallerHtml(widget, contest, fileName);

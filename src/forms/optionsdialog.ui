@@ -40,7 +40,7 @@
        <string>Compiler</string>
       </attribute>
      </widget>
-     <widget class="VisualSettings" name="visualSettings">
+     <widget class="VisualMainSettings" name="visualMainSettings">
       <attribute name="title">
        <string>Visual</string>
       </attribute>
@@ -75,9 +75,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>VisualSettings</class>
+   <class>VisualMainSettings</class>
    <extends>QWidget</extends>
-   <header>visualsettings.h</header>
+   <header>visualmainsettings.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

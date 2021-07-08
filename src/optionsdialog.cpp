@@ -10,9 +10,11 @@
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 //
+#include "base/LemonLog.hpp"
 #include "base/settings.h"
 //
 #include <QtWidgets>
+#define LEMON_MODULE_NAME "OptionsDialog"
 
 OptionsDialog::OptionsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::OptionsDialog) {
 	ui->setupUi(this);
@@ -29,7 +31,7 @@ void OptionsDialog::resetEditSettings(Settings *settings) {
 	editSettings->copyFrom(settings);
 	ui->generalSettings->resetEditSettings(editSettings);
 	ui->compilerSettings->resetEditSettings(editSettings);
-	ui->visualSettings->resetEditSettings(editSettings);
+	ui->visualMainSettings->resetEditSettings(editSettings);
 	ui->tabWidget->setCurrentIndex(0);
 }
 
