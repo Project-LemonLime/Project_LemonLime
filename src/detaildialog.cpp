@@ -72,9 +72,15 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 
 		if (taskList[i]->getTaskType() == Task::Traditional ||
 		    taskList[i]->getTaskType() == Task::Interaction ||
-		    taskList[i]->getTaskType() == Task::Communication) {
+		    taskList[i]->getTaskType() == Task::Communication ||
+		    taskList[i]->getTaskType() == Task::CommunicationExec) {
 			if (contestant->getCompileState(i) != CompileSuccessfully) {
 				switch (contestant->getCompileState(i)) {
+					case NoValidGraderFile:
+						htmlCode +=
+						    QString("&nbsp;&nbsp;%1</p>").arg(tr("Main grader (grader.*) cannot be found"));
+						break;
+
 					case NoValidSourceFile:
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
 						break;

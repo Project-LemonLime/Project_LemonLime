@@ -30,6 +30,12 @@ JudgingDialog::~JudgingDialog() {
 	delete cursor;
 }
 
+void JudgingDialog::sendNotify(QString head, QString body) {
+#ifdef Q_OS_LINUX
+	QString text = "notify-send -a Lemonlime -t 2000 -u normal \"" + head + "\" " + body + "\"";
+#endif
+}
+
 void JudgingDialog::setContest(Contest *contest) {
 	curContest = contest;
 	connect(curContest, &Contest::dialogAlert, this, &JudgingDialog::dialogAlert);
@@ -56,11 +62,8 @@ void JudgingDialog::judge(const QStringList &nameList) {
 			break;
 	}
 
-	/*
-	#ifdef Q_OS_LINUX
-	   QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge
-	Finished - LemonLime") + "\""; QProcess::execute(text); #endif
-	*/
+	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
+
 	accept();
 }
 
@@ -68,11 +71,8 @@ void JudgingDialog::judge(const QString &name, int index) {
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTask(index)->getTotalTimeLimit());
 	curContest->judge(name, index);
-	/*
-	#ifdef Q_OS_LINUX
-	   QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge
-	Finished - LemonLime") + "\""; QProcess::execute(text); #endif
-	*/
+	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
+
 	accept();
 }
 
@@ -96,22 +96,15 @@ void JudgingDialog::judge(const QList<std::pair<QString, QSet<int>>> &lists) {
 			break;
 	}
 
-	/*
-	#ifdef Q_OS_LINUX
-	   QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge
-	Finished - LemonLime") + "\""; QProcess::execute(text); #endif
-	*/
+	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
 }
 
 void JudgingDialog::judgeAll() {
 	stopJudging = false;
 	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * curContest->getContestantList().size());
 	curContest->judgeAll();
-	/*
-	#ifdef Q_OS_LINUX
-	   QString text = "notify-send --expire-time=2000 --urgency=normal " + tr("Finished") + " \"" + tr("Judge
-	Finished - LemonLime") + "\""; QProcess::execute(text); #endif
-	*/
+
+	sendNotify(tr("Judge All: Finished"), tr("Judge Finished - LemonLime"));
 	accept();
 }
 
@@ -428,6 +421,12 @@ void JudgingDialog::compileError(int progress, int compileState) {
 			text = tr("Cannot find valid source file");
 			charFormat.setForeground(QBrush(Qt::white));
 			charFormat.setBackground(QBrush(Qt::black));
+			break;
+
+		case NoValidGraderFile:
+			text = tr("Main grader (grader.*) cannot be found");
+			charFormat.setForeground(QBrush(Qt::white));
+			charFormat.setBackground(QBrush(Qt::red));
 			break;
 
 		case CompileError:

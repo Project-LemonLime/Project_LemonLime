@@ -14,6 +14,42 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="13" column="1" colspan="2">
+    <widget class="FileLineEdit" name="graderPath">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Where the grader is...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="sourceFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Name of the Source File (Without suffix)...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLineEdit" name="outputFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Name of Output File, the source file need to write data to this file...</string>
+     </property>
+    </widget>
+   </item>
    <item row="10" column="0">
     <widget class="QLabel" name="outputFileNameLabel">
      <property name="sizePolicy">
@@ -32,103 +68,15 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="interactorPathLabel">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Interactor Path</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1" colspan="2">
-    <widget class="QLineEdit" name="interactorName">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Interactor Name...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <layout class="QVBoxLayout" name="verticalLayout_7">
-     <item>
-      <widget class="QPushButton" name="graderFilesAppendButton">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Append</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="graderFilesRemoveButton">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Remove</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="sourceFileNameLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Source File Name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="answerFileExtensionLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="5" column="0">
+    <widget class="QLabel" name="graderFilesLabel">
      <property name="font">
       <font>
        <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Answer Extension</string>
+      <string>Grader Files</string>
      </property>
     </widget>
    </item>
@@ -175,6 +123,47 @@
      </column>
     </widget>
    </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="problemTitle">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Problem Title (Not Source File Name)...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QCheckBox" name="subFolderCheck">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Find Source File in subfolders...</string>
+     </property>
+     <property name="text">
+      <string>Subfolder</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="interactorPathLabel">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Interactor Path</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="problemTitleLabel">
      <property name="sizePolicy">
@@ -201,15 +190,113 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
-    <widget class="QLineEdit" name="outputFileName">
+   <item row="1" column="0">
+    <widget class="QLabel" name="taskTypeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Task Type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1" colspan="2">
+    <widget class="QComboBox" name="comparisonMode">
      <property name="font">
       <font>
        <pointsize>10</pointsize>
       </font>
      </property>
      <property name="statusTip">
-      <string>Name of Output File, the source file need to write data to this file...</string>
+      <string>How to check answers...</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Line-by-line mode</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Line-by-line mode (ignore extra spaces and tabs)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>External tool mode (diff)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real number mode</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Special judge mode</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout_6">
+     <item>
+      <widget class="QPushButton" name="sourceFilesAppendButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Append</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource.qrc">
+         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sourceFilesRemoveButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource.qrc">
+         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="graderPathLabel">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Grader Path</string>
      </property>
     </widget>
    </item>
@@ -314,23 +401,76 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="taskTypeLabel">
+   <item row="3" column="1">
+    <widget class="QTableWidget" name="sourceFilesTable">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
+      </font>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Path</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="multiFilesPathNameLabel">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Task Type</string>
+      <string>Path / Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QLineEdit" name="inputFileName">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Name of Input File, the source file need to read data from this file...</string>
      </property>
     </widget>
    </item>
@@ -346,103 +486,30 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <property name="spacing">
-      <number>12</number>
-     </property>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QRadioButton" name="traditionalButton">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="statusTip">
-          <string>Traditional Task...</string>
-         </property>
-         <property name="text">
-          <string>Traditional</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="answersOnlyButton">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="statusTip">
-          <string>Answer-Only Task...</string>
-         </property>
-         <property name="text">
-          <string>Answers Only</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="interactionButton">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="statusTip">
-          <string>Interaction Task...</string>
-         </property>
-         <property name="text">
-          <string>Interaction</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="communicationButton">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="statusTip">
-          <string>Communication Task...</string>
-         </property>
-         <property name="text">
-          <string>Communication</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item row="10" column="2">
-    <widget class="QCheckBox" name="standardOutputCheck">
+   <item row="9" column="2">
+    <widget class="QCheckBox" name="standardInputCheck">
      <property name="font">
       <font>
        <pointsize>10</pointsize>
       </font>
      </property>
      <property name="statusTip">
-      <string>Redirect to standard output...</string>
+      <string>Redirect to standard input...</string>
      </property>
      <property name="text">
-      <string>Standard output</string>
+      <string>Standard input</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="multiFilesPathNameLabel">
+   <item row="12" column="1" colspan="2">
+    <widget class="QLineEdit" name="interactorName">
      <property name="font">
       <font>
        <pointsize>10</pointsize>
       </font>
      </property>
-     <property name="text">
-      <string>Path / Name</string>
+     <property name="statusTip">
+      <string>Interactor Name...</string>
      </property>
     </widget>
    </item>
@@ -508,8 +575,8 @@
      </item>
     </layout>
    </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="inputFileNameLabel">
+   <item row="8" column="0">
+    <widget class="QLabel" name="answerFileExtensionLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -522,166 +589,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Input File Name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QCheckBox" name="standardInputCheck">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Redirect to standard input...</string>
-     </property>
-     <property name="text">
-      <string>Standard input</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="0">
-    <widget class="QLabel" name="graderPathLabel">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Grader Path</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="QLineEdit" name="problemTitle">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Problem Title (Not Source File Name)...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="sourceFileName">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Name of the Source File (Without suffix)...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="1" colspan="2">
-    <widget class="QComboBox" name="comparisonMode">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>How to check answers...</string>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <item>
-      <property name="text">
-       <string>Line-by-line mode</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Line-by-line mode (ignore extra spaces and tabs)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>External tool mode (diff)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Real number mode</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Special judge mode</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QLineEdit" name="answerFileExtension">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Extension of Contestant's Answer File, only in Answer-only task...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <widget class="QPushButton" name="sourceFilesAppendButton">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Append</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="sourceFilesRemoveButton">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Remove</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="13" column="1" colspan="2">
-    <widget class="FileLineEdit" name="graderPath">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Where the grader is...</string>
+      <string>Answer Extension</string>
      </property>
     </widget>
    </item>
@@ -742,15 +650,100 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="graderFilesLabel">
+   <item row="11" column="1" colspan="2">
+    <widget class="FileLineEdit" name="interactorPath">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Interactor Path...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="sourceFileNameLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Source File Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="interactorNameLabel">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Interactor Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="inputFileNameLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="font">
       <font>
        <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Grader Files</string>
+      <string>Input File Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2">
+    <widget class="QCheckBox" name="standardOutputCheck">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Redirect to standard output...</string>
+     </property>
+     <property name="text">
+      <string>Standard output</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="answerFileExtension">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string>Extension of Contestant's Answer File, only in Answer-only task...</string>
      </property>
     </widget>
    </item>
@@ -776,107 +769,128 @@
      </item>
     </layout>
    </item>
-   <item row="12" column="0">
-    <widget class="QLabel" name="interactorNameLabel">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Interactor Name</string>
-     </property>
-    </widget>
+   <item row="5" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <widget class="QPushButton" name="graderFilesAppendButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Append</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource.qrc">
+         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="graderFilesRemoveButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource.qrc">
+         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="3" column="1">
-    <widget class="QTableWidget" name="sourceFilesTable">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="1" column="1" colspan="2">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="columnCount">
-      <number>2</number>
-     </property>
-     <attribute name="horizontalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Path</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Name</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="9" column="1">
-    <widget class="QLineEdit" name="inputFileName">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Name of Input File, the source file need to read data from this file...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="subFolderCheck">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Find Source File in subfolders...</string>
-     </property>
-     <property name="text">
-      <string>Subfolder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="1" colspan="2">
-    <widget class="FileLineEdit" name="interactorPath">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="statusTip">
-      <string>Interactor Path...</string>
-     </property>
-    </widget>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QRadioButton" name="traditionalButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Traditional Task...</string>
+         </property>
+         <property name="text">
+          <string>Traditional</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="answersOnlyButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Answer-Only Task...</string>
+         </property>
+         <property name="text">
+          <string>Answers Only</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="interactionButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Interaction Task...</string>
+         </property>
+         <property name="text">
+          <string>Interaction</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QRadioButton" name="communicationButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Communication Task...</string>
+         </property>
+         <property name="text">
+          <string>Communication (Part)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="communicationExecButton">
+         <property name="statusTip">
+          <string>Communication Task, judged by running exec...</string>
+         </property>
+         <property name="text">
+          <string>Communication (Exec)</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -889,10 +903,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>problemTitle</tabstop>
-  <tabstop>traditionalButton</tabstop>
-  <tabstop>answersOnlyButton</tabstop>
-  <tabstop>interactionButton</tabstop>
-  <tabstop>communicationButton</tabstop>
   <tabstop>sourceFileName</tabstop>
   <tabstop>subFolderCheck</tabstop>
   <tabstop>sourceFilesTable</tabstop>
@@ -918,7 +928,10 @@
   <tabstop>compilersList</tabstop>
   <tabstop>configurationSelect</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../resource.qrc"/>
+  <include location="../../resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>comparisonMode</sender>

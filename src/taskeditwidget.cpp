@@ -39,6 +39,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	connect(ui->answersOnlyButton, &QRadioButton::toggled, this, &TaskEditWidget::setToAnswersOnly);
 	connect(ui->interactionButton, &QRadioButton::toggled, this, &TaskEditWidget::setToInteraction);
 	connect(ui->communicationButton, &QRadioButton::toggled, this, &TaskEditWidget::setToCommunication);
+	connect(ui->communicationExecButton, &QRadioButton::toggled, this,
+	        &TaskEditWidget::setToCommunicationExec);
 	connect(ui->sourceFileName, &QLineEdit::textChanged, this, &TaskEditWidget::sourceFileNameChanged);
 	connect(ui->subFolderCheck, &QCheckBox::stateChanged, this, &TaskEditWidget::subFolderCheckChanged);
 	connect(ui->inputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::inputFileNameChanged);
@@ -136,6 +138,10 @@ void TaskEditWidget::setEditTask(Task *task) {
 		ui->communicationButton->setChecked(true);
 	}
 
+	if (editTask->getTaskType() == Task::CommunicationExec) {
+		ui->communicationExecButton->setChecked(true);
+	}
+
 	refreshWidgetState();
 }
 
@@ -154,56 +160,61 @@ void TaskEditWidget::refreshWidgetState() {
 	ui->interactorName->setVisible(types == Task::Interaction);
 	// ui->comparisonSetting->setVisible(types != Task::Interaction);
 	ui->sourceFileName->setEnabled(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication);
+	                               types == Task::AnswersOnly || types == Task::Communication ||
+	                               types == Task::CommunicationExec);
 	ui->sourceFileNameLabel->setEnabled(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::AnswersOnly || types == Task::Communication);
+	                                    types == Task::AnswersOnly || types == Task::Communication ||
+	                                    types == Task::CommunicationExec);
 	ui->sourceFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication);
+	                               types == Task::AnswersOnly || types == Task::Communication ||
+	                               types == Task::CommunicationExec);
 	ui->sourceFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::AnswersOnly || types == Task::Communication);
+	                                    types == Task::AnswersOnly || types == Task::Communication ||
+	                                    types == Task::CommunicationExec);
 	ui->subFolderCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication);
-	ui->inputFileName->setEnabled(
-	    (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
-	    ! editTask->getStandardInputCheck());
+	                               types == Task::AnswersOnly || types == Task::Communication ||
+	                               types == Task::CommunicationExec);
+	ui->inputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction ||
+	                               types == Task::Communication || types == Task::CommunicationExec) &&
+	                              ! editTask->getStandardInputCheck());
 	ui->inputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                              types == Task::Communication);
+	                              types == Task::Communication || types == Task::CommunicationExec);
 	ui->inputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication);
+	                                   types == Task::Communication || types == Task::CommunicationExec);
 	ui->standardInputCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication);
-	ui->outputFileName->setEnabled(
-	    (types == Task::Traditional || types == Task::Interaction || types == Task::Communication) &&
-	    ! editTask->getStandardOutputCheck());
+	                                   types == Task::Communication || types == Task::CommunicationExec);
+	ui->outputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction ||
+	                                types == Task::Communication || types == Task::CommunicationExec) &&
+	                               ! editTask->getStandardOutputCheck());
 	ui->outputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::Communication);
+	                               types == Task::Communication || types == Task::CommunicationExec);
 	ui->outputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication);
+	                                    types == Task::Communication || types == Task::CommunicationExec);
 	ui->standardOutputCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication);
+	                                    types == Task::Communication || types == Task::CommunicationExec);
 	ui->compilerSettingsLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                      types == Task::Communication);
+	                                      types == Task::Communication || types == Task::CommunicationExec);
 	ui->compilersList->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                              types == Task::Communication);
+	                              types == Task::Communication || types == Task::CommunicationExec);
 	ui->configurationLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication);
+	                                   types == Task::Communication || types == Task::CommunicationExec);
 	ui->configurationSelect->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication);
+	                                    types == Task::Communication || types == Task::CommunicationExec);
 	// ui->comparisonMode->setEnabled(types == Task::Traditional || types == Task::AnswersOnly);
 	ui->answerFileExtension->setVisible(types == Task::AnswersOnly);
 	ui->answerFileExtensionLabel->setVisible(types == Task::AnswersOnly);
 	ui->comparisonSetting->setCurrentIndex(ui->comparisonMode->currentIndex());
-	ui->sourceFilesLabel->setVisible(types == Task::Communication);
-	ui->sourceFilesTable->setVisible(types == Task::Communication);
-	ui->graderFilesLabel->setVisible(types == Task::Communication);
-	ui->graderFilesTable->setVisible(types == Task::Communication);
-	ui->sourceFilesAppendButton->setVisible(types == Task::Communication);
-	ui->graderFilesAppendButton->setVisible(types == Task::Communication);
-	ui->sourceFilesRemoveButton->setVisible(types == Task::Communication);
-	ui->graderFilesRemoveButton->setVisible(types == Task::Communication);
-	ui->multiFilesPathLineEdit->setVisible(types == Task::Communication);
-	ui->multiFilesNameLineEdit->setVisible(types == Task::Communication);
-	ui->multiFilesPathNameLabel->setVisible(types == Task::Communication);
+	ui->sourceFilesLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->sourceFilesTable->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->graderFilesLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->graderFilesTable->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->sourceFilesAppendButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->graderFilesAppendButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->sourceFilesRemoveButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->graderFilesRemoveButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->multiFilesPathLineEdit->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->multiFilesNameLineEdit->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	ui->multiFilesPathNameLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
 	multiFilesRefresh();
 }
 
@@ -249,6 +260,14 @@ void TaskEditWidget::setToCommunication(bool check) {
 		return;
 
 	editTask->setTaskType(Task::Communication);
+	refreshWidgetState();
+}
+
+void TaskEditWidget::setToCommunicationExec(bool check) {
+	if (! check || ! editTask)
+		return;
+
+	editTask->setTaskType(Task::CommunicationExec);
 	refreshWidgetState();
 }
 
@@ -441,7 +460,7 @@ void TaskEditWidget::multiFilesRefresh() {
 	if (! editTask)
 		return;
 
-	if (editTask->getTaskType() != Task::Communication)
+	if (editTask->getTaskType() != Task::Communication && editTask->getTaskType() != Task::CommunicationExec)
 		return;
 
 	QStringList sourcePaths = editTask->getSourceFilesPath();

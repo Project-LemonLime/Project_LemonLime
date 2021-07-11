@@ -523,6 +523,10 @@
         <source>Compiled Successfully</source>
         <translation>编译完成</translation>
     </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation>未找到主接口程序（grader.*）</translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -656,6 +660,10 @@
     <message>
         <source>Message</source>
         <translation>信息</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation>未找到主接口程序（grader.*）</translation>
     </message>
 </context>
 <context>
@@ -852,6 +860,10 @@
     <message>
         <source>Export Result</source>
         <translation>导出成绩</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation>未找到主接口程序（grader.*）</translation>
     </message>
 </context>
 <context>
@@ -1303,6 +1315,22 @@ Depends: </source>
     <message>
         <source>Pts</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation>完成</translation>
+    </message>
+    <message>
+        <source>Judge Finished - LemonLime</source>
+        <translation>评测终了 - LemonLime</translation>
+    </message>
+    <message>
+        <source>Judge All: Finished</source>
+        <translation>测试全部：完成</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation>未找到主接口程序（grader.*）</translation>
     </message>
 </context>
 <context>
@@ -2312,7 +2340,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Communication</source>
-        <translation>通信题</translation>
+        <translation type="vanished">通信题</translation>
     </message>
     <message>
         <source>Standard input</source>
@@ -2490,6 +2518,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Interactor Name</source>
         <translation>交互库名称</translation>
+    </message>
+    <message>
+        <source>Communication Task, judged by running exec...</source>
+        <translation>通信题（选手作为完整程序）…</translation>
+    </message>
+    <message>
+        <source>Communication by Exec.</source>
+        <translation type="vanished">通信题（完整程序）</translation>
+    </message>
+    <message>
+        <source>Communication (Part)</source>
+        <translation>通信题（部分代码）</translation>
+    </message>
+    <message>
+        <source>Communication (Exec)</source>
+        <translation>通信题（完整程序）</translation>
     </message>
 </context>
 <context>

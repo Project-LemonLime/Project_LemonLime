@@ -361,7 +361,7 @@ void StatisticsBrowser::refresh() {
 		for (auto &j : contestantList) {
 			cnts[j->getTaskScore(i)]++;
 
-			if (j->getCompileState(i) != NoValidSourceFile)
+			if (j->getCompileState(i) != NoValidSourceFile && j->getCompileState(i) != NoValidGraderFile)
 				numberSubmitted++;
 
 			TestcaseScoreList.append(j->getScore(i));

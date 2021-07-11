@@ -202,7 +202,8 @@ void SummaryTree::addTestCases() {
 	auto *wizard = new AddTestCasesWizard(this);
 	wizard->setSettings(settings, curTask->getTaskType() == Task::Traditional ||
 	                                  curTask->getTaskType() == Task::Interaction ||
-	                                  curTask->getTaskType() == Task::Communication);
+	                                  curTask->getTaskType() == Task::Communication ||
+	                                  curTask->getTaskType() == Task::CommunicationExec);
 
 	if (wizard->exec() == QDialog::Accepted) {
 		QList<QStringList> inputFiles = wizard->getMatchedInputFiles();

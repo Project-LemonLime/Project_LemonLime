@@ -266,7 +266,7 @@ int Task::writeToJson(QJsonObject &in) {
 		WRITE_JSON(in, interactorName);
 	}
 
-	if (taskType == Task::Communication) {
+	if (taskType == Task::Communication || taskType == Task::CommunicationExec) {
 		auto sourceFilesPath = this->sourceFilesPath;
 		auto sourceFilesName = this->sourceFilesName;
 		for (auto &filePath : sourceFilesPath) {
@@ -334,7 +334,7 @@ void Task::writeToStream(QDataStream &out) {
 		out << interactorName;
 	}
 
-	if (taskType == Task::Communication) {
+	if (taskType == Task::Communication || taskType == Task::CommunicationExec) {
 		out << sourceFilesPath.length();
 
 		for (int i = 0; i < sourceFilesPath.length(); i++) {
@@ -392,7 +392,7 @@ int Task::readFromJson(const QJsonObject &in) {
 		READ_JSON(in, interactorName);
 	}
 
-	if (taskType == Task::Communication) {
+	if (taskType == Task::Communication || taskType == Task::CommunicationExec) {
 		READ_JSON(in, sourceFilesPath);
 		READ_JSON(in, sourceFilesName);
 		for (auto &filePath : sourceFilesPath) {
@@ -466,7 +466,7 @@ void Task::readFromStream(QDataStream &in) {
 		in >> interactorName;
 	}
 
-	if (taskType == Task::Communication) {
+	if (taskType == Task::Communication || taskType == Task::CommunicationExec) {
 		int length = 0;
 		in >> length;
 		sourceFilesPath.clear();

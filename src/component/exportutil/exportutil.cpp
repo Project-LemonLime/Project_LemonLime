@@ -46,9 +46,15 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 		if (taskList[i]->getTaskType() == Task::Traditional ||
 		    taskList[i]->getTaskType() == Task::Interaction ||
-		    taskList[i]->getTaskType() == Task::Communication) {
+            taskList[i]->getTaskType() == Task::Communication ||
+            taskList[i]->getTaskType() == Task::CommunicationExec) {
 			if (contestant->getCompileState(i) != CompileSuccessfully) {
 				switch (contestant->getCompileState(i)) {
+                    case NoValidGraderFile:
+                        htmlCode +=
+                            QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Main grader (grader.*) cannot be found"));
+                        break;
+
 					case NoValidSourceFile:
 						htmlCode +=
 						    QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Cannot find valid source file"));
@@ -422,9 +428,15 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 		if (taskList[i]->getTaskType() == Task::Traditional ||
 		    taskList[i]->getTaskType() == Task::Interaction ||
-		    taskList[i]->getTaskType() == Task::Communication) {
+            taskList[i]->getTaskType() == Task::Communication ||
+                taskList[i]->getTaskType() == Task::CommunicationExec) {
 			if (contestant->getCompileState(i) != CompileSuccessfully) {
 				switch (contestant->getCompileState(i)) {
+                    case NoValidGraderFile:
+                        htmlCode +=
+                            QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Main grader (grader.*) cannot be found"));
+                        break;
+
 					case NoValidSourceFile:
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
 						break;

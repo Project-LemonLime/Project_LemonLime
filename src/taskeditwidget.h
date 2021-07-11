@@ -48,6 +48,7 @@ class TaskEditWidget : public QWidget {
 	void setToAnswersOnly(bool);
 	void setToInteraction(bool);
 	void setToCommunication(bool);
+	void setToCommunicationExec(bool);
 	void sourceFileNameChanged(const QString &);
 	void subFolderCheckChanged();
 	void inputFileNameChanged(const QString &);
