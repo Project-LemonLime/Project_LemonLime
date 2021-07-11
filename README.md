@@ -31,7 +31,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |        Windows        |      7     | x86, amd64 |    Untitled    |
 |        Windows        |     10     |    amd64   |    Untitled    |
 |        Manjaro        |   20.0.1   |    amd64   | KDE-Xorg; i3WM |
-|          Arch         | 2020-10-31 |    amd64   |    KDE-Xorg    |
+|          Arch         | 2021-07-11 |    amd64   |    KDE-Xorg    |
 |          Arch         | 2020-10-31 |    amd64   |   KDE-Wayland  |
 |         Ubuntu        |    20.04   |    amd64   |     GNOME 3    |
 |         Ubuntu        |   18.04.4  |    amd64   |     GNOME 3    |
@@ -44,14 +44,14 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |        openSUSE       |  Leap 15.1 |    amd64   |      iceWM     |
 |        openSUSE       | Tumbleweed |    amd64   |    KDE-Xorg    |
 
-如果您在您的系统上做了测试，请前往 [#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49) 告知
+如果您在您的系统上做了测试，请前往 [#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49) 告知。
 
 ## 特色
 
 以下是一些非常重要的改动：
 
 -   **Lemon 绿了！**
--   LemonLime 现在支持 4 种题目类型：传统题、提交答案题、交互题，以及通信题。不过交互题和通信题暂时只确保 C++ 的支持。
+-   LemonLime 现在支持 4 种题目类型：传统题、提交答案题、交互题，以及通信题（2 种：一种是选手只完成部分函数，一种是选手要写多个完整程序）。不过交互题和通信题暂时只确保 C++ 的支持。
 -   现在在选手栏中，每个选手的每个题目都可以单独选择，而不是只能一行一行地选。现在你可以方便地重测某道题，还支持一键测试未测试 / 未找到源文件 / 编译错误等操作。
 -   原先的 Lemon 的重测制度因为过于耗时而被废弃。现在，你可以自定义最大的重新评测次数。
 -   自带的实数比较模式现在将同时比较绝对误差和相对误差，并且对 `nan` 和 `inf` 做出了判断。
@@ -70,7 +70,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 还有一些令人舒适的小变化：
 
 -   支持高 DPI。
--   选手名单上的成绩将会有背景颜色，随着分数变化而变化。导出的 HTML 文件也有颜色，默认配色方案大体来自 IOI，不过你也可以自定义（比如实现深色主题）。
+-   颜色主题：选手名单上的成绩将会有背景颜色，随着分数变化而变化。导出的 HTML 文件也有颜色。默认 2 种主题来自 IOI 和 JOI。主题支持自定义。
 -   各种评测结果在评测时界面、结果查看界面和导出的 HTML 文件有了易于区分的不同的颜色。
 -   支持重新排列题目顺序。在有些时候它很重要。
 -   支持重命名比赛。
@@ -88,9 +88,10 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 ## 构建
 
-[Here](BUILD.md)
+请看 [LemonLime 构建指南](BUILD.md)。
 
 ## Credit
+
 ```
 Copyright (c) 2019-2021 Project LemonLime.
 
