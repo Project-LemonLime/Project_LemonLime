@@ -107,8 +107,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 		QStringList sourcePaths;
 		QStringList sourceNames;
 		QStringList graderPaths;
-        QStringList graderNames;
-        QString mainGraderPath;
+		QStringList graderNames;
+		QString mainGraderPath;
 		QString mainGraderName;
 
 		if (! sourceFile.isEmpty()) {
@@ -237,8 +237,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 							bool found = 0;
 							for (auto k : graderPaths) {
 								QString name = k.section(QDir::separator(), -1);
-                                if (filters.contains(name)) {
-                                    mainGraderPath = k;
+								if (filters.contains(name)) {
+									mainGraderPath = k;
 									mainGraderName = name;
 									found = 1;
 									break;
