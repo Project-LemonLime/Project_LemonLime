@@ -32,7 +32,11 @@ JudgingDialog::~JudgingDialog() {
 
 void JudgingDialog::sendNotify(QString head, QString body) {
 #ifdef Q_OS_LINUX
-	QString text = "notify-send -a Lemonlime -t 2000 -u normal \"" + head + "\" " + body + "\"";
+	QString text = "notify-send";
+	QStringList args;
+	args.append(head);
+	args.append(body);
+	QProcess::execute(text, args);
 #endif
 }
 

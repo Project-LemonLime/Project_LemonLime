@@ -18,8 +18,8 @@
 
 ColorTheme::ColorTheme(QObject *parent) : QObject(parent) {}
 
-void ColorTheme::setColor(hslTuple _mx, hslTuple _mi, hslTuple _nf, hslTuple _ce, dddTuple _gc,
-                          dddTuple _gr) {
+void ColorTheme::setColor(const hslTuple &_mx, const hslTuple &_mi, const hslTuple &_nf, const hslTuple &_ce,
+                          const dddTuple &_gc, const dddTuple &_gr) {
 	mxColor = _mx;
 	miColor = _mi;
 	nfColor = _nf;
