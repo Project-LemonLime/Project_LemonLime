@@ -135,68 +135,68 @@ auto Settings::getSplashTime() const -> int { return splashTime; }
 
 void Settings::setDefaultFullScore(int score) {
 	defaultFullScore = score;
-    DEBUG("Set Default Full Score to " + QString::number(score));
+	DEBUG("Set Default Full Score to " + QString::number(score));
 }
 
 void Settings::setDefaultTimeLimit(int limit) {
 	defaultTimeLimit = limit;
-    DEBUG("Set Default Time Limit to " + QString::number(limit));
+	DEBUG("Set Default Time Limit to " + QString::number(limit));
 }
 
 void Settings::setDefaultExtraTimeRatio(double ratio) {
 	defaultExtraTimeRatio = ratio;
-    DEBUG("Set Default Extra Time Ratio to " + QString::number(ratio));
+	DEBUG("Set Default Extra Time Ratio to " + QString::number(ratio));
 }
 void Settings::setDefaultMemoryLimit(int limit) {
 	defaultMemoryLimit = limit;
-    DEBUG("Set Default Memory Limit to " + QString::number(limit));
+	DEBUG("Set Default Memory Limit to " + QString::number(limit));
 }
 
 void Settings::setCompileTimeLimit(int limit) {
 	compileTimeLimit = limit;
-    DEBUG("Set Compile Time Limit to " + QString::number(limit));
+	DEBUG("Set Compile Time Limit to " + QString::number(limit));
 }
 
 void Settings::setSpecialJudgeTimeLimit(int limit) {
 	specialJudgeTimeLimit = limit;
-    DEBUG("Set SpecialJudge Time Limit to " + QString::number(limit));
+	DEBUG("Set SpecialJudge Time Limit to " + QString::number(limit));
 }
 
 void Settings::setFileSizeLimit(int limit) {
 	fileSizeLimit = limit;
-    DEBUG("Set File Size Limit to " + QString::number(limit));
+	DEBUG("Set File Size Limit to " + QString::number(limit));
 }
 
 void Settings::setRejudgeTimes(int number) {
 	rejudgeTimes = number;
-    DEBUG("Set Rejudge Times to " + QString::number(number));
+	DEBUG("Set Rejudge Times to " + QString::number(number));
 }
 
 void Settings::setDefaultInputFileExtension(const QString &extension) {
 	defaultInputFileExtension = extension;
-    DEBUG("Set Default InputFile Extension to " + extension);
+	DEBUG("Set Default InputFile Extension to " + extension);
 }
 
 void Settings::setDefaultOutputFileExtension(const QString &extension) {
 	defaultOutputFileExtension = extension;
-    DEBUG("Set Default OutputFile Extension to " + extension);
+	DEBUG("Set Default OutputFile Extension to " + extension);
 }
 
 void Settings::setInputFileExtensions(const QString &extensions) {
 	inputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
-    DEBUG("Set InputFile Extensions to " + extensions);
+	DEBUG("Set InputFile Extensions to " + extensions);
 }
 
 void Settings::setOutputFileExtensions(const QString &extensions) {
 	outputFileExtensions = extensions.split(";", Qt::SkipEmptyParts);
-    DEBUG("Set OutputFile Extensions to " + extensions);
+	DEBUG("Set OutputFile Extensions to " + extensions);
 }
 
 void Settings::setRecentContest(const QStringList &list) { recentContest = list; }
 
 void Settings::setUiLanguage(const QString &language) {
 	uiLanguage = language;
-    DEBUG("Set Language to " + language);
+	DEBUG("Set Language to " + language);
 }
 
 void Settings::addCompiler(Compiler *compiler) {
@@ -551,7 +551,7 @@ void Settings::loadSettings() {
 		addColorTheme(colorTheme);
 	}
 	settings.endArray();
-    currentColorTheme = settings.value("CurrentColorTheme", 0).toInt();
+	currentColorTheme = settings.value("CurrentColorTheme", 0).toInt();
 	splashTime = settings.value("SplashTime", 500).toInt();
 	settings.endGroup();
 
