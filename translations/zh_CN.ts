@@ -785,10 +785,6 @@
         <translation>子任务依赖情况</translation>
     </message>
     <message>
-        <source>Use Default Color Theme?</source>
-        <translation type="vanished">使用默认的颜色主题吗？</translation>
-    </message>
-    <message>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
@@ -2339,10 +2335,6 @@ p, li { white-space: pre-wrap; }
         <translation>通信题…</translation>
     </message>
     <message>
-        <source>Communication</source>
-        <translation type="vanished">通信题</translation>
-    </message>
-    <message>
         <source>Standard input</source>
         <translation>定向到标准输入</translation>
     </message>
@@ -2524,10 +2516,6 @@ p, li { white-space: pre-wrap; }
         <translation>通信题（选手作为完整程序）…</translation>
     </message>
     <message>
-        <source>Communication by Exec.</source>
-        <translation type="vanished">通信题（完整程序）</translation>
-    </message>
-    <message>
         <source>Communication (Part)</source>
         <translation>通信题（部分代码）</translation>
     </message>
@@ -2707,14 +2695,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Color NoFile (HSL)</source>
         <translation>无文件 HSL 颜色</translation>
-    </message>
-    <message>
-        <source>Splash Time (MS)</source>
-        <translation type="vanished">启动横幅毫秒数</translation>
-    </message>
-    <message>
-        <source>Reset to Default</source>
-        <translation type="vanished">重置到默认</translation>
     </message>
     <message>
         <source>Theme Name</source>
