@@ -214,7 +214,8 @@ void LemonLime::summarySelectionChanged() {
 		TestCase *curTestCase = curTask->getTestCase(testCaseIndex);
 		ui->testCaseEdit->setEditTestCase(curTestCase, curTask->getTaskType() == Task::Traditional ||
 		                                                   curTask->getTaskType() == Task::Interaction ||
-		                                                   curTask->getTaskType() == Task::Communication);
+		                                                   curTask->getTaskType() == Task::Communication ||
+		                                                   curTask->getTaskType() == Task::CommunicationExec);
 		ui->editWidget->setCurrentIndex(2);
 	}
 }
@@ -408,7 +409,8 @@ void LemonLime::cleanupButtonClicked() {
 						origSet[temp] = taskName;
 					}
 				}
-			} else if (taskList[i]->getTaskType() == Task::Communication) {
+			} else if (taskList[i]->getTaskType() == Task::Communication ||
+			           taskList[i]->getTaskType() == Task::CommunicationExec) {
 				QStringList sourcePaths = taskList[i]->getSourceFilesPath();
 
 				for (const auto &j : sourcePaths) {
@@ -470,7 +472,7 @@ void LemonLime::cleanupButtonClicked() {
 					int types = taskList[who]->getTaskType();
 
 					if (types == Task::Traditional || types == Task::Interaction ||
-					    types == Task::Communication) {
+					    types == Task::Communication || types == Task::CommunicationExec) {
 						if (proFilName != taskList[who]->getInputFileName() &&
 						    proFilName != taskList[who]->getOutputFileName())
 							QFile::copy(proFilWho.filePath(), conDirWho.filePath() + QDir::separator() +

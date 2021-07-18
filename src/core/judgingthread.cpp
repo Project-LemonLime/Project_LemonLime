@@ -1274,6 +1274,7 @@ void JudgingThread::run() {
 		case Task::Interaction:
 		case Task::Traditional:
 		case Task::Communication:
+		case Task::CommunicationExec:
 			judgeTraditionalTask();
 			break;
 

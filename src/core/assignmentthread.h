@@ -42,6 +42,7 @@ class AssignmentThread : public QThread {
   private:
 	// bool checkRejudgeMode;
 
+	const QString commExecGrader = "grader";
 	bool interpreterFlag{};
 	Settings *settings{};
 	Task *task{};

@@ -22,7 +22,7 @@ struct hslTuple {
 	double s;
 	double l;
 	hslTuple(int _h = 0, double _s = 0.00, double _l = 0.00) : h(_h), s(_s), l(_l) {}
-	QColor toHsl() { return QColor::fromHslF(h / 360.0, s / 100.0, l / 100.0); }
+	const QColor toHsl() const { return QColor::fromHslF(h / 360.0, s / 100.0, l / 100.0); }
 };
 Q_DECLARE_METATYPE(hslTuple)
 
@@ -40,7 +40,8 @@ class ColorTheme : public QObject {
 	explicit ColorTheme(QObject *parent = nullptr);
 
 	void setName(QString);
-	void setColor(hslTuple, hslTuple, hslTuple, hslTuple, dddTuple, dddTuple);
+	void setColor(const hslTuple &, const hslTuple &, const hslTuple &, const hslTuple &, const dddTuple &,
+	              const dddTuple &);
 	void copyFrom(ColorTheme *);
 
 	QString getName() const;

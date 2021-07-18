@@ -13,7 +13,8 @@ enum CompileState {
 	NoValidSourceFile,
 	CompileError,
 	CompileTimeLimitExceeded,
-	InvalidCompiler
+	InvalidCompiler,
+	NoValidGraderFile
 };
 
 enum ResultState {

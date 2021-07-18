@@ -19,7 +19,7 @@ class Settings;
 class Task : public QObject {
 	Q_OBJECT
   public:
-	enum TaskType { Traditional, AnswersOnly, Interaction, Communication };
+	enum TaskType { Traditional, AnswersOnly, Interaction, Communication, CommunicationExec };
 	enum ComparisonMode {
 		LineByLineMode,
 		IgnoreSpacesMode,

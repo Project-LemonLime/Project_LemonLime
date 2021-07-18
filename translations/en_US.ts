@@ -515,6 +515,10 @@
         <source>Compiled Successfully</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -643,6 +647,10 @@
     </message>
     <message>
         <source>Message</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
         <translation></translation>
     </message>
 </context>
@@ -835,7 +843,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Use Default Color Theme?</source>
+        <source>Main grader (grader.*) cannot be found</source>
         <translation></translation>
     </message>
 </context>
@@ -1277,6 +1285,22 @@ Depends: </source>
     </message>
     <message>
         <source>Pts</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Judge Finished - LemonLime</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Judge All: Finished</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
         <translation></translation>
     </message>
 </context>
@@ -2057,6 +2081,14 @@ Depends: </source>
         <source>Interactor Error</source>
         <translation></translation>
     </message>
+    <message>
+        <source>ranking.ioi2021.sg</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>mock joi2020</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>StatisticsBrowser</name>
@@ -2335,10 +2367,6 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Communication</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Redirect to standard output...</source>
         <translation></translation>
     </message>
@@ -2450,6 +2478,18 @@ p, li { white-space: pre-wrap; }
         <source>Interactor Path...</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Communication (Part)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Communication Task, judged by running exec...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Communication (Exec)</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>TestCaseEditWidget</name>
@@ -2555,6 +2595,44 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ThemeEditDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>VisualMainSettings</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Splash Time</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>New Theme</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>VisualSettings</name>
     <message>
         <source>Form</source>
@@ -2585,11 +2663,7 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Splash Time (MS)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Reset to Default</source>
+        <source>Theme Name</source>
         <translation></translation>
     </message>
 </context>

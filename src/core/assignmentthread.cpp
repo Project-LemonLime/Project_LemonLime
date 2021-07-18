@@ -8,6 +8,7 @@
  */
 
 #include "assignmentthread.h"
+#include "base/LemonLog.hpp"
 #include "base/LemonType.hpp"
 #include "core/subtaskdependencelib.h"
 
@@ -18,6 +19,8 @@
 #include "core/task.h"
 #include "core/testcase.h"
 #include <utility>
+
+#define LEMON_MODULE_NAME "AssignmentThread"
 
 AssignmentThread::AssignmentThread(QObject *parent) : QThread(parent) {
 	moveToThread(this);
@@ -69,7 +72,7 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 
 		QStringList filters;
 
-		if (task->getTaskType() == Task::Communication) {
+		if (task->getTaskType() == Task::Communication || task->getTaskType() == Task::CommunicationExec) {
 			filters = task->getSourceFilesPath();
 		} else {
 			filters = i->getSourceExtensions();
@@ -91,7 +94,8 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 			        .size();
 
 			if (fileSize <= settings->getFileSizeLimit() * 1024) {
-				if (task->getTaskType() == Task::Communication) {
+				if (task->getTaskType() == Task::Communication ||
+				    task->getTaskType() == Task::CommunicationExec) {
 					sourceFile = sourceFile + " " + files[j] + " ";
 				} else {
 					sourceFile = files[j];
@@ -100,13 +104,21 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 			}
 		}
 
+		QStringList sourcePaths;
+		QStringList sourceNames;
+		QStringList graderPaths;
+		QStringList graderNames;
+		QString mainGraderPath;
+		QString mainGraderName;
+
 		if (! sourceFile.isEmpty()) {
 			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator()).mkdir(contestantName);
 
-			if (task->getTaskType() == Task::Communication) {
+			if (task->getTaskType() == Task::Communication ||
+			    task->getTaskType() == Task::CommunicationExec) {
 				sourceFile = "";
-				QStringList sourcePaths = task->getSourceFilesPath();
-				QStringList sourceNames = task->getSourceFilesName();
+				sourcePaths = task->getSourceFilesPath();
+				sourceNames = task->getSourceFilesName();
 
 				for (int i = 0; i < sourcePaths.length(); i++) {
 					QFile::copy(Settings::sourcePath() + contestantName +
@@ -137,9 +149,10 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 				                contestantName + QDir::separator() + "__grader.cpp");
 			}
 
-			if (task->getTaskType() == Task::Communication) {
-				QStringList graderPaths = task->getGraderFilesPath();
-				QStringList graderNames = task->getGraderFilesName();
+			if (task->getTaskType() == Task::Communication ||
+			    task->getTaskType() == Task::CommunicationExec) {
+				graderPaths = task->getGraderFilesPath();
+				graderNames = task->getGraderFilesName();
 
 				for (int i = 0; i < graderPaths.length(); i++) {
 					QFile::copy(Settings::dataPath() + graderPaths[i],
@@ -180,10 +193,13 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 					}
 
 					if (i->getCompilerType() == Compiler::Typical) {
+						if (task->getTaskType() == Task::CommunicationExec)
+							executableFile = commExecGrader;
+						else
+							executableFile = task->getSourceFileName();
+
 #ifdef Q_OS_WIN32
-						executableFile = task->getSourceFileName() + ".exe";
-#else
-						executableFile = task->getSourceFileName();
+						executableFile.append(".exe");
 #endif
 						interpreterFlag = false;
 					} else {
@@ -196,89 +212,129 @@ auto AssignmentThread::traditionalTaskPrepare() -> bool {
 
 					if (i->getCompilerType() != Compiler::InterpretiveWithoutByteCode) {
 						makeDialogAlert(tr("Compiling..."));
-						QString arguments = compilerArguments[j];
+						QStringList arguments;
+						arguments.append(compilerArguments[j]);
 
 						if (task->getTaskType() == Task::Interaction) {
-							arguments.replace("%s.*", sourceFile + " __grader.cpp");
+							arguments[0].replace("%s.*", sourceFile + " __grader.cpp");
+							arguments[0].replace("%s", task->getSourceFileName());
 						} else if (task->getTaskType() == Task::Communication) {
-							arguments.replace("%s.*", sourceFile + extraFiles);
-						} else
-							arguments.replace("%s.*", sourceFile);
+							arguments[0].replace("%s.*", sourceFile + extraFiles);
+							arguments[0].replace("%s", task->getSourceFileName());
+						} else if (task->getTaskType() == Task::CommunicationExec) {
+							for (int k = 1; k < sourceNames.size(); k++)
+								arguments.append(compilerArguments[j]);
+							for (int k = 0; k < sourceNames.size(); k++) {
+								arguments[k].replace("%s.*", sourceNames[k]);
+								QString name = sourceNames[k];
+								name.truncate(name.lastIndexOf('.'));
+								arguments[k].replace("%s", name);
+							}
 
-						arguments.replace("%s", task->getSourceFileName());
-						auto *compiler = new QProcess(this);
-						compiler->setProcessChannelMode(QProcess::MergedChannels);
-						compiler->setProcessEnvironment(environment);
-						compiler->setWorkingDirectory(QDir::toNativeSeparators(temporaryDir.path()) +
-						                              QDir::separator() + contestantName);
-						// TODO: 需要重构代码来处理含空格路径问题
-
-						compiler->start(i->getCompilerLocation(),
-						                arguments.split(QLatin1Char(' '), Qt::SkipEmptyParts));
-
-						if (! compiler->waitForStarted(-1)) {
-							compileState = InvalidCompiler;
-							delete compiler;
-							break;
-						}
-
-						QElapsedTimer timer;
-						timer.start();
-						bool flag = false;
-
-						while (timer.elapsed() < settings->getCompileTimeLimit()) {
-							if (compiler->state() != QProcess::Running) {
-								flag = true;
+							QStringList filters = i->getSourceExtensions();
+							for (auto &k : filters)
+								k = commExecGrader + "." + k;
+							bool found = 0;
+							for (auto k : graderPaths) {
+								QString name = k.section(QDir::separator(), -1);
+								if (filters.contains(name)) {
+									mainGraderPath = k;
+									mainGraderName = name;
+									found = 1;
+									break;
+								}
+							}
+							if (! found) {
+								compileState = NoValidGraderFile;
+								compileMessage = tr("Main grader (grader.*) cannot be found");
 								break;
 							}
 
-							QCoreApplication::processEvents();
-
-							if (stopJudging) {
-								compiler->kill();
-								delete compiler;
-								return false;
-							}
-
-							msleep(10);
+							auto graderArgument = compilerArguments[j] + " -lpthread";
+							arguments.append(graderArgument);
+							graderArgument.replace("%s.*", mainGraderName);
+							graderArgument.replace("%s", commExecGrader);
+							arguments.append(graderArgument);
+						} else {
+							arguments[0].replace("%s.*", sourceFile);
+							arguments[0].replace("%s", task->getSourceFileName());
 						}
 
-						if (! flag) {
-							compiler->kill();
-							compileState = CompileTimeLimitExceeded;
-						} else if (compiler->exitCode() != 0) {
-							compileState = CompileError;
-							compileMessage =
-							    QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
-						} else {
-							if (i->getCompilerType() == Compiler::Typical) {
-								if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-								           contestantName)
-								          .exists(executableFile)) {
-									compileState = InvalidCompiler;
-								} else {
-									compileState = CompileSuccessfully;
+						for (auto k : arguments) {
+							auto *compiler = new QProcess(this);
+							compiler->setProcessChannelMode(QProcess::MergedChannels);
+							compiler->setProcessEnvironment(environment);
+							compiler->setWorkingDirectory(QDir::toNativeSeparators(temporaryDir.path()) +
+							                              QDir::separator() + contestantName);
+							// TODO: 需要重构代码来处理含空格路径问题
+
+							compiler->start(i->getCompilerLocation(),
+							                k.split(QLatin1Char(' '), Qt::SkipEmptyParts));
+
+							if (! compiler->waitForStarted(-1)) {
+								compileState = InvalidCompiler;
+								delete compiler;
+								break;
+							}
+
+							QElapsedTimer timer;
+							timer.start();
+							bool flag = false;
+
+							while (timer.elapsed() < settings->getCompileTimeLimit()) {
+								if (compiler->state() != QProcess::Running) {
+									flag = true;
+									break;
 								}
+
+								QCoreApplication::processEvents();
+
+								if (stopJudging) {
+									compiler->kill();
+									delete compiler;
+									return false;
+								}
+
+								msleep(10);
+							}
+
+							if (! flag) {
+								compiler->kill();
+								compileState = CompileTimeLimitExceeded;
+							} else if (compiler->exitCode() != 0) {
+								compileState = CompileError;
+								compileMessage =
+								    QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
 							} else {
-								QStringList filters = i->getBytecodeExtensions();
-
-								for (int k = 0; k < filters.size(); k++) {
-									filters[k] = QString("*.") + filters[k];
-								}
-
-								if (QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-								         contestantName)
-								        .entryList(filters, QDir::Files)
-								        .empty()) {
-									compileState = InvalidCompiler;
+								if (i->getCompilerType() == Compiler::Typical) {
+									if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) +
+									           QDir::separator() + contestantName)
+									          .exists(executableFile)) {
+										compileState = InvalidCompiler;
+									} else {
+										compileState = CompileSuccessfully;
+									}
 								} else {
-									compileState = CompileSuccessfully;
+									QStringList filters = i->getBytecodeExtensions();
+
+									for (int k = 0; k < filters.size(); k++) {
+										filters[k] = QString("*.") + filters[k];
+									}
+
+									if (QDir(QDir::toNativeSeparators(temporaryDir.path()) +
+									         QDir::separator() + contestantName)
+									        .entryList(filters, QDir::Files)
+									        .empty()) {
+										compileState = InvalidCompiler;
+									} else {
+										compileState = CompileSuccessfully;
+									}
 								}
 							}
+							delete compiler;
 						}
 
 						makeDialogAlert(tr("Compiled Successfully"));
-						delete compiler;
 					}
 
 					if (i->getCompilerType() == Compiler::InterpretiveWithoutByteCode)
@@ -423,7 +479,7 @@ void AssignmentThread::assign() {
 	thread->setDiffPath(settings->getDiffPath());
 
 	if (task->getTaskType() == Task::Traditional || task->getTaskType() == Task::Interaction ||
-	    task->getTaskType() == Task::Communication) {
+	    task->getTaskType() == Task::Communication || task->getTaskType() == Task::CommunicationExec) {
 		if (interpreterFlag) {
 			thread->setExecutableFile(executableFile);
 		} else {

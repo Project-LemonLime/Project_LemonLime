@@ -322,7 +322,8 @@ void ResultViewer::judgeMagenta() {
 		for (int j = 0; j < taskSize; j++) {
 			if (taskList[j]->getTaskType() != Task::AnswersOnly &&
 			    contestantList[i]->getCompileState(j) != CompileSuccessfully &&
-			    contestantList[i]->getCompileState(j) != NoValidSourceFile) {
+			    contestantList[i]->getCompileState(j) != NoValidSourceFile &&
+			    contestantList[i]->getCompileState(j) != NoValidGraderFile) {
 				mapping[contestantList[i]->getContestantName()].insert(j);
 			}
 		}
