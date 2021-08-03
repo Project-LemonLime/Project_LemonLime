@@ -168,7 +168,7 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	stopJudging = false;
 	emit contestantJudgingStart(contestant->getContestantName());
 	for (auto i : indexes) {
-		emit taskJudgingStarted(taskList[i]->getProblemTile());
+		emit taskJudgingStarted(taskList[i]->getProblemTitle());
 		auto *thread = new AssignmentThread();
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
 		connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
@@ -200,7 +200,7 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 		contestant->setTimeUsed(i, thread->getTimeUsed());
 		contestant->setMemoryUsed(i, thread->getMemoryUsed());
 		contestant->setCheckJudged(i, true);
-		emit taskJudgedDisplay(taskList[i]->getProblemTile(), thread->getScore(),
+		emit taskJudgedDisplay(taskList[i]->getProblemTitle(), thread->getScore(),
 		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
 		delete thread;

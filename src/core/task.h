@@ -37,7 +37,7 @@ class Task : public QObject {
 	void copyTo(Task *);
 
 	const QList<TestCase *> &getTestCaseList() const;
-	const QString &getProblemTile() const;
+	const QString &getProblemTitle() const;
 	bool getSubFolderCheck() const;
 	const QString &getSourceFileName() const;
 	const QString &getInputFileName() const;

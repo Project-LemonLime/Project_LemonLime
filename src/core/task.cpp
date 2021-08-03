@@ -32,7 +32,7 @@ void Task::copyTo(Task *to) {
 
 auto Task::getTestCaseList() const -> const QList<TestCase *> & { return testCaseList; }
 
-auto Task::getProblemTile() const -> const QString & { return problemTitle; }
+auto Task::getProblemTitle() const -> const QString & { return problemTitle; }
 
 auto Task::getSubFolderCheck() const -> bool { return subFolderCheck; }
 

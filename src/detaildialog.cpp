@@ -45,7 +45,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 		htmlCode +=
 		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span>)")
 		        .arg(tr("Task"))
-		        .arg(taskList[i]->getProblemTile())
+		        .arg(taskList[i]->getProblemTitle())
 		        .arg(i)
 		        .arg(tr("Rejudge"))
 		        .arg(contestant->getTaskScore(i))
@@ -59,7 +59,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 		htmlCode +=
 		    QString(R"(%1 %2 (%5 / %6) <a href="Rejudge %3" style="text-decoration: none">(%4)</span><br>)")
 		        .arg(tr("Task"))
-		        .arg(taskList[i]->getProblemTile())
+		        .arg(taskList[i]->getProblemTitle())
 		        .arg(i)
 		        .arg(tr("Rejudge"))
 		        .arg(contestant->getTaskScore(i))

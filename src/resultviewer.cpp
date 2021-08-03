@@ -108,7 +108,7 @@ void ResultViewer::refreshViewer() {
 	const ColorTheme *colors = setting.getCurrentColorTheme();
 
 	for (auto &i : taskList) {
-		headerList << i->getProblemTile();
+		headerList << i->getProblemTitle();
 	}
 
 	headerList << tr("Total Used Time (s)") << tr("Judging Time");

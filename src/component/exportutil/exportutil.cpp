@@ -37,7 +37,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		htmlCode += QString(R"(<a name="c%1p%2"><p><span style="font-weight:bold; font-size:large;">)")
 		                .arg(num)
 		                .arg(i);
-		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTile());
+		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTitle());
 
 		if (! contestant->getCheckJudged(i)) {
 			htmlCode += QString("&nbsp;&nbsp;%1</p></a>").arg(tr("Not judged"));
@@ -311,7 +311,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	for (auto &i : taskList)
 		out << QString(
 		           R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)")
-		           .arg(i->getProblemTile());
+		           .arg(i->getProblemTitle());
 
 	out << "</tr>";
 	QList<int> fullScore;
@@ -419,7 +419,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 	for (int i = 0; i < taskList.size(); i++) {
 		htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
-		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTile());
+		htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTitle());
 
 		if (! contestant->getCheckJudged(i)) {
 			htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Not judged"));
@@ -639,7 +639,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Total Score"));
 
 	for (auto &i : taskList)
-		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTile());
+		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTitle());
 
 	out << QString("</tr>");
 	QList<int> fullScore;
@@ -734,7 +734,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 	    << ",";
 
 	for (auto &i : taskList) {
-		out << "\"" << i->getProblemTile() << "\""
+		out << "\"" << i->getProblemTitle() << "\""
 		    << ",";
 	}
 
@@ -825,7 +825,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 
 	for (int i = 0; i < taskList.size(); i++)
 		sheet->querySubObject("Cells(int, int)", 1, 3 + i)
-		    ->setProperty("Value", taskList[i]->getProblemTile());
+		    ->setProperty("Value", taskList[i]->getProblemTitle());
 
 	sheet->querySubObject("Cells(int, int)", 1, 3 + taskList.size())->setProperty("Value", tr("Total Score"));
 

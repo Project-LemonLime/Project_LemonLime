@@ -351,7 +351,7 @@ void StatisticsBrowser::refresh() {
 
 	for (int i = 0; i < taskList.size(); i++) {
 		buffer += "<h3>";
-		buffer += QString("%1 %2: %3").arg(tr("Task")).arg(i + 1).arg(taskList[i]->getProblemTile());
+		buffer += QString("%1 %2: %3").arg(tr("Task")).arg(i + 1).arg(taskList[i]->getProblemTitle());
 		buffer += "</h3>";
 		int numberSubmitted = 0;
 		QMap<int, int> cnts;

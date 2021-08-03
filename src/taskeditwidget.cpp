@@ -95,7 +95,7 @@ void TaskEditWidget::setEditTask(Task *task) {
 
 	connect(editTask, SIGNAL(problemTitleChanged(QString)), this, SLOT(refreshProblemTitle(QString)));
 	connect(editTask, SIGNAL(compilerConfigurationRefreshed()), this, SLOT(refreshCompilerConfiguration()));
-	ui->problemTitle->setText(editTask->getProblemTile());
+	ui->problemTitle->setText(editTask->getProblemTitle());
 	ui->sourceFileName->setEnabled(false);
 	ui->sourceFileName->setText(editTask->getSourceFileName());
 

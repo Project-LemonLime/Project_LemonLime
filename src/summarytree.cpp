@@ -102,7 +102,7 @@ void SummaryTree::setContest(Contest *contest) {
 	for (auto &i : taskList) {
 		connect(i, SIGNAL(problemTitleChanged(QString)), this, SLOT(titleChanged(QString)));
 		auto *newTaskItem = new QTreeWidgetItem(this);
-		newTaskItem->setText(0, i->getProblemTile());
+		newTaskItem->setText(0, i->getProblemTitle());
 		newTaskItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 		for (int j = 0; j < i->getTestCaseList().size(); j++) {
