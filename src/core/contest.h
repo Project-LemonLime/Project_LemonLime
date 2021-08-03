@@ -52,8 +52,7 @@ class Contest : public QObject {
 	QMap<QString, Contestant *> contestantList;
 	bool stopJudging{};
 	void judge(Contestant *);
-	void judge(Contestant *, int);
-	void judge(Contestant *, const QSet<int> &);
+	void judge(Contestant *, const QVector<int> &);
 	void clearPath(const QString &);
 
   public slots:
