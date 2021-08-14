@@ -235,19 +235,19 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 						}
 
 						for (auto k : arguments) {
-							auto *compiler = new QProcess(this);
-							compiler->setProcessChannelMode(QProcess::MergedChannels);
-							compiler->setProcessEnvironment(environment);
-							compiler->setWorkingDirectory(QDir::toNativeSeparators(temporaryDir.path()) +
-							                              QDir::separator() + contestantName);
+							QProcess compilerProcess;
+							compilerProcess.setProcessChannelMode(QProcess::MergedChannels);
+							compilerProcess.setProcessEnvironment(environment);
+							compilerProcess.setWorkingDirectory(
+							    QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+							    contestantName);
 							// TODO: 需要重构代码来处理含空格路径问题
 
-							compiler->start(i->getCompilerLocation(),
-							                k.split(QLatin1Char(' '), Qt::SkipEmptyParts));
+							compilerProcess.start(i->getCompilerLocation(),
+							                      k.split(QLatin1Char(' '), Qt::SkipEmptyParts));
 
-							if (! compiler->waitForStarted(-1)) {
+							if (! compilerProcess.waitForStarted(-1)) {
 								compileState = InvalidCompiler;
-								delete compiler;
 								break;
 							}
 
@@ -256,7 +256,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 							bool flag = false;
 
 							while (timer.elapsed() < settings->getCompileTimeLimit()) {
-								if (compiler->state() != QProcess::Running) {
+								if (compilerProcess.state() != QProcess::Running) {
 									flag = true;
 									break;
 								}
@@ -264,20 +264,19 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 								QCoreApplication::processEvents();
 
 								if (stopJudging) {
-									compiler->kill();
-									delete compiler;
+									compilerProcess.kill();
 									return false;
 								}
 								QThread::msleep(10);
 							}
 
 							if (! flag) {
-								compiler->kill();
+								compilerProcess.kill();
 								compileState = CompileTimeLimitExceeded;
-							} else if (compiler->exitCode() != 0) {
+							} else if (compilerProcess.exitCode() != 0) {
 								compileState = CompileError;
-								compileMessage =
-								    QString::fromLocal8Bit(compiler->readAllStandardOutput().constData());
+								compileMessage = QString::fromLocal8Bit(
+								    compilerProcess.readAllStandardOutput().constData());
 							} else {
 								if (i->getCompilerType() == Compiler::Typical) {
 									if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) +
@@ -304,7 +303,6 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 									}
 								}
 							}
-							delete compiler;
 						}
 
 						makeDialogAlert(tr("Compiled Successfully"));

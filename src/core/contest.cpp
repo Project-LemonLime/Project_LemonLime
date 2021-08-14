@@ -180,39 +180,37 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 		taskJudger->setTask(taskList[i]);
 		taskJudger->setSettings(settings);
 		taskJudger->setContestantName(contestant->getContestantName());
-		futures.append(QtConcurrent::run(&threadPool, [&] { return taskJudger->judge(); }));
+		futures.append(QtConcurrent::run(&threadPool, [taskJudger] { return taskJudger->judge(); }));
 		auto *watcher = new QFutureWatcher<TaskResult>;
-		watcher->setFuture(futures.back());
 		connect(watcher, &QFutureWatcher<TaskResult>::started,
-		        [&]() { emit taskJudgingStarted(taskList[i]->getProblemTitle()); });
+		        [&, i]() { emit taskJudgingStarted(taskList[i]->getProblemTitle()); });
 		connect(watcher, &QFutureWatcher<TaskResult>::finished, watcher, &QObject::deleteLater);
+		connect(watcher, &QFutureWatcher<TaskResult>::finished, taskJudger, &QObject::deleteLater);
+		watcher->setFuture(futures.back());
 		/*
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
 		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
 		        &Contest::singleSubtaskDependenceFinished);
 		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
-
-		contestant->setCompileState(i, thread->getCompileState());
-		contestant->setCompileMessage(i, thread->getCompileMessage());
-		contestant->setSourceFile(i, thread->getSourceFile());
-		contestant->setInputFiles(i, thread->getInputFiles());
-		contestant->setResult(i, thread->getResult());
-		contestant->setMessage(i, thread->getMessage());
-		contestant->setScore(i, thread->getScore());
-		contestant->setTimeUsed(i, thread->getTimeUsed());
-		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-		contestant->setCheckJudged(i, true);
-		emit taskJudgedDisplay(taskList[i]->getProblemTitle(), thread->getScore(),
-		                       taskList[i]->getTotalScore());
-		emit taskJudgingFinished();
-		delete thread; */
+		*/
 	}
-	threadPool.setMaxThreadCount(4);
-	while (! threadPool.waitForDone(10))
+	threadPool.setMaxThreadCount(8);
+	while (! threadPool.waitForDone(5) && ! stopJudging)
 		QCoreApplication::processEvents();
 
-	for (auto i : futures) {
-		TaskResult result = i.result();
+	for (int i = 0; i < indexes.size(); i++) {
+		TaskResult result = futures[i].result();
+		int index = indexes[i];
+		contestant->setCompileState(index, result.compileState);
+		contestant->setCompileMessage(index, result.compileMessage);
+		contestant->setSourceFile(index, result.sourceFile);
+		contestant->setInputFiles(index, result.inputFiles);
+		contestant->setResult(index, result.resultState);
+		contestant->setMessage(index, result.resultMessage);
+		contestant->setScore(index, result.scores);
+		contestant->setTimeUsed(index, result.timeUsed);
+		contestant->setMemoryUsed(index, result.memoryUsed);
+		contestant->setCheckJudged(index, true);
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
@@ -248,10 +246,7 @@ void Contest::judgeAll() {
 	}
 }
 
-void Contest::stopJudgingSlot() {
-	stopJudging = true;
-	emit stopJudgingSignal();
-}
+void Contest::stopJudgingSlot() { stopJudging = true; }
 
 void Contest::writeToStream(QDataStream &out) {
 	out << contestTitle;
