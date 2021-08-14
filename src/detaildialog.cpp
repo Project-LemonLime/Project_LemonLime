@@ -206,7 +206,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 						if (score[j][t] < minv)
 							minv = score[j][t];
 
-					int tempStatus = mxDependValue + 1;
+					int tempStatus = maxDependValue + 1;
 
 					if (! testCases[j]->getDependenceSubtask().empty()) {
 						tempStatus = score[j].back();
@@ -219,7 +219,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 						if (result[j][t] != CorrectAnswer)
 							bgColor = "rgb(192, 255, 255)";
 
-					if (tempStatus < mxDependValue)
+					if (tempStatus < maxDependValue)
 						bgColor = "rgb(192, 255, 255)";
 
 					for (int t = 0; t < inputFiles[j].size(); t++)

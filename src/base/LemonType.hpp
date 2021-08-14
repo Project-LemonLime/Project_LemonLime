@@ -34,3 +34,19 @@ enum ResultState {
 	PresentationError,
 	OutputLimitExceeded
 };
+
+#include <QList>
+#include <QString>
+#include <QStringList>
+
+struct TaskResult {
+	CompileState compileState;
+	QString compileMessage;
+	QString sourceFile;
+	QList<QList<ResultState>> resultState;
+	QList<QStringList> resultMessage;
+	QList<QList<int>> scores;
+	QList<QList<int>> timeUsed;
+	QList<QList<int>> memoryUsed;
+	QList<QStringList> inputFiles;
+};

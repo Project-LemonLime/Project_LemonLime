@@ -12,13 +12,15 @@
 #include "base/LemonUtils.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
-#include "core/assignmentthread.h"
 #include "core/contestant.h"
 #include "core/judgingthread.h"
 #include "core/task.h"
+#include "core/taskjudger.h"
 #include "core/testcase.h"
+
 //
 #include <QMessageBox>
+#include <QtConcurrent>
 #include <algorithm>
 #include <utility>
 
@@ -167,28 +169,28 @@ void Contest::clearPath(const QString &curDir) {
 void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	stopJudging = false;
 	emit contestantJudgingStart(contestant->getContestantName());
+	QThreadPool threadPool;
+	threadPool.setMaxThreadCount(0);
+	QVector<QFuture<TaskResult>> futures;
 	for (auto i : indexes) {
-		emit taskJudgingStarted(taskList[i]->getProblemTitle());
-		auto *thread = new AssignmentThread();
+		TaskJudger *taskJudger = new TaskJudger();
+		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished,
+		        Qt::QueuedConnection);
+		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError, Qt::QueuedConnection);
+		taskJudger->setTask(taskList[i]);
+		taskJudger->setSettings(settings);
+		taskJudger->setContestantName(contestant->getContestantName());
+		futures.append(QtConcurrent::run(&threadPool, [&] { return taskJudger->judge(); }));
+		auto *watcher = new QFutureWatcher<TaskResult>;
+		watcher->setFuture(futures.back());
+		connect(watcher, &QFutureWatcher<TaskResult>::started,
+		        [&]() { emit taskJudgingStarted(taskList[i]->getProblemTitle()); });
+		connect(watcher, &QFutureWatcher<TaskResult>::finished, watcher, &QObject::deleteLater);
+		/*
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-		connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
 		        &Contest::singleSubtaskDependenceFinished);
-		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
 		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
-		thread->setSettings(settings);
-		thread->setTask(taskList[i]);
-		thread->setContestantName(contestant->getContestantName());
-		auto *eventLoop = new QEventLoop(this);
-		connect(thread, &AssignmentThread::finished, eventLoop, &QEventLoop::quit);
-		thread->start();
-		eventLoop->exec();
-		delete eventLoop;
-
-		if (stopJudging) {
-			delete thread;
-			return;
-		}
 
 		contestant->setCompileState(i, thread->getCompileState());
 		contestant->setCompileMessage(i, thread->getCompileMessage());
@@ -203,7 +205,14 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 		emit taskJudgedDisplay(taskList[i]->getProblemTitle(), thread->getScore(),
 		                       taskList[i]->getTotalScore());
 		emit taskJudgingFinished();
-		delete thread;
+		delete thread; */
+	}
+	threadPool.setMaxThreadCount(4);
+	while (! threadPool.waitForDone(10))
+		QCoreApplication::processEvents();
+
+	for (auto i : futures) {
+		TaskResult result = i.result();
 	}
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());

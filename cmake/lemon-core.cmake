@@ -13,12 +13,12 @@ set(LEMON_CORE_SOURCES
     ${LEMON_BASEDIR_CORE}/task.cpp
     ${LEMON_BASEDIR_CORE}/judgingthread.h
     ${LEMON_BASEDIR_CORE}/judgingthread.cpp
-    ${LEMON_BASEDIR_CORE}/assignmentthread.h
-    ${LEMON_BASEDIR_CORE}/assignmentthread.cpp
     ${LEMON_BASEDIR_CORE}/contestant.h
     ${LEMON_BASEDIR_CORE}/contestant.cpp
     ${LEMON_BASEDIR_CORE}/judgesharedvariables.h
     ${LEMON_BASEDIR_CORE}/subtaskdependencelib.h
+    ${LEMON_BASEDIR_CORE}/taskjudger.cpp
+    ${LEMON_BASEDIR_CORE}/taskjudger.h
 ) 
 
 add_library(lemon-core STATIC

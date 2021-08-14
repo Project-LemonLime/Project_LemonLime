@@ -12,29 +12,29 @@
 #include <QObject>
 #include <QString>
 
-const int mxDependValue = 1000000;
+const int maxDependValue = 1000000;
 
-inline int stateToStatus(ResultState in, int score, int mxScore) {
+inline int stateToStatus(ResultState in, int score, int maxScore) {
 	if (in == CorrectAnswer)
-		return mxDependValue;
+		return maxDependValue;
 
-	if (in == PartlyCorrect && mxScore == 0)
-		return mxDependValue;
+	if (in == PartlyCorrect && maxScore == 0)
+		return maxDependValue;
 
 	if (score <= 0)
 		return -1;
 
-	return 1ll * mxDependValue * score / mxScore;
+	return 1ll * maxDependValue * score / maxScore;
 }
 
-inline int statusToScore(int ratio, int mxScore) { return 1ll * mxScore * ratio / mxDependValue; }
+inline int statusToScore(int ratio, int maxScore) { return 1ll * maxScore * ratio / maxDependValue; }
 
 inline QString statusRankingText(int ratio) {
-	if (ratio >= mxDependValue)
+	if (ratio >= maxDependValue)
 		return QObject::tr("Pure");
 
 	if (ratio < 0)
 		return QObject::tr("Lost");
 
-	return QString::number(100.00 * ratio / mxDependValue, 'f', 3) + "%";
+	return QString::number(100.00 * ratio / maxDependValue, 'f', 3) + "%";
 }

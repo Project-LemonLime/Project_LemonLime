@@ -9,7 +9,6 @@
 
 #pragma once
 //
-
 #include "base/LemonType.hpp"
 #include <QObject>
 #include <QtCore>
@@ -67,6 +66,7 @@ class Contestant : public QObject {
 	QList<QList<QList<int>>> memoryUsed;
 	QDateTime judgingTime;
 
+	QList<TaskResult> taskResults;
   signals:
 
   public slots:
