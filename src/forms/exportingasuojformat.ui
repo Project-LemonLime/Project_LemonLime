@@ -18,245 +18,119 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>280</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="problemTitleLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Problem Title</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="problemTitle">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>10</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="inputFilePrefixLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Input File Prefix</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="inputFilePrefix">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>40</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="inputFileSuffixLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Input File Suffix</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="inputFileSuffix">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>70</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="outputFilePrefixLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Output File Prefix</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="outputFilePrefix">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>100</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="outputFileSuffixLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>130</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Output File Suffix</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="outputFileSuffix">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>130</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="timeLimitLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>160</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Time Limit</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="timeLimit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>160</y>
-     <width>181</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="sLabel">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>160</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>s</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="mbLabel">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>190</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>MB</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="memoryLimit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>190</y>
-     <width>181</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="memoryLimitLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>190</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Memory Limit</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="checkerLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>220</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Checker</string>
-   </property>
-  </widget>
-  <widget class="FileLineEdit" name="checker">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>220</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="specialJudge">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>250</y>
-     <width>211</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Special Judge</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="problemTitleLabel">
+     <property name="text">
+      <string>Problem Title</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="problemTitle"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="inputFilePrefixLabel">
+     <property name="text">
+      <string>Input File Prefix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="inputFilePrefix"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="inputFileSuffixLabel">
+     <property name="text">
+      <string>Input File Suffix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QLineEdit" name="inputFileSuffix"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="outputFilePrefixLabel">
+     <property name="text">
+      <string>Output File Prefix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QLineEdit" name="outputFilePrefix"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="outputFileSuffixLabel">
+     <property name="text">
+      <string>Output File Suffix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="2">
+    <widget class="QLineEdit" name="outputFileSuffix"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="timeLimitLabel">
+     <property name="text">
+      <string>Time Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="timeLimit"/>
+   </item>
+   <item row="5" column="2">
+    <widget class="QLabel" name="sLabel">
+     <property name="text">
+      <string>s</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="memoryLimitLabel">
+     <property name="text">
+      <string>Memory Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="memoryLimit"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLabel" name="mbLabel">
+     <property name="text">
+      <string>MB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="checkerLabel">
+     <property name="text">
+      <string>Checker</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" colspan="2">
+    <widget class="FileLineEdit" name="checker"/>
+   </item>
+   <item row="8" column="1" colspan="2">
+    <widget class="QCheckBox" name="specialJudge">
+     <property name="text">
+      <string>Special Judge</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>
