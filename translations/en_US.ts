@@ -2252,6 +2252,18 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <source>Export as UOJ Format</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Task Type Not Supported</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Task Type Not Supported</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Test Case #%1</source>
         <translation></translation>
     </message>
@@ -2679,6 +2691,65 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>New</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ExportingAsUojFormat</name>
+    <message>
+        <source>Export as UOJ Format</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Problem Title</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Input File Prefix</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Input File Suffix</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Output File Prefix</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Output File Suffix</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Time Limit</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Memory Limit</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Checker</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Special Judge</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot remove path `%1&apos;.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot make path `%1&apos;.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot open problem.conf.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot copy file `%1&apos; to `%2&apos;.</source>
         <translation></translation>
     </message>
 </context>

@@ -44,6 +44,7 @@ class SummaryTree : public QTreeWidget {
 	QAction *deleteTaskKeyAction;
 	QAction *deleteTestCaseKeyAction;
 	QAction *ExtTestCaseModifierAction;
+	QAction *exportAsUojFormatAction;
 
   private slots:
 	void addTask();
@@ -55,6 +56,7 @@ class SummaryTree : public QTreeWidget {
 	void itemChanged(QTreeWidgetItem *);
 	void titleChanged(const QString &);
 	void launchExtTestCaseModifier();
+	void exportAsUojFormat();
 
   signals:
 	void taskChanged();
