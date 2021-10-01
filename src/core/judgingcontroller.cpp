@@ -65,5 +65,6 @@ void JudgingController::stop() {
 		delete taskJudger;
 		runningTasks.remove(taskJudger);
 	}
+	emit judgeFinished();
 }
 void JudgingController::addTask(TaskJudger *taskJudger) { queuingTasks.push_back(taskJudger); }

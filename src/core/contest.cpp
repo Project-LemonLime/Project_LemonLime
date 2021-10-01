@@ -199,7 +199,8 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	eventLoop->exec();
 
 	delete eventLoop;
-
+	delete controller;
+	controller = nullptr;
 	/* emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
 	                             getTotalScore()); */
 	emit contestantJudgingFinished();
@@ -231,7 +232,10 @@ void Contest::judgeAll() {
 	}
 }
 
-void Contest::stopJudgingSlot() { stopJudging = true; }
+void Contest::stopJudgingSlot() {
+	stopJudging = true;
+	QMetaObject::invokeMethod(controller, "stop");
+}
 
 void Contest::writeToStream(QDataStream &out) {
 	out << contestTitle;
