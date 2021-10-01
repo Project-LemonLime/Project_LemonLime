@@ -66,7 +66,7 @@ class Contestant : public QObject {
 	QList<QList<QList<int>>> memoryUsed;
 	QDateTime judgingTime;
 
-	QList<TaskResult> taskResults;
+	// QList<TaskResult> taskResults;
   signals:
 
   public slots:

@@ -19,6 +19,8 @@ set(LEMON_CORE_SOURCES
     ${LEMON_BASEDIR_CORE}/subtaskdependencelib.h
     ${LEMON_BASEDIR_CORE}/taskjudger.cpp
     ${LEMON_BASEDIR_CORE}/taskjudger.h
+    ${LEMON_BASEDIR_CORE}/judgingcontroller.h
+    ${LEMON_BASEDIR_CORE}/judgingcontroller.cpp
 ) 
 
 add_library(lemon-core STATIC

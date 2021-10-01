@@ -9,30 +9,34 @@
 #include "base/LemonType.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
+#include "core/contestant.h"
 #include "core/judgesharedvariables.h"
 #include "core/judgingthread.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 #include "core/testcase.h"
+
 #include <QTimer>
 #include <utility>
 
 #define LEMON_MODULE_NAME "TaskJudger"
 
-TaskJudger::TaskJudger(QObject *parent) : QObject(parent) {
-	stopJudging = false;
-	compileState = NoValidSourceFile;
-}
+TaskJudger::TaskJudger(QObject *parent) : QObject(parent) { compileState = NoValidSourceFile; }
 
 void TaskJudger::setSettings(Settings *_settings) { settings = _settings; }
 
 void TaskJudger::setTask(Task *_task) { task = _task; }
 
-void TaskJudger::setContestantName(const QString &name) { contestantName = name; }
+void TaskJudger::setTaskId(int id) { taskId = id; }
+
+void TaskJudger::setContestant(Contestant *contestant) { this->contestant = contestant; }
+
+Contestant *TaskJudger::getContestant() const { return contestant; }
 
 auto TaskJudger::traditionalTaskPrepare() -> bool {
 	makeDialogAlert(tr("Preparing..."));
 	compileState = NoValidSourceFile;
+	QString contestantName = contestant->getContestantName();
 	QDir contestantDir;
 	contestantDir =
 	    ! task->getSubFolderCheck()
@@ -263,7 +267,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 
 								QCoreApplication::processEvents();
 
-								if (stopJudging) {
+								if (! isJudging) {
 									compilerProcess.kill();
 									return false;
 								}
@@ -327,16 +331,23 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 	return true;
 }
 
-TaskResult TaskJudger::judge() {
+void TaskJudger::judge() {
 	qDebug() << "Start Judging";
+	emit taskJudgingStarted(task->getProblemTitle());
+	isJudging = 1;
+	QString contestantName = contestant->getContestantName();
 	if (! temporaryDir.isValid())
-		return {};
+		return;
 
 	if (task->getTaskType() != Task::AnswersOnly)
 		if (! traditionalTaskPrepare())
-			return {};
+			return;
 
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
+		QCoreApplication::processEvents();
+		if (! isJudging) {
+			return;
+		}
 		timeUsed.append(QList<int>());
 		memoryUsed.append(QList<int>());
 		score.append(QList<int>());
@@ -358,6 +369,12 @@ TaskResult TaskJudger::judge() {
 
 	skipEnabled = false;
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
+
+		QCoreApplication::processEvents();
+		if (! isJudging) {
+			return;
+		}
+
 		auto curTestCase = task->getTestCase(i);
 		const QList<int> &dependenceSubtask(curTestCase->getDependenceSubtask());
 
@@ -456,10 +473,13 @@ TaskResult TaskJudger::judge() {
 			}
 			thread->start();
 			thread->wait();
-			if (stopJudging) {
+
+			QCoreApplication::processEvents();
+			if (! isJudging) {
 				delete thread;
-				return {};
+				return;
 			}
+
 			while (thread->getNeedRejudge() && thread->getJudgeTimes() != settings->getRejudgeTimes() + 1) {
 				thread->start();
 			}
@@ -491,7 +511,8 @@ TaskResult TaskJudger::judge() {
 				testCaseScore[i] = score[i][j];
 		}
 	}
-	TaskResult taskResult;
+
+	/* TaskResult taskResult;
 	taskResult.compileMessage = compileMessage;
 	taskResult.compileState = compileState;
 	taskResult.resultState = result;
@@ -501,7 +522,17 @@ TaskResult TaskJudger::judge() {
 	taskResult.scores = score;
 	taskResult.inputFiles = inputFiles;
 	taskResult.sourceFile = sourceFile;
-	return taskResult;
+	emit judgeFinished(taskResult); */
+	contestant->setCompileMessage(taskId, compileMessage);
+	contestant->setCompileState(taskId, compileState);
+	contestant->setResult(taskId, result);
+	contestant->setMessage(taskId, message);
+	contestant->setTimeUsed(taskId, timeUsed);
+	contestant->setMemoryUsed(taskId, memoryUsed);
+	contestant->setScore(taskId, score);
+	contestant->setInputFiles(taskId, inputFiles);
+	contestant->setSourceFile(taskId, sourceFile);
+	emit judgeFinished();
 }
 
 void TaskJudger::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
@@ -509,3 +540,5 @@ void TaskJudger::taskSkipped(const std::pair<int, int> &cur) {
 	emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(), cur.first, cur.second,
 	                        int(result[cur.first][cur.second]), 0, 0, 0);
 }
+
+void TaskJudger::stop() { isJudging = false; }

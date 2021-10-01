@@ -8,14 +8,17 @@
 #pragma once
 
 #include "base/LemonType.hpp"
-#include "base/settings.h"
 #include "core/judgingthread.h"
-#include "core/task.h"
+
 #include <QList>
 #include <QMap>
 #include <QObject>
 #include <QString>
 #include <QStringList>
+
+class Contestant;
+class Settings;
+class Task;
 
 class TaskJudger : public QObject {
 	Q_OBJECT
@@ -25,7 +28,9 @@ class TaskJudger : public QObject {
 	void setNeedRejudge(const QList<std::pair<int, int>> &);
 	void setSettings(Settings *);
 	void setTask(Task *);
-	void setContestantName(const QString &);
+	void setTaskId(int);
+	void setContestant(Contestant *);
+	Contestant *getContestant() const;
 	CompileState getCompileState() const;
 	// const QList< std::pair<int, int> >& getNeedRejudge() const;
 
@@ -36,7 +41,7 @@ class TaskJudger : public QObject {
 	bool interpreterFlag{};
 	Settings *settings{};
 	Task *task{};
-	QString contestantName;
+	Contestant *contestant;
 	CompileState compileState;
 	QString compileMessage;
 	QString sourceFile;
@@ -56,7 +61,8 @@ class TaskJudger : public QObject {
 	QList<QStringList> inputFiles;
 
 	QList<int> testCaseScore;
-	bool stopJudging;
+	bool isJudging;
+	int taskId;
 	bool traditionalTaskPrepare();
 	void assign();
 	void taskSkipped(const std::pair<int, int> &);
@@ -64,8 +70,11 @@ class TaskJudger : public QObject {
 	QTemporaryDir temporaryDir;
 
   public:
-	TaskResult judge();
+	void judge();
+  public slots:
+	void stop();
   signals:
+	void taskJudgingStarted(QString);
 	void dialogAlert(QString);
 	void singleCaseFinished(int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
