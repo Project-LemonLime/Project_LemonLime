@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
- *                         2019-2021 Project LemonLime
+ * SPDX-FileCopyrightText: 2019-2021 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
