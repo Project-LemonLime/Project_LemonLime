@@ -150,7 +150,7 @@ void ResultViewer::refreshViewer() {
 
 				item(i, j + 3)->setBackground(bg);
 
-				qDebug() << i << j << bg;
+				// qDebug() << i << j << bg;
 			} else {
 				item(i, j + 3)->setText(tr("Invalid"));
 			}

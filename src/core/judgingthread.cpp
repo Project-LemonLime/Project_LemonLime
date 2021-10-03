@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  */
-
+#define _CRT_SECURE_NO_WARNINGS
 #include "judgingthread.h"
-//
 #include "base/settings.h"
 #include "core/judgesharedvariables.h"
 #include "core/task.h"
-//
+
 #include <QTime>
+
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -22,7 +22,7 @@
 #ifdef Q_OS_WIN32
 // #pragma comment(lib, "Psapi.lib")
 #include <windows.h>
-//
+
 #include <Psapi.h>
 #endif
 

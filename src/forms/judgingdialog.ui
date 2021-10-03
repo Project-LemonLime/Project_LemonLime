@@ -83,6 +83,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
       <widget class="QPushButton" name="skipButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="minimumSize">
         <size>
          <width>120</width>
@@ -103,7 +106,7 @@
         <string>Skip</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/media-skip-forward.svg</normaloff>:/icon/media-skip-forward.svg</iconset>
        </property>
        <property name="autoDefault">
@@ -144,7 +147,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../resource.qrc">
          <normaloff>:/icon/media-playback-stop.svg</normaloff>:/icon/media-playback-stop.svg</iconset>
        </property>
        <property name="autoDefault">
@@ -156,6 +159,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

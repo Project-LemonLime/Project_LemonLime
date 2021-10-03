@@ -22,7 +22,7 @@ JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Judg
 	ui->setupUi(this);
 	cursor = new QTextCursor(ui->logViewer->document());
 	connect(ui->cancelButton, &QPushButton::clicked, this, &JudgingDialog::stopJudgingSlot);
-	connect(ui->skipButton, &QPushButton::clicked, this, &JudgingDialog::skipJudging);
+	// connect(ui->skipButton, &QPushButton::clicked, this, &JudgingDialog::skipJudging);
 }
 
 JudgingDialog::~JudgingDialog() {
@@ -114,6 +114,7 @@ void JudgingDialog::judgeAll() {
 
 void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, int scoreGot, int timeUsed,
                                        int memoryUsed) {
+	qDebug() << "Got";
 	bool isOnMaxValue =
 	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
@@ -291,7 +292,7 @@ void JudgingDialog::singleSubtaskDependenceFinished(int x, int y, int status) {
 	ratioFormat.setFontPointSize(9);
 	QString text = statusRankingText(status);
 
-	if (status >= mxDependValue) {
+	if (status >= maxDependValue) {
 		charFormat.setForeground(QBrush(Qt::lightGray));
 		ratioFormat.setForeground(QBrush(Qt::green));
 	} else if (status < 0) {

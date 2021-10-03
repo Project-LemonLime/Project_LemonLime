@@ -8,16 +8,17 @@
  */
 
 #include "contest.h"
-//
+
 #include "base/LemonUtils.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
-#include "core/assignmentthread.h"
 #include "core/contestant.h"
+#include "core/judgingcontroller.h"
 #include "core/judgingthread.h"
 #include "core/task.h"
+#include "core/taskjudger.h"
 #include "core/testcase.h"
-//
+
 #include <QMessageBox>
 #include <algorithm>
 #include <utility>
@@ -167,49 +168,41 @@ void Contest::clearPath(const QString &curDir) {
 void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	stopJudging = false;
 	emit contestantJudgingStart(contestant->getContestantName());
+	controller = new JudgingController();
+	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
 	for (auto i : indexes) {
-		emit taskJudgingStarted(taskList[i]->getProblemTitle());
-		auto *thread = new AssignmentThread();
+		TaskJudger *taskJudger = new TaskJudger();
+		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished);
+		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError);
+		connect(taskJudger, &TaskJudger::taskJudgingStarted,
+		        [this](QString x) { emit taskJudgingStarted(x); });
+		taskJudger->setTask(taskList[i]);
+		taskJudger->setTaskId(i);
+		taskJudger->setSettings(settings);
+		taskJudger->setContestant(contestant);
+		controller->addTask(taskJudger);
+		/*
 		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-		connect(thread, &AssignmentThread::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
 		        &Contest::singleSubtaskDependenceFinished);
-		connect(thread, &AssignmentThread::compileError, this, &Contest::compileError);
 		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
-		thread->setSettings(settings);
-		thread->setTask(taskList[i]);
-		thread->setContestantName(contestant->getContestantName());
-		auto *eventLoop = new QEventLoop(this);
-		connect(thread, &AssignmentThread::finished, eventLoop, &QEventLoop::quit);
-		thread->start();
-		eventLoop->exec();
-		delete eventLoop;
-
-		if (stopJudging) {
-			delete thread;
-			return;
-		}
-
-		contestant->setCompileState(i, thread->getCompileState());
-		contestant->setCompileMessage(i, thread->getCompileMessage());
-		contestant->setSourceFile(i, thread->getSourceFile());
-		contestant->setInputFiles(i, thread->getInputFiles());
-		contestant->setResult(i, thread->getResult());
-		contestant->setMessage(i, thread->getMessage());
-		contestant->setScore(i, thread->getScore());
-		contestant->setTimeUsed(i, thread->getTimeUsed());
-		contestant->setMemoryUsed(i, thread->getMemoryUsed());
-		contestant->setCheckJudged(i, true);
-		emit taskJudgedDisplay(taskList[i]->getProblemTitle(), thread->getScore(),
-		                       taskList[i]->getTotalScore());
-		emit taskJudgingFinished();
-		delete thread;
+		*/
 	}
+
+	auto eventLoop = new QEventLoop();
+	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit);
+
+	controller->start();
 
 	contestant->setJudgingTime(QDateTime::currentDateTime());
 
-	emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
-	                             getTotalScore());
+	eventLoop->exec();
+
+	delete eventLoop;
+	delete controller;
+	controller = nullptr;
+	/* emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
+	                             getTotalScore()); */
 	emit contestantJudgingFinished();
 }
 
@@ -241,7 +234,7 @@ void Contest::judgeAll() {
 
 void Contest::stopJudgingSlot() {
 	stopJudging = true;
-	emit stopJudgingSignal();
+	QMetaObject::invokeMethod(controller, "stop");
 }
 
 void Contest::writeToStream(QDataStream &out) {

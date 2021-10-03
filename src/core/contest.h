@@ -11,15 +11,18 @@
 //
 
 #include "base/LemonType.hpp"
-//
+
+#include <QJsonObject>
 #include <QObject>
-#include <QtCore>
+#include <QString>
+#include <QStringList>
 
 #define MagicNumber 0x20111127
 
 class Task;
 class Settings;
 class Contestant;
+class JudgingController;
 
 class Contest : public QObject {
 	Q_OBJECT
@@ -54,12 +57,14 @@ class Contest : public QObject {
 	void judge(Contestant *);
 	void judge(Contestant *, const QVector<int> &);
 	void clearPath(const QString &);
+	JudgingController *controller;
 
   public slots:
 	void judge(const QString &);
 	void judge(const QString &, int);
 	void judge(const QString &, const QSet<int> &);
 	void judgeAll();
+	// void judgeFinished();
 	void stopJudgingSlot();
 
   signals:
