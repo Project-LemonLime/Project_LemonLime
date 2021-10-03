@@ -42,39 +42,51 @@ void OpenContestWidget::refreshContestList() {
 			recentContest.removeAt(i);
 			continue;
 		}
+		QString title;
+		char firstChar;
+		file.peek(&firstChar, 1);
+		// Don't support RFC 7159, but support RFC 4627
+		if (firstChar == '[' || firstChar == '{') {
+			QJsonParseError parseError;
+			QJsonObject inObj(QJsonDocument::fromJson(file.readAll(), &parseError).object());
+			if (parseError.error != 0) {
+				recentContest.removeAt(i);
+				continue;
+			}
+			title = inObj["contestTitle"].toString();
+		} else {
+			QDataStream _in(&file);
+			unsigned checkNumber = 0;
+			_in >> checkNumber;
 
-		QDataStream _in(&file);
-		unsigned checkNumber = 0;
-		_in >> checkNumber;
+			if (checkNumber != unsigned(MagicNumber)) {
+				recentContest.removeAt(i);
+				continue;
+			}
 
-		if (checkNumber != unsigned(MagicNumber)) {
-			recentContest.removeAt(i);
-			continue;
-		}
-
-		quint16 checksum = 0;
-		int len = 0;
-		_in >> checksum >> len;
-		char *raw = new char[len];
-		_in.readRawData(raw, len);
+			quint16 checksum = 0;
+			int len = 0;
+			_in >> checksum >> len;
+			char *raw = new char[len];
+			_in.readRawData(raw, len);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-		if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
+			if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
 #else
-		if (qChecksum(raw, static_cast<uint>(len)) != checksum)
+			if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 #endif
-		{
-			delete[] raw;
-			recentContest.removeAt(i);
-			continue;
-		}
+			{
+				delete[] raw;
+				recentContest.removeAt(i);
+				continue;
+			}
 
-		QByteArray data(raw, len);
-		delete[] raw;
-		data = qUncompress(data);
-		QDataStream in(data);
-		QString title;
-		in >> title;
+			QByteArray data(raw, len);
+			delete[] raw;
+			data = qUncompress(data);
+			QDataStream in(data);
+			in >> title;
+		}
 		ui->recentContest->setRowCount(i + 1);
 		ui->recentContest->setItem(i, 0, new QTableWidgetItem(title));
 		ui->recentContest->setItem(i, 1, new QTableWidgetItem(recentContest[i]));
@@ -101,33 +113,45 @@ void OpenContestWidget::addContest() {
 		return;
 	}
 
-	QDataStream in(&file);
-	unsigned checkNumber = 0;
-	in >> checkNumber;
+	char firstChar;
+	file.peek(&firstChar, 1);
+	// Don't support RFC 7159, but support RFC 4627
+	if (firstChar == '[' || firstChar == '{') {
+		QJsonParseError parseError;
+		QJsonObject inObj(QJsonDocument::fromJson(file.readAll(), &parseError).object());
+		if (parseError.error != 0) {
+			QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
+			return;
+		}
+	} else {
+		QDataStream in(&file);
+		unsigned checkNumber = 0;
+		in >> checkNumber;
 
-	if (checkNumber != unsigned(MagicNumber)) {
-		QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
-		return;
-	}
+		if (checkNumber != unsigned(MagicNumber)) {
+			QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
+			return;
+		}
 
-	quint16 checksum = 0;
-	int len = 0;
-	in >> checksum >> len;
-	char *raw = new char[len];
-	in.readRawData(raw, len);
+		quint16 checksum = 0;
+		int len = 0;
+		in >> checksum >> len;
+		char *raw = new char[len];
+		in.readRawData(raw, len);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-	if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
+		if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
 #else
-	if (qChecksum(raw, static_cast<uint>(len)) != checksum)
+		if (qChecksum(raw, static_cast<uint>(len)) != checksum)
 #endif
-	{
-		QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
-		delete[] raw;
-		return;
-	}
+		{
+			QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
+			delete[] raw;
+			return;
+		}
 
-	delete[] raw;
+		delete[] raw;
+	}
 	recentContest.prepend(fileName);
 	refreshContestList();
 }

@@ -69,13 +69,14 @@ namespace Lemon::detail {
 		val = static_cast<CompileState>(x);
 		return 0;
 	}
+	template <typename T> int jsonReadHelper(QList<T> &val, const QJsonArray &jval);
 	template <typename T> int jsonReadHelper(QList<T> &val, const QJsonValue &jval) {
 		QJsonArray arr;
 		return jsonReadHelper(arr, jval) == -1 || jsonReadHelper(val, arr) == -1 ? -1 : 0;
 	}
 	inline int jsonReadHelper(QStringList &val, const QJsonArray &jval) {
 		QList<QString> s;
-		if (jsonReadHelper(s, jval) == -1)
+		if (jsonReadHelper<QString>(s, jval) == -1)
 			return -1;
 		val = s;
 		return 0;
@@ -122,7 +123,7 @@ namespace Lemon::detail {
 	}
 	inline void jsonWriteHelper(const QStringList &val, QJsonValue &jval) {
 		QList<QString> s = val;
-		jsonWriteHelper(s, jval);
+		jsonWriteHelper<QString>(s, jval);
 	}
 	template <typename T> void jsonWriteHelper(const T &val, const QString &name, QJsonObject &json) {
 		QJsonValue jval;

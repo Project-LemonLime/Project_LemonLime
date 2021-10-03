@@ -606,17 +606,21 @@ void LemonLime::saveContest(const QString &fileName) {
 	}
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
-	QByteArray data;
+	QJsonObject out;
+	curContest->writeToJson(out);
+	file.write(QJsonDocument(out).toJson(QJsonDocument::Compact));
+	/* QByteArray data;
 	QDataStream _out(&data, QIODevice::WriteOnly);
 	curContest->writeToStream(_out);
 	data = qCompress(data);
 	QDataStream out(&file);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-	out << unsigned(MagicNumber) << qChecksum(QByteArrayView(data)) << data.length();
+	out << unsigned(MagicNumber) << qChecksum(QByteArrayView(data))
+	    << static_cast<int>(data.length()); // Qt 6 changed the type fo data.length() to qsizetype
 #else
 	out << unsigned(MagicNumber) << qChecksum(data.data(), static_cast<uint>(data.length())) << data.length();
 #endif
-	out.writeRawData(data.data(), data.length());
+	out.writeRawData(data.data(), data.length()); */
 	QApplication::restoreOverrideCursor();
 	ui->statusBar->showMessage(tr("Saved"), 1000);
 }
@@ -647,17 +651,16 @@ void LemonLime::loadContest(const QString &filePath) {
 			                         QString("%1").arg(parseError.offset),
 			                     QMessageBox::Close);
 			return;
-			QApplication::setOverrideCursor(Qt::WaitCursor);
-			curContest->setSettings(settings);
-			if (curContest->readFromJson(inObj) != -1) {
-				QMessageBox::warning(this, tr("Error"),
-				                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
-				                     QMessageBox::Close);
-				QApplication::restoreOverrideCursor();
-				return;
-			}
 		}
-
+		QApplication::setOverrideCursor(Qt::WaitCursor);
+		curContest->setSettings(settings);
+		if (curContest->readFromJson(inObj) == -1) {
+			QMessageBox::warning(this, tr("Error"),
+			                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
+			                     QMessageBox::Close);
+			QApplication::restoreOverrideCursor();
+			return;
+		}
 	} else {
 		QDataStream _in(&file);
 		unsigned checkNumber = 0;

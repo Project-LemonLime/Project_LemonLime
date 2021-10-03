@@ -269,7 +269,7 @@ void Contest::writeToJson(QJsonObject &out) {
 
 	for (const auto &i : contestantList) {
 		QJsonObject obj;
-		i->writeToJson(out);
+		i->writeToJson(obj);
 		contestants.append(obj);
 	}
 
