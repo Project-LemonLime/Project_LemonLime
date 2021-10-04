@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  */
-#define _CRT_SECURE_NO_WARNINGS
+
 #include "judgingthread.h"
 #include "base/settings.h"
 #include "core/judgesharedvariables.h"
