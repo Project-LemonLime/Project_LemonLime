@@ -67,6 +67,7 @@ add_subdirectory(3rdparty/SingleApplication)
 if(WIN32)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
     set(GUI_TYPE WIN32)
 endif()
 
