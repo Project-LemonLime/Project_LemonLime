@@ -523,6 +523,7 @@ void TaskJudger::judge() {
 	taskResult.inputFiles = inputFiles;
 	taskResult.sourceFile = sourceFile;
 	emit judgeFinished(taskResult); */
+	contestant->setCheckJudged(taskId, true);
 	contestant->setCompileMessage(taskId, compileMessage);
 	contestant->setCompileState(taskId, compileState);
 	contestant->setResult(taskId, result);
