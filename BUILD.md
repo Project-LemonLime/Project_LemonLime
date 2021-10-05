@@ -138,7 +138,11 @@ PS：有可能会提示缺少 fuse, 请安装
 
 请使用 `watcher_macos.cpp` 编译 `watcher_unix`，否则内存限制会出问题。
 
+设置 `CMAKE_PREFIX_PATH` 应设置为你的 `qt` 安装路径。（在 `/usr/local/Cellar/qt/` 目录下）
+
 ```bash
+brew install cmake qt ninja
+export CMAKE_PREFIX_PATH="/usr/local/Cellar/qt/6.1.3"
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
 cmake --build .
 ```
