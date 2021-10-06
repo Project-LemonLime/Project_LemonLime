@@ -142,7 +142,7 @@ PS：有可能会提示缺少 fuse, 请安装
 
 ```bash
 brew install cmake qt ninja
-export CMAKE_PREFIX_PATH="/usr/local/Cellar/qt/6.1.3"
+export CMAKE_PREFIX_PATH="/usr/local/Cellar/qt/<Your Qt Version>"
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
 cmake --build .
 ```
