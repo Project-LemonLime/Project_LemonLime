@@ -75,10 +75,10 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent * /*event*/) {
 
 void ResultViewer::setContest(Contest *contest) {
 	if (curContest) {
-		disconnect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
+		disconnect(curContest, &Contest::taskAddedForViewer, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::taskDeletedForViewer, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::problemTitleChanged, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::taskJudgingFinished, this, &ResultViewer::refreshViewer);
 	}
 
 	curContest = contest;
@@ -86,10 +86,10 @@ void ResultViewer::setContest(Contest *contest) {
 	if (! curContest)
 		return;
 
-	connect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
+	connect(curContest, &Contest::taskAddedForViewer, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::taskDeletedForViewer, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::problemTitleChanged, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::taskJudgingFinished, this, &ResultViewer::refreshViewer);
 }
 
 void ResultViewer::refreshViewer() {

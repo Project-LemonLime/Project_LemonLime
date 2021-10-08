@@ -86,7 +86,7 @@ void SummaryTree::setContest(Contest *contest) {
 		QList<Task *> taskList = curContest->getTaskList();
 
 		for (auto &i : taskList)
-			disconnect(i, SIGNAL(problemTitleChanged(QString)), this, SLOT(titleChanged(QString)));
+			disconnect(i, &Task::problemTitleChanged, this, &SummaryTree::titleChanged);
 	}
 
 	curContest = contest;
@@ -100,7 +100,7 @@ void SummaryTree::setContest(Contest *contest) {
 	QList<Task *> taskList = curContest->getTaskList();
 
 	for (auto &i : taskList) {
-		connect(i, SIGNAL(problemTitleChanged(QString)), this, SLOT(titleChanged(QString)));
+		connect(i, &Task::problemTitleChanged, this, &SummaryTree::titleChanged);
 		auto *newTaskItem = new QTreeWidgetItem(this);
 		newTaskItem->setText(0, i->getProblemTitle());
 		newTaskItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -161,7 +161,7 @@ void SummaryTree::addTask() {
 	newTask->setAnswerFileExtension(settings->getDefaultOutputFileExtension());
 	curContest->addTask(newTask);
 	newTask->refreshCompilerConfiguration(settings);
-	connect(newTask, SIGNAL(problemTitleChanged(QString)), this, SLOT(titleChanged(QString)));
+	connect(newTask, &Task::problemTitleChanged, this, &SummaryTree::titleChanged);
 	auto *newItem = new QTreeWidgetItem(this);
 	setCurrentItem(newItem);
 	newItem->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
