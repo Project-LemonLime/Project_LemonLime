@@ -109,27 +109,27 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		htmlCode += "<table style=\"border: solid;\"><tr>";
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)")
+		        R"(<th scope="col" class="a">%1</th>)")
 		        .arg(tr("Test Case"));
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)")
+		        R"(<th scope="col" class="a">%1</th>)")
 		        .arg(tr("Input File"));
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)")
+		        R"(<th scope="col" class="a">%1</th>)")
 		        .arg(tr("Result"));
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)")
+		        R"(<th scope="col" class="a">%1</th>)")
 		        .arg(tr("Time Used"));
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th>)")
+		        R"(<th scope="col" class="a">%1</th>)")
 		        .arg(tr("Memory Used"));
 		htmlCode +=
 		    QString(
-		        R"(<th scope="col" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">%1</th></tr>)")
+		        R"(<th scope="col" class="a">%1</th></tr>)")
 		        .arg(tr("Score"));
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
@@ -147,28 +147,26 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 					if (score[j].size() == inputFiles[j].size())
 						htmlCode +=
 						    QString(
-						        R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">#%2</td>)")
+						        R"(<td rowspan="%1" class="a">#%2</td>)")
 						        .arg(inputFiles[j].size())
 						        .arg(j + 1);
 					else
 						htmlCode +=
 						    QString(
-						        R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;">#%2<br>%3:%4</td>)")
+						        R"(<td rowspan="%1" class="a">#%2<br>%3:%4</td>)")
 						        .arg(inputFiles[j].size())
 						        .arg(j + 1)
 						        .arg(tr("Subtask Dependence Status"))
 						        .arg(statusRankingText(score[j].back()));
 				}
 
-				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; "
-				                    "border-color: #ccc;\">%1</td>")
+				htmlCode += QString("<td class=\"a\">%1</td>")
 				                .arg(inputFiles[j][k]);
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-				htmlCode += QString("<td style=\"border-style: none solid solid none; border-width: 1px 3px; "
-				                    "border-color: #ccc; background-color: %2; color: %3;\">%1")
+				htmlCode += QString("<td class=\"a\" style=\"background-color: %2; color: %3;\">%1")
 				                .arg(text)
 				                .arg(bgColor)
 				                .arg(frColor);
@@ -181,8 +179,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += "</td>";
-				htmlCode += "<td style=\"border-style: none solid solid none; border-width: 1px 3px; "
-				            "border-color: #ccc;\">";
+				htmlCode += "<td class=\"a\">";
 
 				if (timeUsed[j][k] != -1) {
 					htmlCode += QString("").asprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
@@ -191,8 +188,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += "</td>";
-				htmlCode += "<td style=\"border-style: none solid solid none; border-width: 1px 3px; "
-				            "border-color: #ccc;\">";
+				htmlCode += "<td class=\"a\">";
 
 				if (memoryUsed[j][k] != -1) {
 					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
@@ -219,7 +215,7 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 					htmlCode +=
 					    QString(
-					        R"(<td rowspan="%1" style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc; background-color: %2;"><a style="font-weight: bold; font-size: large;">%3</a> / %4</td>)")
+					        R"(<td rowspan="%1" class="a" style=" background-color: %2;"><a class="c">%3</a> / %4</td>)")
 					        .arg(inputFiles[j].size())
 					        .arg(bgColor)
 					        .arg(minv)
@@ -261,7 +257,11 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
-	       "text-align: center; verticle-align: middle;}</style>";
+	       "text-align: center; verticle-align: middle;} .a {border-style: none solid solid none; "
+		   "border-width: 1px 3px; border-color: #ccc;} .b {border-style: none solid solid none; "
+		   "border-width: 3px 3px; border-color: #000;} .c {font-weight: bold; font-size: large;} "
+		   ".d {font-size:x-large; font-weight:bold;} .e {font-size: small;} .f {font-weight: bold;}"
+		   ".g {border-style: none solid solid none; border-width: 3px 2px; border-color: #000;}</style>";
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<std::pair<int, QString>> sortList;
@@ -293,24 +293,24 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		loc.insert(contestantList[i], i);
 	}
 
-	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
+	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle() << " : " << tr("Rank List") << "</span></p>";
-	out << "<p style=\"font-size: small;\">"
+	out << "<p class=\"e\">"
 	    << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
 	out << QString(
-	           R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)")
+	           R"(<th class="b" scope="col">%1</th>)")
 	           .arg(tr("Rank"));
 	out << QString(
-	           R"(<th style="border-style: none solid solid none; border-width: 3px 3px; border-color: #000;" scope="col">%1</th>)")
+	           R"(<th class="b" scope="col">%1</th>)")
 	           .arg(tr("Name"));
 	out << QString(
-	           R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)")
+	           R"(<th class="g" scope="col">%1</th>)")
 	           .arg(tr("Total Score"));
 
 	for (auto &i : taskList)
 		out << QString(
-		           R"(<th style="border-style: none solid solid none; border-width: 3px 2px; border-color: #000;" scope="col">%1</th>)")
+		           R"(<th class="g" scope="col">%1</th>)")
 		           .arg(i->getProblemTitle());
 
 	out << "</tr>";
@@ -323,11 +323,10 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	for (auto &i : sortList) {
 		Contestant *contestant = contest->getContestant(i.second);
-		out << QString("<tr><td style=\"border-style: none solid solid none; border-width: 1px 3px; "
-		               "border-color: #ccc;\">%1</td>")
+		out << QString("<tr><td class=\"a\">%1</td>")
 		           .arg(rankList[contestant->getContestantName()] + 1);
 		out << QString(
-		           R"(<td style="border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;"><a href="#c%1" style="color: black; text-decoration: none;">%2</a></td>)")
+		           R"(<td class="a"><a href="#c%1" style="color: black; text-decoration: none;">%2</a></td>)")
 		           .arg(loc[contestant])
 		           .arg(i.second);
 		int allScore = contestant->getTotalScore();
@@ -403,7 +402,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	for (int i = 0; i < contestantList.size(); i++) {
 		out << QString("<a name=\"c%1\"><hr><a>").arg(i)
-		    << "<span style=\"font-size:x-large; font-weight:bold;\">";
+		    << "<span class=\"d\">";
 		out << tr("Contestant: %1").arg(contestantList[i]->getContestantName()) << "</span>";
 		out << getContestantHtmlCode(contest, contestantList[i], i);
 	}
@@ -562,7 +561,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 
 					htmlCode +=
 					    QString(
-					        R"(<td rowspan="%1"><a style="font-weight: bold; font-size: large;">%2</a> / %3</td>)")
+					        R"(<td rowspan="%1"><a class="c">%2</a> / %3</td>)")
 					        .arg(inputFiles[j].size())
 					        .arg(minv)
 					        .arg(maxv);
@@ -598,7 +597,11 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
-	       "text-align: center; verticle-align: middle;}</style>";
+	       "text-align: center; verticle-align: middle;} .a {border-style: none solid solid none; "
+		   "border-width: 1px 3px; border-color: #ccc;} .b {border-style: none solid solid none; "
+		   "border-width: 3px 3px; border-color: #000;} .c {font-weight: bold; font-size: large;} "
+		   ".d {font-size:x-large; font-weight:bold;} .e {font-size: small;} .f {font-weight: bold;}"
+		   ".g {border-style: none solid solid none; border-width: 3px 2px; border-color: #000;}</style>";
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<std::pair<int, QString>> sortList;
@@ -630,9 +633,9 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		loc.insert(contestantList[i], i);
 	}
 
-	out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
+	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle() << " : " << tr("Rank List") << "</span></p>";
-	out << "<p style=\"font-size: small;\">" << tr("Judged By LemonLime") << "</p>";
+	out << "<p class=\"e\">" << tr("Judged By LemonLime") << "</p>";
 	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));
@@ -656,9 +659,9 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 		int allScore = contestant->getTotalScore();
 
 		if (allScore != -1) {
-			out << QString("<td style=\"font-weight: bold;\">%1</td>").arg(allScore);
+			out << QString("<td class=\"f\">%1</td>").arg(allScore);
 		} else {
-			out << QString("<td style=\"font-weight: bold;\">%1</td>").arg(tr("Invalid"));
+			out << QString("<td class=\"f\">%1</td>").arg(tr("Invalid"));
 		}
 
 		for (int j = 0; j < taskList.size(); j++) {
@@ -676,7 +679,7 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 
 	for (int i = 0; i < contestantList.size(); i++) {
 		out << QString("<a name=\"c%1\"><hr><a>").arg(i)
-		    << "<span style=\"font-size:x-large; font-weight:bold;\">";
+		    << "<span class=\"d\">";
 		out << tr("Contestant: %1").arg(contestantList[i]->getContestantName()) << "</span>";
 		out << getSmallerContestantHtmlCode(contest, contestantList[i]);
 	}
