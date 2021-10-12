@@ -15,6 +15,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QTemporaryDir>
 
 class Contestant;
 class Settings;

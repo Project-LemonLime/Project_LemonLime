@@ -43,7 +43,6 @@ class Contest : public QObject {
 	void deleteTask(int);
 	void refreshContestantList();
 	void deleteContestant(const QString &);
-	void writeToStream(QDataStream &);
 	void writeToJson(QJsonObject &);
 	void readFromStream(QDataStream &);
 	int readFromJson(const QJsonObject &);

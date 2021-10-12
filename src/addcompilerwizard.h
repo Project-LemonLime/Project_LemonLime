@@ -9,9 +9,8 @@
 #pragma once
 //
 
+#include <QList>
 #include <QWizard>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class AddCompilerWizard;

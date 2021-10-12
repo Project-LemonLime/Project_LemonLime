@@ -10,15 +10,7 @@
 #include "base/LemonUtils.hpp"
 #include "base/settings.h"
 
-TestCase::TestCase(QObject *parent) : QObject(parent) {}
-
-void TestCase::copyTo(TestCase *to) {
-	QByteArray data;
-	QDataStream tmpin(&data, QIODevice::WriteOnly);
-	writeToStream(tmpin);
-	QDataStream tmpout(&data, QIODevice::ReadOnly);
-	to->readFromStream(tmpout);
-}
+TestCase::TestCase() {}
 
 auto TestCase::getFullScore() const -> int { return fullScore; }
 
@@ -129,29 +121,6 @@ int TestCase::writeToJson(QJsonObject &out) {
 
 	WRITE_JSON(out, outputFiles);
 	return 0;
-}
-void TestCase::writeToStream(QDataStream &out) {
-	out << fullScore;
-	out << timeLimit;
-	out << memoryLimit;
-	QStringList _inputFiles(inputFiles);
-
-	for (auto &i : _inputFiles) {
-		i.replace(QDir::separator(), '/');
-	}
-
-	for (int i : qAsConst(dependenceSubtask)) {
-		_inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
-	}
-
-	QStringList _outputFiles(outputFiles);
-
-	for (auto &i : _outputFiles) {
-		i.replace(QDir::separator(), '/');
-	}
-
-	out << _inputFiles;
-	out << _outputFiles;
 }
 
 int TestCase::readFromJson(const QJsonObject &in) {

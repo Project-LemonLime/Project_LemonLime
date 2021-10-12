@@ -7,8 +7,12 @@
 
 #pragma once
 //
+#include <QCoreApplication>
+#include <QDir>
 #include <QMap>
-#include <QtCore>
+#include <QStandardPaths>
+
+
 #include <algorithm>
 #include <ctime>
 #include <iostream>

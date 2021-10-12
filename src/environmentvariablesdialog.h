@@ -11,8 +11,7 @@
 //
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QProcessEnvironment>
 
 namespace Ui {
 	class EnvironmentVariablesDialog;

@@ -11,8 +11,6 @@
 //
 
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class GeneralSettings;

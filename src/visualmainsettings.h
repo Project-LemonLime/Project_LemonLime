@@ -9,8 +9,6 @@
 #define VISUALMAINSETTINGS_H
 
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class VisualMainSettings;

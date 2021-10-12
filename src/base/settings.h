@@ -13,7 +13,6 @@
 #include "base/LemonType.hpp"
 #include <QColor>
 #include <QObject>
-#include <QtCore>
 
 class Compiler;
 

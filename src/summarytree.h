@@ -15,8 +15,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QTreeWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 class Settings;
 class Contest;

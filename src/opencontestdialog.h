@@ -11,8 +11,8 @@
 //
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QString>
+#include <QStringList>
 
 namespace Ui {
 	class OpenContestDialog;

@@ -11,7 +11,9 @@
 #include "base/LemonTranslator.hpp"
 #include "base/settings.h" // TODO: Config Refactor
 //
-#include <QCoreApplication>
+#include <QCommandLineParser>
+#include <QLocale>
+
 //
 #define LEMON_MODULE_NAME "LemonBaseApplication"
 

@@ -10,8 +10,8 @@
 #pragma once
 //
 #include "base/LemonType.hpp"
+#include <QDateTime>
 #include <QObject>
-#include <QtCore>
 
 class Contestant : public QObject {
 	Q_OBJECT
@@ -48,7 +48,6 @@ class Contestant : public QObject {
 	void setJudgingTime(QDateTime);
 
 	int writeToJson(QJsonObject &);
-	void writeToStream(QDataStream &);
 	int readFromJson(const QJsonObject &);
 	void readFromStream(QDataStream &);
 

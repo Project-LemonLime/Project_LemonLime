@@ -11,8 +11,7 @@
 //
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QString>
 
 namespace Ui {
 	class EditVariableDialog;

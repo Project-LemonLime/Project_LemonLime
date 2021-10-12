@@ -20,11 +20,13 @@
 //
 #include <QApplication>
 #include <QCheckBox>
+#include <QDir>
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>
+
 #define LEMON_MODULE_NAME "ResultViewer"
 
 ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent) {

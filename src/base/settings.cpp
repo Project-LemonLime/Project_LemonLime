@@ -14,6 +14,11 @@
 //
 #include <cmath>
 //
+#include <QDir>
+#include <QLocale>
+#include <QSettings>
+
+
 #define LEMON_MODULE_NAME "Setting"
 
 ColorTheme::ColorTheme(QObject *parent) : QObject(parent) {}

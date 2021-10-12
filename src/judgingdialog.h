@@ -12,8 +12,7 @@
 
 #include "base/LemonType.hpp"
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QTextCursor>
 
 class Contest;
 

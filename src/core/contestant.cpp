@@ -196,39 +196,7 @@ int Contestant::writeToJson(QJsonObject &out) {
 	WRITE_JSON(out, result);
 	return 0;
 }
-void Contestant::writeToStream(QDataStream &out) {
-	out << contestantName;
-	out << checkJudged;
-	out << sourceFile;
-	out << compileMesaage;
-	out << inputFiles;
-	out << message;
-	out << score;
-	out << timeUsed;
-	out << memoryUsed;
-	out << static_cast<quint32>(judgingTime.date().toJulianDay());
-	out << static_cast<quint32>(judgingTime.time().msecsSinceStartOfDay());
-	out << static_cast<quint8>(judgingTime.timeSpec());
-	out << compileState.size();
 
-	for (auto &i : compileState) {
-		out << int(i);
-	}
-
-	out << result.size();
-
-	for (auto &i : result) {
-		out << i.size();
-
-		for (auto &j : i) {
-			out << j.size();
-
-			for (auto &k : j) {
-				out << int(k);
-			}
-		}
-	}
-}
 int Contestant::readFromJson(const QJsonObject &in) {
 	READ_JSON(in, contestantName);
 	READ_JSON(in, checkJudged);

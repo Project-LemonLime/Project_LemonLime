@@ -9,8 +9,10 @@
 #include "base/LemonType.hpp"
 #include "taskjudger.h"
 
+#include <QMap>
 #include <QMutex>
 #include <QObject>
+#include <QQueue>
 #include <QThread>
 
 class JudgingController : public QObject {

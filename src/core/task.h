@@ -10,8 +10,8 @@
 #pragma once
 //
 
+#include <QMap>
 #include <QObject>
-#include <QtCore>
 
 class TestCase;
 class Settings;
@@ -33,8 +33,6 @@ class Task : public QObject {
 	              QString diffArguments = "--ignore-space-change --text --brief", int realPrecision = 3,
 	              bool standardInputCheck = false, bool standardOutputCheck = false,
 	              bool subFolderCheck = false);
-
-	void copyTo(Task *);
 
 	const QList<TestCase *> &getTestCaseList() const;
 	const QString &getProblemTitle() const;
@@ -94,7 +92,6 @@ class Task : public QObject {
 	int getTotalTimeLimit() const;
 	int getTotalScore() const;
 	int writeToJson(QJsonObject &in);
-	void writeToStream(QDataStream &);
 	int readFromJson(const QJsonObject &);
 	void readFromStream(QDataStream &);
 

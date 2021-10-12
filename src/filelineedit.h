@@ -11,9 +11,9 @@
 //
 
 #include <QCompleter>
+#include <QDir>
 #include <QLineEdit>
-#include <QtCore>
-#include <QtWidgets>
+#include <QStringList>
 
 class FileLineEdit : public QLineEdit {
 	Q_OBJECT

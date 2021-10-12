@@ -11,9 +11,8 @@
 //
 
 #include <QMessageBox>
+#include <QStringList>
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class OpenContestWidget;

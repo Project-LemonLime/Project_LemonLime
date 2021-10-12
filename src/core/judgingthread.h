@@ -11,8 +11,8 @@
 //
 
 #include "base/LemonType.hpp"
+#include <QProcessEnvironment>
 #include <QThread>
-#include <QtCore>
 
 class Task;
 

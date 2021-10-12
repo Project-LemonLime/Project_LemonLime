@@ -12,7 +12,12 @@
 #include "core/judgesharedvariables.h"
 #include "core/task.h"
 
+#include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QTime>
+
 
 #include <cmath>
 #include <cstdio>

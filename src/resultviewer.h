@@ -11,8 +11,6 @@
 //
 
 #include <QTableWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 class Contest;
 

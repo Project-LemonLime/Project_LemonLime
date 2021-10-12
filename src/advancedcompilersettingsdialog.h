@@ -11,8 +11,6 @@
 //
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
 
 class Compiler;
 

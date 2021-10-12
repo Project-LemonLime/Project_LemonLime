@@ -19,6 +19,7 @@
 #include "core/taskjudger.h"
 #include "core/testcase.h"
 
+#include <QEventLoop>
 #include <QMessageBox>
 #include <algorithm>
 #include <utility>
@@ -89,7 +90,6 @@ auto Contest::getTotalScore() const -> int {
 }
 
 void Contest::addTask(Task *task) {
-	task->setParent(this);
 	taskList.append(task);
 	connect(task, &Task::problemTitleChanged, this, &Contest::problemTitleChanged);
 	emit taskAddedForContestant();
@@ -237,21 +237,6 @@ void Contest::stopJudgingSlot() {
 	QMetaObject::invokeMethod(controller, "stop");
 }
 
-void Contest::writeToStream(QDataStream &out) {
-	out << contestTitle;
-	out << taskList.size();
-
-	for (auto &i : taskList) {
-		i->writeToStream(out);
-	}
-
-	out << contestantList.size();
-	QList<Contestant *> list = contestantList.values();
-
-	for (auto &i : list) {
-		i->writeToStream(out);
-	}
-}
 void Contest::writeToJson(QJsonObject &out) {
 	WRITE_JSON(out, contestTitle);
 
@@ -283,7 +268,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 
 	taskList.clear();
 	for (const auto &task : tasks) {
-		Task *newTask = new Task(this);
+		Task *newTask = new Task();
 		if (newTask->readFromJson(task.toObject()) == -1)
 			return -1;
 		taskList.append(newTask);
@@ -294,7 +279,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 
 	contestantList.clear();
 	for (const auto &contestant : contestants) {
-		auto *newContestant = new Contestant(this);
+		auto *newContestant = new Contestant();
 		if (newContestant->readFromJson(contestant.toObject()) == -1)
 			return -1;
 		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
@@ -309,7 +294,7 @@ void Contest::readFromStream(QDataStream &in) {
 	in >> count;
 
 	for (int i = 0; i < count; i++) {
-		Task *newTask = new Task(this);
+		Task *newTask = new Task();
 		newTask->readFromStream(in);
 		newTask->refreshCompilerConfiguration(settings);
 		taskList.append(newTask);
@@ -318,7 +303,7 @@ void Contest::readFromStream(QDataStream &in) {
 	in >> count;
 
 	for (int i = 0; i < count; i++) {
-		auto *newContestant = new Contestant(this);
+		auto *newContestant = new Contestant();
 		newContestant->readFromStream(in);
 		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
 		connect(this, &Contest::taskDeletedForContestant, newContestant, &Contestant::deleteTask);
