@@ -210,11 +210,11 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 }
 
 void Contest::judge(const QList<std::pair<QString, QVector<int>>> &list) {
-	QVector<std::pair<Contestant *, int>> judgingTasks(list.size());
+	QVector<std::pair<Contestant *, int>> judgingTasks;
 	for (int i = 0; i < list.size(); i++) {
 		auto contestant = contestantList.value(list[i].first);
 		for (int j = 0; j < list[i].second.size(); j++)
-			judgingTasks[i] = {contestant, list[i].second[j]};
+			judgingTasks.push_back({contestant, list[i].second[j]});
 	}
 	judge(judgingTasks);
 }
