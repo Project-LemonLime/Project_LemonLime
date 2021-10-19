@@ -13,6 +13,7 @@
 #include "base/settings.h" // TODO: Config Refactor
 //
 #include <QCoreApplication>
+#include <QTime>
 //
 #define LEMON_MODULE_NAME "LemonApplicationInterface"
 
