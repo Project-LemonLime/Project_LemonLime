@@ -19,7 +19,9 @@
 #include "core/taskjudger.h"
 #include "core/testcase.h"
 
+#include <QDataStream>
 #include <QEventLoop>
+#include <QJsonObject>
 #include <QMessageBox>
 #include <algorithm>
 #include <utility>

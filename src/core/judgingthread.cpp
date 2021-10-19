@@ -13,10 +13,13 @@
 #include "core/task.h"
 
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QTextStream>
 #include <QTime>
+#include <QtMath>
 
 #include <cmath>
 #include <cstdio>

@@ -15,6 +15,9 @@
 #include "core/testcase.h"
 #include <utility>
 
+#include <QDataStream>
+#include <QJsonObject>
+
 Task::Task(QObject *parent, TaskType taskType, ComparisonMode comparisonMode, QString diffArguments,
            int realPrecision, bool standardInputCheck, bool standardOutputCheck, bool subFolderCheck)
     : QObject(parent), taskType(taskType), comparisonMode(comparisonMode),

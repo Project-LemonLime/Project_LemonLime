@@ -10,6 +10,9 @@
 #include "base/LemonUtils.hpp"
 #include "base/settings.h"
 
+#include <QDataStream>
+#include <QJsonObject>
+
 TestCase::TestCase() {}
 
 auto TestCase::getFullScore() const -> int { return fullScore; }

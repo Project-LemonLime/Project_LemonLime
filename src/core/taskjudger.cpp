@@ -17,6 +17,8 @@
 #include "core/testcase.h"
 
 #include <QTimer>
+#include <QtMath>
+
 #include <utility>
 
 #define LEMON_MODULE_NAME "TaskJudger"

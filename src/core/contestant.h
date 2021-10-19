@@ -10,7 +10,9 @@
 #pragma once
 //
 #include "base/LemonType.hpp"
+#include <QDataStream>
 #include <QDateTime>
+#include <QJsonObject>
 #include <QObject>
 
 class Contestant : public QObject {

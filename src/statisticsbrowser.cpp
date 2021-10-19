@@ -22,6 +22,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QMessageBox>
+#include <QtMath>
 
 StatisticsBrowser::StatisticsBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::StatisticsBrowser) {
 	ui->setupUi(this);

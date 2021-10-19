@@ -228,7 +228,7 @@ void ResultViewer::judgeSelected() {
 		}
 	}
 
-	QVector<std::pair<QString, QVector<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
 	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
@@ -268,7 +268,7 @@ void ResultViewer::judgeUnjudged() {
 		}
 	}
 
-	QVector<std::pair<QString, QVector<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
 	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.push_back({i.key(), i.value()});
