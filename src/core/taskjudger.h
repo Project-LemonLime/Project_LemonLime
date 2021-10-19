@@ -68,10 +68,12 @@ class TaskJudger : public QObject {
 	void assign();
 	void taskSkipped(const std::pair<int, int> &);
 	void makeDialogAlert(QString);
+	void judge();
+
 	QTemporaryDir temporaryDir;
 
   public:
-	void judge();
+	void judgeIt();
   public slots:
 	void stop();
   signals:

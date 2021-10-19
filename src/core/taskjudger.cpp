@@ -331,9 +331,14 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 	return true;
 }
 
-void TaskJudger::judge() {
+void TaskJudger::judgeIt() {
 	qDebug() << "Start Judging";
 	emit taskJudgingStarted(task->getProblemTitle());
+	judge();
+	emit judgeFinished();
+}
+
+void TaskJudger::judge() {
 	isJudging = 1;
 	QString contestantName = contestant->getContestantName();
 	if (! temporaryDir.isValid())
@@ -533,7 +538,6 @@ void TaskJudger::judge() {
 	contestant->setScore(taskId, score);
 	contestant->setInputFiles(taskId, inputFiles);
 	contestant->setSourceFile(taskId, sourceFile);
-	emit judgeFinished();
 }
 
 void TaskJudger::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
