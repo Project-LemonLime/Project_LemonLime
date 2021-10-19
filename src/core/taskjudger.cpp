@@ -494,8 +494,8 @@ void TaskJudger::judge() {
 			int nowScore = score[i][j];
 
 			if (j + 1 == task->getTestCase(i)->getInputFiles().size()) {
-				for (int i = 0; i < j; i++)
-					nowScore = qMin(nowScore, score[i][i]);
+				for (int k = 0; k < j; k++)
+					nowScore = qMin(nowScore, score[i][k]);
 
 				if (! task->getTestCase(i)->getDependenceSubtask().empty())
 					nowScore =
