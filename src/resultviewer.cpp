@@ -211,7 +211,7 @@ void ResultViewer::refreshViewer() {
 
 void ResultViewer::judgeSelected() {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-	QMap<QString, QVector<int>> mapping;
+	QMap<QString, QSet<int>> mapping;
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
 
@@ -219,10 +219,10 @@ void ResultViewer::judgeSelected() {
 		for (int j = i.topRow(); j <= i.bottomRow(); j++) {
 			for (int k = i.leftColumn(); k <= i.rightColumn(); k++) {
 				if (3 <= k && k < 3 + taskSize)
-					mapping[item(j, 1)->text()].push_back(k - 3);
+					mapping[item(j, 1)->text()].insert(k - 3);
 				else {
 					for (int a = 0; a < taskSize; a++)
-						mapping[item(j, 1)->text()].push_back(a);
+						mapping[item(j, 1)->text()].insert(a);
 				}
 			}
 		}
@@ -230,8 +230,8 @@ void ResultViewer::judgeSelected() {
 
 	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(std::make_pair(i.key(), i.value()));
+	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+		judgeList.append(std::make_pair(i.key(), QVector<int>(i.value().constBegin(), i.value().constEnd())));
 	}
 
 	auto *dialog = new JudgingDialog(this);
