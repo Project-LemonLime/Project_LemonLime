@@ -113,6 +113,8 @@ auto Settings::getFileSizeLimit() const -> int { return fileSizeLimit; }
 
 auto Settings::getRejudgeTimes() const -> int { return rejudgeTimes; }
 
+auto Settings::getMaxJudgingThreads() const -> int { return maxJudgingThreads; }
+
 auto Settings::getDefaultExtraTimeRatio() const -> double { return defaultExtraTimeRatio; }
 
 auto Settings::getDefaultInputFileExtension() const -> const QString & { return defaultInputFileExtension; }
@@ -174,6 +176,11 @@ void Settings::setFileSizeLimit(int limit) {
 void Settings::setRejudgeTimes(int number) {
 	rejudgeTimes = number;
 	DEBUG("Set Rejudge Times to " + QString::number(number));
+}
+
+void Settings::setMaxJudgingThreads(int number) {
+	maxJudgingThreads = number;
+	DEBUG("Set Max Judging Threads to " + QString::number(number));
 }
 
 void Settings::setDefaultInputFileExtension(const QString &extension) {
@@ -361,6 +368,7 @@ void Settings::copyFrom(Settings *other) {
 	setSpecialJudgeTimeLimit(other->getSpecialJudgeTimeLimit());
 	setFileSizeLimit(other->getFileSizeLimit());
 	setRejudgeTimes(other->getRejudgeTimes());
+	setMaxJudgingThreads(other->getMaxJudgingThreads());
 	setDefaultInputFileExtension(other->getDefaultInputFileExtension());
 	setDefaultOutputFileExtension(other->getDefaultOutputFileExtension());
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
@@ -409,6 +417,7 @@ void Settings::saveSettings() {
 	settings.setValue("SpecialJudgeTimeLimit", specialJudgeTimeLimit);
 	settings.setValue("FileSizeLimit", fileSizeLimit);
 	settings.setValue("MaximumRejudgeTimes", rejudgeTimes);
+	settings.setValue("MaximumJudgingThreads", maxJudgingThreads);
 	settings.setValue("DefaultInputFileExtension", defaultInputFileExtension);
 	settings.setValue("DefaultOutputFileExtension", defaultOutputFileExtension);
 	settings.setValue("InputFileExtensions", inputFileExtensions);
@@ -512,6 +521,7 @@ void Settings::loadSettings() {
 	specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
 	fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();
 	rejudgeTimes = settings.value("MaximumRejudgeTimes", 1).toInt();
+	maxJudgingThreads = settings.value("MaximumJudgingThreads", 1).toInt();
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();

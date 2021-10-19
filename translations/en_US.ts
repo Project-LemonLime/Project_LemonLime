@@ -502,25 +502,6 @@
     </message>
 </context>
 <context>
-    <name>AssignmentThread</name>
-    <message>
-        <source>Preparing...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Compiling...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Compiled Successfully</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Main grader (grader.*) cannot be found</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>CompilerSettings</name>
     <message>
         <source>Form</source>
@@ -1137,6 +1118,10 @@ Depends: </source>
     </message>
     <message>
         <source>Empty default extra time ratio!</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Maximum Judging Thread</source>
         <translation></translation>
     </message>
 </context>
@@ -2488,6 +2473,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Communication (Exec)</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>TaskJudger</name>
+    <message>
+        <source>Preparing...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Compiling...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Compiled Successfully</source>
         <translation></translation>
     </message>
 </context>

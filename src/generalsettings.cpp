@@ -39,6 +39,7 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	ui->specialJudgeTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
 	ui->fileSizeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForFileSizeLimit(), this));
 	ui->rejudgeTimes->setValidator(new QIntValidator(0, Settings::upperBoundForRejudgeTimes(), this));
+	ui->maxJudgingThreads->setValidator(new QIntValidator(1, QThread::idealThreadCount() * 2, this));
 	ui->inputFileExtensions->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 	ui->outputFileExtensions->setValidator(
@@ -54,6 +55,7 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	        &GeneralSettings::specialJudgeTimeLimitChanged);
 	connect(ui->fileSizeLimit, &QLineEdit::textChanged, this, &GeneralSettings::fileSizeLimitChanged);
 	connect(ui->rejudgeTimes, &QLineEdit::textChanged, this, &GeneralSettings::rejudgeTimesChanged);
+	connect(ui->maxJudgingThreads, &QLineEdit::textChanged, this, &GeneralSettings::maxJudgingThreadsChanged);
 	connect(ui->inputFileExtensions, &QLineEdit::textChanged, this,
 	        &GeneralSettings::inputFileExtensionsChanged);
 	connect(ui->outputFileExtensions, &QLineEdit::textChanged, this,
@@ -74,6 +76,7 @@ void GeneralSettings::resetEditSettings(Settings *settings) {
 	ui->specialJudgeTimeLimit->setText(QString("%1").arg(editSettings->getSpecialJudgeTimeLimit()));
 	ui->fileSizeLimit->setText(QString("%1").arg(editSettings->getFileSizeLimit()));
 	ui->rejudgeTimes->setText(QString("%1").arg(editSettings->getRejudgeTimes()));
+	ui->maxJudgingThreads->setText(QString("%1").arg(editSettings->getMaxJudgingThreads()));
 	ui->inputFileExtensions->setText(editSettings->getInputFileExtensions().join(";"));
 	ui->outputFileExtensions->setText(editSettings->getOutputFileExtensions().join(";"));
 	ui->languageComboBox->setCurrentText(editSettings->getUiLanguage());
@@ -160,6 +163,10 @@ void GeneralSettings::fileSizeLimitChanged(const QString &text) {
 
 void GeneralSettings::rejudgeTimesChanged(const QString &text) {
 	editSettings->setRejudgeTimes(text.toInt());
+}
+
+void GeneralSettings::maxJudgingThreadsChanged(const QString &text) {
+	editSettings->setMaxJudgingThreads(text.toInt());
 }
 
 void GeneralSettings::inputFileExtensionsChanged(const QString &text) {

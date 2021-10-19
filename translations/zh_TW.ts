@@ -510,21 +510,6 @@
     </message>
 </context>
 <context>
-    <name>AssignmentThread</name>
-    <message>
-        <source>Preparing...</source>
-        <translation>準備中…</translation>
-    </message>
-    <message>
-        <source>Compiling...</source>
-        <translation>編譯中…</translation>
-    </message>
-    <message>
-        <source>Compiled Successfully</source>
-        <translation>編譯完成</translation>
-    </message>
-</context>
-<context>
     <name>CompilerSettings</name>
     <message>
         <source>Form</source>
@@ -657,6 +642,10 @@
         <source>Message</source>
         <translation>資訊</translation>
     </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditVariableDialog</name>
@@ -777,10 +766,6 @@
         <translation>子任務依賴情況</translation>
     </message>
     <message>
-        <source>Use Default Color Theme?</source>
-        <translation>使用預設的顏色主題嗎？</translation>
-    </message>
-    <message>
         <source>Invalid</source>
         <translation>不可用</translation>
     </message>
@@ -852,6 +837,10 @@
     <message>
         <source>Export Result</source>
         <translation>匯出成績</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1152,6 +1141,10 @@ Depends: </source>
         <source>Empty default extra time ratio!</source>
         <translation>預設額外時間比率為空！</translation>
     </message>
+    <message>
+        <source>Maximum Judging Thread</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JudgingDialog</name>
@@ -1303,6 +1296,22 @@ Depends: </source>
     <message>
         <source>Pts</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Judge Finished - LemonLime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Judge All: Finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2084,6 +2093,14 @@ Depends: </source>
         <source>Interactor Error</source>
         <translation>互動庫錯誤</translation>
     </message>
+    <message>
+        <source>ranking.ioi2021.sg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mock joi2020</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StatisticsBrowser</name>
@@ -2303,10 +2320,6 @@ p, li { white-space: pre-wrap; }
         <translation>通訊題…</translation>
     </message>
     <message>
-        <source>Communication</source>
-        <translation>通訊題</translation>
-    </message>
-    <message>
         <source>Standard input</source>
         <translation>定向到標準輸入</translation>
     </message>
@@ -2483,6 +2496,37 @@ p, li { white-space: pre-wrap; }
         <source>Interactor Name</source>
         <translation>互動庫名稱</translation>
     </message>
+    <message>
+        <source>Communication (Part)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Communication Task, judged by running exec...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Communication (Exec)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TaskJudger</name>
+    <message>
+        <source>Preparing...</source>
+        <translation type="unfinished">準備中…</translation>
+    </message>
+    <message>
+        <source>Compiling...</source>
+        <translation type="unfinished">編譯中…</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Compiled Successfully</source>
+        <translation type="unfinished">編譯完成</translation>
+    </message>
 </context>
 <context>
     <name>TestCaseEditWidget</name>
@@ -2589,6 +2633,44 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ThemeEditDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">設定</translation>
+    </message>
+</context>
+<context>
+    <name>VisualMainSettings</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Splash Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation type="unfinished">ms</translation>
+    </message>
+    <message>
+        <source>New Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VisualSettings</name>
     <message>
         <source>Form</source>
@@ -2619,12 +2701,8 @@ p, li { white-space: pre-wrap; }
         <translation>無檔案 HSL 顏色</translation>
     </message>
     <message>
-        <source>Splash Time (MS)</source>
-        <translation>啟動橫幅毫秒數</translation>
-    </message>
-    <message>
-        <source>Reset to Default</source>
-        <translation>重置到預設</translation>
+        <source>Theme Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -20,6 +20,7 @@ namespace Lemon::base::config {
 		READ_JSON(json, specialJudgeTimeLimit);
 		READ_JSON(json, fileSizeLimit);
 		READ_JSON(json, rejudgeTimes);
+		READ_JSON(json, maxJudgingThreads);
 
 		READ_JSON(json, defaultInputFileExtension);
 		READ_JSON(json, defaultOutputFileExtension);
@@ -54,6 +55,7 @@ namespace Lemon::base::config {
 		WRITE_JSON(json, specialJudgeTimeLimit);
 		WRITE_JSON(json, fileSizeLimit);
 		WRITE_JSON(json, rejudgeTimes);
+		WRITE_JSON(json, maxJudgingThreads);
 
 		WRITE_JSON(json, defaultInputFileExtension);
 		WRITE_JSON(json, defaultOutputFileExtension);

@@ -8,11 +8,13 @@
 #include "judgingcontroller.h"
 #include "core/contestant.h"
 
+#include <QtMath>
+
 #define LEMON_MODULE_NAME "JudgingController"
 
-JudgingController::JudgingController(QObject *parent) : QObject(parent) {
+JudgingController::JudgingController(Settings *settings, QObject *parent) : QObject(parent) {
 	isJudging = 0;
-	maxThreads = 8;
+	maxThreads = qMax(1, settings->getMaxJudgingThreads());
 }
 
 void JudgingController::assign() {

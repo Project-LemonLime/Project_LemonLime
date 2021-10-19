@@ -78,6 +78,7 @@ class Settings {
 	int getSpecialJudgeTimeLimit() const;
 	int getFileSizeLimit() const;
 	int getRejudgeTimes() const;
+	int getMaxJudgingThreads() const;
 	double getDefaultExtraTimeRatio() const;
 	const QString &getDefaultInputFileExtension() const;
 	const QString &getDefaultOutputFileExtension() const;
@@ -98,6 +99,7 @@ class Settings {
 	void setSpecialJudgeTimeLimit(int);
 	void setFileSizeLimit(int);
 	void setRejudgeTimes(int);
+	void setMaxJudgingThreads(int);
 	void setDefaultInputFileExtension(const QString &);
 	void setDefaultOutputFileExtension(const QString &);
 	void setInputFileExtensions(const QString &);
@@ -146,6 +148,7 @@ class Settings {
 	int specialJudgeTimeLimit{};
 	int fileSizeLimit{};
 	int rejudgeTimes{};
+	int maxJudgingThreads{};
 	double defaultExtraTimeRatio{};
 	QString defaultInputFileExtension;
 	QString defaultOutputFileExtension;

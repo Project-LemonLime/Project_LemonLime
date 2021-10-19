@@ -171,7 +171,7 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	stopJudging = false;
 	// emit contestantJudgingStart(contestant->getContestantName());
 
-	controller = new JudgingController();
+	controller = new JudgingController(settings);
 
 	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
 	for (auto [contestant, i] : judgingTasks) {
