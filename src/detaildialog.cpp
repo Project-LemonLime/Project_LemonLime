@@ -266,7 +266,7 @@ void DetailDialog::anchorClicked(const QUrl &url) {
 		dialog->setModal(true);
 		dialog->setContest(contest);
 		dialog->show();
-		dialog->judge(contestant->getContestantName(), list[1].toInt());
+		dialog->judge({{contestant->getContestantName(), {list[1].toInt()}}});
 		delete dialog;
 		emit rejudgeSignal();
 		refreshViewer(contest, contestant);

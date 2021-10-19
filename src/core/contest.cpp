@@ -165,12 +165,14 @@ void Contest::clearPath(const QString &curDir) {
 	}
 }
 
-void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
+void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	stopJudging = false;
-	emit contestantJudgingStart(contestant->getContestantName());
+	// emit contestantJudgingStart(contestant->getContestantName());
+
 	controller = new JudgingController();
+
 	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
-	for (auto i : indexes) {
+	for (auto [contestant, i] : judgingTasks) {
 		TaskJudger *taskJudger = new TaskJudger();
 		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError);
@@ -187,14 +189,13 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 		        &Contest::singleSubtaskDependenceFinished);
 		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 		*/
+		contestant->setJudgingTime(QDateTime::currentDateTime());
 	}
 
 	auto eventLoop = new QEventLoop();
 	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit);
 
 	controller->start();
-
-	contestant->setJudgingTime(QDateTime::currentDateTime());
 
 	eventLoop->exec();
 
@@ -206,29 +207,22 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	emit contestantJudgingFinished();
 }
 
-void Contest::judge(Contestant *contestant) {
-	QVector<int> indexes;
-	indexes.resize(taskList.size());
-	std::iota(indexes.begin(), indexes.end(), 0);
-	judge(contestant, indexes);
+void Contest::judge(const QList<std::pair<QString, QVector<int>>> &list) {
+	QVector<std::pair<Contestant *, int>> judgingTasks(list.size());
+	for (int i = 0; i < list.size(); i++) {
+		auto contestant = contestantList.value(list[i].first);
+		for (int j = 0; j < list[i].second.size(); j++)
+			judgingTasks[i] = {contestant, list[i].second[j]};
+	}
+	judge(judgingTasks);
 }
-
-void Contest::judge(const QString &name) { judge(contestantList.value(name)); }
-
-void Contest::judge(const QString &name, const QSet<int> &indexes) {
-	judge(contestantList.value(name), QVector<int>(indexes.begin(), indexes.end()));
-}
-
-void Contest::judge(const QString &name, int index) { judge(contestantList.value(name), {index}); }
 
 void Contest::judgeAll() {
-	QList<Contestant *> contestants = contestantList.values();
-
-	for (auto &contestant : contestants) {
-		judge(contestant);
-
-		if (stopJudging)
-			break;
+	QVector<std::pair<Contestant *, int>> judgingTasks;
+	for (auto contestant : contestantList) {
+		for (int i = 0; i < taskList.size(); i++) {
+			judgingTasks.append({contestant, i});
+		}
 	}
 }
 

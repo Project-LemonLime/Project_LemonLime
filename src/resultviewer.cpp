@@ -211,7 +211,7 @@ void ResultViewer::refreshViewer() {
 
 void ResultViewer::judgeSelected() {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Task *> taskList = curContest->getTaskList();
 	int taskSize = taskList.size();
 
@@ -219,18 +219,18 @@ void ResultViewer::judgeSelected() {
 		for (int j = i.topRow(); j <= i.bottomRow(); j++) {
 			for (int k = i.leftColumn(); k <= i.rightColumn(); k++) {
 				if (3 <= k && k < 3 + taskSize)
-					mapping[item(j, 1)->text()].insert(k - 3);
+					mapping[item(j, 1)->text()].push_back(k - 3);
 				else {
 					for (int a = 0; a < taskSize; a++)
-						mapping[item(j, 1)->text()].insert(a);
+						mapping[item(j, 1)->text()].push_back(a);
 				}
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QVector<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
@@ -254,7 +254,7 @@ void ResultViewer::judgeAll() {
 }
 
 void ResultViewer::judgeUnjudged() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -263,15 +263,15 @@ void ResultViewer::judgeUnjudged() {
 	for (int i = 0; i < contestantSize; i++) {
 		for (int j = 0; j < taskSize; j++) {
 			if (item(i, j + 3)->text() == tr("Invalid")) {
-				mapping[item(i, 1)->text()].insert(j);
+				mapping[item(i, 1)->text()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QVector<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(std::make_pair(i.key(), i.value()));
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+		judgeList.push_back({i.key(), i.value()});
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -284,7 +284,7 @@ void ResultViewer::judgeUnjudged() {
 }
 
 void ResultViewer::judgeGrey() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -293,14 +293,14 @@ void ResultViewer::judgeGrey() {
 	for (int i = 0; i < contestantSize; i++) {
 		for (int j = 0; j < taskSize; j++) {
 			if (contestantList[i]->getCompileState(j) == NoValidSourceFile) {
-				mapping[contestantList[i]->getContestantName()].insert(j);
+				mapping[contestantList[i]->getContestantName()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
@@ -314,7 +314,7 @@ void ResultViewer::judgeGrey() {
 }
 
 void ResultViewer::judgeMagenta() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -326,14 +326,14 @@ void ResultViewer::judgeMagenta() {
 			    contestantList[i]->getCompileState(j) != CompileSuccessfully &&
 			    contestantList[i]->getCompileState(j) != NoValidSourceFile &&
 			    contestantList[i]->getCompileState(j) != NoValidGraderFile) {
-				mapping[contestantList[i]->getContestantName()].insert(j);
+				mapping[contestantList[i]->getContestantName()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
