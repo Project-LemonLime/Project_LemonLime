@@ -16,6 +16,7 @@
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 //
+#include <QProcess>
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::JudgingDialog) {
