@@ -226,6 +226,7 @@ void Contest::judgeAll() {
 			judgingTasks.append({contestant, i});
 		}
 	}
+	judge(judgingTasks);
 }
 
 void Contest::stopJudgingSlot() {
