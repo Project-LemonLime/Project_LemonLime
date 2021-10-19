@@ -18,7 +18,6 @@
 #include <QFileInfo>
 #include <QTime>
 
-
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>

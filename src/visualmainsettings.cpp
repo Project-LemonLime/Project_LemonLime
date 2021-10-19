@@ -70,7 +70,7 @@ void VisualMainSettings::whenThemeEdit() {
 }
 
 void VisualMainSettings::whenThemeAdd() {
-	ColorTheme *temp = new ColorTheme(this);
+	ColorTheme *temp = new ColorTheme();
 	temp->setName(tr("New Theme"));
 	editSettings->addColorTheme(temp);
 	resetEditSettings(editSettings);

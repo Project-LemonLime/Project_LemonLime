@@ -18,10 +18,9 @@
 #include <QLocale>
 #include <QSettings>
 
-
 #define LEMON_MODULE_NAME "Setting"
 
-ColorTheme::ColorTheme(QObject *parent) : QObject(parent) {}
+ColorTheme::ColorTheme() {}
 
 void ColorTheme::setColor(const hslTuple &_mx, const hslTuple &_mi, const hslTuple &_nf, const hslTuple &_ce,
                           const dddTuple &_gc, const dddTuple &_gr) {
@@ -98,7 +97,7 @@ QColor ColorTheme::getColorPer(double a, double b) const { return getColorPer(a 
 
 QColor ColorTheme::getColorGrand(double a, double b) const { return getColorGrand(a / b); }
 
-Settings::Settings(QObject *parent) : QObject(parent) {}
+Settings::Settings() {}
 
 auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
 
@@ -204,10 +203,7 @@ void Settings::setUiLanguage(const QString &language) {
 	DEBUG("Set Language to " + language);
 }
 
-void Settings::addCompiler(Compiler *compiler) {
-	compiler->setParent(this);
-	compilerList.append(compiler);
-}
+void Settings::addCompiler(Compiler *compiler) { compilerList.append(compiler); }
 
 void Settings::deleteCompiler(int index) {
 	if (0 <= index && index < compilerList.size()) {
@@ -232,10 +228,7 @@ void Settings::swapCompiler(int a, int b) {
 	}
 }
 
-void Settings::addColorTheme(ColorTheme *colortheme) {
-	colortheme->setParent(this);
-	colorThemeList.append(colortheme);
-}
+void Settings::addColorTheme(ColorTheme *colortheme) { colorThemeList.append(colortheme); }
 
 void Settings::deleteColorTheme(int index) {
 	if (0 <= index && index < colorThemeList.size()) {

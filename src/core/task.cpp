@@ -177,6 +177,12 @@ void Task::swapTestCase(int a, int b) {
 	qSwap(testCaseList[a], testCaseList[b]);
 }
 
+void Task::copyTo(Task *to) {
+	QJsonObject obj;
+	writeToJson(obj);
+	to->readFromJson(obj);
+}
+
 void Task::refreshCompilerConfiguration(Settings *settings) {
 	QList<Compiler *> compilerList = settings->getCompilerList();
 	QStringList compilerNames;
@@ -350,7 +356,7 @@ int Task::readFromJson(const QJsonObject &in) {
 	QJsonObject compilerConfiguration;
 	READ_JSON(in, compilerConfiguration);
 	for (const auto &i : compilerConfiguration.toVariantMap().toStdMap()) {
-		if (! i.second.canConvert(QMetaType::QString))
+		if (! i.second.canConvert<QString>())
 			return -1;
 		this->compilerConfiguration[i.first] = i.second.toString();
 	}

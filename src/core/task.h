@@ -88,6 +88,9 @@ class Task : public QObject {
 	TestCase *getTestCase(int) const;
 	void deleteTestCase(int);
 	void swapTestCase(int, int);
+
+	void copyTo(Task *);
+
 	void refreshCompilerConfiguration(Settings *);
 	int getTotalTimeLimit() const;
 	int getTotalScore() const;

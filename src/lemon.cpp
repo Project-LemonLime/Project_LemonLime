@@ -46,7 +46,7 @@
 LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLime) {
 	ui->setupUi(this);
 	curContest = nullptr;
-	settings = new Settings(this);
+	settings = new Settings();
 	ui->tabWidget->setVisible(false);
 	ui->closeAction->setEnabled(false);
 	ui->saveAction->setEnabled(false);

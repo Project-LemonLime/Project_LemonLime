@@ -308,26 +308,23 @@ void ExtTestCaseModifier::mergeSelected() {
 
 	auto temp = ui->testCaseTable->getSelectRange();
 
-	auto *ans = new TestCase;
-
 	int l = hav.front(), r = hav.back();
 
-	editTask->getTestCase(l)->copyTo(ans);
+	auto ans = *editTask->getTestCase(l);
 
 	for (int i = l + 1; i <= r; i++) {
-		ans->setFullScore(ans->getFullScore() + editTask->getTestCase(i)->getFullScore());
+		ans.setFullScore(ans.getFullScore() + editTask->getTestCase(i)->getFullScore());
 		auto in = editTask->getTestCase(i)->getInputFiles();
 		auto out = editTask->getTestCase(i)->getOutputFiles();
 
 		for (int j = 0; j < in.size(); j++)
-			ans->addSingleCase(in[j], out[j]);
+			ans.addSingleCase(in[j], out[j]);
 	}
 
 	for (int i = l + 1; i <= r; i++)
 		editTask->deleteTestCase(l + 1);
 
-	ans->copyTo(editTask->getTestCase(l));
-	delete ans;
+	*editTask->getTestCase(l) = ans;
 
 	refresh();
 

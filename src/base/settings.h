@@ -12,6 +12,7 @@
 
 #include "base/LemonType.hpp"
 #include <QColor>
+#include <QCoreApplication>
 #include <QObject>
 
 class Compiler;
@@ -33,10 +34,10 @@ struct dddTuple {
 };
 Q_DECLARE_METATYPE(dddTuple)
 
-class ColorTheme : public QObject {
-	Q_OBJECT
+class ColorTheme {
+	Q_GADGET
   public:
-	explicit ColorTheme(QObject *parent = nullptr);
+	explicit ColorTheme();
 
 	void setName(QString);
 	void setColor(const hslTuple &, const hslTuple &, const hslTuple &, const hslTuple &, const dddTuple &,
@@ -65,10 +66,10 @@ class ColorTheme : public QObject {
 	dddTuple grandComp, grandRate;
 };
 
-class Settings : public QObject {
-	Q_OBJECT
+class Settings {
+	Q_DECLARE_TR_FUNCTIONS(Settings)
   public:
-	explicit Settings(QObject *parent = nullptr);
+	explicit Settings();
 
 	int getDefaultFullScore() const;
 	int getDefaultTimeLimit() const;
