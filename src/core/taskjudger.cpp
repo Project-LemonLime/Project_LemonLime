@@ -487,8 +487,11 @@ void TaskJudger::judge() {
 				return;
 			}
 
-			while (thread->getNeedRejudge() && thread->getJudgeTimes() != settings->getRejudgeTimes() + 1) {
+			while (thread->getNeedRejudge() && thread->getJudgeTimes() != settings->getRejudgeTimes() + 1 &&
+			       isJudging) {
 				thread->start();
+				thread->wait();
+				QCoreApplication::processEvents();
 			}
 			timeUsed[i][j] = thread->getTimeUsed();
 			memoryUsed[i][j] = thread->getMemoryUsed();
