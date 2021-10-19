@@ -12,7 +12,6 @@
 #include <QMap>
 #include <QStandardPaths>
 
-
 #include <algorithm>
 #include <ctime>
 #include <iostream>
