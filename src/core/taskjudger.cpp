@@ -337,6 +337,16 @@ void TaskJudger::judgeIt() {
 	qDebug() << "Start Judging";
 	emit taskJudgingStarted(task->getProblemTitle());
 	judge();
+	contestant->setCheckJudged(taskId, true);
+	contestant->setCompileMessage(taskId, compileMessage);
+	contestant->setCompileState(taskId, compileState);
+	contestant->setResult(taskId, result);
+	contestant->setMessage(taskId, message);
+	contestant->setTimeUsed(taskId, timeUsed);
+	contestant->setMemoryUsed(taskId, memoryUsed);
+	contestant->setScore(taskId, score);
+	contestant->setInputFiles(taskId, inputFiles);
+	contestant->setSourceFile(taskId, sourceFile);
 	emit judgeFinished();
 }
 
@@ -351,10 +361,6 @@ void TaskJudger::judge() {
 			return;
 
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
-		QCoreApplication::processEvents();
-		if (! isJudging) {
-			return;
-		}
 		timeUsed.append(QList<int>());
 		memoryUsed.append(QList<int>());
 		score.append(QList<int>());
@@ -533,16 +539,6 @@ void TaskJudger::judge() {
 	taskResult.inputFiles = inputFiles;
 	taskResult.sourceFile = sourceFile;
 	emit judgeFinished(taskResult); */
-	contestant->setCheckJudged(taskId, true);
-	contestant->setCompileMessage(taskId, compileMessage);
-	contestant->setCompileState(taskId, compileState);
-	contestant->setResult(taskId, result);
-	contestant->setMessage(taskId, message);
-	contestant->setTimeUsed(taskId, timeUsed);
-	contestant->setMemoryUsed(taskId, memoryUsed);
-	contestant->setScore(taskId, score);
-	contestant->setInputFiles(taskId, inputFiles);
-	contestant->setSourceFile(taskId, sourceFile);
 }
 
 void TaskJudger::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
