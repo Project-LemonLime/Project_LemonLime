@@ -139,12 +139,8 @@ int TestCase::readFromJson(const QJsonObject &in) {
 			return -1;
 		auto fileName = i.toString();
 		if (fileName.endsWith("_lemon_SUbtaskDEPENDENCE_fLAg")) {
-			int temp{0};
-			for (auto c : fileName) {
-				temp *= 10;
-				temp += c.toLatin1() ^ '0';
-			}
-			dependenceSubtask.push_back(temp);
+			fileName.remove("_lemon_SUbtaskDEPENDENCE_fLAg");
+			dependenceSubtask.push_back(fileName.toInt());
 		} else {
 			fileName.replace('/', QDir::separator());
 			this->inputFiles.push_back(fileName);
@@ -166,12 +162,8 @@ void TestCase::readFromStream(QDataStream &in) {
 
 	for (auto &i : _inputFiles) {
 		if (i.endsWith("_lemon_SUbtaskDEPENDENCE_fLAg")) {
-			int temp(0);
-
-			for (auto *itr = i.constBegin(); *itr != '_'; ++itr)
-				(temp *= 10) += itr->toLatin1() ^ '0';
-
-			dependenceSubtask.push_back(temp);
+			i.remove("_lemon_SUbtaskDEPENDENCE_fLAg");
+			dependenceSubtask.push_back(i.toInt());
 		} else {
 			inputFiles.push_back(i);
 			inputFiles.back().replace('/', QDir::separator());
