@@ -15,6 +15,7 @@
 #include "base/settings.h"
 //
 #include <QMessageBox>
+#include <QThread>
 //
 #define LEMON_MODULE_NAME "GeneralSettings"
 
