@@ -59,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
+          name: ${{ env.targetName }}-${{ matrix.qt_ver }}-${{ matrix.build_type }}.dmg
           path: ${{ env.targetName }}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -67,5 +67,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.targetName }}.dmg
-          asset_name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
+          asset_name: ${{ env.targetName }}-${{ matrix.qt_ver }}-${{ matrix.build_type }}.dmg
           tag: ${{ github.ref }}
