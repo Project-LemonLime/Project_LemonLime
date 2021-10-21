@@ -336,29 +336,32 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 void TaskJudger::judgeIt() {
 	qDebug() << "Start Judging";
 	emit taskJudgingStarted(task->getProblemTitle());
-	judge();
-	contestant->setCheckJudged(taskId, true);
-	contestant->setCompileMessage(taskId, compileMessage);
-	contestant->setCompileState(taskId, compileState);
-	contestant->setResult(taskId, result);
-	contestant->setMessage(taskId, message);
-	contestant->setTimeUsed(taskId, timeUsed);
-	contestant->setMemoryUsed(taskId, memoryUsed);
-	contestant->setScore(taskId, score);
-	contestant->setInputFiles(taskId, inputFiles);
-	contestant->setSourceFile(taskId, sourceFile);
+	if (judge()) {
+		contestant->setCheckJudged(taskId, true);
+		contestant->setCompileMessage(taskId, compileMessage);
+		contestant->setCompileState(taskId, compileState);
+		contestant->setResult(taskId, result);
+		contestant->setMessage(taskId, message);
+		contestant->setTimeUsed(taskId, timeUsed);
+		contestant->setMemoryUsed(taskId, memoryUsed);
+		contestant->setScore(taskId, score);
+		contestant->setInputFiles(taskId, inputFiles);
+		contestant->setSourceFile(taskId, sourceFile);
+	} else {
+		contestant->setCheckJudged(taskId, false);
+	}
 	emit judgeFinished();
 }
 
-void TaskJudger::judge() {
+int TaskJudger::judge() {
 	isJudging = 1;
 	QString contestantName = contestant->getContestantName();
 	if (! temporaryDir.isValid())
-		return;
+		return 0;
 
 	if (task->getTaskType() != Task::AnswersOnly)
 		if (! traditionalTaskPrepare())
-			return;
+			return 0;
 
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
 		timeUsed.append(QList<int>());
@@ -385,7 +388,7 @@ void TaskJudger::judge() {
 
 		QCoreApplication::processEvents();
 		if (! isJudging) {
-			return;
+			return 0;
 		}
 
 		auto curTestCase = task->getTestCase(i);
@@ -490,7 +493,7 @@ void TaskJudger::judge() {
 			QCoreApplication::processEvents();
 			if (! isJudging) {
 				delete thread;
-				return;
+				return 0;
 			}
 
 			while (thread->getNeedRejudge() && thread->getJudgeTimes() != settings->getRejudgeTimes() + 1 &&
@@ -528,17 +531,7 @@ void TaskJudger::judge() {
 		}
 	}
 
-	/* TaskResult taskResult;
-	taskResult.compileMessage = compileMessage;
-	taskResult.compileState = compileState;
-	taskResult.resultState = result;
-	taskResult.resultMessage = message;
-	taskResult.timeUsed = timeUsed;
-	taskResult.memoryUsed = memoryUsed;
-	taskResult.scores = score;
-	taskResult.inputFiles = inputFiles;
-	taskResult.sourceFile = sourceFile;
-	emit judgeFinished(taskResult); */
+	return 1;
 }
 
 void TaskJudger::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
