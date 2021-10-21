@@ -47,7 +47,7 @@ void JudgingController::taskFinished() {
 		delete taskJudger;
 	}
 	assign();
-	if (isJudging && queuingTasks.empty() && runningTasks.empty()) {
+	if (runningTasks.empty()) {
 		isJudging = false;
 		emit judgeFinished();
 	}
@@ -64,12 +64,7 @@ void JudgingController::stop() {
 	isJudging = 0;
 	for (auto [taskJudger, thread] : runningTasks.toStdMap()) {
 		QMetaObject::invokeMethod(taskJudger, &TaskJudger::stop);
-		thread->quit();
-		thread->wait();
-		delete thread;
-		delete taskJudger;
-		runningTasks.remove(taskJudger);
 	}
-	emit judgeFinished();
+	// emit judgeFinished();
 }
 void JudgingController::addTask(TaskJudger *taskJudger) { queuingTasks.push_back(taskJudger); }
