@@ -361,7 +361,7 @@ int TaskJudger::judge() {
 
 	if (task->getTaskType() != Task::AnswersOnly)
 		if (! traditionalTaskPrepare())
-			return 0;
+			return 1;
 
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
 		timeUsed.append(QList<int>());
