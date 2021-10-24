@@ -53,6 +53,10 @@ void JudgingController::taskFinished() {
 	}
 }
 void JudgingController::start() {
+	if (queuingTasks.size() == 0) {
+		emit judgeFinished();
+		return;
+	}
 	isJudging = 1;
 	while (! queuingTasks.empty() && runningTasks.size() < maxThreads) {
 		assign();

@@ -195,7 +195,8 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	}
 
 	auto eventLoop = new QEventLoop();
-	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit);
+	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit,
+	        Qt::QueuedConnection);
 
 	controller->start();
 
