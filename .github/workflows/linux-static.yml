@@ -42,10 +42,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - name: Install git
-        run: |
-          apt-get update
-          apt-get install -y git
       - name: Get the version
         id: get_version
         shell: bash
