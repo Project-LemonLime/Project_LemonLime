@@ -1,0 +1,85 @@
+name: CPack - DEB - Debian
+
+on:
+  # push代码时触发workflow
+  push:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  # pull_request时触发workflow
+  pull_request:
+    # 忽略README.md
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'BUILD.md'
+  release:
+    types: [published]
+
+jobs:
+  check_commit_msg:
+    outputs:
+      commit_message: ${{ steps.get_message.outputs.message }}
+    name: Check if the workflow has been disabled.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Get commit message
+        id: get_message
+        run: |
+          echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+  linux:
+    strategy:
+        fail-fast: false
+        matrix:
+          build_type: [Release, RelWithDebInfo]
+          
+    needs: check_commit_msg
+    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
+    name: Debian ${{ matrix.distro }}
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Install git
+        run: |
+          apt-get update
+          apt-get install -y git
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Checking out sources
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Install build dependencies
+        run: |
+          sudo apt install -y build-essential ninja-build cmake pkgconf bash
+          sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
+          sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
+      - name: Install Qt
+        run : |
+          wget https://github.com/Project-LemonLime/qt5ci/releases/latest/download/qt-5.15.3-kde-static-linux.tar.gz
+          tar -zxvf qt-5.15.3-kde-static-linux.tar.gz
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for Linux" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DCMAKE_PREFIX_PATH=../qt
+          cmake --build . --target package --parallel $(nproc)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: LemonLime-linux-x86_64-${{ matrix.build_type }}
+          path: lemon
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        if: github.event_name == 'release'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/lemon
+          asset_name: LemonLime-linux-x86_64-${{ matrix.build_type }}
+          tag: ${{ github.ref }}
+          overwrite: true
