@@ -1,4 +1,4 @@
-name: CPack - DEB - Debian
+name: Linux Static
 
 on:
   # push代码时触发workflow
