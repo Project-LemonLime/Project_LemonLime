@@ -68,17 +68,20 @@ jobs:
           cd build
           cmake ../Project_LemonLime -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for Linux" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DCMAKE_PREFIX_PATH=../qt
           cmake --build . --target package --parallel $(nproc)
+          cd ..
+          cd Project_LemonLime
+          cp ../build/lemon ./
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
           name: LemonLime-linux-x86_64-${{ matrix.build_type }}
-          path: ../build/lemon
+          path: lemon
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
         if: github.event_name == 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ../build/lemon
+          file: lemon
           asset_name: LemonLime-linux-x86_64-${{ matrix.build_type }}
           tag: ${{ github.ref }}
           overwrite: true
