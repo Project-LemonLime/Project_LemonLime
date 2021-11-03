@@ -14,6 +14,7 @@
 #include "core/contest.h"
 #include "core/task.h"
 #include "core/testcase.h"
+#include "exportingasuojformat.h"
 #include "exttestcasemodifierdialog.h"
 
 SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent) {
@@ -25,6 +26,7 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent) {
 	deleteTaskAction = new QAction(tr("Delete Current Task"), this);
 	deleteTestCaseAction = new QAction(tr("Delete Current Test Case"), this);
 	ExtTestCaseModifierAction = new QAction(tr("Advanced Test Case Modifier"), this);
+	exportAsUojFormatAction = new QAction(tr("Export as UOJ Format"), this);
 	addTaskKeyAction = new QAction(this);
 	addTestCaseKeyAction = new QAction(this);
 	deleteTaskKeyAction = new QAction(this);
@@ -49,6 +51,7 @@ SummaryTree::SummaryTree(QWidget *parent) : QTreeWidget(parent) {
 	connect(addTestCaseAction, &QAction::triggered, this, &SummaryTree::addTestCase);
 	connect(addTestCasesAction, &QAction::triggered, this, &SummaryTree::addTestCases);
 	connect(ExtTestCaseModifierAction, &QAction::triggered, this, &SummaryTree::launchExtTestCaseModifier);
+	connect(exportAsUojFormatAction, &QAction::triggered, this, &SummaryTree::exportAsUojFormat);
 	connect(addTaskKeyAction, &QAction::triggered, this, &SummaryTree::addTask);
 	connect(addTestCaseKeyAction, &QAction::triggered, this, &SummaryTree::addTestCase);
 	connect(deleteTaskAction, &QAction::triggered, this, &SummaryTree::deleteTask);
@@ -69,6 +72,8 @@ void SummaryTree::changeEvent(QEvent *event) {
 		    QApplication::translate("SummaryTree", "Delete Current Test Case", nullptr));
 		ExtTestCaseModifierAction->setText(
 		    QApplication::translate("SummaryTree", "Advanced Test Case Modifier", nullptr));
+		exportAsUojFormatAction->setText(
+		    QApplication::translate("SummaryTree", "Export as UOJ Format", nullptr));
 
 		for (int i = 0; i < topLevelItemCount(); i++) {
 			QTreeWidgetItem *taskItem = topLevelItem(i);
@@ -142,6 +147,8 @@ void SummaryTree::contextMenuEvent(QContextMenuEvent * /*event*/) {
 		contextMenu->addAction(addTestCasesAction);
 		contextMenu->addSeparator();
 		contextMenu->addAction(ExtTestCaseModifierAction);
+		contextMenu->addSeparator();
+		contextMenu->addAction(exportAsUojFormatAction);
 		contextMenu->exec(QCursor::pos());
 		delete contextMenu;
 	} else {
@@ -339,4 +346,28 @@ void SummaryTree::launchExtTestCaseModifier() {
 	}
 
 	setContest(curContest);
+}
+
+void SummaryTree::exportAsUojFormat() {
+	QTreeWidgetItem *curItem = currentItem();
+
+	if (indexOfTopLevelItem(curItem) == -1) {
+		curItem = curItem->parent();
+	}
+
+	int index = indexOfTopLevelItem(curItem);
+	Task *curTask = curContest->getTask(index);
+
+	if (curTask->getTaskType() != Task::Traditional) {
+		QMessageBox::information(this, tr("Export as UOJ Format"), tr("Task Type Not Supported"));
+		return;
+	}
+
+	auto *dialog = new ExportingAsUojFormat;
+
+	dialog->init(curTask);
+
+	if (dialog->exec() == QDialog::Accepted) {
+		dialog->exportData();
+	}
 }

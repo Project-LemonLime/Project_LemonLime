@@ -2268,6 +2268,14 @@ p, li { white-space: pre-wrap; }
         <translation>增强测试点调整器</translation>
     </message>
     <message>
+        <source>Export as UOJ Format</source>
+        <translation>导出为 UOJ 格式</translation>
+    </message>
+    <message>
+        <source>Task Type Not Supported</source>
+        <translation>不支持的题目类型</translation>
+    </message>
+    <message>
         <source>Test Case #%1</source>
         <translation>测试点 #%1</translation>
     </message>
@@ -2718,6 +2726,65 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>New</source>
         <translation>新建</translation>
+    </message>
+</context>
+<context>
+    <name>ExportingAsUojFormat</name>
+    <message>
+        <source>Export as UOJ Format</source>
+        <translation>导出为 UOJ 格式</translation>
+    </message>
+    <message>
+        <source>Problem Title</source>
+        <translation>题目标题</translation>
+    </message>
+    <message>
+        <source>Input File Prefix</source>
+        <translation>输入文件名</translation>
+    </message>
+    <message>
+        <source>Input File Suffix</source>
+        <translation>输入扩展名</translation>
+    </message>
+    <message>
+        <source>Output File Prefix</source>
+        <translation>输出文件名</translation>
+    </message>
+    <message>
+        <source>Output File Suffix</source>
+        <translation>输出扩展名</translation>
+    </message>
+    <message>
+        <source>Time Limit</source>
+        <translation>时间限制</translation>
+    </message>
+    <message>
+        <source>Memory Limit</source>
+        <translation>空间限制</translation>
+    </message>
+    <message>
+        <source>Checker</source>
+        <translation>校验器</translation>
+    </message>
+    <message>
+        <source>Special Judge</source>
+        <translation>自定义校验器</translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot remove path `%1&apos;.</source>
+        <translation>导出失败：无法删除 `%1&apos;</translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot make path `%1&apos;.</source>
+        <translation>导出失败：无法创建 `%1&apos;</translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot open problem.conf.</source>
+        <translation>导出失败：无法打开 problem.conf</translation>
+    </message>
+    <message>
+        <source>Aborted: Cannot copy file `%1&apos; to `%2&apos;.</source>
+        <translation>导出失败: 无法将 `%1&apos; 复制到 `%2&apos;.</translation>
     </message>
 </context>
 </TS>

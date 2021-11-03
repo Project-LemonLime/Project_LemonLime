@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ExportingAsUojFormat</class>
+ <widget class="QDialog" name="ExportingAsUojFormat">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>390</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="problemTitleLabel">
+     <property name="text">
+      <string>Problem Title</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="problemTitle"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="inputFilePrefixLabel">
+     <property name="text">
+      <string>Input File Prefix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="inputFilePrefix"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="inputFileSuffixLabel">
+     <property name="text">
+      <string>Input File Suffix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QLineEdit" name="inputFileSuffix"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="outputFilePrefixLabel">
+     <property name="text">
+      <string>Output File Prefix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QLineEdit" name="outputFilePrefix"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="outputFileSuffixLabel">
+     <property name="text">
+      <string>Output File Suffix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="2">
+    <widget class="QLineEdit" name="outputFileSuffix"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="timeLimitLabel">
+     <property name="text">
+      <string>Time Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="timeLimit"/>
+   </item>
+   <item row="5" column="2">
+    <widget class="QLabel" name="sLabel">
+     <property name="text">
+      <string>s</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="memoryLimitLabel">
+     <property name="text">
+      <string>Memory Limit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="memoryLimit"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLabel" name="mbLabel">
+     <property name="text">
+      <string>MB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="checkerLabel">
+     <property name="text">
+      <string>Checker</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" colspan="2">
+    <widget class="FileLineEdit" name="checker"/>
+   </item>
+   <item row="8" column="1" colspan="2">
+    <widget class="QCheckBox" name="specialJudge">
+     <property name="text">
+      <string>Special Judge</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>filelineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ExportingAsUojFormat</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ExportingAsUojFormat</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

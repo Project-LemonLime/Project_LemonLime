@@ -36,6 +36,7 @@ set(LEMON_UI_SOURCES
     ${LEMON_BASEDIR_UI}/editvariabledialog.cpp
     ${LEMON_BASEDIR_UI}/addcompilerwizard.cpp
     ${LEMON_BASEDIR_UI}/statisticsbrowser.cpp
+    ${LEMON_BASEDIR_UI}/exportingasuojformat.cpp
     ${LEMON_BASEDIR_UI}/component/exportutil/exportutil.cpp
     )
 
@@ -70,6 +71,7 @@ set(LEMON_UI_HEADERS
     ${LEMON_BASEDIR_UI}/editvariabledialog.h
     ${LEMON_BASEDIR_UI}/addcompilerwizard.h
     ${LEMON_BASEDIR_UI}/statisticsbrowser.h
+    ${LEMON_BASEDIR_UI}/exportingasuojformat.h
     ${LEMON_BASEDIR_UI}/component/exportutil/exportutil.h
     )
 
@@ -100,4 +102,5 @@ set(LEMON_UI_FORMS
     ${LEMON_BASEDIR_UI}/forms/editvariabledialog.ui
     ${LEMON_BASEDIR_UI}/forms/addcompilerwizard.ui
     ${LEMON_BASEDIR_UI}/forms/statisticsbrowser.ui
+    ${LEMON_BASEDIR_UI}/forms/exportingasuojformat.ui
     )
