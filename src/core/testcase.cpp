@@ -108,7 +108,7 @@ int TestCase::writeToJson(QJsonObject &out) {
 
 	QStringList inputFiles = this->inputFiles;
 	for (auto &filename : inputFiles) {
-		filename.replace('/', QDir::separator());
+		filename.replace(QDir::separator(), '/');
 	}
 	for (int i : qAsConst(dependenceSubtask)) {
 		inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
@@ -119,7 +119,7 @@ int TestCase::writeToJson(QJsonObject &out) {
 	QStringList outputFiles = this->outputFiles;
 
 	for (auto &filename : inputFiles) {
-		filename.replace('/', QDir::separator());
+		filename.replace(QDir::separator(), '/');
 	}
 
 	WRITE_JSON(out, outputFiles);
