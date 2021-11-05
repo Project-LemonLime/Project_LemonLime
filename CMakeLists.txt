@@ -185,10 +185,8 @@ endif()
 # Qt language translations
 add_custom_target(lupdate
     COMMAND ${Qt_DIR}/../../../bin/lupdate
-    ${LEMON_BASE_HEADERS}
     ${LEMON_BASE_SOURCES}
     ${LEMON_CORE_SOURCES}
-    ${LEMON_UI_HEADERS}
     ${LEMON_UI_SOURCES}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
@@ -206,8 +204,6 @@ set(QRC_RESOURCES
     )
 
 set(LEMON_FULL_SOURCES
-    ${LEMON_UI_HEADERS}
-    ${LEMON_BASE_HEADERS}
     ${LEMON_CORE_SOURCES}
     ${LEMON_UI_SOURCES}
     assets/lemon.rc
