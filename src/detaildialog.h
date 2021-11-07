@@ -11,8 +11,7 @@
 //
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QUrl>
 
 class Contestant;
 class Contest;

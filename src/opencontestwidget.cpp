@@ -13,7 +13,7 @@
 #include "core/contest.h"
 //
 #include <QFileDialog>
-
+#include <QJsonDocument>
 OpenContestWidget::OpenContestWidget(QWidget *parent) : QWidget(parent), ui(new Ui::OpenContestWidget) {
 	ui->setupUi(this);
 	connect(ui->recentContest, &QTableWidget::itemSelectionChanged, this,

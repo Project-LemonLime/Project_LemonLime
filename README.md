@@ -8,13 +8,11 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 同时支持 Qt5 和 Qt6, 使用 `-DLEMON_QT6=ON` 以使用 Qt6 编译。
 
-现已支持 Linux ![Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
+现已支持 Linux ![Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)[![Linux Static](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml)
 ，Windows ![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
 
 ![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
 ![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
-
-![Linux - AppImage](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Lemon%20build%20matrix%20-%20AppImage/badge.svg)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
 
@@ -35,7 +33,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |          Arch         | 2020-10-31 |    amd64   |   KDE-Wayland  |
 |         Ubuntu        |    20.04   |    amd64   |     GNOME 3    |
 |         Ubuntu        |   18.04.4  |    amd64   |     GNOME 3    |
-| NOI Linux (Ubuntu) \* |    14.04   |     x86    |     GNOME 2    |
+| NOI Linux 2(Ubuntu)   |    20.04   |    amd64   |     GNOME 3    |
 |       Linux Mint      |    19.3    |    amd64   |    Cinnamon    |
 |         Deepin        |    15.11   |    amd64   |       DDE      |
 |         Deepin        |  20 (1000) |    amd64   |       DDE      |

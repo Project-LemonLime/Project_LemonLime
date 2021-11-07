@@ -43,7 +43,6 @@ class Contest : public QObject {
 	void deleteTask(int);
 	void refreshContestantList();
 	void deleteContestant(const QString &);
-	void writeToStream(QDataStream &);
 	void writeToJson(QJsonObject &);
 	void readFromStream(QDataStream &);
 	int readFromJson(const QJsonObject &);
@@ -55,14 +54,12 @@ class Contest : public QObject {
 	QMap<QString, Contestant *> contestantList;
 	bool stopJudging{};
 	void judge(Contestant *);
-	void judge(Contestant *, const QVector<int> &);
+	void judge(const QVector<std::pair<Contestant *, int>> &);
 	void clearPath(const QString &);
 	JudgingController *controller;
 
   public slots:
-	void judge(const QString &);
-	void judge(const QString &, int);
-	void judge(const QString &, const QSet<int> &);
+	void judge(const QList<std::pair<QString, QVector<int>>> &);
 	void judgeAll();
 	// void judgeFinished();
 	void stopJudgingSlot();

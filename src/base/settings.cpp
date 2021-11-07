@@ -14,9 +14,13 @@
 //
 #include <cmath>
 //
+#include <QDir>
+#include <QLocale>
+#include <QSettings>
+
 #define LEMON_MODULE_NAME "Setting"
 
-ColorTheme::ColorTheme(QObject *parent) : QObject(parent) {}
+ColorTheme::ColorTheme() {}
 
 void ColorTheme::setColor(const hslTuple &_mx, const hslTuple &_mi, const hslTuple &_nf, const hslTuple &_ce,
                           const dddTuple &_gc, const dddTuple &_gr) {
@@ -93,7 +97,7 @@ QColor ColorTheme::getColorPer(double a, double b) const { return getColorPer(a 
 
 QColor ColorTheme::getColorGrand(double a, double b) const { return getColorGrand(a / b); }
 
-Settings::Settings(QObject *parent) : QObject(parent) {}
+Settings::Settings() {}
 
 auto Settings::getDefaultFullScore() const -> int { return defaultFullScore; }
 
@@ -108,6 +112,8 @@ auto Settings::getSpecialJudgeTimeLimit() const -> int { return specialJudgeTime
 auto Settings::getFileSizeLimit() const -> int { return fileSizeLimit; }
 
 auto Settings::getRejudgeTimes() const -> int { return rejudgeTimes; }
+
+auto Settings::getMaxJudgingThreads() const -> int { return maxJudgingThreads; }
 
 auto Settings::getDefaultExtraTimeRatio() const -> double { return defaultExtraTimeRatio; }
 
@@ -172,6 +178,11 @@ void Settings::setRejudgeTimes(int number) {
 	DEBUG("Set Rejudge Times to " + QString::number(number));
 }
 
+void Settings::setMaxJudgingThreads(int number) {
+	maxJudgingThreads = number;
+	DEBUG("Set Max Judging Threads to " + QString::number(number));
+}
+
 void Settings::setDefaultInputFileExtension(const QString &extension) {
 	defaultInputFileExtension = extension;
 	DEBUG("Set Default InputFile Extension to " + extension);
@@ -199,10 +210,7 @@ void Settings::setUiLanguage(const QString &language) {
 	DEBUG("Set Language to " + language);
 }
 
-void Settings::addCompiler(Compiler *compiler) {
-	compiler->setParent(this);
-	compilerList.append(compiler);
-}
+void Settings::addCompiler(Compiler *compiler) { compilerList.append(compiler); }
 
 void Settings::deleteCompiler(int index) {
 	if (0 <= index && index < compilerList.size()) {
@@ -227,10 +235,7 @@ void Settings::swapCompiler(int a, int b) {
 	}
 }
 
-void Settings::addColorTheme(ColorTheme *colortheme) {
-	colortheme->setParent(this);
-	colorThemeList.append(colortheme);
-}
+void Settings::addColorTheme(ColorTheme *colortheme) { colorThemeList.append(colortheme); }
 
 void Settings::deleteColorTheme(int index) {
 	if (0 <= index && index < colorThemeList.size()) {
@@ -363,6 +368,7 @@ void Settings::copyFrom(Settings *other) {
 	setSpecialJudgeTimeLimit(other->getSpecialJudgeTimeLimit());
 	setFileSizeLimit(other->getFileSizeLimit());
 	setRejudgeTimes(other->getRejudgeTimes());
+	setMaxJudgingThreads(other->getMaxJudgingThreads());
 	setDefaultInputFileExtension(other->getDefaultInputFileExtension());
 	setDefaultOutputFileExtension(other->getDefaultOutputFileExtension());
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
@@ -411,6 +417,7 @@ void Settings::saveSettings() {
 	settings.setValue("SpecialJudgeTimeLimit", specialJudgeTimeLimit);
 	settings.setValue("FileSizeLimit", fileSizeLimit);
 	settings.setValue("MaximumRejudgeTimes", rejudgeTimes);
+	settings.setValue("MaximumJudgingThreads", maxJudgingThreads);
 	settings.setValue("DefaultInputFileExtension", defaultInputFileExtension);
 	settings.setValue("DefaultOutputFileExtension", defaultOutputFileExtension);
 	settings.setValue("InputFileExtensions", inputFileExtensions);
@@ -514,6 +521,7 @@ void Settings::loadSettings() {
 	specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
 	fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();
 	rejudgeTimes = settings.value("MaximumRejudgeTimes", 1).toInt();
+	maxJudgingThreads = settings.value("MaximumJudgingThreads", 1).toInt();
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();

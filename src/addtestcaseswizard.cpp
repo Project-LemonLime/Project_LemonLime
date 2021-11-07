@@ -12,6 +12,7 @@
 //
 #include "base/settings.h"
 //
+#include <QDir>
 #include <QMessageBox>
 #include <algorithm>
 

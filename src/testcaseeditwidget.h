@@ -14,8 +14,6 @@
 #include <QMessageBox>
 #include <QTableWidgetItem>
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class TestCaseEditWidget;

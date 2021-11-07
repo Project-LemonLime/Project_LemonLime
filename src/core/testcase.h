@@ -11,13 +11,10 @@
 //
 
 #include <QObject>
-#include <QtCore>
 
-class TestCase : public QObject {
-	Q_OBJECT
+class TestCase {
   public:
-	explicit TestCase(QObject *parent = nullptr);
-	void copyTo(TestCase *);
+	explicit TestCase();
 	int getFullScore() const;
 	int getTimeLimit() const;
 	int getMemoryLimit() const;
@@ -37,7 +34,6 @@ class TestCase : public QObject {
 	void addSingleCase(const QString &, const QString &);
 	void deleteSingleCase(int);
 	int writeToJson(QJsonObject &out);
-	void writeToStream(QDataStream &);
 	void readFromStream(QDataStream &);
 	int readFromJson(const QJsonObject &);
 	void clearDependenceSubtask();

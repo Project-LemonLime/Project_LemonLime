@@ -11,7 +11,7 @@
 //
 
 #include <QObject>
-#include <QtCore>
+#include <QProcessEnvironment>
 
 class Compiler : public QObject {
 	Q_OBJECT

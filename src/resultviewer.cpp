@@ -20,11 +20,13 @@
 //
 #include <QApplication>
 #include <QCheckBox>
+#include <QDir>
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>
+
 #define LEMON_MODULE_NAME "ResultViewer"
 
 ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent) {
@@ -75,10 +77,10 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent * /*event*/) {
 
 void ResultViewer::setContest(Contest *contest) {
 	if (curContest) {
-		disconnect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
-		disconnect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
+		disconnect(curContest, &Contest::taskAddedForViewer, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::taskDeletedForViewer, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::problemTitleChanged, this, &ResultViewer::refreshViewer);
+		disconnect(curContest, &Contest::taskJudgingFinished, this, &ResultViewer::refreshViewer);
 	}
 
 	curContest = contest;
@@ -86,10 +88,10 @@ void ResultViewer::setContest(Contest *contest) {
 	if (! curContest)
 		return;
 
-	connect(curContest, SIGNAL(taskAddedForViewer()), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskDeletedForViewer(int)), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(problemTitleChanged()), this, SLOT(refreshViewer()));
-	connect(curContest, SIGNAL(taskJudgingFinished()), this, SLOT(refreshViewer()));
+	connect(curContest, &Contest::taskAddedForViewer, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::taskDeletedForViewer, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::problemTitleChanged, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::taskJudgingFinished, this, &ResultViewer::refreshViewer);
 }
 
 void ResultViewer::refreshViewer() {
@@ -226,10 +228,10 @@ void ResultViewer::judgeSelected() {
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
 	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(std::make_pair(i.key(), i.value()));
+		judgeList.append(std::make_pair(i.key(), QVector<int>(i.value().constBegin(), i.value().constEnd())));
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -252,7 +254,7 @@ void ResultViewer::judgeAll() {
 }
 
 void ResultViewer::judgeUnjudged() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -261,15 +263,15 @@ void ResultViewer::judgeUnjudged() {
 	for (int i = 0; i < contestantSize; i++) {
 		for (int j = 0; j < taskSize; j++) {
 			if (item(i, j + 3)->text() == tr("Invalid")) {
-				mapping[item(i, 1)->text()].insert(j);
+				mapping[item(i, 1)->text()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
-		judgeList.append(std::make_pair(i.key(), i.value()));
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+		judgeList.push_back({i.key(), i.value()});
 	}
 
 	auto *dialog = new JudgingDialog(this);
@@ -282,7 +284,7 @@ void ResultViewer::judgeUnjudged() {
 }
 
 void ResultViewer::judgeGrey() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -291,14 +293,14 @@ void ResultViewer::judgeGrey() {
 	for (int i = 0; i < contestantSize; i++) {
 		for (int j = 0; j < taskSize; j++) {
 			if (contestantList[i]->getCompileState(j) == NoValidSourceFile) {
-				mapping[contestantList[i]->getContestantName()].insert(j);
+				mapping[contestantList[i]->getContestantName()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
@@ -312,7 +314,7 @@ void ResultViewer::judgeGrey() {
 }
 
 void ResultViewer::judgeMagenta() {
-	QMap<QString, QSet<int>> mapping;
+	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
 	int contestantSize = contestantList.size();
@@ -324,14 +326,14 @@ void ResultViewer::judgeMagenta() {
 			    contestantList[i]->getCompileState(j) != CompileSuccessfully &&
 			    contestantList[i]->getCompileState(j) != NoValidSourceFile &&
 			    contestantList[i]->getCompileState(j) != NoValidGraderFile) {
-				mapping[contestantList[i]->getContestantName()].insert(j);
+				mapping[contestantList[i]->getContestantName()].push_back(j);
 			}
 		}
 	}
 
-	QList<std::pair<QString, QSet<int>>> judgeList;
+	QList<std::pair<QString, QVector<int>>> judgeList;
 
-	for (QMap<QString, QSet<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
+	for (QMap<QString, QVector<int>>::const_iterator i = mapping.constBegin(); i != mapping.constEnd(); ++i) {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 

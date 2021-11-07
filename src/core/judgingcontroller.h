@@ -7,17 +7,20 @@
 #pragma once
 
 #include "base/LemonType.hpp"
+#include "base/settings.h"
 #include "taskjudger.h"
 
+#include <QMap>
 #include <QMutex>
 #include <QObject>
+#include <QQueue>
 #include <QThread>
 
 class JudgingController : public QObject {
 	Q_OBJECT
 
   public:
-	explicit JudgingController(QObject *parent = nullptr);
+	explicit JudgingController(Settings *settings, QObject *parent = nullptr);
 	void addTask(TaskJudger *judger);
 
   private:

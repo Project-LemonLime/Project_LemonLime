@@ -10,9 +10,10 @@
 #pragma once
 //
 
+#include <QList>
+#include <QString>
+#include <QStringList>
 #include <QWizard>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class AddTestCasesWizard;

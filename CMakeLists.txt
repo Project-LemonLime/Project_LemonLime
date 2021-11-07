@@ -47,12 +47,14 @@ if(LEMON_QT6)
     set(LEMON_QT_LIBNAME Qt6)
     set(QT_MAJOR_VERSION 6)
     set(QT_DEFAULT_MAJOR_VERSION 6)
+    set(Qt_DIR ${Qt6_DIR})
     add_definitions(-DLEMON_QT6)
 else()
     set(LEMON_QT_MAJOR_VERSION 5)
     set(LEMON_QT_MINOR_VERSION 15)
     set(LEMON_QT_LIBNAME Qt5)
     set(QT_MAJOR_VERSION 5)
+    set(Qt_DIR ${Qt5_DIR})
 endif()
 
 add_definitions(-DQT_NO_FOREACH)
@@ -182,11 +184,9 @@ endif()
 
 # Qt language translations
 add_custom_target(lupdate
-    COMMAND lupdate
-    ${LEMON_BASE_HEADERS}
+    COMMAND ${Qt_DIR}/../../../bin/lupdate
     ${LEMON_BASE_SOURCES}
     ${LEMON_CORE_SOURCES}
-    ${LEMON_UI_HEADERS}
     ${LEMON_UI_SOURCES}
     ${LEMON_UI_FORMS}
     ${SINGLEAPPLICATION_SOURCES} -ts ${TRANSLATIONS_TS} -locations none -noobsolete
@@ -204,8 +204,6 @@ set(QRC_RESOURCES
     )
 
 set(LEMON_FULL_SOURCES
-    ${LEMON_UI_HEADERS}
-    ${LEMON_BASE_HEADERS}
     ${LEMON_CORE_SOURCES}
     ${LEMON_UI_SOURCES}
     assets/lemon.rc

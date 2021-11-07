@@ -83,9 +83,9 @@ void TaskEditWidget::changeEvent(QEvent *event) {
 
 void TaskEditWidget::setEditTask(Task *task) {
 	if (editTask) {
-		disconnect(editTask, SIGNAL(problemTitleChanged(QString)), this, SLOT(refreshProblemTitle(QString)));
-		disconnect(editTask, SIGNAL(compilerConfigurationRefreshed()), this,
-		           SLOT(refreshCompilerConfiguration()));
+		disconnect(editTask, &Task::problemTitleChanged, this, &TaskEditWidget::refreshProblemTitle);
+		disconnect(editTask, &Task::compilerConfigurationRefreshed, this,
+		           &TaskEditWidget::refreshCompilerConfiguration);
 	}
 
 	editTask = task;
@@ -93,8 +93,9 @@ void TaskEditWidget::setEditTask(Task *task) {
 	if (! task)
 		return;
 
-	connect(editTask, SIGNAL(problemTitleChanged(QString)), this, SLOT(refreshProblemTitle(QString)));
-	connect(editTask, SIGNAL(compilerConfigurationRefreshed()), this, SLOT(refreshCompilerConfiguration()));
+	connect(editTask, &Task::problemTitleChanged, this, &TaskEditWidget::refreshProblemTitle);
+	connect(editTask, &Task::compilerConfigurationRefreshed, this,
+	        &TaskEditWidget::refreshCompilerConfiguration);
 	ui->problemTitle->setText(editTask->getProblemTitle());
 	ui->sourceFileName->setEnabled(false);
 	ui->sourceFileName->setText(editTask->getSourceFileName());

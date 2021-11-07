@@ -80,12 +80,8 @@ sudo apt install qtcreator
 ```
 
 #### 官方镜像源版本无法支持编译的系统
-
-| 操作系统 | 原因 |
-|:----------:|----------|
-| Ubuntu 18 | 用 apt 安装的 Qt 版本只能到 5.9。 |
-| Ubuntu 16 | <p>用 apt 安装的 Qt 版本只能到 5.5。<br>GCC 不支持 C++17, 可以自己去 CMakeLists.txt 把标准改成 11, 能不能编译听天由命<br>（目前还是可以的，等到迁移 Qt6 估计就不行了</p> |
-| NOI Linux | 因为是 Ubuntu 14.04 的换皮 原因同上 |
+ - Ubuntu LTS 就没一个支持，22.04 可能会好
+ - Debian 11 之前
 
 ~~_arbiter 退出了群聊。_~~
 
@@ -125,12 +121,9 @@ cmake --build . --parallel $(nproc)
 
 ## etc.
 
-有 AppImage 可用（虽然丑了点
+无AppImage可用
 
-前往 Actions 或者 Release 界面下载，
-`chmod +x xxxx.AppImage` 再执行即可（注意从 Actions 下载到的是一个压缩包
-
-PS：有可能会提示缺少 fuse, 请安装
+**现在是静态编译的时代**
 
 ## macOS
 

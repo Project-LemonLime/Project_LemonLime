@@ -12,8 +12,8 @@
 
 #include "base/LemonType.hpp"
 #include <QColor>
+#include <QCoreApplication>
 #include <QObject>
-#include <QtCore>
 
 class Compiler;
 
@@ -34,10 +34,10 @@ struct dddTuple {
 };
 Q_DECLARE_METATYPE(dddTuple)
 
-class ColorTheme : public QObject {
-	Q_OBJECT
+class ColorTheme {
+	Q_GADGET
   public:
-	explicit ColorTheme(QObject *parent = nullptr);
+	explicit ColorTheme();
 
 	void setName(QString);
 	void setColor(const hslTuple &, const hslTuple &, const hslTuple &, const hslTuple &, const dddTuple &,
@@ -66,10 +66,10 @@ class ColorTheme : public QObject {
 	dddTuple grandComp, grandRate;
 };
 
-class Settings : public QObject {
-	Q_OBJECT
+class Settings {
+	Q_DECLARE_TR_FUNCTIONS(Settings)
   public:
-	explicit Settings(QObject *parent = nullptr);
+	explicit Settings();
 
 	int getDefaultFullScore() const;
 	int getDefaultTimeLimit() const;
@@ -78,6 +78,7 @@ class Settings : public QObject {
 	int getSpecialJudgeTimeLimit() const;
 	int getFileSizeLimit() const;
 	int getRejudgeTimes() const;
+	int getMaxJudgingThreads() const;
 	double getDefaultExtraTimeRatio() const;
 	const QString &getDefaultInputFileExtension() const;
 	const QString &getDefaultOutputFileExtension() const;
@@ -98,6 +99,7 @@ class Settings : public QObject {
 	void setSpecialJudgeTimeLimit(int);
 	void setFileSizeLimit(int);
 	void setRejudgeTimes(int);
+	void setMaxJudgingThreads(int);
 	void setDefaultInputFileExtension(const QString &);
 	void setDefaultOutputFileExtension(const QString &);
 	void setInputFileExtensions(const QString &);
@@ -146,6 +148,7 @@ class Settings : public QObject {
 	int specialJudgeTimeLimit{};
 	int fileSizeLimit{};
 	int rejudgeTimes{};
+	int maxJudgingThreads{};
 	double defaultExtraTimeRatio{};
 	QString defaultInputFileExtension;
 	QString defaultOutputFileExtension;

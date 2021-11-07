@@ -26,6 +26,7 @@ namespace Lemon::base::config {
 		int specialJudgeTimeLimit{};
 		int fileSizeLimit{};
 		int rejudgeTimes{};
+		int maxJudgingThreads{};
 		QString defaultInputFileExtension;
 		QString defaultOutputFileExtension;
 		QStringList inputFileExtensions;

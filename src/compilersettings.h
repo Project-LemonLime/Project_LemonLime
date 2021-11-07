@@ -10,9 +10,8 @@
 #pragma once
 //
 
+#include <QAction>
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class CompilerSettings;

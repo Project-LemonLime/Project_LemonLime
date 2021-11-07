@@ -16,6 +16,7 @@
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 //
+#include <QProcess>
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::JudgingDialog) {
@@ -55,32 +56,7 @@ void JudgingDialog::setContest(Contest *contest) {
 	connect(this, &JudgingDialog::stopJudgingSignal, curContest, &Contest::stopJudgingSlot);
 }
 
-void JudgingDialog::judge(const QStringList &nameList) {
-	stopJudging = false;
-	ui->progressBar->setMaximum(curContest->getTotalTimeLimit() * nameList.size());
-
-	for (int i = 0; i < nameList.size(); i++) {
-		curContest->judge(nameList[i]);
-
-		if (stopJudging)
-			break;
-	}
-
-	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
-
-	accept();
-}
-
-void JudgingDialog::judge(const QString &name, int index) {
-	stopJudging = false;
-	ui->progressBar->setMaximum(curContest->getTask(index)->getTotalTimeLimit());
-	curContest->judge(name, index);
-	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
-
-	accept();
-}
-
-void JudgingDialog::judge(const QList<std::pair<QString, QSet<int>>> &lists) {
+void JudgingDialog::judge(const QList<std::pair<QString, QVector<int>>> &lists) {
 	stopJudging = false;
 	int allTime = 0;
 	int listsSize = lists.size();
@@ -93,12 +69,7 @@ void JudgingDialog::judge(const QList<std::pair<QString, QSet<int>>> &lists) {
 
 	ui->progressBar->setMaximum(allTime);
 
-	for (int i = 0; i < listsSize; i++) {
-		curContest->judge(lists[i].first, lists[i].second);
-
-		if (stopJudging)
-			break;
-	}
+	curContest->judge(lists);
 
 	sendNotify(tr("Finished"), tr("Judge Finished - LemonLime"));
 }
@@ -114,7 +85,6 @@ void JudgingDialog::judgeAll() {
 
 void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, int scoreGot, int timeUsed,
                                        int memoryUsed) {
-	qDebug() << "Got";
 	bool isOnMaxValue =
 	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;

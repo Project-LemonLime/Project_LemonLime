@@ -9,8 +9,6 @@
 #define THEMEEDITDIALOG_H
 
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class ThemeEditDialog;

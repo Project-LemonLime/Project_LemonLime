@@ -7,9 +7,14 @@
 
 #include "judgingcontroller.h"
 #include "core/contestant.h"
-JudgingController::JudgingController(QObject *parent) : QObject(parent) {
+
+#include <QtMath>
+
+#define LEMON_MODULE_NAME "JudgingController"
+
+JudgingController::JudgingController(Settings *settings, QObject *parent) : QObject(parent) {
 	isJudging = 0;
-	maxThreads = 8;
+	maxThreads = qMax(1, settings->getMaxJudgingThreads());
 }
 
 void JudgingController::assign() {
@@ -25,7 +30,7 @@ void JudgingController::assign() {
 	connect(taskJudger, &TaskJudger::judgeFinished, this, &JudgingController::taskFinished);
 	runningTasks[taskJudger] = thread;
 	thread->start();
-	QMetaObject::invokeMethod(taskJudger, &TaskJudger::judge);
+	QMetaObject::invokeMethod(taskJudger, &TaskJudger::judgeIt);
 }
 
 void JudgingController::taskFinished() {
@@ -42,12 +47,16 @@ void JudgingController::taskFinished() {
 		delete taskJudger;
 	}
 	assign();
-	if (queuingTasks.empty() && runningTasks.empty()) {
+	if (runningTasks.empty()) {
 		isJudging = false;
 		emit judgeFinished();
 	}
 }
 void JudgingController::start() {
+	if (queuingTasks.size() == 0) {
+		emit judgeFinished();
+		return;
+	}
 	isJudging = 1;
 	while (! queuingTasks.empty() && runningTasks.size() < maxThreads) {
 		assign();
@@ -59,12 +68,7 @@ void JudgingController::stop() {
 	isJudging = 0;
 	for (auto [taskJudger, thread] : runningTasks.toStdMap()) {
 		QMetaObject::invokeMethod(taskJudger, &TaskJudger::stop);
-		thread->quit();
-		thread->wait();
-		delete thread;
-		delete taskJudger;
-		runningTasks.remove(taskJudger);
 	}
-	emit judgeFinished();
+	// emit judgeFinished();
 }
 void JudgingController::addTask(TaskJudger *taskJudger) { queuingTasks.push_back(taskJudger); }

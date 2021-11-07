@@ -19,6 +19,9 @@
 #include "core/taskjudger.h"
 #include "core/testcase.h"
 
+#include <QDataStream>
+#include <QEventLoop>
+#include <QJsonObject>
 #include <QMessageBox>
 #include <algorithm>
 #include <utility>
@@ -89,7 +92,6 @@ auto Contest::getTotalScore() const -> int {
 }
 
 void Contest::addTask(Task *task) {
-	task->setParent(this);
 	taskList.append(task);
 	connect(task, &Task::problemTitleChanged, this, &Contest::problemTitleChanged);
 	emit taskAddedForContestant();
@@ -165,12 +167,14 @@ void Contest::clearPath(const QString &curDir) {
 	}
 }
 
-void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
+void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	stopJudging = false;
-	emit contestantJudgingStart(contestant->getContestantName());
-	controller = new JudgingController();
+	// emit contestantJudgingStart(contestant->getContestantName());
+
+	controller = new JudgingController(settings);
+
 	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
-	for (auto i : indexes) {
+	for (auto [contestant, i] : judgingTasks) {
 		TaskJudger *taskJudger = new TaskJudger();
 		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError);
@@ -187,14 +191,14 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 		        &Contest::singleSubtaskDependenceFinished);
 		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
 		*/
+		contestant->setJudgingTime(QDateTime::currentDateTime());
 	}
 
 	auto eventLoop = new QEventLoop();
-	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit);
+	connect(controller, &JudgingController::judgeFinished, eventLoop, &QEventLoop::quit,
+	        Qt::QueuedConnection);
 
 	controller->start();
-
-	contestant->setJudgingTime(QDateTime::currentDateTime());
 
 	eventLoop->exec();
 
@@ -206,30 +210,24 @@ void Contest::judge(Contestant *contestant, const QVector<int> &indexes) {
 	emit contestantJudgingFinished();
 }
 
-void Contest::judge(Contestant *contestant) {
-	QVector<int> indexes;
-	indexes.resize(taskList.size());
-	std::iota(indexes.begin(), indexes.end(), 0);
-	judge(contestant, indexes);
+void Contest::judge(const QList<std::pair<QString, QVector<int>>> &list) {
+	QVector<std::pair<Contestant *, int>> judgingTasks;
+	for (int i = 0; i < list.size(); i++) {
+		auto contestant = contestantList.value(list[i].first);
+		for (int j = 0; j < list[i].second.size(); j++)
+			judgingTasks.push_back({contestant, list[i].second[j]});
+	}
+	judge(judgingTasks);
 }
-
-void Contest::judge(const QString &name) { judge(contestantList.value(name)); }
-
-void Contest::judge(const QString &name, const QSet<int> &indexes) {
-	judge(contestantList.value(name), QVector<int>(indexes.begin(), indexes.end()));
-}
-
-void Contest::judge(const QString &name, int index) { judge(contestantList.value(name), {index}); }
 
 void Contest::judgeAll() {
-	QList<Contestant *> contestants = contestantList.values();
-
-	for (auto &contestant : contestants) {
-		judge(contestant);
-
-		if (stopJudging)
-			break;
+	QVector<std::pair<Contestant *, int>> judgingTasks;
+	for (auto contestant : contestantList) {
+		for (int i = 0; i < taskList.size(); i++) {
+			judgingTasks.append({contestant, i});
+		}
 	}
+	judge(judgingTasks);
 }
 
 void Contest::stopJudgingSlot() {
@@ -237,21 +235,6 @@ void Contest::stopJudgingSlot() {
 	QMetaObject::invokeMethod(controller, "stop");
 }
 
-void Contest::writeToStream(QDataStream &out) {
-	out << contestTitle;
-	out << taskList.size();
-
-	for (auto &i : taskList) {
-		i->writeToStream(out);
-	}
-
-	out << contestantList.size();
-	QList<Contestant *> list = contestantList.values();
-
-	for (auto &i : list) {
-		i->writeToStream(out);
-	}
-}
 void Contest::writeToJson(QJsonObject &out) {
 	WRITE_JSON(out, contestTitle);
 
@@ -283,7 +266,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 
 	taskList.clear();
 	for (const auto &task : tasks) {
-		Task *newTask = new Task(this);
+		Task *newTask = new Task();
 		if (newTask->readFromJson(task.toObject()) == -1)
 			return -1;
 		taskList.append(newTask);
@@ -294,7 +277,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 
 	contestantList.clear();
 	for (const auto &contestant : contestants) {
-		auto *newContestant = new Contestant(this);
+		auto *newContestant = new Contestant();
 		if (newContestant->readFromJson(contestant.toObject()) == -1)
 			return -1;
 		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
@@ -309,7 +292,7 @@ void Contest::readFromStream(QDataStream &in) {
 	in >> count;
 
 	for (int i = 0; i < count; i++) {
-		Task *newTask = new Task(this);
+		Task *newTask = new Task();
 		newTask->readFromStream(in);
 		newTask->refreshCompilerConfiguration(settings);
 		taskList.append(newTask);
@@ -318,7 +301,7 @@ void Contest::readFromStream(QDataStream &in) {
 	in >> count;
 
 	for (int i = 0; i < count; i++) {
-		auto *newContestant = new Contestant(this);
+		auto *newContestant = new Contestant();
 		newContestant->readFromStream(in);
 		connect(this, &Contest::taskAddedForContestant, newContestant, &Contestant::addTask);
 		connect(this, &Contest::taskDeletedForContestant, newContestant, &Contestant::deleteTask);

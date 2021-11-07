@@ -11,8 +11,6 @@
 //
 
 #include <QWidget>
-#include <QtCore>
-#include <QtWidgets>
 
 namespace Ui {
 	class GeneralSettings;
@@ -42,6 +40,7 @@ class GeneralSettings : public QWidget {
 	void specialJudgeTimeLimitChanged(const QString &);
 	void fileSizeLimitChanged(const QString &);
 	void rejudgeTimesChanged(const QString &);
+	void maxJudgingThreadsChanged(const QString &);
 	void inputFileExtensionsChanged(const QString &);
 	void outputFileExtensionsChanged(const QString &);
 	void onLanguageComboBoxChanged(const QString &);

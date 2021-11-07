@@ -13,6 +13,7 @@
 //
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSet>
 #include <QValidator>
 
 ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTask,

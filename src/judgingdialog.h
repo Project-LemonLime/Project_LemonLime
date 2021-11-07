@@ -12,8 +12,7 @@
 
 #include "base/LemonType.hpp"
 #include <QDialog>
-#include <QtCore>
-#include <QtWidgets>
+#include <QTextCursor>
 
 class Contest;
 
@@ -28,9 +27,7 @@ class JudgingDialog : public QDialog {
 	explicit JudgingDialog(QWidget *parent = nullptr);
 	~JudgingDialog();
 	void setContest(Contest *);
-	void judge(const QStringList &);
-	void judge(const QString &, int);
-	void judge(const QList<std::pair<QString, QSet<int>>> &);
+	void judge(const QList<std::pair<QString, QVector<int>>> &);
 	void judgeAll();
 	void reject();
 

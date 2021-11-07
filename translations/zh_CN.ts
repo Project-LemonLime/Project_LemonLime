@@ -510,25 +510,6 @@
     </message>
 </context>
 <context>
-    <name>AssignmentThread</name>
-    <message>
-        <source>Preparing...</source>
-        <translation>准备中…</translation>
-    </message>
-    <message>
-        <source>Compiling...</source>
-        <translation>编译中…</translation>
-    </message>
-    <message>
-        <source>Compiled Successfully</source>
-        <translation>编译完成</translation>
-    </message>
-    <message>
-        <source>Main grader (grader.*) cannot be found</source>
-        <translation>未找到主接口程序（grader.*）</translation>
-    </message>
-</context>
-<context>
     <name>CompilerSettings</name>
     <message>
         <source>Form</source>
@@ -1159,6 +1140,10 @@ Depends: </source>
     <message>
         <source>Empty default extra time ratio!</source>
         <translation>默认额外时间比率为空！</translation>
+    </message>
+    <message>
+        <source>Maximum Judging Thread</source>
+        <translation>最大评测线程数</translation>
     </message>
 </context>
 <context>
@@ -2522,6 +2507,25 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Communication (Exec)</source>
         <translation>通信题（完整程序）</translation>
+    </message>
+</context>
+<context>
+    <name>TaskJudger</name>
+    <message>
+        <source>Preparing...</source>
+        <translation>准备中…</translation>
+    </message>
+    <message>
+        <source>Compiling...</source>
+        <translation>编译中…</translation>
+    </message>
+    <message>
+        <source>Main grader (grader.*) cannot be found</source>
+        <translation>未找到主接口程序（grader.*）</translation>
+    </message>
+    <message>
+        <source>Compiled Successfully</source>
+        <translation>编译完成</translation>
     </message>
 </context>
 <context>
