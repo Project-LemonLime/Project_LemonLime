@@ -1,0 +1,11 @@
+*.txt text eof=lf
+*.cpp text eof=lf
+*.hpp text eof=lf
+*.h text eof=lf
+*.qrc text eof=lf
+*.cmake text eof=lf
+*.in text eof=lf
+*.ui text eof=lf
+*.md text eof=lf
+*.tex text eof=lf
+*.ts text eof=lf
