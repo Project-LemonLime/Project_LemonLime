@@ -1279,8 +1279,11 @@ void JudgingThread::run() {
 
 	switch (task->getTaskType()) {
 		case Task::Interaction:
+			[[fallthrough]];
 		case Task::Traditional:
+			[[fallthrough]];
 		case Task::Communication:
+			[[fallthrough]];
 		case Task::CommunicationExec:
 			judgeTraditionalTask();
 			break;
