@@ -13,7 +13,7 @@
 #define LEMON_MODULE_NAME "JudgingController"
 
 JudgingController::JudgingController(Settings *settings, QObject *parent) : QObject(parent) {
-	isJudging = 0;
+	isJudging = false;
 	maxThreads = qMax(1, settings->getMaxJudgingThreads());
 }
 
@@ -57,7 +57,7 @@ void JudgingController::start() {
 		emit judgeFinished();
 		return;
 	}
-	isJudging = 1;
+	isJudging = true;
 	while (! queuingTasks.empty() && runningTasks.size() < maxThreads) {
 		assign();
 	}
@@ -65,7 +65,7 @@ void JudgingController::start() {
 void JudgingController::stop() {
 	if (! isJudging)
 		return;
-	isJudging = 0;
+	isJudging = false;
 	for (auto [taskJudger, thread] : runningTasks.toStdMap()) {
 		QMetaObject::invokeMethod(taskJudger, &TaskJudger::stop);
 	}
