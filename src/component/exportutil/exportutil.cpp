@@ -107,30 +107,12 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		}
 
 		htmlCode += "<table style=\"border: solid;\"><tr>";
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th>)")
-		        .arg(tr("Test Case"));
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th>)")
-		        .arg(tr("Input File"));
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th>)")
-		        .arg(tr("Result"));
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th>)")
-		        .arg(tr("Time Used"));
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th>)")
-		        .arg(tr("Memory Used"));
-		htmlCode +=
-		    QString(
-		        R"(<th scope="col" class="td-0">%1</th></tr>)")
-		        .arg(tr("Score"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th>)").arg(tr("Test Case"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th>)").arg(tr("Input File"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th>)").arg(tr("Result"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th>)").arg(tr("Time Used"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th>)").arg(tr("Memory Used"));
+		htmlCode += QString(R"(<th scope="col" class="td-0">%1</th></tr>)").arg(tr("Score"));
 		QList<TestCase *> testCases = taskList[i]->getTestCaseList();
 		QList<QStringList> inputFiles = contestant->getInputFiles(i);
 		QList<QList<ResultState>> result = contestant->getResult(i);
@@ -145,23 +127,18 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 
 				if (k == 0) {
 					if (score[j].size() == inputFiles[j].size())
-						htmlCode +=
-						    QString(
-						        R"(<td rowspan="%1" class="td-0">#%2</td>)")
-						        .arg(inputFiles[j].size())
-						        .arg(j + 1);
+						htmlCode += QString(R"(<td rowspan="%1" class="td-0">#%2</td>)")
+						                .arg(inputFiles[j].size())
+						                .arg(j + 1);
 					else
-						htmlCode +=
-						    QString(
-						        R"(<td rowspan="%1" class="td-0">#%2<br>%3:%4</td>)")
-						        .arg(inputFiles[j].size())
-						        .arg(j + 1)
-						        .arg(tr("Subtask Dependence Status"))
-						        .arg(statusRankingText(score[j].back()));
+						htmlCode += QString(R"(<td rowspan="%1" class="td-0">#%2<br>%3:%4</td>)")
+						                .arg(inputFiles[j].size())
+						                .arg(j + 1)
+						                .arg(tr("Subtask Dependence Status"))
+						                .arg(statusRankingText(score[j].back()));
 				}
 
-				htmlCode += QString("<td class=\"td-0\">%1</td>")
-				                .arg(inputFiles[j][k]);
+				htmlCode += QString("<td class=\"td-0\">%1</td>").arg(inputFiles[j][k]);
 				QString text;
 				QString bgColor = "rgb(255, 255, 255)";
 				QString frColor = "rgb(0, 0, 0)";
@@ -300,20 +277,12 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	out << "<p style=\"font-size: small;\">"
 	    << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
-	out << QString(
-	           R"(<th class="th-0" scope="col">%1</th>)")
-	           .arg(tr("Rank"));
-	out << QString(
-	           R"(<th class="th-0" scope="col">%1</th>)")
-	           .arg(tr("Name"));
-	out << QString(
-	           R"(<th class="th-1" scope="col">%1</th>)")
-	           .arg(tr("Total Score"));
+	out << QString(R"(<th class="th-0" scope="col">%1</th>)").arg(tr("Rank"));
+	out << QString(R"(<th class="th-0" scope="col">%1</th>)").arg(tr("Name"));
+	out << QString(R"(<th class="th-1" scope="col">%1</th>)").arg(tr("Total Score"));
 
 	for (auto &i : taskList)
-		out << QString(
-		           R"(<th class="th-1" scope="col">%1</th>)")
-		           .arg(i->getProblemTitle());
+		out << QString(R"(<th class="th-1" scope="col">%1</th>)").arg(i->getProblemTitle());
 
 	out << "</tr>";
 	QList<int> fullScore;
@@ -325,10 +294,8 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	for (auto &i : sortList) {
 		Contestant *contestant = contest->getContestant(i.second);
-		out << QString("<tr><td class=\"td-0\">%1</td>")
-		           .arg(rankList[contestant->getContestantName()] + 1);
-		out << QString(
-		           R"(<td class="td-0"><a href="#c%1" class="a-0">%2</a></td>)")
+		out << QString("<tr><td class=\"td-0\">%1</td>").arg(rankList[contestant->getContestantName()] + 1);
+		out << QString(R"(<td class="td-0"><a href="#c%1" class="a-0">%2</a></td>)")
 		           .arg(loc[contestant])
 		           .arg(i.second);
 		int allScore = contestant->getTotalScore();
@@ -345,7 +312,8 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 #endif
 			colors->getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
-			out << QString("<td class=\"td-2\" style=\"background-color: hsl(%2,%3%,%4%); border: 2px solid hsl(%2,%3%,%5%);\">%1</td>")
+			out << QString("<td class=\"td-2\" style=\"background-color: hsl(%2,%3%,%4%); border: 2px solid "
+			               "hsl(%2,%3%,%5%);\">%1</td>")
 			           .arg(allScore)
 			           .arg(h)
 			           .arg(s)
@@ -390,8 +358,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 				           .arg(loc[contestant])
 				           .arg(j);
 			} else {
-				out << QString(
-				           R"(<td class="td-3"><a href="#c%2p%3" class="a-0">%1</a></td>)")
+				out << QString(R"(<td class="td-3"><a href="#c%2p%3" class="a-0">%1</a></td>)")
 				           .arg(tr("Invalid"))
 				           .arg(loc[contestant])
 				           .arg(j);
