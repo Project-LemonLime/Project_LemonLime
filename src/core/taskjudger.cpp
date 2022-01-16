@@ -354,7 +354,7 @@ void TaskJudger::judgeIt() {
 }
 
 int TaskJudger::judge() {
-	isJudging = 1;
+	isJudging = true;
 	QString contestantName = contestant->getContestantName();
 	if (! temporaryDir.isValid())
 		return 0;
