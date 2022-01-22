@@ -19,7 +19,7 @@
 #include "settings.h"
 #include "visualmainsettings.h"
 #include "visualsettings.h"
-//
+
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -29,6 +29,15 @@
 
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
+const auto resultStateMap = []() {
+	QMap<ResultState, std::tuple<QString, QString, QString>> resMap;
+	for (int i = static_cast<int>(CorrectAnswer); i != static_cast<int>(LastResultState); i++) {
+		QString text, frColor, bgColor;
+		Settings::setTextAndColor(static_cast<ResultState>(i), text, frColor, bgColor);
+		resMap[static_cast<ResultState>(i)] = {text, frColor, bgColor};
+	}
+	return resMap;
+}();
 auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant, int num) -> QString {
 	QString htmlCode;
 	QList<Task *> taskList = contest->getTaskList();
@@ -137,14 +146,10 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				}
 
 				htmlCode += QString("<td>%1</td>").arg(inputFiles[j][k]);
-				QString text;
-				QString bgColor = "rgb(255, 255, 255)";
-				QString frColor = "rgb(0, 0, 0)";
+				QString text, bgColor, frColor;
 				Settings::setTextAndColor(result[j][k], text, frColor, bgColor);
-				htmlCode += QString("<td style=\"background-color: %2; color: %3;\">%1")
-				                .arg(text)
-				                .arg(bgColor)
-				                .arg(frColor);
+				htmlCode +=
+				    QString("<td class=\"result%2\">%1").arg(text).arg(static_cast<int>(result[j][k]));
 
 				if (! message[j][k].isEmpty()) {
 					QString tmp = message[j][k];
@@ -181,20 +186,18 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 						if (score[j][t] < minv)
 							minv = score[j][t];
 
-					QString bgColor = "rgb(255, 192, 192)";
+					QString bgClass = "zero-score";
 
 					if (minv >= maxv)
-						bgColor = "rgb(192, 255, 192)";
+						bgClass = "full-score";
 					else if (minv > 0)
-						bgColor = "rgb(192, 255, 255)";
+						bgClass = "partial-score";
 
-					htmlCode +=
-					    QString(
-					        R"(<td rowspan="%1" style="background-color: %2;"><span class="c">%3</span> / %4</td>)")
-					        .arg(inputFiles[j].size())
-					        .arg(bgColor)
-					        .arg(minv)
-					        .arg(maxv);
+					htmlCode += QString(R"(<td rowspan="%1" class="%2"><span class="c">%3</span> / %4</td>)")
+					                .arg(inputFiles[j].size())
+					                .arg(bgClass)
+					                .arg(minv)
+					                .arg(maxv);
 				}
 
 				htmlCode += "</tr>";
@@ -238,9 +241,32 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	       ".th-1 {border-style: none solid solid none; border-width: 3px 2px; border-color: #000;}"
 	       ".a-0 {color: black; text-decoration: none;} .c {font-weight: bold; font-size: large;}"
 	       ".td-2 {border-radius: 5px; font-weight: bold;}"
-	       ".td-3 {border-radius: 5px;}</style>";
+	       ".td-3 {border-radius: 5px;}"
+	       ".full-score {background: rgb(192, 255, 192)}"
+	       ".partial-score {background: rgb(192, 255, 255)}"
+	       ".zero-score {background: rgb(255, 192, 192)}";
+	for (auto [k, v] : resultStateMap.toStdMap()) {
+		out << ".result" << static_cast<int>(k);
+		out << QString(" {color: %1;background: %2;}").arg(std::get<1>(v)).arg(std::get<2>(v));
+	}
+	out << "</style>";
 
-	out << R"(<script src="https://unpkg.com/jquery@3/dist/jquery.slim.min.js"></script>)";
+	/*下载jquery有几个时间段
+	 * 1是编译前
+	 * 2是编译期
+	 * 3是运行LemonLime时
+	 * 4是打开result.html时
+	 * 这里选了第1种
+	 */
+
+	// out << R"(<script src="https://unpkg.com/jquery@3/dist/jquery.slim.min.js"></script>)";
+
+	QFile jqFile(":/js/jquery.slim.min.js");
+	jqFile.open(QFile::ReadOnly);
+	QString jq(jqFile.readAll());
+
+	out << "<script>" << jq << "</script>";
+
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<std::pair<int, QString>> sortList;
@@ -312,7 +338,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 #endif
 			colors->getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
-			out << QString("<td class=\"td-2\" style=\"background-color: hsl(%2,%3%,%4%); border: 2px solid "
+			out << QString("<td class=\"td-2\" style=\"background: hsl(%2,%3%,%4%); border: 2px solid "
 			               "hsl(%2,%3%,%5%);\">%1</td>")
 			           .arg(allScore)
 			           .arg(h)
@@ -375,7 +401,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		out << getContestantHtmlCode(contest, contestantList[i], i);
 	}
 
-	out << "</body>";
 	out << R"(
 	<script>
 		$("div[id^='c'] th").addClass("td-0");
@@ -385,6 +410,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		$("div[id^='c']>p>table th").attr("scope", "col");
 	</script>
 	)";
+	out << "</body>";
 	out << "</html>";
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);

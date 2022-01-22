@@ -32,7 +32,8 @@ enum ResultState {
 	Skipped,
 	InteractorError,
 	PresentationError,
-	OutputLimitExceeded
+	OutputLimitExceeded,
+	LastResultState
 };
 
 #include <QList>
