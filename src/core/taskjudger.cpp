@@ -16,9 +16,11 @@
 #include "core/task.h"
 #include "core/testcase.h"
 
+#include <QSysInfo>
 #include <QTimer>
 #include <QtMath>
 
+#include <algorithm>
 #include <utility>
 
 #define LEMON_MODULE_NAME "TaskJudger"
@@ -47,6 +49,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 	    ! task->getSubFolderCheck()
 	        ? QDir(Settings::sourcePath() + contestantName)
 	        : QDir(Settings::sourcePath() + contestantName + QDir::separator() + task->getSourceFileName());
+	QString contestantDirName = contestantDir.path();
 	QList<Compiler *> compilerList = settings->getCompilerList();
 
 	for (auto &i : compilerList) {
@@ -69,13 +72,8 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 		sourceFile = "";
 
 		for (int j = 0; j < files.size(); j++) {
-			qint64 fileSize =
-			    QFileInfo(Settings::sourcePath() + contestantName +
-			              (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName()
-			                                         : QString("")) +
-			              QDir::separator() + files[j])
-			        .size();
-			// Refuse to judge if the source file is too large
+			qint64 fileSize = QFileInfo(contestantDirName + QDir::separator() + files[j]).size();
+			// Refuse to compile if the source file is too large
 			if (fileSize <= settings->getFileSizeLimit() * 1024) {
 				if (task->getTaskType() == Task::Communication ||
 				    task->getTaskType() == Task::CommunicationExec) {
@@ -94,241 +92,232 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 		QString mainGraderPath;
 		QString mainGraderName;
 
-		if (! sourceFile.isEmpty()) {
-			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator()).mkdir(contestantName);
-			// Copy files to temporary dir
-			if (task->getTaskType() == Task::Communication ||
-			    task->getTaskType() == Task::CommunicationExec) {
-				sourceFile = "";
-				sourcePaths = task->getSourceFilesPath();
-				sourceNames = task->getSourceFilesName();
+		if (sourceFile.isEmpty())
+			continue;
+		QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator()).mkdir(contestantName);
+		// Copy files to temporary dir
+		if (task->getTaskType() == Task::Communication || task->getTaskType() == Task::CommunicationExec) {
+			sourceFile = "";
+			sourcePaths = task->getSourceFilesPath();
+			sourceNames = task->getSourceFilesName();
 
-				for (int i = 0; i < sourcePaths.length(); i++) {
-					QFile::copy(Settings::sourcePath() + contestantName +
-					                (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName()
-					                                           : QString("")) +
-					                QDir::separator() + sourcePaths[i],
-					            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-					                contestantName + QDir::separator() + sourceNames[i]);
-					sourceFile = sourceFile + " " + sourceNames[i] + " ";
-				}
-			} else {
-				QFile::copy(Settings::sourcePath() + contestantName +
-				                (task->getSubFolderCheck() ? QDir::separator() + task->getSourceFileName()
-				                                           : QString("")) +
-				                QDir::separator() + sourceFile,
+			for (int i = 0; i < sourcePaths.length(); i++) {
+				QFile::copy(contestantDirName + QDir::separator() + sourcePaths[i],
 				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-				                contestantName + QDir::separator() + sourceFile);
+				                contestantName + QDir::separator() + sourceNames[i]);
+				sourceFile = sourceFile + " " + sourceNames[i] + " ";
 			}
+		} else {
+			QFile::copy(contestantDirName + QDir::separator() + sourceFile,
+			            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName +
+			                QDir::separator() + sourceFile);
+		}
 
-			QString extraFiles = "";
+		QString extraFiles = "";
+
+		if (task->getTaskType() == Task::Interaction) {
+			QFile::copy(Settings::dataPath() + task->getInteractor(),
+			            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName +
+			                QDir::separator() + task->getInteractorName());
+			QFile::copy(Settings::dataPath() + task->getGrader(),
+			            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName +
+			                QDir::separator() + "__grader.cpp");
+		}
+
+		if (task->getTaskType() == Task::Communication || task->getTaskType() == Task::CommunicationExec) {
+			graderPaths = task->getGraderFilesPath();
+			graderNames = task->getGraderFilesName();
+
+			for (int i = 0; i < graderPaths.length(); i++) {
+				QFile::copy(Settings::dataPath() + graderPaths[i],
+				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+				                contestantName + QDir::separator() + graderNames[i]);
+				extraFiles = extraFiles + " " + graderNames[i] + " ";
+			}
+		}
+
+		// Get compiler configuration
+		QStringList configurationNames = i->getConfigurationNames();
+		QStringList compilerArguments = i->getCompilerArguments();
+		QStringList interpreterArguments = i->getInterpreterArguments();
+		QString currentConfiguration = task->getCompilerConfiguration(i->getCompilerName());
+
+		int configurationIndex =
+		    std::find(configurationNames.begin(), configurationNames.end(), currentConfiguration) -
+		    configurationNames.begin();
+
+		compilerTimeLimitRatio = i->getTimeLimitRatio();
+		compilerMemoryLimitRatio = i->getMemoryLimitRatio();
+		disableMemoryLimitCheck = i->getDisableMemoryLimitCheck();
+		environment = i->getEnvironment();
+		QStringList values = QProcessEnvironment::systemEnvironment().toStringList();
+
+		for (int k = 0; k < values.size(); k++) {
+			int tmp = values[k].indexOf("=");
+
+			if (tmp == 0)
+				continue;
+
+			QString variable = values[k].mid(0, tmp);
+			if (environment.contains(variable))
+				// ';' for windows ':' for linux
+				environment.insert(variable, environment.value(variable) +
+#ifdef Q_OS_WIN32
+				                                 ";"
+#else
+				                                 ":"
+#endif
+				                                 + QProcessEnvironment::systemEnvironment().value(variable));
+			else
+				environment.insert(variable, QProcessEnvironment::systemEnvironment().value(variable));
+		}
+
+		if (i->getCompilerType() == Compiler::Typical) {
+			if (task->getTaskType() == Task::CommunicationExec)
+				executableFile = commExecGrader;
+			else
+				executableFile = task->getSourceFileName();
+#ifdef Q_OS_WIN32
+			executableFile.append(".exe");
+#endif
+			interpreterFlag = false;
+		} else {
+			executableFile = i->getInterpreterLocation();
+			arguments = interpreterArguments[configurationIndex];
+			arguments.replace("%s.*", sourceFile + extraFiles);
+			arguments.replace("%s", task->getSourceFileName());
+			interpreterFlag = true;
+		}
+
+		if (i->getCompilerType() != Compiler::InterpretiveWithoutByteCode) {
+			makeDialogAlert(tr("Compiling..."));
+
+			QStringList arguments;
+			arguments.append(compilerArguments[configurationIndex]);
 
 			if (task->getTaskType() == Task::Interaction) {
-				QFile::copy(Settings::dataPath() + task->getInteractor(),
-				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-				                contestantName + QDir::separator() + task->getInteractorName());
-				QFile::copy(Settings::dataPath() + task->getGrader(),
-				            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-				                contestantName + QDir::separator() + "__grader.cpp");
-			}
-
-			if (task->getTaskType() == Task::Communication ||
-			    task->getTaskType() == Task::CommunicationExec) {
-				graderPaths = task->getGraderFilesPath();
-				graderNames = task->getGraderFilesName();
-
-				for (int i = 0; i < graderPaths.length(); i++) {
-					QFile::copy(Settings::dataPath() + graderPaths[i],
-					            QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-					                contestantName + QDir::separator() + graderNames[i]);
-					extraFiles = extraFiles + " " + graderNames[i] + " ";
+				arguments[0].replace("%s.*", sourceFile + " __grader.cpp");
+				arguments[0].replace("%s", task->getSourceFileName());
+			} else if (task->getTaskType() == Task::Communication) {
+				arguments[0].replace("%s.*", sourceFile + extraFiles);
+				arguments[0].replace("%s", task->getSourceFileName());
+			} else if (task->getTaskType() == Task::CommunicationExec) {
+				for (int k = 1; k < sourceNames.size(); k++)
+					arguments.append(compilerArguments[configurationIndex]);
+				for (int k = 0; k < sourceNames.size(); k++) {
+					arguments[k].replace("%s.*", sourceNames[k]);
+					QString name = sourceNames[k];
+					name.truncate(name.lastIndexOf('.'));
+					arguments[k].replace("%s", name);
 				}
-			}
 
-			// Get compiler configuration
-			QStringList configurationNames = i->getConfigurationNames();
-			QStringList compilerArguments = i->getCompilerArguments();
-			QStringList interpreterArguments = i->getInterpreterArguments();
-			QString currentConfiguration = task->getCompilerConfiguration(i->getCompilerName());
-
-			for (int j = 0; j < configurationNames.size(); j++) {
-				// use current configuration
-				if (configurationNames[j] == currentConfiguration) {
-					compilerTimeLimitRatio = i->getTimeLimitRatio();
-					compilerMemoryLimitRatio = i->getMemoryLimitRatio();
-					disableMemoryLimitCheck = i->getDisableMemoryLimitCheck();
-					environment = i->getEnvironment();
-					QStringList values = QProcessEnvironment::systemEnvironment().toStringList();
-
-					for (int k = 0; k < values.size(); k++) {
-						int tmp = values[k].indexOf("=");
-
-						if (tmp == 0)
-							continue;
-
-						QString variable = values[k].mid(0, tmp);
-						if (environment.contains(variable))
-							// ';' isn't unix compatible
-							environment.insert(variable,
-							                   environment.value(variable) + ";" +
-							                       QProcessEnvironment::systemEnvironment().value(variable));
-						else
-							environment.insert(variable,
-							                   QProcessEnvironment::systemEnvironment().value(variable));
+				QStringList filters = i->getSourceExtensions();
+				for (auto &k : filters)
+					k = commExecGrader + "." + k;
+				bool found = 0;
+				for (auto k : graderPaths) {
+					QString name = k.section(QDir::separator(), -1);
+					if (filters.contains(name)) {
+						mainGraderPath = k;
+						mainGraderName = name;
+						found = 1;
+						break;
 					}
-
-					if (i->getCompilerType() == Compiler::Typical) {
-						if (task->getTaskType() == Task::CommunicationExec)
-							executableFile = commExecGrader;
-						else
-							executableFile = task->getSourceFileName();
-#ifdef Q_OS_WIN32
-						// What about WSL?
-						executableFile.append(".exe");
-#endif
-						interpreterFlag = false;
-					} else {
-						executableFile = i->getInterpreterLocation();
-						arguments = interpreterArguments[j];
-						arguments.replace("%s.*", sourceFile + extraFiles);
-						arguments.replace("%s", task->getSourceFileName());
-						interpreterFlag = true;
-					}
-
-					if (i->getCompilerType() != Compiler::InterpretiveWithoutByteCode) {
-						makeDialogAlert(tr("Compiling..."));
-
-						QStringList arguments;
-						arguments.append(compilerArguments[j]);
-
-						if (task->getTaskType() == Task::Interaction) {
-							arguments[0].replace("%s.*", sourceFile + " __grader.cpp");
-							arguments[0].replace("%s", task->getSourceFileName());
-						} else if (task->getTaskType() == Task::Communication) {
-							arguments[0].replace("%s.*", sourceFile + extraFiles);
-							arguments[0].replace("%s", task->getSourceFileName());
-						} else if (task->getTaskType() == Task::CommunicationExec) {
-							for (int k = 1; k < sourceNames.size(); k++)
-								arguments.append(compilerArguments[j]);
-							for (int k = 0; k < sourceNames.size(); k++) {
-								arguments[k].replace("%s.*", sourceNames[k]);
-								QString name = sourceNames[k];
-								name.truncate(name.lastIndexOf('.'));
-								arguments[k].replace("%s", name);
-							}
-
-							QStringList filters = i->getSourceExtensions();
-							for (auto &k : filters)
-								k = commExecGrader + "." + k;
-							bool found = 0;
-							for (auto k : graderPaths) {
-								QString name = k.section(QDir::separator(), -1);
-								if (filters.contains(name)) {
-									mainGraderPath = k;
-									mainGraderName = name;
-									found = 1;
-									break;
-								}
-							}
-							if (! found) {
-								compileState = NoValidGraderFile;
-								compileMessage = tr("Main grader (grader.*) cannot be found");
-								break;
-							}
-							// Why? It's unix Only
-							auto graderArgument = compilerArguments[j] + " -lpthread";
-							arguments.append(graderArgument);
-							graderArgument.replace("%s.*", mainGraderName);
-							graderArgument.replace("%s", commExecGrader);
-							arguments.append(graderArgument);
-						} else {
-							arguments[0].replace("%s.*", sourceFile);
-							arguments[0].replace("%s", task->getSourceFileName());
-						}
-
-						for (auto k : arguments) {
-							QProcess compilerProcess;
-							compilerProcess.setProcessChannelMode(QProcess::MergedChannels);
-							compilerProcess.setProcessEnvironment(environment);
-							compilerProcess.setWorkingDirectory(
-							    QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-							    contestantName);
-							// TODO: 需要重构代码来处理含空格路径问题
-
-							compilerProcess.start(i->getCompilerLocation(),
-							                      k.split(QLatin1Char(' '), Qt::SkipEmptyParts));
-
-							if (! compilerProcess.waitForStarted(-1)) {
-								compileState = InvalidCompiler;
-								break;
-							}
-
-							QElapsedTimer timer;
-							timer.start();
-							bool flag = false;
-
-							while (timer.elapsed() < settings->getCompileTimeLimit()) {
-								if (compilerProcess.state() != QProcess::Running) {
-									flag = true;
-									break;
-								}
-
-								QCoreApplication::processEvents();
-
-								if (! isJudging) {
-									compilerProcess.kill();
-									return false;
-								}
-								QThread::msleep(10);
-							}
-
-							if (! flag) {
-								compilerProcess.kill();
-								compileState = CompileTimeLimitExceeded;
-							} else if (compilerProcess.exitCode() != 0) {
-								compileState = CompileError;
-								compileMessage = QString::fromLocal8Bit(
-								    compilerProcess.readAllStandardOutput().constData());
-							} else {
-								if (i->getCompilerType() == Compiler::Typical) {
-									if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) +
-									           QDir::separator() + contestantName)
-									          .exists(executableFile)) {
-										compileState = InvalidCompiler;
-									} else {
-										compileState = CompileSuccessfully;
-									}
-								} else {
-									QStringList filters = i->getBytecodeExtensions();
-
-									for (int k = 0; k < filters.size(); k++) {
-										filters[k] = QString("*.") + filters[k];
-									}
-
-									if (QDir(QDir::toNativeSeparators(temporaryDir.path()) +
-									         QDir::separator() + contestantName)
-									        .entryList(filters, QDir::Files)
-									        .empty()) {
-										compileState = InvalidCompiler;
-									} else {
-										compileState = CompileSuccessfully;
-									}
-								}
-							}
-						}
-
-						makeDialogAlert(tr("Compiled Successfully"));
-					}
-
-					if (i->getCompilerType() == Compiler::InterpretiveWithoutByteCode)
-						compileState = CompileSuccessfully;
-
+				}
+				if (! found) {
+					compileState = NoValidGraderFile;
+					compileMessage = tr("Main grader (grader.*) cannot be found");
 					break;
 				}
+				// Why? It's unix Only
+				auto graderArgument = compilerArguments[configurationIndex] + " -lpthread";
+				arguments.append(graderArgument);
+				graderArgument.replace("%s.*", mainGraderName);
+				graderArgument.replace("%s", commExecGrader);
+				arguments.append(graderArgument);
+			} else {
+				arguments[0].replace("%s.*", sourceFile);
+				arguments[0].replace("%s", task->getSourceFileName());
 			}
-			// One file compiled successfully, skip all other files
-			break;
+
+			for (auto k : arguments) {
+				QProcess compilerProcess;
+				compilerProcess.setProcessChannelMode(QProcess::MergedChannels);
+				compilerProcess.setProcessEnvironment(environment);
+				compilerProcess.setWorkingDirectory(QDir::toNativeSeparators(temporaryDir.path()) +
+				                                    QDir::separator() + contestantName);
+				// TODO: 需要重构代码来处理含空格路径问题
+
+				compilerProcess.start(i->getCompilerLocation(),
+				                      k.split(QLatin1Char(' '), Qt::SkipEmptyParts));
+
+				if (! compilerProcess.waitForStarted(-1)) {
+					compileState = InvalidCompiler;
+					break;
+				}
+
+				QElapsedTimer timer;
+				timer.start();
+				bool flag = false;
+
+				while (timer.elapsed() < settings->getCompileTimeLimit()) {
+					if (compilerProcess.state() != QProcess::Running) {
+						flag = true;
+						break;
+					}
+
+					QCoreApplication::processEvents();
+
+					if (! isJudging) {
+						compilerProcess.kill();
+						return false;
+					}
+					QThread::msleep(10);
+				}
+
+				if (! flag) {
+					compilerProcess.kill();
+					compileState = CompileTimeLimitExceeded;
+				} else if (compilerProcess.exitCode() != 0) {
+					compileState = CompileError;
+					compileMessage =
+					    QString::fromLocal8Bit(compilerProcess.readAllStandardOutput().constData());
+				} else {
+					if (i->getCompilerType() == Compiler::Typical) {
+						if (! QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+						           contestantName)
+						          .exists(executableFile)) {
+							compileState = InvalidCompiler;
+						} else {
+							compileState = CompileSuccessfully;
+						}
+					} else {
+						QStringList filters = i->getBytecodeExtensions();
+
+						for (int k = 0; k < filters.size(); k++) {
+							filters[k] = QString("*.") + filters[k];
+						}
+
+						if (QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
+						         contestantName)
+						        .entryList(filters, QDir::Files)
+						        .empty()) {
+							compileState = InvalidCompiler;
+						} else {
+							compileState = CompileSuccessfully;
+						}
+					}
+				}
+			}
+
+			makeDialogAlert(tr("Compiled Successfully"));
 		}
+
+		if (i->getCompilerType() == Compiler::InterpretiveWithoutByteCode)
+			compileState = CompileSuccessfully;
+
+		// One file compiled, skip all other files
+		break;
 	}
 
 	if (compileState != CompileSuccessfully) {
