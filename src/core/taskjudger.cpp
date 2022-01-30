@@ -35,8 +35,11 @@ void TaskJudger::setContestant(Contestant *contestant) { this->contestant = cont
 
 Contestant *TaskJudger::getContestant() const { return contestant; }
 
+// Get executable file
 auto TaskJudger::traditionalTaskPrepare() -> bool {
 	makeDialogAlert(tr("Preparing..."));
+
+	// Get the source code of contestant
 	compileState = NoValidSourceFile;
 	QString contestantName = contestant->getContestantName();
 	QDir contestantDir;
@@ -72,7 +75,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 			                                         : QString("")) +
 			              QDir::separator() + files[j])
 			        .size();
-
+			// Refuse to judge if the source file is too large
 			if (fileSize <= settings->getFileSizeLimit() * 1024) {
 				if (task->getTaskType() == Task::Communication ||
 				    task->getTaskType() == Task::CommunicationExec) {
@@ -93,7 +96,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 
 		if (! sourceFile.isEmpty()) {
 			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator()).mkdir(contestantName);
-
+			// Copy files to temporary dir
 			if (task->getTaskType() == Task::Communication ||
 			    task->getTaskType() == Task::CommunicationExec) {
 				sourceFile = "";
@@ -142,12 +145,14 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 				}
 			}
 
+			// Get compiler configuration
 			QStringList configurationNames = i->getConfigurationNames();
 			QStringList compilerArguments = i->getCompilerArguments();
 			QStringList interpreterArguments = i->getInterpreterArguments();
 			QString currentConfiguration = task->getCompilerConfiguration(i->getCompilerName());
 
 			for (int j = 0; j < configurationNames.size(); j++) {
+				// use current configuration
 				if (configurationNames[j] == currentConfiguration) {
 					compilerTimeLimitRatio = i->getTimeLimitRatio();
 					compilerMemoryLimitRatio = i->getMemoryLimitRatio();
@@ -162,8 +167,8 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 							continue;
 
 						QString variable = values[k].mid(0, tmp);
-
 						if (environment.contains(variable))
+							// ';' isn't unix compatible
 							environment.insert(variable,
 							                   environment.value(variable) + ";" +
 							                       QProcessEnvironment::systemEnvironment().value(variable));
@@ -177,8 +182,8 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 							executableFile = commExecGrader;
 						else
 							executableFile = task->getSourceFileName();
-
 #ifdef Q_OS_WIN32
+						// What about WSL?
 						executableFile.append(".exe");
 #endif
 						interpreterFlag = false;
@@ -192,6 +197,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 
 					if (i->getCompilerType() != Compiler::InterpretiveWithoutByteCode) {
 						makeDialogAlert(tr("Compiling..."));
+
 						QStringList arguments;
 						arguments.append(compilerArguments[j]);
 
@@ -229,7 +235,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 								compileMessage = tr("Main grader (grader.*) cannot be found");
 								break;
 							}
-
+							// Why? It's unix Only
 							auto graderArgument = compilerArguments[j] + " -lpthread";
 							arguments.append(graderArgument);
 							graderArgument.replace("%s.*", mainGraderName);
@@ -320,7 +326,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 					break;
 				}
 			}
-
+			// One file compiled successfully, skip all other files
 			break;
 		}
 	}

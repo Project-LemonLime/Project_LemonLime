@@ -210,7 +210,11 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 	htmlCode += QString("<p><a href=\"#top\">%1</a></p>").arg(tr("Return to top"));
 	return htmlCode;
 }
-
+/*
+ * Generate the HTML code for the summary page
+ * Might be difficult to maintain
+ * Use Javascript to shrink the filesize
+ */
 void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName) {
 	Settings settings;
 	const ColorTheme *colors;
@@ -234,7 +238,10 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 #endif
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
-	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
+
+	// Style sheet
+	out << "<style type=\"text/css\">"
+	       "th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
 	       "text-align: center; verticle-align: middle;}"
 	       ".td-0 {border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;}"
 	       ".th-0 {border-style: none solid solid none; border-width: 3px 3px; border-color: #000;}"

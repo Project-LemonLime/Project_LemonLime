@@ -11,6 +11,10 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <type_traits>
+
+/*
+ * Use a lot of SFAINE tricks to support varied data and container types
+ */
 namespace Lemon::detail {
 	inline int jsonReadHelper(QString &val, const QJsonValue &jval) {
 		if (jval.isString()) {
