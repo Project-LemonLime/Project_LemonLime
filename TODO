@@ -5,21 +5,15 @@ Improve:
     * judge:
         - rewrite (maybe a sandbox) (#64)
         - WSL support (#81)
+        - Scorer Support
     
     * UI:
         - tui/cli support (#67)
         - QML GUI
-        
-    * others:
-        - replace `const QString &` with `QStringView` when Ubuntu 18.04 EOL 
-          (it only has Qt 5.9 but QStringView need Qt 5.10)
+     
+     
     
 Bugfix:
-    * judge:
-        - random WA (maybe Windows implement issue) (#86)
-        - how to get running time? (#84)
-          usertime or realtime?
-    
     * platform dependent
         - crash on macOS Big Sur (#72)
     
