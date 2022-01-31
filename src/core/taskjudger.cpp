@@ -230,7 +230,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 					break;
 				}
 				// Why? It's unix Only
-				auto graderArgument = compilerArguments[configurationIndex] + " -lpthread";
+				auto graderArgument = compilerArguments[configurationIndex] + " -pthread";
 				arguments.append(graderArgument);
 				graderArgument.replace("%s.*", mainGraderName);
 				graderArgument.replace("%s", commExecGrader);
