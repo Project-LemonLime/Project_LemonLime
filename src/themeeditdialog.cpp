@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2021 Project LemonLime
+ * SPDX-FileCopyrightText: 2021-2022 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *

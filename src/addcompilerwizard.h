@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2018-2019 Project LemonPlus, Dust1404
- * SPDX-FileCopyrightText: 2019-2021 Project LemonLime
+ * SPDX-FileCopyrightText: 2019-2022 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
