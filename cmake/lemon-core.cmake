@@ -11,6 +11,8 @@ add_library(lemon-core STATIC
     ${SINGLEAPPLICATION_SOURCES}
     )
 
+target_precompile_headers(lemon-core PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
+
 target_link_libraries(lemon-core
     lemon-base
     ${LEMON_QT_LIBS}

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.0 )
+cmake_minimum_required(VERSION 3.16.0)
 
 project(lemon LANGUAGES CXX)
 
@@ -243,6 +243,8 @@ if(WIN32 AND ENABLE_XLS_EXPORT AND NOT LEMON_QT6)
     list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
     add_definitions(-DENABLE_XLS_EXPORT)
 endif()
+
+target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
 target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
 
