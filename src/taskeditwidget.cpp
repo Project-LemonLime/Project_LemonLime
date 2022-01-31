@@ -568,3 +568,5 @@ void TaskEditWidget::rmGraderFileClicked() {
 	rmGraderFilesAt(ranges.at(0).topRow());
 	multiFilesRefresh();
 }
+
+#include "moc_taskeditwidget.cpp"

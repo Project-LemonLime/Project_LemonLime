@@ -920,3 +920,5 @@ void ExportUtil::exportResult(QWidget *widget, Contest *contest) {
 		exportXls(widget, contest, fileName);
 #endif
 }
+
+#include "moc_exportutil.cpp"

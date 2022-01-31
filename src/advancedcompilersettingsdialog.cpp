@@ -313,3 +313,5 @@ void AdvancedCompilerSettingsDialog::environmentVariablesButtonClicked() {
 
 	delete dialog;
 }
+
+#include "moc_advancedcompilersettingsdialog.cpp"

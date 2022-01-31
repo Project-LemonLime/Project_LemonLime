@@ -376,3 +376,5 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool {
 auto AddTestCasesWizard::compareFileName(const QString &a, const QString &b) -> bool {
 	return a.length() < b.length() || (a.length() == b.length() && QString::localeAwareCompare(a, b) < 0);
 }
+
+#include "moc_addtestcaseswizard.cpp"

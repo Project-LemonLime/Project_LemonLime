@@ -431,3 +431,5 @@ void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest) {
 	if (QFileInfo(fileName).suffix() == "html")
 		exportStatsticsHtml(widget, fileName);
 }
+
+#include "moc_statisticsbrowser.cpp"

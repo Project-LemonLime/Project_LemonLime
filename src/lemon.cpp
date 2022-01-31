@@ -1033,3 +1033,5 @@ void LemonLime::actionManual() {
 void LemonLime::actionMore() {
 	QDesktopServices::openUrl(QUrl(QString("https://github.com/Project-LemonLime/Project_LemonLime")));
 }
+
+#include "moc_lemon.cpp"

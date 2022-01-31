@@ -1293,3 +1293,5 @@ void JudgingThread::run() {
 			break;
 	}
 }
+
+#include "moc_judgingthread.cpp"

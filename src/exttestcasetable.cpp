@@ -257,3 +257,5 @@ void ExtTestCaseTable::modifySelected(int mi, int mx) {
 	setRangeSelected(range, true);
 	whenItemSelectionChanged();
 }
+
+#include "moc_exttestcasetable.cpp"

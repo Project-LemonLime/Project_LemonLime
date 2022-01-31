@@ -287,3 +287,5 @@ void DetailDialog::anchorClicked(const QUrl &url) {
 		    .exec();
 	}
 }
+
+#include "moc_detaildialog.cpp"

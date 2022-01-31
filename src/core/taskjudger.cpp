@@ -536,3 +536,5 @@ void TaskJudger::taskSkipped(const std::pair<int, int> &cur) {
 }
 
 void TaskJudger::stop() { isJudging = false; }
+
+#include "moc_taskjudger.cpp"
