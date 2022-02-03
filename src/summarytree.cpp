@@ -340,4 +340,3 @@ void SummaryTree::launchExtTestCaseModifier() {
 
 	setContest(curContest);
 }
-#include "moc_summarytree.cpp"

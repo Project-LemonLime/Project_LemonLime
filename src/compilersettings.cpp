@@ -248,5 +248,3 @@ void CompilerSettings::advancedButtonClicked() {
 
 	delete dialog;
 }
-
-#include "moc_compilersettings.cpp"

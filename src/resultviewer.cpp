@@ -407,5 +407,3 @@ void ResultViewer::detailInformation() {
 	dialog->showDialog();
 	delete dialog;
 }
-
-#include "moc_resultviewer.cpp"

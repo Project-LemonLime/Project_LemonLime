@@ -409,5 +409,3 @@ void ExtTestCaseModifier::appendNewCase() {
 
 	refresh();
 }
-
-#include "moc_exttestcasemodifier.cpp"

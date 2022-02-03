@@ -579,5 +579,3 @@ void AddCompilerWizard::accept() {
 
 	QWizard::accept();
 }
-
-#include "moc_addcompilerwizard.cpp"

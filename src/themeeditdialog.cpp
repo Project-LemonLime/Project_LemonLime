@@ -9,10 +9,7 @@
 #include "settings.h"
 #include "ui_themeeditdialog.h"
 #include "visualsettings.h"
-
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QPushButton>
+#include <QtWidgets>
 
 ThemeEditDialog::ThemeEditDialog(QWidget *parent) : QDialog(parent), ui(new Ui::ThemeEditDialog) {
 	ui->setupUi(this);

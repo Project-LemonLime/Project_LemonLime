@@ -446,5 +446,3 @@ bool skipEnabled;
 void JudgingDialog::skipJudging() { skipEnabled = true; }
 
 void JudgingDialog::reject() { stopJudgingSlot(); }
-
-#include "moc_judgingdialog.cpp"

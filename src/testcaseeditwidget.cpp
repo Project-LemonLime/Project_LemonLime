@@ -213,5 +213,3 @@ void TestCaseEditWidget::memoryLimitChanged(const QString &text) {
 
 	editTestCase->setMemoryLimit(text.toInt());
 }
-
-#include "moc_testcaseeditwidget.cpp"

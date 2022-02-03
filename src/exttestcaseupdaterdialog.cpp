@@ -234,5 +234,3 @@ auto ExtTestCaseUpdaterDialog::checkDepends() -> int {
 
 	return 0;
 }
-
-#include "moc_exttestcaseupdaterdialog.cpp"
