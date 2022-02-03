@@ -105,6 +105,8 @@
 
 		2020 年底，她成功的让 LemonLime 兼容了 Qt6。
 
+		2021 年，Alphagocc 让 LemonLime 重新支持了多线程评测和新的比赛文件格式
+
 		当然，这一切都还没完成。\newline
 
 		本篇用户手册是仿照 LemonPlus 的用户手册进行编写的。
@@ -160,9 +162,9 @@
 
 		LemonLime 完全兼容 Lemon。
 
-		LemonLime 主要使用 Qt 编写，目前兼容 Qt5 和 Qt6，目前支持的最低版本为 Qt 5.5。编译时使用 \verb|-DLEMON_QT6=ON| 参数即可使用 Qt6 编译。
+		LemonLime 主要使用 Qt 编写，目前兼容 Qt5 和 Qt6，目前支持的最低版本为 Qt 5.15。编译时使用 \verb|-DLEMON_QT6=ON| 参数即可使用 Qt6 编译。
 
-		LemonLime 可以使用 \texttt{GCC}, \texttt{Clang} 和 \texttt{MSVC} 进行编译，但是如果在 Windows 下使用 \texttt{GCC} 编译则会遇到一些问题
+		LemonLime 可以使用 \texttt{GCC}, \texttt{Clang} 和 \texttt{MSVC} 进行编译
 
 	\newpage
 
@@ -682,7 +684,6 @@ int main(int argc, char **argv)
 
 		测试过程中会有 Subtask Skip，即对于一个测试点如果已经确定该测试点会得 0 分，则跳过这个测试点剩下的所有数据，可以大大减少捆绑测试的题目的测试时间。
 
-		当然，LemonLime 还提供强制跳过某个题目的测试的功能。请不要在正式场合中使用。
 
 		\subsection{测试情况对话框}
 
@@ -711,14 +712,11 @@ int main(int argc, char **argv)
 			如果选手原本子文件夹内外都有文件，子文件夹外的那一个会被覆盖。
 
 			注意这个功能对于提交答案题的支持还不够完善。最好在整理文件之前备份一份，以防不测。
-
-		\subsection{跳过这一题}
-
-			当你肯定某个选手是卡评测或者其它原因，或者这个题的评测结果无关紧要（比如自己自娱自乐的时候），那么可以点击“跳过这一题”。
-
-			这会打断当前评测的题目，并跳过这道题之后的所有测试点。
-
-			跳过的测试点会显示\texttt{超过时间限制}。
+		
+		\subsection{多线程评测}
+			
+			在工具>选项>常规中，你可以调整最大评测线程数量，默认为单线程评测，这个功能仍在测试阶段，小心使用!
+			
 
 	\newpage
 
