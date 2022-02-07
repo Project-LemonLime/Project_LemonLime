@@ -27,6 +27,8 @@ option(BUILD_RPM "Build rpm format package" OFF)
 LEMONLOG(BUILD_RPM)
 option(ENABLE_LTO "Link-Time Optimization" ON)
 LEMONLOG(ENABLE_LTO)
+option(ENABLE_CCACHE "Ccache speed up compile (Only support Makefile and Ninja now)" OFF)
+LEMONLOG(ENABLE_CCACHE)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
@@ -76,13 +78,25 @@ if(WIN32)
 endif()
 
 if(UNIX AND NOT APPLE)
-	find_program(LSB_RELEASE_EXEC lsb_release)
-	execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
-		OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-	)
+    find_program(LSB_RELEASE_EXEC lsb_release)
+    execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
+        OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 endif()
 LEMONLOG(LSB_RELEASE_ID_SHORT)
+
+if(ENABLE_CCACHE)
+    find_program(CCACHE_PROGRAM ccache)
+    if(CCACHE_PROGRAM AND UNIX)
+        set(C_LAUNCHER   "${CCACHE_PROGRAM}")
+        set(CXX_LAUNCHER "${CCACHE_PROGRAM}")
+
+        if(CMAKE_GENERATOR STREQUAL "Xcode")
+            message(STATUS "Ccache not supported by XCode, disabled")
+        endif()
+    endif()
+endif()
 
 # ==================================================================================
 # Lemon Build Info
@@ -251,14 +265,14 @@ target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
 
 if(ENABLE_LTO)
-	include(CheckIPOSupported)
-	check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
 
-	if(LTO_SUPPORTED)
-		set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-	else()
-		message(STATUS "IPO / LTO not supported, disabled")
-	endif()
+    if(LTO_SUPPORTED)
+        set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    else()
+        message(STATUS "IPO / LTO not supported, disabled")
+    endif()
 endif()
 
 # ==================================================================================
