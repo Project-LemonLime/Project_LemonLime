@@ -6,12 +6,14 @@
  *
  */
 
+#include <algorithm>
 #include <cassert>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <errno.h>
+#include <string>
 #include <sys/resource.h>
 #include <sys/sysctl.h>
 #include <sys/time.h>
@@ -26,27 +28,21 @@ void cleanUp(int dummy) {
 	exit(0);
 }
 
-int processIsTranslated() {
-	int ret = 0;
-	size_t size = sizeof(ret);
-	if (sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0) == -1) {
-		if (errno == ENOENT)
-			return 0;
-		return -1;
-	}
-	return ret;
+std::string getCpuBrandString() {
+	char buf[1024];
+	size_t buflen = 1024;
+	sysctlbyname("machdep.cpu.brand_string", &buf, &buflen, NULL, 0);
+	return std::string(buf, buflen);
 }
 
 int main(int argc, char *argv[]) {
-	int isARM = processIsTranslated();
-	if (isARM == -1)
-		return 1;
+	int isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
 
 	int timeLimit, memoryLimit;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
-	memoryLimit *= 1024 * (isARM ? 4 : 1);
+	memoryLimit *= 1024 * (isAppleSilicon ? 4 : 1);
 	pid = fork();
 
 	if (pid > 0) {
@@ -64,7 +60,7 @@ int main(int argc, char *argv[]) {
 				return 1;
 
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) / (isARM ? 4 : 1));
+			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
 
 			if (WEXITSTATUS(status) != 0)
 				return 2;
@@ -74,7 +70,7 @@ int main(int argc, char *argv[]) {
 
 		if (WIFSIGNALED(status)) {
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) / (isARM ? 4 : 1));
+			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
 
 			if (WTERMSIG(status) == SIGXCPU)
 				return 3;
