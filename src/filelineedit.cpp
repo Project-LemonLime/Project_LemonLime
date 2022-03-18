@@ -20,17 +20,18 @@ void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStrin
 		dir.setNameFilters(nameFilters);
 	}
 
-	QStringList list = dir.entryList(filters);
+	QStringList fileList = dir.entryList(filters);
 
-	for (int i = 0; i < list.size(); i++) {
-		list[i] = prefix + list[i];
-	}
+	for (auto &f : fileList)
+		f = prefix + f;
 
-	files.append(list);
-	list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+	files.append(fileList);
 
-	for (int i = 0; i < list.size(); i++) {
-		getFiles(curDir + list[i] + QDir::separator(), prefix + list[i] + QDir::separator(), files);
+	// Get file in Child dir
+	QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+
+	for (auto &&d : dirList) {
+		getFiles(curDir + d + QDir::separator(), prefix + d + QDir::separator(), files);
 	}
 }
 
