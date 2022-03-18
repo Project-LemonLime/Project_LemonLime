@@ -68,6 +68,7 @@ auto CompilerSettings::checkValid() -> bool {
 		compilerNames.append(i->getCompilerName());
 	}
 
+	// n^2?
 	for (int i = 0; i < compilerList.size(); i++) {
 		if (compilerNames.count(compilerNames[i]) > 1) {
 			ui->compilerList->setFocus();

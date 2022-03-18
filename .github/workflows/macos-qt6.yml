@@ -2,14 +2,14 @@ name: MacOS Qt6
 on:
   push:
     paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'BUILD.md'
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
   pull_request:
     paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'BUILD.md'
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
   release:
     types: [published]
 jobs:
@@ -20,6 +20,7 @@ jobs:
       matrix:
         os: [macos-latest]
         build_type: [Release, RelWithDebInfo]
+        arch: [x86_64, arm64, x86_64;arm64]
         qt_ver: [6.2.3]
         qt_arch: [clang_64]
     env:
@@ -45,7 +46,8 @@ jobs:
             -DLEMON_QT6=ON \
             -DLEMON_BUILD_INFO="Build for macOS" \
             -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+            -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}" 
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       # tag 打包
       - name: package
@@ -59,7 +61,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}.dmg
+          name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}-${{ matrix.arch }}.dmg
           path: ${{ env.targetName }}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -67,5 +69,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.targetName }}.dmg
-          asset_name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}.dmg
+          asset_name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}-${{ matrix.arch }}.dmg
           tag: ${{ github.ref }}

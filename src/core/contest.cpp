@@ -169,8 +169,6 @@ void Contest::clearPath(const QString &curDir) {
 
 void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	stopJudging = false;
-	// emit contestantJudgingStart(contestant->getContestantName());
-
 	controller = new JudgingController(settings);
 
 	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
@@ -205,8 +203,6 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	delete eventLoop;
 	delete controller;
 	controller = nullptr;
-	/* emit contestantJudgedDisplay(contestant->getContestantName(), contestant->getTotalScore(),
-	                             getTotalScore()); */
 	emit contestantJudgingFinished();
 }
 
