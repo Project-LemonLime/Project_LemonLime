@@ -23,6 +23,8 @@ int main(int argc, char *argv[]) {
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+	QApplication::setHighDpiScaleFactorRoundingPolicy(
+	    Qt::HighDpiScaleFactorRoundingPolicy::PassThrough); // Qt 6 compatibility
 #endif
 
 	Lemon::LemonBaseApplication app(argc, argv);
@@ -40,6 +42,7 @@ int main(int argc, char *argv[]) {
 #ifdef Q_OS_WIN32
 	QFont fonts;
 	fonts.setFamily("Microsoft YaHei");
+	fonts.setHintingPreference(QFont::PreferNoHinting);
 	SingleApplication::setFont(fonts);
 #endif
 #ifdef Q_OS_MAC
