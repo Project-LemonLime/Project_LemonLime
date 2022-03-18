@@ -408,6 +408,10 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 		out << getContestantHtmlCode(contest, contestantList[i], i);
 	}
 
+	out << QString(R"(<footer><p><i>Lemonlime Version %1:%2</i></p></footer>)")
+	           .arg(LEMON_VERSION_STRING)
+	           .arg(LEMON_VERSION_BUILD);
+
 	out << R"(
 	<script>
 		$("div[id^='c'] th").addClass("td-0");
