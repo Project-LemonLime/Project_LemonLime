@@ -27,7 +27,7 @@ void JudgingController::assign() {
 	auto *taskJudger = queuingTasks.front();
 	queuingTasks.pop_front();
 	taskJudger->moveToThread(thread);
-	connect(taskJudger, &TaskJudger::judgeFinished, this, &JudgingController::taskFinished);
+	connect(taskJudger, &TaskJudger::judgingFinished, this, &JudgingController::taskFinished);
 	runningTasks[taskJudger] = thread;
 	thread->start();
 	QMetaObject::invokeMethod(taskJudger, &TaskJudger::judgeIt);

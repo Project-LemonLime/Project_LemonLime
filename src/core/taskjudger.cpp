@@ -330,7 +330,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 
 void TaskJudger::judgeIt() {
 	qDebug() << "Start Judging";
-	emit taskJudgingStarted(task->getProblemTitle());
+	emit judgingStarted(task->getProblemTitle());
 	if (judge()) {
 		contestant->setCheckJudged(taskId, true);
 		contestant->setCompileMessage(taskId, compileMessage);
@@ -345,7 +345,7 @@ void TaskJudger::judgeIt() {
 	} else {
 		contestant->setCheckJudged(taskId, false);
 	}
-	emit judgeFinished();
+	emit judgingFinished();
 }
 
 int TaskJudger::judge() {

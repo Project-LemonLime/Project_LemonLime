@@ -176,8 +176,8 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 		TaskJudger *taskJudger = new TaskJudger();
 		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError);
-		connect(taskJudger, &TaskJudger::taskJudgingStarted,
-		        [this](QString x) { emit taskJudgingStarted(x); });
+		connect(taskJudger, &TaskJudger::judgingStarted, this, &Contest::taskJudgingStarted);
+		connect(taskJudger, &TaskJudger::judgingFinished, this, &Contest::taskJudgingFinished);
 		taskJudger->setTask(taskList[i]);
 		taskJudger->setTaskId(i);
 		taskJudger->setSettings(settings);
@@ -203,7 +203,7 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	delete eventLoop;
 	delete controller;
 	controller = nullptr;
-	emit contestantJudgingFinished();
+	// emit contestantJudgingFinished();
 }
 
 void Contest::judge(const QList<std::pair<QString, QVector<int>>> &list) {
