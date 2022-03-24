@@ -278,25 +278,23 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 				return;
 			}
 			continue;
-		}
+		} else {
+			if (contestantLine.size() == 0 && contestantReader.eof() && ! standardOutputReader.eof()) {
+				score = 0;
+				result = WrongAnswer;
+				message = tr(R"(On line %1, Contestant's output has less contents)")
+				              .arg(standardOutputReader.line());
+				return;
+			}
 
-		if (contestantReader.eof() && ! standardOutputReader.eof()) {
-			score = 0;
-			result = WrongAnswer;
-			message =
-			    tr(R"(On line %1, Contestant's output has less contents)").arg(standardOutputReader.line());
-			return;
-		}
+			if (standardOutputLine.size() == 0 && ! standardOutputReader.eof() && contestantReader.eof()) {
+				score = 0;
+				result = OutputLimitExceeded;
+				message = tr(R"(On line %1, Contestant's output has too much contents)")
+				              .arg(contestantReader.line());
+				return;
+			}
 
-		if (! standardOutputReader.eof() && contestantReader.eof()) {
-			score = 0;
-			result = OutputLimitExceeded;
-			message =
-			    tr(R"(On line %1, Contestant's output has too much contents)").arg(contestantReader.line());
-			return;
-		}
-
-		if (contestantLine != standardOutputLine) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
