@@ -100,13 +100,17 @@ class BufferedStreamReader {
 
   public:
 	static const int BUFFER_SIZE = 1 << 18; // 128 KiB
-	BufferedStreamReader(const char *filename) : file(fopen(filename, "r")) {
+	explicit BufferedStreamReader(const char *filename) : file(fopen(filename, "r")) {
 		result.reserve(32);
 		bufPos = buffer + BUFFER_SIZE;
 		bufEnd = buffer + BUFFER_SIZE;
 		lineNumber = 1;
 		isEof = 0;
 	}
+
+	BufferedStreamReader(const BufferedStreamReader &) = delete;
+	BufferedStreamReader &operator=(const BufferedStreamReader &) = delete;
+
 	~BufferedStreamReader() { fclose(file); }
 
   private:
