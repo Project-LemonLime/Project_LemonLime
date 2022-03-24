@@ -210,19 +210,20 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 	while (true) {
 		auto contestantLine = contestantReader.nextUntilNewLine();
 		auto standardOutputLine = standardOutputReader.nextUntilNewLine();
-		int nowLine = contestantReader.line();
 
 		if (contestantReader.eof() && ! standardOutputReader.eof()) {
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowLine);
+			message =
+			    tr(R"(On line %1, Contestant's output has less contents)").arg(standardOutputReader.line());
 			return;
 		}
 
 		if (! standardOutputReader.eof() && contestantReader.eof()) {
 			score = 0;
 			result = OutputLimitExceeded;
-			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowLine);
+			message =
+			    tr(R"(On line %1, Contestant's output has too much contents)").arg(contestantReader.line());
 			return;
 		}
 
@@ -232,7 +233,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
 			              .arg(contestantLine.data())
 			              .arg(standardOutputLine.data())
-			              .arg(nowLine);
+			              .arg(contestantReader.line());
 			return;
 		}
 
@@ -265,19 +266,33 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 	while (true) {
 		auto contestantLine = contestantReader.nextUntilSpace();
 		auto standardOutputLine = standardOutputReader.nextUntilSpace();
-		int nowLine = contestantReader.line();
+
+		if (contestantLine == standardOutputLine) {
+			if (contestantReader.eof() && standardOutputReader.eof())
+				break;
+
+			if (contestantReader.line() != standardOutputReader.line()) {
+				score = 0;
+				result = PresentationError;
+				message = tr("Presentation error on line %1").arg(contestantReader.line());
+				return;
+			}
+			continue;
+		}
 
 		if (contestantReader.eof() && ! standardOutputReader.eof()) {
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowLine);
+			message =
+			    tr(R"(On line %1, Contestant's output has less contents)").arg(standardOutputReader.line());
 			return;
 		}
 
 		if (! standardOutputReader.eof() && contestantReader.eof()) {
 			score = 0;
 			result = OutputLimitExceeded;
-			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowLine);
+			message =
+			    tr(R"(On line %1, Contestant's output has too much contents)").arg(contestantReader.line());
 			return;
 		}
 
@@ -287,19 +302,9 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
 			              .arg(contestantLine.data())
 			              .arg(standardOutputLine.data())
-			              .arg(nowLine);
+			              .arg(contestantReader.line());
 			return;
 		}
-
-		if (contestantReader.line() != standardOutputReader.line()) {
-			score = 0;
-			result = PresentationError;
-			message = tr("Presentation error on line %1").arg(nowLine);
-			return;
-		}
-
-		if (contestantReader.eof() && standardOutputReader.eof())
-			break;
 	}
 
 	score = fullScore;
