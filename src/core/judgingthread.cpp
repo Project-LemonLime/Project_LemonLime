@@ -126,8 +126,8 @@ class BufferedStreamReader {
 	auto valid() const -> bool { return file != nullptr; }
 	auto eof() const -> bool { return isEof; }
 	auto line() const -> int { return lineNumber; }
-	auto nextUntilNewLine() -> std::string &;
-	auto nextUntilSpace() -> std::string &;
+	auto nextUntilNewLine() -> std::string_view;
+	auto nextUntilSpace() -> std::string_view;
 };
 
 auto BufferedStreamReader::peekChar() -> char {
@@ -157,7 +157,7 @@ void BufferedStreamReader::tryNextLine() {
 	lineNumber++;
 }
 
-auto BufferedStreamReader::nextUntilNewLine() -> std::string & {
+auto BufferedStreamReader::nextUntilNewLine() -> std::string_view {
 	result.clear();
 	tryNextLine();
 	for (int i = 0; i < 32; i++) {
@@ -170,7 +170,7 @@ auto BufferedStreamReader::nextUntilNewLine() -> std::string & {
 	return result;
 }
 
-auto BufferedStreamReader::nextUntilSpace() -> std::string & {
+auto BufferedStreamReader::nextUntilSpace() -> std::string_view {
 	result.clear();
 	for (char c = peekChar(); std::isspace(c) && ! eof(); c = peekChar())
 		if (c == '\r' || c == '\n')
@@ -208,8 +208,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 	}
 
 	while (true) {
-		const auto &contestantLine = contestantReader.nextUntilNewLine();
-		const auto &standardOutputLine = standardOutputReader.nextUntilNewLine();
+		auto contestantLine = contestantReader.nextUntilNewLine();
+		auto standardOutputLine = standardOutputReader.nextUntilNewLine();
 		int nowLine = contestantReader.line();
 
 		if (contestantReader.eof() && ! standardOutputReader.eof()) {
@@ -230,8 +230,8 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
-			              .arg(contestantLine.c_str())
-			              .arg(standardOutputLine.c_str())
+			              .arg(contestantLine.data())
+			              .arg(standardOutputLine.data())
 			              .arg(nowLine);
 			return;
 		}
@@ -263,8 +263,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 	}
 
 	while (true) {
-		const auto &contestantLine = contestantReader.nextUntilSpace();
-		const auto &standardOutputLine = standardOutputReader.nextUntilSpace();
+		auto contestantLine = contestantReader.nextUntilSpace();
+		auto standardOutputLine = standardOutputReader.nextUntilSpace();
 		int nowLine = contestantReader.line();
 
 		if (contestantReader.eof() && ! standardOutputReader.eof()) {
@@ -285,8 +285,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %3, Read "%1" but expect "%2")")
-			              .arg(contestantLine.c_str())
-			              .arg(standardOutputLine.c_str())
+			              .arg(contestantLine.data())
+			              .arg(standardOutputLine.data())
 			              .arg(nowLine);
 			return;
 		}
