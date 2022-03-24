@@ -96,378 +96,210 @@ auto JudgingThread::getNeedRejudge() const -> bool { return needRejudge; }
 
 void JudgingThread::stopJudgingSlot() { stopJudging = true; }
 
-void JudgingThread::compareLineByLine(const QString &contestantOutput) {
-	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
+class BufferedStreamReader {
 
-	if (contestantOutputFile == nullptr) {
+  public:
+	static const int BUFFER_SIZE = 1 << 18; // 128 KiB
+	BufferedStreamReader(const char *filename) : file(fopen(filename, "r")) {
+		result.reserve(32);
+		bufPos = buffer + BUFFER_SIZE;
+		bufEnd = buffer + BUFFER_SIZE;
+		lineNumber = 1;
+		isEof = 0;
+	}
+	~BufferedStreamReader() { fclose(file); }
+
+  private:
+	FILE *file;
+	char buffer[BUFFER_SIZE], *bufEnd, *bufPos;
+	bool isEof;
+	int lineNumber;
+	std::string result; // Fixed Length String,Optimize for speed
+	auto peekChar() -> char;
+	void tryNextLine();
+
+  public:
+	auto valid() const -> bool { return file != nullptr; }
+	auto eof() const -> bool { return isEof; }
+	auto line() const -> int { return lineNumber; }
+	auto nextUntilNewLine() -> std::string &;
+	auto nextUntilSpace() -> std::string &;
+};
+
+auto BufferedStreamReader::peekChar() -> char {
+	if (isEof) {
+		return '\0';
+	}
+	if (bufPos == bufEnd) {
+		bufPos = buffer;
+		bufEnd = buffer + fread(buffer, 1, BUFFER_SIZE, file);
+		if (bufPos == bufEnd) {
+			isEof = true;
+			return '\0';
+		}
+	}
+	return *bufPos;
+}
+
+void BufferedStreamReader::tryNextLine() {
+	char c = peekChar();
+	if (c != '\r' && c != '\n')
+		return;
+	if (c == '\r')
+		bufPos++;
+	c = peekChar();
+	if (c == '\n')
+		bufPos++;
+	lineNumber++;
+}
+
+auto BufferedStreamReader::nextUntilNewLine() -> std::string & {
+	result.clear();
+	tryNextLine();
+	for (int i = 0; i < 32; i++) {
+		char c = peekChar();
+		if (c == '\n' || c == '\r' || eof())
+			break;
+		result.push_back(c);
+		bufPos++;
+	}
+	return result;
+}
+
+auto BufferedStreamReader::nextUntilSpace() -> std::string & {
+	result.clear();
+	for (char c = peekChar(); std::isspace(c) && ! eof(); c = peekChar())
+		if (c == '\r' || c == '\n')
+			tryNextLine();
+		else
+			bufPos++;
+	if (eof())
+		return result;
+	for (int i = 0; i < 32; i++) {
+		char c = peekChar();
+		if (std::isspace(c) || eof())
+			break;
+		result.push_back(c);
+		bufPos++;
+	}
+	return result;
+}
+
+void JudgingThread::compareLineByLine(const QString &contestantOutput) {
+	BufferedStreamReader contestantReader(contestantOutput.toLocal8Bit().data());
+	BufferedStreamReader standardOutputReader(outputFile.toLocal8Bit().data());
+
+	if (! contestantReader.valid()) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open contestant's output file)");
 		return;
 	}
 
-	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
-
-	if (standardOutputFile == nullptr) {
+	if (! standardOutputReader.valid()) {
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open standard output file");
-		fclose(contestantOutputFile);
+		message = tr(R"(Cannot open standard output file)");
 		return;
 	}
 
-	char str1[23];
-	char str2[23];
-	char ch = 0;
-	bool chk1 = false;
-	bool chk2 = false;
-	bool chkEof1 = false;
-	bool chkEof2 = false;
-	short len1 = 0;
-	short len2 = 0;
-	int nowRow = 1;
-
 	while (true) {
-		len1 = 0;
+		const auto &contestantLine = contestantReader.nextUntilNewLine();
+		const auto &standardOutputLine = standardOutputReader.nextUntilNewLine();
+		int nowLine = contestantReader.line();
 
-		while (len1 < 20) {
-			if (feof(contestantOutputFile))
-				break;
-
-			ch = static_cast<char>(fgetc(contestantOutputFile));
-
-			if (ch == EOF)
-				break;
-
-			if (! chk1 && ch == '\n')
-				break;
-
-			if (chk1 && ch == '\n') {
-				chk1 = false;
-				continue;
-			}
-
-			if (ch == '\r') {
-				chk1 = true;
-				break;
-			}
-
-			if (chk1)
-				chk1 = false;
-
-			str1[len1++] = ch;
-		}
-
-		str1[len1++] = '\0';
-		chkEof1 = ch == EOF;
-		len2 = 0;
-
-		bool isNewRowStarted = false;
-
-		while (len2 < 20) {
-			if (feof(standardOutputFile))
-				break;
-
-			ch = static_cast<char>(fgetc(standardOutputFile));
-
-			if (ch == EOF)
-				break;
-
-			if (! chk2 && ch == '\n') {
-				isNewRowStarted = true;
-				break;
-			}
-
-			if (chk2 && ch == '\n') {
-				chk2 = false;
-				continue;
-			}
-
-			if (ch == '\r') {
-				isNewRowStarted = true;
-				chk2 = true;
-				break;
-			}
-
-			if (chk2)
-				chk2 = false;
-
-			str2[len2++] = ch;
-		}
-
-		str2[len2++] = '\0';
-		chkEof2 = ch == EOF;
-
-		if (len1 != len2 || strcmp(str1, str2) != 0) {
+		if (contestantReader.eof() && ! standardOutputReader.eof()) {
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
+			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowLine);
 			return;
 		}
 
-		if (chkEof1 && ! chkEof2) {
-			score = 0;
-			result = WrongAnswer;
-			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
-			return;
-		}
-
-		if (! chkEof1 && chkEof2) {
+		if (! standardOutputReader.eof() && contestantReader.eof()) {
 			score = 0;
 			result = OutputLimitExceeded;
-			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
+			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowLine);
 			return;
 		}
 
-		if (chkEof1 && chkEof2)
+		if (contestantLine != standardOutputLine) {
+			score = 0;
+			result = WrongAnswer;
+			message = tr(R"(On line %3, Read "%1" but expect "%2")")
+			              .arg(contestantLine.c_str())
+			              .arg(standardOutputLine.c_str())
+			              .arg(nowLine);
+			return;
+		}
+
+		if (contestantReader.eof() && standardOutputReader.eof())
 			break;
-
-		QCoreApplication::processEvents();
-
-		if (stopJudging) {
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
-			return;
-		}
-
-		if (isNewRowStarted)
-			nowRow++;
 	}
 
 	score = fullScore;
 	result = CorrectAnswer;
-	fclose(contestantOutputFile);
-	fclose(standardOutputFile);
 }
 
 void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput) {
-	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
+	BufferedStreamReader contestantReader(contestantOutput.toLocal8Bit().data());
+	BufferedStreamReader standardOutputReader(outputFile.toLocal8Bit().data());
 
-	if (contestantOutputFile == nullptr) {
+	if (! contestantReader.valid()) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open contestant's output file)");
 		return;
 	}
 
-	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
-
-	if (standardOutputFile == nullptr) {
+	if (! standardOutputReader.valid()) {
 		score = 0;
 		result = FileError;
-		message = tr("Cannot open standard output file");
-		fclose(contestantOutputFile);
+		message = tr(R"(Cannot open standard output file)");
 		return;
 	}
 
-	char ch1 = ' ';
-	char ch2 = ' ';
-	char str1[23];
-	char str2[23];
-	int flag1 = 0;
-	int flag2 = 0;
-	int nowRow = 1;
-
 	while (true) {
-		if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
-			if (ch1 == '\r') {
-				ch1 = static_cast<char>(fgetc(contestantOutputFile));
+		const auto &contestantLine = contestantReader.nextUntilSpace();
+		const auto &standardOutputLine = standardOutputReader.nextUntilSpace();
+		int nowLine = contestantReader.line();
 
-				if (ch1 == '\n')
-					ch1 = static_cast<char>(fgetc(contestantOutputFile));
-			} else {
-				ch1 = static_cast<char>(fgetc(contestantOutputFile));
-			}
-
-			while (ch1 == ' ' || ch1 == '\t') {
-				ch1 = static_cast<char>(fgetc(contestantOutputFile));
-			}
-
-			flag1 = 2;
-		} else {
-			if (ch1 == ' ' || ch1 == '\t') {
-				while (ch1 == ' ' || ch1 == '\t') {
-					ch1 = static_cast<char>(fgetc(contestantOutputFile));
-				}
-
-				if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
-					if (ch1 == '\r') {
-						ch1 = static_cast<char>(fgetc(contestantOutputFile));
-
-						if (ch1 == '\n')
-							ch1 = static_cast<char>(fgetc(contestantOutputFile));
-					} else {
-						ch1 = static_cast<char>(fgetc(contestantOutputFile));
-					}
-
-					while (ch1 == ' ' || ch1 == '\t') {
-						ch1 = static_cast<char>(fgetc(contestantOutputFile));
-					}
-
-					flag1 = 2;
-				} else {
-					flag1 = 1;
-				}
-			} else {
-				flag1 = 0;
-			}
-		}
-
-		bool isNewRowStarted = false;
-
-		if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
-			if (ch2 == '\r') {
-				ch2 = static_cast<char>(fgetc(standardOutputFile));
-
-				if (ch2 == '\n')
-					ch2 = static_cast<char>(fgetc(standardOutputFile));
-			} else {
-				ch2 = static_cast<char>(fgetc(standardOutputFile));
-			}
-
-			isNewRowStarted = true;
-
-			while (ch2 == ' ' || ch2 == '\t')
-				ch2 = static_cast<char>(fgetc(standardOutputFile));
-
-			flag2 = 2;
-		} else {
-			if (ch2 == ' ' || ch2 == '\t') {
-				while (ch2 == ' ' || ch2 == '\t') {
-					ch2 = static_cast<char>(fgetc(standardOutputFile));
-				}
-
-				if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
-					if (ch2 == '\r') {
-						ch2 = static_cast<char>(fgetc(standardOutputFile));
-
-						if (ch2 == '\n')
-							ch2 = static_cast<char>(fgetc(standardOutputFile));
-					} else {
-						ch2 = static_cast<char>(fgetc(standardOutputFile));
-					}
-
-					isNewRowStarted = true;
-
-					while (ch2 == ' ' || ch2 == '\t') {
-						ch2 = static_cast<char>(fgetc(standardOutputFile));
-					}
-
-					flag2 = 2;
-				} else {
-					flag2 = 1;
-				}
-			} else {
-				flag2 = 0;
-			}
-		}
-
-		if (flag1 != flag2) {
-			if (ch1 == EOF && ch2 != EOF) {
-				score = 0;
-				result = WrongAnswer;
-				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
-				fclose(contestantOutputFile);
-				fclose(standardOutputFile);
-				return;
-			}
-
-			if (ch1 != EOF && ch2 == EOF) {
-				score = 0;
-				result = OutputLimitExceeded;
-				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
-				fclose(contestantOutputFile);
-				fclose(standardOutputFile);
-				return;
-			}
-
-			score = 0;
-			result = PresentationError;
-			message = tr("Presentation error on line %1").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
-			return;
-		}
-
-		if (isNewRowStarted)
-			nowRow++;
-
-		int len1 = 0;
-
-		while (len1 < 20) {
-			if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF) {
-				str1[len1++] = ch1;
-			} else {
-				break;
-			}
-
-			ch1 = static_cast<char>(fgetc(contestantOutputFile));
-		}
-
-		str1[len1] = '\0';
-		int len2 = 0;
-
-		while (len2 < 20) {
-			if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF) {
-				str2[len2++] = ch2;
-			} else {
-				break;
-			}
-
-			ch2 = static_cast<char>(fgetc(standardOutputFile));
-		}
-
-		str2[len2] = '\0';
-
-		if (len1 != len2 || strcmp(str1, str2) != 0) {
-			if (len1 <= 0) {
-				score = 0;
-				result = WrongAnswer;
-				message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowRow);
-				fclose(contestantOutputFile);
-				fclose(standardOutputFile);
-				return;
-			}
-
-			if (len2 <= 0) {
-				score = 0;
-				result = OutputLimitExceeded;
-				message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowRow);
-				fclose(contestantOutputFile);
-				fclose(standardOutputFile);
-				return;
-			}
-
+		if (contestantReader.eof() && ! standardOutputReader.eof()) {
 			score = 0;
 			result = WrongAnswer;
-			message = tr(R"(On line %3, Read "%1" but expect "%2")").arg(str1).arg(str2).arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
+			message = tr(R"(On line %1, Contestant's output has less contents)").arg(nowLine);
 			return;
 		}
 
-		if (ch1 == EOF && ch2 == EOF)
+		if (! standardOutputReader.eof() && contestantReader.eof()) {
+			score = 0;
+			result = OutputLimitExceeded;
+			message = tr(R"(On line %1, Contestant's output has too much contents)").arg(nowLine);
+			return;
+		}
+
+		if (contestantLine != standardOutputLine) {
+			score = 0;
+			result = WrongAnswer;
+			message = tr(R"(On line %3, Read "%1" but expect "%2")")
+			              .arg(contestantLine.c_str())
+			              .arg(standardOutputLine.c_str())
+			              .arg(nowLine);
+			return;
+		}
+
+		if (contestantReader.line() != standardOutputReader.line()) {
+			score = 0;
+			result = PresentationError;
+			message = tr("Presentation error on line %1").arg(nowLine);
+			return;
+		}
+
+		if (contestantReader.eof() && standardOutputReader.eof())
 			break;
-
-		QCoreApplication::processEvents();
-
-		if (stopJudging) {
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
-			return;
-		}
 	}
 
 	score = fullScore;
 	result = CorrectAnswer;
-	fclose(contestantOutputFile);
-	fclose(standardOutputFile);
 }
 
 void JudgingThread::compareWithDiff(const QString &contestantOutput) {
@@ -842,11 +674,10 @@ void JudgingThread::runProgram() {
 				result = TimeLimitExceeded;
 				timeUsed = memoryUsed = -1;
 			}
-
 			return;
 		}
 
-		Sleep(10);
+		QThread::msleep(10);
 	}
 
 	if (! isProgramFinishedInExtraTimeLimit) {
@@ -1118,9 +949,10 @@ void JudgingThread::judgeTraditionalTask() {
 
 		return;
 	}
-
+	QElapsedTimer timer;
+	timer.start();
 	judgeOutput();
-
+	qDebug() << "judgeOutput Time:" << timer.elapsed() / 1000. << "s";
 	if (stopJudging)
 		return;
 
