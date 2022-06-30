@@ -131,11 +131,15 @@ cmake --build . --parallel $(nproc)
 
 请使用 `watcher_macos.cpp` 编译 `watcher_unix`，否则内存限制会出问题。
 
-设置 `CMAKE_PREFIX_PATH` 应设置为你的 `qt` 安装路径。（在 `/usr/local/Cellar/qt/` 目录下）
+设置 `CMAKE_PREFIX_PATH` 应设置为你的 `qt` 安装路径。
+
+对于 Intel CPU 一般在 `/usr/local/Cellar/qt/` 目录下
+
+如果使用 Apple Silicon，`CMAKE_PREFIX_PATH` 应为 `/opt/homebrew/Cellar/qt/<Your qt version>`
 
 ```bash
 brew install cmake qt ninja
-export CMAKE_PREFIX_PATH="/usr/local/Cellar/qt/<Your Qt Version>"
+export CMAKE_PREFIX_PATH="/path/to/your/qt"
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
 cmake --build .
 ```
