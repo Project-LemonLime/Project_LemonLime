@@ -92,9 +92,17 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 ## 安装
 
-### Windows && macOS
+### Windows
 
 可以在 Release 或者 GitHub Actions 处自行取用预构建包。
+
+### macOS
+
+可以在 Release 或者 GitHub Actions 处自行取用预构建包，也可以从 Homebrew Cask 安装。
+
+```bash
+brew install lemonlime --cask
+```
 
 ### Debian && Ubuntu
 
