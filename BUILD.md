@@ -49,13 +49,13 @@ NOTE: XLS 导出是默认关闭的，如需使用，请编译时附加 `-DENABLE
 ## 迅速安装 ##
 yay -S lemon-lime # 稳定版本
 yay -S lemon-lime-git # 开发版本（提前使用许多新功能！）
-# 感谢 @ayalhw 的支持。
+# 感谢 @CoelacanthusHex 的支持。
 
 ## 使用 CMake ##
-sudo pacman -S gcc cmake qt5-base ninja make # 依赖环境(ninja 和 make 二选一)
+sudo pacman -S gcc cmake qt5-base ninja 
 cd 源代码的目录
-cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja 
+ninja  # 获得可执行文件 lemon
 
 ## 使用 QtCreator ##
 sudo pacman -S qtcreator
@@ -65,22 +65,23 @@ sudo pacman -S qtcreator
 
 ```bash
 ## 使用 CMake ##
-sudo apt install qt5-default build-essential ninja-build qtbase5-dev qttools5-dev cmake # 依赖环境, ninja 可选
+sudo apt install build-essential ninja-build qtbase5-dev qttools5-dev qtchooser qtbase5-dev-tools cmake # Qt5 依赖环境
+sudo apt install build-essential ninja-build qt6-tools-dev-tools qt6-base-dev qt6-tools-dev qt6-l10n-tools libgl1-mesa-dev cmake # Qt6 依赖环境
 cd 源代码的目录
-cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build . --parallel $(nproc)  # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja 
+ninja  # 获得可执行文件 lemon
 
-cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+ninja --install # 将其安装到系统中，默认安装位置位于 /usr/local
 # 或者直接生成 DEB 包
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_DEB=ON
-cmake --build . --parallel $(nproc)
+ninja
 
 ## 使用 QtCreator ##
 sudo apt install qtcreator
 ```
 
 #### 官方镜像源版本无法支持编译的系统
- - Ubuntu LTS 就没一个支持，22.04 可能会好
+ - Ubuntu 21.04 以前
  - Debian 11 之前
 
 ~~_arbiter 退出了群聊。_~~
@@ -89,34 +90,35 @@ sudo apt install qtcreator
 
 ```bash
 ## 使用 CMake ##
-sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build make # 依赖环境(ninja 和 make 二选一)
+sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build
 cd 源代码的目录
-cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
+cmake . -DCMAKE_BUILD_TYPE=Release -GNinja
+ninja # 获得可执行文件 lemon
 
-cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+ninja --install # 将其安装到系统中，默认安装位置位于 /usr/local
 
 # 或者直接生成 RPM 包
 sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core fedora-packager rpmdevtools
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_RPM=ON
-cmake --build . --parallel $(nproc)
+ninja
 ```
 
 ### openSUSE 系
 
 ```bash
 ## 使用 CMake ##
-sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja # 依赖环境(ninja 和 make 二选一)
+sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja # Qt5 依赖环境
+sudo zypper in qt6-base-devel qt6-tools qt6-svg-devel ninja qt6-linguist-devel  # Qt6 依赖环境
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja
-cmake --build . --parallel $(nproc) # 获得可执行文件 lemon
+ninja # 获得可执行文件 lemon
 
-cmake --install . # 将其安装到系统中，默认安装位置位于 /usr/local
+ninja --install # 将其安装到系统中，默认安装位置位于 /usr/local
 
 # 或者直接生成 RPM 包
-sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja lsb-release rpm-build
+sudo zypper in lsb-release rpm-build # RPM 依赖
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_RPM=ON
-cmake --build . --parallel $(nproc)
+ninja
 ```
 
 ## etc.
@@ -141,5 +143,5 @@ cmake --build . --parallel $(nproc)
 brew install cmake qt ninja
 export CMAKE_PREFIX_PATH="/path/to/your/qt"
 cmake -DCMAKE_BUILD_TYPE=Release -GNinja .
-cmake --build .
+ninja
 ```
