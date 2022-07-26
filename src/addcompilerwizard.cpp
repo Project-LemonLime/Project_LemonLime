@@ -18,6 +18,9 @@
 #include <iostream>
 
 AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new Ui::AddCompilerWizard) {
+
+	setWizardStyle(ModernStyle);
+
 	ui->setupUi(this);
 	ui->sourceFileExtensions->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
