@@ -8,41 +8,47 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 同时支持 Qt5 和 Qt6, 使用 `-DLEMON_QT6=ON` 以使用 Qt6 编译。
 
-现已支持 Linux ![Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)[![Linux Static](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml)
-，Windows ![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)，以及 macOS ![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
+现已支持 Linux，Windows，以及 macOS
+
+[![Linux Static](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml)
 
 ![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
 ![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_shield)
+![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ea760fd4674f44eaa6ca8273abc0669d)](https://www.codacy.com/gh/Project-LemonLime/Project_LemonLime/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Project-LemonLime/Project_LemonLime&amp;utm_campaign=Badge_Grade)
+![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
 
-[![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/) ![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ea760fd4674f44eaa6ca8273abc0669d)](https://www.codacy.com/gh/Project-LemonLime/Project_LemonLime/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Project-LemonLime/Project_LemonLime&utm_campaign=Badge_Grade)
+
+[![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/)
+![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/lemon-lime.svg)](https://repology.org/metapackage/lemon-lime/versions)
 
 曾在这些系统测试：
 
-|          系统名称         |     版本号    |     架构     |     DE / WM    |
-| :-------------------: | :--------: | :--------: | :------------: |
-|        Windows        |      7     | x86, amd64 |    Untitled    |
-|        Windows        |     10     |    amd64   |    Untitled    |
-|        Manjaro        |   20.0.1   |    amd64   | KDE-Xorg; i3WM |
-|          Arch         | 2021-07-11 |    amd64   |    KDE-Xorg    |
-|          Arch         | 2020-10-31 |    amd64   |   KDE-Wayland  |
-|         Ubuntu        |    20.04   |    amd64   |     GNOME 3    |
-|         Ubuntu        |   18.04.4  |    amd64   |     GNOME 3    |
-| NOI Linux 2(Ubuntu)   |    20.04   |    amd64   |     GNOME 3    |
-|       Linux Mint      |    19.3    |    amd64   |    Cinnamon    |
-|         Deepin        |    15.11   |    amd64   |       DDE      |
-|         Deepin        |  20 (1000) |    amd64   |       DDE      |
-|         Debian        |   10.3.0   |    amd64   | LXQt; KDE-Xorg |
-|         Fedora        |   31-1.9   |    amd64   |      XFCE      |
-|        openSUSE       |  Leap 15.1 |    amd64   |      iceWM     |
-|        openSUSE       | Tumbleweed |    amd64   |    KDE-Xorg    |
+|      系统名称       |   版本号   |    架构    |    DE / WM     |
+|:-------------------:|:----------:|:----------:|:--------------:|
+|       Windows       |     7      | x86, amd64 |    Untitled    |
+|       Windows       |     10     |   amd64    |    Untitled    |
+|       Manjaro       |   20.0.1   |   amd64    | KDE-Xorg; i3WM |
+|        Arch         | 2021-07-11 |   amd64    |    KDE-Xorg    |
+|        Arch         | 2020-10-31 |   amd64    |  KDE-Wayland   |
+|       Ubuntu        |   20.04    |   amd64    |    GNOME 3     |
+|       Ubuntu        |  18.04.4   |   amd64    |    GNOME 3     |
+| NOI Linux 2(Ubuntu) |   20.04    |   amd64    |    GNOME 3     |
+|     Linux Mint      |    19.3    |   amd64    |    Cinnamon    |
+|       Deepin        |   15.11    |   amd64    |      DDE       |
+|       Deepin        | 20 (1000)  |   amd64    |      DDE       |
+|       Debian        |   10.3.0   |   amd64    | LXQt; KDE-Xorg |
+|       Fedora        |   31-1.9   |   amd64    |      XFCE      |
+|      openSUSE       | Leap 15.1  |   amd64    |     iceWM      |
+|      openSUSE       | Tumbleweed |   amd64    |    KDE-Xorg    |
 
-如果您在您的系统上做了测试，请前往 [#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49) 告知。
+如果您在您的系统上做了测试，请前往
+[#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49)
+告知。
 
 ## 特色
 
@@ -50,7 +56,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 -   **Lemon 绿了！**
 -   LemonLime 现在支持 4 种题目类型：传统题、提交答案题、交互题，以及通信题（2 种：一种是选手只完成部分函数，一种是选手要写多个完整程序）。不过交互题和通信题暂时只确保 C++ 的支持。
--   现在在选手栏中，每个选手的每个题目都可以单独选择，而不是只能一行一行地选。现在你可以方便地重测某道题，还支持一键测试未测试 / 未找到源文件 / 编译错误等操作。
+-   现在在选手栏中，每个选手的每个题目都可以单独选择，而不是只能一行一行地选。现在你可以方便地重测某道题，还支持一键测试未测试/未找到源文件/编译错误等操作。
 -   原先的 Lemon 的重测制度因为过于耗时而被废弃。现在，你可以自定义最大的重新评测次数。
 -   自带的实数比较模式现在将同时比较绝对误差和相对误差，并且对 `nan` 和 `inf` 做出了判断。
 -   在 Linux 下，默认的栈空间设置为和内存限制相同。
@@ -84,12 +90,39 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 -   改动了图标和启动横幅。
 -   无处不在的界面优化。
 
+## 安装
+
+### Windows
+
+可以在 Release 或者 GitHub Actions 处自行取用预构建包。
+
+### macOS
+
+可以在 Release 或者 GitHub Actions 处自行取用预构建包，也可以从 Homebrew Cask 安装。
+
+```bash
+brew install lemonlime --cask
+```
+
+### Debian && Ubuntu
+
+我们提供预编译的 deb 包，但是因为依赖问题有时无法提供，此时可使用[静态链接版本](#静态链接版本)。
+
+### Arch Linux
+
+请从 [Arch Linux CN 非官方仓库](https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/)安装或从 AUR 自行编译。
+
+注意包含一个名为 `lemon-lime-debug` 的调试信息包，报告崩溃等错误时请务必安装。
+
+### 静态链接版本
+
+可以在 Release 或者 GitHub Actions 处自行取用。
+
 ## 构建
 
 请看 [LemonLime 构建指南](BUILD.md)。
 
 ## Credit
-
 ```
 Copyright (c) 2019-2022 Project LemonLime.
 
@@ -99,7 +132,3 @@ Copyright (c) 2020 Itay Grudev (@itay-grudev): SingleApplication (MIT)
 
 Copyright (c) 2020 Qv2ray Development Group (@Qv2ray): Design of Translator/Log, Project Structure and CI files (GPLv3)
 ```
-
-## License
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiotang%2FProject_LemonLime?ref=badge_large)
