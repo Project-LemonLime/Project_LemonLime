@@ -402,10 +402,13 @@ int TaskJudger::judge() {
 
 			overallStatus[i] = qMin(overallStatus[i], status);
 		}
-		if (isSkipped)
-			continue;
+
 		if (! dependenceSubtask.empty())
 			score[i].push_back(overallStatus[i]);
+
+		if (isSkipped)
+			continue;
+
 		for (int j = 0; j < task->getTestCase(i)->getInputFiles().size(); j++) {
 			inputFiles[i][j] = QFileInfo(curTestCase->getInputFiles().at(j)).fileName();
 
