@@ -29,7 +29,7 @@
 #ifdef Q_OS_WIN32
 
 #include <Psapi.h>
-
+#include <UserEnv.h>
 #include <windows.h>
 
 #endif
@@ -545,6 +545,20 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		result = CorrectAnswer;
 }
 
+QString getRandomString(int length) {
+	static const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+	std::mt19937 gen(std::random_device{}());
+
+	std::uniform_int_distribution<int> rand(0, length);
+	QString randomString;
+	for (int i = 0; i < length; ++i) {
+		int index = rand(gen) % possibleCharacters.length();
+		QChar nextChar = possibleCharacters.at(index);
+		randomString.append(nextChar);
+	}
+	return randomString;
+}
+
 void JudgingThread::runProgram() {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
@@ -566,6 +580,54 @@ void JudgingThread::runProgram() {
 	ZeroMemory(&pi, sizeof(pi));
 	ZeroMemory(&sa, sizeof(sa));
 	sa.bInheritHandle = TRUE;
+
+	// Create Window App Container (Windows 8+)
+
+	PSID appContainerSID{nullptr};
+	QString appContainerName = "Lemonlime" + getRandomString(10);
+
+	auto hResult = CreateAppContainerProfile(
+	    (const WCHAR *)(appContainerName.utf16()), (const WCHAR *)(appContainerName.utf16()),
+	    (const WCHAR *)(appContainerName.utf16()), nullptr, 0, &appContainerSID); // Without any Permissions
+
+	if (hResult != S_OK) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Failed to create app container";
+		return;
+	}
+
+	auto cleanupContainer = qScopeGuard([&] {
+		FreeSid(appContainerSID);
+		DeleteAppContainerProfile((const WCHAR *)(appContainerName.utf16()));
+	});
+
+	SECURITY_CAPABILITIES sc;
+	ZeroMemory(&sc, sizeof(sc));
+
+	sc.AppContainerSid = appContainerSID;
+
+	SIZE_T attributesSize;
+
+	InitializeProcThreadAttributeList(nullptr, 1, 0, &attributesSize);
+
+	auto attributesListBuffer = std::make_unique<std::byte[]>(attributesSize);
+	siex.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attributesListBuffer.get());
+
+	if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 1, 0, &attributesSize)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to InitializeProcThreadAttributeList())";
+		return;
+	}
+
+	if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES, &sc,
+	                                sizeof(sc), nullptr, nullptr)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		return;
+	}
 
 	if (task->getStandardInputCheck()) {
 		siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
@@ -603,7 +665,7 @@ void JudgingThread::runProgram() {
 	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
 		result = CannotStartProgram;
-		message = "Unable to create process";
+		message = "Failed to create process";
 		return;
 	}
 
