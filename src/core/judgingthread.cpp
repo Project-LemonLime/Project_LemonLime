@@ -452,7 +452,7 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		return;
 	}
 
-	auto judge = QScopedPointer(new QProcess(this));
+	auto judge = std::make_unique<QProcess>(this);
 	QStringList arguments;
 	arguments << inputFile << fileName << outputFile << QString("%1").arg(fullScore);
 	arguments << workingDirectory + "_score";
