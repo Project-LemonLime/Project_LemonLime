@@ -30,6 +30,8 @@
 
 #include <Psapi.h>
 #include <UserEnv.h>
+#include <accctrl.h>
+#include <aclapi.h>
 #include <windows.h>
 
 #endif
@@ -562,6 +564,39 @@ QString getRandomString(int length) {
 	return randomString;
 }
 
+bool grantFileAccessPermissions(PSID appContainerSid, LPWSTR name, ACCESS_MASK accessMask) {
+	PACL oldAcl, newAcl = nullptr;
+	DWORD status;
+	EXPLICIT_ACCESSW ea;
+	do {
+		ea.grfAccessMode = GRANT_ACCESS;
+		ea.grfAccessPermissions = accessMask;
+		ea.grfInheritance = OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE;
+		ea.Trustee.MultipleTrusteeOperation = NO_MULTIPLE_TRUSTEE;
+		ea.Trustee.pMultipleTrustee = nullptr;
+		ea.Trustee.ptstrName = (PWSTR)appContainerSid;
+		ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
+		ea.Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+		status = GetNamedSecurityInfoW(name, SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr,
+		                               &oldAcl, nullptr, nullptr);
+		if (status != ERROR_SUCCESS) {
+			return false;
+		}
+		if (SetEntriesInAclW(1, &ea, oldAcl, &newAcl) != ERROR_SUCCESS) {
+			return false;
+		}
+		status = SetNamedSecurityInfoW(name, SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr,
+		                               newAcl, nullptr);
+		if (status != ERROR_SUCCESS) {
+			break;
+		}
+	} while (false);
+	if (newAcl) {
+		LocalFree(newAcl);
+	}
+	return status == ERROR_SUCCESS;
+}
+
 void JudgingThread::runProgram() {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
@@ -583,6 +618,9 @@ void JudgingThread::runProgram() {
 	ZeroMemory(&pi, sizeof(pi));
 	ZeroMemory(&sa, sizeof(sa));
 	sa.bInheritHandle = TRUE;
+
+	QElapsedTimer overheadTimer;
+	overheadTimer.start();
 
 	// Create Window App Container (Windows 8+)
 
@@ -612,18 +650,19 @@ void JudgingThread::runProgram() {
 
 	SIZE_T attributesSize;
 
-	InitializeProcThreadAttributeList(nullptr, 1, 0, &attributesSize);
+	InitializeProcThreadAttributeList(nullptr, 3, 0, &attributesSize);
 
 	auto attributesListBuffer = std::make_unique<std::byte[]>(attributesSize);
 	siex.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attributesListBuffer.get());
 
-	if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 1, 0, &attributesSize)) {
+	if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 3, 0, &attributesSize)) {
 		score = 0;
 		result = CannotStartProgram;
 		message = "Internal error (Failed to InitializeProcThreadAttributeList())";
 		return;
 	}
 
+	// Make App Run in App Container
 	if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES, &sc,
 	                                sizeof(sc), nullptr, nullptr)) {
 		score = 0;
@@ -632,10 +671,32 @@ void JudgingThread::runProgram() {
 		return;
 	}
 
+	// Ban Child Processs
+
+	DWORD childProcessAttribute = PROCESS_CREATION_CHILD_PROCESS_RESTRICTED;
+
+	if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY,
+	                                &childProcessAttribute, sizeof(childProcessAttribute), nullptr,
+	                                nullptr)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		return;
+	}
+
+	// Load libstdc++ dll
+	for (auto f : environment.value("PATH").split(';')) {
+		grantFileAccessPermissions(appContainerSID, (WCHAR *)f.utf16(), FILE_GENERIC_READ | FILE_TRAVERSE);
+	}
+
 	if (task->getStandardInputCheck()) {
 		siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
 		                                         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
 		                                         OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	} else {
+		grantFileAccessPermissions(appContainerSID,
+		                           (WCHAR *)(workingDirectory + task->getInputFileName()).utf16(),
+		                           FILE_GENERIC_READ);
 	}
 
 	if (task->getStandardOutputCheck()) {
@@ -643,7 +704,16 @@ void JudgingThread::runProgram() {
 		    CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
 		                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
 		                FILE_ATTRIBUTE_NORMAL, NULL);
+	} else {
+		grantFileAccessPermissions(appContainerSID, (WCHAR *)(workingDirectory).utf16(),
+		                           FILE_GENERIC_READ | FILE_ADD_FILE);
+		grantFileAccessPermissions(appContainerSID,
+		                           (WCHAR *)(workingDirectory + task->getOutputFileName()).utf16(),
+		                           FILE_GENERIC_READ | FILE_GENERIC_WRITE);
 	}
+
+	qDebug() << overheadTimer.elapsed();
+	// TODO : Reduce Overhead(>500ms)
 
 	siex.StartupInfo.hStdError =
 	    CreateFileW((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
@@ -662,8 +732,8 @@ void JudgingThread::runProgram() {
 
 	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0';
 
-	if (! CreateProcessW(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
-	                     &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
+	if (! CreateProcessW((WCHAR *)executableFile.utf16(), (WCHAR *)(arguments).utf16(), NULL, &sa, TRUE,
+	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
 	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
 	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
