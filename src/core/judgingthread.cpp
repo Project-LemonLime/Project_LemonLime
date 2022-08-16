@@ -27,10 +27,11 @@
 #include <cstring>
 
 #ifdef Q_OS_WIN32
-// #pragma comment(lib, "Psapi.lib")
-#include <windows.h>
 
 #include <Psapi.h>
+
+#include <windows.h>
+
 #endif
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent) {
@@ -451,7 +452,7 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		return;
 	}
 
-	auto *judge = new QProcess(this);
+	auto judge = QScopedPointer(new QProcess(this));
 	QStringList arguments;
 	arguments << inputFile << fileName << outputFile << QString("%1").arg(fullScore);
 	arguments << workingDirectory + "_score";
@@ -461,9 +462,16 @@ void JudgingThread::specialJudge(const QString &fileName) {
 	if (! judge->waitForStarted(-1)) {
 		score = 0;
 		result = InvalidSpecialJudge;
-		delete judge;
 		return;
 	}
+
+	QFile scoreFile(workingDirectory + "_score");
+	QFile messageFile(workingDirectory + "_message");
+
+	auto removeTempFiles = qScopeGuard([&] {
+		scoreFile.remove();
+		messageFile.remove();
+	});
 
 	QElapsedTimer timer;
 	timer.start();
@@ -479,7 +487,6 @@ void JudgingThread::specialJudge(const QString &fileName) {
 
 		if (stopJudging) {
 			judge->kill();
-			delete judge;
 			return;
 		}
 
@@ -490,19 +497,14 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		judge->kill();
 		score = 0;
 		result = SpecialJudgeTimeLimitExceeded;
-		delete judge;
 		return;
 	}
 
 	if (judge->exitCode() != 0) {
 		score = 0;
 		result = SpecialJudgeRunTimeError;
-		delete judge;
 		return;
 	}
-
-	delete judge;
-	QFile scoreFile(workingDirectory + "_score");
 
 	if (! scoreFile.open(QFile::ReadOnly)) {
 		score = 0;
@@ -527,8 +529,6 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		return;
 	}
 
-	QFile messageFile(workingDirectory + "_message");
-
 	if (messageFile.open(QFile::ReadOnly)) {
 		QTextStream messageStream(&messageFile);
 		message = messageStream.readAll();
@@ -543,9 +543,6 @@ void JudgingThread::specialJudge(const QString &fileName) {
 
 	if (score >= fullScore)
 		result = CorrectAnswer;
-
-	scoreFile.remove();
-	messageFile.remove();
 }
 
 void JudgingThread::runProgram() {
@@ -560,68 +557,71 @@ void JudgingThread::runProgram() {
 
 #ifdef Q_OS_WIN32
 	SetErrorMode(SEM_NOGPFAULTERRORBOX);
-	STARTUPINFO si;
+	STARTUPINFOEX siex;
 	PROCESS_INFORMATION pi;
 	SECURITY_ATTRIBUTES sa;
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	si.dwFlags = STARTF_USESTDHANDLES;
+	ZeroMemory(&siex, sizeof(siex));
+	siex.StartupInfo.cb = sizeof(siex);
+	siex.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
 	ZeroMemory(&pi, sizeof(pi));
 	ZeroMemory(&sa, sizeof(sa));
 	sa.bInheritHandle = TRUE;
 
 	if (task->getStandardInputCheck()) {
-		si.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
-		                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, OPEN_ALWAYS,
-		                           FILE_ATTRIBUTE_NORMAL, NULL);
+		siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
+		                                         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+		                                         OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if (task->getStandardOutputCheck()) {
-		si.hStdOutput = CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-		                            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-		                            CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		siex.StartupInfo.hStdOutput =
+		    CreateFileW((const WCHAR *)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
+		                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+		                FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
-	si.hStdError = CreateFileW((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-	                           FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-	                           FILE_ATTRIBUTE_NORMAL, NULL);
-	QString values = environment.toStringList().join(QChar('\0')) + '\0';
+	siex.StartupInfo.hStdError =
+	    CreateFileW((const WCHAR *)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
+	                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+	                FILE_ATTRIBUTE_NORMAL, NULL);
+
+	auto closeStdIO = qScopeGuard([&] {
+		if (task->getStandardInputCheck())
+			CloseHandle(siex.StartupInfo.hStdInput);
+
+		if (task->getStandardOutputCheck())
+			CloseHandle(siex.StartupInfo.hStdOutput);
+
+		CloseHandle(siex.StartupInfo.hStdError);
+	});
+
+	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0';
 
 	if (! CreateProcessW(NULL, (WCHAR *)(QString("\"%1\" %2").arg(executableFile, arguments).utf16()), NULL,
 	                     &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
-	                     (LPVOID)(values.toLocal8Bit().data()), (const WCHAR *)(workingDirectory.utf16()),
-	                     &si, &pi)) {
-		if (task->getStandardInputCheck())
-			CloseHandle(si.hStdInput);
-
-		if (task->getStandardOutputCheck())
-			CloseHandle(si.hStdOutput);
-
-		CloseHandle(si.hStdError);
+	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
+	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
 		result = CannotStartProgram;
+		message = "Unable to create process";
 		return;
 	}
 
-	PROCESS_MEMORY_COUNTERS_EX info;
-	ZeroMemory(&info, sizeof(info));
-	info.cb = sizeof(info);
+	auto closeProcessHandle = qScopeGuard([&] {
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+	});
+
+	PROCESS_MEMORY_COUNTERS_EX memoryInfo;
+	ZeroMemory(&memoryInfo, sizeof(memoryInfo));
+	memoryInfo.cb = sizeof(memoryInfo);
 
 	if (memoryLimit != -1) {
-		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
+		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
 
-		if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024) {
+		if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) > memoryLimit * 1024 * 1024) {
 			TerminateProcess(pi.hProcess, 0);
 
-			if (task->getStandardInputCheck())
-				CloseHandle(si.hStdInput);
-
-			if (task->getStandardOutputCheck())
-				CloseHandle(si.hStdOutput);
-
-			CloseHandle(si.hStdError);
-			CloseHandle(pi.hProcess);
-			CloseHandle(pi.hThread);
 			score = 0;
 			result = MemoryLimitExceeded;
 			memoryUsed = timeUsed = -1;
@@ -640,20 +640,10 @@ void JudgingThread::runProgram() {
 		}
 
 		if (memoryLimit != -1) {
-			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
+			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
 
-			if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024U * 1024) {
+			if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) > memoryLimit * 1024U * 1024) {
 				TerminateProcess(pi.hProcess, 0);
-
-				if (task->getStandardInputCheck())
-					CloseHandle(si.hStdInput);
-
-				if (task->getStandardOutputCheck())
-					CloseHandle(si.hStdOutput);
-
-				CloseHandle(si.hStdError);
-				CloseHandle(pi.hProcess);
-				CloseHandle(pi.hThread);
 				score = 0;
 				result = MemoryLimitExceeded;
 				memoryUsed = timeUsed = -1;
@@ -665,16 +655,6 @@ void JudgingThread::runProgram() {
 
 		if (stopJudging || skipEnabled) {
 			TerminateProcess(pi.hProcess, 0);
-
-			if (task->getStandardInputCheck())
-				CloseHandle(si.hStdInput);
-
-			if (task->getStandardOutputCheck())
-				CloseHandle(si.hStdOutput);
-
-			CloseHandle(si.hStdError);
-			CloseHandle(pi.hProcess);
-			CloseHandle(pi.hThread);
 
 			if (skipEnabled) {
 				score = 0;
@@ -690,15 +670,6 @@ void JudgingThread::runProgram() {
 	if (! isProgramFinishedInExtraTimeLimit) {
 		TerminateProcess(pi.hProcess, 0);
 
-		if (task->getStandardInputCheck())
-			CloseHandle(si.hStdInput);
-
-		if (task->getStandardOutputCheck())
-			CloseHandle(si.hStdOutput);
-
-		CloseHandle(si.hStdError);
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
 		score = 0;
 		result = TimeLimitExceeded;
 		timeUsed = -1;
@@ -709,15 +680,7 @@ void JudgingThread::runProgram() {
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
 	if (exitCode != 0) {
-		if (task->getStandardInputCheck())
-			CloseHandle(si.hStdInput);
 
-		if (task->getStandardOutputCheck())
-			CloseHandle(si.hStdOutput);
-
-		CloseHandle(si.hStdError);
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
 		score = 0;
 		result = RunTimeError;
 		QFile file(workingDirectory + "_tmperr");
@@ -741,20 +704,9 @@ void JudgingThread::runProgram() {
 	           realUserTime.wHour * 60 * 60 * 1000;
 	int kernelTimeUsed = realKernelTime.wMilliseconds + realKernelTime.wSecond * 1000 +
 	                     realKernelTime.wMinute * 60 * 1000 + realKernelTime.wHour * 60 * 60 * 1000;
-	qDebug() << "User Time Used" << timeUsed;
-	qDebug() << "Kernel Time Used" << kernelTimeUsed;
-	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
-	memoryUsed = info.PeakWorkingSetSize;
+	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
+	memoryUsed = memoryInfo.PeakWorkingSetSize;
 
-	if (task->getStandardInputCheck())
-		CloseHandle(si.hStdInput);
-
-	if (task->getStandardOutputCheck())
-		CloseHandle(si.hStdOutput);
-
-	CloseHandle(si.hStdError);
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
 #else
 	// TODO: rewrite with cgroup
 	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
@@ -938,12 +890,7 @@ void JudgingThread::judgeTraditionalTask() {
 		}
 	}
 
-	runProgram();
-
-	if (stopJudging)
-		return;
-
-	if (result != CorrectAnswer) {
+	auto cleanupTempFiles = qScopeGuard([&] {
 		if (! task->getStandardInputCheck()) {
 			QFile::remove(workingDirectory + task->getInputFileName());
 		}
@@ -953,15 +900,10 @@ void JudgingThread::judgeTraditionalTask() {
 		} else {
 			QFile::remove(workingDirectory + "_tmpout");
 		}
+		QFile::remove(workingDirectory + "_tmperr");
+	});
 
-		return;
-	}
-	QElapsedTimer timer;
-	timer.start();
-	judgeOutput();
-	qDebug() << "judgeOutput Time:" << timer.elapsed() / 1000. << "s";
-	if (stopJudging)
-		return;
+	runProgram();
 
 	if (timeUsed > timeLimit) {
 		if (score > 0 &&
@@ -973,15 +915,13 @@ void JudgingThread::judgeTraditionalTask() {
 		message = "";
 	}
 
-	if (! task->getStandardInputCheck()) {
-		QFile::remove(workingDirectory + task->getInputFileName());
-	}
+	if (stopJudging)
+		return;
 
-	if (! task->getStandardOutputCheck()) {
-		QFile::remove(workingDirectory + task->getOutputFileName());
-	} else {
-		QFile::remove(workingDirectory + "_tmpout");
-	}
+	if (result != CorrectAnswer)
+		return;
+
+	judgeOutput();
 }
 
 void JudgingThread::judgeAnswersOnlyTask() {
@@ -1007,117 +947,13 @@ void JudgingThread::judgeAnswersOnlyTask() {
 			break;
 	}
 }
-/*
-void JudgingThread::judgeInteractionTask()
-{
-    if (! QFileInfo(inputFile).exists()) {
-        score = 0;
-        result = FileError;
-        message = tr("Cannot find input file");
-        return;
-    }
-    if (! task->getStandardInputCheck()) {
-        if (! QFile::copy(inputFile, workingDirectory + task->getInputFileName())) {
-            score = 0;
-            result = FileError;
-            message = tr("Cannot copy input file");
-            return;
-        }
-    }
-
-    arguments.clear();
-    QStringList argumentsList;
-    QString score_log = "_score_";
-    for(int i = 0; i != 5; ++i)
-        score_log.push_back(QRandomGenerator::global()->bounded(0, 25) + 'a');
-    argumentsList << QString("%1").arg(fullScore);
-    argumentsList << workingDirectory + score_log;
-    argumentsList << workingDirectory + "_message";
-    arguments = argumentsList.join(' ');
-
-    runProgram();
-    if (stopJudging) return;
-
-    if (result != CorrectAnswer) {
-        if (! task->getStandardInputCheck()) {
-            QFile::remove(workingDirectory + task->getInputFileName());
-        }
-        if (! task->getStandardOutputCheck()) {
-            QFile::remove(workingDirectory + task->getOutputFileName());
-        } else {
-            QFile::remove(workingDirectory + "_tmpout");
-        }
-        return;
-    }
-
-    QFile scoreFile(workingDirectory + score_log);
-    if (! scoreFile.open(QFile::ReadOnly)) {
-        score = 0;
-        result = InteractorError;
-        message = tr("Cannot read score log");
-        return;
-    }
-
-    QTextStream scoreStream(&scoreFile);
-    scoreStream >> score;
-    if (scoreStream.status() == QTextStream::ReadCorruptData) {
-        score = 0;
-        result = InteractorError;
-        message = tr("Cannot read score log");
-        return;
-    }
-    scoreFile.close();
-
-    if (score < 0) {
-        score = 0;
-        result = InteractorError;
-        message = tr("Score is below zero");
-        return;
-    }
-
-    QFile messageFile(workingDirectory + "_message");
-    if (messageFile.open(QFile::ReadOnly)) {
-        QTextStream messageStream(&messageFile);
-        message = messageStream.readAll();
-        messageFile.close();
-    }
-
-    if (score == 0) result = WrongAnswer;
-    if (0 < score && score < fullScore) result = PartlyCorrect;
-    if (score >= fullScore) result = CorrectAnswer;
-
-    scoreFile.remove();
-    messageFile.remove();
-    if (stopJudging) return;
-
-    if (timeUsed > timeLimit) {
-        if (score > 0 && (timeUsed <= timeLimit * (1 + extraTimeRatio)
-                                                || timeUsed <= timeLimit + 1000 * extraTimeRatio)) {
-            needRejudge = true;
-        }
-        score = 0;
-        result = TimeLimitExceeded;
-        message = "";
-    }
-
-    if (! task->getStandardInputCheck()) {
-        QFile::remove(workingDirectory + task->getInputFileName());
-    }
-    if (! task->getStandardOutputCheck()) {
-        QFile::remove(workingDirectory + task->getOutputFileName());
-    } else {
-        QFile::remove(workingDirectory + "_tmpout");
-    }
-}
-*/
-// rebuild interaction task, built in tradtional task
 
 void JudgingThread::run() {
 	++judgedTimes;
 	needRejudge = false;
 
 	switch (task->getTaskType()) {
-		case Task::Interaction:
+		case Task::Interaction: // treat interaction task as traditional task
 			[[fallthrough]];
 		case Task::Traditional:
 			[[fallthrough]];
