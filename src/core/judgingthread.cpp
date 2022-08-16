@@ -554,7 +554,7 @@ QString getRandomString(int length) {
 	static const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 	std::mt19937 gen(std::random_device{}());
 
-	std::uniform_int_distribution<int> rand(0, length);
+	std::uniform_int_distribution<int> rand(0, possibleCharacters.length());
 	QString randomString;
 	for (int i = 0; i < length; ++i) {
 		int index = rand(gen) % possibleCharacters.length();
