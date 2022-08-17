@@ -550,6 +550,8 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		result = CorrectAnswer;
 }
 
+#ifdef Q_OS_WIN
+
 QString getRandomString(int length) {
 	static const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 	std::mt19937 gen(std::random_device{}());
@@ -596,7 +598,7 @@ bool grantFileAccessPermissions(PSID appContainerSid, LPWSTR name, ACCESS_MASK a
 	}
 	return status == ERROR_SUCCESS;
 }
-
+#endif
 void JudgingThread::runProgram() {
 	result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
