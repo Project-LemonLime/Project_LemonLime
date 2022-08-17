@@ -264,6 +264,10 @@ target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
 target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
 
+if(WIN32 AND NOT LEMON_QT6)
+    target_link_libraries(lemon PRIVATE userenv)
+endif()
+
 if(ENABLE_LTO)
     include(CheckIPOSupported)
     check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
