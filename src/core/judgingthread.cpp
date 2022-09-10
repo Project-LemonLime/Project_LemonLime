@@ -622,95 +622,93 @@ void JudgingThread::runProgram() {
 	ZeroMemory(&sa, sizeof(sa));
 	sa.bInheritHandle = TRUE;
 
-	if (IsWindows8OrGreater()) {
-		// Create Window App Container (Windows 8+)
+	PSID appContainerSID{nullptr};
+	QString appContainerName = "Lemonlime" + getRandomString(10);
 
-		PSID appContainerSID{nullptr};
-		QString appContainerName = "Lemonlime" + getRandomString(10);
+	//  Create Window App Container (Windows 8+)
 
-		auto hResult = CreateAppContainerProfile((const WCHAR *)(appContainerName.utf16()),
-		                                         (const WCHAR *)(appContainerName.utf16()),
-		                                         (const WCHAR *)(appContainerName.utf16()), nullptr, 0,
-		                                         &appContainerSID); // Without any Permissions
+	auto hResult = CreateAppContainerProfile((const WCHAR *)(appContainerName.utf16()),
+	                                         (const WCHAR *)(appContainerName.utf16()),
+	                                         (const WCHAR *)(appContainerName.utf16()), nullptr, 0,
+	                                         &appContainerSID); // Without any Permissions
 
-		if (hResult != S_OK) {
-			score = 0;
-			result = CannotStartProgram;
-			message = "Failed to create app container";
-			return;
-		}
+	if (hResult != S_OK) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Failed to create app container";
+		return;
+	}
 
-		auto cleanupContainer = qScopeGuard([&] {
-			FreeSid(appContainerSID);
-			DeleteAppContainerProfile((const WCHAR *)(appContainerName.utf16()));
-		});
+	auto cleanupContainer = qScopeGuard([&] {
+		FreeSid(appContainerSID);
+		DeleteAppContainerProfile((const WCHAR *)(appContainerName.utf16()));
+	});
 
-		SECURITY_CAPABILITIES sc;
-		ZeroMemory(&sc, sizeof(sc));
+	SECURITY_CAPABILITIES sc;
+	ZeroMemory(&sc, sizeof(sc));
 
-		sc.AppContainerSid = appContainerSID;
+	sc.AppContainerSid = appContainerSID;
 
-		SIZE_T attributesSize;
+	SIZE_T attributesSize;
 
-		InitializeProcThreadAttributeList(nullptr, 3, 0, &attributesSize);
+	InitializeProcThreadAttributeList(nullptr, 3, 0, &attributesSize);
 
-		auto attributesListBuffer = std::make_unique<std::byte[]>(attributesSize);
-		siex.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attributesListBuffer.get());
+	auto attributesListBuffer = std::make_unique<std::byte[]>(attributesSize);
+	siex.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attributesListBuffer.get());
 
-		if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 3, 0, &attributesSize)) {
-			score = 0;
-			result = CannotStartProgram;
-			message = "Internal error (Failed to InitializeProcThreadAttributeList())";
-			return;
-		}
+	if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 3, 0, &attributesSize)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to InitializeProcThreadAttributeList())";
+		return;
+	}
 
-		// Make App Run in App Container
-		if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES,
-		                                &sc, sizeof(sc), nullptr, nullptr)) {
-			score = 0;
-			result = CannotStartProgram;
-			message = "Internal error (Failed to UpdateProcThreadAttribute())";
-			return;
-		}
+	// Make App Run in App Container
+	if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES, &sc,
+	                                sizeof(sc), nullptr, nullptr)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		return;
+	}
 
-		// Ban Child Processs
+	// Ban Child Processs
 
-		DWORD childProcessAttribute = PROCESS_CREATION_CHILD_PROCESS_RESTRICTED;
+	DWORD childProcessAttribute = PROCESS_CREATION_CHILD_PROCESS_RESTRICTED;
 
-		if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY,
-		                                &childProcessAttribute, sizeof(childProcessAttribute), nullptr,
-		                                nullptr)) {
-			score = 0;
-			result = CannotStartProgram;
-			message = "Internal error (Failed to UpdateProcThreadAttribute())";
-			return;
-		}
+	if (! UpdateProcThreadAttribute(siex.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY,
+	                                &childProcessAttribute, sizeof(childProcessAttribute), nullptr,
+	                                nullptr)) {
+		score = 0;
+		result = CannotStartProgram;
+		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		return;
+	}
 
-		// Load dlls
-		// Todo: If there's too many files under the path it'll be very slow
-		for (auto f : environment.value("PATH").split(';')) {
-			grantFileAccessPermissions(appContainerSID, (WCHAR *)f.utf16(), FILE_ALL_ACCESS);
-		}
+	// Load dlls
+	// Todo: If there's too many files under the path it'll be very slow
+	for (auto f : environment.value("PATH").split(';')) {
+		grantFileAccessPermissions(appContainerSID, (WCHAR *)f.utf16(), FILE_ALL_ACCESS);
+	}
 
-		if (! task->getStandardInputCheck()) {
-			grantFileAccessPermissions(appContainerSID,
-			                           (WCHAR *)(workingDirectory + task->getInputFileName()).utf16(),
-			                           FILE_GENERIC_READ);
-		}
+	if (! task->getStandardInputCheck()) {
+		grantFileAccessPermissions(appContainerSID,
+		                           (WCHAR *)(workingDirectory + task->getInputFileName()).utf16(),
+		                           FILE_GENERIC_READ);
+	}
 
-		if (! task->getStandardOutputCheck()) {
-			grantFileAccessPermissions(appContainerSID, (WCHAR *)(workingDirectory).utf16(),
-			                           FILE_GENERIC_READ | FILE_ADD_FILE);
-			grantFileAccessPermissions(appContainerSID,
-			                           (WCHAR *)(workingDirectory + task->getOutputFileName()).utf16(),
-			                           FILE_GENERIC_READ | FILE_GENERIC_WRITE);
-		}
+	if (! task->getStandardOutputCheck()) {
+		grantFileAccessPermissions(appContainerSID, (WCHAR *)(workingDirectory).utf16(),
+		                           FILE_GENERIC_READ | FILE_ADD_FILE);
+		grantFileAccessPermissions(appContainerSID,
+		                           (WCHAR *)(workingDirectory + task->getOutputFileName()).utf16(),
+		                           FILE_GENERIC_READ | FILE_GENERIC_WRITE);
+	}
 
-		if (task->getStandardInputCheck()) {
-			siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
-			                                         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-			                                         &sa, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		}
+	if (task->getStandardInputCheck()) {
+		siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
+		                                         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+		                                         OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	if (task->getStandardOutputCheck()) {
@@ -737,11 +735,12 @@ void JudgingThread::runProgram() {
 
 	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0';
 
-	if (! CreateProcessW((WCHAR *)executableFile.utf16(), (WCHAR *)(arguments).utf16(), NULL, &sa, TRUE,
-	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
+	if (! CreateProcessW((WCHAR *)executableFile.utf16(), (WCHAR *)(arguments).toStdWString().data(), NULL,
+	                     &sa, TRUE, HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
 	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
 	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
+		qDebug() << GetLastError();
 		result = CannotStartProgram;
 		message = "Failed to create process";
 		return;

@@ -30,8 +30,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 |      系统名称       |   版本号   |    架构    |    DE / WM     |
 |:-------------------:|:----------:|:----------:|:--------------:|
-|       Windows       |     7      | x86, amd64 |    Untitled    |
 |       Windows       |     10     |   amd64    |    Untitled    |
+|       Windows       |     11     |   amd64    |    Untitled    |
 |       Manjaro       |   20.0.1   |   amd64    | KDE-Xorg; i3WM |
 |        Arch         | 2021-07-11 |   amd64    |    KDE-Xorg    |
 |        Arch         | 2020-10-31 |   amd64    |  KDE-Wayland   |
