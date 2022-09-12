@@ -111,7 +111,10 @@ class BufferedStreamReader {
 	BufferedStreamReader(const BufferedStreamReader &) = delete;
 	BufferedStreamReader &operator=(const BufferedStreamReader &) = delete;
 
-	~BufferedStreamReader() { fclose(file); }
+	~BufferedStreamReader() {
+		if (file)
+			fclose(file);
+	}
 
   private:
 	FILE *file;
