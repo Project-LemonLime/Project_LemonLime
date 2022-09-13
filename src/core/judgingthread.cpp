@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QTime>
 #include <QtMath>
+#include <QUuid>
 
 #include <cmath>
 #include <cstdio>
@@ -848,8 +849,9 @@ void JudgingThread::runProgram() {
 
 #else
 	// TODO: rewrite with cgroup
-	QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
-	QProcess::execute(QString("chmod"), (QStringList("+wx") << QString(workingDirectory + "watcher")));
+	QFile watcher(workingDirectory + QUuid::createUuid().toString());
+	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+	watcher.setPermissions(QFileDevice::ReadOther|QFileDevice::WriteOther|QFileDevice::ExeOther);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
@@ -872,7 +874,7 @@ void JudgingThread::runProgram() {
 
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
-	runner->start(workingDirectory + "watcher", argumentsList);
+	runner->start(watcher.fileName(), argumentsList);
 
 	if (! runner->waitForStarted(-1)) {
 		delete runner;
