@@ -19,8 +19,8 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QTime>
-#include <QtMath>
 #include <QUuid>
+#include <QtMath>
 
 #include <cmath>
 #include <cstdio>
@@ -851,7 +851,7 @@ void JudgingThread::runProgram() {
 	// TODO: rewrite with cgroup
 	QFile watcher(workingDirectory + QUuid::createUuid().toString());
 	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
-	watcher.setPermissions(QFileDevice::ReadOther|QFileDevice::WriteOther|QFileDevice::ExeOther);
+	watcher.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
