@@ -849,7 +849,7 @@ void JudgingThread::runProgram() {
 
 #else
 	// TODO: rewrite with cgroup
-	QFile watcher(workingDirectory + QUuid::createUuid().toString());
+	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
 	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
 	watcher.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
 	auto *runner = new QProcess(this);
