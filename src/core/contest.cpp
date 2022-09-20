@@ -232,6 +232,10 @@ void Contest::stopJudgingSlot() {
 }
 
 void Contest::writeToJson(QJsonObject &out) {
+	QString version = "1.0";
+
+	WRITE_JSON(out, version);
+
 	WRITE_JSON(out, contestTitle);
 
 	QJsonArray tasks;
@@ -255,6 +259,15 @@ void Contest::writeToJson(QJsonObject &out) {
 	WRITE_JSON(out, contestants);
 }
 int Contest::readFromJson(const QJsonObject &in) {
+	QString version;
+
+	// If there's no version number, consider as version 1.0
+
+	if (READ_JSON(in, version) != -1) {
+		if (version != "1.0")
+			return -1;
+	}
+
 	READ_JSON(in, contestTitle);
 
 	QJsonArray tasks;
