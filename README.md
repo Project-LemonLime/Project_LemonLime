@@ -100,6 +100,8 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 可以在 Release 或者 GitHub Actions 处自行取用预构建包，也可以从 Homebrew Cask 安装。
 
+**对于 Apple Silicon 用户，不保证其使用或评测稳定性**
+
 ```bash
 brew install lemonlime --cask
 ```
