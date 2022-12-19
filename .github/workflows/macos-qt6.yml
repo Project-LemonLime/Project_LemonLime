@@ -32,7 +32,7 @@ jobs:
           version: ${{ matrix.qt_ver }}
           cached: ${{ steps.MacosCacheQt.outputs.cache-hit }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
@@ -59,7 +59,7 @@ jobs:
           export PATH=$Qt6_DIR/bin:$PATH
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}-${{ matrix.arch }}.dmg
           path: ${{ env.targetName }}.dmg

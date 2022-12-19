@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: "recursive"
       - name: Install Python 3.9 version
@@ -100,7 +100,7 @@ jobs:
           # 打包zip
           Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
       - name: Upload artifact
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v3
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:

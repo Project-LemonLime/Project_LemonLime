@@ -5,16 +5,16 @@ on:
   push:
     # 忽略README.md
     paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'BUILD.md'
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
   # pull_request时触发workflow
   pull_request:
     # 忽略README.md
     paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'BUILD.md'
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
   release:
     types: [published]
 
@@ -25,18 +25,18 @@ jobs:
     name: Check if the workflow has been disabled.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get commit message
         id: get_message
         run: |
           echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
   linux:
     strategy:
-        fail-fast: false
-        matrix:
-          #distro: [stable, testing, sid]
-          build_type: [Release, RelWithDebInfo]
-          distro: [testing, sid]
+      fail-fast: false
+      matrix:
+        #distro: [stable, testing, sid]
+        build_type: [Release, RelWithDebInfo]
+        distro: [testing, sid]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Debian ${{ matrix.distro }}
@@ -53,9 +53,9 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
       - name: Install build dependencies
         run: |
           apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
@@ -71,7 +71,7 @@ jobs:
         run: |
           echo ::set-output name=NAME::$(basename build/LemonLime-*.deb)
       - name: Upload artifact
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v3
         with:
           name: LemonLime-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}-${{ matrix.build_type }}.deb
           path: build/${{ steps.get_package.outputs.NAME }}

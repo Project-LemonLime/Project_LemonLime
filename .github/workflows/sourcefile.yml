@@ -12,7 +12,7 @@ jobs:
     name: Check if the workflow has been disabled.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get commit message
         id: get_message
         run: |
@@ -32,16 +32,16 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
       - name: Create 7z Release
         uses: DuckSoft/create-7z-action@v1.0
         with:
           pathSource: ./
           pathTarget: ./Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
       - name: Upload artifact
-        uses: actions/upload-artifact@v2-preview
+        uses: actions/upload-artifact@v3
         with:
           name: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
           path: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
