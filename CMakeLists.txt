@@ -254,7 +254,7 @@ endif()
 
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
-if(WIN32 AND ENABLE_XLS_EXPORT AND NOT LEMON_QT6)
+if(WIN32 AND ENABLE_XLS_EXPORT)
     find_package(${LEMON_QT_LIBNAME} COMPONENTS AxContainer REQUIRED)
     list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
     add_definitions(-DENABLE_XLS_EXPORT)
