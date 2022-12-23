@@ -64,13 +64,14 @@ jobs:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
       - name: Installing Qt - x64
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt_version }}
           arch: ${{ matrix.qtarch }}
           mirror: "http://mirrors.ocf.berkeley.edu/qt/"
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
           setup-python: "false"
+          modules: "qtactiveqt"
 
       - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
