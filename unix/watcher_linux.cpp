@@ -24,12 +24,44 @@ void cleanUp(int /*dummy*/) {
 	exit(0);
 }
 
+int calculateStaticMemoryUsage(const char* executableName) {
+    char command[256];
+    snprintf(command, sizeof(command), "size %s", executableName);
+
+    FILE* output = popen(command, "r");
+    if (output == NULL)
+        return -1;
+
+    char buffer[256];
+    size_t staticMemoryUsage = 0;
+
+    while (fgets(buffer, sizeof(buffer), output) != NULL) {
+        // Find the line containing the relevant sections
+        if (buffer[3] >= '0' && buffer[3] <= '9') {
+            // Parse the sizes from the line
+            size_t size_text, size_data, size_bss;
+            sscanf(buffer, "%zu%zu%zu", &size_text, &size_data, &size_bss);
+            staticMemoryUsage += size_text + size_data + size_bss;
+        }
+    }
+
+    pclose(output);
+
+    return staticMemoryUsage;
+}
+
 auto main(int /*argc*/, char *argv[]) -> int {
 	int timeLimit = 0, memoryLimit = 0;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
 	memoryLimit *= 1024 * 1024;
+	int staticMemoryUsage = calculateStaticMemoryUsage(argv[1]);
+	if (staticMemoryUsage != -1 && staticMemoryUsage > memoryLimit) {
+		printf("0\n");
+		printf("%d\n", staticMemoryUsage);
+		return 0;
+	}
 	pid = fork();
 
 	if (pid > 0) {
