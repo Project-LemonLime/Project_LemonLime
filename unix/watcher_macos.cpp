@@ -35,6 +35,32 @@ std::string getCpuBrandString() {
 	return std::string(buf, buflen);
 }
 
+int calculateStaticMemoryUsage(const char* executableName) {
+    char command[256];
+    snprintf(command, sizeof(command), "size %s", executableName);
+
+    FILE* output = popen(command, "r");
+    if (output == NULL)
+        return -1;
+
+    char buffer[256];
+    size_t staticMemoryUsage = 0;
+
+    while (fgets(buffer, sizeof(buffer), output) != NULL) {
+        // Find the line containing the relevant sections
+        if (strstr(buffer, "__TEXT") || strstr(buffer, "__DATA") || strstr(buffer, "bss")) {
+            // Parse the sizes from the line
+            size_t size;
+            sscanf(buffer, "%*s%zu", &size);
+            staticMemoryUsage += size;
+        }
+    }
+
+    pclose(output);
+
+    return staticMemoryUsage;
+}
+
 int main(int argc, char *argv[]) {
 	int isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
 
@@ -43,6 +69,7 @@ int main(int argc, char *argv[]) {
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%d", &memoryLimit);
 	memoryLimit *= 1024 * (isAppleSilicon ? 4 : 1);
+	int staticMemoryUsage = calculateStaticMemoryUsage(argv[1]);
 	pid = fork();
 
 	if (pid > 0) {
@@ -58,9 +85,11 @@ int main(int argc, char *argv[]) {
 		if (WIFEXITED(status)) {
 			if (WEXITSTATUS(status) == 1)
 				return 1;
-
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
+			int memoryUsage = (usage.ru_maxrss) / (isAppleSilicon ? 4 : 1);
+			if (staticMemoryUsage != -1)
+				memoryUsage = std::max(memoryUsage, staticMemoryUsage);
+			printf("%d\n", memoryUsage);
 
 			if (WEXITSTATUS(status) != 0)
 				return 2;
@@ -70,7 +99,10 @@ int main(int argc, char *argv[]) {
 
 		if (WIFSIGNALED(status)) {
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
+			int memoryUsage = (usage.ru_maxrss) / (isAppleSilicon ? 4 : 1);
+			if (staticMemoryUsage != -1)
+				memoryUsage = std::max(memoryUsage, staticMemoryUsage);
+			printf("%d\n", memoryUsage);
 
 			if (WTERMSIG(status) == SIGXCPU)
 				return 3;
