@@ -57,6 +57,7 @@ install_manifest.txt
 lemon-*-Linux.sh
 lemon-*-Linux.tar.Z
 lemon-*-Linux.tar.gz
+build
 
 # KDevelop
 .kdev4/

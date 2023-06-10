@@ -48,11 +48,11 @@ int calculateStaticMemoryUsage(const char* executableName) {
 
     while (fgets(buffer, sizeof(buffer), output) != NULL) {
         // Find the line containing the relevant sections
-        if (strstr(buffer, "__TEXT") || strstr(buffer, "__DATA") || strstr(buffer, "bss")) {
+        if (std::isdigit(buffer[0])) {
             // Parse the sizes from the line
-            size_t size;
-            sscanf(buffer, "%*s%zu", &size);
-            staticMemoryUsage += size;
+            size_t size__TEXT, size__DATA;
+            sscanf(buffer, "%zu%zu", &size__TEXT, &size__DATA);
+            staticMemoryUsage += size__TEXT + size__DATA;
         }
     }
 
@@ -70,6 +70,11 @@ int main(int argc, char *argv[]) {
 	sscanf(argv[6], "%d", &memoryLimit);
 	memoryLimit *= 1024 * (isAppleSilicon ? 4 : 1);
 	int staticMemoryUsage = calculateStaticMemoryUsage(argv[1]);
+	if (staticMemoryUsage != -1 && staticMemoryUsage > memoryLimit) {
+		printf("0\n");
+		printf("%d\n", staticMemoryUsage);
+		return 0;
+	}
 	pid = fork();
 
 	if (pid > 0) {
@@ -86,10 +91,7 @@ int main(int argc, char *argv[]) {
 			if (WEXITSTATUS(status) == 1)
 				return 1;
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			int memoryUsage = (usage.ru_maxrss) / (isAppleSilicon ? 4 : 1);
-			if (staticMemoryUsage != -1)
-				memoryUsage = std::max(memoryUsage, staticMemoryUsage);
-			printf("%d\n", memoryUsage);
+			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
 
 			if (WEXITSTATUS(status) != 0)
 				return 2;
@@ -99,10 +101,7 @@ int main(int argc, char *argv[]) {
 
 		if (WIFSIGNALED(status)) {
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			int memoryUsage = (usage.ru_maxrss) / (isAppleSilicon ? 4 : 1);
-			if (staticMemoryUsage != -1)
-				memoryUsage = std::max(memoryUsage, staticMemoryUsage);
-			printf("%d\n", memoryUsage);
+			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
 
 			if (WTERMSIG(status) == SIGXCPU)
 				return 3;
