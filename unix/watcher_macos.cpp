@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
 		if (WIFEXITED(status)) {
 			if (WEXITSTATUS(status) == 1)
 				return 1;
+				
 			printf("%d\n", (int)(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
 			printf("%d\n", (int)(usage.ru_maxrss) / (isAppleSilicon ? 4 : 1));
 
