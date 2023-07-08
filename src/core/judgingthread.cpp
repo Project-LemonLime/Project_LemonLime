@@ -8,6 +8,7 @@
  */
 
 #include "judgingthread.h"
+#include "base/LemonLog.hpp"
 #include "base/settings.h"
 #include "core/judgesharedvariables.h"
 #include "core/task.h"
@@ -37,6 +38,8 @@
 #include <windows.h>
 
 #endif
+
+#define LEMON_MODULE_NAME "JudgingThread"
 
 JudgingThread::JudgingThread(QObject *parent) : QThread(parent) {
 	moveToThread(this);

@@ -9,6 +9,7 @@
 
 #include "contest.h"
 
+#include "base/LemonLog.hpp"
 #include "base/LemonUtils.hpp"
 #include "base/compiler.h"
 #include "base/settings.h"
@@ -25,6 +26,8 @@
 #include <QMessageBox>
 #include <algorithm>
 #include <utility>
+
+#define LEMON_MODULE_NAME "Contest"
 
 Contest::Contest(QObject *parent) : QObject(parent) {}
 

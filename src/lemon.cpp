@@ -724,7 +724,7 @@ void LemonLime::loadContest(const QString &filePath) {
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 	ui->tabWidget->setCurrentIndex(0);
 	QApplication::restoreOverrideCursor();
-	LOG(curContest->getContestTitle(), "loaded successfully")
+	LOG(curContest->getContestTitle(), "loaded successfully");
 }
 
 void LemonLime::newContest(const QString &title, const QString &savingName, const QString &path) {
