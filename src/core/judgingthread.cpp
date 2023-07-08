@@ -744,6 +744,7 @@ void JudgingThread::runProgram() {
 		qDebug() << GetLastError();
 		result = CannotStartProgram;
 		message = "Failed to create process";
+		WARN(executableFile, "Failed to be started");
 		return;
 	}
 

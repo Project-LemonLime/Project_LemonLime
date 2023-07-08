@@ -16,6 +16,8 @@
 #include <base/LemonBaseApplication.hpp>
 #include <base/LemonMacro.hpp>
 
+#include "spdlog/spdlog.h"
+
 #define NEWLINE "\r\n"
 #define ___LOG_EXPAND(___x) , QPair<std::string, decltype(___x)>(std::string(#___x), [&] { return ___x; }())
 
@@ -34,40 +36,35 @@
 #endif
 
 // prepend module name in log
-#define _LOG_ARG_(...) LEMON_LOG_PREPEND_CONTENT "[" LEMON_MODULE_NAME "]", __VA_ARGS__
+#define _LOG_ARG_(...) "[" LEMON_MODULE_NAME "] " LEMON_LOG_PREPEND_CONTENT __VA_ARGS__
 
+#define WARN(...) Lemon::base::log_concat<LEMON_LOG_WARN>(_LOG_ARG_(__VA_ARGS__))
 #define LOG(...) Lemon::base::log_concat<LEMON_LOG_NORMAL>(_LOG_ARG_(__VA_ARGS__))
 #define DEBUG(...) Lemon::base::log_concat<LEMON_LOG_DEBUG>(_LOG_ARG_(__VA_ARGS__))
 
-enum LemonLogType { LEMON_LOG_NORMAL = 0, LEMON_LOG_DEBUG = 1 };
+enum LemonLogType { LEMON_LOG_WARN, LEMON_LOG_NORMAL, LEMON_LOG_DEBUG };
 
 Q_DECLARE_METATYPE(const char *)
 
 namespace Lemon::base {
-	inline QString logBuffer;
+	inline std::shared_ptr<spdlog::logger> logger;
 	inline QString tempBuffer;
-	inline QTextStream logStream{&logBuffer};
 	inline QTextStream tempStream{&tempBuffer};
 
-	inline QString ReadLog() { return logStream.readAll(); }
-
 	template <LemonLogType t, typename... T> inline void log_concat(T... v) {
-		((logStream << v << " "), ...);
 		((tempStream << v << " "), ...);
-		logStream << NEWLINE;
-#ifndef QT_DEBUG
-		// We only process DEBUG log in Release mode
-		if (t == LEMON_LOG_DEBUG && LemonCoreApplication &&
-		    ! LemonCoreApplication->StartupArguments.debugLog) {
-			// Discard debug log in non-debug Lemon version with
-			// no-debugLog mode.
-			return;
+
+		const auto logString = tempStream.readAll().toStdString();
+
+		if constexpr (t == LEMON_LOG_DEBUG) {
+			if (LemonCoreApplication && ! LemonCoreApplication->StartupArguments.debugLog)
+				return;
+			logger->debug(logString);
+		} else if constexpr (t == LEMON_LOG_NORMAL) {
+			logger->info(logString);
+		} else if constexpr (t == LEMON_LOG_WARN) {
+			logger->warn(logString);
 		}
-#endif
-
-		const auto logString = tempStream.readAll();
-
-		std::cout << logString.toStdString() << std::endl;
 	}
 } // namespace Lemon::base
 

@@ -70,6 +70,16 @@ set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
 set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 add_subdirectory(3rdparty/SingleApplication)
 
+# spdlog 
+find_package(spdlog QUIET)
+if (NOT spdlog_FOUND)
+    add_compile_definitions(SPDLOG_COMPILED_LIB)
+    message("Could NOT Find system spdlog")
+    message("Use 3rdparty spdlog")
+    set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
+    add_subdirectory(3rdparty/spdlog)
+endif()
+
 if(WIN32)
     add_compile_options("/std:c++17")
     add_compile_definitions(UNICODE _UNICODE)
@@ -262,7 +272,7 @@ endif()
 
 target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
-target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication)
+target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication spdlog::spdlog)
 
 if(WIN32 AND NOT LEMON_QT6)
     target_link_libraries(lemon PRIVATE userenv)

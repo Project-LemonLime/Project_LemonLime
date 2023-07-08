@@ -22,6 +22,7 @@ target_include_directories(lemon-base PUBLIC
     ${CMAKE_BINARY_DIR}
     ${LEMON_BASEDIR_BASE}
     ${SINGLEAPPLICATION_DIR}
+    ${spdlog_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     )

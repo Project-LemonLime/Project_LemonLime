@@ -8,18 +8,35 @@
  */
 
 #include "lemon.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 //
 #include "base/LemonBase.hpp"
 #include "base/LemonBaseApplication.hpp"
 #include "base/LemonLog.hpp"
+#include "spdlog/sinks/basic_file_sink.h"
 //
 #include <QApplication>
 #include <QPixmap>
 #include <QSplashScreen>
+#include <chrono>
 
 #define LEMON_MODULE_NAME "Main"
 
+void initLogger() {
+	auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+	console_sink->set_level(spdlog::level::warn);
+
+	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
+	file_sink->set_level(spdlog::level::trace);
+	Lemon::base::logger =
+	    std::make_shared<spdlog::logger>(spdlog::logger("lemonlime", {console_sink, file_sink}));
+	spdlog::flush_every(std::chrono::seconds(5));
+}
+
 int main(int argc, char *argv[]) {
+
+	initLogger();
+
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);

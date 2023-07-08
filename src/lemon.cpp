@@ -602,6 +602,7 @@ void LemonLime::saveContest(const QString &fileName) {
 	if (! file.open(QFile::WriteOnly)) {
 		QMessageBox::warning(this, tr("Error"), tr("Cannot open file %1").arg(fileName), QMessageBox::Close);
 		ui->statusBar->showMessage(tr("Save Failed"), 1000);
+		WARN(fileName, "Save Failed");
 		return;
 	}
 
@@ -723,6 +724,7 @@ void LemonLime::loadContest(const QString &filePath) {
 	setWindowTitle(tr("LemonLime - %1").arg(curContest->getContestTitle()));
 	ui->tabWidget->setCurrentIndex(0);
 	QApplication::restoreOverrideCursor();
+	LOG(curContest->getContestTitle(), "loaded successfully")
 }
 
 void LemonLime::newContest(const QString &title, const QString &savingName, const QString &path) {

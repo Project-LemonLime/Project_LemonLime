@@ -168,6 +168,7 @@ void Contest::clearPath(const QString &curDir) {
 }
 
 void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
+	LOG("Start Judging");
 	stopJudging = false;
 	controller = new JudgingController(settings);
 

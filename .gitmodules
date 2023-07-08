@@ -4,3 +4,7 @@
 [submodule "assets/Testlib-for-Lemons"]
 	path = assets/Testlib-for-Lemons
 	url = https://github.com/GitPinkRabbit/Testlib-for-Lemons.git
+[submodule "3rdparty/spdlog"]
+	path = 3rdparty/spdlog
+	url = https://github.com/gabime/spdlog/
+	branch = v1.x
