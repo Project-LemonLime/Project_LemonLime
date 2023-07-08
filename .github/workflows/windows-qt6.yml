@@ -21,7 +21,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        qt_version: [6.5.0]
+        qt_version: [6.5.1]
         build_type: [Release, RelWithDebInfo]
         platform: [windows-latest]
         include:
