@@ -36,7 +36,7 @@
 #endif
 
 // prepend module name in log
-#define _LOG_ARG_(...) "[" LEMON_MODULE_NAME "] " LEMON_LOG_PREPEND_CONTENT __VA_ARGS__
+#define _LOG_ARG_(...) "[" LEMON_MODULE_NAME "]", LEMON_LOG_PREPEND_CONTENT __VA_ARGS__
 
 #define WARN(...) Lemon::base::log_concat<LEMON_LOG_WARN>(_LOG_ARG_(__VA_ARGS__))
 #define LOG(...) Lemon::base::log_concat<LEMON_LOG_NORMAL>(_LOG_ARG_(__VA_ARGS__))
