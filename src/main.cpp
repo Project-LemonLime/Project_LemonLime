@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 		screen.finish(&w);
 	}
 
-	app.setActiveWindow(&w);
+	w.activateWindow();
 	w.show();
 	w.welcome();
 	return app.exec();
