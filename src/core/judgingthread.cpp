@@ -640,6 +640,20 @@ void JudgingThread::runProgram() {
 		score = 0;
 		result = CannotStartProgram;
 		message = "Failed to create app container";
+		WARN("Failed to create app container");
+		switch (hResult) {
+			case E_ACCESSDENIED:
+				WARN("Possible error: Access Denied");
+				break;
+			case HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS):
+				WARN("Possible error:", appContainerName, "Already Exists");
+				break;
+			case E_INVALIDARG:
+				WARN("Possible error: Invalid Args, Please Report Bugs");
+				break;
+			default:
+				WARN("Unknown error");
+		}
 		return;
 	}
 
@@ -663,7 +677,9 @@ void JudgingThread::runProgram() {
 	if (! InitializeProcThreadAttributeList(siex.lpAttributeList, 3, 0, &attributesSize)) {
 		score = 0;
 		result = CannotStartProgram;
-		message = "Internal error (Failed to InitializeProcThreadAttributeList())";
+		message = "Internal error (See log for further information)";
+		WARN("Failed to InitializeProcThreadAttributeList()");
+		WARN("Last Error code:", GetLastError());
 		return;
 	}
 
@@ -672,7 +688,10 @@ void JudgingThread::runProgram() {
 	                                sizeof(sc), nullptr, nullptr)) {
 		score = 0;
 		result = CannotStartProgram;
-		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		message = "Internal error (See log for further information)";
+		WARN("Failed to UpdateProcThreadAttribute()");
+		WARN("Unable to make app run in app container");
+		WARN("Last Error code:", GetLastError());
 		return;
 	}
 
@@ -685,7 +704,10 @@ void JudgingThread::runProgram() {
 	                                nullptr)) {
 		score = 0;
 		result = CannotStartProgram;
-		message = "Internal error (Failed to UpdateProcThreadAttribute())";
+		message = "Internal error (See log for further information)";
+		WARN("Failed to UpdateProcThreadAttribute()");
+		WARN("Unable to limit fork");
+		WARN("Last Error code:", GetLastError());
 		return;
 	}
 
@@ -744,10 +766,10 @@ void JudgingThread::runProgram() {
 	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
 	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
-		qDebug() << GetLastError();
 		result = CannotStartProgram;
 		message = "Failed to create process";
 		WARN(executableFile, "Failed to be started");
+		WARN("Last Error code:", GetLastError());
 		return;
 	}
 
@@ -836,6 +858,8 @@ void JudgingThread::runProgram() {
 		}
 
 		memoryUsed = timeUsed = -1;
+		LOG(executableFile, "Unexpectedly exited.");
+		LOG("Exit code", exitCode);
 		return;
 	}
 
@@ -850,7 +874,9 @@ void JudgingThread::runProgram() {
 	                     realKernelTime.wMinute * 60 * 1000 + realKernelTime.wHour * 60 * 60 * 1000;
 	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
 	memoryUsed = memoryInfo.PeakWorkingSetSize;
-
+	LOG(executableFile, "Successfully exited.");
+	LOG("User Time Used:", timeUsed, "ms, Kernel Time Used:", kernelTimeUsed,
+	    "ms, User+Kernel Time Used:", timeUsed + kernelTimeUsed, "ms, Memory Used:", memoryUsed, "bytes");
 #else
 	// TODO: rewrite with cgroup
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));

@@ -207,7 +207,7 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	delete eventLoop;
 	delete controller;
 	controller = nullptr;
-	// emit contestantJudgingFinished();
+	LOG("Judging Finished");
 }
 
 void Contest::judge(const QList<std::pair<QString, QVector<int>>> &list) {
