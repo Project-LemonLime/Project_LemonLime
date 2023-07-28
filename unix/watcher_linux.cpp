@@ -7,6 +7,7 @@
  */
 
 #include <cassert>
+#include <limits.h>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -25,7 +26,7 @@ void cleanUp(int /*dummy*/) {
 }
 
 int calculateStaticMemoryUsage(const char* executableName) {
-	char command[4096];
+	char command[PATH_MAX];
 	snprintf(command, sizeof(command), "size %s", executableName);
 
     FILE* output = popen(command, "r");

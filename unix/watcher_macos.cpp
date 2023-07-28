@@ -6,6 +6,7 @@
  *
  */
 
+#include <limits.h>
 #include <algorithm>
 #include <cassert>
 #include <csignal>
@@ -16,6 +17,7 @@
 #include <string>
 #include <sys/resource.h>
 #include <sys/sysctl.h>
+#include <sys/syslimits.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -36,7 +38,7 @@ std::string getCpuBrandString() {
 }
 
 int calculateStaticMemoryUsage(const char* executableName) {
-    char command[1024];
+    char command[MAX_INPUT];
     snprintf(command, sizeof(command), "size %s", executableName);
 
     FILE* output = popen(command, "r");
