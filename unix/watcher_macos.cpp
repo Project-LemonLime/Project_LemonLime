@@ -38,7 +38,7 @@ std::string getCpuBrandString() {
 }
 
 int calculateStaticMemoryUsage(const char* executableName) {
-    char command[MAX_INPUT];
+    char command[PATH_MAX];
     snprintf(command, sizeof(command), "size %s", executableName);
 
     FILE* output = popen(command, "r");
