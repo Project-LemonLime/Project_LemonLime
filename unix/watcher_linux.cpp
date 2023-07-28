@@ -29,26 +29,26 @@ int calculateStaticMemoryUsage(const char* executableName) {
 	char command[PATH_MAX];
 	snprintf(command, sizeof(command), "size %s", executableName);
 
-    FILE* output = popen(command, "r");
-    if (output == NULL)
-        return -1;
+	FILE* output = popen(command, "r");
+	if (output == NULL)
+		return -1;
 
-    char buffer[256];
-    size_t staticMemoryUsage = 0;
+	char buffer[256];
+	size_t staticMemoryUsage = 0;
 
-    while (fgets(buffer, sizeof(buffer), output) != NULL) {
-        // Find the line containing the relevant sections
-        if (buffer[3] >= '0' && buffer[3] <= '9') {
-            // Parse the sizes from the line
-            size_t size_text, size_data, size_bss;
-            sscanf(buffer, "%zu%zu%zu", &size_text, &size_data, &size_bss);
-            staticMemoryUsage += size_text + size_data + size_bss;
-        }
-    }
+	while (fgets(buffer, sizeof(buffer), output) != NULL) {
+		// Find the line containing the relevant sections
+		if (buffer[3] >= '0' && buffer[3] <= '9') {
+			// Parse the sizes from the line
+			size_t size_text, size_data, size_bss;
+			sscanf(buffer, "%zu%zu%zu", &size_text, &size_data, &size_bss);
+			staticMemoryUsage += size_text + size_data + size_bss;
+		}
+	}
 
-    pclose(output);
+	pclose(output);
 
-    return staticMemoryUsage;
+	return staticMemoryUsage;
 }
 
 auto main(int /*argc*/, char *argv[]) -> int {

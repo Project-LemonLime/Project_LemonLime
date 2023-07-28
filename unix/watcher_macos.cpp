@@ -38,29 +38,29 @@ std::string getCpuBrandString() {
 }
 
 int calculateStaticMemoryUsage(const char* executableName) {
-    char command[PATH_MAX];
-    snprintf(command, sizeof(command), "size %s", executableName);
+	char command[PATH_MAX];
+	snprintf(command, sizeof(command), "size %s", executableName);
 
-    FILE* output = popen(command, "r");
-    if (output == NULL)
-        return -1;
+	FILE* output = popen(command, "r");
+	if (output == NULL)
+		return -1;
 
-    char buffer[256];
-    size_t staticMemoryUsage = 0;
+	char buffer[256];
+	size_t staticMemoryUsage = 0;
 
-    while (fgets(buffer, sizeof(buffer), output) != NULL) {
-        // Find the line containing the relevant sections
-        if (std::isdigit(buffer[0])) {
-            // Parse the sizes from the line
-            size_t size__TEXT, size__DATA;
-            sscanf(buffer, "%zu%zu", &size__TEXT, &size__DATA);
-            staticMemoryUsage += size__TEXT + size__DATA;
-        }
-    }
+	while (fgets(buffer, sizeof(buffer), output) != NULL) {
+		// Find the line containing the relevant sections
+		if (std::isdigit(buffer[0])) {
+			// Parse the sizes from the line
+			size_t size__TEXT, size__DATA;
+			sscanf(buffer, "%zu%zu", &size__TEXT, &size__DATA);
+			staticMemoryUsage += size__TEXT + size__DATA;
+		}
+	}
 
-    pclose(output);
+	pclose(output);
 
-    return staticMemoryUsage;
+	return staticMemoryUsage;
 }
 
 int main(int argc, char *argv[]) {
