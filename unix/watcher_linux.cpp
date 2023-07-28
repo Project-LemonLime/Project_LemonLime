@@ -25,8 +25,8 @@ void cleanUp(int /*dummy*/) {
 }
 
 int calculateStaticMemoryUsage(const char* executableName) {
-    char command[256];
-    snprintf(command, sizeof(command), "size %s", executableName);
+	char command[sizeof(executableName) + 128];
+	snprintf(command, sizeof(command), "size %s", executableName);
 
     FILE* output = popen(command, "r");
     if (output == NULL)
