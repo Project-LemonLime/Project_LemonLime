@@ -74,7 +74,7 @@ template <typename header> static ssize_t calculateStaticMemoryUsage(int fd, int
 				    sizeof(struct segment_command_64)) {
 					return -1;
 				}
-				if (strcmp(seg.segname, SEG_DATA) == 0 || strcmp(seg.segname, SEG_TEXT) == 0) {
+				if (strcmp(seg64.segname, SEG_DATA) == 0 || strcmp(seg64.segname, SEG_TEXT) == 0) {
 					res += seg64.vmsize;
 				}
 				if (sizeof(struct segment_command_64) != command.cmdsize) {
