@@ -13,7 +13,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <errno.h>
+#include <mach-o/fat.h>
 #include <mach-o/loader.h>
+#include <mach-o/utils.h>
 #include <string>
 #include <sys/fcntl.h>
 #include <sys/resource.h>
@@ -25,11 +27,11 @@
 
 int pid;
 
-template <typename header> static ssize_t calculateStaticMemoryUsage(int fd) {
+template <typename header> static ssize_t calculateStaticMemoryUsage(int fd, int start_offset = 0) {
 	ssize_t res = 0;
 
 	header hdr;
-	if (lseek(fd, 0, SEEK_SET) < 0) {
+	if (lseek(fd, start_offset, SEEK_SET) < 0) {
 		return -1;
 	}
 	if (read(fd, &hdr, sizeof(header)) != sizeof(header)) {
@@ -115,22 +117,38 @@ int main(int argc, char *argv[]) {
 
 	/* check static memory usage */
 	uint32_t magic;
-	ssize_t staticMemoryUsage = 0;
+	__block ssize_t staticMemoryUsage = 0;
 	int fd = open(argv[1], O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
 
-	if (read(fd, &magic, sizeof(uint32_t)) != sizeof(uint32_t)) {
-		close(fd);
-		return 1;
-	}
-	if (magic == MH_MAGIC) {
-		staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd);
-	} else if (magic == MH_MAGIC_64) {
-		staticMemoryUsage = calculateStaticMemoryUsage<mach_header_64>(fd);
-	} else {
-		staticMemoryUsage = -1;
+	int rc =
+	    macho_best_slice_in_fd(fd, ^(const mach_header *slice, uint64_t sliceFileOffset, size_t sliceSize) {
+		  if (slice->magic == MH_MAGIC) {
+			  staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd, sliceFileOffset);
+		  } else if (slice->magic == MH_MAGIC_64) {
+			  staticMemoryUsage = calculateStaticMemoryUsage<mach_header_64>(fd, sliceFileOffset);
+		  } else {
+			  staticMemoryUsage = -1;
+		  }
+	    });
+
+	if (rc != 0) {
+		// not a fat file, consider a mach-o file
+		if (lseek(fd, 0, SEEK_SET) < 0) {
+			return 1;
+		}
+		if (read(fd, &magic, sizeof(magic)) != sizeof(magic)) {
+			return 1;
+		}
+		if (magic == MH_MAGIC) {
+			staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd);
+		} else if (magic == MH_MAGIC_64) {
+			staticMemoryUsage = calculateStaticMemoryUsage<mach_header_64>(fd);
+		} else {
+			staticMemoryUsage = -1;
+		}
 	}
 	close(fd);
 

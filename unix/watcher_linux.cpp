@@ -90,7 +90,6 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	}
 
 	if (read_elf_ident(fd, e_ident) == false) {
-		close(fd);
 		return 1;
 	}
 	if (e_ident[EI_CLASS] == ELFCLASS32) {
