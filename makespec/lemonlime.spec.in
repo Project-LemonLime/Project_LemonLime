@@ -58,13 +58,6 @@ mkdir -p %{BUILD_DIR}
 export _LEMON_BUILD_INFO_="LemonLime built by openSUSE Build Service"
 export _LEMON_BUILD_EXTRA_INFO_="(Official Build) $(uname -a | cut -d ' ' -f3,13), Qt $(pkg-config --modversion Qt5Core)"
 
-%if 0%{?fedora_version}
-# Like https://bugzilla.redhat.com/show_bug.cgi?id=1873903
-# And https://src.fedoraproject.org/rpms/clementine/c/adc754c0da013db875db9d8f8934f31403cbf624
-# But can't fix by -fPIC, so disable LTO is the only way
-%endif
-
-%define _lto_cflags %{nil}
 %if 0%{?centos_version}
 cd %{BUILD_DIR}
 cmake .. \
