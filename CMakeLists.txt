@@ -72,8 +72,8 @@ add_subdirectory(3rdparty/SingleApplication)
 
 # spdlog 
 find_package(spdlog QUIET)
+add_compile_definitions(SPDLOG_COMPILED_LIB)
 if (NOT spdlog_FOUND)
-    add_compile_definitions(SPDLOG_COMPILED_LIB)
     message("Could NOT Find system spdlog")
     message("Use 3rdparty spdlog")
     set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
