@@ -15,7 +15,7 @@ Source0:        https://github.com/Project-LemonLime/Project_LemonLime/releases/
 %if 0%{?suse_version}
 # for openSUSE
 BuildRequires:  cmake >= 3.9
-BuildRequires:  libqt5-qtbase-common-devel >= 5.11
+BuildRequires:  libqt5-qtbase-common-devel >= 5.15
 BuildRequires:  libQt5Core-devel
 BuildRequires:  libQt5Gui-devel
 BuildRequires:  libQt5Network-devel
@@ -25,18 +25,20 @@ BuildRequires:  libqt5-linguist-devel
 BuildRequires:  libqt5-qtsvg-devel
 BuildRequires:  update-desktop-files
 BuildRequires:  ninja
+BuildRequires:  spdlog-devel
 %else
 # for Fedora/CentOS/ ...
 %if 0%{?rhel}
 BuildRequires:  epel-rpm-macros
 %endif
 BuildRequires:  cmake >= 3.9
-BuildRequires:  qt5-qtbase-devel >= 5.11
+BuildRequires:  qt5-qtbase-devel >= 5.15
 BuildRequires:  qt5-linguist
 BuildRequires:  qt5-qtsvg-devel
 #BuildRequires:  %{locale_package}
 BuildRequires:  desktop-file-utils
 BuildRequires:  ninja-build
+BuildRequires:  spdlog
 %endif
 
 
