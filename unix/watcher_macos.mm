@@ -117,14 +117,14 @@ int main(int argc, char *argv[]) {
 
 	/* check static memory usage */
 	uint32_t magic;
-	__block ssize_t staticMemoryUsage = 0;
+	ssize_t staticMemoryUsage = 0;
 	int fd = open(argv[1], O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
 
 	int rc =
-	    macho_best_slice_in_fd(fd, ^(const mach_header *slice, uint64_t sliceFileOffset, size_t sliceSize) {
+	    macho_best_slice_in_fd(fd, [&](const mach_header *slice, uint64_t sliceFileOffset, size_t sliceSize) {
 		  if (slice->magic == MH_MAGIC) {
 			  staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd, sliceFileOffset);
 		  } else if (slice->magic == MH_MAGIC_64) {
