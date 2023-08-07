@@ -13,7 +13,7 @@
 #include "base/LemonBase.hpp"
 #include "base/LemonBaseApplication.hpp"
 #include "base/LemonLog.hpp"
-#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
 //
 #include <QApplication>
 #include <QPixmap>
@@ -25,8 +25,12 @@
 void initLogger() {
 	auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 	console_sink->set_level(spdlog::level::warn);
-
-	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
+	QDir logDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QDir::separator() +
+	            "logs");
+	logDir.mkpath(".");
+	// New file at 4:00, retain last 30 days logs
+	auto file_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(
+	    (logDir.path() + QDir::separator() + "lemonlime-log.txt").toStdString(), 4, 0, false, 30);
 	file_sink->set_level(spdlog::level::trace);
 	Lemon::base::logger =
 	    std::make_shared<spdlog::logger>(spdlog::logger("lemonlime", {console_sink, file_sink}));
@@ -35,14 +39,16 @@ void initLogger() {
 
 int main(int argc, char *argv[]) {
 
-	initLogger();
-
 #ifndef LEMON_QT6
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 	QApplication::setHighDpiScaleFactorRoundingPolicy(
 	    Qt::HighDpiScaleFactorRoundingPolicy::PassThrough); // Qt 6 compatibility
 #endif
+
+	QCoreApplication::setApplicationName("Lemonlime");
+
+	initLogger();
 
 	Lemon::LemonBaseApplication app(argc, argv);
 
