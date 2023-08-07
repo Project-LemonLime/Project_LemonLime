@@ -28,9 +28,9 @@ void initLogger() {
 	QDir logDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QDir::separator() +
 	            "logs");
 	logDir.mkpath(".");
-	// New file at 4:00, retain last 30 days logs
+	// retain last 30 days logs
 	auto file_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(
-	    (logDir.path() + QDir::separator() + "lemonlime-log.txt").toStdString(), 4, 0, false, 30);
+	    (logDir.path() + QDir::separator() + "lemonlime-log.txt").toStdString(), 0, 0, false, 30);
 	file_sink->set_level(spdlog::level::trace);
 	Lemon::base::logger =
 	    std::make_shared<spdlog::logger>(spdlog::logger("lemonlime", {console_sink, file_sink}));
