@@ -85,6 +85,8 @@ auto main(int /*argc*/, char *argv[]) -> int {
 
 	/* check static memory usage */
 	std::string fileName(argv[1]);
+	// QString("\"%1\" %2").arg(executableFile, arguments) in `judgingthread.cpp`
+	// 匹配 "" 来解析出文件名
 	fileName = fileName.substr(1);
 	fileName = fileName.substr(0, fileName.find("\""));
 	char e_ident[EI_NIDENT];
