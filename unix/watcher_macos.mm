@@ -103,7 +103,7 @@ static std::string getCpuBrandString() {
 int isAppleSilicon;
 
 void initWatcher() {
-	isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos
+	isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
 }
 
 ssize_t calculateStaticMemoryUsage(const std::string& fileName)
@@ -152,5 +152,5 @@ ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) {
 }
 
 size_t getMaxRSSInByte(long ru_maxrss) {
-	return ru_maxrss / (isAppleSilicon ? 4 : 1)
+	return ru_maxrss / (isAppleSilicon ? 4 : 1);
 }
