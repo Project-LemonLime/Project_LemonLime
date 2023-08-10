@@ -68,12 +68,9 @@ template <typename Ehdr, typename Phdr> static auto calculateStaticMemoryUsage(i
 	return res;
 }
 
-void initWatcher() {
-	return;
-}
+void initWatcher() { return; }
 
-ssize_t calculateStaticMemoryUsage(const std::string& fileName)
-{
+ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
 	int fd = open(fileName.c_str(), O_RDONLY);
@@ -96,10 +93,6 @@ ssize_t calculateStaticMemoryUsage(const std::string& fileName)
 	return staticMemoryUsage;
 }
 
-ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) {
-	return memoryLimitInMB * 1024 * 1024;
-}
+ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024 * 1024; }
 
-size_t getMaxRSSInByte(long ru_maxrss) {
-	return ru_maxrss * 1024;
-}
+size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss * 1024; }

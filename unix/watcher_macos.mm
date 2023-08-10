@@ -102,12 +102,9 @@ static std::string getCpuBrandString() {
 
 int isAppleSilicon;
 
-void initWatcher() {
-	isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
-}
+void initWatcher() { isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos; }
 
-ssize_t calculateStaticMemoryUsage(const std::string& fileName)
-{
+ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	uint32_t magic;
 	ssize_t staticMemoryUsage = 0;
 	int fd = open(fileName.c_str(), O_RDONLY);
@@ -117,13 +114,13 @@ ssize_t calculateStaticMemoryUsage(const std::string& fileName)
 
 	int rc =
 	    macho_best_slice_in_fd(fd, [&](const mach_header *slice, uint64_t sliceFileOffset, size_t sliceSize) {
-		  if (slice->magic == MH_MAGIC) {
-			  staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd, sliceFileOffset);
-		  } else if (slice->magic == MH_MAGIC_64) {
-			  staticMemoryUsage = calculateStaticMemoryUsage<mach_header_64>(fd, sliceFileOffset);
-		  } else {
-			  staticMemoryUsage = -1;
-		  }
+		    if (slice->magic == MH_MAGIC) {
+			    staticMemoryUsage = calculateStaticMemoryUsage<mach_header>(fd, sliceFileOffset);
+		    } else if (slice->magic == MH_MAGIC_64) {
+			    staticMemoryUsage = calculateStaticMemoryUsage<mach_header_64>(fd, sliceFileOffset);
+		    } else {
+			    staticMemoryUsage = -1;
+		    }
 	    });
 
 	if (rc != 0) {
@@ -147,10 +144,6 @@ ssize_t calculateStaticMemoryUsage(const std::string& fileName)
 	return staticMemoryUsage;
 }
 
-ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) {
-	return memoryLimitInMB * 1024 * (isAppleSilicon ? 4 : 1);
-}
+ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024 * (isAppleSilicon ? 4 : 1); }
 
-size_t getMaxRSSInByte(long ru_maxrss) {
-	return ru_maxrss / (isAppleSilicon ? 4 : 1);
-}
+size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss / (isAppleSilicon ? 4 : 1); }

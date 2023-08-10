@@ -27,7 +27,7 @@ void cleanUp(int /*dummy*/) {
 }
 
 extern void initWatcher();
-extern ssize_t calculateStaticMemoryUsage(const std::string&);
+extern ssize_t calculateStaticMemoryUsage(const std::string &);
 extern ssize_t getMemoryRLimit(ssize_t memoryLimitInMB);
 extern size_t getMaxRSSInByte(long ru_maxrss);
 
@@ -40,7 +40,7 @@ extern size_t getMaxRSSInByte(long ru_maxrss);
  * argv[6]: 空间限制（MB），若为负数表示无限制
  */
 auto main(int /*argc*/, char *argv[]) -> int {
-    initWatcher();
+	initWatcher();
 
 	int timeLimit = 0;
 	ssize_t memoryLimit = 0;
@@ -49,24 +49,24 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	sscanf(argv[6], "%zd", &memoryLimit);
 
 	/* check static memory usage */
-    // 匹配 "" 来解析出文件名
+	// 匹配 "" 来解析出文件名
 	std::string fileName(argv[1]);
 	fileName = fileName.substr(1);
 	fileName = fileName.substr(0, fileName.find("\""));
-    // TODO: 处理符号链接
+	// TODO: 处理符号链接
 
-    if (memoryLimit > 0) {
-        ssize_t staticMemoryUsage = calculateStaticMemoryUsage(fileName);
-        if (staticMemoryUsage == -1) {
-		    return 1;
-        }
-        if (staticMemoryUsage > memoryLimit * 1024 * 1024) {
-            printf("0\n%zd\n", staticMemoryUsage);
-            return 0;
-        }
-    }
+	if (memoryLimit > 0) {
+		ssize_t staticMemoryUsage = calculateStaticMemoryUsage(fileName);
+		if (staticMemoryUsage == -1) {
+			return 1;
+		}
+		if (staticMemoryUsage > memoryLimit * 1024 * 1024) {
+			printf("0\n%zd\n", staticMemoryUsage);
+			return 0;
+		}
+	}
 
-    memoryLimit = getMemoryRLimit(memoryLimit);
+	memoryLimit = getMemoryRLimit(memoryLimit);
 
 	pid = fork();
 
