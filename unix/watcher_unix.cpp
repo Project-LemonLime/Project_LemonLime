@@ -53,7 +53,6 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	std::string fileName(argv[1]);
 	fileName = fileName.substr(1);
 	fileName = fileName.substr(0, fileName.find("\""));
-	// TODO: 处理符号链接
 
 	if (memoryLimit > 0) {
 		ssize_t staticMemoryUsage = calculateStaticMemoryUsage(fileName);
