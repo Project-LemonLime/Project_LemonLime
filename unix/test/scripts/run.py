@@ -1,7 +1,7 @@
 import subprocess
 
 cmd = "\"%s\" %s" % ("./hello", "")
-p = subprocess.Popen(["./watcher_unix", cmd, "", "", "_tmperr", "1000", "10"], shell=False, stdout=subprocess.PIPE)
+p = subprocess.Popen(["./watcher_unix", cmd, "", "", "_tmperr", "1000", "100"], shell=False, stdout=subprocess.PIPE)
 
 stdout, _ = p.communicate()
 
