@@ -53,7 +53,7 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	fileName = fileName.substr(1);
 	fileName = fileName.substr(0, fileName.find("\""));
 
-	if (memoryLimit >= 0) {
+	if (memoryLimit > 0) {
 		ssize_t staticMemoryUsage = calculateStaticMemoryUsage(fileName);
 		if (staticMemoryUsage == -1) {
 			return 1;
