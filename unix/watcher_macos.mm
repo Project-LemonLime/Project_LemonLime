@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <string>
 
 int pid;
 
@@ -109,16 +110,19 @@ std::string getCpuBrandString() {
 int main(int argc, char *argv[]) {
 	int isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
 
-	int timeLimit, memoryLimit;
+	int timeLimit;
+	size_t memoryLimit;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
-	sscanf(argv[6], "%d", &memoryLimit);
-	memoryLimit *= 1024 * (isAppleSilicon ? 4 : 1);
+	sscanf(argv[6], "%zu", &memoryLimit);
 
 	/* check static memory usage */
+	std::string fileName(argv[1]);
+	fileName = fileName.substr(1);
+	fileName = fileName.substr(0, fileName.find("\""));
 	uint32_t magic;
 	ssize_t staticMemoryUsage = 0;
-	int fd = open(argv[1], O_RDONLY);
+	int fd = open(fileName.data(), O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
@@ -155,10 +159,12 @@ int main(int argc, char *argv[]) {
 	if (staticMemoryUsage == -1) {
 		return 1;
 	}
-	if (staticMemoryUsage > memoryLimit) {
+	if (staticMemoryUsage > memoryLimit * 1024 * 1024) {
 		printf("0\n%zd\n", staticMemoryUsage);
 		return 0;
 	}
+
+	memoryLimit *= 1024 * (isAppleSilicon ? 4 : 1);
 
 	pid = fork();
 

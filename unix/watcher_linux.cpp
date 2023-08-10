@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <linux/elf.h>
+#include <string>
 #include <sys/fcntl.h>
 #include <sys/resource.h>
 #include <sys/time.h>
@@ -75,16 +76,20 @@ void cleanUp(int /*dummy*/) {
 }
 
 auto main(int /*argc*/, char *argv[]) -> int {
-	int timeLimit = 0, memoryLimit = 0;
+	int timeLimit = 0;
+	size_t memoryLimit = 0;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
-	sscanf(argv[6], "%d", &memoryLimit);
+	sscanf(argv[6], "%zu", &memoryLimit);
 	memoryLimit *= 1024 * 1024;
 
 	/* check static memory usage */
+	std::string fileName(argv[1]);
+	fileName = fileName.substr(1);
+	fileName = fileName.substr(0, fileName.find("\""));
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
-	int fd = open(argv[1], O_RDONLY);
+	int fd = open(fileName.data(), O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
