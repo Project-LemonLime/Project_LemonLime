@@ -81,10 +81,19 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	sscanf(argv[6], "%d", &memoryLimit);
 	memoryLimit *= 1024 * 1024;
 
+	static char executableFileName[1024];
+	if( argv[1][0] == '"' ) {
+		sscanf( argv[1] + 1, "%s", executableFileName );
+		if( executableFileName[ strlen(executableFileName) - 1 ] == '"' )
+			executableFileName[ strlen( executableFileName) - 1 ] = 0;
+	}
+	else
+		sscanf( argv[1], "%s", executableFileName );
+	
 	/* check static memory usage */
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
-	int fd = open(argv[1], O_RDONLY);
+	int fd = open(executableFileName, O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
@@ -92,6 +101,7 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	if (read_elf_ident(fd, e_ident) == false) {
 		return 1;
 	}
+
 	if (e_ident[EI_CLASS] == ELFCLASS32) {
 		staticMemoryUsage = calculateStaticMemoryUsage<Elf32_Ehdr, Elf32_Phdr>(fd);
 	} else if (e_ident[EI_CLASS] == ELFCLASS64) {
