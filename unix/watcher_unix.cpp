@@ -48,13 +48,12 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	timeLimit = (timeLimit - 1) / 1000 + 1;
 	sscanf(argv[6], "%zd", &memoryLimit);
 
-	/* check static memory usage */
 	// 匹配 "" 来解析出文件名
 	std::string fileName(argv[1]);
 	fileName = fileName.substr(1);
 	fileName = fileName.substr(0, fileName.find("\""));
 
-	if (memoryLimit > 0) {
+	if (memoryLimit >= 0) {
 		ssize_t staticMemoryUsage = calculateStaticMemoryUsage(fileName);
 		if (staticMemoryUsage == -1) {
 			return 1;
