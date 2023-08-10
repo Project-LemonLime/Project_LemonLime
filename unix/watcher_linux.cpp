@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
- * SPDX-FileCopyrightText: 2019-2022 Project LemonLime
+ * SPDX-FileCopyrightText: 2019-2023 Project LemonLime
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -19,8 +19,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-int pid;
 
 static auto read_elf_ident(int fd, char *e_ident) -> bool {
 	if (read(fd, e_ident, EI_NIDENT) != EI_NIDENT) {
@@ -70,34 +68,21 @@ template <typename Ehdr, typename Phdr> static auto calculateStaticMemoryUsage(i
 	return res;
 }
 
-void cleanUp(int /*dummy*/) {
-	kill(pid, SIGKILL);
-	exit(0);
+void initWatcher() {
+	return;
 }
 
-auto main(int /*argc*/, char *argv[]) -> int {
-	int timeLimit = 0;
-	ssize_t memoryLimit = 0; // 使用 ssize_t，当 memoryLimit<0 时表示无限制。
-	sscanf(argv[5], "%d", &timeLimit);
-	timeLimit = (timeLimit - 1) / 1000 + 1;
-	sscanf(argv[6], "%zd", &memoryLimit);
-	memoryLimit *= 1024 * 1024;
-
-	/* check static memory usage */
-	std::string fileName(argv[1]);
-	// QString("\"%1\" %2").arg(executableFile, arguments) in `judgingthread.cpp`
-	// 匹配 "" 来解析出文件名
-	fileName = fileName.substr(1);
-	fileName = fileName.substr(0, fileName.find("\""));
+ssize_t calculateStaticMemoryUsage(const std::string& fileName)
+{
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
 	int fd = open(fileName.c_str(), O_RDONLY);
 	if (fd < 0) {
-		return 1;
+		return -1;
 	}
 
 	if (read_elf_ident(fd, e_ident) == false) {
-		return 1;
+		return -1;
 	}
 	if (e_ident[EI_CLASS] == ELFCLASS32) {
 		staticMemoryUsage = calculateStaticMemoryUsage<Elf32_Ehdr, Elf32_Phdr>(fd);
@@ -108,82 +93,13 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	}
 	close(fd);
 
-	if (staticMemoryUsage == -1) {
-		return 1;
-	}
-	if (staticMemoryUsage > memoryLimit) {
-		printf("0\n%zd\n", staticMemoryUsage);
-		return 0;
-	}
+	return staticMemoryUsage;
+}
 
-	pid = fork();
+ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) {
+	return memoryLimitInMB * 1024 * 1024;
+}
 
-	if (pid > 0) {
-		signal(SIGINT, cleanUp);
-		signal(SIGABRT, cleanUp);
-		signal(SIGTERM, cleanUp);
-		struct rusage usage {};
-		int status = 0;
-
-		if (wait4(pid, &status, 0, &usage) == -1)
-			return 1;
-
-		if (WIFEXITED(status)) {
-			if (WEXITSTATUS(status) == 1)
-				return 1;
-
-			printf("%d\n", static_cast<int>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", static_cast<int>(usage.ru_maxrss) * 1024);
-
-			if (WEXITSTATUS(status) != 0)
-				return 2;
-
-			return 0;
-		}
-
-		if (WIFSIGNALED(status)) {
-			printf("%d\n", static_cast<int>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000));
-			printf("%d\n", static_cast<int>(usage.ru_maxrss) * 1024);
-
-			if (WTERMSIG(status) == SIGXCPU)
-				return 3;
-
-			if (WTERMSIG(status) == SIGKILL)
-				return 4;
-
-			if (WTERMSIG(status) == SIGABRT)
-				return 4;
-
-			return 2;
-		}
-	} else {
-		if (strlen(argv[2]) > 0)
-			freopen(argv[2], "r", stdin);
-
-		if (strlen(argv[3]) > 0)
-			freopen(argv[3], "w", stdout);
-
-		if (strlen(argv[4]) > 0)
-			freopen(argv[4], "w", stderr);
-
-		rlimit memlim{}, stalim{}, timlim{};
-
-		if (memoryLimit > 0) {
-			memlim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
-			stalim = (rlimit){(rlim_t)memoryLimit, (rlim_t)memoryLimit};
-		} else {
-			memlim = (rlimit){RLIM_INFINITY, RLIM_INFINITY};
-			stalim = (rlimit){(rlim_t)2147483647LL, (rlim_t)2147483647LL};
-		}
-
-		timlim = (rlimit){(rlim_t)timeLimit, (rlim_t)(timeLimit + 1)};
-		setrlimit(RLIMIT_AS, &memlim);
-		setrlimit(RLIMIT_STACK, &stalim);
-		setrlimit(RLIMIT_CPU, &timlim);
-
-		if (execlp("bash", "bash", "-c", argv[1], NULL) == -1)
-			return 1;
-	}
-
-	return 0;
+size_t getMaxRSSInByte(long ru_maxrss) {
+	return ru_maxrss * 1024;
 }
