@@ -77,10 +77,10 @@ void cleanUp(int /*dummy*/) {
 
 auto main(int /*argc*/, char *argv[]) -> int {
 	int timeLimit = 0;
-	size_t memoryLimit = 0;
+	ssize_t memoryLimit = 0; // 使用 ssize_t，当 memoryLimit<0 时表示无限制。
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
-	sscanf(argv[6], "%zu", &memoryLimit);
+	sscanf(argv[6], "%zd", &memoryLimit);
 	memoryLimit *= 1024 * 1024;
 
 	/* check static memory usage */
@@ -89,7 +89,7 @@ auto main(int /*argc*/, char *argv[]) -> int {
 	fileName = fileName.substr(0, fileName.find("\""));
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
-	int fd = open(fileName.data(), O_RDONLY);
+	int fd = open(fileName.c_str(), O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}

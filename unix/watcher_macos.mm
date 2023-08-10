@@ -111,10 +111,10 @@ int main(int argc, char *argv[]) {
 	int isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos;
 
 	int timeLimit;
-	size_t memoryLimit;
+	ssize_t memoryLimit;
 	sscanf(argv[5], "%d", &timeLimit);
 	timeLimit = (timeLimit - 1) / 1000 + 1;
-	sscanf(argv[6], "%zu", &memoryLimit);
+	sscanf(argv[6], "%zd", &memoryLimit);
 
 	/* check static memory usage */
 	std::string fileName(argv[1]);
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
 	fileName = fileName.substr(0, fileName.find("\""));
 	uint32_t magic;
 	ssize_t staticMemoryUsage = 0;
-	int fd = open(fileName.data(), O_RDONLY);
+	int fd = open(fileName.c_str(), O_RDONLY);
 	if (fd < 0) {
 		return 1;
 	}
