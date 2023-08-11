@@ -24,7 +24,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <string>
 
 template <typename header> static ssize_t calculateStaticMemoryUsage(int fd, int start_offset = 0) {
 	ssize_t res = 0;
