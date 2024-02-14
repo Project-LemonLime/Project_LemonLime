@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: cacheQt
         id: MacosCacheQt
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
           key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
@@ -46,7 +46,7 @@ jobs:
         with:
           version: ${{ matrix.qt_ver }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
@@ -68,7 +68,7 @@ jobs:
           export PATH=$Qt5_DIR/bin:$PATH
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
           path: ${{ env.targetName }}.dmg

@@ -41,11 +41,11 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: "recursive"
       - name: Install Python 3.9 version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: "3.9"
           architecture: ${{ matrix.arch }}
@@ -60,7 +60,7 @@ jobs:
           arch: ${{ matrix.arch }}
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
@@ -94,7 +94,7 @@ jobs:
           # 打包zip
           Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:

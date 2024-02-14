@@ -25,7 +25,7 @@ jobs:
     name: Check if the workflow has been disabled.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get commit message
         id: get_message
         run: |
@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Checking out sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: "recursive"
       - name: Install build dependencies
@@ -74,7 +74,7 @@ jobs:
           cd Project_LemonLime
           cp ../build/lemon ./
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: LemonLime-linux-x86_64-${{ matrix.build_type }}
           path: lemon
