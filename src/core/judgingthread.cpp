@@ -884,6 +884,39 @@ void JudgingThread::runProgram() {
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
+
+	argumentsList << "--ro-bind"
+	              << "/usr"
+	              << "/usr";
+	argumentsList << "--symlink"
+	              << "/usr/lib"
+	              << "/lib";
+	argumentsList << "--symlink"
+	              << "/usr/lib64"
+	              << "/lib64";
+	argumentsList << "--symlink"
+	              << "/usr/bin"
+	              << "/bin";
+	argumentsList << "--symlink"
+	              << "/usr/sbin"
+	              << "/sbin";
+	argumentsList << "--tmpfs"
+	              << "/tmp";
+
+	argumentsList << "--unshare-all"
+	              << "--die-with-parent";
+
+	argumentsList << "--chdir" << workingDirectory;
+
+	argumentsList << "--bind" << workingDirectory << workingDirectory;
+
+	if (task->getStandardInputCheck()) {
+		argumentsList << "--ro-bind" << QFileInfo(inputFile).absoluteFilePath()
+		              << QFileInfo(inputFile).absoluteFilePath();
+	}
+
+	argumentsList << watcher.fileName();
+
 	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
 
 	if (task->getStandardInputCheck()) {
@@ -902,9 +935,11 @@ void JudgingThread::runProgram() {
 	argumentsList << QString("%1").arg(timeLimit + extraTime);
 	argumentsList << QString("%1").arg(memoryLimit);
 
+	qDebug() << argumentsList;
+
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
-	runner->start(watcher.fileName(), argumentsList);
+	runner->start("/usr/bin/bwrap", argumentsList);
 
 	if (! runner->waitForStarted(-1)) {
 		delete runner;
