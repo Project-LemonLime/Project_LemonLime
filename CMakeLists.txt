@@ -71,14 +71,10 @@ set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleAp
 add_subdirectory(3rdparty/SingleApplication)
 
 # spdlog 
-find_package(spdlog QUIET)
 add_compile_definitions(SPDLOG_COMPILED_LIB)
-if (NOT spdlog_FOUND)
-    message("Could NOT Find system spdlog")
-    message("Use 3rdparty spdlog")
-    set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
-    add_subdirectory(3rdparty/spdlog)
-endif()
+add_compile_definitions(SPDLOG_BUILD_SHARED=OFF)
+set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
+add_subdirectory(3rdparty/spdlog)
 
 if(WIN32)
     add_compile_options("/std:c++17")
