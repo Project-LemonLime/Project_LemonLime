@@ -853,7 +853,7 @@ void JudgingThread::runProgram() {
 
 		if (file.open(QFile::ReadOnly)) {
 			QTextStream stream(&file);
-			message = stream.readAll();
+			message = stream.readAll().right(1024);
 			file.close();
 		}
 
