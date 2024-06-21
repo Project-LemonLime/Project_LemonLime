@@ -46,7 +46,7 @@ jobs:
           name: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
           path: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
       - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         if: startsWith(github.event.ref, 'refs/tags/')
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

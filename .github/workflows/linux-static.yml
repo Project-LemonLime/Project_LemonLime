@@ -79,7 +79,7 @@ jobs:
           name: LemonLime-linux-x86_64-${{ matrix.build_type }}
           path: lemon
       - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         if: startsWith(github.event.ref, 'refs/tags/')
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

@@ -21,7 +21,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        qt_version: [6.5.1]
+        qt_version: [6.7.2]
         build_type: [Release, RelWithDebInfo]
         platform: [windows-latest]
         include:
@@ -109,7 +109,7 @@ jobs:
           path: ${{ env.archiveName }}.zip
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:

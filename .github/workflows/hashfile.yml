@@ -32,7 +32,7 @@ jobs:
           rm sha256.list || true
           sha256sum ./* > ../sha256.list
       - name: Upload metadata to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: assets.info.json
@@ -40,7 +40,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
       - name: Upload metadata to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: sha256.list

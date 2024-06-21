@@ -21,7 +21,7 @@ jobs:
         os: [macos-latest]
         build_type: [Release, RelWithDebInfo]
         arch: [x86_64, arm64]
-        qt_ver: [6.5.1]
+        qt_ver: [6.7.2]
         qt_arch: [clang_64]
     env:
       targetName: lemon
@@ -65,7 +65,7 @@ jobs:
           path: ${{ env.targetName }}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.targetName }}.dmg
