@@ -30,12 +30,14 @@
 
 #ifdef Q_OS_WIN32
 
+#include <windows.h>
+// Don't change the include order
+// psapi need type BOOL, which is included in windef.h
 #include <Psapi.h>
 #include <UserEnv.h>
 #include <VersionHelpers.h>
 #include <accctrl.h>
 #include <aclapi.h>
-#include <windows.h>
 
 #endif
 
