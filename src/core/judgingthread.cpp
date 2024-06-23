@@ -878,6 +878,8 @@ void JudgingThread::runProgram() {
 	LOG("User Time Used:", timeUsed, "ms, Kernel Time Used:", kernelTimeUsed,
 	    "ms, User+Kernel Time Used:", timeUsed + kernelTimeUsed, "ms, Memory Used:", memoryUsed, "bytes");
 #else
+
+#ifdef Q_OS_LINUX
 	// TODO: rewrite with cgroup
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
 	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
@@ -940,6 +942,37 @@ void JudgingThread::runProgram() {
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
 	runner->start("/usr/bin/bwrap", argumentsList);
+
+#else
+
+	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
+	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+	auto *runner = new QProcess(this);
+	QStringList argumentsList;
+	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+
+	if (task->getStandardInputCheck()) {
+		argumentsList << QFileInfo(inputFile).absoluteFilePath();
+	} else {
+		argumentsList << "";
+	}
+
+	if (task->getStandardOutputCheck()) {
+		argumentsList << "_tmpout";
+	} else {
+		argumentsList << "";
+	}
+
+	argumentsList << "_tmperr";
+	argumentsList << QString("%1").arg(timeLimit + extraTime);
+	argumentsList << QString("%1").arg(memoryLimit);
+
+	runner->setProcessEnvironment(environment);
+	runner->setWorkingDirectory(workingDirectory);
+	runner->start(watcher.fileName(), argumentsList);
+
+#endif
 
 	if (! runner->waitForStarted(-1)) {
 		delete runner;
