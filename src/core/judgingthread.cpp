@@ -631,6 +631,7 @@ void JudgingThread::runProgram() {
 	PSID appContainerSID{nullptr};
 	QString appContainerName = "Lemonlime" + getRandomString(10);
 
+#ifdef WINDOWS_APPCONTAINER_SUPPORT
 	//  Create Window App Container (Windows 8+)
 
 	auto hResult = CreateAppContainerProfile((const WCHAR *)(appContainerName.utf16()),
@@ -716,7 +717,8 @@ void JudgingThread::runProgram() {
 	// Load dlls
 	// Todo: If there's too many files under the path it'll be very slow
 	for (auto f : environment.value("PATH").split(';')) {
-		grantFileAccessPermissions(appContainerSID, (WCHAR *)f.utf16(), FILE_ALL_ACCESS);
+		grantFileAccessPermissions(appContainerSID, (WCHAR *)f.utf16(),
+		                           FILE_GENERIC_EXECUTE | FILE_GENERIC_READ);
 	}
 
 	if (! task->getStandardInputCheck()) {
@@ -732,6 +734,8 @@ void JudgingThread::runProgram() {
 		                           (WCHAR *)(workingDirectory + task->getOutputFileName()).utf16(),
 		                           FILE_GENERIC_READ | FILE_GENERIC_WRITE);
 	}
+
+#endif
 
 	if (task->getStandardInputCheck()) {
 		siex.StartupInfo.hStdInput = CreateFileW((const WCHAR *)(inputFile.utf16()), GENERIC_READ,
