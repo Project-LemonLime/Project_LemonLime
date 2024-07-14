@@ -3,7 +3,7 @@
  <class>JudgingDialog</class>
  <widget class="QDialog" name="JudgingDialog">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::WindowModality::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -34,6 +34,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QProgressBar" name="progressBar">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -43,34 +49,37 @@
        <property name="font">
         <font>
          <pointsize>10</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
          <kerning>true</kerning>
         </font>
        </property>
        <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
+        <enum>Qt::LayoutDirection::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">    QProgressBar {
+        border: 2px solid;
+        border-radius: 5px;
+        text-align:center;
+    }
+    QProgressBar::chunk {
+        background: #0c3;
+    }</string>
        </property>
        <property name="maximum">
-        <number>0</number>
+        <number>1000</number>
        </property>
        <property name="value">
-        <number>0</number>
+        <number>500</number>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
        <property name="textVisible">
         <bool>true</bool>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
        <property name="invertedAppearance">
         <bool>false</bool>
-       </property>
-       <property name="textDirection">
-        <enum>QProgressBar::TopToBottom</enum>
        </property>
        <property name="format">
         <string>%v / %m ms (%p%)</string>
@@ -95,7 +104,6 @@
        <property name="font">
         <font>
          <pointsize>10</pointsize>
-         <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
@@ -120,7 +128,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

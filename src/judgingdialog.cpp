@@ -21,6 +21,7 @@
 
 JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::JudgingDialog) {
 	ui->setupUi(this);
+	ui->progressBar->setValue(0);
 	cursor = new QTextCursor(ui->logViewer->document());
 	connect(ui->cancelButton, &QPushButton::clicked, this, &JudgingDialog::stopJudgingSlot);
 	// connect(ui->skipButton, &QPushButton::clicked, this, &JudgingDialog::skipJudging);
