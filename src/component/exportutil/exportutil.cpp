@@ -217,9 +217,8 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
  */
 void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName) {
 	Settings settings;
-	const ColorTheme *colors;
 	contest->copySettings(settings);
-	colors = settings.getCurrentColorTheme();
+	ColorTheme colors = settings.getCurrentColorTheme();
 
 	QFile file(fileName);
 
@@ -343,7 +342,7 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 			double s = NAN;
 			double l = NAN;
 #endif
-			colors->getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
+			colors.getColorGrand(allScore, sfullScore).getHslF(&h, &s, &l);
 			h *= 360, s *= 100, l *= 100;
 			out << QString("<td class=\"td-2\" style=\"background: hsl(%2,%3%,%4%); border: 2px solid "
 			               "hsl(%2,%3%,%5%);\">%1</td>")
@@ -369,15 +368,15 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 				double s = NAN;
 				double l = NAN;
 #endif
-				QColor col = colors->getColorPer(score, fullScore[j]);
+				QColor col = colors.getColorPer(score, fullScore[j]);
 				col.getHslF(&h, &s, &l);
 
 				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
 				    contestant->getCompileState(j) != CompileSuccessfully) {
 					if (contestant->getCompileState(j) == NoValidSourceFile) {
-						colors->getColorNf().getHslF(&h, &s, &l);
+						colors.getColorNf().getHslF(&h, &s, &l);
 					} else {
-						colors->getColorCe().getHslF(&h, &s, &l);
+						colors.getColorCe().getHslF(&h, &s, &l);
 					}
 				}
 

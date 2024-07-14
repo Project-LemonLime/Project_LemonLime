@@ -54,6 +54,15 @@ QColor ColorTheme::getColorNf() const { return colorNf; }
 
 QColor ColorTheme::getColorCe() const { return colorCe; }
 
+void ColorTheme::invertLightness() {
+	mxColor.l = 100 - mxColor.l;
+	miColor.l = 100 - miColor.l;
+	nfColor.l = 100 - nfColor.l;
+	ceColor.l = 100 - ceColor.l;
+	colorNf = nfColor.toHsl();
+	colorCe = ceColor.toHsl();
+}
+
 void ColorTheme::copyFrom(ColorTheme *others) {
 	setName(others->getName());
 	setColor(others->getMxColor(), others->getMiColor(), others->getNfColor(), others->getCeColor(),
@@ -131,7 +140,7 @@ auto Settings::getCompilerList() const -> const QList<Compiler *> & { return com
 
 const QList<ColorTheme *> &Settings::getColorThemeList() const { return colorThemeList; }
 
-const ColorTheme *Settings::getCurrentColorTheme() const { return colorThemeList[currentColorTheme]; }
+ColorTheme Settings::getCurrentColorTheme() const { return *colorThemeList[currentColorTheme]; }
 
 auto Settings::getUiLanguage() const -> const QString & { return uiLanguage; }
 

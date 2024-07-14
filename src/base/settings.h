@@ -59,8 +59,14 @@ class ColorTheme {
 	QColor getColorPer(double, double) const;
 	QColor getColorGrand(double, double) const;
 
+	void invertLightness();
+
   private:
 	QString name;
+	// mxColor maxColor
+	// miColor minColor
+	// nfColor nofileColor
+	// ceColor compileErrorColor
 	hslTuple mxColor, miColor, nfColor, ceColor;
 	QColor colorNf, colorCe;
 	dddTuple grandComp, grandRate;
@@ -116,7 +122,7 @@ class Settings {
 	void addColorTheme(ColorTheme *);
 	void deleteColorTheme(int);
 	ColorTheme *getColorTheme(int);
-	const ColorTheme *getCurrentColorTheme() const;
+	ColorTheme getCurrentColorTheme() const;
 	int getCurrentColorThemeIndex() const;
 
 	void setColorTheme(ColorTheme *, int);

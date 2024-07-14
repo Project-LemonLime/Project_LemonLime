@@ -25,6 +25,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QMessageBox>
+#include <QtGlobal>
 #include <algorithm>
 
 #define LEMON_MODULE_NAME "ResultViewer"
@@ -107,8 +108,14 @@ void ResultViewer::refreshViewer() {
 	QList<Task *> taskList = curContest->getTaskList();
 	Settings setting;
 	curContest->copySettings(setting);
-	const ColorTheme *colors = setting.getCurrentColorTheme();
+	ColorTheme colors = setting.getCurrentColorTheme();
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+	if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+		colors.invertLightness();
+		LOG("Auto dark mode has been set");
+	}
+#endif
 	for (auto &i : taskList) {
 		headerList << i->getProblemTitle();
 	}
@@ -144,11 +151,11 @@ void ResultViewer::refreshViewer() {
 				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
 				    contestantList[i]->getCompileState(j) != CompileSuccessfully) {
 					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
-						bg = colors->getColorNf();
+						bg = colors.getColorNf();
 					else
-						bg = colors->getColorCe();
+						bg = colors.getColorCe();
 				} else
-					bg = colors->getColorPer(score, fullScore[j]);
+					bg = colors.getColorPer(score, fullScore[j]);
 
 				item(i, j + 3)->setBackground(bg);
 
@@ -166,7 +173,7 @@ void ResultViewer::refreshViewer() {
 
 		if (totalScore != -1) {
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackground(colors->getColorGrand(totalScore, sfullScore));
+			item(i, 2)->setBackground(colors.getColorGrand(totalScore, sfullScore));
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);
