@@ -1166,10 +1166,6 @@ Depends: </source>
         <translation>停止测试</translation>
     </message>
     <message>
-        <source>Test case %1.%2: </source>
-        <translation>测试点 %1.%2： </translation>
-    </message>
-    <message>
         <source>Correct answer</source>
         <translation>答案正确</translation>
     </message>
@@ -1312,6 +1308,10 @@ Depends: </source>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
         <translation>未找到主接口程序（grader.*）</translation>
+    </message>
+    <message>
+        <source>Contestant %3 Test case %1.%2: </source>
+        <translation>选手 %3 测试点 %1.%2: </translation>
     </message>
 </context>
 <context>
@@ -1961,14 +1961,6 @@ Depends: </source>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <source>Pure</source>
-        <translation>Pure</translation>
-    </message>
-    <message>
-        <source>Lost</source>
-        <translation>Lost</translation>
-    </message>
     <message>
         <source>Enable debug output</source>
         <translation>启用 Debug 输出</translation>

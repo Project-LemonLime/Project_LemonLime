@@ -44,7 +44,7 @@ class JudgingDialog : public QDialog {
 
   public slots:
 	void dialogAlert(const QString &);
-	void singleCaseFinished(int, int, int, int, int, int, int);
+	void singleCaseFinished(QString, int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(const QString &);
 	void taskJudgedDisplay(const QString &, const QList<QList<int>> &, const int);

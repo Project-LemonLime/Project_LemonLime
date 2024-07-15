@@ -84,8 +84,8 @@ void JudgingDialog::judgeAll() {
 	accept();
 }
 
-void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, int scoreGot, int timeUsed,
-                                       int memoryUsed) {
+void JudgingDialog::singleCaseFinished(QString contestantName, int progress, int x, int y, int result,
+                                       int scoreGot, int timeUsed, int memoryUsed) {
 	bool isOnMaxValue =
 	    ui->logViewer->verticalScrollBar()->value() == ui->logViewer->verticalScrollBar()->maximum();
 	QTextBlockFormat blockFormat;
@@ -219,7 +219,8 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result, i
 			break;
 	}
 
-	cursor->insertText(tr("Test case %1.%2: ").arg(x + 1).arg(y + 1), preCharFormat);
+	cursor->insertText(tr("Contestant %3 Test case %1.%2: ").arg(x + 1).arg(y + 1).arg(contestantName),
+	                   preCharFormat);
 	cursor->insertText(text, charFormat);
 
 	if (addtext.length() > 0)

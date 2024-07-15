@@ -1212,10 +1212,6 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>Test case %1.%2: </source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Subtask Dependence %1: #%2: </source>
         <translation></translation>
     </message>
@@ -1287,6 +1283,10 @@ Depends: </source>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Contestant %3 Test case %1.%2: </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1936,14 +1936,6 @@ Depends: </source>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <source>Pure</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Lost</source>
-        <translation></translation>
-    </message>
     <message>
         <source>Enable debug output</source>
         <translation></translation>

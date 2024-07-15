@@ -519,10 +519,10 @@ int TaskJudger::judge() {
 					    qMin(nowScore, statusToScore(overallStatus[i], task->getTestCase(i)->getFullScore()));
 			}
 
-			emit singleCaseFinished(task->getTestCase(i)->getTimeLimit(), i, j, int(result[i][j]),
-			                        (j + 1 == task->getTestCase(i)->getInputFiles().size() ? 1 : -1) *
-			                            nowScore,
-			                        timeUsed[i][j], memoryUsed[i][j]);
+			emit singleCaseFinished(
+			    contestantName, task->getTestCase(i)->getTimeLimit(), i, j, int(result[i][j]),
+			    (j + 1 == task->getTestCase(i)->getInputFiles().size() ? 1 : -1) * nowScore, timeUsed[i][j],
+			    memoryUsed[i][j]);
 
 			if (score[i][j] < testCaseScore[i])
 				testCaseScore[i] = score[i][j];
@@ -534,8 +534,8 @@ int TaskJudger::judge() {
 
 void TaskJudger::makeDialogAlert(QString msg) { emit dialogAlert(std::move(msg)); }
 void TaskJudger::taskSkipped(const std::pair<int, int> &cur) {
-	emit singleCaseFinished(task->getTestCase(cur.first)->getTimeLimit(), cur.first, cur.second,
-	                        int(result[cur.first][cur.second]), 0, 0, 0);
+	emit singleCaseFinished(contestant->getContestantName(), task->getTestCase(cur.first)->getTimeLimit(),
+	                        cur.first, cur.second, int(result[cur.first][cur.second]), 0, 0, 0);
 }
 
 void TaskJudger::stop() { isJudging = false; }

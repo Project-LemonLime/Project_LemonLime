@@ -80,7 +80,7 @@ class TaskJudger : public QObject {
 	void judgingStarted(QString);
 	void judgingFinished();
 	void dialogAlert(QString);
-	void singleCaseFinished(int, int, int, int, int, int, int);
+	void singleCaseFinished(QString, int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void compileError(int, int);
 	void stopJudgingSignal();

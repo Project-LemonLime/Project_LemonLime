@@ -71,7 +71,7 @@ class Contest : public QObject {
 	void taskDeletedForViewer(int);
 	void problemTitleChanged();
 	void dialogAlert(QString);
-	void singleCaseFinished(int, int, int, int, int, int, int);
+	void singleCaseFinished(QString, int, int, int, int, int, int, int);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void taskJudgingStarted(QString);
 	void taskJudgingFinished();
