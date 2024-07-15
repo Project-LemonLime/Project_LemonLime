@@ -644,7 +644,7 @@
     </message>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到主介面程序（grader.*）</translation>
     </message>
 </context>
 <context>
@@ -840,7 +840,7 @@
     </message>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到主介面程序（grader.*）</translation>
     </message>
 </context>
 <context>
@@ -1143,7 +1143,7 @@ Depends: </source>
     </message>
     <message>
         <source>Maximum Judging Thread</source>
-        <translation type="unfinished"></translation>
+        <translation>最大評測執行緒數</translation>
     </message>
 </context>
 <context>
@@ -1295,23 +1295,23 @@ Depends: </source>
     </message>
     <message>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>完成</translation>
     </message>
     <message>
         <source>Judge Finished - LemonLime</source>
-        <translation type="unfinished"></translation>
+        <translation>測試終了 - LemonLime</translation>
     </message>
     <message>
         <source>Judge All: Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>測試全部：完成</translation>
     </message>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到主介面程序（grader.*）</translation>
     </message>
     <message>
         <source>Contestant %3 Test case %1.%2: </source>
-        <translation type="unfinished"></translation>
+        <translation>選手 %3 測試點 %1.%2: </translation>
     </message>
 </context>
 <context>
@@ -2490,15 +2490,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Communication (Part)</source>
-        <translation type="unfinished"></translation>
+        <translation>通信題（部分代碼）</translation>
     </message>
     <message>
         <source>Communication Task, judged by running exec...</source>
-        <translation type="unfinished"></translation>
+        <translation>通信題（選手作為完整程式）…</translation>
     </message>
     <message>
         <source>Communication (Exec)</source>
-        <translation type="unfinished"></translation>
+        <translation>通信題（完整程式）</translation>
     </message>
 </context>
 <context>
@@ -2513,11 +2513,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Main grader (grader.*) cannot be found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到主介面程序（grader.*）</translation>
     </message>
     <message>
         <source>Compiled Successfully</source>
-        <translation type="unfinished">編譯完成</translation>
+        <translation>編譯完成</translation>
     </message>
 </context>
 <context>
@@ -2694,7 +2694,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Theme Name</source>
-        <translation type="unfinished"></translation>
+        <translation>配色方案名</translation>
     </message>
 </context>
 <context>
