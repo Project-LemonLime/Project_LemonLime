@@ -116,6 +116,12 @@ brew install lemonlime --cask
 
 注意包含一个名为 `lemon-lime-debug` 的调试信息包，报告崩溃等错误时请务必安装。
 
+### Nix
+
+已经进入 Nix Unstable 仓库
+
+使用 `nix-env -iA nixpkgs.project-lemonlime` 安装
+
 ### 静态链接版本（即无后缀名的单独的可执行文件）
 
 可以在 Release 或者 GitHub Actions 处自行取用。
