@@ -21,3 +21,4 @@ Path=/usr/bin
 Exec=lemon
 Icon=lemon-lime
 MimeType=application/x-lemon-contest;
+StartupWMClass=lemon
