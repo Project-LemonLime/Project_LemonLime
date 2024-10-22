@@ -137,7 +137,6 @@ brew install lemonlime --cask
 经检查,发现Windows Defender会拦截g++刚生成的文件最多10s,导致至少一个测试点超时,因此,我们给出了一种临时的解决方案
 
 我们给出如下解决方案（尤其是在比赛中）：  
-we propose the following solutions (especially during competitions):  
 
 1. **排除文件夹**：将用于编译和运行代码的文件夹添加到 Windows Defender 的排除列表中。步骤如下：  
 - 打开“Windows 安全中心”。
