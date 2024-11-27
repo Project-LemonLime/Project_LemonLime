@@ -14,8 +14,8 @@
   <url type="bugtracker">https://github.com/Project-LemonLime/Project_LemonLime/issues</url>
   <categories>
     	<category>Development</category>
-	<category>Education</category>
- 	<category>Competition</category>
+	    <category>Education</category>
+ 	    <category>Competition</category>
   </categories>
   <screenshots>
     <screenshot type="default">
@@ -26,6 +26,6 @@
     <binary>lemon</binary>
   </provides>
   <releases>
-    <release version="0.2.6" date="2020-10-31"/>
+    <release version="0.3.5" date="2024-7-15"/>
   </releases>
 </component>
