@@ -8,7 +8,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 同时支持 Qt5 和 Qt6, 使用 `-DLEMON_QT6=ON` 以使用 Qt6 编译。
 
-现已支持 Linux，Windows，以及 macOS
+现已支持 Linux，Windows 以及 macOS
 
 [![Linux Static](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml)
 
@@ -45,6 +45,7 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |       Fedora        |   31-1.9   |   amd64    |      XFCE      |
 |      openSUSE       | Leap 15.1  |   amd64    |     iceWM      |
 |      openSUSE       | Tumbleweed |   amd64    |    KDE-Xorg    |
+|        macOS        |  15.2 Beta |   arm64    |      Aqua      |
 
 如果您在您的系统上做了测试，请前往
 [#49](https://github.com/Project-LemonLime/Project_LemonLime/issues/49)
