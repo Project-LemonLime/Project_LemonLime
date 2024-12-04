@@ -103,8 +103,16 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 **对于 Apple Silicon 用户，不保证其使用或评测稳定性**
 
+`brew` 安装 LemonLime
+
 ```bash
 brew install lemonlime --cask
+```
+
+`brew` 更新 Lemonlime
+
+```bash
+brew upgrade
 ```
 
 ### Debian && Ubuntu
