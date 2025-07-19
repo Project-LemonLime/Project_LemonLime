@@ -933,7 +933,7 @@ void JudgingThread::runProgram() {
 	argumentsList << watcher.fileName();
 
 	if (useRunnerWrap) {
-		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mb=%4")
+		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mib=%4")
 		                  .arg(executableFile, arguments, QString::number(rawTimeLimit),
 		                       QString::number(rawMemoryLimit));
 		if (! task->getStandardInputCheck()) {
@@ -978,7 +978,7 @@ void JudgingThread::runProgram() {
 	QStringList argumentsList;
 
 	if (useRunnerWrap) {
-		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mb=%4")
+		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mib=%4")
 		                  .arg(executableFile, arguments, QString::number(rawTimeLimit),
 		                       QString::number(rawMemoryLimit));
 		if (! task->getStandardInputCheck()) {
