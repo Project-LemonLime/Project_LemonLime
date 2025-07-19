@@ -483,6 +483,7 @@ void Settings::saveSettings() {
 		settings.setValue("TimeLimitRatio", compilerList[i]->getTimeLimitRatio());
 		settings.setValue("MemoryLimitRatio", compilerList[i]->getMemoryLimitRatio());
 		settings.setValue("DisableMemoryLimitCheck", compilerList[i]->getDisableMemoryLimitCheck());
+		settings.setValue("UseRunnerWrap", compilerList[i]->getUseRunnerWrap());
 		QStringList configurationNames = compilerList[i]->getConfigurationNames();
 		QStringList compilerArguments = compilerList[i]->getCompilerArguments();
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
@@ -609,6 +610,7 @@ void Settings::loadSettings() {
 		compiler->setTimeLimitRatio(settings.value("TimeLimitRatio").toDouble());
 		compiler->setMemoryLimitRatio(settings.value("MemoryLimitRatio").toDouble());
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
+		compiler->setUseRunnerWrap(settings.value("UseRunnerWrap").toBool());
 		int configurationCount = settings.beginReadArray("Configuration");
 
 		for (int j = 0; j < configurationCount; j++) {

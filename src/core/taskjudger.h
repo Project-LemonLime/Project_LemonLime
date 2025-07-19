@@ -52,6 +52,7 @@ class TaskJudger : public QObject {
 	double compilerTimeLimitRatio{};
 	double compilerMemoryLimitRatio{};
 	bool disableMemoryLimitCheck{};
+	bool useRunnerWrap{};
 	QProcessEnvironment environment;
 	QList<int> overallStatus;
 	QList<QList<int>> timeUsed;

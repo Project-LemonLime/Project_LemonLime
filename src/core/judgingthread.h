@@ -34,7 +34,10 @@ class JudgingThread : public QThread {
 	void setTask(Task *);
 	void setFullScore(int);
 	void setTimeLimit(int);
+	void setRawTimeLimit(int);
 	void setMemoryLimit(int);
+	void setRawMemoryLimit(int);
+	void setUseRunnerWrap(bool);
 	int getTimeUsed() const;
 	int getMemoryUsed() const;
 	int getScore() const;
@@ -63,7 +66,9 @@ class JudgingThread : public QThread {
 	int specialJudgeTimeLimit{};
 	int fullScore{};
 	int timeLimit{};
+	int rawTimeLimit{};
 	int memoryLimit{};
+	int rawMemoryLimit{};
 	int timeUsed;
 	int memoryUsed;
 	int score{};
@@ -71,6 +76,7 @@ class JudgingThread : public QThread {
 	ResultState result;
 	QString message;
 	bool stopJudging;
+	bool useRunnerWrap{};
 	void compareLineByLine(const QString &);
 	void compareIgnoreSpaces(const QString &);
 	void compareWithDiff(const QString &);

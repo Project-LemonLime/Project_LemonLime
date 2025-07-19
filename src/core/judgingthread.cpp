@@ -8,6 +8,7 @@
  */
 
 #include "judgingthread.h"
+#include "LemonType.hpp"
 #include "base/LemonLog.hpp"
 #include "base/settings.h"
 #include "core/judgesharedvariables.h"
@@ -86,7 +87,13 @@ void JudgingThread::setFullScore(int score) { fullScore = score; }
 
 void JudgingThread::setTimeLimit(int limit) { timeLimit = limit; }
 
+void JudgingThread::setRawTimeLimit(int limit) { rawTimeLimit = limit; }
+
 void JudgingThread::setMemoryLimit(int limit) { memoryLimit = limit; }
+
+void JudgingThread::setRawMemoryLimit(int limit) { rawMemoryLimit = limit; }
+
+void JudgingThread::setUseRunnerWrap(bool use) { useRunnerWrap = use; }
 
 auto JudgingThread::getTimeUsed() const -> int { return timeUsed; }
 
@@ -925,7 +932,20 @@ void JudgingThread::runProgram() {
 
 	argumentsList << watcher.fileName();
 
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	if (useRunnerWrap) {
+		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mb=%4")
+		                  .arg(executableFile, arguments, QString::number(rawTimeLimit),
+		                       QString::number(rawMemoryLimit));
+		if (! task->getStandardInputCheck()) {
+			arg += " --lemon-input-file=" + task->getInputFileName();
+		}
+		if (! task->getStandardOutputCheck()) {
+			arg += " --lemon-output-file=" + task->getOutputFileName();
+		}
+		argumentsList << arg;
+	} else {
+		argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	}
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
@@ -956,7 +976,21 @@ void JudgingThread::runProgram() {
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+
+	if (useRunnerWrap) {
+		QString arg = QString("\"%1\" %2 --lemon-time-limit-ms=%3 --lemon-memory-limit-mb=%4")
+		                  .arg(executableFile, arguments, QString::number(rawTimeLimit),
+		                       QString::number(rawMemoryLimit));
+		if (! task->getStandardInputCheck()) {
+			arg += " --lemon-input-file=" + task->getInputFileName();
+		}
+		if (! task->getStandardOutputCheck()) {
+			arg += " --lemon-output-file=" + task->getOutputFileName();
+		}
+		argumentsList << arg;
+	} else {
+		argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	}
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
@@ -1021,8 +1055,16 @@ void JudgingThread::runProgram() {
 		runner->waitForFinished(-1);
 		delete runner;
 		score = 0;
-		result = TimeLimitExceeded;
 		timeUsed = memoryUsed = -1;
+		if (useRunnerWrap) {
+			// Runner wrap TLE because there is no enough complier time limit ratio set. At this
+			// case, the runner wrap has not killed the participant's program, which means that the
+			// participant "probably" will not be TLE, so it is unreasonable to report a TLE.
+			result = CannotStartProgram;
+			message = "Runner wrap time limit exceeded";
+		} else {
+			result = TimeLimitExceeded;
+		}
 		return;
 	}
 
@@ -1039,12 +1081,25 @@ void JudgingThread::runProgram() {
 	if (code == 2) {
 		delete runner;
 		score = 0;
-		result = RunTimeError;
-		QFile file(workingDirectory + "_tmperr");
 
+		if (useRunnerWrap) {
+			result = CannotStartProgram;
+			message = "Runner wrap panicked\n";
+			QFile file(workingDirectory + "lemon_report.txt");
+			if (file.open(QIODevice::ReadOnly)) {
+				message += "lemon_report.txt:\n";
+				message += file.readAll().right(1024);
+				message += "\nstderr:\n";
+				file.close();
+			}
+		} else {
+			result = RunTimeError;
+			message = "";
+		}
+
+		QFile file(workingDirectory + "_tmperr");
 		if (file.open(QFile::ReadOnly)) {
-			QTextStream stream(&file);
-			message = stream.readAll();
+			message += file.readAll().right(1024);
 			file.close();
 		}
 
@@ -1052,9 +1107,11 @@ void JudgingThread::runProgram() {
 		return;
 	}
 
-	QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
-	QTextStream stream(&out, QIODevice::ReadOnly);
-	stream >> timeUsed >> memoryUsed;
+	if (! useRunnerWrap) {
+		QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
+		QTextStream stream(&out, QIODevice::ReadOnly);
+		stream >> timeUsed >> memoryUsed;
+	}
 
 	if (memoryUsed <= 0)
 		memoryLimit = -1;
@@ -1062,16 +1119,67 @@ void JudgingThread::runProgram() {
 	if (code == 3) {
 		delete runner;
 		score = 0;
-		result = TimeLimitExceeded;
 		timeUsed = -1;
+		if (useRunnerWrap) {
+			result = CannotStartProgram;
+			message = "Runner wrap time limit exceeded";
+		} else {
+			result = TimeLimitExceeded;
+		}
 		return;
 	}
 
 	if (code == 4) {
 		delete runner;
 		score = 0;
-		result = MemoryLimitExceeded;
 		memoryUsed = -1;
+		if (useRunnerWrap) {
+			result = CannotStartProgram;
+			message = "Runner wrap memory limit exceeded";
+		} else {
+			result = MemoryLimitExceeded;
+		}
+		return;
+	}
+
+	if (useRunnerWrap) {
+		delete runner;
+		bool report_valid = true;
+		QString result_str;
+		QFile file(workingDirectory + "lemon_report.txt");
+		if (file.open(QIODevice::ReadOnly)) {
+			QTextStream stream(&file);
+			stream >> result_str >> timeUsed >> memoryUsed;
+			if (stream.status() != QTextStream::Ok) {
+				report_valid = false;
+			} else {
+				message = stream.readAll().trimmed();
+			}
+		} else {
+			report_valid = false;
+		}
+
+		if (report_valid) {
+			if (result_str == "accepted") {
+				result = CorrectAnswer;
+			} else if (result_str == "time_limit_exceeded") {
+				result = TimeLimitExceeded;
+			} else if (result_str == "memory_limit_exceeded") {
+				result = MemoryLimitExceeded;
+			} else if (result_str == "runtime_error") {
+				result = RunTimeError;
+			} else {
+				result = CannotStartProgram;
+				message = "Runner wrap reported an invalid result: " + result_str;
+			}
+			if (result != CorrectAnswer) {
+				score = 0;
+			}
+		} else {
+			result = CannotStartProgram;
+			message = "Runner wrap did not create a valid `lemon_report.txt` file";
+			score = 0;
+		}
 		return;
 	}
 
@@ -1146,6 +1254,10 @@ void JudgingThread::judgeTraditionalTask() {
 			QFile::remove(workingDirectory + "_tmpout");
 		}
 		QFile::remove(workingDirectory + "_tmperr");
+
+		if (useRunnerWrap) {
+			QFile::remove(workingDirectory + "lemon_report.txt");
+		}
 	});
 
 	runProgram();

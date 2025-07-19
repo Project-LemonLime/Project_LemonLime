@@ -453,6 +453,10 @@
         <translation>解释器参数</translation>
     </message>
     <message>
+        <source>Use Runner Wrap</source>
+        <translation>使用运行器包装</translation>
+    </message>
+    <message>
         <source>Environment Variables</source>
         <translation>环境变量</translation>
     </message>

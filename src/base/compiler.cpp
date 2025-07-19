@@ -16,6 +16,7 @@ Compiler::Compiler(QObject *parent) : QObject(parent) {
 	timeLimitRatio = 1;
 	memoryLimitRatio = 1;
 	disableMemoryLimitCheck = false;
+	useRunnerWrap = false;
 }
 
 auto Compiler::getCompilerType() const -> Compiler::CompilerType { return compilerType; }
@@ -44,6 +45,8 @@ auto Compiler::getMemoryLimitRatio() const -> double { return memoryLimitRatio; 
 
 auto Compiler::getDisableMemoryLimitCheck() const -> bool { return disableMemoryLimitCheck; }
 
+auto Compiler::getUseRunnerWrap() const -> bool { return useRunnerWrap; }
+
 void Compiler::setCompilerType(Compiler::CompilerType type) { compilerType = type; }
 
 void Compiler::setCompilerName(const QString &name) { compilerName = name; }
@@ -67,6 +70,8 @@ void Compiler::setTimeLimitRatio(double ratio) { timeLimitRatio = ratio; }
 void Compiler::setMemoryLimitRatio(double ratio) { memoryLimitRatio = ratio; }
 
 void Compiler::setDisableMemoryLimitCheck(bool check) { disableMemoryLimitCheck = check; }
+
+void Compiler::setUseRunnerWrap(bool use) { useRunnerWrap = use; }
 
 void Compiler::addConfiguration(const QString &name, const QString &arguments1, const QString &arguments2) {
 	configurationNames.append(name);
@@ -114,6 +119,7 @@ void Compiler::copyFrom(Compiler *other) {
 	timeLimitRatio = other->getTimeLimitRatio();
 	memoryLimitRatio = other->getMemoryLimitRatio();
 	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
+	useRunnerWrap = other->getUseRunnerWrap();
 }
 
 int Compiler::read(const QJsonObject &json) {
@@ -144,6 +150,7 @@ int Compiler::read(const QJsonObject &json) {
 	READ_JSON(json, timeLimitRatio);
 	READ_JSON(json, memoryLimitRatio);
 	READ_JSON(json, disableMemoryLimitCheck);
+	READ_JSON(json, useRunnerWrap);
 	return 0;
 }
 
@@ -164,4 +171,5 @@ void Compiler::write(QJsonObject &json) const {
 	WRITE_JSON(json, timeLimitRatio);          // double
 	WRITE_JSON(json, memoryLimitRatio);        // double
 	WRITE_JSON(json, disableMemoryLimitCheck); // bool
+	WRITE_JSON(json, useRunnerWrap);           // bool
 }
