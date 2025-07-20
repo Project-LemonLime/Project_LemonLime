@@ -433,6 +433,10 @@
         <translation></translation>
     </message>
     <message>
+        <source>Execute As Watcher</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Configuration</source>
         <translation></translation>
     </message>

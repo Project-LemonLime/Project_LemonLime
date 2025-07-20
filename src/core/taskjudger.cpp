@@ -149,7 +149,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 		compilerTimeLimitRatio = i->getTimeLimitRatio();
 		compilerMemoryLimitRatio = i->getMemoryLimitRatio();
 		disableMemoryLimitCheck = i->getDisableMemoryLimitCheck();
-		useRunnerWrap = i->getUseRunnerWrap();
+		executeAsWatcher = i->getExecuteAsWatcher();
 		environment = i->getEnvironment();
 		QStringList values = QProcessEnvironment::systemEnvironment().toStringList();
 
@@ -488,8 +488,8 @@ int TaskJudger::judge() {
 				}
 				thread->setRawMemoryLimit(curTestCase->getMemoryLimit());
 
-				if (useRunnerWrap) {
-					thread->setUseRunnerWrap(true);
+				if (executeAsWatcher) {
+					thread->setExecuteAsWatcher(true);
 				}
 			}
 			thread->start();

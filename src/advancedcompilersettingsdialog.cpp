@@ -43,8 +43,8 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	        &AdvancedCompilerSettingsDialog::memoryLimitRatioChanged);
 	connect(ui->disableMemoryLimit, &QCheckBox::stateChanged, this,
 	        &AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged);
-	connect(ui->useRunnerWrap, &QCheckBox::stateChanged, this,
-	        &AdvancedCompilerSettingsDialog::useRunnerWrapCheckChanged);
+	connect(ui->executeAsWatcher, &QCheckBox::stateChanged, this,
+	        &AdvancedCompilerSettingsDialog::executeAsWatcherCheckChanged);
 	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &AdvancedCompilerSettingsDialog::configurationIndexChanged);
 	connect(ui->configurationSelect, &QComboBox::editTextChanged, this,
@@ -72,7 +72,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler) {
 	ui->timeLimitRatio->setValue(editCompiler->getTimeLimitRatio());
 	ui->memoryLimitRatio->setValue(editCompiler->getMemoryLimitRatio());
 	ui->disableMemoryLimit->setChecked(editCompiler->getDisableMemoryLimitCheck());
-	ui->useRunnerWrap->setChecked(editCompiler->getUseRunnerWrap());
+	ui->executeAsWatcher->setChecked(editCompiler->getExecuteAsWatcher());
 	ui->memoryLimitRatio->setEnabled(! editCompiler->getDisableMemoryLimitCheck());
 	QStringList configurationNames = editCompiler->getConfigurationNames();
 	ui->configurationSelect->setEnabled(false);
@@ -236,9 +236,9 @@ void AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged() {
 	ui->memoryLimitRatio->setEnabled(! check);
 }
 
-void AdvancedCompilerSettingsDialog::useRunnerWrapCheckChanged() {
-	bool check = ui->useRunnerWrap->isChecked();
-	editCompiler->setUseRunnerWrap(check);
+void AdvancedCompilerSettingsDialog::executeAsWatcherCheckChanged() {
+	bool check = ui->executeAsWatcher->isChecked();
+	editCompiler->setExecuteAsWatcher(check);
 }
 
 void AdvancedCompilerSettingsDialog::configurationIndexChanged() {

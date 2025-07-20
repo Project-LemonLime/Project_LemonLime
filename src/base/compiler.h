@@ -34,7 +34,7 @@ class Compiler : public QObject {
 	double getTimeLimitRatio() const;
 	double getMemoryLimitRatio() const;
 	bool getDisableMemoryLimitCheck() const;
-	bool getUseRunnerWrap() const;
+	bool getExecuteAsWatcher() const;
 
 	void setCompilerType(CompilerType);
 	void setCompilerName(const QString &);
@@ -46,7 +46,7 @@ class Compiler : public QObject {
 	void setTimeLimitRatio(double);
 	void setMemoryLimitRatio(double);
 	void setDisableMemoryLimitCheck(bool);
-	void setUseRunnerWrap(bool);
+	void setExecuteAsWatcher(bool);
 
 	void addConfiguration(const QString &, const QString &, const QString &);
 	void setConfigName(int, const QString &);
@@ -73,5 +73,5 @@ class Compiler : public QObject {
 	double timeLimitRatio;
 	double memoryLimitRatio;
 	bool disableMemoryLimitCheck;
-	bool useRunnerWrap;
+	bool executeAsWatcher;
 };
