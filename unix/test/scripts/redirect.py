@@ -6,7 +6,7 @@ with open('_tmpin', 'w') as f:
     f.writelines(['1 1'])
 
 cmd = "\"%s\" %s" % ("./add", "")
-p = subprocess.Popen(["./watcher_unix", cmd, "_tmpin", "_tmpout", "_tmperr", "1000", "100"], shell=False)
+p = subprocess.Popen(["./watcher_unix", cmd, "_tmpin", "_tmpout", "_tmperr", "1000", "100", "1000", "100", "", ""], shell=False)
 
 time.sleep(2)
 p.kill()
