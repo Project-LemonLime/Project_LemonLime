@@ -304,9 +304,9 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QCheckBox" name="executeAsWatcher">
+       <widget class="QCheckBox" name="interpreterAsWatcher">
         <property name="text">
-         <string>Execute As Watcher</string>
+         <string>Interpreter As Watcher</string>
         </property>
        </widget>
       </item>
@@ -425,7 +425,7 @@
   <tabstop>deleteConfigurationButton</tabstop>
   <tabstop>compilerArguments</tabstop>
   <tabstop>interpreterArguments</tabstop>
-  <tabstop>executeAsWatcher</tabstop>
+  <tabstop>interpreterAsWatcher</tabstop>
   <tabstop>environmentVariablesButton</tabstop>
  </tabstops>
  <resources>

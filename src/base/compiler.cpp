@@ -16,7 +16,7 @@ Compiler::Compiler(QObject *parent) : QObject(parent) {
 	timeLimitRatio = 1;
 	memoryLimitRatio = 1;
 	disableMemoryLimitCheck = false;
-	executeAsWatcher = false;
+	interpreterAsWatcher = false;
 }
 
 auto Compiler::getCompilerType() const -> Compiler::CompilerType { return compilerType; }
@@ -45,7 +45,7 @@ auto Compiler::getMemoryLimitRatio() const -> double { return memoryLimitRatio; 
 
 auto Compiler::getDisableMemoryLimitCheck() const -> bool { return disableMemoryLimitCheck; }
 
-auto Compiler::getExecuteAsWatcher() const -> bool { return executeAsWatcher; }
+auto Compiler::getInterpreterAsWatcher() const -> bool { return interpreterAsWatcher; }
 
 void Compiler::setCompilerType(Compiler::CompilerType type) { compilerType = type; }
 
@@ -71,7 +71,7 @@ void Compiler::setMemoryLimitRatio(double ratio) { memoryLimitRatio = ratio; }
 
 void Compiler::setDisableMemoryLimitCheck(bool check) { disableMemoryLimitCheck = check; }
 
-void Compiler::setExecuteAsWatcher(bool use) { executeAsWatcher = use; }
+void Compiler::setInterpreterAsWatcher(bool use) { interpreterAsWatcher = use; }
 
 void Compiler::addConfiguration(const QString &name, const QString &arguments1, const QString &arguments2) {
 	configurationNames.append(name);
@@ -119,7 +119,7 @@ void Compiler::copyFrom(Compiler *other) {
 	timeLimitRatio = other->getTimeLimitRatio();
 	memoryLimitRatio = other->getMemoryLimitRatio();
 	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
-	executeAsWatcher = other->getExecuteAsWatcher();
+	interpreterAsWatcher = other->getInterpreterAsWatcher();
 }
 
 int Compiler::read(const QJsonObject &json) {
@@ -150,7 +150,7 @@ int Compiler::read(const QJsonObject &json) {
 	READ_JSON(json, timeLimitRatio);
 	READ_JSON(json, memoryLimitRatio);
 	READ_JSON(json, disableMemoryLimitCheck);
-	READ_JSON(json, executeAsWatcher);
+	READ_JSON(json, interpreterAsWatcher);
 	return 0;
 }
 
@@ -171,5 +171,5 @@ void Compiler::write(QJsonObject &json) const {
 	WRITE_JSON(json, timeLimitRatio);          // double
 	WRITE_JSON(json, memoryLimitRatio);        // double
 	WRITE_JSON(json, disableMemoryLimitCheck); // bool
-	WRITE_JSON(json, executeAsWatcher);        // bool
+	WRITE_JSON(json, interpreterAsWatcher);    // bool
 }

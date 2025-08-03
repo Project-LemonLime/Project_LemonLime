@@ -433,7 +433,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Execute As Watcher</source>
+        <source>Interpreter As Watcher</source>
         <translation></translation>
     </message>
     <message>

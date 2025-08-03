@@ -93,7 +93,7 @@ void JudgingThread::setMemoryLimit(int limit) { memoryLimit = limit; }
 
 void JudgingThread::setRawMemoryLimit(int limit) { rawMemoryLimit = limit; }
 
-void JudgingThread::setExecuteAsWatcher(bool use) { executeAsWatcher = use; }
+void JudgingThread::setInterpreterAsWatcher(bool use) { interpreterAsWatcher = use; }
 
 auto JudgingThread::getTimeUsed() const -> int { return timeUsed; }
 
@@ -896,7 +896,7 @@ void JudgingThread::runProgram() {
 	// TODO: rewrite with cgroup
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
 
-	if (executeAsWatcher) {
+	if (interpreterAsWatcher) {
 		QFile::copy(executableFile, watcher.fileName());
 	} else {
 		QFile::copy(":/watcher/watcher_unix", watcher.fileName());
@@ -980,7 +980,7 @@ void JudgingThread::runProgram() {
 
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
 
-	if (executeAsWatcher) {
+	if (interpreterAsWatcher) {
 		QFile::copy(executableFile, watcher.fileName());
 	} else {
 		QFile::copy(":/watcher/watcher_unix", watcher.fileName());
@@ -1194,7 +1194,7 @@ void JudgingThread::judgeTraditionalTask() {
 		}
 		QFile::remove(workingDirectory + "_tmperr");
 
-		if (executeAsWatcher) {
+		if (interpreterAsWatcher) {
 			QFile::remove(workingDirectory + "lemon_report.txt");
 		}
 	});
