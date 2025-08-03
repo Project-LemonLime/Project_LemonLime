@@ -2,12 +2,16 @@ import subprocess
 import shutil
 import os
 
+pid = os.getpid()
+tmpout = f"_tmpout_{pid}"
+tmperr = f"_tmperr_{pid}"
+
 shutil.copy("./hello", "./he llo")
 
 cmd = "\"%s\" %s" % ("./he llo", "")
-p = subprocess.Popen(["./watcher_unix", cmd, "", "_tmpout", "_tmperr", "1000", "100", "1000", "100", "", ""], shell=False, stdout=subprocess.PIPE)
+p = subprocess.Popen(["./watcher_unix", cmd, "", tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False, stdout=subprocess.PIPE)
 
 assert(p.wait() == 0)
-assert(os.path.exists('_tmpout'))
-with open('_tmpout', 'r') as f:
+assert(os.path.exists(tmpout))
+with open(tmpout, 'r') as f:
     assert(f.read() == "Hello World!\n")
