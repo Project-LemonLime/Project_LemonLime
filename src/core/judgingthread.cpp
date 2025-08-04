@@ -1193,10 +1193,6 @@ void JudgingThread::judgeTraditionalTask() {
 			QFile::remove(workingDirectory + "_tmpout");
 		}
 		QFile::remove(workingDirectory + "_tmperr");
-
-		if (interpreterAsWatcher) {
-			QFile::remove(workingDirectory + "lemon_report.txt");
-		}
 	});
 
 	runProgram();

@@ -488,9 +488,7 @@ int TaskJudger::judge() {
 				}
 				thread->setRawMemoryLimit(curTestCase->getMemoryLimit());
 
-				if (interpreterAsWatcher) {
-					thread->setInterpreterAsWatcher(true);
-				}
+				thread->setInterpreterAsWatcher(interpreterAsWatcher);
 			}
 			thread->start();
 			thread->wait();
