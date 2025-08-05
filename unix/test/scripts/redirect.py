@@ -10,8 +10,7 @@ tmperr = f"_tmperr_{pid}"
 with open(tmpin, 'w') as f:
     f.writelines(['1 1'])
 
-cmd = "\"%s\" %s" % ("./add", "")
-p = subprocess.Popen(["./watcher_unix", cmd, tmpin, tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False)
+p = subprocess.Popen(["./watcher_unix", "./add", "", tmpin, tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False)
 
 time.sleep(2)
 p.kill()

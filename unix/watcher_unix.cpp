@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 #include <string>
 #include <sys/fcntl.h>
 #include <sys/resource.h>
@@ -40,49 +41,44 @@ enum : int {
 };
 
 /**
- * argv[1]: QString("\"%1\" %2").arg(executableFile, arguments) in `judgingthread.cpp` 执行命令
- * argv[2]: 重定向输入文件（如果有）
- * argv[3]: 重定向输出文件（如果有）
- * argv[4]: 重定向错误流文件（如果有）
- * argv[5]: 时间限制（毫秒）
- * argv[6]: 空间限制（MiB），若为负数表示无限制
- * argv[7]: 原始（未经语言设置缩放的）时间限制（毫秒）
- * argv[8]: 原始（未经语言设置缩放的）空间限制（MiB）
- * argv[9]: 选手程序只读的文件
- * argv[10]: 选手程序只写的文件
+ * argv[1]: executable file path
+ * argv[2]: 执行选手程序时，传递的命令行参数，但不包含 argv0
+ * argv[3]: 重定向输入文件（如果有）
+ * argv[4]: 重定向输出文件（如果有）
+ * argv[5]: 重定向错误流文件（如果有）
+ * argv[6]: 时间限制（毫秒）
+ * argv[7]: 空间限制（MiB），若为负数表示无限制
+ * argv[8]: 原始（未经语言设置缩放的）时间限制（毫秒）
+ * argv[9]: 原始（未经语言设置缩放的）空间限制（MiB）
+ * argv[10]: 选手程序只读的文件
+ * argv[11]: 选手程序只写的文件
  */
 auto main(int argc, char *argv[]) -> int {
-	if (argc != 11) {
+	if (argc != 12) {
 		printf("-1\n-1\n");
 		fprintf(stderr, "Expected 11 arguments, found %d\n", argc);
 		return RS_FAIL;
 	}
-	std::string runCmd = argv[1];
-	std::string stdinRedirect = argv[2];
-	std::string stdoutRedirect = argv[3];
-	std::string stderrRedirect = argv[4];
-	long long timeLimitMs = std::stoll(argv[5]);
-	long long memoryLimitMib = std::stoll(argv[6]);
-	[[maybe_unused]] long long rawTimeLimitMs = std::stoll(argv[7]);
-	[[maybe_unused]] long long rawMemoryLimitMib = std::stoll(argv[8]);
-	[[maybe_unused]] std::string readableFile = argv[9];
-	[[maybe_unused]] std::string writableFile = argv[10];
+	std::string fileName = argv[1];
+	std::string runArgs = argv[2];
+	std::string stdinRedirect = argv[3];
+	std::string stdoutRedirect = argv[4];
+	std::string stderrRedirect = argv[5];
+	long long timeLimitMs = std::stoll(argv[6]);
+	long long memoryLimitMib = std::stoll(argv[7]);
+	[[maybe_unused]] long long rawTimeLimitMs = std::stoll(argv[8]);
+	[[maybe_unused]] long long rawMemoryLimitMib = std::stoll(argv[9]);
+	[[maybe_unused]] std::string readableFile = argv[10];
+	[[maybe_unused]] std::string writableFile = argv[11];
 
 	initWatcher();
 
-	// Extract filename from runCmd. The format is assumed to be "\"filename\" arguments".
-	// We want to extract "filename".
-	std::string fileName;
-	size_t firstQuote = runCmd.find("\"");
-	size_t secondQuote = runCmd.find("\"", firstQuote + 1);
-	if (firstQuote != std::string::npos && secondQuote != std::string::npos) {
-		fileName = runCmd.substr(firstQuote + 1, secondQuote - (firstQuote + 1));
-	} else {
-		// Fallback if format is unexpected, e.g., no quotes.
-		printf("-1\n-1\n");
-		fprintf(stderr, "Malformed run command string: %s\n", runCmd.c_str());
-		return RS_FAIL;
-	}
+	std::ostringstream ss;
+	ss << '"';
+	ss << fileName;
+	ss << "\" ";
+	ss << runArgs;
+	std::string runCmd = ss.str();
 
 	if (memoryLimitMib > 0) {
 		ssize_t staticMemoryUsageByte = calculateStaticMemoryUsage(fileName);

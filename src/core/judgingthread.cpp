@@ -938,7 +938,8 @@ void JudgingThread::runProgram() {
 
 	argumentsList << watcher.fileName();
 
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	argumentsList << executableFile;
+	argumentsList << arguments;
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
@@ -990,7 +991,8 @@ void JudgingThread::runProgram() {
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	argumentsList << executableFile;
+	argumentsList << arguments;
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();

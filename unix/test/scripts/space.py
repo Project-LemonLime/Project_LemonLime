@@ -8,8 +8,7 @@ tmperr = f"_tmperr_{pid}"
 
 shutil.copy("./hello", "./he llo")
 
-cmd = "\"%s\" %s" % ("./he llo", "")
-p = subprocess.Popen(["./watcher_unix", cmd, "", tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False, stdout=subprocess.PIPE)
+p = subprocess.Popen(["./watcher_unix", "./he llo", "", "", tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False, stdout=subprocess.PIPE)
 
 assert(p.wait() == 0)
 assert(os.path.exists(tmpout))
