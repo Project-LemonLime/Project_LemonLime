@@ -1,16 +1,18 @@
 import subprocess
 import os
 
+pid = os.getpid()
+tmpout = f"_tmpout_{pid}"
+tmperr = f"_tmperr_{pid}"
+
 if os.path.exists("hello_s_rel"):
     os.remove("hello_s_rel")
 
 os.symlink("hello", "hello_s_rel")
 
-cmd = "\"%s\" %s" % ("./hello_s_rel", "")
-p = subprocess.Popen(["./watcher_unix", cmd, "", "", "_tmperr", "1000", "100"], shell=False, stdout=subprocess.PIPE)
-
-stdout, _ = p.communicate()
+p = subprocess.Popen(["./watcher_unix", "./hello_s_rel", "", "", tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False, stdout=subprocess.PIPE)
 
 assert(p.wait() == 0)
-out_str = stdout.decode()
-assert(out_str.split('\n')[0] == 'Hello World!')
+assert(os.path.exists(tmpout))
+with open(tmpout, 'r') as f:
+    assert(f.read() == "Hello World!\n")

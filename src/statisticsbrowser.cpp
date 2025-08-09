@@ -270,7 +270,7 @@ auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestan
 
 				for (int k = 0; k < testCaseList.length(); k++) {
 
-					//如果有子任务依赖，就会比一般的题目多一个 score 存依赖
+					// 如果有子任务依赖，就会比一般的题目多一个 score 存依赖
 
 					if (scoreList[k].length() - (! testCaseList[k]->getDependenceSubtask().empty()) !=
 					    testCaseList[k]->getInputFiles().length())

@@ -8,6 +8,7 @@
  */
 
 #include "judgingthread.h"
+#include "LemonType.hpp"
 #include "base/LemonLog.hpp"
 #include "base/settings.h"
 #include "core/judgesharedvariables.h"
@@ -86,7 +87,13 @@ void JudgingThread::setFullScore(int score) { fullScore = score; }
 
 void JudgingThread::setTimeLimit(int limit) { timeLimit = limit; }
 
+void JudgingThread::setRawTimeLimit(int limit) { rawTimeLimit = limit; }
+
 void JudgingThread::setMemoryLimit(int limit) { memoryLimit = limit; }
+
+void JudgingThread::setRawMemoryLimit(int limit) { rawMemoryLimit = limit; }
+
+void JudgingThread::setInterpreterAsWatcher(bool use) { interpreterAsWatcher = use; }
 
 auto JudgingThread::getTimeUsed() const -> int { return timeUsed; }
 
@@ -888,7 +895,13 @@ void JudgingThread::runProgram() {
 #ifdef Q_OS_LINUX
 	// TODO: rewrite with cgroup
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
-	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+
+	if (interpreterAsWatcher) {
+		QFile::copy(executableFile, watcher.fileName());
+	} else {
+		QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+	}
+
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
@@ -925,7 +938,8 @@ void JudgingThread::runProgram() {
 
 	argumentsList << watcher.fileName();
 
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+	argumentsList << executableFile;
+	argumentsList << arguments;
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
@@ -942,6 +956,20 @@ void JudgingThread::runProgram() {
 	argumentsList << "_tmperr";
 	argumentsList << QString("%1").arg(timeLimit + extraTime);
 	argumentsList << QString("%1").arg(memoryLimit);
+	argumentsList << QString("%1").arg(rawTimeLimit);
+	argumentsList << QString("%1").arg(rawMemoryLimit);
+
+	if (task->getStandardInputCheck()) {
+		argumentsList << "";
+	} else {
+		argumentsList << task->getInputFileName();
+	}
+
+	if (task->getStandardOutputCheck()) {
+		argumentsList << "";
+	} else {
+		argumentsList << task->getOutputFileName();
+	}
 
 	qDebug() << argumentsList;
 
@@ -952,11 +980,19 @@ void JudgingThread::runProgram() {
 #else
 
 	QFile watcher(workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
-	QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+
+	if (interpreterAsWatcher) {
+		QFile::copy(executableFile, watcher.fileName());
+	} else {
+		QFile::copy(":/watcher/watcher_unix", watcher.fileName());
+	}
+
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
-	argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+
+	argumentsList << executableFile;
+	argumentsList << arguments;
 
 	if (task->getStandardInputCheck()) {
 		argumentsList << QFileInfo(inputFile).absoluteFilePath();
@@ -973,6 +1009,22 @@ void JudgingThread::runProgram() {
 	argumentsList << "_tmperr";
 	argumentsList << QString("%1").arg(timeLimit + extraTime);
 	argumentsList << QString("%1").arg(memoryLimit);
+	argumentsList << QString("%1").arg(rawTimeLimit);
+	argumentsList << QString("%1").arg(rawMemoryLimit);
+
+	if (task->getStandardInputCheck()) {
+		argumentsList << "";
+	} else {
+		argumentsList << task->getInputFileName();
+	}
+
+	if (task->getStandardOutputCheck()) {
+		argumentsList << "";
+	} else {
+		argumentsList << task->getOutputFileName();
+	}
+
+	qDebug() << argumentsList;
 
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
@@ -984,6 +1036,7 @@ void JudgingThread::runProgram() {
 		delete runner;
 		score = 0;
 		result = CannotStartProgram;
+		message = "Start runner failed";
 		return;
 	}
 
@@ -1021,65 +1074,61 @@ void JudgingThread::runProgram() {
 		runner->waitForFinished(-1);
 		delete runner;
 		score = 0;
-		result = TimeLimitExceeded;
 		timeUsed = memoryUsed = -1;
+		// Watcher usually needs to handle the situation of program timeout and kill it. Therefore, it is
+		// abnormal for watcher to timeout itself, and report FAIL instead of TLE.
+		result = CannotStartProgram;
+		message = "Watcher time limit exceeded";
 		return;
 	}
+
+	{
+		QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
+		QTextStream stream(&out, QIODevice::ReadOnly);
+		stream >> timeUsed >> memoryUsed;
+	}
+
+	message = QString::fromLocal8Bit(runner->readAllStandardError().constData());
+
+	enum : int {
+		RS_AC = 0,
+		RS_FAIL = 1,
+		RS_RE = 2,
+		RS_TLE = 3,
+		RS_MLE = 4,
+	};
 
 	int code = runner->exitCode();
 
-	if (code == 1) {
-		delete runner;
-		score = 0;
-		result = CannotStartProgram;
-		timeUsed = memoryUsed = -1;
-		return;
-	}
-
-	if (code == 2) {
-		delete runner;
-		score = 0;
-		result = RunTimeError;
-		QFile file(workingDirectory + "_tmperr");
-
-		if (file.open(QFile::ReadOnly)) {
-			QTextStream stream(&file);
-			message = stream.readAll();
-			file.close();
-		}
-
-		timeUsed = memoryUsed = -1;
-		return;
-	}
-
-	QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
-	QTextStream stream(&out, QIODevice::ReadOnly);
-	stream >> timeUsed >> memoryUsed;
-
-	if (memoryUsed <= 0)
-		memoryLimit = -1;
-
-	if (code == 3) {
-		delete runner;
-		score = 0;
-		result = TimeLimitExceeded;
-		timeUsed = -1;
-		return;
-	}
-
-	if (code == 4) {
-		delete runner;
-		score = 0;
-		result = MemoryLimitExceeded;
-		memoryUsed = -1;
-		return;
-	}
-
-	if (memoryUsed > memoryLimit * 1024LL * 1024) {
-		delete runner;
-		score = 0;
-		result = MemoryLimitExceeded;
-		return;
+	switch (code) {
+		case RS_RE:
+			result = RunTimeError;
+			score = 0;
+			[[fallthrough]];
+		case RS_AC: {
+			QFile file(workingDirectory + "_tmperr");
+			if (file.open(QFile::ReadOnly)) {
+				message += file.readAll().right(1024);
+				file.close();
+			}
+		} break;
+		case RS_FAIL:
+			result = CannotStartProgram;
+			score = 0;
+			break;
+		case RS_TLE:
+			result = TimeLimitExceeded;
+			score = 0;
+			break;
+		case RS_MLE:
+			result = MemoryLimitExceeded;
+			score = 0;
+			break;
+		default:
+			result = CannotStartProgram;
+			score = 0;
+			message = QString("Watcher reported an invalid result: %1").arg(code);
+			break;
 	}
 
 	delete runner;

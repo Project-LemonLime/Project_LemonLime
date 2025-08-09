@@ -43,6 +43,7 @@ class AdvancedCompilerSettingsDialog : public QDialog {
 	void timeLimitRatioChanged();
 	void memoryLimitRatioChanged();
 	void disableMemoryLimitCheckChanged();
+	void interpreterAsWatcherCheckChanged();
 	void configurationIndexChanged();
 	void configurationTextChanged();
 	void deleteConfiguration();

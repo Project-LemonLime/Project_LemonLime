@@ -453,6 +453,10 @@
         <translation>解释器参数</translation>
     </message>
     <message>
+        <source>Interpreter As Watcher</source>
+        <translation>解释器视为 Watcher</translation>
+    </message>
+    <message>
         <source>Environment Variables</source>
         <translation>环境变量</translation>
     </message>

@@ -43,6 +43,8 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	        &AdvancedCompilerSettingsDialog::memoryLimitRatioChanged);
 	connect(ui->disableMemoryLimit, &QCheckBox::stateChanged, this,
 	        &AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged);
+	connect(ui->interpreterAsWatcher, &QCheckBox::stateChanged, this,
+	        &AdvancedCompilerSettingsDialog::interpreterAsWatcherCheckChanged);
 	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &AdvancedCompilerSettingsDialog::configurationIndexChanged);
 	connect(ui->configurationSelect, &QComboBox::editTextChanged, this,
@@ -70,6 +72,7 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler) {
 	ui->timeLimitRatio->setValue(editCompiler->getTimeLimitRatio());
 	ui->memoryLimitRatio->setValue(editCompiler->getMemoryLimitRatio());
 	ui->disableMemoryLimit->setChecked(editCompiler->getDisableMemoryLimitCheck());
+	ui->interpreterAsWatcher->setChecked(editCompiler->getInterpreterAsWatcher());
 	ui->memoryLimitRatio->setEnabled(! editCompiler->getDisableMemoryLimitCheck());
 	QStringList configurationNames = editCompiler->getConfigurationNames();
 	ui->configurationSelect->setEnabled(false);
@@ -145,12 +148,14 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged() {
 		ui->interpreterSelectButton->setEnabled(false);
 		ui->interpreterArgumentsLabel->setEnabled(false);
 		ui->interpreterArguments->setEnabled(false);
+		ui->interpreterAsWatcher->setEnabled(false);
 	} else {
 		ui->interpreterLabel->setEnabled(true);
 		ui->interpreterLocation->setEnabled(true);
 		ui->interpreterSelectButton->setEnabled(true);
 		ui->interpreterArgumentsLabel->setEnabled(true);
 		ui->interpreterArguments->setEnabled(true);
+		ui->interpreterAsWatcher->setEnabled(true);
 	}
 
 	if (editCompiler->getCompilerType() == Compiler::InterpretiveWithByteCode) {
@@ -231,6 +236,11 @@ void AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged() {
 	editCompiler->setDisableMemoryLimitCheck(check);
 	ui->memoryLimitRatioLabel->setEnabled(! check);
 	ui->memoryLimitRatio->setEnabled(! check);
+}
+
+void AdvancedCompilerSettingsDialog::interpreterAsWatcherCheckChanged() {
+	bool check = ui->interpreterAsWatcher->isChecked();
+	editCompiler->setInterpreterAsWatcher(check);
 }
 
 void AdvancedCompilerSettingsDialog::configurationIndexChanged() {
