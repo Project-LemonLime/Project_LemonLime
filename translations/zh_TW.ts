@@ -2229,7 +2229,7 @@ p, li { white-space: pre-wrap; }
         <translation>HTML文件 (*.html)</translation>
     </message>
     <message>
-        <source>Export Statstics</source>
+        <source>Export Statistics</source>
         <translation>匯出統計資訊</translation>
     </message>
 </context>

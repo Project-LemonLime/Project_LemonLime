@@ -2221,7 +2221,7 @@ Depends: </source>
         <translation>HTML文档 (*.html)</translation>
     </message>
     <message>
-        <source>Export Statstics</source>
+        <source>Export Statistics</source>
         <translation>导出统计信息</translation>
     </message>
     <message>

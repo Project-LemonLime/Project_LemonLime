@@ -87,7 +87,7 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	connect(ui->closeAction, &QAction::triggered, this, &LemonLime::closeAction);
 	connect(ui->addTasksAction, &QAction::triggered, this, &LemonLime::addTasksAction);
 	connect(ui->exportAction, &QAction::triggered, this, &LemonLime::exportResult);
-	connect(ui->actionExportStatistics, &QAction::triggered, this, &LemonLime::exportStatstics);
+	connect(ui->actionExportStatistics, &QAction::triggered, this, &LemonLime::exportStatistics);
 	connect(ui->aboutAction, &QAction::triggered, this, &LemonLime::aboutLemon);
 	connect(ui->actionManual, &QAction::triggered, this, &LemonLime::actionManual);
 	connect(ui->actionMore, &QAction::triggered, this, &LemonLime::actionMore);
@@ -976,7 +976,7 @@ void LemonLime::addTasksAction() {
 
 void LemonLime::exportResult() { ExportUtil::exportResult(this, curContest); }
 
-void LemonLime::exportStatstics() { StatisticsBrowser::exportStatstics(this, curContest); }
+void LemonLime::exportStatistics() { StatisticsBrowser::exportStatistics(this, curContest); }
 
 void LemonLime::changeContestName() {
 	if (! curContest) {
