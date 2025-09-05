@@ -72,7 +72,7 @@ class LemonLime : public QMainWindow {
 	void loadAction();
 	void addTasksAction();
 	void exportResult();
-	void exportStatstics();
+	void exportStatistics();
 	void changeContestName();
 	void aboutLemon();
 	void actionManual();
