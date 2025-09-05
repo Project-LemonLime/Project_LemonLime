@@ -29,7 +29,7 @@ class StatisticsBrowser : public QWidget {
   public:
 	explicit StatisticsBrowser(QWidget *parent = nullptr);
 	void setContest(Contest *);
-	static void exportStatstics(QWidget *, Contest *);
+	static void exportStatistics(QWidget *, Contest *);
 	~StatisticsBrowser();
 
   public slots:
@@ -42,5 +42,5 @@ class StatisticsBrowser : public QWidget {
 	static QString getScoreNormalChart(const QMap<int, int> &, int, int);
 	static QString getTestcaseScoreChart(QList<TestCase *>, QList<QList<QList<int>>>,
 	                                     QList<QList<QList<ResultState>>>);
-	static void exportStatsticsHtml(QWidget *, const QString &);
+	static void exportStatisticsHtml(QWidget *, const QString &);
 };
