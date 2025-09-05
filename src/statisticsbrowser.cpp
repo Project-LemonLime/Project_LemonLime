@@ -386,7 +386,7 @@ void StatisticsBrowser::refresh() {
 	nowBrowserText = buffer;
 }
 
-void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &fileName) {
+void StatisticsBrowser::exportStatisticsHtml(QWidget *widget, const QString &fileName) {
 	QFile file(fileName);
 
 	if (! file.open(QFile::WriteOnly)) {
@@ -405,7 +405,7 @@ void StatisticsBrowser::exportStatsticsHtml(QWidget *widget, const QString &file
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
-void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest) {
+void StatisticsBrowser::exportStatistics(QWidget *widget, Contest *curContest) {
 	if (! curContest) {
 		QMessageBox::warning(widget, tr("LemonLime"), tr("No contest yet"), QMessageBox::Ok);
 		return;
@@ -426,11 +426,11 @@ void StatisticsBrowser::exportStatstics(QWidget *widget, Contest *curContest) {
 
 	QString filter = tr("HTML Document (*.html)");
 	QString fileName = QFileDialog::getSaveFileName(
-	    widget, tr("Export Statstics"), QDir::currentPath() + QDir::separator() + "statstics.html", filter);
+	    widget, tr("Export Statistics"), QDir::currentPath() + QDir::separator() + "statistics.html", filter);
 
 	if (fileName.isEmpty())
 		return;
 
 	if (QFileInfo(fileName).suffix() == "html")
-		exportStatsticsHtml(widget, fileName);
+		exportStatisticsHtml(widget, fileName);
 }
