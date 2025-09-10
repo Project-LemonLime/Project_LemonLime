@@ -954,7 +954,7 @@ void JudgingThread::runProgram() {
 	}
 
 	argumentsList << "_tmperr";
-	argumentsList << QString("%1").arg(timeLimit + extraTime);
+	argumentsList << QString("%1").arg(timeLimit);
 	argumentsList << QString("%1").arg(memoryLimit);
 	argumentsList << QString("%1").arg(rawTimeLimit);
 	argumentsList << QString("%1").arg(rawMemoryLimit);
@@ -1007,7 +1007,7 @@ void JudgingThread::runProgram() {
 	}
 
 	argumentsList << "_tmperr";
-	argumentsList << QString("%1").arg(timeLimit + extraTime);
+	argumentsList << QString("%1").arg(timeLimit);
 	argumentsList << QString("%1").arg(memoryLimit);
 	argumentsList << QString("%1").arg(rawTimeLimit);
 	argumentsList << QString("%1").arg(rawMemoryLimit);
