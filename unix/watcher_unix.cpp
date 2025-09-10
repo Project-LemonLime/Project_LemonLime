@@ -144,29 +144,20 @@ auto main(int argc, char *argv[]) -> int {
 			return RS_RE;
 		}
 	} else {
-		if (! stdinRedirect.empty()) {
-			if (freopen(stdinRedirect.c_str(), "r", stdin) == NULL) {
-				perror("freopen stdin");
-				exit(RS_FAIL);
-			}
-		} else {
-			fclose(stdin);
+		std::string finalStdinRedirect = stdinRedirect.empty() ? "/dev/null" : stdinRedirect;
+		if (freopen(finalStdinRedirect.c_str(), "r", stdin) == NULL) {
+			perror("freopen stdin");
+			exit(RS_FAIL);
 		}
-		if (! stdoutRedirect.empty()) {
-			if (freopen(stdoutRedirect.c_str(), "w", stdout) == NULL) {
-				perror("freopen stdout");
-				exit(RS_FAIL);
-			}
-		} else {
-			fclose(stdout);
+		std::string finalStdoutRedirect = stdoutRedirect.empty() ? "/dev/null" : stdoutRedirect;
+		if (freopen(finalStdoutRedirect.c_str(), "w", stdout) == NULL) {
+			perror("freopen stdout");
+			exit(RS_FAIL);
 		}
-		if (! stderrRedirect.empty()) {
-			if (freopen(stderrRedirect.c_str(), "w", stderr) == NULL) {
-				perror("freopen stderr");
-				exit(RS_FAIL);
-			}
-		} else {
-			fclose(stderr);
+		std::string finalStderrRedirect = stderrRedirect.empty() ? "/dev/null" : stderrRedirect;
+		if (freopen(finalStderrRedirect.c_str(), "w", stderr) == NULL) {
+			perror("freopen stderr");
+			exit(RS_FAIL);
 		}
 
 		rlimit memlim{}, stalim{}, timlim{};
