@@ -51,6 +51,14 @@ jobs:
         id: get_version
         shell: bash
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+      - name: Install Build Essentials
+        run: |
+          apt update
+          apt install -y software-properties-common
+          add-apt-repository ppa:savoury1/build-tools
+          apt update
+          apt upgrade -y
+          apt install -y build-essential git perl cmake ninja-build
       - name: Checking out sources
         uses: actions/checkout@v4
         with:
