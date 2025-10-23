@@ -2369,12 +2369,20 @@ p, li { white-space: pre-wrap; }
         <translation>实数比较模式</translation>
     </message>
     <message>
-        <source>Special judge mode</source>
-        <translation>自定义校验器模式</translation>
+        <source>Special judge mode (lemon)</source>
+        <translation>自定义校验器模式（lemon）</translation>
+    </message>
+    <message>
+        <source>Special judge mode (testlib)</source>
+        <translation>自定义校验器模式（testlib）</translation>
     </message>
     <message>
         <source>Arguments:</source>
         <translation>参数：</translation>
+    </message>
+    <message>
+        <source>Exec File Path:</source>
+        <translation>可执行文件路径：</translation>
     </message>
     <message>
         <source>Grader Files</source>

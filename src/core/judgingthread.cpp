@@ -19,6 +19,8 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QLocale>
+#include <QRegularExpression>
 #include <QTextStream>
 #include <QTime>
 #include <QUuid>
@@ -449,7 +451,7 @@ void JudgingThread::compareRealNumbers(const QString &contestantOutput) {
 	fclose(standardOutputFile);
 }
 
-void JudgingThread::specialJudge(const QString &fileName) {
+void JudgingThread::lemonSpecialJudge(const QString &fileName) {
 	if (! QFileInfo::exists(inputFile)) {
 		score = 0;
 		result = FileError;
@@ -552,6 +554,132 @@ void JudgingThread::specialJudge(const QString &fileName) {
 		QTextStream messageStream(&messageFile);
 		message = messageStream.readAll();
 		messageFile.close();
+	}
+
+	if (score == 0)
+		result = WrongAnswer;
+
+	if (0 < score && score < fullScore)
+		result = PartlyCorrect;
+
+	if (score >= fullScore)
+		result = CorrectAnswer;
+}
+
+void JudgingThread::testlibSpecialJudge(const QString &fileName) {
+	if (! QFileInfo::exists(inputFile)) {
+		score = 0;
+		result = FileError;
+		message = tr("Cannot find standard input file");
+		return;
+	}
+
+	if (! QFileInfo::exists(fileName)) {
+		score = 0;
+		result = FileError;
+		message = tr(R"(Cannot find contestant's output file)");
+		return;
+	}
+
+	if (! QFileInfo::exists(outputFile)) {
+		score = 0;
+		result = FileError;
+		message = tr("Cannot find standard output file");
+		return;
+	}
+
+	auto judge = std::make_unique<QProcess>(this);
+	QStringList arguments;
+	arguments << inputFile << fileName << outputFile;
+	judge->setStandardErrorFile(workingDirectory + "_score");
+	judge->start(Settings::dataPath() + task->getSpecialJudge(), arguments);
+
+	if (! judge->waitForStarted(-1)) {
+		score = 0;
+		result = InvalidSpecialJudge;
+		return;
+	}
+
+	QFile scoreFile(workingDirectory + "_score");
+
+	auto removeTempFiles = qScopeGuard([&] {
+		scoreFile.remove();
+	});
+
+	QElapsedTimer timer;
+	timer.start();
+	bool flag = false;
+
+	while (timer.elapsed() < specialJudgeTimeLimit) {
+		if (judge->state() != QProcess::Running) {
+			flag = true;
+			break;
+		}
+
+		QCoreApplication::processEvents();
+
+		if (stopJudging) {
+			judge->kill();
+			return;
+		}
+
+		msleep(10);
+	}
+
+	if (! flag) {
+		judge->kill();
+		score = 0;
+		result = SpecialJudgeTimeLimitExceeded;
+		return;
+	}
+
+	if (! scoreFile.open(QFile::ReadOnly)) {
+		score = 0;
+		result = InvalidSpecialJudge;
+		return;
+	}
+
+	QTextStream scoreStream(&scoreFile);
+	message = scoreStream.readAll();
+
+	score = 0;
+
+    if (message.startsWith("ok")) {
+        score = fullScore;
+    }
+
+    if (message.startsWith("FAIL")) {
+        score = 0;
+		result = InvalidSpecialJudge;
+		return;
+    }
+	
+	QRegularExpressionMatch m = QRegularExpression("^\\s*partially correct\\s*\\(\\s*(\\d{1,3})\\s*\\)").match(message);
+	if (m.hasMatch()) {
+		QString numStr = m.captured(1);
+		int val = QLocale::c().toInt(numStr);
+		score = val * fullScore / 100;
+	}
+
+	m = QRegularExpression("^\\s*points\\s*([0-9]+(?:\\.[0-9]+)?)").match(message);
+	if (m.hasMatch()) {
+		QString numStr = m.captured(1);
+		double val = QLocale::c().toDouble(numStr);
+		score = val * fullScore;
+	}
+
+	if (scoreStream.status() == QTextStream::ReadCorruptData) {
+		score = 0;
+		result = InvalidSpecialJudge;
+		return;
+	}
+
+	scoreFile.close();
+
+	if (score < 0) {
+		score = 0;
+		result = InvalidSpecialJudge;
+		return;
 	}
 
 	if (score == 0)
@@ -1164,8 +1292,12 @@ void JudgingThread::judgeOutput() {
 			compareRealNumbers(fileName);
 			break;
 
-		case Task::SpecialJudgeMode:
-			specialJudge(fileName);
+		case Task::LemonSpecialJudgeMode:
+			lemonSpecialJudge(fileName);
+			break;
+			
+		case Task::TestlibSpecialJudgeMode:
+			testlibSpecialJudge(fileName);
 			break;
 	}
 }
@@ -1238,9 +1370,13 @@ void JudgingThread::judgeAnswersOnlyTask() {
 		case Task::RealNumberMode:
 			compareRealNumbers(answerFile);
 			break;
-
-		case Task::SpecialJudgeMode:
-			specialJudge(answerFile);
+			
+		case Task::LemonSpecialJudgeMode:
+			lemonSpecialJudge(answerFile);
+			break;
+			
+		case Task::TestlibSpecialJudgeMode:
+			testlibSpecialJudge(answerFile);
 			break;
 	}
 }

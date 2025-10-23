@@ -17,10 +17,12 @@
 TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget) {
 	ui->setupUi(this);
 	editTask = nullptr;
-	ui->specialJudge->setFilters(QDir::Files | QDir::Executable);
+	ui->lemonSpecialJudge->setFilters(QDir::Files | QDir::Executable);
+	ui->testlibSpecialJudge->setFilters(QDir::Files | QDir::Executable);
 	ui->interactorPath->setFilters(QDir::Files);
 	ui->graderPath->setFilters(QDir::Files);
-	connect(this, &TaskEditWidget::dataPathChanged, ui->specialJudge, &FileLineEdit::refreshFileList);
+	connect(this, &TaskEditWidget::dataPathChanged, ui->lemonSpecialJudge, &FileLineEdit::refreshFileList);
+	connect(this, &TaskEditWidget::dataPathChanged, ui->testlibSpecialJudge, &FileLineEdit::refreshFileList);
 	connect(this, &TaskEditWidget::dataPathChanged, ui->interactorPath, &FileLineEdit::refreshFileList);
 	connect(this, &TaskEditWidget::dataPathChanged, ui->graderPath, &FileLineEdit::refreshFileList);
 	ui->sourceFileName->setValidator(new QRegularExpressionValidator(QRegularExpression("\\w+"), this));
@@ -54,7 +56,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	connect(ui->diffArguments, &QLineEdit::textChanged, this, &TaskEditWidget::diffArgumentsChanged);
 	connect(ui->realPrecision, qOverload<int>(&QSpinBox::valueChanged), this,
 	        &TaskEditWidget::realPrecisionChanged);
-	connect(ui->specialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
+	connect(ui->lemonSpecialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
+	connect(ui->testlibSpecialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
 	connect(ui->interactorPath, &QLineEdit::textChanged, this, &TaskEditWidget::interactorChanged);
 	connect(ui->interactorName, &QLineEdit::textChanged, this, &TaskEditWidget::interactorNameChanged);
 	connect(ui->graderPath, &QLineEdit::textChanged, this, &TaskEditWidget::graderChanged);
@@ -110,7 +113,8 @@ void TaskEditWidget::setEditTask(Task *task) {
 	ui->comparisonMode->setCurrentIndex(int(editTask->getComparisonMode()));
 	ui->diffArguments->setText(editTask->getDiffArguments());
 	ui->realPrecision->setValue(editTask->getRealPrecision());
-	ui->specialJudge->setText(editTask->getSpecialJudge());
+	ui->lemonSpecialJudge->setText(editTask->getSpecialJudge());
+	ui->testlibSpecialJudge->setText(editTask->getSpecialJudge());
 	ui->interactorPath->setText(editTask->getInteractor());
 	ui->interactorName->setText(editTask->getInteractorName());
 	ui->graderPath->setText(editTask->getGrader());
