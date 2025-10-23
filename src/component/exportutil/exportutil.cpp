@@ -257,22 +257,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	}
 	out << "</style>";
 
-	/*下载jquery有几个时间段
-	 * 1是编译前
-	 * 2是编译期
-	 * 3是运行LemonLime时
-	 * 4是打开result.html时
-	 * 这里选了第1种
-	 */
-
-	// out << R"(<script src="https://unpkg.com/jquery@3/dist/jquery.slim.min.js"></script>)";
-
-	QFile jqFile(":/js/jquery.slim.min.js");
-	jqFile.open(QFile::ReadOnly);
-	QString jq(jqFile.readAll());
-
-	out << "<script>" << jq << "</script>";
-
 	out << "<title>" << contest->getContestTitle() << " : " << tr("Contest Result") << "</title>";
 	out << "</head><body>";
 	QList<std::pair<int, QString>> sortList;
@@ -413,11 +397,11 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	out << R"(
 	<script>
-		$("div[id^='c'] th").addClass("td-0");
-		$("div[id^='c'] td").addClass("td-0");
-		$("div[id^='c']>p>span").css("font-weight", "bold").css("font-size", "large");
-		$("div[id^='c']>p>table").css("border", "solid");
-		$("div[id^='c']>p>table th").attr("scope", "col");
+		document.querySelectorAll("div[id^='c'] th").forEach(e=>e.classList.add("td-0"));
+		document.querySelectorAll("div[id^='c'] td").forEach(e=>e.classList.add("td-0"));
+		document.querySelectorAll("div[id^='c']>p>span").forEach(e=>{e.style.fontWeight="bold";e.style.fontSize="large";});
+		document.querySelectorAll("div[id^='c']>p>table").forEach(e=>e.style.border="solid");
+		document.querySelectorAll("div[id^='c']>p>table th").forEach(e=>e.setAttribute("scope","col"));
 	</script>
 	)";
 	out << "</body>";

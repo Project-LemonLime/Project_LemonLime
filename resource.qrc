@@ -43,7 +43,4 @@
         <file alias="system-help.svg">assets/pics/system-help.svg</file>
         <file alias="acrobat.svg">assets/pics/acrobat.svg</file>
     </qresource>
-    <qresource prefix="/js">
-        <file alias="jquery.slim.min.js">assets/js/jquery.slim.min.js</file>
-    </qresource>
 </RCC>
