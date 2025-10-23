@@ -39,7 +39,12 @@ jobs:
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Linux Static ${{ matrix.build_type }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    container: ubuntu:20.04
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      TZ: Asia/Shanghai
+      DEBIAN_FRONTEND: noninteractive
 
     steps:
       - name: Get the version
@@ -61,8 +66,8 @@ jobs:
       - name: Install Qt
         run: |
           cd ..
-          wget https://github.com/Project-LemonLime/qt5ci/releases/latest/download/qt-6.7-static-linux.tar.gz
-          tar -zxvf qt-6.7-static-linux.tar.gz
+          wget https://github.com/Project-LemonLime/qt5ci/releases/latest/download/qt-6.9-static-linux.tar.gz
+          tar -zxvf qt-6.9-static-linux.tar.gz
       - name: Build
         run: |
           cd ..
