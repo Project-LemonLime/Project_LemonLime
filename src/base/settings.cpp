@@ -535,10 +535,8 @@ void Settings::loadSettings() {
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
-	outputFileExtensions = settings
-	                           .value("OutputFileExtensions", QStringList() << "out"
-	                                                                        << "ans")
-	                           .toStringList();
+	outputFileExtensions =
+	    settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
 	settings.endGroup();
 	settings.beginGroup("VisualSettings");
 

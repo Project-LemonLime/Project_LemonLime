@@ -906,26 +906,14 @@ void JudgingThread::runProgram() {
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 
-	argumentsList << "--ro-bind"
-	              << "/usr"
-	              << "/usr";
-	argumentsList << "--symlink"
-	              << "/usr/lib"
-	              << "/lib";
-	argumentsList << "--symlink"
-	              << "/usr/lib64"
-	              << "/lib64";
-	argumentsList << "--symlink"
-	              << "/usr/bin"
-	              << "/bin";
-	argumentsList << "--symlink"
-	              << "/usr/sbin"
-	              << "/sbin";
-	argumentsList << "--tmpfs"
-	              << "/tmp";
+	argumentsList << "--ro-bind" << "/usr" << "/usr";
+	argumentsList << "--symlink" << "/usr/lib" << "/lib";
+	argumentsList << "--symlink" << "/usr/lib64" << "/lib64";
+	argumentsList << "--symlink" << "/usr/bin" << "/bin";
+	argumentsList << "--symlink" << "/usr/sbin" << "/sbin";
+	argumentsList << "--tmpfs" << "/tmp";
 
-	argumentsList << "--unshare-all"
-	              << "--die-with-parent";
+	argumentsList << "--unshare-all" << "--die-with-parent";
 
 	argumentsList << "--chdir" << workingDirectory;
 

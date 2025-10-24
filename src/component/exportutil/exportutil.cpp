@@ -726,34 +726,26 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		loc.insert(contestantList[i], i);
 	}
 
-	out << "\"" << tr("Rank") << "\""
-	    << ","
-	    << "\"" << tr("Name") << "\""
-	    << ",";
+	out << "\"" << tr("Rank") << "\"" << "," << "\"" << tr("Name") << "\"" << ",";
 
 	for (auto &i : taskList) {
-		out << "\"" << i->getProblemTitle() << "\""
-		    << ",";
+		out << "\"" << i->getProblemTitle() << "\"" << ",";
 	}
 
 	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
 
 	for (auto &i : sortList) {
 		Contestant *contestant = contest->getContestant(i.second);
-		out << "\"" << rankList[contestant->getContestantName()] + 1 << "\""
-		    << ",";
-		out << "\"" << i.second << "\""
-		    << ",";
+		out << "\"" << rankList[contestant->getContestantName()] + 1 << "\"" << ",";
+		out << "\"" << i.second << "\"" << ",";
 
 		for (int j = 0; j < taskList.size(); j++) {
 			int score = contestant->getTaskScore(j);
 
 			if (score != -1) {
-				out << "\"" << score << "\""
-				    << ",";
+				out << "\"" << score << "\"" << ",";
 			} else {
-				out << "\"" << tr("Invalid") << "\""
-				    << ",";
+				out << "\"" << tr("Invalid") << "\"" << ",";
 			}
 		}
 
