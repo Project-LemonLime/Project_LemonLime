@@ -19,7 +19,6 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QLocale>
 #include <QRegularExpression>
 #include <QTextStream>
 #include <QTime>
@@ -656,15 +655,13 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 	
 	QRegularExpressionMatch m = QRegularExpression("^\\s*partially correct\\s*\\(\\s*(\\d{1,3})\\s*\\)").match(message);
 	if (m.hasMatch()) {
-		QString numStr = m.captured(1);
-		int val = QLocale::c().toInt(numStr);
+		int val = m.captured(1).toInt();
 		score = val * fullScore / 100;
 	}
 
 	m = QRegularExpression("^\\s*points\\s*([0-9]+(?:\\.[0-9]+)?)").match(message);
 	if (m.hasMatch()) {
-		QString numStr = m.captured(1);
-		double val = QLocale::c().toDouble(numStr);
+		double val = m.captured(1).toDouble();
 		score = val * fullScore;
 	}
 
