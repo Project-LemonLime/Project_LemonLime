@@ -58,7 +58,7 @@ jobs:
           add-apt-repository ppa:savoury1/build-tools
           apt update
           apt upgrade -y
-          apt install -y build-essential git perl cmake ninja-build
+          apt install -y build-essential git perl cmake ninja-build wget
       - name: Checking out sources
         uses: actions/checkout@v4
         with:
