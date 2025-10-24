@@ -25,7 +25,8 @@ class Task : public QObject {
 		IgnoreSpacesMode,
 		ExternalToolMode,
 		RealNumberMode,
-		SpecialJudgeMode
+		LemonSpecialJudgeMode,
+		TestlibSpecialJudgeMode
 	};
 
 	explicit Task(QObject *parent = nullptr, TaskType taskType = Traditional,
