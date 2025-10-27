@@ -653,13 +653,13 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 		return;
     }
 	
-	QRegularExpressionMatch m = QRegularExpression("^\\s*partially correct\\s*\\(\\s*(\\d{1,3})\\s*\\)").match(message);
+	QRegularExpressionMatch m = QRegularExpression(R"(^partially correct \((\d+)\))").match(message);
 	if (m.hasMatch()) {
 		int val = m.captured(1).toInt();
 		score = val * fullScore / 100;
 	}
 
-	m = QRegularExpression("^\\s*points\\s*([0-9]+(?:\\.[0-9]+)?)").match(message);
+	m = QRegularExpression(R"(^points ([0-9]*\.[0-9]+|[0-9]+))").match(message);
 	if (m.hasMatch()) {
 		double val = m.captured(1).toDouble();
 		score = val * fullScore;
