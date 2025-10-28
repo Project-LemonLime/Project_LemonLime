@@ -118,7 +118,7 @@ int TestCase::writeToJson(QJsonObject &out) {
 
 	QStringList outputFiles = this->outputFiles;
 
-	for (auto &filename : inputFiles) {
+	for (auto &filename : outputFiles) {
 		filename.replace(QDir::separator(), '/');
 	}
 
