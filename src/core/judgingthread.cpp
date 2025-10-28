@@ -601,9 +601,7 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 
 	QFile scoreFile(workingDirectory + "_score");
 
-	auto removeTempFiles = qScopeGuard([&] {
-		scoreFile.remove();
-	});
+	auto removeTempFiles = qScopeGuard([&] { scoreFile.remove(); });
 
 	QElapsedTimer timer;
 	timer.start();
@@ -643,16 +641,16 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 
 	score = 0;
 
-    if (message.startsWith("ok")) {
-        score = fullScore;
-    }
+	if (message.startsWith("ok")) {
+		score = fullScore;
+	}
 
-    if (message.startsWith("FAIL")) {
-        score = 0;
+	if (message.startsWith("FAIL")) {
+		score = 0;
 		result = InvalidSpecialJudge;
 		return;
-    }
-	
+	}
+
 	QRegularExpressionMatch m = QRegularExpression(R"(^partially correct \((\d+)\))").match(message);
 	if (m.hasMatch()) {
 		int val = m.captured(1).toInt();
@@ -1292,7 +1290,7 @@ void JudgingThread::judgeOutput() {
 		case Task::LemonSpecialJudgeMode:
 			lemonSpecialJudge(fileName);
 			break;
-			
+
 		case Task::TestlibSpecialJudgeMode:
 			testlibSpecialJudge(fileName);
 			break;
@@ -1367,11 +1365,11 @@ void JudgingThread::judgeAnswersOnlyTask() {
 		case Task::RealNumberMode:
 			compareRealNumbers(answerFile);
 			break;
-			
+
 		case Task::LemonSpecialJudgeMode:
 			lemonSpecialJudge(answerFile);
 			break;
-			
+
 		case Task::TestlibSpecialJudgeMode:
 			testlibSpecialJudge(answerFile);
 			break;
