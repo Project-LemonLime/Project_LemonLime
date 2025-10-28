@@ -999,12 +999,12 @@ void LemonLime::changeContestName() {
 }
 
 void LemonLime::aboutLemon() {
-QString text;
+	QString text;
 	text += "<h2>Project LemonLime</h2>";
-	text += "<h3>" +
-	        tr("Version: %1")
-	            .arg(QString(LEMON_VERSION_STRING) + QString(":") + QString(LEMON_VERSION_BUILD)) +
-	        "</h3>";
+	text +=
+	    "<h3>" +
+	    tr("Version: %1").arg(QString(LEMON_VERSION_STRING) + QString(":") + QString(LEMON_VERSION_BUILD)) +
+	    "</h3>";
 	text += tr("This is a tiny judging environment for OI contest based on Project LemonPlus.") + "<br>";
 	text += tr("Based on Project Lemon version 1.2 Beta by Zhipeng Jia, 2011") + "<br>";
 	text += tr("Based on Project LemonPlus by Dust1404, 2019") + "<br>";
