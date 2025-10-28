@@ -1,12 +1,4 @@
 #!/bin/bash
-STAGE_FILES=$(git diff --cached --name-only --diff-filter=ACM -- 'makespec/BUILDVERSION')
-#echo $STAGE_FILES
-if test ${#STAGE_FILES} -gt 0
-then
-    echo 'BUILDVERSION already changed, not touching'
-else
-    echo 'Increasing BUILDVERSION'
-    expr $(cat ./makespec/BUILDVERSION) + 1 > ./makespec/BUILDVERSION
-    cat ./makespec/BUILDVERSION
-    git add ./makespec/BUILDVERSION
-fi
+# Pre-commit hook - no longer increments build version
+# Build version now uses git commit hash instead
+echo 'Using git commit hash for build version - no manual increment needed'

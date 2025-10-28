@@ -5,7 +5,6 @@
     <qresource prefix="/asset">
         <file>makespec/VERSION</file>
         <file>makespec/VERSIONSUFFIX</file>
-        <file>makespec/BUILDVERSION</file>
         <file>assets/lemon-lime.ico</file>
     </qresource>
     <qresource prefix="/icon">

@@ -109,8 +109,40 @@ endif()
 # ==================================================================================
 
 file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSION" VERSION)
-file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/BUILDVERSION" BUILD_VERSION)
 file(STRINGS "${CMAKE_SOURCE_DIR}/makespec/VERSIONSUFFIX" VERSION_SUFFIX)
+
+# Get git commit hash as build version
+find_package(Git QUIET)
+if(GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE GIT_RESULT
+        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if(GIT_RESULT EQUAL 0 AND NOT GIT_COMMIT_HASH STREQUAL "")
+        set(BUILD_VERSION "${GIT_COMMIT_HASH}")
+    else()
+        set(BUILD_VERSION "no-git")
+    endif()
+else()
+    # Fallback if git is not found
+    execute_process(
+        COMMAND "git" rev-parse --short HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE GIT_RESULT
+        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if(GIT_RESULT EQUAL 0 AND NOT GIT_COMMIT_HASH STREQUAL "")
+        set(BUILD_VERSION "${GIT_COMMIT_HASH}")
+    else()
+        set(BUILD_VERSION "no-git")
+    endif()
+endif()
 
 set(VERSION_STRING "${VERSION}${VERSION_SUFFIX}")
 set(VERSION_LIST ${VERSION})
@@ -124,7 +156,7 @@ list(GET VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
 add_definitions(-DLEMON_VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR})
 add_definitions(-DLEMON_VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR})
 add_definitions(-DLEMON_VERSION_BUGFIX=${CPACK_PACKAGE_VERSION_PATCH})
-add_definitions(-DLEMON_VERSION_BUILD=${BUILD_VERSION})
+add_definitions(-DLEMON_VERSION_BUILD="${BUILD_VERSION}")
 
 add_definitions(-DLEMON_VERSION_STRING="${VERSION_STRING}")
 
