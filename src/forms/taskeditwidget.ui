@@ -94,13 +94,13 @@
       </font>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
      </property>
      <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
      <property name="columnCount">
       <number>2</number>
@@ -155,7 +155,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -181,7 +180,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -201,7 +199,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -221,7 +218,7 @@
       <string>How to check answers...</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <item>
       <property name="text">
@@ -245,7 +242,12 @@
      </item>
      <item>
       <property name="text">
-       <string>Special judge mode</string>
+       <string>Special judge mode (lemon)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Special judge mode (testlib)</string>
       </property>
      </item>
     </widget>
@@ -291,7 +293,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -314,6 +315,9 @@
      <widget class="QWidget" name="lineByLineMode"/>
      <widget class="QWidget" name="ignoreSpacesMode"/>
      <widget class="QWidget" name="externalToolMode">
+      <property name="layoutDirection">
+       <enum>Qt::LayoutDirection::LeftToRight</enum>
+      </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QLabel" name="argumentsLabel">
@@ -374,7 +378,7 @@
        <item>
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -386,13 +390,52 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="specialJudgeMode">
+     <widget class="QWidget" name="lemonSpecialJudgeMode">
       <layout class="QHBoxLayout" name="horizontalLayout_10">
        <item>
-        <widget class="FileLineEdit" name="specialJudge">
+        <widget class="QLabel" name="lemonSpecialJudgeLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Exec File Path:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="FileLineEdit" name="lemonSpecialJudge">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="testlibSpecialJudgeMode">
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QLabel" name="testlibSpecialJudgeLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Exec File Path:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="FileLineEdit" name="testlibSpecialJudge">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
           </font>
          </property>
         </widget>
@@ -421,13 +464,13 @@
       </font>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
      </property>
      <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
      <property name="columnCount">
       <number>2</number>
@@ -606,7 +649,6 @@
        <property name="font">
         <font>
          <pointsize>10</pointsize>
-         <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
@@ -618,7 +660,7 @@
      <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Orientation::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -641,7 +683,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -673,7 +714,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -687,7 +727,6 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
@@ -866,7 +905,6 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -924,12 +962,11 @@
   <tabstop>comparisonMode</tabstop>
   <tabstop>diffArguments</tabstop>
   <tabstop>realPrecision</tabstop>
-  <tabstop>specialJudge</tabstop>
+  <tabstop>lemonSpecialJudge</tabstop>
   <tabstop>compilersList</tabstop>
   <tabstop>configurationSelect</tabstop>
  </tabstops>
  <resources>
-  <include location="../../resource.qrc"/>
   <include location="../../resource.qrc"/>
  </resources>
  <connections>

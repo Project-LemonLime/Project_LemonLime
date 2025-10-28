@@ -2304,6 +2304,10 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <source>Exec File Path:</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Absolute or Relative error does not exceed 10 ^ (minus</source>
         <translation></translation>
     </message>
@@ -2416,7 +2420,11 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Special judge mode</source>
+        <source>Special judge mode (lemon)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Special judge mode (testlib)</source>
         <translation></translation>
     </message>
     <message>

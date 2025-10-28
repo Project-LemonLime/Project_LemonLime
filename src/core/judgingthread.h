@@ -81,7 +81,8 @@ class JudgingThread : public QThread {
 	void compareIgnoreSpaces(const QString &);
 	void compareWithDiff(const QString &);
 	void compareRealNumbers(const QString &);
-	void specialJudge(const QString &);
+	void lemonSpecialJudge(const QString &);
+	void testlibSpecialJudge(const QString &);
 	void runProgram();
 	void judgeOutput();
 	void judgeTraditionalTask();
