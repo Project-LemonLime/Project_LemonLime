@@ -30,6 +30,12 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) : QWizard(parent), ui(ne
 		header->resizeSection(i, header->sectionSizeHint(i));
 	}
 
+#ifdef Q_OS_WINDOWS
+
+	setWizardStyle(QWizard::ModernStyle);
+
+#endif
+
 	connect(ui->inputFilesPattern, &QLineEdit::textChanged, this,
 	        &AddTestCasesWizard::inputFilesPatternChanged);
 	connect(ui->outputFilesPattern, &QLineEdit::textChanged, this,
