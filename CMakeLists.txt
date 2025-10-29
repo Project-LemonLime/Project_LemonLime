@@ -76,24 +76,6 @@ add_compile_definitions(SPDLOG_BUILD_SHARED=OFF)
 set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(3rdparty/spdlog)
 
-if(WIN32)
-    # Only add /std:c++17 when using MSVC. MinGW/g++ uses -std=c++17 and will treat
-    # MSVC-style options like /std:c++17 as input files, causing build failures.
-    if(MSVC)
-        add_compile_options("/std:c++17")
-    else()
-        # For other compilers on Windows (e.g., MinGW/g++), ensure we use the
-        # portable flag. This is usually already set by CMAKE_CXX_STANDARD,
-        # but set an explicit compile option for g++ if needed.
-        if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-            add_compile_options("-std=c++17")
-        endif()
-    endif()
-    add_compile_definitions(UNICODE _UNICODE)
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-    set(GUI_TYPE WIN32)
-endif()
-
 if(UNIX AND NOT APPLE)
     find_program(LSB_RELEASE_EXEC lsb_release)
     execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
