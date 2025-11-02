@@ -1,0 +1,1 @@
+{"contestTitle":"example","contestants":[],"tasks":[],"version":"1.0"}
