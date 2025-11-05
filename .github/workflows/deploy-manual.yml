@@ -38,9 +38,9 @@ jobs:
       - name: Create nojekyll
         run: echo > ./manual/dist/.nojekyll
 
-      - name: Deploy to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy to gh-pages
+        if: ${{ github.event_name == 'push' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
           publish_dir: ./manual/dist
+          force_orphan: true
