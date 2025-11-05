@@ -42,7 +42,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(LEMON_QT6 "Use Qt6 for Debugging" OFF)
+option(LEMON_QT6 "Use Qt6 for Debugging" ON)
 LEMONLOG(LEMON_QT6)
 if(LEMON_QT6)
     cmake_policy(SET CMP0072 NEW)
