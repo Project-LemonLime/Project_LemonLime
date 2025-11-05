@@ -40,6 +40,7 @@ jobs:
 
       - name: Deploy to gh-pages
         if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./manual/dist
