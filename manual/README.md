@@ -1,4 +1,4 @@
-## LemonLime 用户手册
+# LemonLime 用户手册
 
 该文件夹储存 LemonLime 用户手册源代码。
 
