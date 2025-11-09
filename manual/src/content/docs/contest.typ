@@ -8,7 +8,7 @@
 
 新建比赛的对话框如下图所示：
 
-#image("pics/newcontest.png")
+#image("./pics/newcontest.png", alt:"New Contest")
 
 / 比赛标题: 用来显示在软件标题栏上的比赛标题。
 
@@ -31,7 +31,7 @@
 
 建立好比赛后，在左边按鼠标右键就可以添加新的试题。然后在右边设置试题相关的信息。
 
-#image("pics/editproblem.png")
+#image("./pics/editproblem.png", alt: "Edit Problem")
 
 / 概要下的一对箭头: 点击它们可以改变当前题目在列表的位置。
 
@@ -220,7 +220,7 @@ int main(int argc, char **argv)
 
 在输入文件名和输出文件名中输入内容后，点击"添加"按钮即可添加一组测试数据。这里的输入输出文件必须在 `data` 目录下，并且只要输入 `data` 目录内的相对路径即可，如下图所示：
 
-#image("pics/edittestcase.png")
+#image("./pics/edittestcase.png", alt: "Edit Testcase")
 
 一个测试点可以包含多组输入输出，最终一个测试点的得分为该测试点包含的所有测试数据中最低的得分。
 
@@ -249,7 +249,7 @@ int main(int argc, char **argv)
 
 以一道捆绑测试的试题为例，在 `data` 下的 `sword` 文件夹里，有 `sword(x)-(y).in/out` 文件代表第 x 个子任务的第 y 个测试点的输入输出文件（x 和 y 都是数字），那么匹配参数可以按照下图：
 
-#image("pics/addtestcases.png")
+#image("./pics/addtestcases.png", alt: "Add Testcases")
 
 注意：Windows 下文件夹分隔符为 `\`，Linux 下文件夹分隔符为 `/`。
 
@@ -261,11 +261,11 @@ int main(int argc, char **argv)
 
 在试题栏的概要框中，右键题目即可出现进入通道。
 
-#image("pics/intoexttestcasemodifier.png")
+#image("./pics/intoexttestcasemodifier.png", alt: "Into Extra Testcase Modifier")
 
 进入之后如下图所示：
 
-#image("pics/exttestcasemodifier.png")
+#image("./pics/exttestcasemodifier.png", alt: "Extra Testcase Modifier")
 
 / 新测试点: 新增一个测试点。
 

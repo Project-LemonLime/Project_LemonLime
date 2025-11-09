@@ -6,7 +6,7 @@
   date: auto,
 )
 
-#image("docs/pics/icon.png", width: 30%)
+#image("./docs/pics/icon.png", width: 30%)
 
 #align(center)[
 为了 OI 比赛而生的基于 Lemon + LemonPlus 的轻量评测系统

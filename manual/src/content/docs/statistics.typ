@@ -10,7 +10,7 @@
 
 这个部分显示了这场比赛的总体情况。
 
-#image("pics/statistics.png")
+#image("./pics/statistics.png", alt: "Statistics")
 
 你可以获得的信息有：
 
@@ -24,7 +24,7 @@
 
 每一个题目都有属于自己的一部分。这个部分显示了某个题目的情况。
 
-#image("pics/statistics2.png")
+#image("./pics/statistics2.png", alt: "Statistics")
 
 你可以获得的信息有：
 

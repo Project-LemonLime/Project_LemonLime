@@ -10,7 +10,7 @@ LemonLime 没有设置编译器时（比如第一次运行）会自动弹出添�
 
 在工具菜单中选择"设置"，就能看到下图所示的对话框：
 
-#image("pics/generalsettings.png")
+#image("./pics/generalsettings.png", alt: "General Settings")
 
 各个设置意义如下：
 
@@ -36,11 +36,11 @@ LemonLime 没有设置编译器时（比如第一次运行）会自动弹出添�
 
 点击上方的 "编译器" 选项卡就能进入编译器的配置。
 
-#image("pics/compilersettings.png")
+#image("./pics/compilersettings.png", alt: "Compiler Settings")
 
 按右边的加号就会出现添加编译器的向导，第一步是选择使用预置的编译器配置还是手动配置新的编译器。一般来说，用预置的配置就能够满足大多数需求，第一步只要在需要配置的编译器前打钩，进入下一步后就能看到选择路径的界面。
 
-#image("pics/addcompiler.png")
+#image("./pics/addcompiler.png", alt: "Add Compiler")
 
 `gcc`、`g++` 和 `fpc` 的建议配置中包含了不同标准和不同优化等级的组合。
 
@@ -50,7 +50,7 @@ LemonLime 没有设置编译器时（比如第一次运行）会自动弹出添�
 
 除了使用内置的六种编译器配置，你也可以选择手动配置新的编译器。
 
-#image("pics/addcompiler2.png")
+#image("./pics/addcompiler2.png", alt: "Add Compiler")
 
 / 编译器名称: 编译器在列表中显示的名称。
 
@@ -76,7 +76,7 @@ LemonLime 没有设置编译器时（比如第一次运行）会自动弹出添�
 
 点击"高级选项"后可以进入下图的对话框来修改已有编译器的配置。
 
-#image("pics/compilersettings2.png")
+#image("./pics/compilersettings2.png", alt: "Compiler Settings")
 
 / 时间、内存限制: 由于不同语言执行效率有差异，因此可以放宽特定语言的时间限制或空间限制，也就是将时间限制或空间限制乘上一个实数。你也可以选择直接取消空间限制。
 
@@ -92,7 +92,7 @@ LemonLime 没有设置编译器时（比如第一次运行）会自动弹出添�
 
 这个配置用于改善 LemonLime 的美观度以及提升定制性。
 
-#image("pics/visualmainsettings.png")
+#image("./pics/visualmainsettings.png", alt: "Visual Main Settings")
 
 / 配色方案: 上面的下拉框是当前所应用的主题名字。下面的"编辑"按钮可以编辑当前主题，"+"按钮可以新增一个空配置在最后，"垃圾桶"按钮可以删除当前主题。#underline[注意: 如果不点击最下方的"确定"的话，针对配色方案的更改会全部丢失！]
 
@@ -103,11 +103,11 @@ LemonLime 提供了两种默认的配色方案：`ranking.ioi2021.sg` 和
 
 点击配色方案的下拉框可以选择配色方案。
 
-#image("pics/visualmainsettings_whenchoosingtheme.png")
+#image("./pics/visualmainsettings_whenchoosingtheme.png", alt: "Visual Main Settings When Choosing Theme")
 
 点击"编辑"按钮编辑当前主题时会弹出一个这样的对话框：
 
-#image("pics/visualsettings.png")
+#image("./pics/visualsettings.png", alt: "Visual Settings")
 
 / 配色方案名: 配色方案的名字。
 

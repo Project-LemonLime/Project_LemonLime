@@ -16,7 +16,7 @@ LemonLime 是为了 OI 比赛而生的基于 Lemon + LemonPlus 的轻量评测�
 
 我们提供了一份 #link("https://Project-LemonLime.github.io/Project_LemonLime/example.zip")[样例]，在 LemonLime 中将其打开后，点击左上角的 控制\>自动添加试题，即可看到一道默认的 `plus` 试题。
 
-#image("pics/autoaddproblem.png")
+#image("./pics/autoaddproblem.png", alt:"Auto Add Problem")
 
 添加试题后，点击试题，框选右侧详情中的 定向到标准输入 与 定向到标准输出。切到 选手 页，点击右下角的 刷新，即可自动加载选手。点击 测试全部，即可自动运行全部选手的代码。代码的运行会在沙箱下进行。
 

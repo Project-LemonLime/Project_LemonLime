@@ -24,7 +24,7 @@
 
 == 测试情况对话框
 
-#image("pics/judgingdialog.png")
+#image("./pics/judgingdialog.png", alt: "Judging Dialog")
 
 这个对话框会实时显示当前评测的情况。
 

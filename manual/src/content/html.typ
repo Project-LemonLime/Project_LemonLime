@@ -1,5 +1,7 @@
-#let target = dictionary(std).at("target", default: () => "paged")
 #let html-style(content) = {
+  let jsx = s => html.elem("script", attrs: ("data-jsx": s))
+  let num = state("imageNum", 1)
+  jsx("import { Image } from 'astro:assets'")
   show math.equation: it => context {
     if target() == "html" {
       show: if it.block { it => it } else { box }
@@ -10,7 +12,9 @@
   }
   show image: it => context {
     if target() == "html" {
-      html.frame(it)
+      num.update(num => num + 1)
+      jsx("import Img" + str(num.get()) + " from '" + it.source + "'")
+      jsx("<Image src={Img" + str(num.get()) + "} alt='" + it.alt + "' />")
     } else {
       it
     }
