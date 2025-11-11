@@ -8,6 +8,36 @@
 
 此节内容长期更新，更多问题欢迎提出。
 
+== Windows 无法启动
+
+尝试安装同目录下的 `vc_redist.x64.exe` 解决。
+
+== Linux 无法启动
+
+如果启动时出现：
+
+```bash
+error while loading shared libraries: libxcb-cursor.so.0: cannot open shared object file: No such file or directory
+```
+
+你需要执行以下命令安装必要的库：
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install libxcb-cursor0
+```
+
+你可以 #link("https://mirrors.ustc.edu.cn/help/ubuntu.html")[换源] 来加速安装过程。
+
+== WSL 无法启动
+
+WSL2 的 Kernel 自带的运行库不全，不包含 bubblewrap，无法创建子进程。你需要执行以下命令安装必要的库：
+
+```bash
+sudo apt install bubblewrap
+```
+
 == 测评时使用更多栈空间
 
 Windows 平台下可以在 `g++` 编译时添加 `-Wl,--stack=2147483647` 命令来开启约 2048 MB 栈空间。
