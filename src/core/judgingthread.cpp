@@ -1029,6 +1029,8 @@ void JudgingThread::runProgram() {
 	auto *runner = new QProcess(this);
 	QStringList argumentsList;
 
+	argumentsList << "--dev" << "/dev";
+	argumentsList << "--proc" << "/proc";
 	argumentsList << "--ro-bind" << "/usr" << "/usr";
 	argumentsList << "--symlink" << "/usr/lib" << "/lib";
 	argumentsList << "--symlink" << "/usr/lib64" << "/lib64";

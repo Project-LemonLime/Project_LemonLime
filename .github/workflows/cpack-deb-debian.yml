@@ -58,12 +58,12 @@ jobs:
           submodules: "recursive"
       - name: Install build dependencies
         run: |
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash libspdlog-dev
+          apt-get install -y build-essential ninja-build qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-image-formats-plugins qt6-translations-l10n cmake pkgconf bash libspdlog-dev
       - name: Build
         run: |
           mkdir build
           cd build
-          cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Debian" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Debian" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DLEMON_QT6=ON
           cmake --build . --target package --parallel $(nproc)
       - name: Get package name
         shell: bash

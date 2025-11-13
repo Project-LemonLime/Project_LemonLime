@@ -42,7 +42,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(LEMON_QT6 "Use Qt6 for Debugging" OFF)
+option(LEMON_QT6 "Use Qt6 for Debugging" ON)
 LEMONLOG(LEMON_QT6)
 if(LEMON_QT6)
     cmake_policy(SET CMP0072 NEW)
@@ -75,6 +75,12 @@ add_compile_definitions(SPDLOG_COMPILED_LIB)
 add_compile_definitions(SPDLOG_BUILD_SHARED=OFF)
 set(spdlog_DIR ${CMAKE_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(3rdparty/spdlog)
+
+if(WIN32)
+    add_compile_definitions(UNICODE _UNICODE)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    set(GUI_TYPE WIN32)
+endif()
 
 if(UNIX AND NOT APPLE)
     find_program(LSB_RELEASE_EXEC lsb_release)
