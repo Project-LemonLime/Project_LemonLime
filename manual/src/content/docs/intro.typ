@@ -124,6 +124,6 @@ LemonLime 近乎完全兼容 LemonPlus，出问题的地方在子任务依赖（
 
 LemonLime 完全兼容 Lemon。
 
-LemonLime 主要使用 Qt 编写，目前兼容 Qt5 和 Qt6，目前支持的最低版本为 Qt 5.15。编译时使用 `-DLEMON_QT6=ON` 参数即可使用 Qt6 编译。
+LemonLime 主要使用 Qt6 编写，目前支持的最低版本为 Qt 6.8。由于 Qt5 的兼容性不再保证，请在编译时开启 `-DLEMON_QT6=ON` 参数，若不开启可能无法编译（该参数计划在未来移除）。
 
 LemonLime 可以使用 `GCC`, `Clang` 和 `MSVC` 进行编译
