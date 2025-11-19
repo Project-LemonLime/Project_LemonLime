@@ -1290,7 +1290,7 @@ Depends: </source>
     </message>
     <message>
         <source>Contestant %3 Test case %1.%2: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1349,6 +1349,10 @@ Depends: </source>
     </message>
     <message>
         <source>Cannot copy standard input file</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>bwrap not found. Please install bubblewrap.</source>
         <translation></translation>
     </message>
 </context>

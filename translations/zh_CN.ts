@@ -1376,6 +1376,10 @@ Depends: </source>
         <source>Cannot copy standard input file</source>
         <translation>无法复制标准输入文件</translation>
     </message>
+    <message>
+        <source>bwrap not found. Please install bubblewrap.</source>
+        <translation>bwrap 未找到。请安装 Bubblewarp。</translation>
+    </message>
 </context>
 <context>
     <name>LemonLime</name>

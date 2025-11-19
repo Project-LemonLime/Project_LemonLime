@@ -508,6 +508,10 @@
         <source>New configuration %1</source>
         <translation>新建配置 %1</translation>
     </message>
+    <message>
+        <source>Interpreter As Watcher</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -1371,6 +1375,10 @@ Depends: </source>
     <message>
         <source>Cannot copy standard input file</source>
         <translation>無法複製標準輸入檔案</translation>
+    </message>
+    <message>
+        <source>bwrap not found. Please install bubblewrap.</source>
+        <translation>bwrap 未找到。請安裝 Bubblewrap。</translation>
     </message>
 </context>
 <context>
@@ -2513,11 +2521,11 @@ p, li { white-space: pre-wrap; }
     <name>TaskJudger</name>
     <message>
         <source>Preparing...</source>
-        <translation type="unfinished">準備中…</translation>
+        <translation>準備中…</translation>
     </message>
     <message>
         <source>Compiling...</source>
-        <translation type="unfinished">編譯中…</translation>
+        <translation>編譯中…</translation>
     </message>
     <message>
         <source>Main grader (grader.*) cannot be found</source>

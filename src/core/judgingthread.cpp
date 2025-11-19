@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QRegularExpression>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QTime>
 #include <QUuid>
@@ -1086,9 +1087,17 @@ void JudgingThread::runProgram() {
 
 	qDebug() << argumentsList;
 
+	QString bwrapPath = QStandardPaths::findExecutable("bwrap");
+	if (bwrapPath.isEmpty()) {
+		score = 0;
+		result = CannotStartProgram;
+		message = tr("bwrap not found. Please install bubblewrap.");
+		return;
+	}
+
 	runner->setProcessEnvironment(environment);
 	runner->setWorkingDirectory(workingDirectory);
-	runner->start("/usr/bin/bwrap", argumentsList);
+	runner->start(bwrapPath, argumentsList);
 
 #else
 
