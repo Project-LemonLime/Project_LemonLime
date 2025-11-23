@@ -223,7 +223,7 @@ void ExtTestCaseUpdaterDialog::dependsChanged(const QString &text) {
 auto ExtTestCaseUpdaterDialog::checkDepends() -> int {
 	QSet<int> hav;
 
-	for (const auto &i_ : qAsConst(depends)) {
+	for (const auto &i_ : std::as_const(depends)) {
 		int i = i_.toInt();
 
 		if (i <= 0 || i >= nowCaseNumber || hav.contains(i))

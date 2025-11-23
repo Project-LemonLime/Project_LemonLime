@@ -397,9 +397,6 @@ void StatisticsBrowser::exportStatisticsHtml(QWidget *widget, const QString &fil
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	out.setCodec("UTF-8");
-#endif
 	out << nowBrowserText;
 	QApplication::restoreOverrideCursor();
 	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);

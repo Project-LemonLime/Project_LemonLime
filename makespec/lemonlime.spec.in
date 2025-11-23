@@ -15,14 +15,14 @@ Source0:        https://github.com/Project-LemonLime/Project_LemonLime/releases/
 %if 0%{?suse_version}
 # for openSUSE
 BuildRequires:  cmake >= 3.9
-BuildRequires:  libqt5-qtbase-common-devel >= 5.15
-BuildRequires:  libQt5Core-devel
-BuildRequires:  libQt5Gui-devel
-BuildRequires:  libQt5Network-devel
-BuildRequires:  libQt5Widgets-devel
-BuildRequires:  libQt5Concurrent-devel
-BuildRequires:  libqt5-linguist-devel
-BuildRequires:  libqt5-qtsvg-devel
+BuildRequires:  libqt6-qtbase-common-devel >= 6.8
+BuildRequires:  libQt6Core-devel
+BuildRequires:  libQt6Gui-devel
+BuildRequires:  libQt6Network-devel
+BuildRequires:  libQt6Widgets-devel
+BuildRequires:  libQt6Concurrent-devel
+BuildRequires:  libqt6-linguist-devel
+BuildRequires:  libqt6-qtsvg-devel
 BuildRequires:  update-desktop-files
 BuildRequires:  ninja
 BuildRequires:  spdlog-devel
@@ -32,9 +32,10 @@ BuildRequires:  spdlog-devel
 BuildRequires:  epel-rpm-macros
 %endif
 BuildRequires:  cmake >= 3.9
-BuildRequires:  qt5-qtbase-devel >= 5.15
-BuildRequires:  qt5-linguist
-BuildRequires:  qt5-qtsvg-devel
+BuildRequires:  qt6-qtbase-devel >= 6.8
+BuildRequires:  qt6-qttools-devel
+BuildRequires:  qt6-qttools-linguist
+BuildRequires:  qt6-qtsvg-devel
 #BuildRequires:  %{locale_package}
 BuildRequires:  desktop-file-utils
 BuildRequires:  ninja-build
@@ -56,7 +57,7 @@ mkdir -p %{BUILD_DIR}
 %build
 # build
 export _LEMON_BUILD_INFO_="LemonLime built by openSUSE Build Service"
-export _LEMON_BUILD_EXTRA_INFO_="(Official Build) $(uname -a | cut -d ' ' -f3,13), Qt $(pkg-config --modversion Qt5Core)"
+export _LEMON_BUILD_EXTRA_INFO_="(Official Build) $(uname -a | cut -d ' ' -f3,13), Qt $(pkg-config --modversion Qt6Core)"
 
 %if 0%{?centos_version}
 cd %{BUILD_DIR}

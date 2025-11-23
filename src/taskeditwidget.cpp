@@ -44,12 +44,12 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	connect(ui->communicationExecButton, &QRadioButton::toggled, this,
 	        &TaskEditWidget::setToCommunicationExec);
 	connect(ui->sourceFileName, &QLineEdit::textChanged, this, &TaskEditWidget::sourceFileNameChanged);
-	connect(ui->subFolderCheck, &QCheckBox::stateChanged, this, &TaskEditWidget::subFolderCheckChanged);
+	connect(ui->subFolderCheck, &QCheckBox::checkStateChanged, this, &TaskEditWidget::subFolderCheckChanged);
 	connect(ui->inputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::inputFileNameChanged);
 	connect(ui->outputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::outputFileNameChanged);
-	connect(ui->standardInputCheck, &QCheckBox::stateChanged, this,
+	connect(ui->standardInputCheck, &QCheckBox::checkStateChanged, this,
 	        &TaskEditWidget::standardInputCheckChanged);
-	connect(ui->standardOutputCheck, &QCheckBox::stateChanged, this,
+	connect(ui->standardOutputCheck, &QCheckBox::checkStateChanged, this,
 	        &TaskEditWidget::standardOutputCheckChanged);
 	connect(ui->comparisonMode, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &TaskEditWidget::comparisonModeChanged);

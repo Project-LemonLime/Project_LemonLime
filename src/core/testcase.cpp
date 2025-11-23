@@ -110,7 +110,7 @@ int TestCase::writeToJson(QJsonObject &out) {
 	for (auto &filename : inputFiles) {
 		filename.replace(QDir::separator(), '/');
 	}
-	for (int i : qAsConst(dependenceSubtask)) {
+	for (int i : std::as_const(dependenceSubtask)) {
 		inputFiles.push_back(QString("%1_lemon_SUbtaskDEPENDENCE_fLAg").arg(i));
 	}
 

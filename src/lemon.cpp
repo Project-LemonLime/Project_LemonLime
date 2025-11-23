@@ -29,6 +29,7 @@
 #include "statisticsbrowser.h"
 #include "welcomedialog.h"
 //
+#include <QByteArrayView>
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -615,12 +616,8 @@ void LemonLime::saveContest(const QString &fileName) {
 	curContest->writeToStream(_out);
 	data = qCompress(data);
 	QDataStream out(&file);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 	out << unsigned(MagicNumber) << qChecksum(QByteArrayView(data))
-	    << static_cast<int>(data.length()); // Qt 6 changed the type fo data.length() to qsizetype
-#else
-	out << unsigned(MagicNumber) << qChecksum(data.data(), static_cast<uint>(data.length())) << data.length();
-#endif
+	    << static_cast<int>(data.length()); // Qt 6+ uses qsizetype for length
 	out.writeRawData(data.data(), data.length()); */
 	QApplication::restoreOverrideCursor();
 	ui->statusBar->showMessage(tr("Saved"), 1000);
@@ -680,12 +677,7 @@ void LemonLime::loadContest(const QString &filePath) {
 		char *raw = new char[len];
 		_in.readRawData(raw, len);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-		if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum)
-#else
-		if (qChecksum(raw, static_cast<uint>(len)) != checksum)
-#endif
-		{
+		if (qChecksum(QByteArrayView(raw, static_cast<uint>(len))) != checksum) {
 			QMessageBox::warning(this, tr("Error"),
 			                     tr("File %1 is broken").arg(QFileInfo(filePath).fileName()),
 			                     QMessageBox::Close);

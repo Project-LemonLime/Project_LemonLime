@@ -52,7 +52,7 @@ yay -S lemon-lime-git # 开发版本（提前使用许多新功能！）
 # 感谢 @CoelacanthusHex 的支持。
 
 ## 使用 CMake ##
-sudo pacman -S gcc cmake qt5-base ninja 
+sudo pacman -S gcc cmake qt6-base qt6-tools ninja 
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja 
 ninja  # 获得可执行文件 lemon
@@ -65,7 +65,6 @@ sudo pacman -S qtcreator
 
 ```bash
 ## 使用 CMake ##
-sudo apt install build-essential ninja-build qtbase5-dev qttools5-dev qtchooser qtbase5-dev-tools cmake # Qt5 依赖环境
 sudo apt install build-essential ninja-build qt6-tools-dev-tools qt6-base-dev qt6-tools-dev qt6-l10n-tools libgl1-mesa-dev cmake # Qt6 依赖环境
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja 
@@ -90,7 +89,7 @@ sudo apt install qtcreator
 
 ```bash
 ## 使用 CMake ##
-sudo dnf install cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build
+sudo dnf install cmake qt6-qtbase-devel qt6-qttools-devel qt6-qttools-linguist qt6-qtsvg-devel desktop-file-utils ninja-build
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja
 ninja # 获得可执行文件 lemon
@@ -107,7 +106,6 @@ ninja
 
 ```bash
 ## 使用 CMake ##
-sudo zypper in cmake libqt5-qtbase-common-devel libQt5Core-devel libQt5Gui-devel libQt5Network-devel libQt5Widgets-devel libQt5Concurrent-devel libqt5-linguist-devel libqt5-qtsvg-devel update-desktop-files ninja # Qt5 依赖环境
 sudo zypper in qt6-base-devel qt6-tools qt6-svg-devel ninja qt6-linguist-devel  # Qt6 依赖环境
 cd 源代码的目录
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja # 如使用 make 请删去 -GNinja

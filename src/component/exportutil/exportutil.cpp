@@ -232,9 +232,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	QTextStream out(&file);
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	out.setCodec("UTF-8");
-#endif
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 
@@ -587,9 +584,6 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	QTextStream out(&file);
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	out.setCodec("UTF-8");
-#endif
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "

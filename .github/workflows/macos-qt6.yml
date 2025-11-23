@@ -43,7 +43,6 @@ jobs:
           cmake . \
             -GNinja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DLEMON_QT6=ON \
             -DLEMON_BUILD_INFO="Build for macOS" \
             -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \

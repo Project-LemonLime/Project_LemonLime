@@ -11,6 +11,7 @@
 
 #include "base/LemonUtils.hpp"
 #include "core/contest.h"
+#include <QTimeZone>
 #include <utility>
 
 Contestant::Contestant(QObject *parent) : QObject(parent) {}
@@ -213,9 +214,14 @@ int Contestant::readFromJson(const QJsonObject &in) {
 	READ_JSON(in, judgingTime_date);
 	READ_JSON(in, judgingTime_time);
 	READ_JSON(in, judgingTime_timespec);
-	judgingTime =
-	    QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(judgingTime_time),
-	              Qt::TimeSpec(judgingTime_timespec));
+	auto dt =
+	    QDateTime(QDate::fromJulianDay(judgingTime_date), QTime::fromMSecsSinceStartOfDay(judgingTime_time));
+	if (judgingTime_timespec == Qt::UTC) {
+		dt.setTimeZone(QTimeZone::utc());
+	} else {
+		dt.setTimeZone(QTimeZone::systemTimeZone());
+	}
+	judgingTime = dt;
 	READ_JSON(in, compileState);
 	READ_JSON(in, result);
 	return 0;
@@ -237,9 +243,14 @@ void Contestant::readFromStream(QDataStream &in) {
 	in >> judgingTime_date;
 	in >> judgingTime_time;
 	in >> judgingTime_timespec;
-	judgingTime = QDateTime(QDate::fromJulianDay(judgingTime_date),
-	                        QTime::fromMSecsSinceStartOfDay(static_cast<int>(judgingTime_time)),
-	                        Qt::TimeSpec(judgingTime_timespec));
+	auto dt = QDateTime(QDate::fromJulianDay(judgingTime_date),
+	                    QTime::fromMSecsSinceStartOfDay(static_cast<int>(judgingTime_time)));
+	if (judgingTime_timespec == Qt::UTC) {
+		dt.setTimeZone(QTimeZone::utc());
+	} else {
+		dt.setTimeZone(QTimeZone::systemTimeZone());
+	}
+	judgingTime = dt;
 	int count = 0;
 	int _count = 0;
 	int __count = 0;

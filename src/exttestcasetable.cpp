@@ -178,7 +178,7 @@ void ExtTestCaseTable::whenItemSelectionChanged() {
 
 	int mi = 1e9, mx = -1;
 
-	for (const auto &i : qAsConst(setLists)) {
+	for (const auto &i : std::as_const(setLists)) {
 		mi = qMin(mi, i.topRow());
 		mx = qMax(mx, i.bottomRow());
 	}

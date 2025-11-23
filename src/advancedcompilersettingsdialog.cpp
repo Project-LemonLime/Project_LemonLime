@@ -41,9 +41,9 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
 	        &AdvancedCompilerSettingsDialog::timeLimitRatioChanged);
 	connect(ui->memoryLimitRatio, qOverload<double>(&QDoubleSpinBox::valueChanged), this,
 	        &AdvancedCompilerSettingsDialog::memoryLimitRatioChanged);
-	connect(ui->disableMemoryLimit, &QCheckBox::stateChanged, this,
+	connect(ui->disableMemoryLimit, &QCheckBox::checkStateChanged, this,
 	        &AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged);
-	connect(ui->interpreterAsWatcher, &QCheckBox::stateChanged, this,
+	connect(ui->interpreterAsWatcher, &QCheckBox::checkStateChanged, this,
 	        &AdvancedCompilerSettingsDialog::interpreterAsWatcherCheckChanged);
 	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &AdvancedCompilerSettingsDialog::configurationIndexChanged);

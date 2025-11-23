@@ -42,28 +42,24 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(LEMON_QT6 "Use Qt6 for Debugging" ON)
-LEMONLOG(LEMON_QT6)
-if(LEMON_QT6)
-    cmake_policy(SET CMP0072 NEW)
-    set(LEMON_QT_MAJOR_VERSION 6)
-    set(LEMON_QT_MINOR_VERSION 0)
-    set(LEMON_QT_LIBNAME Qt6)
-    set(QT_MAJOR_VERSION 6)
-    set(QT_DEFAULT_MAJOR_VERSION 6)
-    set(Qt_DIR ${Qt6_DIR})
-    add_definitions(-DLEMON_QT6)
-else()
-    set(LEMON_QT_MAJOR_VERSION 5)
-    set(LEMON_QT_MINOR_VERSION 15)
-    set(LEMON_QT_LIBNAME Qt5)
-    set(QT_MAJOR_VERSION 5)
-    set(Qt_DIR ${Qt5_DIR})
+cmake_policy(SET CMP0072 NEW)
+
+set(LEMON_QT_MAJOR_VERSION "6" CACHE STRING "Qt major version to use (6 or later)")
+set(LEMON_QT_MIN_VERSION "6.8" CACHE STRING "Minimum Qt version to use")
+LEMONLOG(LEMON_QT_MAJOR_VERSION)
+LEMONLOG(LEMON_QT_MIN_VERSION)
+
+set(QT_DEFAULT_MAJOR_VERSION ${LEMON_QT_MAJOR_VERSION})
+if(NOT Qt_DIR AND DEFINED Qt${LEMON_QT_MAJOR_VERSION}_DIR)
+    set(Qt_DIR ${Qt${LEMON_QT_MAJOR_VERSION}_DIR})
 endif()
+
+find_package(Qt${LEMON_QT_MAJOR_VERSION} ${LEMON_QT_MIN_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
+
+set(LEMON_QT_LIBNAME Qt${LEMON_QT_MAJOR_VERSION})
 
 add_definitions(-DQT_NO_FOREACH)
 
-find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MAJOR_VERSION}.${LEMON_QT_MINOR_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
 list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::Core ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Widgets)
 
 set(SINGLEAPPLICATION_DIR ${CMAKE_SOURCE_DIR}/3rdparty/SingleApplication)
@@ -300,10 +296,6 @@ endif()
 target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
 target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication spdlog::spdlog)
-
-if(WIN32 AND NOT LEMON_QT6)
-    target_link_libraries(lemon PRIVATE userenv)
-endif()
 
 if(ENABLE_LTO)
     include(CheckIPOSupported)

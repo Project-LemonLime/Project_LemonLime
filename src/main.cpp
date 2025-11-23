@@ -39,13 +39,6 @@ void initLogger() {
 
 int main(int argc, char *argv[]) {
 
-#ifndef LEMON_QT6
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // High DPI supported
-	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-	QApplication::setHighDpiScaleFactorRoundingPolicy(
-	    Qt::HighDpiScaleFactorRoundingPolicy::PassThrough); // Qt 6 compatibility
-#endif
-
 	QCoreApplication::setApplicationName("Lemonlime");
 
 	initLogger();

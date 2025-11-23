@@ -259,7 +259,7 @@ void ExtTestCaseModifier::removeSelected() {
 
 	int ban1 = -1, ban2 = -1;
 
-	for (auto i : qAsConst(res)) {
+	for (auto i : std::as_const(res)) {
 		if (ban1 < 0)
 			ban1 = i.first;
 		else

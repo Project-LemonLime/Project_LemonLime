@@ -62,7 +62,7 @@ jobs:
       - name: Install build dependencies
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-          apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash
+          apt-get install -y build-essential ninja-build qt6-base-dev qt6-tools-dev qt6-tools-dev-tools libqt6help6 cmake pkgconf bash
       - name: Build
         run: |
           mkdir build
