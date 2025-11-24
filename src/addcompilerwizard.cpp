@@ -14,6 +14,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStandardPaths>
 
 #include <iostream>
 
@@ -28,55 +29,25 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) : QWizard(parent), ui(new 
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
 	ui->javaMemoryLimit->setValidator(new QIntValidator(64, 2048, this));
 
-#ifdef Q_OS_WIN
+	const auto setIfEmpty = [](QLineEdit *target, const QStringList &candidates) {
+		if (! target->text().isEmpty())
+			return;
 
-	for (auto dir : qEnvironmentVariable("PATH").split(';')) {
-		for (auto file : QDir(dir).entryList(QDir::Files)) {
-			if (ui->gccPath->text().isEmpty() && file == "gcc.exe")
-				ui->gccPath->setText(dir + QDir::separator() + file);
-
-			if (ui->gppPath->text().isEmpty() && file == "g++.exe")
-				ui->gppPath->setText(dir + QDir::separator() + file);
-
-			if (ui->fpcPath->text().isEmpty() && file == "fpc.exe")
-				ui->fpcPath->setText(dir + QDir::separator() + file);
-
-			if (ui->javacPath->text().isEmpty() && file == "javac.exe")
-				ui->javacPath->setText(dir + QDir::separator() + file);
-
-			if (ui->javaPath->text().isEmpty() && file == "java.exe")
-				ui->javaPath->setText(dir + QDir::separator() + file);
-
-			if (ui->pythonPath->text().isEmpty() && file == "python.exe")
-				ui->pythonPath->setText(dir + QDir::separator() + file);
+		for (const auto &candidate : candidates) {
+			const auto executable = QStandardPaths::findExecutable(candidate);
+			if (! executable.isEmpty()) {
+				target->setText(QDir::toNativeSeparators(executable));
+				return;
+			}
 		}
-	}
+	};
 
-#else
-
-	for (auto dir : qEnvironmentVariable("PATH").split(':')) {
-		for (auto file : QDir(dir).entryList(QDir::Files)) {
-			if (ui->gccPath->text().isEmpty() && file == "gcc")
-				ui->gccPath->setText(dir + QDir::separator() + file);
-
-			if (ui->gppPath->text().isEmpty() && file == "g++")
-				ui->gppPath->setText(dir + QDir::separator() + file);
-
-			if (ui->fpcPath->text().isEmpty() && file == "fpc")
-				ui->fpcPath->setText(dir + QDir::separator() + file);
-
-			if (ui->javacPath->text().isEmpty() && file == "javac")
-				ui->javacPath->setText(dir + QDir::separator() + file);
-
-			if (ui->javaPath->text().isEmpty() && file == "java")
-				ui->javaPath->setText(dir + QDir::separator() + file);
-
-			if (ui->pythonPath->text().isEmpty() && file == "python")
-				ui->pythonPath->setText(dir + QDir::separator() + file);
-		}
-	}
-
-#endif
+	setIfEmpty(ui->gccPath, {"gcc"});
+	setIfEmpty(ui->gppPath, {"g++"});
+	setIfEmpty(ui->fpcPath, {"fpc"});
+	setIfEmpty(ui->javacPath, {"javac"});
+	setIfEmpty(ui->javaPath, {"java"});
+	setIfEmpty(ui->pythonPath, {"python"});
 	connect(ui->typeSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &AddCompilerWizard::compilerTypeChanged);
 	connect(ui->compilerSelectButton, &QToolButton::clicked, this,
