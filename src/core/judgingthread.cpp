@@ -898,8 +898,10 @@ void JudgingThread::runProgram() {
 
 	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0';
 
-	if (! CreateProcessW((WCHAR *)executableFile.utf16(), (WCHAR *)(arguments).toStdWString().data(), NULL,
-	                     &sa, TRUE, HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
+	QString commandLine = QString(R"("%1" %2)").arg(executableFile).arg(arguments);
+
+	if (! CreateProcessW(nullptr, (WCHAR *)(commandLine).utf16(), nullptr, &sa, TRUE,
+	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
 	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
 	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
