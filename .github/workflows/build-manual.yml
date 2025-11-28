@@ -1,0 +1,88 @@
+name: Build Typst manual and upload artifact
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'manual/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'manual/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FONT_DIR: ".fonts"
+  FONT_VERSION: "v1"
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.FONT_DIR }}
+          key: fonts-${{ runner.os }}-${{ env.FONT_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y curl unzip
+
+      - name: Create font dir
+        run: |
+          mkdir -p "${{ env.FONT_DIR }}"
+
+      - name: Download Noto Serif CJK SC
+        run: |
+          curl -fL "https://github.com/notofonts/noto-cjk/releases/download/Serif2.003/09_NotoSerifCJKsc.zip" -o "${{ env.FONT_DIR }}/noto-serif-sc.zip"
+
+      - name: Download Noto Sans CJK SC
+        run: |
+          curl -fL "https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip" -o "${{ env.FONT_DIR }}/noto-sans-sc.zip"
+
+      - name: Download LXGW WenKai
+        run: |
+          curl -fL "https://github.com/lxgw/LxgwWenKai/releases/download/v1.521/lxgw-wenkai-v1.521.zip" -o "${{ env.FONT_DIR }}/lxgw-wenkai.zip"
+
+      - name: Download Courier Prime Code
+        run: |
+          curl -fL "https://quoteunquoteapps.com/courierprime/downloads/courier-prime-code.zip" -o "${{ env.FONT_DIR }}/courier-prime-code.zip"
+
+      - name: Install font
+        run: |
+          # Unzip everything
+          for z in "${{ env.FONT_DIR }}"/*.zip; do
+            [ -f "$z" ] || continue
+            echo "Unzipping $z"
+            unzip -o "$z" -d "${{ env.FONT_DIR }}" || true
+          done
+          sudo mkdir -p /usr/local/share/fonts/typst/
+          sudo cp -r "${{ env.FONT_DIR }}" /usr/local/share/fonts/typst
+          sudo fc-cache -f -v
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.FONT_DIR }}
+          key: fonts-${{ runner.os }}-${{ env.FONT_VERSION }}
+
+      - uses: typst-community/setup-typst@v4
+      
+      - name: Build manual
+        run: |
+          typst compile "manual/src/content/manual.typ" "manual/llmanual.pdf" --features html
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: llmanual.pdf
+          path: manual/llmanual.pdf
