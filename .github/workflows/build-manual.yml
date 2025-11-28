@@ -76,12 +76,9 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Install typst
-        run: |
-          cargo install --locked typst-cli || true
-          echo "${HOME}/.cargo/bin" >> $GITHUB_PATH
+      - uses: typst-community/setup-typst@v4
 
-      - name: Build manual.typ -> llmanual.pdf (with --features html)
+      - name: Build manual
         run: |
           typst compile "manual/src/content/manual.typ" "manual/llmanual.pdf" --features html
 
