@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'manual/**'
   pull_request:
     branches:
       - master
+    paths:
+      - 'manual/**'
   workflow_dispatch:
 
 permissions:
@@ -71,18 +75,12 @@ jobs:
           path: ${{ env.FONT_DIR }}
           key: fonts-${{ runner.os }}-${{ env.FONT_VERSION }}
 
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      - uses: typst-community/setup-typst@v4
-
       - name: Build manual
+      - uses: typst-community/setup-typst@v4
         run: |
           typst compile "manual/src/content/manual.typ" "manual/llmanual.pdf" --features html
 
-      - name: Upload PDF as artifact
+      - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
           name: llmanual.pdf

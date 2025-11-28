@@ -15,6 +15,8 @@
 
 然后使用 Typst CLI 或者 Tinymist Typst 编译 `manual/src/content/manual.typ`，将生成出来的 pdf 重命名并放在 `manual/llmanual.pdf`。注意，需要开启 `--features html`。
 
+如果只是小幅度的修改，也可以在网页端的 artifact 内获取由 CI 编译的 pdf 直接替换。
+
 线上分发使用使用 astro+[astro-typst](https://github.com/OverflowCat/astro-typst)+[starlight theme](https://starlight.astro.build/) 部署于线上。
 
 `docs` 文件夹下的文件：
