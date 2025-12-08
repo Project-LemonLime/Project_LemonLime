@@ -1,0 +1,47 @@
+name: Deploy Manual
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: manual/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./manual
+
+      - name: Build
+        run: npm run build
+        working-directory: ./manual
+
+      - name: Create nojekyll
+        run: echo > ./manual/dist/.nojekyll
+
+      - name: Deploy to gh-pages
+        if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./manual/dist
+          force_orphan: true
