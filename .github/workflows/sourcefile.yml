@@ -6,26 +6,7 @@ on:
     types: [published, edited]
 
 jobs:
-  check_commit_msg:
-    outputs:
-      commit_message: ${{ steps.get_message.outputs.message }}
-    name: Check if the workflow has been disabled.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Get commit message
-        id: get_message
-        env:
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.after || github.sha }}
-        run: |
-          msg="$(git log --format=%B -n 1 "${COMMIT_SHA}")"
-          {
-            echo "message<<EOF"
-            echo "${msg}"
-            echo "EOF"
-          } >> "${GITHUB_OUTPUT}"
   linux:
-    needs: check_commit_msg
     name: All Source Files
     runs-on: ubuntu-latest
 
