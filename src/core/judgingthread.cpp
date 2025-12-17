@@ -896,14 +896,16 @@ void JudgingThread::runProgram() {
 		CloseHandle(siex.StartupInfo.hStdError);
 	});
 
-	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0';
+	// Need 4 \0 to end the environment string, see CreateProcessW() documentation
+	QString environmentValues = environment.toStringList().join(QChar('\0')) + '\0' + '\0' + '\0' + '\0';
 
 	QString commandLine = QString(R"("%1" %2)").arg(executableFile).arg(arguments);
 
 	if (! CreateProcessW(nullptr, (WCHAR *)(commandLine).utf16(), nullptr, &sa, TRUE,
-	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS,
-	                     (LPVOID)(environmentValues.toLocal8Bit().data()),
-	                     (const WCHAR *)(workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
+	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS |
+	                         CREATE_UNICODE_ENVIRONMENT,
+	                     (LPVOID)(environmentValues.utf16()), (const WCHAR *)(workingDirectory.utf16()),
+	                     (STARTUPINFO *)(&siex), &pi)) {
 		score = 0;
 		result = CannotStartProgram;
 		message = "Failed to create process";
