@@ -96,34 +96,34 @@ void ResultViewer::setContest(Contest *contest) {
 }
 
 void ResultViewer::refreshViewer() {
-	clear();
-	setRowCount(0);
-	setColumnCount(0);
-
-	if (! curContest)
+	if (! curContest) {
+		clear();
+		setRowCount(0);
+		setColumnCount(0);
 		return;
+	}
+	clear();
+	setSortingEnabled(false);
 
-	QStringList headerList;
-	headerList << tr("Rank") << tr("Name") << tr("Total Score");
-	QList<Task *> taskList = curContest->getTaskList();
 	Settings setting;
 	curContest->copySettings(setting);
 	ColorTheme colors = setting.getCurrentColorTheme();
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
 	if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
 		colors.invertLightness();
 		LOG("Auto dark mode has been set");
 	}
-#endif
+
+	QStringList headerList;
+	headerList << tr("Rank") << tr("Name") << tr("Total Score");
+	QList<Task *> taskList = curContest->getTaskList();
 	for (auto &i : taskList) {
 		headerList << i->getProblemTitle();
 	}
-
 	headerList << tr("Total Used Time (s)") << tr("Judging Time");
 	setColumnCount(taskList.size() + 5);
 	setHorizontalHeaderLabels(headerList);
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<std::pair<int, QString>> sortList;
 	QList<int> fullScore;
@@ -158,8 +158,6 @@ void ResultViewer::refreshViewer() {
 					bg = colors.getColorPer(score, fullScore[j]);
 
 				item(i, j + 3)->setBackground(bg);
-
-				// qDebug() << i << j << bg;
 			} else {
 				item(i, j + 3)->setText(tr("Invalid"));
 			}
@@ -213,6 +211,7 @@ void ResultViewer::refreshViewer() {
 		}
 	}
 
+	setSortingEnabled(true);
 	sortByColumn(0, Qt::AscendingOrder);
 }
 
@@ -242,22 +241,24 @@ void ResultViewer::judgeSelected() {
 	}
 
 	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
+	emit requestEnterJudgeMode();
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judge(judgeList);
 	delete dialog;
 	refreshViewer();
+	emit requestLeaveJudgeMode();
 }
 
 void ResultViewer::judgeAll() {
 	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
+	emit requestEnterJudgeMode();
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judgeAll();
 	delete dialog;
 	refreshViewer();
+	emit requestLeaveJudgeMode();
 }
 
 void ResultViewer::judgeUnjudged() {
@@ -282,12 +283,13 @@ void ResultViewer::judgeUnjudged() {
 	}
 
 	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
+	emit requestEnterJudgeMode();
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judge(judgeList);
 	delete dialog;
 	refreshViewer();
+	emit requestLeaveJudgeMode();
 }
 
 void ResultViewer::judgeGrey() {
@@ -312,12 +314,13 @@ void ResultViewer::judgeGrey() {
 	}
 
 	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
+	emit requestEnterJudgeMode();
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judge(judgeList);
 	delete dialog;
 	refreshViewer();
+	emit requestLeaveJudgeMode();
 }
 
 void ResultViewer::judgeMagenta() {
@@ -345,12 +348,13 @@ void ResultViewer::judgeMagenta() {
 	}
 
 	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
+	emit requestEnterJudgeMode();
 	dialog->setContest(curContest);
 	dialog->show();
 	dialog->judge(judgeList);
 	delete dialog;
 	refreshViewer();
+	emit requestLeaveJudgeMode();
 }
 
 void ResultViewer::clearPath(const QString &curDir) {
@@ -406,6 +410,7 @@ void ResultViewer::deleteContestant() {
 
 void ResultViewer::detailInformation() {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
+	if (selectionRange.size() == 0) return;
 	int index = selectionRange[0].topRow();
 	auto *dialog = new DetailDialog(this);
 	dialog->setModal(true);

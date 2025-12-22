@@ -81,6 +81,8 @@ LemonLime::LemonLime(QWidget *parent) : QMainWindow(parent), ui(new Ui::LemonLim
 	connect(ui->moveDownButton, &QToolButton::clicked, this, &LemonLime::moveDownTask);
 	connect(ui->resultViewer, &ResultViewer::itemSelectionChanged, this, &LemonLime::viewerSelectionChanged);
 	connect(ui->resultViewer, &ResultViewer::contestantDeleted, this, &LemonLime::contestantDeleted);
+	connect(ui->resultViewer, &ResultViewer::requestEnterJudgeMode, this, &LemonLime::enterJudgeMode);
+	connect(ui->resultViewer, &ResultViewer::requestLeaveJudgeMode, this, &LemonLime::leaveJudgeMode);
 	connect(ui->newAction, &QAction::triggered, this, &LemonLime::newAction);
 	connect(ui->openAction, &QAction::triggered, this, &LemonLime::loadAction);
 	connect(ui->saveAction, &QAction::triggered, this, &LemonLime::saveAction);
@@ -595,6 +597,31 @@ void LemonLime::contestantDeleted() {
 	judgeExtButtonFlip(ui->resultViewer->rowCount() > 0);
 	ui->cleanupAction->setEnabled(true);
 	ui->refreshAction->setEnabled(true);
+}
+
+// 会锁定若干控件，防止用户操作，并禁止表格选中事件（这样双击时就会直接返回）
+void LemonLime::enterJudgeMode() {
+	ui->tabWidget->tabBar()->setEnabled(false);
+	ui->cleanupButton->setEnabled(false);
+	ui->refreshButton->setEnabled(false);
+	ui->judgeButton->setEnabled(false);
+	ui->judgeAllButton->setEnabled(false);
+	ui->judgeUnjudgedButton->setEnabled(false);
+	ui->resultViewer->clearSelection();
+	ui->resultViewer->setSelectionMode(QAbstractItemView::NoSelection);
+
+    menuBar()->setEnabled(false);
+}
+
+void LemonLime::leaveJudgeMode() {
+	ui->tabWidget->tabBar()->setEnabled(true);
+	ui->cleanupButton->setEnabled(true);
+	ui->refreshButton->setEnabled(true);
+	ui->judgeAllButton->setEnabled(true);
+	ui->judgeUnjudgedButton->setEnabled(true);
+	ui->resultViewer->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    menuBar()->setEnabled(true);
 }
 
 void LemonLime::saveContest(const QString &fileName) {
