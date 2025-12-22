@@ -410,7 +410,8 @@ void ResultViewer::deleteContestant() {
 
 void ResultViewer::detailInformation() {
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-	if (selectionRange.size() == 0) return;
+	if (selectionRange.size() == 0)
+		return;
 	int index = selectionRange[0].topRow();
 	auto *dialog = new DetailDialog(this);
 	dialog->setModal(true);
