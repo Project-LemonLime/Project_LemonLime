@@ -610,7 +610,7 @@ void LemonLime::enterJudgeMode() {
 	ui->resultViewer->clearSelection();
 	ui->resultViewer->setSelectionMode(QAbstractItemView::NoSelection);
 
-    menuBar()->setEnabled(false);
+	menuBar()->setEnabled(false);
 }
 
 void LemonLime::leaveJudgeMode() {
@@ -621,7 +621,7 @@ void LemonLime::leaveJudgeMode() {
 	ui->judgeUnjudgedButton->setEnabled(true);
 	ui->resultViewer->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    menuBar()->setEnabled(true);
+	menuBar()->setEnabled(true);
 }
 
 void LemonLime::saveContest(const QString &fileName) {
@@ -906,8 +906,8 @@ void LemonLime::addTaskWithScoreScale(const QString &title,
 	}
 }
 
-auto LemonLime::compareFileName(const std::pair<QString, QString> &a,
-                                const std::pair<QString, QString> &b) -> bool {
+auto LemonLime::compareFileName(const std::pair<QString, QString> &a, const std::pair<QString, QString> &b)
+    -> bool {
 	return (a.first.length() < b.first.length()) ||
 	       (a.first.length() == b.first.length() && QString::localeAwareCompare(a.first, b.first) < 0);
 }
