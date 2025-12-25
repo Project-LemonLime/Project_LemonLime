@@ -65,6 +65,8 @@ class LemonLime : public QMainWindow {
 	void moveDownTask();
 	void viewerSelectionChanged();
 	void contestantDeleted();
+	void enterJudgeMode();
+	void leaveJudgeMode();
 	void newAction();
 	void saveAction();
 	static void openFolderAction();
