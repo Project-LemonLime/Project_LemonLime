@@ -1,4 +1,4 @@
-<img src="assets/icons/lemon-lime.png" align=right />
+<a href="https://project-lemonlime.github.io/Project_LemonLime/"><img src="assets/icons/lemon-lime.png" align=right /></a>
 
 # Project LemonLime (Beta)
 
@@ -10,19 +10,14 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 
 现已支持 Linux，Windows 以及 macOS
 
-[![Linux Static](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static.yml)
-
-![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Debian/badge.svg)
-![CPack - DEB - Ubuntu](https://github.com/Project-LemonLime/Project_LemonLime/workflows/CPack%20-%20DEB%20-%20Ubuntu/badge.svg)
-
-![Windows](https://github.com/Project-LemonLime/Project_LemonLime/workflows/Windows/badge.svg)
-
-![MacOS](https://github.com/Project-LemonLime/Project_LemonLime/workflows/MacOS/badge.svg)
-
+[![Linux Static Qt6](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static-qt6.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/linux-static-qt6.yml)
+[![CPack - DEB - Debian](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/cpack-deb-debian.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/cpack-deb-debian.yml)
+[![Windows Qt6](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/windows-qt6.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/windows-qt6.yml)
+[![MacOS Qt6](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/macos-qt6.yml/badge.svg)](https://github.com/Project-LemonLime/Project_LemonLime/actions/workflows/macos-qt6.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ea760fd4674f44eaa6ca8273abc0669d)](https://www.codacy.com/gh/Project-LemonLime/Project_LemonLime/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Project-LemonLime/Project_LemonLime&utm_campaign=Badge_Grade)
 
 [![AUR version](https://img.shields.io/aur/version/lemon-lime?style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/)
-![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)
+[![AUR votes](https://img.shields.io/aur/votes/lemon-lime?label=lemon-lime%20vote&style=flat-square)](https://aur.archlinux.org/packages/lemon-lime/)
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/lemon-lime.svg)](https://repology.org/metapackage/lemon-lime/versions)
 
@@ -128,6 +123,10 @@ brew install lemonlime --cask
 可以在 Release 或者 GitHub Actions 处自行取用。
 
 `chmod +x <filename>` 后直接执行
+
+## 用户手册
+
+我们在软件内提供了离线用户手册。我们同时也提供 [在线用户手册](https://project-lemonlime.github.io/Project_LemonLime/)。
 
 ## 构建
 
