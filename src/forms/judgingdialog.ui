@@ -3,7 +3,7 @@
  <class>JudgingDialog</class>
  <widget class="QDialog" name="JudgingDialog">
   <property name="windowModality">
-   <enum>Qt::WindowModality::WindowModal</enum>
+   <enum>Qt::WindowModality::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>

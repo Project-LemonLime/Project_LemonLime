@@ -44,4 +44,6 @@ class ResultViewer : public QTableWidget {
 
   signals:
 	void contestantDeleted();
+	void requestEnterJudgeMode();
+	void requestLeaveJudgeMode();
 };
