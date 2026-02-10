@@ -30,6 +30,12 @@
 
 #define LEMON_MODULE_NAME "ResultViewer"
 
+static bool shouldApplyDarkFrame() {
+	const QPalette &defaultPalette = QApplication::palette();
+	return defaultPalette.color(QPalette::WindowText).lightness() >
+	       defaultPalette.color(QPalette::Window).lightness();
+}
+
 ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent) {
 	curContest = nullptr;
 	deleteContestantAction = new QAction(tr("Delete"), this);
@@ -110,12 +116,20 @@ void ResultViewer::refreshViewer() {
 	curContest->copySettings(setting);
 	ColorTheme colors = setting.getCurrentColorTheme();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-	if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+	// #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+	// 	if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+	// 		colors.invertLightness();
+	// 		LOG("Auto dark mode has been set");
+	// 	}
+	// #endif
+	// https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5
+	// Waiting QPalette::colorScheme implement
+	// So we use an alternative method.
+	if (shouldApplyDarkFrame()) {
 		colors.invertLightness();
 		LOG("Auto dark mode has been set");
 	}
-#endif
+
 	for (auto &i : taskList) {
 		headerList << i->getProblemTitle();
 	}
