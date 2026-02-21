@@ -85,8 +85,8 @@
         <translation>空间限制</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
     <message>
         <source>Step 3/3: Check the result and start using LemonLime.</source>
@@ -226,8 +226,8 @@
         <translation>java 路径： </translation>
     </message>
     <message>
-        <source>Memory Limit: %1 MB</source>
-        <translation>内存限制：%1 MB</translation>
+        <source>Memory Limit: %1 MiB</source>
+        <translation>内存限制：%1 MiB</translation>
     </message>
     <message>
         <source>[Python Compiler]</source>
@@ -281,8 +281,8 @@
         <translation>空间限制</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
 </context>
 <context>
@@ -313,8 +313,8 @@
         <translation>空间限制</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
     <message>
         <source>Step 2/3: Input patterns for input files and output files. Use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Files will in the same subtask when their matched parts of checked expressions are identical.</source>
@@ -921,11 +921,11 @@
         <source>Test Case #%1:
 %2 Pt
 Time Limit: %3 ms
-Memory Limit: %4 MB</source>
+Memory Limit: %4 MiB</source>
         <translation>测试点 #%1：
 %2 Pt
 时间限制：%3 ms
-空间限制：%4 MB</translation>
+空间限制：%4 MiB</translation>
     </message>
     <message>
         <source>
@@ -944,8 +944,8 @@ Depends: </source>
         <translation>#%1 :: %2 pt, %3</translation>
     </message>
     <message>
-        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</source>
-        <translation>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</translation>
+        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MiB, %5</source>
+        <translation>#%1 :: %2 pt, TL %3 ms, ML %4 MiB, %5</translation>
     </message>
 </context>
 <context>
@@ -987,8 +987,8 @@ Depends: </source>
         <translation>空间限制</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
     <message>
         <source>Depends</source>
@@ -1066,8 +1066,8 @@ Depends: </source>
         <translation>默认空间限制</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
     <message>
         <source>Compile Time Limit</source>
@@ -1082,8 +1082,8 @@ Depends: </source>
         <translation>源程序大小限制</translation>
     </message>
     <message>
-        <source>KB</source>
-        <translation>KB</translation>
+        <source>KiB</source>
+        <translation>KiB</translation>
     </message>
     <message>
         <source>Input File Extensions</source>
@@ -1183,7 +1183,7 @@ Depends: </source>
     </message>
     <message>
         <source> %1 ms</source>
-        <oldsource>  %1 ms  %2 MB</oldsource>
+        <oldsource>  %1 ms  %2 MiB</oldsource>
         <translation> %1 ms</translation>
     </message>
     <message>
@@ -1207,8 +1207,8 @@ Depends: </source>
         <translation>运行时错误</translation>
     </message>
     <message>
-        <source> %1 MB</source>
-        <translation> %1 MB</translation>
+        <source> %1 MiB</source>
+        <translation> %1 MiB</translation>
     </message>
     <message>
         <source>Presentation Error</source>
@@ -2612,8 +2612,8 @@ p, li { white-space: pre-wrap; }
         <translation>这个测试点的每个点的空间限制…</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
     <message>
         <source>Error</source>

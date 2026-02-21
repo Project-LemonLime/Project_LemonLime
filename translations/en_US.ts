@@ -80,7 +80,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -220,7 +220,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Memory Limit: %1 MB</source>
+        <source>Memory Limit: %1 MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -267,7 +267,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -306,7 +306,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -905,7 +905,7 @@
         <source>Test Case #%1:
 %2 Pt
 Time Limit: %3 ms
-Memory Limit: %4 MB</source>
+Memory Limit: %4 MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -923,7 +923,7 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5</source>
+        <source>#%1 :: %2 pt, TL %3 ms, ML %4 MiB, %5</source>
         <translation></translation>
     </message>
 </context>
@@ -966,7 +966,7 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -1053,7 +1053,7 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -1065,7 +1065,7 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source>KB</source>
+        <source>KiB</source>
         <translation></translation>
     </message>
     <message>
@@ -1156,7 +1156,7 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
-        <source> %1 MB</source>
+        <source> %1 MiB</source>
         <translation></translation>
     </message>
     <message>
@@ -2586,7 +2586,7 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>MB</source>
+        <source>MiB</source>
         <translation></translation>
     </message>
     <message>

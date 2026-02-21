@@ -232,7 +232,7 @@ auto AddCompilerWizard::validateCurrentPage() -> bool {
 			text += tr("[Java Compiler]") + "\n";
 			text += tr("javac Path: ") + ui->javacPath->text() + "\n";
 			text += tr("java Path: ") + ui->javaPath->text() + "\n";
-			text += tr("Memory Limit: %1 MB").arg(ui->javaMemoryLimit->text()) + "\n";
+			text += tr("Memory Limit: %1 MiB").arg(ui->javaMemoryLimit->text()) + "\n";
 			text += "\n";
 		}
 

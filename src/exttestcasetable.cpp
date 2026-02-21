@@ -118,7 +118,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask) {
 			if (editTask->getTaskType() == Task::AnswersOnly)
 				tipStr = QString(tr("Test Case #%1:\n%2 Pt")).arg(i + 1).arg(score);
 			else
-				tipStr = QString(tr("Test Case #%1:\n%2 Pt\nTime Limit: %3 ms\nMemory Limit: %4 MB"))
+				tipStr = QString(tr("Test Case #%1:\n%2 Pt\nTime Limit: %3 ms\nMemory Limit: %4 MiB"))
 				             .arg(i + 1)
 				             .arg(score)
 				             .arg(times)
@@ -138,7 +138,7 @@ void ExtTestCaseTable::refreshTask(Task *nowTask) {
 				addItem(nowrow, 0, QString(tr("#%1 :: %2 pt, %3")).arg(i + 1).arg(score).arg(depStr), tipStr);
 			else
 				addItem(nowrow, 0,
-				        QString(tr("#%1 :: %2 pt, TL %3 ms, ML %4 MB, %5"))
+				        QString(tr("#%1 :: %2 pt, TL %3 ms, ML %4 MiB, %5"))
 				            .arg(i + 1)
 				            .arg(score)
 				            .arg(times)

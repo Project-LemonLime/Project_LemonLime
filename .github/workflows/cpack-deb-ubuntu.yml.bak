@@ -19,17 +19,6 @@ on:
     types: [published]
 
 jobs:
-  check_commit_msg:
-    outputs:
-      commit_message: ${{ steps.get_message.outputs.message }}
-    name: Check if the workflow has been disabled.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Get commit message
-        id: get_message
-        run: |
-          echo "message=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_OUTPUT
   linux:
     strategy:
         fail-fast: false
@@ -37,8 +26,6 @@ jobs:
           distro: [20.04]
           build_type: [Release, RelWithDebInfo]
           #arch: [x86, x64]
-    needs: check_commit_msg
-    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
     name: Ubuntu ${{ matrix.distro }}
     runs-on: ubuntu-latest
     container: ubuntu:${{ matrix.distro }}

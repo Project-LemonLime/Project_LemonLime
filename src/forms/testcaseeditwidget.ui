@@ -466,7 +466,7 @@
           </font>
          </property>
          <property name="text">
-          <string>MB</string>
+          <string>MiB</string>
          </property>
         </widget>
        </item>

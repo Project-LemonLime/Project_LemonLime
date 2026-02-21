@@ -191,7 +191,7 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 				htmlCode += R"(<td nowrap="nowrap" align="center" valign="middle">)";
 
 				if (memoryUsed[j][k] != -1) {
-					htmlCode += QString("").asprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
+					htmlCode += QString("").asprintf("%.3lf MiB", double(memoryUsed[j][k]) / 1024 / 1024);
 				} else {
 					htmlCode += tr("Invalid");
 				}

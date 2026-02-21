@@ -356,7 +356,7 @@
         </font>
        </property>
        <property name="text">
-        <string>MB</string>
+        <string>MiB</string>
        </property>
       </widget>
      </item>
@@ -667,7 +667,7 @@
         </font>
        </property>
        <property name="text">
-        <string>KB</string>
+        <string>KiB</string>
        </property>
       </widget>
      </item>

@@ -907,7 +907,7 @@
            <item>
             <widget class="QLabel" name="javaMbLabel">
              <property name="text">
-              <string>MB</string>
+              <string>MiB</string>
              </property>
             </widget>
            </item>

@@ -112,7 +112,7 @@ void JudgingDialog::singleCaseFinished(QString contestantName, int progress, int
 				addtext += tr(" %1 ms").arg(timeUsed);
 
 			if (memoryUsed >= 0)
-				addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
+				addtext += tr(" %1 MiB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0)
 				scoretext = tr("  %1 %2").arg(scoreGot).arg(scoreGot == 1 ? tr("Pt") : tr("Pts"));
@@ -129,7 +129,7 @@ void JudgingDialog::singleCaseFinished(QString contestantName, int progress, int
 				addtext += tr(" %1 ms").arg(timeUsed);
 
 			if (memoryUsed >= 0)
-				addtext += tr(" %1 MB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
+				addtext += tr(" %1 MiB").arg(1.00 * memoryUsed / 1024.00 / 1024.00);
 
 			if (scoreGot > 0) {
 				scoretext = tr("  %1 %2").arg(scoreGot).arg(scoreGot == 1 ? tr("Pt") : tr("Pts"));
