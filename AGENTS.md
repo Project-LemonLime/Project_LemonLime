@@ -360,6 +360,61 @@ enum ResultState {
 - 不得使用旧式 `SIGNAL()`/`SLOT()` 宏连接信号槽
 - 代码必须通过 `clang-format` 检查（CI 自动执行）
 
+### Commit 规范
+
+使用 [Conventional Commits](https://www.conventionalcommits.org/) 规范。
+
+**格式**：
+
+```
+<type>(<scope>): <subject>
+
+<body>
+```
+
+**type 必须是以下之一**：
+
+| type | 说明 |
+|------|------|
+| `feat` | 新功能 |
+| `fix` | 修复 bug |
+| `refactor` | 重构（不改变功能） |
+| `style` | 代码格式调整（不影响逻辑） |
+| `docs` | 文档变更 |
+| `build` | 构建系统或依赖变更 |
+| `ci` | CI 配置变更 |
+| `perf` | 性能优化 |
+| `test` | 测试相关 |
+| `chore` | 其他杂项 |
+
+**规则**：
+
+- **首行（subject line）不得超过 72 个字符**，保持简短概括
+- `scope` 可选，用于标注影响范围（如 `feat(judging):`、`fix(export):`）
+- 首行使用英文小写开头，不加句号
+- 详细说明放到 body 中（空一行后书写），或在代码注释中说明
+- 破坏性变更需在 body 中添加 `BREAKING CHANGE:` 前缀
+- **AGENTS.md 维护**：当代码中涉及本文档描述的约定、架构、构建方式、代码风格等内容发生变更时，须同步更新 `AGENTS.md`
+- **Commit 拆分**：`AGENTS.md` 的变更必须作为**独立 commit** 提交，不得与其他代码或文档变更混在同一个 commit 中（便于 cherry-pick 到 master 分支）
+
+**示例**：
+
+```
+feat(judging): add subtask dependency support
+
+Implement subtask dependency checking in TaskJudger.
+Each test case can now specify dependent subtasks that
+must pass before it is evaluated.
+```
+
+```
+fix(export): correct HTML encoding for CJK characters
+```
+
+```
+refactor: extract JSON serialization helpers to LemonUtils
+```
+
 ### CI 工作流
 
 | 工作流 | 说明 |
