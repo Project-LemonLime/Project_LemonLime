@@ -436,10 +436,10 @@ int TaskJudger::judge() {
 			    QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName)
 			        .entryList(QDir::Files);
 
-			for (int i = 0; i < entryList.size(); i++) {
+			for (int fileIdx = 0; fileIdx < entryList.size(); fileIdx++) {
 				QFile::copy(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-				                contestantName + QDir::separator() + entryList[i],
-				            workingDirectory + entryList[i]);
+				                contestantName + QDir::separator() + entryList[fileIdx],
+				            workingDirectory + entryList[fileIdx]);
 			}
 
 			thread->setSpecialJudgeTimeLimit(settings->getSpecialJudgeTimeLimit());
