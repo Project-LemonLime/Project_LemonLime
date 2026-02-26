@@ -10,7 +10,6 @@
 #include "base/compiler.h"
 #include "base/settings.h"
 #include "core/contestant.h"
-#include "core/judgesharedvariables.h"
 #include "core/judgingthread.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
@@ -379,7 +378,6 @@ int TaskJudger::judge() {
 		}
 	}
 
-	skipEnabled = false;
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
 
 		QCoreApplication::processEvents();

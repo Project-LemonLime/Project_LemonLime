@@ -42,17 +42,15 @@ struct ProcessRunnerResult {
 
 class ProcessRunner {
   public:
-	ProcessRunner(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag,
-	              const std::atomic<bool> &skipFlag);
+	ProcessRunner(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag);
 	virtual ~ProcessRunner() = default;
 
 	virtual ProcessRunnerResult run() = 0;
 
-	static std::unique_ptr<ProcessRunner>
-	create(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag, const std::atomic<bool> &skipFlag);
+	static std::unique_ptr<ProcessRunner> create(ProcessRunnerConfig config,
+	                                             const std::atomic<bool> &stopFlag);
 
   protected:
 	ProcessRunnerConfig config;
 	const std::atomic<bool> &stopFlag;
-	const std::atomic<bool> &skipFlag;
 };

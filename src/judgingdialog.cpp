@@ -12,7 +12,6 @@
 //
 #include "base/LemonType.hpp"
 #include "core/contest.h"
-#include "core/judgesharedvariables.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 //
@@ -24,7 +23,6 @@ JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Judg
 	ui->progressBar->setValue(0);
 	cursor = new QTextCursor(ui->logViewer->document());
 	connect(ui->cancelButton, &QPushButton::clicked, this, &JudgingDialog::stopJudgingSlot);
-	// connect(ui->skipButton, &QPushButton::clicked, this, &JudgingDialog::skipJudging);
 }
 
 JudgingDialog::~JudgingDialog() {
@@ -442,9 +440,5 @@ void JudgingDialog::stopJudgingSlot() {
 	stopJudging = true;
 	emit stopJudgingSignal();
 }
-
-std::atomic<bool> skipEnabled{false};
-
-void JudgingDialog::skipJudging() { skipEnabled = true; }
 
 void JudgingDialog::reject() { stopJudgingSlot(); }
