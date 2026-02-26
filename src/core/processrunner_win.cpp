@@ -89,12 +89,6 @@ ProcessRunnerResult WinProcessRunner::run() {
 	res.result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, config.timeLimit * 2) * config.extraTimeRatio);
 
-	if (skipFlag) {
-		res.result = TimeLimitExceeded;
-		res.score = 0;
-		return res;
-	}
-
 	SetErrorMode(SEM_NOGPFAULTERRORBOX);
 	STARTUPINFOEX siex;
 	PROCESS_INFORMATION pi;
@@ -309,14 +303,9 @@ ProcessRunnerResult WinProcessRunner::run() {
 
 		QCoreApplication::processEvents();
 
-		if (stopFlag || skipFlag) {
+		if (stopFlag) {
 			TerminateProcess(pi.hProcess, 0);
 
-			if (skipFlag) {
-				res.score = 0;
-				res.result = TimeLimitExceeded;
-				res.timeUsed = res.memoryUsed = -1;
-			}
 			return res;
 		}
 

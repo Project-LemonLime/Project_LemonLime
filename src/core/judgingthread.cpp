@@ -11,7 +11,6 @@
 #include "LemonType.hpp"
 #include "base/LemonLog.hpp"
 #include "base/settings.h"
-#include "core/judgesharedvariables.h"
 #include "core/task.h"
 
 #include <QCoreApplication>
@@ -755,7 +754,7 @@ void JudgingThread::judgeTraditionalTask() {
 	cfg.outputFileName = task->getOutputFileName();
 	cfg.interpreterAsWatcher = interpreterAsWatcher;
 
-	auto processRunner = ProcessRunner::create(cfg, stopJudging, skipEnabled);
+	auto processRunner = ProcessRunner::create(cfg, stopJudging);
 	auto runResult = processRunner->run();
 	result = runResult.result;
 	score = runResult.score;
