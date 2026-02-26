@@ -288,7 +288,7 @@ int Task::writeToJson(QJsonObject &in) {
 	}
 
 	QJsonObject compilerConfiguration;
-	for (auto [x, y] : this->compilerConfiguration.toStdMap()) {
+	for (auto [x, y] : this->compilerConfiguration.asKeyValueRange()) {
 		compilerConfiguration[x] = y;
 	}
 	WRITE_JSON(in, compilerConfiguration);
