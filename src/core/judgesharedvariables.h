@@ -8,4 +8,6 @@
 #pragma once
 //
 
-extern bool skipEnabled;
+#include <atomic>
+
+extern std::atomic<bool> skipEnabled;

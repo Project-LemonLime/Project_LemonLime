@@ -443,7 +443,7 @@ void JudgingDialog::stopJudgingSlot() {
 	emit stopJudgingSignal();
 }
 
-bool skipEnabled;
+std::atomic<bool> skipEnabled{false};
 
 void JudgingDialog::skipJudging() { skipEnabled = true; }
 
