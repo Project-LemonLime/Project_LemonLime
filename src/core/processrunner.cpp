@@ -16,8 +16,8 @@
 ProcessRunner::ProcessRunner(ProcessRunnerConfig cfg, const std::atomic<bool> &stop)
     : config(std::move(cfg)), stopFlag(stop) {}
 
-auto ProcessRunner::create(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag)
-    -> std::unique_ptr<ProcessRunner> {
+auto ProcessRunner::create(ProcessRunnerConfig config,
+                           const std::atomic<bool> &stopFlag) -> std::unique_ptr<ProcessRunner> {
 #ifdef Q_OS_WIN32
 	return std::make_unique<WinProcessRunner>(std::move(config), stopFlag);
 #else
