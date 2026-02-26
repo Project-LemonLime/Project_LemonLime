@@ -11,8 +11,10 @@
 //
 
 #include "base/LemonType.hpp"
+#include "processrunner.h"
 #include <QProcessEnvironment>
 #include <QThread>
+#include <atomic>
 
 class Task;
 
@@ -75,7 +77,7 @@ class JudgingThread : public QThread {
 	int judgedTimes;
 	ResultState result;
 	QString message;
-	bool stopJudging;
+	std::atomic<bool> stopJudging{false};
 	bool interpreterAsWatcher{};
 	void compareLineByLine(const QString &);
 	void compareIgnoreSpaces(const QString &);
@@ -83,7 +85,7 @@ class JudgingThread : public QThread {
 	void compareRealNumbers(const QString &);
 	void lemonSpecialJudge(const QString &);
 	void testlibSpecialJudge(const QString &);
-	void runProgram();
+
 	void judgeOutput();
 	void judgeTraditionalTask();
 	void judgeAnswersOnlyTask();
