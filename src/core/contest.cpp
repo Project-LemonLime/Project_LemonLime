@@ -277,6 +277,10 @@ int Contest::readFromJson(const QJsonObject &in) {
 	QJsonArray tasks;
 	READ_JSON(in, tasks);
 
+	// NOTE: taskList and contestantList are empty here because readFromJson is
+	// only ever called once on a freshly constructed Contest (immediately after
+	// construction, before any tasks or contestants are added). If this invariant
+	// ever changes, qDeleteAll() must be called before clear() to avoid leaks.
 	taskList.clear();
 	for (const auto &task : tasks) {
 		Task *newTask = new Task();
@@ -288,6 +292,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 	QJsonArray contestants;
 	READ_JSON(in, contestants);
 
+	// See note above: contestantList is also empty at this point.
 	contestantList.clear();
 	for (const auto &contestant : contestants) {
 		auto *newContestant = new Contestant();
