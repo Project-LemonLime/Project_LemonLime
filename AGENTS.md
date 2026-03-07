@@ -389,6 +389,15 @@ enum ResultState {
 
 **规则**：
 
+- **提交前必须运行 clang-format**，确保代码格式符合 `.clang-format` 配置，避免 CI 格式检查失败：
+  - **bash / Git Bash**：
+    ```bash
+    clang-format -i $(git diff --name-only --cached -- '*.cpp' '*.h' '*.hpp')
+    ```
+  - **PowerShell**：
+    ```powershell
+    git diff --name-only --cached -- '*.cpp', '*.h', '*.hpp' | ForEach-Object { clang-format -i $_ }
+    ```
 - **首行（subject line）不得超过 72 个字符**，保持简短概括
 - `scope` 可选，用于标注影响范围（如 `feat(judging):`、`fix(export):`）
 - 首行使用英文小写开头，不加句号
