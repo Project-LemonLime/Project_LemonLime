@@ -238,8 +238,8 @@ ProcessRunnerResult WinProcessRunner::run() {
 	});
 
 	// Need 4 \0 to end the environment string, see CreateProcessW() documentation
-	QString environmentValues =
-	    config.environment.toStringList().join(QChar('\0')) + '\0' + '\0' + '\0' + '\0';
+	QString environmentValues = config.environment.toStringList().join(QChar('\0')) + QChar('\0') +
+	                            QChar('\0') + QChar('\0') + QChar('\0');
 
 	QString commandLine = QString(R"("%1" %2)").arg(config.executableFile).arg(config.arguments);
 
