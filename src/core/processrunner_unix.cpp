@@ -31,12 +31,6 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	res.result = CorrectAnswer;
 	int extraTime = qCeil(qMax(2000, config.timeLimit * 2) * config.extraTimeRatio);
 
-	if (skipFlag) {
-		res.result = TimeLimitExceeded;
-		res.score = 0;
-		return res;
-	}
-
 #ifdef Q_OS_LINUX
 	// TODO: rewrite with cgroup
 	QFile watcher(config.workingDirectory + QUuid::createUuid().toString(QUuid::Id128));
@@ -199,16 +193,10 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 		QCoreApplication::processEvents();
 
-		if (stopFlag || skipFlag) {
+		if (stopFlag) {
 			runner->terminate();
 			runner->waitForFinished(-1);
 			delete runner;
-
-			if (skipFlag) {
-				res.score = 0;
-				res.result = TimeLimitExceeded;
-				res.timeUsed = res.memoryUsed = -1;
-			}
 
 			return res;
 		}
