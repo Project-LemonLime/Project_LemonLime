@@ -329,5 +329,5 @@ class TestContest : public QObject {
 	}
 };
 
-QTEST_MAIN(TestContest)
+QTEST_GUILESS_MAIN(TestContest)
 #include "main.moc"
