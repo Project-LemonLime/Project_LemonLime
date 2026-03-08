@@ -256,7 +256,18 @@ class TestContest : public QObject {
 			}
 		}
 
-		// ---- Verify expected scores for helloworld ----
+		// ---- Verify per-test-case verdicts for helloworld ----
+		// The task has 6 test cases, each in its own subtask.
+		// getResult(taskIdx)[subtask][0] gives the ResultState for test case #subtask.
+		//
+		// Expected verdicts (from CDF result array, cross-checked with source):
+		//   case 0 (input=1):  AC  — prints "AC", matches expected
+		//   case 1 (input=4):  TLE — while(1); infinite loop
+		//   case 2 (input=3):  MLE — while(1)new int[...]; memory exhaustion
+		//   case 3 (input=2):  WA  — prints "WA", output doesn't match "AC"
+		//   case 4 (input=5):  RE  — vector OOB assertion failure in f(100)
+		//   case 5 (input=21): WA  — falls through to default: break; empty output
+
 		const QList<Task *> &tasks = contest->getTaskList();
 		int helloworldIdx = -1;
 		for (int i = 0; i < tasks.size(); i++) {
@@ -265,16 +276,56 @@ class TestContest : public QObject {
 		}
 		QVERIFY2(helloworldIdx >= 0, "Task 'helloworld' not found");
 
-		// user2: always outputs "AC". Case 1 (input=1, expected="AC") passes (17 pts).
+		// RE and MLE are treated as equivalent (platform-dependent)
+		auto isRuntimeFailure = [](ResultState r) {
+			return r == RunTimeError || r == MemoryLimitExceeded || r == CannotStartProgram;
+		};
+
+		// --- user2: always prints "AC" → all 6 test cases must be AC ---
 		Contestant *user2 = contest->getContestant("user2");
 		QVERIFY2(user2 != nullptr, "Contestant 'user2' not found");
-		QCOMPARE(user2->getTaskScore(helloworldIdx), 100);
+		{
+			const auto &res = user2->getResult(helloworldIdx);
+			QCOMPARE(res.size(), 6);
+			for (int tc = 0; tc < 6; tc++) {
+				QVERIFY2(res[tc][0] == CorrectAnswer,
+				         qPrintable(QString("user2 helloworld case %1: expected AC, got %2")
+				                        .arg(tc)
+				                        .arg(res[tc][0])));
+			}
+		}
 
-		// user1: case 1 -> "AC" (17 pts), cases 2-6 fail for various reasons (WA/TLE/MLE).
-		// Expected score: 17.
+		// --- user1: AC, TLE, MLE, WA, RE, WA ---
 		Contestant *user1 = contest->getContestant("user1");
 		QVERIFY2(user1 != nullptr, "Contestant 'user1' not found");
-		QCOMPARE(user1->getTaskScore(helloworldIdx), 17);
+		{
+			const auto &res = user1->getResult(helloworldIdx);
+			QCOMPARE(res.size(), 6);
+
+			// case 0: AC
+			QVERIFY2(res[0][0] == CorrectAnswer,
+			         qPrintable(QString("user1 helloworld case 0: expected AC, got %1").arg(res[0][0])));
+
+			// case 1: TLE
+			QVERIFY2(res[1][0] == TimeLimitExceeded,
+			         qPrintable(QString("user1 helloworld case 1: expected TLE, got %1").arg(res[1][0])));
+
+			// case 2: MLE (may appear as MLE or RE depending on platform)
+			QVERIFY2(isRuntimeFailure(res[2][0]),
+			         qPrintable(QString("user1 helloworld case 2: expected MLE/RE, got %1").arg(res[2][0])));
+
+			// case 3: WA
+			QVERIFY2(res[3][0] == WrongAnswer,
+			         qPrintable(QString("user1 helloworld case 3: expected WA, got %1").arg(res[3][0])));
+
+			// case 4: RE (vector OOB; may also appear as MLE on some platforms)
+			QVERIFY2(isRuntimeFailure(res[4][0]),
+			         qPrintable(QString("user1 helloworld case 4: expected RE/MLE, got %1").arg(res[4][0])));
+
+			// case 5: WA (empty output)
+			QVERIFY2(res[5][0] == WrongAnswer,
+			         qPrintable(QString("user1 helloworld case 5: expected WA, got %1").arg(res[5][0])));
+		}
 
 		delete contest;
 		delete settings;
