@@ -85,9 +85,9 @@ jobs:
             -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
             -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
-      - name: Add Qt to PATH for tests
-        shell: bash
-        run: echo "$QT_ROOT_DIR/bin" >> "$GITHUB_PATH"
+      - name: Deploy Qt for tests
+        shell: pwsh
+        run: windeployqt tests\test1\test1.exe
       - name: Run tests
         shell: bash
         run: |
