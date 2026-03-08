@@ -85,6 +85,13 @@ jobs:
             -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
             -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
+      - name: Add Qt to PATH for tests
+        shell: bash
+        run: echo "$QT_ROOT_DIR/bin" >> "$GITHUB_PATH"
+      - name: Run tests
+        shell: bash
+        run: |
+          ctest --test-dir . --output-on-failure --timeout 120
       - name: package
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
