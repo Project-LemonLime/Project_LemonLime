@@ -34,6 +34,7 @@ static Settings *createSettings(QObject *parent = nullptr) {
 	s->setDefaultFullScore(100);
 	s->setDefaultTimeLimit(1000);
 	s->setDefaultMemoryLimit(512);
+	s->setDefaultExtraTimeRatio(0.1);
 	s->setCompileTimeLimit(10000);
 	s->setSpecialJudgeTimeLimit(10000);
 	s->setFileSizeLimit(50);
@@ -58,7 +59,7 @@ static Settings *createSettings(QObject *parent = nullptr) {
 	gpp->setCompilerLocation(gppPath);
 	gpp->setTimeLimitRatio(1.0);
 	gpp->setMemoryLimitRatio(1.0);
-	gpp->setDisableMemoryLimitCheck(true); // memory check needs watcher on Unix
+	gpp->setDisableMemoryLimitCheck(false); // memory check needs watcher on Unix
 	gpp->setInterpreterAsWatcher(false);
 	gpp->addConfiguration("default", "%s.* -o %s -O2 -lm", "");
 	s->addCompiler(gpp);
@@ -76,9 +77,9 @@ static Settings *createSettings(QObject *parent = nullptr) {
 	py->setCompilerName("python");
 	py->setSourceExtensions("py");
 	py->setInterpreterLocation(pythonPath);
-	py->setTimeLimitRatio(5.0); // give python more time
+	py->setTimeLimitRatio(2.0); // give python more time
 	py->setMemoryLimitRatio(1.0);
-	py->setDisableMemoryLimitCheck(true);
+	py->setDisableMemoryLimitCheck(false);
 	py->setInterpreterAsWatcher(false);
 	py->addConfiguration("default", "", "%s.py");
 	s->addCompiler(py);
@@ -132,7 +133,7 @@ class TestContest : public QObject {
 		// Without this, the inline shared_ptr `Lemon::base::logger` is null
 		// and any Settings setter that calls DEBUG() will crash.
 		auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-		console_sink->set_level(spdlog::level::warn);
+		console_sink->set_level(spdlog::level::info);
 		Lemon::base::logger = std::make_shared<spdlog::logger>(spdlog::logger("test", {console_sink}));
 
 		m_contestDir = QString(TEST_DATA_DIR) + "/TestContest1";
@@ -288,10 +289,10 @@ class TestContest : public QObject {
 			const auto &res = user2->getResult(helloworldIdx);
 			QCOMPARE(res.size(), 6);
 			for (int tc = 0; tc < 6; tc++) {
-				QVERIFY2(res[tc][0] == CorrectAnswer,
-				         qPrintable(QString("user2 helloworld case %1: expected AC, got %2")
-				                        .arg(tc)
-				                        .arg(res[tc][0])));
+				QVERIFY2(
+				    res[tc][0] == CorrectAnswer,
+				    qPrintable(
+				        QString("user2 helloworld case %1: expected AC, got %2").arg(tc).arg(res[tc][0])));
 			}
 		}
 
