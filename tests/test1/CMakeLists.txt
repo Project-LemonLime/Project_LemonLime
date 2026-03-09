@@ -38,5 +38,4 @@ target_compile_definitions(test1 PRIVATE
 add_test(NAME test1 COMMAND test1)
 set_tests_properties(test1 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    ENVIRONMENT "PATH=$<TARGET_FILE_DIR:Qt6::Core>\;$ENV{PATH}"
 )
