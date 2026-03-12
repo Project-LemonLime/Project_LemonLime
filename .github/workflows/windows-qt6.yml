@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.9.3]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release, RelWithDebInfo, Debug]
         platform: [windows-latest]
         include:
           - platform: windows-latest

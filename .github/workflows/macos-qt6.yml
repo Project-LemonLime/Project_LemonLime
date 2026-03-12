@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release, RelWithDebInfo, Debug]
         arch: [x86_64, arm64]
         qt_ver: [6.9.3]
         qt_arch: [clang_64]

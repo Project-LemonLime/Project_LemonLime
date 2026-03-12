@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release, RelWithDebInfo, Debug]
 
     name: Linux Static ${{ matrix.build_type }}
     runs-on: ubuntu-latest
