@@ -12,7 +12,14 @@ set(TEST1_SOURCES
     main.cpp
 )
 
-add_executable(test1 ${TEST1_SOURCES})
+if (NOT WIN32)
+    list(APPEND TEST1_SOURCES ${CMAKE_BINARY_DIR}/watcher.qrc)
+    add_executable(test1 ${TEST1_SOURCES})
+    add_dependencies(test1 watcher_unix)
+else()
+    add_executable(test1 ${TEST1_SOURCES})
+endif()
+
 
 target_precompile_headers(test1 REUSE_FROM lemon-core)
 

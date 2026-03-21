@@ -278,9 +278,7 @@ class TestContest : public QObject {
 		QVERIFY2(helloworldIdx >= 0, "Task 'helloworld' not found");
 
 		// RE and MLE are treated as equivalent (platform-dependent)
-		auto isRuntimeFailure = [](ResultState r) {
-			return r == RunTimeError || r == MemoryLimitExceeded || r == CannotStartProgram;
-		};
+		auto isRuntimeFailure = [](ResultState r) { return r == RunTimeError || r == MemoryLimitExceeded; };
 
 		// --- user2: always prints "AC" → all 6 test cases must be AC ---
 		Contestant *user2 = contest->getContestant("user2");
