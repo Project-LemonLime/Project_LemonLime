@@ -288,7 +288,7 @@ int Task::writeToJson(QJsonObject &in) {
 	}
 
 	QJsonObject compilerConfiguration;
-	for (auto [x, y] : this->compilerConfiguration.toStdMap()) {
+	for (auto [x, y] : this->compilerConfiguration.asKeyValueRange()) {
 		compilerConfiguration[x] = y;
 	}
 	WRITE_JSON(in, compilerConfiguration);
@@ -366,6 +366,9 @@ int Task::readFromJson(const QJsonObject &in) {
 
 	READ_JSON(in, answerFileExtension);
 
+	// NOTE: testCaseList is empty here; readFromJson is only called once on a
+	// freshly constructed Task. If this invariant ever changes, call
+	// qDeleteAll(testCaseList) before clear() to avoid leaks.
 	testCaseList.clear();
 	QJsonArray testCases;
 	READ_JSON(in, testCases);

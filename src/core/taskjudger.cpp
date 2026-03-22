@@ -10,7 +10,6 @@
 #include "base/compiler.h"
 #include "base/settings.h"
 #include "core/contestant.h"
-#include "core/judgesharedvariables.h"
 #include "core/judgingthread.h"
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
@@ -379,7 +378,6 @@ int TaskJudger::judge() {
 		}
 	}
 
-	skipEnabled = false;
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
 
 		QCoreApplication::processEvents();
@@ -436,10 +434,10 @@ int TaskJudger::judge() {
 			    QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName)
 			        .entryList(QDir::Files);
 
-			for (int i = 0; i < entryList.size(); i++) {
+			for (int fileIdx = 0; fileIdx < entryList.size(); fileIdx++) {
 				QFile::copy(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() +
-				                contestantName + QDir::separator() + entryList[i],
-				            workingDirectory + entryList[i]);
+				                contestantName + QDir::separator() + entryList[fileIdx],
+				            workingDirectory + entryList[fileIdx]);
 			}
 
 			thread->setSpecialJudgeTimeLimit(settings->getSpecialJudgeTimeLimit());

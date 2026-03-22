@@ -33,7 +33,6 @@ class JudgingDialog : public QDialog {
 
   private slots:
 	void stopJudgingSlot();
-	static void skipJudging();
 	void sendNotify(QString, QString);
 
   private:

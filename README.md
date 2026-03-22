@@ -6,7 +6,7 @@
 
 A tiny judging environment for OI contest based on Lemon + LemonPlus
 
-需要 Qt 6.8 或更高版本（可通过 `-DLEMON_QT_MAJOR_VERSION=<6|7>` 选择对应 Qt 主版本）。
+需要 Qt 6.8 或更高版本。
 
 现已支持 Linux，Windows 以及 macOS
 
