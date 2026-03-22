@@ -36,7 +36,7 @@ auto Contestant::getScore(int index) const -> const QList<QList<int>> & { return
 
 auto Contestant::getTimeUsed(int index) const -> const QList<QList<int>> & { return timeUsed[index]; }
 
-auto Contestant::getMemoryUsed(int index) const -> const QList<QList<int64_t>> & {
+auto Contestant::getMemoryUsed(int index) const -> const QList<QList<qint64>> & {
 	return memoryUsed[index];
 }
 
@@ -62,7 +62,7 @@ void Contestant::setScore(int index, const QList<QList<int>> &_score) { score[in
 
 void Contestant::setTimeUsed(int index, const QList<QList<int>> &_timeUsed) { timeUsed[index] = _timeUsed; }
 
-void Contestant::setMemoryUsed(int index, const QList<QList<int64_t>> &_memoryUsed) {
+void Contestant::setMemoryUsed(int index, const QList<QList<qint64>> &_memoryUsed) {
 	memoryUsed[index] = _memoryUsed;
 }
 
@@ -78,7 +78,7 @@ void Contestant::addTask() {
 	message.append(QList<QStringList>());
 	score.append(QList<QList<int>>());
 	timeUsed.append(QList<QList<int>>());
-	memoryUsed.append(QList<QList<int64_t>>());
+	memoryUsed.append(QList<QList<qint64>>());
 }
 
 void Contestant::deleteTask(int index) {

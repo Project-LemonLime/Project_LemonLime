@@ -56,7 +56,7 @@ class TaskJudger : public QObject {
 	QProcessEnvironment environment;
 	QList<int> overallStatus;
 	QList<QList<int>> timeUsed;
-	QList<QList<int64_t>> memoryUsed;
+	QList<QList<qint64>> memoryUsed;
 	QList<QList<int>> score;
 	QList<QList<ResultState>> result;
 	QList<QStringList> message;

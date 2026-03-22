@@ -39,7 +39,7 @@ class JudgingThread : public QThread {
 	void setRawMemoryLimit(int);
 	void setInterpreterAsWatcher(bool);
 	int getTimeUsed() const;
-	int64_t getMemoryUsed() const;
+	qint64 getMemoryUsed() const;
 	int getScore() const;
 	int getFullScore() const;
 	int getJudgeTimes() const;
@@ -70,7 +70,7 @@ class JudgingThread : public QThread {
 	int memoryLimit{};
 	int rawMemoryLimit{};
 	int timeUsed;
-	int64_t memoryUsed;
+	qint64 memoryUsed;
 	int score{};
 	int judgedTimes;
 	ResultState result;
