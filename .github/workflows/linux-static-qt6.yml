@@ -27,7 +27,9 @@ jobs:
 
     name: Linux Static ${{ matrix.build_type }}
     runs-on: ubuntu-latest
-    container: ubuntu:20.04
+    container: 
+      image: ubuntu:20.04
+      options: --privileged 
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       TZ: Asia/Shanghai
