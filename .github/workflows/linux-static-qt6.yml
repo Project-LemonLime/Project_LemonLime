@@ -69,9 +69,15 @@ jobs:
           mkdir build
           cd build
           cmake ../Project_LemonLime -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLEMON_BUILD_INFO="Build for Linux" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" -DCMAKE_PREFIX_PATH=../qt6/bin
+          cmake --build . --parallel $(nproc)
+      - name: Run tests
+        run: |
+          ctest --test-dir ../build --output-on-failure --timeout 120
+      - name: Package
+        run: |
+          cd ../build
           cmake --build . --target package --parallel $(nproc)
-          cd ..
-          cd Project_LemonLime
+          cd ../Project_LemonLime
           cp ../build/lemon ./
       - name: Upload artifact
         uses: actions/upload-artifact@v4
