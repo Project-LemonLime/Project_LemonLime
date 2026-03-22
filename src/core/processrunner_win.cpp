@@ -268,7 +268,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 	if (config.memoryLimit != -1) {
 		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
 
-		if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) > config.memoryLimit * 1024 * 1024) {
+		if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) > config.memoryLimit * 1024U * 1024) {
 			TerminateProcess(pi.hProcess, 0);
 
 			res.score = 0;
