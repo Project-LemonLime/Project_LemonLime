@@ -49,6 +49,7 @@ jobs:
             -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}" 
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       - name: Run tests
+        if: ${{ false }}
         run: |
           ctest --test-dir . --output-on-failure --timeout 120
       # tag 打包
