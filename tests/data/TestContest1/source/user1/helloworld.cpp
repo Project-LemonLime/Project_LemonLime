@@ -22,7 +22,7 @@ int main() {
 			cout << "WA" << endl;
 			break;
 		case 3:
-			while (1)
+			for (int i = 0; i < 200; i++)
 				p = new int[1 << 24], memset(p, 0x3f, sizeof(int) * (1 << 24));
 			break;
 		case 4:
