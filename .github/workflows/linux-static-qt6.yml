@@ -49,7 +49,7 @@ jobs:
           apt upgrade -y
           apt install -y build-essential git perl cmake ninja-build wget
       - name: Checking out sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: "recursive"
       - name: Install build dependencies
@@ -83,7 +83,7 @@ jobs:
           cd ../Project_LemonLime
           cp ../build/lemon ./
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: LemonLime-linux-qt6-x86_64-${{ matrix.build_type }}
           path: lemon

@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
       - name: Checking out sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: "recursive"
       - name: Install Python 3.12 version
@@ -58,7 +58,7 @@ jobs:
           arch: x64
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
@@ -110,7 +110,7 @@ jobs:
           # 打包zip
           Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
