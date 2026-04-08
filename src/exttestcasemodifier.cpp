@@ -12,7 +12,27 @@
 #include "core/testcase.h"
 #include "exttestcaseupdaterdialog.h"
 //
+#include <functional>
 #include <memory>
+#include <optional>
+
+// Remap a single test case's subtask dependencies using a mapping function.
+// The mapper receives 0-indexed dependency indices and returns:
+//   - a mapped 0-indexed index, or
+//   - std::nullopt to remove that dependency.
+static void remapTestCaseDeps(TestCase *testCase, const std::function<std::optional<int>(int)> &mapper) {
+	const auto &currentDeps = testCase->getDependenceSubtask();
+	QSet<int> remappedDeps;
+
+	for (int dep : currentDeps) {
+		auto mapped = mapper(dep - 1);
+
+		if (mapped.has_value())
+			remappedDeps.insert(mapped.value() + 1);
+	}
+
+	testCase->setDependenceSubtask(remappedDeps);
+}
 
 ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) : QWidget(parent), ui(new Ui::ExtTestCaseModifier) {
 	ui->setupUi(this);
@@ -58,11 +78,11 @@ void ExtTestCaseModifier::whenTestCaseSelectionChanged() {
 }
 
 void ExtTestCaseModifier::modifySelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
+	auto partialSelections = ui->testCaseTable->getSelectedResSub();
 
-	if (res.empty()) {
-		int l = hav.front(), r = hav.back();
+	if (partialSelections.empty()) {
+		int l = selectedSubtasks.front(), r = selectedSubtasks.back();
 
 		if (l != r) {
 			auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(
@@ -98,7 +118,7 @@ void ExtTestCaseModifier::modifySelected() {
 			}
 		}
 	} else {
-		int who = res.front().first, loc = res.front().second.first;
+		int who = partialSelections.front().first, loc = partialSelections.front().second.first;
 
 		auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(this, editTask, editSettings, -1, NO_EDIT, 1,
 		                                                         NO_EDIT, NO_EDIT, NO_EDIT);
@@ -113,155 +133,126 @@ void ExtTestCaseModifier::modifySelected() {
 }
 
 void ExtTestCaseModifier::moveUpSelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
+	auto partialSelections = ui->testCaseTable->getSelectedResSub();
 
-	auto temp = ui->testCaseTable->getSelectRange();
-	int dlt = 0;
+	auto selectRange = ui->testCaseTable->getSelectRange();
+	int selectionDelta = 0;
 
-	if (! res.empty()) {
-		int l = res[0].second.first, r = res[0].second.second;
-		dlt = -1;
+	if (! partialSelections.empty()) {
+		int l = partialSelections[0].second.first, r = partialSelections[0].second.second;
+		selectionDelta = -1;
 
 		for (int i = l; i <= r; i++)
-			editTask->getTestCaseList()[res[0].first]->swapFiles(i - 1, i);
+			editTask->getTestCaseList()[partialSelections[0].first]->swapFiles(i - 1, i);
 	} else {
-		int l = hav.front(), r = hav.back();
-		dlt = -editTask->getTestCase(l - 1)->getInputFiles().size();
+		int l = selectedSubtasks.front(), r = selectedSubtasks.back();
+		selectionDelta = -editTask->getTestCase(l - 1)->getInputFiles().size();
 
 		for (int i = l; i <= r; i++)
 			editTask->swapTestCase(i - 1, i);
 
 		for (int i = l - 1; i <= r - 1; i++) {
-			auto nowd = editTask->getTestCase(i)->getDependenceSubtask();
-			QSet<int> havd;
-
-			for (auto a_ : nowd) {
-				int a = a_ - 1;
-
+			remapTestCaseDeps(editTask->getTestCase(i), [l, r](int a) -> std::optional<int> {
 				if (a == l - 1)
-					continue;
+					return std::nullopt;
 
 				if (l <= a && a <= r)
-					a--;
+					return a - 1;
 
-				havd.insert(a + 1);
-			}
-
-			editTask->getTestCase(i)->setDependenceSubtask(havd);
+				return a;
+			});
 		}
 
-		for (int i = r + 1, ii = editTask->getTestCaseList().size(); i < ii; i++) {
-			auto nowd = editTask->getTestCase(i)->getDependenceSubtask();
-			QSet<int> havd;
+		int totalCases = editTask->getTestCaseList().size();
 
-			for (auto a_ : nowd) {
-				int a = a_ - 1;
-
+		for (int i = r + 1; i < totalCases; i++) {
+			remapTestCaseDeps(editTask->getTestCase(i), [l, r](int a) -> std::optional<int> {
 				if (l <= a && a <= r)
-					a--;
-				else if (a == l - 1)
-					a = r;
+					return a - 1;
 
-				havd.insert(a + 1);
-			}
+				if (a == l - 1)
+					return r;
 
-			editTask->getTestCase(i)->setDependenceSubtask(havd);
+				return a;
+			});
 		}
 	}
 
 	refresh();
 
-	ui->testCaseTable->modifySelected(temp.first + dlt, temp.second + dlt);
+	ui->testCaseTable->modifySelected(selectRange.first + selectionDelta,
+	                                  selectRange.second + selectionDelta);
 }
 
 void ExtTestCaseModifier::moveDownSelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
+	auto partialSelections = ui->testCaseTable->getSelectedResSub();
 
-	auto temp = ui->testCaseTable->getSelectRange();
-	int dlt = 0;
+	auto selectRange = ui->testCaseTable->getSelectRange();
+	int selectionDelta = 0;
 
-	if (! res.empty()) {
-		int l = res[0].second.first, r = res[0].second.second;
-		dlt = 1;
+	if (! partialSelections.empty()) {
+		int l = partialSelections[0].second.first, r = partialSelections[0].second.second;
+		selectionDelta = 1;
 
 		for (int i = r; i >= l; i--)
-			editTask->getTestCaseList()[res[0].first]->swapFiles(i, i + 1);
+			editTask->getTestCaseList()[partialSelections[0].first]->swapFiles(i, i + 1);
 	} else {
-		int l = hav.front(), r = hav.back();
-		dlt = editTask->getTestCase(r + 1)->getInputFiles().size();
+		int l = selectedSubtasks.front(), r = selectedSubtasks.back();
+		selectionDelta = editTask->getTestCase(r + 1)->getInputFiles().size();
 
 		for (int i = r; i >= l; i--)
 			editTask->swapTestCase(i, i + 1);
 
-		{
-			auto nowd = editTask->getTestCase(l)->getDependenceSubtask();
-			QSet<int> havd;
+		remapTestCaseDeps(editTask->getTestCase(l), [l, r](int a) -> std::optional<int> {
+			if (l <= a && a <= r)
+				return std::nullopt;
 
-			for (auto a_ : nowd) {
-				int a = a_ - 1;
-
-				if (l <= a && a <= r)
-					continue;
-
-				havd.insert(a + 1);
-			}
-
-			editTask->getTestCase(l)->setDependenceSubtask(havd);
-		}
+			return a;
+		});
 
 		for (int i = l + 1; i <= r + 1; i++) {
-			auto nowd = editTask->getTestCase(i)->getDependenceSubtask();
-			QSet<int> havd;
-
-			for (auto a_ : nowd) {
-				int a = a_ - 1;
-
+			remapTestCaseDeps(editTask->getTestCase(i), [l, r](int a) -> std::optional<int> {
 				if (l <= a && a <= r)
-					a++;
+					return a + 1;
 
-				havd.insert(a + 1);
-			}
-
-			editTask->getTestCase(i)->setDependenceSubtask(havd);
+				return a;
+			});
 		}
 
-		for (int i = r + 1, ii = editTask->getTestCaseList().size(); i < ii; i++) {
-			auto nowd = editTask->getTestCase(i)->getDependenceSubtask();
-			QSet<int> havd;
+		int totalCases = editTask->getTestCaseList().size();
 
-			for (auto a_ : nowd) {
-				int a = a_ - 1;
-
+		for (int i = r + 1; i < totalCases; i++) {
+			remapTestCaseDeps(editTask->getTestCase(i), [l, r](int a) -> std::optional<int> {
 				if (l <= a && a <= r)
-					a++;
-				else if (a == r + 1)
-					a = l;
+					return a + 1;
 
-				havd.insert(a + 1);
-			}
+				if (a == r + 1)
+					return l;
 
-			editTask->getTestCase(i)->setDependenceSubtask(havd);
+				return a;
+			});
 		}
 	}
 
 	refresh();
 
-	ui->testCaseTable->modifySelected(temp.first + dlt, temp.second + dlt);
+	ui->testCaseTable->modifySelected(selectRange.first + selectionDelta,
+	                                  selectRange.second + selectionDelta);
 }
 
 void ExtTestCaseModifier::removeSelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
-	auto res = ui->testCaseTable->getSelectedResSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
+	auto partialSelections = ui->testCaseTable->getSelectedResSub();
 
-	int ban1 = -1, ban2 = -1;
+	int skipSub1 = -1, skipSub2 = -1;
 
-	for (auto i : std::as_const(res)) {
-		if (ban1 < 0)
-			ban1 = i.first;
+	for (auto i : std::as_const(partialSelections)) {
+		if (skipSub1 < 0)
+			skipSub1 = i.first;
 		else
-			ban2 = i.first;
+			skipSub2 = i.first;
 
 		int l = i.second.first, r = i.second.second;
 
@@ -269,44 +260,40 @@ void ExtTestCaseModifier::removeSelected() {
 			editTask->getTestCaseList()[i.first]->deleteSingleCase(l);
 	}
 
-	int l = hav.front(), r = hav.back();
+	int l = selectedSubtasks.front(), r = selectedSubtasks.back();
 
-	while (l == ban1 || l == ban2)
+	while (l == skipSub1 || l == skipSub2)
 		l++;
 
-	while (r == ban1 || r == ban2)
+	while (r == skipSub1 || r == skipSub2)
 		r--;
 
 	for (int i = l; i <= r; i++)
 		editTask->deleteTestCase(l);
 
-	for (int i = l + 1, ii = editTask->getTestCaseList().size(); i < ii; i++) {
-		auto nowd = editTask->getTestCase(i)->getDependenceSubtask();
-		QSet<int> havd;
+	int totalCases = editTask->getTestCaseList().size();
 
-		for (auto a_ : nowd) {
-			int a = a_ - 1;
-
+	for (int i = l + 1; i < totalCases; i++) {
+		remapTestCaseDeps(editTask->getTestCase(i), [l, r](int a) -> std::optional<int> {
 			if (l <= a && a <= r)
-				continue;
-			else if (a > r)
-				a -= r - l;
+				return std::nullopt;
 
-			havd.insert(a + 1);
-		}
+			if (a > r)
+				return a - (r - l);
 
-		editTask->getTestCase(i)->setDependenceSubtask(havd);
+			return a;
+		});
 	}
 
 	refresh();
 }
 
 void ExtTestCaseModifier::mergeSelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
 
-	auto temp = ui->testCaseTable->getSelectRange();
+	auto selectRange = ui->testCaseTable->getSelectRange();
 
-	int l = hav.front(), r = hav.back();
+	int l = selectedSubtasks.front(), r = selectedSubtasks.back();
 
 	auto ans = *editTask->getTestCase(l);
 
@@ -326,32 +313,35 @@ void ExtTestCaseModifier::mergeSelected() {
 
 	refresh();
 
-	ui->testCaseTable->modifySelected(temp.first, temp.second);
+	ui->testCaseTable->modifySelected(selectRange.first, selectRange.second);
 }
 
 void ExtTestCaseModifier::splitSelected() {
-	auto hav = ui->testCaseTable->getSelectedHaveSub();
+	auto selectedSubtasks = ui->testCaseTable->getSelectedHaveSub();
 
-	auto temp = ui->testCaseTable->getSelectRange();
+	auto selectRange = ui->testCaseTable->getSelectRange();
 
 	QList<TestCase *> ans;
 
-	int l = hav.front(), r = hav.back();
+	int l = selectedSubtasks.front(), r = selectedSubtasks.back();
 
 	for (int i = l; i <= r; i++) {
 		TestCase *now = editTask->getTestCase(i);
 		auto in = now->getInputFiles();
 		auto out = now->getOutputFiles();
-		int allScore = now->getFullScore(), gar = 0;
+		int allScore = now->getFullScore();
+
+		// Distribute the total score evenly across test cases.
+		// The first baseCaseCount cases get floor(allScore / n),
+		// the remaining cases get ceil(allScore / n).
+		int baseCaseCount = 0;
 
 		if (! in.empty())
-			gar = in.size() - allScore % in.size();
-		else
-			gar = 0;
+			baseCaseCount = in.size() - allScore % in.size();
 
 		for (int j = 0; j < in.size(); j++) {
 			auto *app = new TestCase;
-			app->setFullScore((allScore / in.size()) + (j >= gar));
+			app->setFullScore((allScore / in.size()) + (j >= baseCaseCount));
 			app->setTimeLimit(now->getTimeLimit());
 			app->setMemoryLimit(now->getMemoryLimit());
 			app->setDependenceSubtask(now->getDependenceSubtask());
@@ -369,7 +359,7 @@ void ExtTestCaseModifier::splitSelected() {
 
 	refresh();
 
-	ui->testCaseTable->modifySelected(temp.first, temp.second);
+	ui->testCaseTable->modifySelected(selectRange.first, selectRange.second);
 }
 
 void ExtTestCaseModifier::appendNewSub() {

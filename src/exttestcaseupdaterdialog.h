@@ -16,6 +16,7 @@ namespace Ui {
 
 class Task;
 class Settings;
+class QLineEdit;
 
 const int NO_EDIT = -400;
 const int MAY_EDIT = -300;
@@ -61,6 +62,8 @@ class ExtTestCaseUpdaterDialog : public QDialog {
 	QStringList depends;
 
 	int defScore, defTimeLimit, defMemoryLimit;
+
+	void chooseFile(const QString &title, const QStringList &extensions, QLineEdit *targetEdit);
 
   private slots:
 

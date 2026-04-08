@@ -11,6 +11,7 @@
 #include "core/testcase.h"
 //
 #include <QHeaderView>
+#include <limits>
 
 ExtTestCaseTable::ExtTestCaseTable(QWidget * /*parent*/) {
 	clear();
@@ -105,9 +106,9 @@ void ExtTestCaseTable::refreshTask(Task *nowTask) {
 		auto times = nowsub->getTimeLimit();
 		auto mems = nowsub->getMemoryLimit();
 		auto depends = nowsub->getDependenceSubtask();
-		int xlen = nowsub->getInputFiles().size();
+		int fileCount = nowsub->getInputFiles().size();
 
-		for (int j = 0; j < xlen; j++) {
+		for (int j = 0; j < fileCount; j++) {
 			insertRow(nowrow);
 
 			addItem(nowrow, 1, inputs[j]);
@@ -149,8 +150,8 @@ void ExtTestCaseTable::refreshTask(Task *nowTask) {
 			nowrow++;
 		}
 
-		if (xlen > 1)
-			setSpan(nowrow - xlen, 0, xlen, 1);
+		if (fileCount > 1)
+			setSpan(nowrow - fileCount, 0, fileCount, 1);
 	}
 
 	noDfs = false;
@@ -176,23 +177,23 @@ void ExtTestCaseTable::whenItemSelectionChanged() {
 
 	auto setLists = selectedRanges();
 
-	int mi = 1e9, mx = -1;
+	int minRow = std::numeric_limits<int>::max(), maxRow = -1;
 
 	for (const auto &i : std::as_const(setLists)) {
-		mi = qMin(mi, i.topRow());
-		mx = qMax(mx, i.bottomRow());
+		minRow = qMin(minRow, i.topRow());
+		maxRow = qMax(maxRow, i.bottomRow());
 	}
 
-	selectMi = mi;
-	selectMx = mx;
+	selectMi = minRow;
+	selectMx = maxRow;
 
-	if (mi > mx) {
+	if (minRow > maxRow) {
 		noDfs = false;
 		return;
 	}
 
 	{
-		QTableWidgetSelectionRange range(mi, 1, mx, columnCount() - 1);
+		QTableWidgetSelectionRange range(minRow, 1, maxRow, columnCount() - 1);
 		setRangeSelected(range, true);
 	}
 
@@ -206,15 +207,16 @@ void ExtTestCaseTable::whenItemSelectionChanged() {
 		j = i + rowSpan(i, 0) - 1;
 		subSize.append(j - i + 1);
 
-		if (mi <= i && j <= mx) {
+		if (minRow <= i && j <= maxRow) {
 			QTableWidgetSelectionRange range(i, 0, j, columnCount() - 1);
 			setRangeSelected(range, true);
 			haveSub.append(subCnt);
-		} else if (j < mi || i > mx)
+		} else if (j < minRow || i > maxRow)
 			continue;
 		else {
 			haveSub.append(subCnt);
-			resSub.append(std::make_pair(subCnt, std::make_pair(qMax(0, mi - i), qMin(j - i, mx - i))));
+			resSub.append(
+			    std::make_pair(subCnt, std::make_pair(qMax(0, minRow - i), qMin(j - i, maxRow - i))));
 		}
 	}
 

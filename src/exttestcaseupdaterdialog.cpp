@@ -53,29 +53,39 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 	connect(ui->lineEditOutput, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::outputFileChanged);
 	connect(ui->lineEditDepends, &QLineEdit::textChanged, this, &ExtTestCaseUpdaterDialog::dependsChanged);
 
-	if (editScore == NO_EDIT)
-		ui->labelScore->hide(), ui->lineEditScore->hide(), defScore = NO_EDIT;
-	else if (editScore == MAY_EDIT)
+	if (editScore == NO_EDIT) {
+		ui->labelScore->hide();
+		ui->lineEditScore->hide();
+		defScore = NO_EDIT;
+	} else if (editScore == MAY_EDIT) {
 		score = defScore = MAY_EDIT;
-	else if (editScore == EDIT_WITH_DEFAULT)
-		score = defScore = nowSettings->getDefaultFullScore(),
+	} else if (editScore == EDIT_WITH_DEFAULT) {
+		score = defScore = nowSettings->getDefaultFullScore();
 		ui->lineEditScore->setText(QString::number(defScore));
-	else
-		score = defScore = editScore, ui->lineEditScore->setText(QString::number(defScore));
+	} else {
+		score = defScore = editScore;
+		ui->lineEditScore->setText(QString::number(defScore));
+	}
 
 	if (editData == NO_EDIT) {
-		ui->labelInput->hide(), ui->labelOutput->hide();
-		ui->lineEditInput->hide(), ui->lineEditOutput->hide();
-		ui->buttonFindInput->hide(), ui->buttonFindOutput->hide();
+		ui->labelInput->hide();
+		ui->labelOutput->hide();
+		ui->lineEditInput->hide();
+		ui->lineEditOutput->hide();
+		ui->buttonFindInput->hide();
+		ui->buttonFindOutput->hide();
 	}
 
 	if (nowTask->getTaskType() == Task::AnswersOnly)
 		editTime = editMemory = NO_EDIT;
 
 	if (editTime == NO_EDIT) {
-		ui->labelTimeLimit->hide(), ui->labelMemoryLimit->hide();
-		ui->lineEditTime->hide(), ui->lineEditMemory->hide();
-		ui->label->hide(), ui->label_2->hide();
+		ui->labelTimeLimit->hide();
+		ui->labelMemoryLimit->hide();
+		ui->lineEditTime->hide();
+		ui->lineEditMemory->hide();
+		ui->label->hide();
+		ui->label_2->hide();
 	} else if (editTime == MAY_EDIT) {
 		timeLimit = defTimeLimit = MAY_EDIT;
 		memoryLimit = defMemoryLimit = MAY_EDIT;
@@ -91,8 +101,10 @@ ExtTestCaseUpdaterDialog::ExtTestCaseUpdaterDialog(QWidget *parent, Task *nowTas
 		ui->lineEditMemory->setText(QString::number(defMemoryLimit));
 	}
 
-	if (editDepend == NO_EDIT)
-		ui->labelDepend->hide(), ui->lineEditDepends->hide();
+	if (editDepend == NO_EDIT) {
+		ui->labelDepend->hide();
+		ui->lineEditDepends->hide();
+	}
 
 	QString tempStr = "";
 
@@ -119,12 +131,11 @@ auto ExtTestCaseUpdaterDialog::getMemoryLimit() const -> int { return memoryLimi
 
 auto ExtTestCaseUpdaterDialog::getDepends() const -> QStringList { return depends; }
 
-void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked() {
-	QString filter = tr("Input Data") + " (";
+void ExtTestCaseUpdaterDialog::chooseFile(const QString &title, const QStringList &extensions,
+                                          QLineEdit *targetEdit) {
+	QString filter = title + " (";
 
-	auto temp = nowSettings->getInputFileExtensions();
-
-	for (const auto &i : temp)
+	for (const auto &i : extensions)
 		filter = filter + "*." + i + " ";
 
 	filter.resize(filter.size() - 1);
@@ -137,30 +148,16 @@ void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked() {
 
 	if (! filePath.isEmpty()) {
 		QString realPath = filePath.mid(curPath.length() + 1);
-		ui->lineEditInput->setText(realPath);
+		targetEdit->setText(realPath);
 	}
 }
 
+void ExtTestCaseUpdaterDialog::whenButtonFindInputClicked() {
+	chooseFile(tr("Input Data"), nowSettings->getInputFileExtensions(), ui->lineEditInput);
+}
+
 void ExtTestCaseUpdaterDialog::whenButtonFindOutputClicked() {
-	QString filter = tr("Output Data") + " (";
-
-	auto temp = nowSettings->getOutputFileExtensions();
-
-	for (const auto &i : temp)
-		filter = filter + "*." + i + " ";
-
-	filter.resize(filter.size() - 1);
-
-	filter = filter + ");;" + tr("All Files (*)");
-
-	QString curPath = QDir::currentPath() + nowSettings->dataPath();
-	QString filePath = QFileDialog::getOpenFileName(
-	    this, tr("Choose Output File"), nowSettings->dataPath() + nowTask->getSourceFileName(), filter);
-
-	if (! filePath.isEmpty()) {
-		QString realPath = filePath.mid(curPath.length() + 1);
-		ui->lineEditOutput->setText(realPath);
-	}
+	chooseFile(tr("Output Data"), nowSettings->getOutputFileExtensions(), ui->lineEditOutput);
 }
 
 void ExtTestCaseUpdaterDialog::accept() {
