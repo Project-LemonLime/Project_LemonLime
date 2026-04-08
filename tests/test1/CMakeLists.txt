@@ -12,7 +12,16 @@ set(TEST1_SOURCES
     main.cpp
 )
 
-add_executable(test1 ${TEST1_SOURCES})
+if (NOT WIN32)
+    list(APPEND TEST1_SOURCES ${CMAKE_BINARY_DIR}/watcher.qrc)
+    add_executable(test1 ${TEST1_SOURCES})
+    add_dependencies(test1 watcher_unix)
+else()
+    add_executable(test1 ${TEST1_SOURCES})
+endif()
+
+
+include(${CMAKE_SOURCE_DIR}/cmake/enable-asan.cmake)
 
 target_precompile_headers(test1 REUSE_FROM lemon-core)
 
@@ -38,5 +47,4 @@ target_compile_definitions(test1 PRIVATE
 add_test(NAME test1 COMMAND test1)
 set_tests_properties(test1 PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    ENVIRONMENT "PATH=$<TARGET_FILE_DIR:Qt6::Core>\;$ENV{PATH}"
 )

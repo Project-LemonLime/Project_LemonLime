@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
       - name: Checking out sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: "recursive"
       - name: Install build dependencies
@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "NAME=$(basename build/LemonLime-*.deb)" >> $GITHUB_OUTPUT
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: LemonLime-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}-${{ matrix.build_type }}.deb
           path: build/${{ steps.get_package.outputs.NAME }}

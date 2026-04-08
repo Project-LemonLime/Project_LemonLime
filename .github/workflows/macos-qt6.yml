@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release, RelWithDebInfo, Debug]
         arch: [x86_64, arm64]
         qt_ver: [6.9.3]
         qt_arch: [clang_64]
@@ -32,7 +32,7 @@ jobs:
           version: ${{ matrix.qt_ver }}
           cached: ${{ steps.MacosCacheQt.outputs.cache-hit }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
@@ -48,6 +48,10 @@ jobs:
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
             -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}" 
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
+      - name: Run tests
+        if: ${{ false }}
+        run: |
+          ctest --test-dir . --output-on-failure --timeout 120
       # tag 打包
       - name: package
         env:
@@ -58,7 +62,7 @@ jobs:
           export PATH=$Qt6_DIR/bin:$PATH
           macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.targetName }}-Qt${{ matrix.qt_ver }}-${{ matrix.build_type }}-${{ matrix.arch }}.dmg
           path: ${{ env.targetName }}.dmg

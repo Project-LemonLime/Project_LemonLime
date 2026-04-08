@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.9.3]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release, RelWithDebInfo, Debug]
         platform: [windows-latest]
         include:
           - platform: windows-latest
@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
       - name: Checking out sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: "recursive"
       - name: Install Python 3.12 version
@@ -58,7 +58,7 @@ jobs:
           arch: x64
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
@@ -85,6 +85,17 @@ jobs:
             -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
             -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
+      - name: Deploy Qt for tests
+        shell: pwsh
+        run: windeployqt tests\test1\test1.exe
+      - name: Run tests
+        shell: bash
+        env:
+          QT_LOGGING_RULES: "*.debug=true"        # 强制开启所有 debug 级别日志
+          QT_ASSUME_STDERR_HAS_CONSOLE: 1         # 欺骗 Qt，让它以为存在真实的控制台
+          QT_FORCE_STDERR_LOGGING: 1
+        run: |
+          ctest --test-dir . -V --timeout 120
       - name: package
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
@@ -99,7 +110,7 @@ jobs:
           # 打包zip
           Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         env:
           archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
