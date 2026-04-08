@@ -36,7 +36,7 @@ struct ProcessRunnerResult {
 	ResultState result = CorrectAnswer;
 	int score = 0;
 	int timeUsed = -1;
-	int memoryUsed = -1;
+	qint64 memoryUsed = -1;
 	QString message;
 };
 
