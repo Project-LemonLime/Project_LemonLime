@@ -11,6 +11,8 @@
 #include "core/task.h"
 #include "core/testcase.h"
 #include "exttestcaseupdaterdialog.h"
+//
+#include <memory>
 
 ExtTestCaseModifier::ExtTestCaseModifier(QWidget *parent) : QWidget(parent), ui(new Ui::ExtTestCaseModifier) {
 	ui->setupUi(this);
@@ -63,8 +65,8 @@ void ExtTestCaseModifier::modifySelected() {
 		int l = hav.front(), r = hav.back();
 
 		if (l != r) {
-			auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, -1, MAY_EDIT, NO_EDIT,
-			                                            MAY_EDIT, MAY_EDIT, NO_EDIT);
+			auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(
+			    this, editTask, editSettings, -1, MAY_EDIT, NO_EDIT, MAY_EDIT, MAY_EDIT, NO_EDIT);
 
 			if (dialog->exec() == QDialog::Accepted) {
 				auto sc = dialog->getScore();
@@ -82,10 +84,8 @@ void ExtTestCaseModifier::modifySelected() {
 						editTask->getTestCase(i)->setMemoryLimit(ml);
 				}
 			}
-
-			delete dialog;
 		} else {
-			auto *dialog = new ExtTestCaseUpdaterDialog(
+			auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(
 			    this, editTask, editSettings, l + 1, editTask->getTestCase(l)->getFullScore(), NO_EDIT,
 			    editTask->getTestCase(l)->getTimeLimit(), editTask->getTestCase(l)->getMemoryLimit(), 1,
 			    editTask->getTestCase(l)->getDependenceSubtask());
@@ -96,14 +96,12 @@ void ExtTestCaseModifier::modifySelected() {
 				editTask->getTestCase(l)->setMemoryLimit(dialog->getMemoryLimit());
 				editTask->getTestCase(l)->setDependenceSubtask(dialog->getDepends());
 			}
-
-			delete dialog;
 		}
 	} else {
 		int who = res.front().first, loc = res.front().second.first;
 
-		auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, -1, NO_EDIT, 1, NO_EDIT,
-		                                            NO_EDIT, NO_EDIT);
+		auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(this, editTask, editSettings, -1, NO_EDIT, 1,
+		                                                         NO_EDIT, NO_EDIT, NO_EDIT);
 
 		if (dialog->exec() == QDialog::Accepted) {
 			editTask->getTestCase(who)->setInputFiles(loc, dialog->getInput());
@@ -375,9 +373,9 @@ void ExtTestCaseModifier::splitSelected() {
 }
 
 void ExtTestCaseModifier::appendNewSub() {
-	auto *dialog =
-	    new ExtTestCaseUpdaterDialog(this, editTask, editSettings, editTask->getTestCaseList().size() + 1,
-	                                 EDIT_WITH_DEFAULT, 1, EDIT_WITH_DEFAULT, EDIT_WITH_DEFAULT, 1);
+	auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(
+	    this, editTask, editSettings, editTask->getTestCaseList().size() + 1, EDIT_WITH_DEFAULT, 1,
+	    EDIT_WITH_DEFAULT, EDIT_WITH_DEFAULT, 1);
 
 	if (dialog->exec() == QDialog::Accepted) {
 		auto *now = new TestCase;
@@ -390,22 +388,18 @@ void ExtTestCaseModifier::appendNewSub() {
 		editTask->addTestCase(now);
 	}
 
-	delete dialog;
-
 	refresh();
 }
 
 void ExtTestCaseModifier::appendNewCase() {
 	int who = ui->testCaseTable->getSelectedHaveSub().constLast();
 
-	auto *dialog = new ExtTestCaseUpdaterDialog(this, editTask, editSettings, who + 1, NO_EDIT, 1, NO_EDIT,
-	                                            NO_EDIT, NO_EDIT);
+	auto dialog = std::make_unique<ExtTestCaseUpdaterDialog>(this, editTask, editSettings, who + 1, NO_EDIT,
+	                                                         1, NO_EDIT, NO_EDIT, NO_EDIT);
 
 	if (dialog->exec() == QDialog::Accepted) {
 		editTask->getTestCase(who)->addSingleCase(dialog->getInput(), dialog->getOutput());
 	}
-
-	delete dialog;
 
 	refresh();
 }

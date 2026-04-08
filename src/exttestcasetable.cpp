@@ -160,7 +160,7 @@ void ExtTestCaseTable::whenItemSelectionChanged() {
 	if (noDfs)
 		return;
 
-	noDfs = false;
+	noDfs = true;
 
 	isCanModify = false;
 	isCanAddSub = true;
