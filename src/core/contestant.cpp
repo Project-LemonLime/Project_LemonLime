@@ -239,6 +239,7 @@ void Contestant::readFromStream(QDataStream &in) {
 	// memoryUsed 之前存储为 int 三维数组，现在改为了 qint64，因此先读取旧结构，再逐层转换
 	QList<QList<QList<int>>> oldMemoryUsed;
 	in >> oldMemoryUsed;
+	memoryUsed.clear();
 	for (const auto &l1 : oldMemoryUsed) {
 		QList<QList<qint64>> newL1;
 		for (const auto &l2 : l1) {
