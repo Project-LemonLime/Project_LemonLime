@@ -56,7 +56,7 @@ class TaskJudger : public QObject {
 	QProcessEnvironment environment;
 	QList<int> overallStatus;
 	QList<QList<int>> timeUsed;
-	QList<QList<int>> memoryUsed;
+	QList<QList<qint64>> memoryUsed;
 	QList<QList<int>> score;
 	QList<QList<ResultState>> result;
 	QList<QStringList> message;
@@ -81,7 +81,7 @@ class TaskJudger : public QObject {
 	void judgingStarted(QString);
 	void judgingFinished();
 	void dialogAlert(QString);
-	void singleCaseFinished(QString, int, int, int, int, int, int, int);
+	void singleCaseFinished(QString, int, int, int, int, int, int, qint64);
 	void singleSubtaskDependenceFinished(int, int, int);
 	void compileError(int, int);
 	void stopJudgingSignal();

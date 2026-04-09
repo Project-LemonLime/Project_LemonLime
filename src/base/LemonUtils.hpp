@@ -30,6 +30,13 @@ namespace Lemon::detail {
 		} else
 			return -1;
 	}
+	inline qint64 jsonReadHelper(qint64 &val, const QJsonValue &jval) {
+		if (jval.isDouble()) {
+			val = jval.toInteger();
+			return 0;
+		} else
+			return -1;
+	}
 	inline int jsonReadHelper(bool &val, const QJsonValue &jval) {
 		if (jval.isBool()) {
 			val = jval.toBool();

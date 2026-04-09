@@ -36,7 +36,7 @@ auto Contestant::getScore(int index) const -> const QList<QList<int>> & { return
 
 auto Contestant::getTimeUsed(int index) const -> const QList<QList<int>> & { return timeUsed[index]; }
 
-auto Contestant::getMemoryUsed(int index) const -> const QList<QList<int>> & { return memoryUsed[index]; }
+auto Contestant::getMemoryUsed(int index) const -> const QList<QList<qint64>> & { return memoryUsed[index]; }
 
 auto Contestant::getJudingTime() const -> QDateTime { return judgingTime; }
 
@@ -60,7 +60,7 @@ void Contestant::setScore(int index, const QList<QList<int>> &_score) { score[in
 
 void Contestant::setTimeUsed(int index, const QList<QList<int>> &_timeUsed) { timeUsed[index] = _timeUsed; }
 
-void Contestant::setMemoryUsed(int index, const QList<QList<int>> &_memoryUsed) {
+void Contestant::setMemoryUsed(int index, const QList<QList<qint64>> &_memoryUsed) {
 	memoryUsed[index] = _memoryUsed;
 }
 
@@ -76,7 +76,7 @@ void Contestant::addTask() {
 	message.append(QList<QStringList>());
 	score.append(QList<QList<int>>());
 	timeUsed.append(QList<QList<int>>());
-	memoryUsed.append(QList<QList<int>>());
+	memoryUsed.append(QList<QList<qint64>>());
 }
 
 void Contestant::deleteTask(int index) {
@@ -236,7 +236,20 @@ void Contestant::readFromStream(QDataStream &in) {
 	in >> message;
 	in >> score;
 	in >> timeUsed;
-	in >> memoryUsed;
+	// memoryUsed 之前存储为 int 三维数组，现在改为了 qint64，因此先读取旧结构，再逐层转换
+	QList<QList<QList<int>>> oldMemoryUsed;
+	in >> oldMemoryUsed;
+	for (const auto &l1 : oldMemoryUsed) {
+		QList<QList<qint64>> newL1;
+		for (const auto &l2 : l1) {
+			QList<qint64> newL2;
+			for (int v : l2) {
+				newL2.append(v);
+			}
+			newL1.append(newL2);
+		}
+		memoryUsed.append(newL1);
+	}
 	quint32 judgingTime_date = 0;
 	quint32 judgingTime_time = 0;
 	quint8 judgingTime_timespec = 0;

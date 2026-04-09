@@ -30,7 +30,7 @@ class Contestant : public QObject {
 	const QList<QStringList> &getMessage(int) const;
 	const QList<QList<int>> &getScore(int) const;
 	const QList<QList<int>> &getTimeUsed(int) const;
-	const QList<QList<int>> &getMemoryUsed(int) const;
+	const QList<QList<qint64>> &getMemoryUsed(int) const;
 	QDateTime getJudingTime() const;
 	int getTaskScore(int) const;
 	int getTotalScore() const;
@@ -46,7 +46,7 @@ class Contestant : public QObject {
 	void setMessage(int, const QList<QStringList> &);
 	void setScore(int, const QList<QList<int>> &);
 	void setTimeUsed(int, const QList<QList<int>> &);
-	void setMemoryUsed(int, const QList<QList<int>> &);
+	void setMemoryUsed(int, const QList<QList<qint64>> &);
 	void setJudgingTime(QDateTime);
 
 	int writeToJson(QJsonObject &);
@@ -64,7 +64,7 @@ class Contestant : public QObject {
 	QList<QList<QStringList>> message;
 	QList<QList<QList<int>>> score;
 	QList<QList<QList<int>>> timeUsed;
-	QList<QList<QList<int>>> memoryUsed;
+	QList<QList<QList<qint64>>> memoryUsed;
 	QDateTime judgingTime;
 
 	// QList<TaskResult> taskResults;
