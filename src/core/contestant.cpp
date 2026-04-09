@@ -236,7 +236,20 @@ void Contestant::readFromStream(QDataStream &in) {
 	in >> message;
 	in >> score;
 	in >> timeUsed;
-	in >> memoryUsed;
+	// memoryUsed 之前存储为 int 三维数组，现在改为了 qint64，因此先读取旧结构，再逐层转换
+	QList<QList<QList<int>>> oldMemoryUsed;
+	in >> oldMemoryUsed;
+	for (const auto &l1 : oldMemoryUsed) {
+		QList<QList<qint64>> newL1;
+		for (const auto &l2 : l1) {
+			QList<qint64> newL2;
+			for (int v : l2) {
+				newL2.append(v);
+			}
+			newL1.append(newL2);
+		}
+		memoryUsed.append(newL1);
+	}
 	quint32 judgingTime_date = 0;
 	quint32 judgingTime_time = 0;
 	quint8 judgingTime_timespec = 0;
