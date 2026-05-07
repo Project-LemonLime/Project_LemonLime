@@ -261,7 +261,7 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 				bool flag = false;
 
 				while (timer.elapsed() < settings->getCompileTimeLimit()) {
-					if (compilerProcess.state() != QProcess::Running) {
+					if (compilerProcess.waitForFinished(10)) {
 						flag = true;
 						break;
 					}
@@ -272,7 +272,6 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 						compilerProcess.kill();
 						return false;
 					}
-					QThread::msleep(10);
 				}
 
 				if (! flag) {

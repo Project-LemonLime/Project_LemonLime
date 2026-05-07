@@ -533,7 +533,7 @@ void Settings::loadSettings() {
 	rejudgeTimes = settings.value("MaximumRejudgeTimes", 1).toInt();
 	maxJudgingThreads = settings.value("MaximumJudgingThreads", 1).toInt();
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
-	defaultOutputFileExtension = settings.value("DefaultOuputFileExtension", "out").toString();
+	defaultOutputFileExtension = settings.value("DefaultOutputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
 	outputFileExtensions =
 	    settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();

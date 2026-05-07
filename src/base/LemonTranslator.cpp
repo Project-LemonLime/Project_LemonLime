@@ -55,6 +55,7 @@ namespace Lemon::common {
 				bool success = translatorNew->load(code + ".qm", path);
 				if (! success) {
 					LOG("Cannot load translation: " + code);
+					return false;
 				}
 				if (pTranslator) {
 					LOG("Removed translations");
