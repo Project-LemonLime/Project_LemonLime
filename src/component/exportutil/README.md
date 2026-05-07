@@ -1,4 +1,10 @@
-# README
+# ExportUtil 导出模块
+
+本模块负责将比赛成绩导出为 HTML 或 CSV 格式。
+
+HTML 导出采用 **JSON + 模板** 方案：C++ 端通过 `buildExportJson()` 构建包含全部比赛数据的 JSON 对象，然后将其嵌入 `export_template.html` 中的 `%%DATA%%` 占位符，由浏览器端 JavaScript 完成页面渲染。这种方式将数据构造与页面展示解耦，C++ 代码只需关注 JSON 结构，无需拼接 HTML 字符串。
+
+以下是 JSON 数据的结构说明。
 
 ### 顶级字段
 
@@ -28,7 +34,8 @@
 | `result`      | `"测试结果"`                                              |
 | `time`        | `"运行用时"`                                              |
 | `memory`      | `"内存消耗"`                                              |
-| `score`       | `"得分"`                                                  |
+| `score`           | `"得分"`                                                  |
+| `return_to_top`   | `"返回顶部"`                                              |
 
 ---
 
@@ -37,6 +44,7 @@
 | 字段名         | 类型       | 说明                 | 举例            |
 | -------------- | ---------- | -------------------- | --------------- |
 | `name`         | `string`   | 选手姓名             | `"Alice"`       |
+| `rank`         | `number`   | 选手排名             | `1`             |
 | `total_score`  | `number`   | 选手总分             | `200`           |
 | `total_bg`     | `string`   | 总分单元格背景 (HSL) | `"0, 70%, 90%"` |
 | `total_border` | `string`   | 总分单元格边框 (HSL) | `"0, 70%, 50%"` |
