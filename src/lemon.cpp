@@ -972,6 +972,7 @@ void LemonLime::exportStatistics() { StatisticsBrowser::exportStatistics(this, c
 void LemonLime::changeContestName() {
 	if (! curContest) {
 		QMessageBox::warning(this, tr("Rename Contest"), tr("No Contest Yet"));
+		return;
 	}
 
 	bool confirmed = false;

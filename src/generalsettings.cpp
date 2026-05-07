@@ -131,6 +131,7 @@ auto GeneralSettings::checkValid() -> bool {
 	if (ui->rejudgeTimes->text().isEmpty()) {
 		ui->rejudgeTimes->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty maximum rejudge times!"), QMessageBox::Close);
+		return false;
 	}
 
 	return true;

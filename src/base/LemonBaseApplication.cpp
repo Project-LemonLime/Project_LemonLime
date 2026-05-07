@@ -22,7 +22,7 @@ using namespace Lemon;
 auto LemonBaseApplication::Initialize() -> bool {
 	QString errorMessage;
 	bool canContinue;
-	const auto hasError = parseCommandLine(&canContinue, &errorMessage);
+	const auto hasError = ! parseCommandLine(&canContinue, &errorMessage);
 	if (hasError) {
 		LOG("Command line: " GEN_PAIR(errorMessage));
 		if (! canContinue) {
@@ -48,7 +48,7 @@ auto LemonBaseApplication::Initialize() -> bool {
 		}
 	}
 	LemonLimeTranslator->InstallTranslation(settings->getUiLanguage());
-
+	delete settings;
 	return true;
 }
 

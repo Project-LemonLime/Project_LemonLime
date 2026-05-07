@@ -142,7 +142,6 @@ class Settings {
 	static double upperBoundForExtraTimeRatio();
 	static QString dataPath();
 	static QString sourcePath();
-	static QString temporaryPath();
 	static QString selfTestPath();
 
   private:

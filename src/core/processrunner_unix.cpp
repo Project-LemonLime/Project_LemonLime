@@ -186,7 +186,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	// so here it is rounded up to an integer second.
 	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime;
 	while (timer.elapsed() <= killTimeLimit) {
-		if (runner->state() != QProcess::Running) {
+		if (runner->waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
@@ -200,8 +200,6 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 			return res;
 		}
-
-		QThread::msleep(10);
 	}
 
 	if (! isProgramFinishedInExtraTimeLimit) {

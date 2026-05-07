@@ -98,12 +98,21 @@ auto JudgingThread::getNeedRejudge() const -> bool { return needRejudge; }
 
 void JudgingThread::stopJudgingSlot() { stopJudging = true; }
 
+// Chunked file reader used by the line/space comparators below.
+//
+// nextUntilNewLine() / nextUntilSpace() return at most 32 chars per call --
+// they do NOT truncate a long line; callers must loop until eof() to consume
+// the whole line/token. The 32-byte cap keeps `result` (a fixed-capacity
+// std::string reserved at 32) from reallocating, which is the hot path of
+// per-test-case comparison.
 class BufferedStreamReader {
 
   public:
 	static const int BUFFER_SIZE = 1 << 18; // 128 KiB
 	explicit BufferedStreamReader(const char *filename) : file(fopen(filename, "r")) {
 		result.reserve(32);
+		// Start with bufPos == bufEnd so the first peekChar() triggers an
+		// fread; avoids a separate "primed?" flag.
 		bufPos = buffer + BUFFER_SIZE;
 		bufEnd = buffer + BUFFER_SIZE;
 		lineNumber = 1;
@@ -140,6 +149,8 @@ auto BufferedStreamReader::peekChar() -> char {
 		return '\0';
 	}
 	if (bufPos == bufEnd) {
+		// Buffer drained -- refill. fread returning 0 means real EOF; latch it
+		// so further peekChar() calls short-circuit without touching the FILE*.
 		bufPos = buffer;
 		bufEnd = buffer + fread(buffer, 1, BUFFER_SIZE, file);
 		if (bufPos == bufEnd) {
@@ -150,6 +161,9 @@ auto BufferedStreamReader::peekChar() -> char {
 	return *bufPos;
 }
 
+// Consume one line terminator (\n, \r, or \r\n) if the cursor sits on one,
+// and bump lineNumber. Idempotent when not on a terminator -- safe to call
+// before each token read.
 void BufferedStreamReader::tryNextLine() {
 	char c = peekChar();
 	if (c != '\r' && c != '\n')
@@ -162,6 +176,11 @@ void BufferedStreamReader::tryNextLine() {
 	lineNumber++;
 }
 
+// Read up to 32 chars from the current position, stopping at any line
+// terminator or EOF. Does NOT consume the terminator -- the next call to
+// tryNextLine() (invoked at the top here) will. Returning a chunk shorter
+// than 32 chars is the signal that the caller has reached end-of-line/EOF;
+// otherwise the caller must call again to read the rest of a long line.
 auto BufferedStreamReader::nextUntilNewLine() -> std::string_view {
 	result.clear();
 	tryNextLine();
@@ -175,6 +194,10 @@ auto BufferedStreamReader::nextUntilNewLine() -> std::string_view {
 	return result;
 }
 
+// Skip leading whitespace (advancing lineNumber across newlines), then read
+// up to 32 non-space chars. Same chunked-read contract as nextUntilNewLine:
+// short return means token end; long tokens must be read across multiple
+// calls. Returns an empty view at EOF.
 auto BufferedStreamReader::nextUntilSpace() -> std::string_view {
 	result.clear();
 	for (char c = peekChar(); std::isspace(c) && ! eof(); c = peekChar())
@@ -482,7 +505,7 @@ void JudgingThread::lemonSpecialJudge(const QString &fileName) {
 	bool flag = false;
 
 	while (timer.elapsed() < specialJudgeTimeLimit) {
-		if (judge->state() != QProcess::Running) {
+		if (judge->waitForFinished(10)) {
 			flag = true;
 			break;
 		}
@@ -493,8 +516,6 @@ void JudgingThread::lemonSpecialJudge(const QString &fileName) {
 			judge->kill();
 			return;
 		}
-
-		msleep(10);
 	}
 
 	if (! flag) {
@@ -592,7 +613,7 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 	bool flag = false;
 
 	while (timer.elapsed() < specialJudgeTimeLimit) {
-		if (judge->state() != QProcess::Running) {
+		if (judge->waitForFinished(10)) {
 			flag = true;
 			break;
 		}
@@ -603,8 +624,6 @@ void JudgingThread::testlibSpecialJudge(const QString &fileName) {
 			judge->kill();
 			return;
 		}
-
-		msleep(10);
 	}
 
 	if (! flag) {

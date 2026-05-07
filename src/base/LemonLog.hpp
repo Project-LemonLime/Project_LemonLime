@@ -48,10 +48,10 @@ Q_DECLARE_METATYPE(const char *)
 
 namespace Lemon::base {
 	inline std::shared_ptr<spdlog::logger> logger;
-	inline QString tempBuffer;
-	inline QTextStream tempStream{&tempBuffer};
 
 	template <LemonLogType t, typename... T> inline void log_concat(T... v) {
+		QString tempBuffer;
+		QTextStream tempStream{&tempBuffer};
 		((tempStream << v << " "), ...);
 
 		const auto logString = tempStream.readAll().toStdString();
