@@ -43,7 +43,10 @@ jobs:
       - name: Install Build Essentials
         run: |
           apt update
-          apt install -y build-essential git perl cmake ninja-build wget
+          apt install -y build-essential git perl ninja-build wget
+          wget -q https://github.com/Kitware/CMake/releases/download/v3.30.6/cmake-3.30.6-linux-x86_64.tar.gz -O /tmp/cmake.tar.gz
+          tar -xzf /tmp/cmake.tar.gz -C /opt
+          echo "/opt/cmake-3.30.6-linux-x86_64/bin" >> $GITHUB_PATH
       - name: Checking out sources
         uses: actions/checkout@v6
         with:
@@ -51,7 +54,7 @@ jobs:
       - name: Install build dependencies
         run: |
           apt update
-          apt install -y build-essential ninja-build cmake pkgconf bash
+          apt install -y build-essential ninja-build pkgconf bash
           apt install -y libgl1-mesa-dev libglu1-mesa-dev
           apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
           apt install -y libharfbuzz-dev libsm-dev libdrm-dev
