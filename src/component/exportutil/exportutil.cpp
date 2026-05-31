@@ -172,15 +172,15 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 							info = tr("Cannot find valid source file");
 							break;
 						case CompileTimeLimitExceeded:
-							info = tr("Source file: ") + contestant->getSourceFile(j) +
-							       QString(", ") + tr("Compile time limit exceeded");
+							info = tr("Source file: ") + contestant->getSourceFile(j) + QString(", ") +
+							       tr("Compile time limit exceeded");
 							break;
 						case InvalidCompiler:
 							info = tr("Cannot run given compiler");
 							break;
 						case CompileError:
-							info = tr("Source file: ") + contestant->getSourceFile(j) +
-							       QString(", ") + tr("Compile error");
+							info = tr("Source file: ") + contestant->getSourceFile(j) + QString(", ") +
+							       tr("Compile error");
 							break;
 						default:
 							break;
@@ -191,8 +191,7 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 					tObj["info"] = info;
 				}
 
-				if (contestant->getCheckJudged(j) &&
-				    contestant->getCompileState(j) == CompileError &&
+				if (contestant->getCheckJudged(j) && contestant->getCompileState(j) == CompileError &&
 				    ! contestant->getCompileMessage(j).isEmpty()) {
 					tObj["compile_message"] = contestant->getCompileMessage(j);
 				}
