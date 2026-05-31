@@ -41,7 +41,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 	QList<Task *> taskList = contest->getTaskList();
 	int sfullScore = contest->getTotalScore();
 
-	// Sort and rank
 	QList<std::pair<int, QString>> sortList;
 
 	for (auto &i : contestantList) {
@@ -65,12 +64,10 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 		}
 	}
 
-	// Top-level fields
 	QJsonObject root;
 	root["name"] = contest->getContestTitle();
 	root["version"] = QString("Lemonlime Version %1:%2").arg(LEMON_VERSION_STRING).arg(LEMON_VERSION_BUILD);
 
-	// i18n
 	QJsonObject i18n;
 	i18n["rank_list"] = tr("Rank List");
 	i18n["hint"] = tr("Click names or task scores to jump to details. Judged By LemonLime");
@@ -90,7 +87,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 	i18n["return_to_top"] = tr("Return to top");
 	root["i18n"] = i18n;
 
-	// task_names
 	QJsonArray taskNames;
 
 	for (auto &task : taskList) {
@@ -99,7 +95,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 
 	root["task_names"] = taskNames;
 
-	// contestants
 	QJsonArray contestantsArr;
 
 	for (int idx = 0; idx < contestantList.size(); idx++) {
@@ -159,7 +154,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 				tObj["bg"] = QString("0, 0%, 90%");
 			}
 
-			// source file
 			if (taskList[j]->getTaskType() == Task::Traditional ||
 			    taskList[j]->getTaskType() == Task::Interaction ||
 			    taskList[j]->getTaskType() == Task::Communication ||
@@ -169,7 +163,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 				}
 			}
 
-			// details
 			bool isAnswersOnly = taskList[j]->getTaskType() == Task::AnswersOnly;
 			bool canShowDetails = contestant->getCheckJudged(j) &&
 			                      (isAnswersOnly || contestant->getCompileState(j) == CompileSuccessfully);
@@ -223,7 +216,7 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 
 						if (memoryUsed[jj][k] != -1) {
 							dObj["memory"] =
-							    QString("").asprintf("%.3lf MB", double(memoryUsed[jj][k]) / 1024 / 1024);
+							    QString("").asprintf("%.3lf MiB", double(memoryUsed[jj][k]) / 1024 / 1024);
 						} else {
 							dObj["memory"] = tr("Invalid");
 						}
@@ -276,7 +269,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	// Read template from Qt resource
 	QFile templateFile(":/export/export_template.html");
 
 	if (! templateFile.open(QFile::ReadOnly | QFile::Text)) {
@@ -288,15 +280,12 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	QString htmlTemplate = templateFile.readAll();
 	templateFile.close();
 
-	// Build JSON data
 	QJsonObject jsonData = buildExportJson(contest);
 	QJsonDocument doc(jsonData);
 	QString jsonStr = doc.toJson(QJsonDocument::Compact);
 
-	// Replace placeholder with actual data
 	htmlTemplate.replace("%%DATA%%", jsonStr);
 
-	// Write output
 	QTextStream out(&file);
 	out << htmlTemplate;
 	out.flush();

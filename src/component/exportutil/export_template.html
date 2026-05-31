@@ -110,29 +110,17 @@
 
         function updateHeaderIndicators() {
             const ths = thead.querySelectorAll('th');
-            ths.forEach((th, idx) => {
+            ths.forEach((th) => {
                 const indicator = th.querySelector('.sort-indicator');
                 if (!indicator) return;
 
-                if (idx >= 2) {
-                    const col = th.dataset.col;
-                    if (col === 'total' && sortState.key === 'total') {
-                        indicator.textContent = sortState.asc ? '▴' : '▾';
-                        indicator.style.visibility = 'visible';
-                    } else if (col === 'task') {
-                        const ti = parseInt(th.dataset.taskIndex, 10);
-                        if (sortState.key === 'task' && sortState.taskIndex === ti) {
-                            indicator.textContent = sortState.asc ? '▴' : '▾';
-                            indicator.style.visibility = 'visible';
-                        } else {
-                            indicator.style.visibility = 'hidden';
-                        }
-                    } else {
-                        indicator.style.visibility = 'hidden';
-                    }
-                } else {
-                    indicator.style.visibility = 'hidden';
-                }
+                const isActive =
+                    (sortState.key === 'total' && th.dataset.col === 'total') ||
+                    (sortState.key === 'task' && th.dataset.col === 'task' &&
+                     parseInt(th.dataset.taskIndex, 10) === sortState.taskIndex);
+
+                indicator.textContent = sortState.asc ? '▴' : '▾';
+                indicator.style.visibility = isActive ? 'visible' : 'hidden';
             });
         }
 
@@ -275,7 +263,12 @@
                             const scoreTd = document.createElement('td');
                             scoreTd.rowSpan = d.row_span;
                             scoreTd.style.background = d.bg;
-                            scoreTd.innerHTML = `<span style="font-weight: bold; font-size: large;">${d.score}</span> / ${d.full_score}`;
+                            const scoreSpan = document.createElement('span');
+                            scoreSpan.style.fontWeight = 'bold';
+                            scoreSpan.style.fontSize = 'large';
+                            scoreSpan.textContent = d.score;
+                            scoreTd.appendChild(scoreSpan);
+                            scoreTd.appendChild(document.createTextNode(` / ${d.full_score}`));
                             dTr.append(scoreTd);
                         }
                         dTbody.append(dTr);
