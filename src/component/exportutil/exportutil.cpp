@@ -76,8 +76,6 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 	i18n["total"] = tr("Total Score");
 	i18n["contestant"] = tr("Contestant");
 	i18n["task"] = tr("Task");
-	i18n["source_file"] = tr("Source file: ");
-	i18n["no_source"] = tr("Cannot find valid source file");
 	i18n["testcase"] = tr("Test Case");
 	i18n["input"] = tr("Input File");
 	i18n["result"] = tr("Result");
@@ -158,9 +156,48 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 			    taskList[j]->getTaskType() == Task::Interaction ||
 			    taskList[j]->getTaskType() == Task::Communication ||
 			    taskList[j]->getTaskType() == Task::CommunicationExec) {
-				if (contestant->getCheckJudged(j) && contestant->getCompileState(j) == CompileSuccessfully) {
-					tObj["file"] = contestant->getSourceFile(j);
+				QString info;
+
+				if (! contestant->getCheckJudged(j)) {
+					info = tr("Not judged");
+				} else {
+					switch (contestant->getCompileState(j)) {
+						case CompileSuccessfully:
+							info = tr("Source file: ") + contestant->getSourceFile(j);
+							break;
+						case NoValidGraderFile:
+							info = tr("Main grader (grader.*) cannot be found");
+							break;
+						case NoValidSourceFile:
+							info = tr("Cannot find valid source file");
+							break;
+						case CompileTimeLimitExceeded:
+							info = tr("Source file: ") + contestant->getSourceFile(j) +
+							       QString(", ") + tr("Compile time limit exceeded");
+							break;
+						case InvalidCompiler:
+							info = tr("Cannot run given compiler");
+							break;
+						case CompileError:
+							info = tr("Source file: ") + contestant->getSourceFile(j) +
+							       QString(", ") + tr("Compile error");
+							break;
+						default:
+							break;
+					}
 				}
+
+				if (! info.isEmpty()) {
+					tObj["info"] = info;
+				}
+
+				if (contestant->getCheckJudged(j) &&
+				    contestant->getCompileState(j) == CompileError &&
+				    ! contestant->getCompileMessage(j).isEmpty()) {
+					tObj["compile_message"] = contestant->getCompileMessage(j);
+				}
+			} else if (! contestant->getCheckJudged(j)) {
+				tObj["info"] = tr("Not judged");
 			}
 
 			bool isAnswersOnly = taskList[j]->getTaskType() == Task::AnswersOnly;

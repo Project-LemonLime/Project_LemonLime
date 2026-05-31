@@ -209,9 +209,18 @@
                 taskH3.innerText = `${data.i18n.task} ${data.task_names[j]}`;
                 taskContainer.append(taskH3);
 
-                const fileP = document.createElement('p');
-                fileP.innerText = t.file ? `${data.i18n.source_file}${t.file}` : data.i18n.no_source;
-                taskContainer.append(fileP);
+                if (t.info) {
+                    const fileP = document.createElement('p');
+                    fileP.innerText = t.info;
+                    taskContainer.append(fileP);
+                }
+
+                if (t.compile_message) {
+                    const msgPre = document.createElement('pre');
+                    msgPre.textContent = t.compile_message;
+                    msgPre.style.textAlign = 'left';
+                    taskContainer.append(msgPre);
+                }
 
                 if (t.details && t.details.length > 0) {
                     const detailTable = document.createElement('table');

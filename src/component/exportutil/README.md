@@ -27,15 +27,13 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
 | `total`       | `"总分"`                                                  |
 | `contestant`  | `"选手"`                                                  |
 | `task`        | `"试题"`                                                  |
-| `source_file` | `"源程序："`                                              |
-| `no_source`   | `"未找到选手程序"`                                         |
 | `testcase`    | `"测试点"`                                                |
 | `input`       | `"输入文件"`                                              |
 | `result`      | `"测试结果"`                                              |
 | `time`        | `"运行用时"`                                              |
 | `memory`      | `"内存消耗"`                                              |
-| `score`           | `"得分"`                                                  |
-| `return_to_top`   | `"返回顶部"`                                              |
+| `score`       | `"得分"`                                                  |
+| `return_to_top` | `"返回顶部"`                                            |
 
 ---
 
@@ -54,12 +52,13 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
 
 ### tasks 数组内对象
 
-| 字段名    | 类型       | 说明               | 举例              |
-| --------- | ---------- | ------------------ | ----------------- |
-| `score`   | `number`   | 该题单项得分       | `100`             |
-| `bg`      | `string`   | 该题得分背景 (HSL) | `"120, 30%, 60%"` |
-| `file`    | `string`   | 选手程序文件名（可选，若无该字段则表示找不到选手程序）     | `"plus.cpp"`      |
-| `details` | `object[]` | 测试点详情数组     | 见下节            |
+| 字段名              | 类型       | 说明                       | 举例              |
+| ------------------- | ---------- | -------------------------- | ----------------- |
+| `score`             | `number`   | 该题单项得分               | `100`             |
+| `bg`                | `string`   | 该题得分背景 (HSL)         | `"120, 30%, 60%"` |
+| `info`              | `string`   | 评测状态/源文件信息       | `"源程序：plus.cpp"` |
+| `compile_message`   | `string`   | 编译错误详情（可选）       | `"error: expected ';'"` |
+| `details`           | `object[]` | 测试点详情数组             | 见下节            |
 
 ---
 
@@ -96,8 +95,6 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
         "total": "总分",
         "contestant": "选手",
         "task": "试题",
-        "source_file": "源程序：",
-        "no_source": "未找到选手程序",
         "testcase": "测试点",
         "input": "输入文件",
         "result": "测试结果",
@@ -117,7 +114,7 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
                 {
                     "score": 100,
                     "bg": "120, 30%, 70%",
-                    "file": "plus.cpp",
+                    "info": "源程序：plus.cpp",
                     "details": [
                         { "label": "#1", "row_span": 1, "input": "plus1.in", "result": "评测通过", "time": "0.001 s", "memory": "1.2 MiB", "score": 50, "full_score": 50, "bg": "rgb(192, 255, 192)" },
                         { "label": "#2", "row_span": 1, "input": "plus2.in", "result": "评测通过", "time": "0.002 s", "memory": "1.2 MiB", "score": 50, "full_score": 50, "bg": "rgb(192, 255, 192)" }
@@ -126,7 +123,7 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
                 {
                     "score": 50,
                     "bg": "120,28.9006%,82.3499%",
-                    "file": "minus.cpp",
+                    "info": "源程序：minus.cpp",
                     "details": [
                         { "label": "#1", "row_span": 1, "input": "minus1.in", "result": "评测通过", "time": "0.001 s", "memory": "1.2 MiB", "score": 50, "full_score": 50, "bg": "rgb(192, 255, 192)" },
                         { "label": "#2<br>子任务依赖情况:Pure", "row_span": 2, "input": "minus2.in", "result": "答案错误", "time": "0.001 s", "memory": "2.0 MiB", "score": 0, "full_score": 50, "bg": "rgb(255, 192, 192)", "info": "在第四行，读取到 123456，但期望 789123" },
@@ -142,8 +139,8 @@ HTML 导出采用 JSON + 模板 方案：C++ 端通过 `buildExportJson()` 构�
             "total_bg": "0, 0%, 90%",
             "total_border": "0, 0%, 70%",
             "tasks": [
-                { "score": 0, "bg": "0, 0%, 90%" },
-                { "score": 0, "bg": "0, 0%, 90%" }
+                { "score": 0, "bg": "0, 0%, 90%", "info": "未测试" },
+                { "score": 0, "bg": "0, 0%, 90%", "info": "未测试" }
             ]
         }
     ]
