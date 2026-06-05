@@ -172,7 +172,8 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 							info = tr("Cannot find valid source file");
 							break;
 						case CompileTimeLimitExceeded:
-							info = tr("Source file: %1, Compile time limit exceeded").arg(contestant->getSourceFile(j));
+							info = tr("Source file: %1, Compile time limit exceeded")
+							           .arg(contestant->getSourceFile(j));
 							break;
 						case InvalidCompiler:
 							info = tr("Cannot run given compiler");
