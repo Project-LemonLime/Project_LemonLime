@@ -163,7 +163,7 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 				} else {
 					switch (contestant->getCompileState(j)) {
 						case CompileSuccessfully:
-							info = tr("Source file: ") + contestant->getSourceFile(j);
+							info = tr("Source file: %1").arg(contestant->getSourceFile(j));
 							break;
 						case NoValidGraderFile:
 							info = tr("Main grader (grader.*) cannot be found");
@@ -172,15 +172,13 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 							info = tr("Cannot find valid source file");
 							break;
 						case CompileTimeLimitExceeded:
-							info = tr("Source file: ") + contestant->getSourceFile(j) + QString(", ") +
-							       tr("Compile time limit exceeded");
+							info = tr("Source file: %1, Compile time limit exceeded").arg(contestant->getSourceFile(j));
 							break;
 						case InvalidCompiler:
 							info = tr("Cannot run given compiler");
 							break;
 						case CompileError:
-							info = tr("Source file: ") + contestant->getSourceFile(j) + QString(", ") +
-							       tr("Compile error");
+							info = tr("Source file: %1, Compile error").arg(contestant->getSourceFile(j));
 							break;
 						default:
 							break;

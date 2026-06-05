@@ -729,6 +729,18 @@
         <translation>源程式： </translation>
     </message>
     <message>
+        <source>Source file: %1</source>
+        <translation>源程式：%1</translation>
+    </message>
+    <message>
+        <source>Source file: %1, Compile time limit exceeded</source>
+        <translation>源程式：%1，編譯超時</translation>
+    </message>
+    <message>
+        <source>Source file: %1, Compile error</source>
+        <translation>源程式：%1，編譯錯誤</translation>
+    </message>
+    <message>
         <source>Compile time limit exceeded</source>
         <translation>編譯超時</translation>
     </message>
