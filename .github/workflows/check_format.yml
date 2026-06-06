@@ -3,12 +3,13 @@ name: "Check Clang Format"
 on: [push, pull_request]
 
 jobs:
-  formatting-check:
+  format:
     name: "Check Clang Format"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: jidicula/clang-format-action@v4.18.0
+      - uses: pachadotdev/clang-format@v1.1
         with:
-          clang-format-version: "21"
-          check-path: "src"
+          version: "21"
+          auto-commit: true
+          commit-message: "style: format codes"
