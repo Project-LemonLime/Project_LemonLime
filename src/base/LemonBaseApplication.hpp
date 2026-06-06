@@ -18,8 +18,8 @@ namespace Lemon {
 	  public:
 		LemonBaseApplication(int &argc, char *argv[])
 		    : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion),
-		      LemonApplicationInterface(){};
-		virtual ~LemonBaseApplication(){};
+		      LemonApplicationInterface() {};
+		virtual ~LemonBaseApplication() {};
 
 		virtual bool Initialize() final;
 

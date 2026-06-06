@@ -33,8 +33,8 @@ StatisticsBrowser::~StatisticsBrowser() { delete ui; }
 
 void StatisticsBrowser::setContest(Contest *contest) { curContest = contest; }
 
-auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize,
-                                            int totalScore) -> QString {
+auto StatisticsBrowser::getScoreNormalChart(const QMap<int, int> &scoreCount, int listSize, int totalScore)
+    -> QString {
 	QString buffer = "";
 	long long overallScoreSum = 0;
 	double scoreDiscrim = 0;
@@ -230,8 +230,8 @@ auto StatisticsBrowser::getTestcaseScoreChart(QList<TestCase *> testCaseList,
 	return buffer;
 }
 
-auto StatisticsBrowser::checkValid(QList<Task *> taskList,
-                                   const QList<Contestant *> &contestantList) -> bool {
+auto StatisticsBrowser::checkValid(QList<Task *> taskList, const QList<Contestant *> &contestantList)
+    -> bool {
 	for (auto *i : taskList) {
 		for (auto *j : i->getTestCaseList()) {
 			if (j->getInputFiles().length() != j->getOutputFiles().length())
