@@ -8,21 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: "Install clang-format"
-        run: |
-          sudo apt-get update
-          sudo apt-get install clang-format
-      - name: "Format Codes"
-        run: clang-format -i src/*.cpp src/*.h src/**/*.cpp src/**/*.h src/**/**/*.cpp src/**/**/*.h src/**/*.hpp
-      - name: Check diff
-        run: git diff --exit-code HEAD
-      - name: Create Pull Request
-        if: failure()
-        uses: peter-evans/create-pull-request@v8
+      - uses: pachadotdev/clang-format@v1.1
         with:
+          version: "21"
+          auto-commit: true
           commit-message: "style: format codes"
-          title: "Format codes for ${{ github.ref }}"
-          labels: "style"
-          assignees: "${{ github.actor }}"
-          reviewers: "${{ github.actor }}"
-          branch: "auto-pr/clang-format/${{ github.ref }}"

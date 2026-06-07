@@ -45,6 +45,9 @@ jobs:
           apt update
           apt install -y software-properties-common
           add-apt-repository ppa:savoury1/build-tools
+          add-apt-repository ppa:savoury1/fonts
+          add-apt-repository ppa:savoury1/backports
+          add-apt-repository ppa:savoury1/python
           apt update
           apt upgrade -y
           apt install -y build-essential git perl cmake ninja-build wget
