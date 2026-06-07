@@ -47,13 +47,13 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(std::make_pair(totalScore, i->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
 		} else {
-			sortList.append(std::make_pair(-1, i->getContestantName()));
+			sortList.append(std::make_pair(1, i->getContestantName()));
 		}
 	}
 
-	std::sort(sortList.begin(), sortList.end(), std::greater<>());
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i++) {
@@ -95,8 +95,8 @@ QJsonObject ExportUtil::buildExportJson(Contest *contest) {
 
 	QJsonArray contestantsArr;
 
-	for (int idx = 0; idx < contestantList.size(); idx++) {
-		Contestant *contestant = contestantList[idx];
+	for (int idx = 0; idx < sortList.size(); idx++) {
+		Contestant *contestant = contest->getContestant(sortList[idx].second);
 		QJsonObject cObj;
 		cObj["name"] = contestant->getContestantName();
 		cObj["rank"] = rankList[contestant->getContestantName()] + 1;
@@ -349,13 +349,13 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 		int totalScore = i->getTotalScore();
 
 		if (totalScore != -1) {
-			sortList.append(std::make_pair(totalScore, i->getContestantName()));
+			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
 		} else {
-			sortList.append(std::make_pair(-1, i->getContestantName()));
+			sortList.append(std::make_pair(1, i->getContestantName()));
 		}
 	}
 
-	std::sort(sortList.begin(), sortList.end(), std::greater<>());
+	std::sort(sortList.begin(), sortList.end());
 	QMap<QString, int> rankList;
 
 	for (int i = 0; i < sortList.size(); i++) {
