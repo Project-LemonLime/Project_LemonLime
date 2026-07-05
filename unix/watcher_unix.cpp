@@ -7,10 +7,12 @@
  */
 
 #include <cassert>
+#include <cerrno>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <signal.h>
 #include <sstream>
 #include <string>
 #include <sys/fcntl.h>
@@ -20,17 +22,22 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int pid;
+static int pid;
+static volatile sig_atomic_t timedOut;
 
-void cleanUp(int /*dummy*/) {
+static void cleanUp(int /*dummy*/) {
 	kill(pid, SIGKILL);
-	exit(0);
+	_Exit(0);
 }
+
+static void alarmHandler(int /*dummy*/) { timedOut = 1; }
 
 extern void initWatcher();
 extern ssize_t calculateStaticMemoryUsage(const std::string &);
 extern ssize_t getMemoryRLimit(ssize_t memoryLimitInMB);
 extern size_t getMaxRSSInByte(long ru_maxrss);
+extern void execTarget(const std::string &workdir, const std::string &stdinRedirect,
+                       const std::string &runCmd);
 
 enum : int {
 	RS_AC = 0,
@@ -52,11 +59,13 @@ enum : int {
  * argv[9]: 原始（未经语言设置缩放的）空间限制（MiB）
  * argv[10]: 选手程序只读的文件
  * argv[11]: 选手程序只写的文件
+ * argv[12]: 工作目录
+ * argv[13]: wall clock 额外超时时间（毫秒）
  */
 auto main(int argc, char *argv[]) -> int {
-	if (argc != 12) {
+	if (argc != 14) {
 		printf("-1\n-1\n");
-		fprintf(stderr, "Expected 11 arguments, found %d\n", argc);
+		fprintf(stderr, "Expected 13 arguments, found %d\n", argc - 1);
 		return RS_FAIL;
 	}
 	std::string fileName = argv[1];
@@ -70,6 +79,8 @@ auto main(int argc, char *argv[]) -> int {
 	[[maybe_unused]] long long rawMemoryLimitMib = std::stoll(argv[9]);
 	[[maybe_unused]] std::string readableFile = argv[10];
 	[[maybe_unused]] std::string writableFile = argv[11];
+	std::string workdir = argv[12];
+	long long extraTimeMs = std::stoll(argv[13]);
 
 	initWatcher();
 
@@ -104,14 +115,37 @@ auto main(int argc, char *argv[]) -> int {
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
+
+		struct sigaction sa;
+		sa.sa_handler = alarmHandler;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
+		sigaction(SIGALRM, &sa, nullptr);
+
+		long long wallClockMs = timeLimitMs + extraTimeMs;
+		struct itimerval timer;
+		timer.it_value.tv_sec = wallClockMs / 1000;
+		timer.it_value.tv_usec = (wallClockMs % 1000) * 1000;
+		timer.it_interval = {0, 0};
+		setitimer(ITIMER_REAL, &timer, nullptr);
+
 		struct rusage usage{};
 		int status = 0;
 
 		if (wait4(pid, &status, 0, &usage) == -1) {
+			if (errno == EINTR && timedOut) {
+				kill(pid, SIGKILL);
+				wait4(pid, nullptr, 0, nullptr);
+				printf("-1\n-1\n");
+				return RS_TLE;
+			}
 			printf("-1\n-1\n");
 			perror("wait4");
 			return RS_FAIL;
 		}
+
+		struct itimerval disable = {{0, 0}, {0, 0}};
+		setitimer(ITIMER_REAL, &disable, nullptr);
 
 		if (WIFEXITED(status)) {
 			long long timeUsedMs =
@@ -147,17 +181,17 @@ auto main(int argc, char *argv[]) -> int {
 		std::string finalStdinRedirect = stdinRedirect.empty() ? "/dev/null" : stdinRedirect;
 		if (freopen(finalStdinRedirect.c_str(), "r", stdin) == NULL) {
 			perror("freopen stdin");
-			exit(RS_FAIL);
+			_Exit(RS_FAIL);
 		}
 		std::string finalStdoutRedirect = stdoutRedirect.empty() ? "/dev/null" : stdoutRedirect;
 		if (freopen(finalStdoutRedirect.c_str(), "w", stdout) == NULL) {
 			perror("freopen stdout");
-			exit(RS_FAIL);
+			_Exit(RS_FAIL);
 		}
 		std::string finalStderrRedirect = stderrRedirect.empty() ? "/dev/null" : stderrRedirect;
 		if (freopen(finalStderrRedirect.c_str(), "w", stderr) == NULL) {
 			perror("freopen stderr");
-			exit(RS_FAIL);
+			_Exit(RS_FAIL);
 		}
 
 		rlimit memlim{}, stalim{}, timlim{};
@@ -179,9 +213,13 @@ auto main(int argc, char *argv[]) -> int {
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);
 
+		if (! workdir.empty()) {
+			execTarget(workdir, stdinRedirect, runCmd);
+		}
+
 		if (execlp("bash", "bash", "-c", runCmd.c_str(), NULL) == -1) {
 			perror("execlp");
-			exit(RS_FAIL);
+			_Exit(RS_FAIL);
 		}
 	}
 

@@ -10,10 +10,9 @@ tmperr = f"_tmperr_{pid}"
 with open(tmpin, 'w') as f:
     f.writelines(['1 1'])
 
-p = subprocess.Popen(["./watcher_unix", "./add", "", tmpin, tmpout, tmperr, "1000", "100", "1000", "100", "", ""], shell=False)
+p = subprocess.Popen(["./watcher_unix", "./add", "", tmpin, tmpout, tmperr, "1000", "100", "1000", "100", "", "", ".", "2000"], shell=False)
 
-time.sleep(2)
-p.kill()
+p.wait()
 
 assert(p.returncode == 0)
 
