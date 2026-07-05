@@ -98,10 +98,6 @@ ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024
 
 size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss * 1024; }
 
-namespace {
-	enum : int { RS_FAIL = 1 };
-}
-
 void execTarget(const std::string &workdir, const std::string &stdinRedirect, const std::string &runCmd) {
 	std::vector<const char *> args;
 	args.reserve(28);
@@ -149,6 +145,5 @@ void execTarget(const std::string &workdir, const std::string &stdinRedirect, co
 	args.push_back(nullptr);
 
 	execvp("bwrap", const_cast<char *const *>(args.data()));
-	perror("execvp bwrap");
-	_Exit(RS_FAIL);
+	// bwrap not available, caller will fall back to direct execution
 }

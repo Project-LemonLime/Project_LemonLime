@@ -61,6 +61,7 @@ enum : int {
  * argv[11]: 选手程序只写的文件
  * argv[12]: 工作目录
  * argv[13]: wall clock 额外超时时间（毫秒）
+ * argv[14]: 保留（未来扩展）
  */
 auto main(int argc, char *argv[]) -> int {
 	if (argc != 14) {
@@ -152,15 +153,14 @@ auto main(int argc, char *argv[]) -> int {
 			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
 			size_t memoryUsed = getMaxRSSInByte(usage.ru_maxrss);
 			printf("%lld\n%zu\n", timeUsedMs, memoryUsed);
-			if (WEXITSTATUS(status) != 0) {
-				// Any non-zero exit status indicates a runtime error.
-				return RS_RE;
-			}
 			if (timeUsedMs > timeLimitMs) {
 				return RS_TLE;
 			}
 			if (memoryUsed > memoryLimitMib * 1024 * 1024) {
 				return RS_MLE;
+			}
+			if (WEXITSTATUS(status) != 0) {
+				return RS_RE;
 			}
 			return RS_AC;
 		}
