@@ -153,13 +153,22 @@ auto main(int argc, char *argv[]) -> int {
 			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
 			size_t memoryUsed = getMaxRSSInByte(usage.ru_maxrss);
 			printf("%lld\n%zu\n", timeUsedMs, memoryUsed);
+			int exitCode = WEXITSTATUS(status);
+			if (exitCode > 128 && exitCode <= 128 + 31) {
+				int sig = exitCode - 128;
+				if (sig == SIGXCPU)
+					return RS_TLE;
+				if (sig == SIGKILL || sig == SIGABRT)
+					return RS_MLE;
+				return RS_RE;
+			}
 			if (timeUsedMs > timeLimitMs) {
 				return RS_TLE;
 			}
 			if (memoryUsed > memoryLimitMib * 1024 * 1024) {
 				return RS_MLE;
 			}
-			if (WEXITSTATUS(status) != 0) {
+			if (exitCode != 0) {
 				return RS_RE;
 			}
 			return RS_AC;
