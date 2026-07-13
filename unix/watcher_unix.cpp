@@ -28,7 +28,7 @@ static volatile sig_atomic_t timedOut;
 
 static void cleanUp(int /*dummy*/) {
 	kill(pid, SIGKILL);
-	_Exit(0);
+	exit(0);
 }
 
 static void alarmHandler(int /*dummy*/) { timedOut = 1; }
@@ -225,17 +225,17 @@ auto main(int argc, char *argv[]) -> int {
 		std::string finalStdinRedirect = stdinRedirect.empty() ? "/dev/null" : stdinRedirect;
 		if (freopen(finalStdinRedirect.c_str(), "r", stdin) == NULL) {
 			perror("freopen stdin");
-			_Exit(RS_FAIL);
+			exit(RS_FAIL);
 		}
 		std::string finalStdoutRedirect = stdoutRedirect.empty() ? "/dev/null" : stdoutRedirect;
 		if (freopen(finalStdoutRedirect.c_str(), "w", stdout) == NULL) {
 			perror("freopen stdout");
-			_Exit(RS_FAIL);
+			exit(RS_FAIL);
 		}
 		std::string finalStderrRedirect = stderrRedirect.empty() ? "/dev/null" : stderrRedirect;
 		if (freopen(finalStderrRedirect.c_str(), "w", stderr) == NULL) {
 			perror("freopen stderr");
-			_Exit(RS_FAIL);
+			exit(RS_FAIL);
 		}
 
 		rlimit memlim{}, stalim{}, timlim{}, nproclim{};
@@ -261,7 +261,7 @@ auto main(int argc, char *argv[]) -> int {
 
 		if (execlp("bash", "bash", "-c", runCmd.c_str(), NULL) == -1) {
 			perror("execlp");
-			_Exit(RS_FAIL);
+			exit(RS_FAIL);
 		}
 	}
 
