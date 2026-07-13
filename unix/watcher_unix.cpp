@@ -6,8 +6,10 @@
  *
  */
 
+#include <atomic>
 #include <cassert>
 #include <cerrno>
+#include <chrono>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -20,18 +22,19 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#ifdef __linux__
+#include <sys/syscall.h>
+#endif
+#include <thread>
 #include <unistd.h>
 #include <vector>
 
 static int pid;
-static volatile sig_atomic_t timedOut;
 
 static void cleanUp(int /*dummy*/) {
 	kill(pid, SIGKILL);
 	exit(0);
 }
-
-static void alarmHandler(int /*dummy*/) { timedOut = 1; }
 
 extern void initWatcher();
 extern ssize_t calculateStaticMemoryUsage(const std::string &);
@@ -155,41 +158,50 @@ auto main(int argc, char *argv[]) -> int {
 	pid = fork();
 
 	if (pid > 0) {
-		// Parent process
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
 
-		struct sigaction sa;
-		sa.sa_handler = alarmHandler;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sigaction(SIGALRM, &sa, nullptr);
-
 		long long wallClockMs = timeLimitMs + extraTimeMs;
-		struct itimerval timer;
-		timer.it_value.tv_sec = wallClockMs / 1000;
-		timer.it_value.tv_usec = (wallClockMs % 1000) * 1000;
-		timer.it_interval = {0, 0};
-		setitimer(ITIMER_REAL, &timer, nullptr);
+
+		int childPfd = -1;
+#ifdef __linux__
+		childPfd = syscall(SYS_pidfd_open, pid, 0);
+#endif
+
+		auto timedOut = std::make_shared<std::atomic<bool>>(false);
+		auto done = std::make_shared<std::atomic<bool>>(false);
+
+		std::thread([=]() {
+			std::this_thread::sleep_for(std::chrono::milliseconds(wallClockMs));
+			if (!*done) {
+				*timedOut = true;
+#ifdef __linux__
+				if (childPfd >= 0)
+					syscall(SYS_pidfd_send_signal, childPfd, SIGKILL, NULL, 0);
+				else
+#endif
+					kill(pid, SIGKILL);
+			}
+		}).detach();
 
 		struct rusage usage{};
-		int status = 0;
+		int status;
 
-		if (wait4(pid, &status, 0, &usage) == -1) {
-			if (errno == EINTR && timedOut) {
-				kill(pid, SIGKILL);
-				wait4(pid, nullptr, 0, nullptr);
-				printf("-1\n-1\n");
-				return RS_TLE;
-			}
+		while (wait4(pid, &status, 0, &usage) == -1) {
+			if (errno == EINTR)
+				continue;
 			printf("-1\n-1\n");
 			perror("wait4");
 			return RS_FAIL;
 		}
 
-		struct itimerval disable = {{0, 0}, {0, 0}};
-		setitimer(ITIMER_REAL, &disable, nullptr);
+		*done = true;
+
+		if (*timedOut) {
+			printf("-1\n-1\n");
+			return RS_TLE;
+		}
 
 		if (WIFEXITED(status)) {
 			long long timeUsedMs =
