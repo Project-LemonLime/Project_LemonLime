@@ -238,7 +238,7 @@ auto main(int argc, char *argv[]) -> int {
 			_Exit(RS_FAIL);
 		}
 
-		rlimit memlim{}, stalim{}, timlim{};
+		rlimit memlim{}, stalim{}, timlim{}, nproclim{};
 
 		if (memoryLimitMib > 0) {
 			memlim = (rlimit){(rlim_t)actualMemoryRLimit, (rlim_t)actualMemoryRLimit};
@@ -256,6 +256,8 @@ auto main(int argc, char *argv[]) -> int {
 		setrlimit(RLIMIT_AS, &memlim);
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);
+		nproclim = (rlimit){(rlim_t)16, (rlim_t)16};
+		setrlimit(RLIMIT_NPROC, &nproclim);
 
 		if (execlp("bash", "bash", "-c", runCmd.c_str(), NULL) == -1) {
 			perror("execlp");
