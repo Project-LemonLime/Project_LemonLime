@@ -93,23 +93,12 @@ auto main(int argc, char *argv[]) -> int {
 
 		std::vector<const char *> args;
 
-		auto add = [&](auto... xs) {
-			((args.push_back(xs)), ...);
-		};
+		auto add = [&](auto... xs) { ((args.push_back(xs)), ...); };
 
-		add("bwrap",
-		    "--dev", "/dev",
-		    "--proc", "/proc",
-		    "--ro-bind", "/usr", "/usr",
-		    "--symlink", "/usr/lib", "/lib",
-		    "--symlink", "/usr/lib64", "/lib64",
-		    "--symlink", "/usr/bin", "/bin",
-		    "--symlink", "/usr/sbin", "/sbin",
-		    "--tmpfs", "/tmp",
-		    "--unshare-all",
-		    "--die-with-parent",
-		    "--chdir", workdir.c_str(),
-		    "--bind", workdir.c_str(), workdir.c_str());
+		add("bwrap", "--dev", "/dev", "--proc", "/proc", "--ro-bind", "/usr", "/usr", "--symlink", "/usr/lib",
+		    "/lib", "--symlink", "/usr/lib64", "/lib64", "--symlink", "/usr/bin", "/bin", "--symlink",
+		    "/usr/sbin", "/sbin", "--tmpfs", "/tmp", "--unshare-all", "--die-with-parent", "--chdir",
+		    workdir.c_str(), "--bind", workdir.c_str(), workdir.c_str());
 
 		if (! stdinRedirect.empty()) {
 			add("--ro-bind", stdinRedirect.c_str(), stdinRedirect.c_str());
