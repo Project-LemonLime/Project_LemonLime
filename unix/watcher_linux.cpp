@@ -19,7 +19,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <vector>
 
 static auto read_elf_ident(int fd, char *e_ident) -> bool {
 	if (read(fd, e_ident, EI_NIDENT) != EI_NIDENT) {

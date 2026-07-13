@@ -146,5 +146,3 @@ ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024 * (isAppleSilicon ? 4 : 1); }
 
 size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss / (isAppleSilicon ? 4 : 1); }
-
-

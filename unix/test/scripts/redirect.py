@@ -12,7 +12,8 @@ with open(tmpin, 'w') as f:
 
 p = subprocess.Popen(["./watcher_unix", "./add", "", tmpin, tmpout, tmperr, "1000", "100", "1000", "100", "", "", ".", "2000"], shell=False)
 
-p.wait()
+time.sleep(2)
+p.kill()
 
 assert(p.returncode == 0)
 

@@ -8,6 +8,7 @@ tmperr = f"_tmperr_{pid}"
 
 p = subprocess.Popen(["./watcher_unix", "./tle", "", "", "", tmperr, "1000", "100", "1000", "100", "", "", ".", "5000"], shell=False)
 
-p.wait()
+time.sleep(5)
+p.kill()
 
 assert(p.returncode == 3)
