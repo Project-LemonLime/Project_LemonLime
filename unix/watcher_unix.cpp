@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <vector>
 
 static int pid;
 static volatile sig_atomic_t timedOut;
@@ -36,9 +37,6 @@ extern void initWatcher();
 extern ssize_t calculateStaticMemoryUsage(const std::string &);
 extern ssize_t getMemoryRLimit(ssize_t memoryLimitInMB);
 extern size_t getMaxRSSInByte(long ru_maxrss);
-extern void execTarget(const std::string &workdir, const std::string &stdinRedirect,
-                       const std::string &runCmd);
-
 enum : int {
 	RS_AC = 0,
 	RS_FAIL = 1,
@@ -61,7 +59,6 @@ enum : int {
  * argv[11]: 选手程序只写的文件
  * argv[12]: 工作目录
  * argv[13]: wall clock 额外超时时间（毫秒）
- * argv[14]: 保留（未来扩展）
  */
 auto main(int argc, char *argv[]) -> int {
 	if (argc != 14) {
@@ -82,6 +79,54 @@ auto main(int argc, char *argv[]) -> int {
 	[[maybe_unused]] std::string writableFile = argv[11];
 	std::string workdir = argv[12];
 	long long extraTimeMs = std::stoll(argv[13]);
+
+#ifdef __linux__
+	if (! getenv("LEMONLIME_SANDBOXED")) {
+		char selfExe[4096];
+		ssize_t len = readlink("/proc/self/exe", selfExe, sizeof(selfExe) - 1);
+		if (len <= 0 || len >= (ssize_t)sizeof(selfExe) - 1) {
+			fprintf(stderr, "Cannot determine self executable path\n");
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
+		selfExe[len] = '\0';
+
+		std::vector<const char *> args;
+
+		auto add = [&](auto... xs) {
+			((args.push_back(xs)), ...);
+		};
+
+		add("bwrap",
+		    "--dev", "/dev",
+		    "--proc", "/proc",
+		    "--ro-bind", "/usr", "/usr",
+		    "--symlink", "/usr/lib", "/lib",
+		    "--symlink", "/usr/lib64", "/lib64",
+		    "--symlink", "/usr/bin", "/bin",
+		    "--symlink", "/usr/sbin", "/sbin",
+		    "--tmpfs", "/tmp",
+		    "--unshare-all",
+		    "--die-with-parent",
+		    "--chdir", workdir.c_str(),
+		    "--bind", workdir.c_str(), workdir.c_str());
+
+		if (! stdinRedirect.empty()) {
+			add("--ro-bind", stdinRedirect.c_str(), stdinRedirect.c_str());
+		}
+
+		add("--", selfExe);
+		for (int i = 1; i < argc; ++i)
+			add(argv[i]);
+		add(nullptr);
+
+		setenv("LEMONLIME_SANDBOXED", "1", 1);
+		execvp("bwrap", const_cast<char *const *>(args.data()));
+		fprintf(stderr, "bwrap: %s\n", strerror(errno));
+		printf("-1\n-1\n");
+		return RS_FAIL;
+	}
+#endif
 
 	initWatcher();
 
@@ -153,13 +198,8 @@ auto main(int argc, char *argv[]) -> int {
 			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
 			size_t memoryUsed = getMaxRSSInByte(usage.ru_maxrss);
 			printf("%lld\n%zu\n", timeUsedMs, memoryUsed);
-			int exitCode = WEXITSTATUS(status);
-			if (exitCode > 128 && exitCode <= 128 + 31) {
-				int sig = exitCode - 128;
-				if (sig == SIGXCPU)
-					return RS_TLE;
-				if (sig == SIGKILL || sig == SIGABRT)
-					return RS_MLE;
+			if (WEXITSTATUS(status) != 0) {
+				// Any non-zero exit status indicates a runtime error.
 				return RS_RE;
 			}
 			if (timeUsedMs > timeLimitMs) {
@@ -167,9 +207,6 @@ auto main(int argc, char *argv[]) -> int {
 			}
 			if (memoryUsed > memoryLimitMib * 1024 * 1024) {
 				return RS_MLE;
-			}
-			if (exitCode != 0) {
-				return RS_RE;
 			}
 			return RS_AC;
 		}
@@ -221,10 +258,6 @@ auto main(int argc, char *argv[]) -> int {
 		setrlimit(RLIMIT_AS, &memlim);
 		setrlimit(RLIMIT_STACK, &stalim);
 		setrlimit(RLIMIT_CPU, &timlim);
-
-		if (! workdir.empty()) {
-			execTarget(workdir, stdinRedirect, runCmd);
-		}
 
 		if (execlp("bash", "bash", "-c", runCmd.c_str(), NULL) == -1) {
 			perror("execlp");
