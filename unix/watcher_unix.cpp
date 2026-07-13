@@ -30,9 +30,9 @@
 #include <unistd.h>
 #include <vector>
 
-static int pid;
+int pid;
 
-static void cleanUp(int /*dummy*/) {
+void cleanUp(int /*dummy*/) {
 	kill(pid, SIGKILL);
 	exit(0);
 }
@@ -41,6 +41,7 @@ extern void initWatcher();
 extern ssize_t calculateStaticMemoryUsage(const std::string &);
 extern ssize_t getMemoryRLimit(ssize_t memoryLimitInMB);
 extern size_t getMaxRSSInByte(long ru_maxrss);
+
 enum : int {
 	RS_AC = 0,
 	RS_FAIL = 1,
@@ -190,9 +191,7 @@ auto main(int argc, char *argv[]) -> int {
 		struct rusage usage{};
 		int status = 0;
 
-		while (wait4(pid, &status, 0, &usage) == -1) {
-			if (errno == EINTR)
-				continue;
+		if (wait4(pid, &status, 0, &usage) == -1) {
 			printf("-1\n-1\n");
 			perror("wait4");
 			return RS_FAIL;
