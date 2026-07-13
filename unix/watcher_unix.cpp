@@ -14,6 +14,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 #include <signal.h>
 #include <sstream>
 #include <string>
@@ -158,6 +159,7 @@ auto main(int argc, char *argv[]) -> int {
 	pid = fork();
 
 	if (pid > 0) {
+		// Parent process
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
@@ -186,7 +188,7 @@ auto main(int argc, char *argv[]) -> int {
 		}).detach();
 
 		struct rusage usage{};
-		int status;
+		int status = 0;
 
 		while (wait4(pid, &status, 0, &usage) == -1) {
 			if (errno == EINTR)
