@@ -95,10 +95,19 @@ auto main(int argc, char *argv[]) -> int {
 
 		auto add = [&](auto... xs) { ((args.push_back(xs)), ...); };
 
-		add("bwrap", "--dev", "/dev", "--proc", "/proc", "--ro-bind", "/usr", "/usr", "--symlink", "/usr/lib",
-		    "/lib", "--symlink", "/usr/lib64", "/lib64", "--symlink", "/usr/bin", "/bin", "--symlink",
-		    "/usr/sbin", "/sbin", "--tmpfs", "/tmp", "--unshare-all", "--die-with-parent", "--chdir",
-		    workdir.c_str(), "--bind", workdir.c_str(), workdir.c_str());
+		add("bwrap");
+		add("--dev", "/dev");
+		add("--proc", "/proc");
+		add("--ro-bind", "/usr", "/usr");
+		add("--symlink", "/usr/lib", "/lib");
+		add("--symlink", "/usr/lib64", "/lib64");
+		add("--symlink", "/usr/bin", "/bin");
+		add("--symlink", "/usr/sbin", "/sbin");
+		add("--tmpfs", "/tmp");
+		add("--unshare-all");
+		add("--die-with-parent");
+		add("--chdir", workdir.c_str());
+		add("--bind", workdir.c_str(), workdir.c_str());
 
 		if (! stdinRedirect.empty()) {
 			add("--ro-bind", stdinRedirect.c_str(), stdinRedirect.c_str());
