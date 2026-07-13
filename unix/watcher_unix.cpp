@@ -176,7 +176,7 @@ auto main(int argc, char *argv[]) -> int {
 
 		std::thread([=]() {
 			std::this_thread::sleep_for(std::chrono::milliseconds(wallClockMs));
-			if (!*done) {
+			if (! *done) {
 				*timedOut = true;
 #ifdef __linux__
 				if (childPfd >= 0)
