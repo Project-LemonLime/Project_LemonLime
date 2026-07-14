@@ -6,15 +6,12 @@
  *
  */
 
-#include <atomic>
 #include <cassert>
 #include <cerrno>
-#include <chrono>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <memory>
 #include <signal.h>
 #include <sstream>
 #include <string>
@@ -24,9 +21,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #ifdef __linux__
+#include <linux/sched.h>
+#include <poll.h>
 #include <sys/syscall.h>
+#include <sys/timerfd.h>
 #endif
-#include <thread>
 #include <unistd.h>
 #include <vector>
 
@@ -157,52 +156,76 @@ auto main(int argc, char *argv[]) -> int {
 
 	ssize_t actualMemoryRLimit = getMemoryRLimit(memoryLimitMib);
 
+#ifdef __linux__
+	int childPfd = -1;
+	struct clone_args args{};
+	args.flags = CLONE_PIDFD;
+	args.pidfd = (unsigned long long)&childPfd;
+	args.exit_signal = SIGCHLD;
+	pid = syscall(SYS_clone3, &args, sizeof(args));
+#else
 	pid = fork();
+#endif
+
+	if (pid < 0) {
+		perror("fork");
+		printf("-1\n-1\n");
+		return RS_FAIL;
+	}
 
 	if (pid > 0) {
-		// Parent process
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
 
+		struct rusage usage{};
+		int status;
+
+#ifdef __linux__
 		long long wallClockMs = timeLimitMs + extraTimeMs;
 
-		int childPfd = -1;
-#ifdef __linux__
-		childPfd = syscall(SYS_pidfd_open, pid, 0);
-#endif
+		int timerFd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
+		if (timerFd < 0) {
+			perror("timerfd_create");
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
 
-		auto timedOut = std::make_shared<std::atomic<bool>>(false);
-		auto done = std::make_shared<std::atomic<bool>>(false);
+		struct itimerspec ts{};
+		ts.it_value.tv_sec = wallClockMs / 1000;
+		ts.it_value.tv_nsec = (wallClockMs % 1000) * 1000000;
+		timerfd_settime(timerFd, 0, &ts, nullptr);
 
-		std::thread([=]() {
-			std::this_thread::sleep_for(std::chrono::milliseconds(wallClockMs));
-			if (! *done) {
-				*timedOut = true;
-#ifdef __linux__
-				if (childPfd >= 0)
-					syscall(SYS_pidfd_send_signal, childPfd, SIGKILL, NULL, 0);
-				else
-#endif
-					kill(pid, SIGKILL);
-			}
-		}).detach();
+		struct pollfd pfds[2]{};
+		pfds[0].fd = childPfd;
+		pfds[0].events = POLLIN;
+		pfds[1].fd = timerFd;
+		pfds[1].events = POLLIN;
 
-		struct rusage usage{};
-		int status = 0;
+		poll(pfds, 2, -1);
 
+		bool childExited = pfds[0].revents & POLLIN;
+		bool timedOut = pfds[1].revents & POLLIN;
+
+		if (! childExited)
+			kill(pid, SIGKILL);
+
+		wait4(pid, &status, 0, &usage);
+
+		close(childPfd);
+		close(timerFd);
+
+		if (timedOut) {
+			printf("-1\n-1\n");
+			return RS_TLE;
+		}
+#else
 		if (wait4(pid, &status, 0, &usage) == -1) {
 			printf("-1\n-1\n");
 			perror("wait4");
 			return RS_FAIL;
 		}
-
-		*done = true;
-
-		if (*timedOut) {
-			printf("-1\n-1\n");
-			return RS_TLE;
-		}
+#endif
 
 		if (WIFEXITED(status)) {
 			long long timeUsedMs =

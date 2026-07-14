@@ -6,15 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Threads REQUIRED)
-
 if(APPLE)
     add_executable(watcher_unix ${CMAKE_CURRENT_SOURCE_DIR}/../watcher_unix.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../watcher_macos.mm)
 else()
     add_executable(watcher_unix ${CMAKE_CURRENT_SOURCE_DIR}/../watcher_unix.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../watcher_linux.cpp)
 endif()
-
-target_link_libraries(watcher_unix PRIVATE Threads::Threads)
 
 add_executable(hello hello.c)
 add_executable(mle_static mle_static.c)
