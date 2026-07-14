@@ -174,12 +174,12 @@ auto main(int argc, char *argv[]) -> int {
 	}
 
 	if (pid > 0) {
+		// Parent process
 		signal(SIGINT, cleanUp);
 		signal(SIGABRT, cleanUp);
 		signal(SIGTERM, cleanUp);
-
 		struct rusage usage{};
-		int status;
+		int status = 0;
 
 #ifdef __linux__
 		long long wallClockMs = timeLimitMs + extraTimeMs;
