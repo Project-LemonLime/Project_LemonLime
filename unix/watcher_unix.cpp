@@ -244,7 +244,7 @@ auto main(int argc, char *argv[]) -> int {
 				timedOut = true;
 		}
 
-		if (timedOut && !childExited)
+		if (timedOut && ! childExited)
 			kill(pid, SIGKILL);
 
 		wait4(pid, &status, 0, &usage);
