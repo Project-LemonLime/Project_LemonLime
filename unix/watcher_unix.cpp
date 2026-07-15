@@ -230,7 +230,7 @@ auto main(int argc, char *argv[]) -> int {
 
 		struct kevent changes[2];
 		EV_SET(&changes[0], pid, EVFILT_PROC, EV_ADD | EV_ONESHOT, NOTE_EXIT, 0, NULL);
-		EV_SET(&changes[1], 0, EVFILT_TIMER, EV_ADD | EV_ONESHOT, NOTE_MSECONDS, wallClockMs, NULL);
+		EV_SET(&changes[1], 0, EVFILT_TIMER, EV_ADD | EV_ONESHOT, 0, wallClockMs, NULL);
 
 		struct kevent events[2];
 		int n = kevent(kq, changes, 2, events, 2, NULL);
