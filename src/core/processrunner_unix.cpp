@@ -99,7 +99,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 	// Using rlimit to limit CPU time can only be accurate to seconds,
 	// so here it is rounded up to an integer second.
-	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime + 1000;
+	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTimeMs + 1000;
 	while (timer.elapsed() <= killTimeLimit) {
 		if (runner->waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;
