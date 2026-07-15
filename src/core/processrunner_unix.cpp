@@ -93,9 +93,18 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		return res;
 	}
 
-	while (true) {
-		if (runner->waitForFinished(10))
+	bool isProgramFinishedInExtraTimeLimit = false;
+	QElapsedTimer timer;
+	timer.start();
+
+	// Using rlimit to limit CPU time can only be accurate to seconds,
+	// so here it is rounded up to an integer second.
+	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime + 1000;
+	while (timer.elapsed() <= killTimeLimit) {
+		if (runner->waitForFinished(10)) {
+			isProgramFinishedInExtraTimeLimit = true;
 			break;
+		}
 
 		QCoreApplication::processEvents();
 
@@ -106,6 +115,19 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 			return res;
 		}
+	}
+
+	if (! isProgramFinishedInExtraTimeLimit) {
+		runner->terminate();
+		runner->waitForFinished(-1);
+		delete runner;
+		res.score = 0;
+		res.timeUsed = res.memoryUsed = -1;
+		// Watcher usually needs to handle the situation of program timeout and kill it. Therefore, it is
+		// abnormal for watcher to timeout itself, and report FAIL instead of TLE.
+		res.result = CannotStartProgram;
+		res.message = "Watcher time limit exceeded";
+		return res;
 	}
 
 	{
