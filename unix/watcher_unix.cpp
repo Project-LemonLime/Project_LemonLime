@@ -20,11 +20,13 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#ifdef __linux__
+#if defined(__linux__)
 #include <linux/sched.h>
 #include <poll.h>
 #include <sys/syscall.h>
 #include <sys/timerfd.h>
+#elif defined(__APPLE__)
+#include <sys/event.h>
 #endif
 #include <unistd.h>
 #include <vector>
@@ -156,7 +158,7 @@ auto main(int argc, char *argv[]) -> int {
 
 	ssize_t actualMemoryRLimit = getMemoryRLimit(memoryLimitMib);
 
-#ifdef __linux__
+#if defined(__linux__)
 	int childPfd = -1;
 	struct clone_args args{};
 	args.flags = CLONE_PIDFD;
@@ -181,9 +183,8 @@ auto main(int argc, char *argv[]) -> int {
 		struct rusage usage{};
 		int status = 0;
 
-#ifdef __linux__
 		long long wallClockMs = timeLimitMs + extraTimeMs;
-
+#if defined(__linux__)
 		int timerFd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 		if (timerFd < 0) {
 			perror("timerfd_create");
@@ -214,6 +215,41 @@ auto main(int argc, char *argv[]) -> int {
 
 		close(childPfd);
 		close(timerFd);
+
+		if (timedOut) {
+			printf("-1\n-1\n");
+			return RS_TLE;
+		}
+#elif defined(__APPLE__)
+		int kq = kqueue();
+		if (kq < 0) {
+			perror("kqueue");
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
+
+		struct kevent changes[2];
+		EV_SET(&changes[0], pid, EVFILT_PROC, EV_ADD | EV_ONESHOT, NOTE_EXIT, 0, NULL);
+		EV_SET(&changes[1], 0, EVFILT_TIMER, EV_ADD | EV_ONESHOT, NOTE_MSECONDS, wallClockMs, NULL);
+
+		struct kevent events[2];
+		int n = kevent(kq, changes, 2, events, 2, NULL);
+
+		bool childExited = false;
+		bool timedOut = false;
+		for (int i = 0; i < n; i++) {
+			if (events[i].filter == EVFILT_PROC)
+				childExited = true;
+			else if (events[i].filter == EVFILT_TIMER)
+				timedOut = true;
+		}
+
+		if (timedOut && !childExited)
+			kill(pid, SIGKILL);
+
+		wait4(pid, &status, 0, &usage);
+
+		close(kq);
 
 		if (timedOut) {
 			printf("-1\n-1\n");
