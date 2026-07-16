@@ -88,14 +88,13 @@ auto main(int argc, char *argv[]) -> int {
 
 #ifdef __linux__
 	if (! getenv("LEMONLIME_SANDBOXED")) {
-		char selfExe[4096];
+		char selfExe[4096] = {};
 		ssize_t len = readlink("/proc/self/exe", selfExe, sizeof(selfExe) - 1);
-		if (len <= 0 || len >= (ssize_t)sizeof(selfExe) - 1) {
+		if (len <= 0) {
 			fprintf(stderr, "Cannot determine self executable path\n");
 			printf("-1\n-1\n");
 			return RS_FAIL;
 		}
-		selfExe[len] = '\0';
 
 		std::vector<const char *> args;
 
