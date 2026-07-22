@@ -42,6 +42,8 @@ jobs:
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
       - name: Install Build Essentials
         run: |
+          sed -i 's|http://archive.ubuntu.com|http://ubuntu-archive-asm.trafficmanager.net|g' /etc/apt/sources.list
+          sed -i 's|http://security.ubuntu.com|http://ubuntu-archive-asm.trafficmanager.net|g' /etc/apt/sources.list
           apt update
           apt install -y software-properties-common
           add-apt-repository ppa:savoury1/build-tools
