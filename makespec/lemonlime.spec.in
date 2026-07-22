@@ -25,7 +25,6 @@ BuildRequires:  libqt6-linguist-devel
 BuildRequires:  libqt6-qtsvg-devel
 BuildRequires:  update-desktop-files
 BuildRequires:  ninja
-BuildRequires:  spdlog-devel
 %else
 # for Fedora/CentOS/ ...
 %if 0%{?rhel}
@@ -39,7 +38,6 @@ BuildRequires:  qt6-qtsvg-devel
 #BuildRequires:  %{locale_package}
 BuildRequires:  desktop-file-utils
 BuildRequires:  ninja-build
-BuildRequires:  spdlog
 %endif
 
 
