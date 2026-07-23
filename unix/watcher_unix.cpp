@@ -320,8 +320,8 @@ auto main(int argc, char *argv[]) -> int {
 			stalim = (rlimit){(rlim_t)2147483647LL, (rlim_t)2147483647LL};
 		}
 
-		// Calculate time limit in seconds, rounding up
-		rlim_t soft_time_limit_sec = (timeLimitMs + 999) / 1000;
+		// Calculate time limit in seconds, rounding up and add 1s (because it limit cpu time, not user time)
+		rlim_t soft_time_limit_sec = (timeLimitMs + 999) / 1000 + 1;
 		timlim = (rlimit){soft_time_limit_sec, soft_time_limit_sec + 1}; // Soft limit + 1 for hard limit
 
 		setrlimit(RLIMIT_AS, &memlim);
