@@ -309,7 +309,7 @@ auto main(int argc, char *argv[]) -> int {
 			exit(RS_FAIL);
 		}
 
-		rlimit memlim{}, stalim{}, timlim{}, nproclim{};
+		rlimit memlim{}, stalim{}, nproclim{};
 
 		if (memoryLimitMib > 0) {
 			memlim = (rlimit){(rlim_t)actualMemoryRLimit, (rlim_t)actualMemoryRLimit};
@@ -320,13 +320,8 @@ auto main(int argc, char *argv[]) -> int {
 			stalim = (rlimit){(rlim_t)2147483647LL, (rlim_t)2147483647LL};
 		}
 
-		// Calculate time limit in seconds, rounding up and add 1s (because it limit cpu time, not user time)
-		rlim_t soft_time_limit_sec = (timeLimitMs + 999) / 1000 + 1;
-		timlim = (rlimit){soft_time_limit_sec, soft_time_limit_sec};
-
 		setrlimit(RLIMIT_AS, &memlim);
 		setrlimit(RLIMIT_STACK, &stalim);
-		setrlimit(RLIMIT_CPU, &timlim);
 		nproclim = (rlimit){(rlim_t)16, (rlim_t)16};
 		setrlimit(RLIMIT_NPROC, &nproclim);
 
