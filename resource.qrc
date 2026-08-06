@@ -7,6 +7,9 @@
         <file>makespec/VERSIONSUFFIX</file>
         <file>assets/lemon-lime.ico</file>
     </qresource>
+    <qresource prefix="/export">
+        <file alias="export_template.html">src/component/exportutil/export_template.html</file>
+    </qresource>
     <qresource prefix="/icon">
         <file alias="icon.png">assets/icons/lemon-lime.png</file>
         <file alias="code-function.svg">assets/pics/code-function.svg</file>

@@ -74,8 +74,7 @@ jobs:
             -GNinja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DLEMON_BUILD_INFO="Build for Windows" \
-            -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
-            -DENABLE_XLS_EXPORT=ON
+            -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64"
           cmake --build . --parallel $(nproc)
       - name: Deploy Qt for tests
         shell: pwsh

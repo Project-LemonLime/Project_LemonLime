@@ -716,6 +716,18 @@
         <translation></translation>
     </message>
     <message>
+        <source>Source file: %1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Source file: %1, Compile time limit exceeded</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Source file: %1, Compile error</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Compile time limit exceeded</source>
         <translation></translation>
     </message>
