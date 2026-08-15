@@ -24,7 +24,7 @@
 #include <poll.h>
 #include <sys/syscall.h>
 #include <sys/timerfd.h>
-#elif defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||          \
+#elif defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||           \
     defined(__DragonFly__)
 #include <sys/event.h>
 #endif
@@ -187,7 +187,7 @@ auto main(int argc, char *argv[]) -> int {
 			printf("-1\n-1\n");
 			return RS_TLE;
 		}
-#elif defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||          \
+#elif defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||           \
     defined(__DragonFly__)
 		int kq = kqueue();
 		if (kq < 0) {
