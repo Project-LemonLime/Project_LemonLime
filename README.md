@@ -31,14 +31,9 @@ A tiny judging environment for OI contest based on Lemon + LemonPlus
 |        Arch         | 2021-07-11 |   amd64    |    KDE-Xorg    |
 |        Arch         | 2020-10-31 |   amd64    |  KDE-Wayland   |
 |       Ubuntu        |   20.04    |   amd64    |    GNOME 3     |
-|       Ubuntu        |  18.04.4   |   amd64    |    GNOME 3     |
 | NOI Linux 2(Ubuntu) |   20.04    |   amd64    |    GNOME 3     |
-|     Linux Mint      |    19.3    |   amd64    |    Cinnamon    |
-|       Deepin        |   15.11    |   amd64    |      DDE       |
 |       Deepin        | 20 (1000)  |   amd64    |      DDE       |
-|       Debian        |   10.3.0   |   amd64    | LXQt; KDE-Xorg |
 |       Fedora        |   31-1.9   |   amd64    |      XFCE      |
-|      openSUSE       | Leap 15.1  |   amd64    |     iceWM      |
 |      openSUSE       | Tumbleweed |   amd64    |    KDE-Xorg    |
 |        macOS        |  15.2 Beta |   arm64    |      Aqua      |
 
