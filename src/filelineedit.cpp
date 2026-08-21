@@ -81,5 +81,5 @@ void FileLineEdit::browse() {
 		return;
 	}
 
-	setText(relPath);
+	setText(QDir::toNativeSeparators(relPath));
 }
