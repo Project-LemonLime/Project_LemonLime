@@ -10,8 +10,17 @@
 #include "filelineedit.h"
 //
 #include "base/settings.h"
+//
+#include <QAction>
+#include <QFileDialog>
+#include <QMessageBox>
 
-FileLineEdit::FileLineEdit(QWidget *parent) : QLineEdit(parent) { completer = nullptr; }
+FileLineEdit::FileLineEdit(QWidget *parent) : QLineEdit(parent) {
+	completer = nullptr;
+	QAction *browseAction = addAction(QIcon(":/icon/document-open.svg"), QLineEdit::TrailingPosition);
+	browseAction->setToolTip(tr("Browse..."));
+	connect(browseAction, &QAction::triggered, this, &FileLineEdit::browse);
+}
 
 void FileLineEdit::getFiles(const QString &curDir, const QString &prefix, QStringList &files) {
 	QDir dir(curDir);
@@ -53,4 +62,24 @@ void FileLineEdit::refreshFileList() {
 	delete completer;
 	completer = new QCompleter(files, this);
 	setCompleter(completer);
+}
+
+void FileLineEdit::browse() {
+	QDir dataDir(QDir::currentPath());
+	dataDir.mkpath(Settings::dataPath());
+	dataDir.cd(Settings::dataPath());
+	QString filePath = QFileDialog::getOpenFileName(this, tr("Choose File"), dataDir.absolutePath());
+
+	if (filePath.isEmpty())
+		return;
+
+	QString relPath = dataDir.relativeFilePath(filePath);
+
+	if (relPath.startsWith("..") || QDir::isAbsolutePath(relPath)) {
+		QMessageBox::warning(this, tr("Warning"), tr("Please select a file inside the data directory."),
+		                     QMessageBox::Close);
+		return;
+	}
+
+	setText(relPath);
 }

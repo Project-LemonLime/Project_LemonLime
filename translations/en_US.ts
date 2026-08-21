@@ -2694,4 +2694,23 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
 </context>
+<context>
+    <name>FileLineEdit</name>
+    <message>
+        <source>Browse...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Please select a file inside the data directory.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Choose File</source>
+        <translation></translation>
+    </message>
+</context>
 </TS>

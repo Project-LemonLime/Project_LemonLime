@@ -31,6 +31,7 @@
         <file alias="deletecell.svg">assets/pics/deletecell.svg</file>
         <file alias="document-close.svg">assets/pics/document-close.svg</file>
         <file alias="document-export.svg">assets/pics/document-export.svg</file>
+        <file alias="document-open.svg">assets/pics/document-open.svg</file>
         <file alias="document-new.svg">assets/pics/document-new.svg</file>
         <file alias="document-save.svg">assets/pics/document-save.svg</file>
         <file alias="globe.svg">assets/pics/globe.svg</file>

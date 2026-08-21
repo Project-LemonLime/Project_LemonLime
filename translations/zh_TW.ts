@@ -2728,4 +2728,23 @@ p, li { white-space: pre-wrap; }
         <translation>新建</translation>
     </message>
 </context>
+<context>
+    <name>FileLineEdit</name>
+    <message>
+        <source>Browse...</source>
+        <translation>瀏覽...</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <source>Please select a file inside the data directory.</source>
+        <translation>請選擇 data 目錄內的檔案。</translation>
+    </message>
+    <message>
+        <source>Choose File</source>
+        <translation>選擇檔案</translation>
+    </message>
+</context>
 </TS>
