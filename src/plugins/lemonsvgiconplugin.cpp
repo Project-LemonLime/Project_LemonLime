@@ -69,7 +69,6 @@ namespace {
 		}
 		QIconEngine *clone() const override { return new LemonSvgIconEngine(*this); }
 		QString key() const override { return QStringLiteral("llsvg"); }
-		QString iconName() override { return fileName; }
 		bool isNull() override { return svg.isEmpty(); }
 
 		void addFile(const QString &name, const QSize &, QIcon::Mode, QIcon::State) override {
