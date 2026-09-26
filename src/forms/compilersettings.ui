@@ -77,7 +77,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resource.qrc">
-           <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
+           <normaloff>:/icon/go-up.llsvg</normaloff>:/icon/go-up.llsvg</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -106,7 +106,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resource.qrc">
-           <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
+           <normaloff>:/icon/go-down.llsvg</normaloff>:/icon/go-down.llsvg</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -148,7 +148,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resource.qrc">
-           <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+           <normaloff>:/icon/list-add.llsvg</normaloff>:/icon/list-add.llsvg</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -177,7 +177,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resource.qrc">
-           <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+           <normaloff>:/icon/list-remove.llsvg</normaloff>:/icon/list-remove.llsvg</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>

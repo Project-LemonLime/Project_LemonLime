@@ -147,7 +147,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+           <normaloff>:/icon/list-add.llsvg</normaloff>:/icon/list-add.llsvg</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -177,7 +177,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+           <normaloff>:/icon/list-remove.llsvg</normaloff>:/icon/list-remove.llsvg</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>

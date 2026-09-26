@@ -135,7 +135,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../resource.qrc">
-                 <normaloff>:/icon/go-down.svg</normaloff>:/icon/go-down.svg</iconset>
+                 <normaloff>:/icon/go-down.llsvg</normaloff>:/icon/go-down.llsvg</iconset>
                </property>
               </widget>
              </item>
@@ -149,7 +149,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../../resource.qrc">
-                 <normaloff>:/icon/go-up.svg</normaloff>:/icon/go-up.svg</iconset>
+                 <normaloff>:/icon/go-up.llsvg</normaloff>:/icon/go-up.llsvg</iconset>
                </property>
               </widget>
              </item>
@@ -281,7 +281,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resource.qrc">
-              <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
+              <normaloff>:/icon/view-sort.llsvg</normaloff>:/icon/view-sort.llsvg</iconset>
             </property>
            </widget>
           </item>
@@ -320,7 +320,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resource.qrc">
-              <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
+              <normaloff>:/icon/view-refresh.llsvg</normaloff>:/icon/view-refresh.llsvg</iconset>
             </property>
            </widget>
           </item>
@@ -352,7 +352,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resource.qrc">
-              <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
+              <normaloff>:/icon/edit-find-replace.llsvg</normaloff>:/icon/edit-find-replace.llsvg</iconset>
             </property>
            </widget>
           </item>
@@ -381,7 +381,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resource.qrc">
-              <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
+              <normaloff>:/icon/edit-find.llsvg</normaloff>:/icon/edit-find.llsvg</iconset>
             </property>
            </widget>
           </item>
@@ -410,7 +410,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resource.qrc">
-              <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
+              <normaloff>:/icon/code-function.llsvg</normaloff>:/icon/code-function.llsvg</iconset>
             </property>
            </widget>
           </item>
@@ -520,7 +520,7 @@
      </property>
      <property name="icon">
       <iconset resource="../../resource.qrc">
-       <normaloff>:/icon/system-help.svg</normaloff>:/icon/system-help.svg</iconset>
+       <normaloff>:/icon/system-help.llsvg</normaloff>:/icon/system-help.llsvg</iconset>
      </property>
      <addaction name="actionManual"/>
      <addaction name="separator"/>
@@ -539,7 +539,7 @@
   <action name="newAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-new.svg</normaloff>:/icon/document-new.svg</iconset>
+     <normaloff>:/icon/document-new.llsvg</normaloff>:/icon/document-new.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;New Contest</string>
@@ -551,7 +551,7 @@
   <action name="openAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/quickopen-file.svg</normaloff>:/icon/quickopen-file.svg</iconset>
+     <normaloff>:/icon/quickopen-file.llsvg</normaloff>:/icon/quickopen-file.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Open Existing Contest</string>
@@ -563,7 +563,7 @@
   <action name="exitAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/application-exit.svg</normaloff>:/icon/application-exit.svg</iconset>
+     <normaloff>:/icon/application-exit.llsvg</normaloff>:/icon/application-exit.llsvg</iconset>
    </property>
    <property name="text">
     <string>E&amp;xit</string>
@@ -575,7 +575,7 @@
   <action name="optionsAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/configure.svg</normaloff>:/icon/configure.svg</iconset>
+     <normaloff>:/icon/configure.llsvg</normaloff>:/icon/configure.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Settings</string>
@@ -587,7 +587,7 @@
   <action name="aboutAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/help-about.svg</normaloff>:/icon/help-about.svg</iconset>
+     <normaloff>:/icon/help-about.llsvg</normaloff>:/icon/help-about.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -602,7 +602,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/edit-find.svg</normaloff>:/icon/edit-find.svg</iconset>
+     <normaloff>:/icon/edit-find.llsvg</normaloff>:/icon/edit-find.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Judge Selected</string>
@@ -617,7 +617,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/code-function.svg</normaloff>:/icon/code-function.svg</iconset>
+     <normaloff>:/icon/code-function.llsvg</normaloff>:/icon/code-function.llsvg</iconset>
    </property>
    <property name="text">
     <string>Judge &amp;All</string>
@@ -629,7 +629,7 @@
   <action name="closeAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-close.svg</normaloff>:/icon/document-close.svg</iconset>
+     <normaloff>:/icon/document-close.llsvg</normaloff>:/icon/document-close.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Close Current Contest</string>
@@ -649,7 +649,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/layer-new.svg</normaloff>:/icon/layer-new.svg</iconset>
+     <normaloff>:/icon/layer-new.llsvg</normaloff>:/icon/layer-new.llsvg</iconset>
    </property>
    <property name="text">
     <string>Add &amp;Tasks Automatically</string>
@@ -672,7 +672,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
+     <normaloff>:/icon/document-export.llsvg</normaloff>:/icon/document-export.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Export Result</string>
@@ -687,7 +687,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/edit-find-replace.svg</normaloff>:/icon/edit-find-replace.svg</iconset>
+     <normaloff>:/icon/edit-find-replace.llsvg</normaloff>:/icon/edit-find-replace.llsvg</iconset>
    </property>
    <property name="text">
     <string>Judge &amp;Unjudged</string>
@@ -699,7 +699,7 @@
   <action name="openFolderAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/go-parent-folder.svg</normaloff>:/icon/go-parent-folder.svg</iconset>
+     <normaloff>:/icon/go-parent-folder.llsvg</normaloff>:/icon/go-parent-folder.llsvg</iconset>
    </property>
    <property name="text">
     <string>Open Current Contest &amp;Folder</string>
@@ -711,7 +711,7 @@
   <action name="saveAction">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-save.svg</normaloff>:/icon/document-save.svg</iconset>
+     <normaloff>:/icon/document-save.llsvg</normaloff>:/icon/document-save.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Save Current Contest</string>
@@ -784,7 +784,7 @@
   <action name="actionMore">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/globe.svg</normaloff>:/icon/globe.svg</iconset>
+     <normaloff>:/icon/globe.llsvg</normaloff>:/icon/globe.llsvg</iconset>
    </property>
    <property name="text">
     <string>More</string>
@@ -799,7 +799,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/paint-unknown.svg</normaloff>:/icon/paint-unknown.svg</iconset>
+     <normaloff>:/icon/paint-unknown.llsvg</normaloff>:/icon/paint-unknown.llsvg</iconset>
    </property>
    <property name="text">
     <string>Judge &amp;No Source</string>
@@ -814,7 +814,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/deletecell.svg</normaloff>:/icon/deletecell.svg</iconset>
+     <normaloff>:/icon/deletecell.llsvg</normaloff>:/icon/deletecell.llsvg</iconset>
    </property>
    <property name="text">
     <string>Judge &amp;Compile Failed</string>
@@ -826,7 +826,7 @@
   <action name="actionChangeContestName">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-edit.svg</normaloff>:/icon/document-edit.svg</iconset>
+     <normaloff>:/icon/document-edit.llsvg</normaloff>:/icon/document-edit.llsvg</iconset>
    </property>
    <property name="text">
     <string>C&amp;hange Contest Name</string>
@@ -841,7 +841,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/view-sort.svg</normaloff>:/icon/view-sort.svg</iconset>
+     <normaloff>:/icon/view-sort.llsvg</normaloff>:/icon/view-sort.llsvg</iconset>
    </property>
    <property name="text">
     <string>Clean Up &amp;Files</string>
@@ -856,7 +856,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/view-refresh.svg</normaloff>:/icon/view-refresh.svg</iconset>
+     <normaloff>:/icon/view-refresh.llsvg</normaloff>:/icon/view-refresh.llsvg</iconset>
    </property>
    <property name="text">
     <string>&amp;Refresh</string>
@@ -879,7 +879,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/document-export.svg</normaloff>:/icon/document-export.svg</iconset>
+     <normaloff>:/icon/document-export.llsvg</normaloff>:/icon/document-export.llsvg</iconset>
    </property>
    <property name="text">
     <string>Export &amp;Statistics</string>
@@ -888,7 +888,7 @@
   <action name="actionManual">
    <property name="icon">
     <iconset resource="../../resource.qrc">
-     <normaloff>:/icon/acrobat.svg</normaloff>:/icon/acrobat.svg</iconset>
+     <normaloff>:/icon/acrobat.llsvg</normaloff>:/icon/acrobat.llsvg</iconset>
    </property>
    <property name="text">
     <string>Manual</string>

@@ -297,6 +297,17 @@ target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
 target_link_libraries(lemon PRIVATE ${LEMON_QT_LIBS} lemon-core lemon-base SingleApplication::SingleApplication spdlog::spdlog)
 
+# Linking this static Qt plugin also imports its generated registration object.
+find_package(${LEMON_QT_LIBNAME} COMPONENTS Svg REQUIRED)
+qt_add_plugin(lemon-svg-icon STATIC
+    PLUGIN_TYPE iconengines
+    CLASS_NAME LemonSvgIconPlugin
+    src/plugins/lemonsvgiconplugin.cpp
+    src/plugins/lemonsvgiconplugin.json
+    )
+target_link_libraries(lemon-svg-icon PRIVATE ${LEMON_QT_LIBNAME}::Gui ${LEMON_QT_LIBNAME}::Svg)
+target_link_libraries(lemon PRIVATE lemon-svg-icon)
+
 if(ENABLE_LTO)
     include(CheckIPOSupported)
     check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)

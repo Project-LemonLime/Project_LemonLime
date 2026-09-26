@@ -115,7 +115,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/media-skip-forward.svg</normaloff>:/icon/media-skip-forward.svg</iconset>
+         <normaloff>:/icon/media-skip-forward.llsvg</normaloff>:/icon/media-skip-forward.llsvg</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -156,7 +156,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/media-playback-stop.svg</normaloff>:/icon/media-playback-stop.svg</iconset>
+         <normaloff>:/icon/media-playback-stop.llsvg</normaloff>:/icon/media-playback-stop.llsvg</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>

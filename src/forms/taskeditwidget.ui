@@ -266,7 +266,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+         <normaloff>:/icon/list-add.llsvg</normaloff>:/icon/list-add.llsvg</iconset>
        </property>
       </widget>
      </item>
@@ -282,7 +282,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+         <normaloff>:/icon/list-remove.llsvg</normaloff>:/icon/list-remove.llsvg</iconset>
        </property>
       </widget>
      </item>
@@ -822,7 +822,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+         <normaloff>:/icon/list-add.llsvg</normaloff>:/icon/list-add.llsvg</iconset>
        </property>
       </widget>
      </item>
@@ -838,7 +838,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource.qrc">
-         <normaloff>:/icon/list-remove.svg</normaloff>:/icon/list-remove.svg</iconset>
+         <normaloff>:/icon/list-remove.llsvg</normaloff>:/icon/list-remove.llsvg</iconset>
        </property>
       </widget>
      </item>

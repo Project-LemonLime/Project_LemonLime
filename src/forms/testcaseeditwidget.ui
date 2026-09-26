@@ -184,7 +184,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>:/icon/list-add.svg</normaloff>:/icon/list-add.svg</iconset>
+           <normaloff>:/icon/list-add.llsvg</normaloff>:/icon/list-add.llsvg</iconset>
          </property>
         </widget>
        </item>
@@ -247,7 +247,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>:/icon/edit-clear.svg</normaloff>:/icon/edit-clear.svg</iconset>
+           <normaloff>:/icon/edit-clear.llsvg</normaloff>:/icon/edit-clear.llsvg</iconset>
          </property>
         </widget>
        </item>

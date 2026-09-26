@@ -7,7 +7,7 @@
       </style>
   </defs>
  <path style="fill:currentColor;fill-opacity:1;stroke:none" 
-     d="M 3,7 3,9 13,9 13,7 3,7 Z"
+     d="M 3 7 H 13 V 9 H 3 Z"
      class="ColorScheme-Text"
      />
 </svg>
