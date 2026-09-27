@@ -512,6 +512,50 @@
         <source>Interpreter As Watcher</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> s</source>
+        <translation> 秒</translation>
+    </message>
+    <message>
+        <source>Additional read-only directories</source>
+        <translation>額外唯讀目錄</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>自動</translation>
+    </message>
+    <message>
+        <source>C / C++ and native programs</source>
+        <translation>C、C++ 等本機程序</translation>
+    </message>
+    <message>
+        <source>Java</source>
+        <translation>Java</translation>
+    </message>
+    <message>
+        <source>Optional; one directory per line</source>
+        <translation>可選，每行一個目錄</translation>
+    </message>
+    <message>
+        <source>Preparation time limit</source>
+        <translation>準備時間限制</translation>
+    </message>
+    <message>
+        <source>Python</source>
+        <translation>Python</translation>
+    </message>
+    <message>
+        <source>Runtime policy</source>
+        <translation>執行策略</translation>
+    </message>
+    <message>
+        <source>Disabled by default. Temporary runtime permissions are removed after judging. Each run has private files and no network access.</source>
+        <translation>預設關閉。臨時執行權限在評測結束後撤銷。每次執行使用獨立檔案並禁止網路存取。</translation>
+    </message>
+    <message>
+        <source>Experimental Windows sandbox</source>
+        <translation>實驗性 Windows 沙箱</translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -1976,6 +2020,44 @@ Depends: </source>
     <message>
         <source>LemonLime - A tiny judging environment for OI contest.</source>
         <translation>LemonLime - 為了 OI 比賽而生的輕量評測系統。</translation>
+    </message>
+    <message>
+        <source>A private local working directory is required for the Windows sandbox.</source>
+        <translation>Windows 沙箱需要獨立的本地工作目錄。</translation>
+    </message>
+    <message>
+        <source>Cannot discover the Python runtime: %1
+%2</source>
+        <translation>無法識別 Python 執行環境：%1
+%2</translation>
+    </message>
+    <message>
+        <source>Python runtime discovery produced excessive output.</source>
+        <translation>Python 環境識別产生的輸出過多。</translation>
+    </message>
+    <message>
+        <source>Sandbox files must not be reparse points or hard links: %1</source>
+        <translation>沙箱檔案必须使用一般檔案，偵測到重解析点或硬連結：%1</translation>
+    </message>
+    <message>
+        <source>Select java.exe inside a Java runtime installation: %1</source>
+        <translation>請選擇 Java 安装目錄中的 java.exe：%1</translation>
+    </message>
+    <message>
+        <source>The configured sandbox runtime executable does not exist: %1</source>
+        <translation>設定的沙箱執行環境可执行檔案不存在：%1</translation>
+    </message>
+    <message>
+        <source>Windows sandbox preparation exceeded %1 seconds. Increase the preparation limit in compiler settings.</source>
+        <translation>Windows 沙箱準備超過 %1 秒。請在編譯器設定中增加準備時間限制。</translation>
+    </message>
+    <message>
+        <source>Internal error (See log for further information)</source>
+        <translation>內部錯誤，詳細資訊請參閱日誌</translation>
+    </message>
+    <message>
+        <source>Windows sandbox preparation failed. See the log for details.</source>
+        <translation>Windows 沙箱準備失敗，詳細資訊請參閱日誌。</translation>
     </message>
 </context>
 <context>

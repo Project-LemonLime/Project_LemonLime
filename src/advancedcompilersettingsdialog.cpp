@@ -19,6 +19,9 @@
 AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::AdvancedCompilerSettingsDialog) {
 	ui->setupUi(this);
+#ifndef Q_OS_WIN
+	ui->sandboxGroup->hide();
+#endif
 	editCompiler = new Compiler(this);
 	ui->bytecodeExtension->setValidator(
 	    new QRegularExpressionValidator(QRegularExpression("(\\w+;)*\\w+"), this));
@@ -73,6 +76,11 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler) {
 	ui->memoryLimitRatio->setValue(editCompiler->getMemoryLimitRatio());
 	ui->disableMemoryLimit->setChecked(editCompiler->getDisableMemoryLimitCheck());
 	ui->interpreterAsWatcher->setChecked(editCompiler->getInterpreterAsWatcher());
+	const auto &sandbox = editCompiler->getSandboxSettings();
+	ui->sandboxGroup->setChecked(sandbox.enabled);
+	ui->sandboxRuntime->setCurrentIndex(sandbox.runtime);
+	ui->sandboxDirectories->setPlainText(sandbox.readOnlyDirectories.join('\n'));
+	ui->sandboxTimeout->setValue(sandbox.preparationTimeLimit / 1000);
 	ui->memoryLimitRatio->setEnabled(! editCompiler->getDisableMemoryLimitCheck());
 	QStringList configurationNames = editCompiler->getConfigurationNames();
 	ui->configurationSelect->setEnabled(false);
@@ -90,6 +98,17 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler) {
 auto AdvancedCompilerSettingsDialog::getEditCompiler() const -> Compiler * { return editCompiler; }
 
 void AdvancedCompilerSettingsDialog::okayButtonClicked() {
+	SandboxSettings sandbox;
+	sandbox.enabled = ui->sandboxGroup->isChecked();
+	sandbox.runtime = SandboxSettings::Runtime(ui->sandboxRuntime->currentIndex());
+	sandbox.preparationTimeLimit = ui->sandboxTimeout->value() * 1000;
+	for (const auto &line : ui->sandboxDirectories->toPlainText().split('\n', Qt::SkipEmptyParts)) {
+		const auto directory = line.trimmed();
+		if (directory.isEmpty())
+			continue;
+		sandbox.readOnlyDirectories.append(directory);
+	}
+	editCompiler->setSandboxSettings(sandbox);
 	if (ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty()) {
 		ui->compilerLocation->setFocus();
 		QMessageBox::warning(this, tr("Error"), tr("Empty compiler\'s Location!"), QMessageBox::Close);

@@ -10,6 +10,8 @@
 #pragma once
 //
 
+#include "sandboxsettings.h"
+
 #include <QObject>
 #include <QProcessEnvironment>
 
@@ -35,6 +37,7 @@ class Compiler : public QObject {
 	double getMemoryLimitRatio() const;
 	bool getDisableMemoryLimitCheck() const;
 	bool getInterpreterAsWatcher() const;
+	const SandboxSettings &getSandboxSettings() const;
 
 	void setCompilerType(CompilerType);
 	void setCompilerName(const QString &);
@@ -47,6 +50,7 @@ class Compiler : public QObject {
 	void setMemoryLimitRatio(double);
 	void setDisableMemoryLimitCheck(bool);
 	void setInterpreterAsWatcher(bool);
+	void setSandboxSettings(const SandboxSettings &);
 
 	void addConfiguration(const QString &, const QString &, const QString &);
 	void setConfigName(int, const QString &);
@@ -74,4 +78,5 @@ class Compiler : public QObject {
 	double memoryLimitRatio;
 	bool disableMemoryLimitCheck;
 	bool interpreterAsWatcher;
+	SandboxSettings sandboxSettings;
 };

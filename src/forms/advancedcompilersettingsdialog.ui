@@ -366,6 +366,38 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="sandboxGroup">
+     <property name="title"><string>Experimental Windows sandbox</string></property>
+     <property name="checkable"><bool>true</bool></property>
+     <property name="checked"><bool>false</bool></property>
+     <layout class="QFormLayout" name="sandboxLayout">
+      <item row="0" column="0"><widget class="QLabel" name="sandboxRuntimeLabel"><property name="text"><string>Runtime policy</string></property></widget></item>
+      <item row="0" column="1"><widget class="QComboBox" name="sandboxRuntime">
+       <item><property name="text"><string>Automatic</string></property></item>
+       <item><property name="text"><string>C / C++ and native programs</string></property></item>
+       <item><property name="text"><string>Java</string></property></item>
+       <item><property name="text"><string>Python</string></property></item>
+      </widget></item>
+      <item row="1" column="0"><widget class="QLabel" name="sandboxDirectoriesLabel"><property name="text"><string>Additional read-only directories</string></property></widget></item>
+      <item row="1" column="1"><widget class="QPlainTextEdit" name="sandboxDirectories">
+       <property name="maximumSize"><size><width>16777215</width><height>70</height></size></property>
+       <property name="placeholderText"><string>Optional; one directory per line</string></property>
+      </widget></item>
+      <item row="2" column="0"><widget class="QLabel" name="sandboxTimeoutLabel"><property name="text"><string>Preparation time limit</string></property></widget></item>
+      <item row="2" column="1"><widget class="QSpinBox" name="sandboxTimeout">
+       <property name="suffix"><string> s</string></property>
+       <property name="minimum"><number>1</number></property>
+       <property name="maximum"><number>120</number></property>
+       <property name="value"><number>15</number></property>
+      </widget></item>
+      <item row="3" column="0" colspan="2"><widget class="QLabel" name="sandboxExplanation">
+       <property name="text"><string>Disabled by default. Temporary runtime permissions are removed after judging. Each run has private files and no network access.</string></property>
+       <property name="wordWrap"><bool>true</bool></property>
+      </widget></item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="environmentVariablesButton">

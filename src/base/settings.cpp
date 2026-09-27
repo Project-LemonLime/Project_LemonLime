@@ -484,6 +484,9 @@ void Settings::saveSettings() {
 		settings.setValue("MemoryLimitRatio", compilerList[i]->getMemoryLimitRatio());
 		settings.setValue("DisableMemoryLimitCheck", compilerList[i]->getDisableMemoryLimitCheck());
 		settings.setValue("InterpreterAsWatcher", compilerList[i]->getInterpreterAsWatcher());
+		QJsonObject sandbox;
+		compilerList[i]->getSandboxSettings().write(sandbox);
+		settings.setValue("WindowsSandbox", QJsonDocument(sandbox).toJson(QJsonDocument::Compact));
 		QStringList configurationNames = compilerList[i]->getConfigurationNames();
 		QStringList compilerArguments = compilerList[i]->getCompilerArguments();
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
@@ -609,6 +612,9 @@ void Settings::loadSettings() {
 		compiler->setMemoryLimitRatio(settings.value("MemoryLimitRatio").toDouble());
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
 		compiler->setInterpreterAsWatcher(settings.value("InterpreterAsWatcher").toBool());
+		SandboxSettings sandbox;
+		sandbox.read(QJsonDocument::fromJson(settings.value("WindowsSandbox").toByteArray()).object());
+		compiler->setSandboxSettings(sandbox);
 		int configurationCount = settings.beginReadArray("Configuration");
 
 		for (int j = 0; j < configurationCount; j++) {
