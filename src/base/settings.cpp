@@ -148,6 +148,8 @@ auto Settings::getDiffPath() const -> const QString & { return diffPath; }
 
 auto Settings::getSplashTime() const -> int { return splashTime; }
 
+Qt::ColorScheme Settings::getColorScheme() const { return colorScheme; }
+
 void Settings::setDefaultFullScore(int score) {
 	defaultFullScore = score;
 	DEBUG("Set Default Full Score to " + QString::number(score));
@@ -190,6 +192,18 @@ void Settings::setRejudgeTimes(int number) {
 void Settings::setMaxJudgingThreads(int number) {
 	maxJudgingThreads = number;
 	DEBUG("Set Max Judging Threads to " + QString::number(number));
+}
+
+void Settings::setColorScheme(Qt::ColorScheme scheme) {
+	switch (scheme) {
+		case Qt::ColorScheme::Light:
+		case Qt::ColorScheme::Dark:
+			colorScheme = scheme;
+			break;
+		default:
+			colorScheme = Qt::ColorScheme::Unknown;
+			break;
+	}
 }
 
 void Settings::setDefaultInputFileExtension(const QString &extension) {
@@ -383,6 +397,7 @@ void Settings::copyFrom(Settings *other) {
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
 	setOutputFileExtensions(other->getOutputFileExtensions().join(";"));
 	setSplashTime(other->getSplashTime());
+	setColorScheme(other->getColorScheme());
 	setUiLanguage(other->getUiLanguage()); // 为什么这个没复制啊！！！// 草
 
 	for (auto &i : compilerList) {
@@ -434,6 +449,7 @@ void Settings::saveSettings() {
 	settings.endGroup();
 
 	settings.beginGroup("VisualSettings");
+	settings.setValue("ColorScheme", static_cast<int>(colorScheme));
 	settings.beginWriteArray("ColorThemes");
 	for (int i = 0; i < colorThemeList.size(); i++) {
 		settings.setArrayIndex(i);
@@ -546,6 +562,7 @@ void Settings::loadSettings() {
 	    settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
 	settings.endGroup();
 	settings.beginGroup("VisualSettings");
+	setColorScheme(static_cast<Qt::ColorScheme>(settings.value("ColorScheme", 0).toInt()));
 
 	int themesCount = settings.beginReadArray("ColorThemes");
 	for (int i = 0; i < themesCount; i++) {

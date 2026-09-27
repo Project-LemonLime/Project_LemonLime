@@ -53,10 +53,13 @@ ResultViewer::ResultViewer(QWidget *parent) : QTableWidget(parent) {
 }
 
 void ResultViewer::changeEvent(QEvent *event) {
+	QTableWidget::changeEvent(event);
 	if (event->type() == QEvent::LanguageChange) {
 		deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete", nullptr));
 		detailInformationAction->setText(QApplication::translate("ResultViewer", "Details", nullptr));
 		judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge", nullptr));
+	} else if (event->type() == QEvent::PaletteChange) {
+		refreshColors();
 	}
 }
 
@@ -112,24 +115,6 @@ void ResultViewer::refreshViewer() {
 	QStringList headerList;
 	headerList << tr("Rank") << tr("Name") << tr("Total Score");
 	QList<Task *> taskList = curContest->getTaskList();
-	Settings setting;
-	curContest->copySettings(setting);
-	ColorTheme colors = setting.getCurrentColorTheme();
-
-	// #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-	// 	if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
-	// 		colors.invertLightness();
-	// 		LOG("Auto dark mode has been set");
-	// 	}
-	// #endif
-	// https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5
-	// Waiting QPalette::colorScheme implement
-	// So we use an alternative method.
-	if (shouldApplyDarkFrame()) {
-		colors.invertLightness();
-		LOG("Auto dark mode has been set");
-	}
-
 	for (auto &i : taskList) {
 		headerList << i->getProblemTitle();
 	}
@@ -140,13 +125,6 @@ void ResultViewer::refreshViewer() {
 	horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<std::pair<int, QString>> sortList;
-	QList<int> fullScore;
-	int sfullScore = curContest->getTotalScore();
-
-	for (auto &i : taskList) {
-		fullScore.append(i->getTotalScore());
-	}
-
 	setRowCount(contestantList.size());
 
 	for (int i = 0; i < contestantList.size(); i++) {
@@ -160,20 +138,6 @@ void ResultViewer::refreshViewer() {
 
 			if (score != -1) {
 				item(i, j + 3)->setData(Qt::DisplayRole, score);
-				QColor bg = QColor::fromHsl(0, 0, 255);
-
-				if (taskList[j]->getTaskType() != Task::AnswersOnly &&
-				    contestantList[i]->getCompileState(j) != CompileSuccessfully) {
-					if (contestantList[i]->getCompileState(j) == NoValidSourceFile)
-						bg = colors.getColorNf();
-					else
-						bg = colors.getColorCe();
-				} else
-					bg = colors.getColorPer(score, fullScore[j]);
-
-				item(i, j + 3)->setBackground(bg);
-
-				// qDebug() << i << j << bg;
 			} else {
 				item(i, j + 3)->setText(tr("Invalid"));
 			}
@@ -187,7 +151,6 @@ void ResultViewer::refreshViewer() {
 
 		if (totalScore != -1) {
 			item(i, 2)->setData(Qt::DisplayRole, totalScore);
-			item(i, 2)->setBackground(colors.getColorGrand(totalScore, sfullScore));
 			QFont font;
 			font.setBold(true);
 			item(i, 2)->setFont(font);
@@ -228,6 +191,51 @@ void ResultViewer::refreshViewer() {
 	}
 
 	sortByColumn(0, Qt::AscendingOrder);
+	refreshColors();
+}
+
+void ResultViewer::refreshColors() {
+	if (! curContest)
+		return;
+
+	const auto &tasks = curContest->getTaskList();
+	Settings settings;
+	curContest->copySettings(settings);
+	ColorTheme colors = settings.getCurrentColorTheme();
+	if (shouldApplyDarkFrame())
+		colors.invertLightness();
+
+	for (int row = 0; row < rowCount(); ++row) {
+		const auto *nameItem = item(row, 1);
+		if (! nameItem)
+			continue;
+		const auto *contestant = curContest->getContestant(nameItem->text());
+		if (! contestant)
+			continue;
+
+		for (int task = 0; task < tasks.size(); ++task) {
+			auto *scoreItem = item(row, task + 3);
+			if (! scoreItem)
+				continue;
+			const int score = contestant->getTaskScore(task);
+			if (score == -1) {
+				scoreItem->setBackground(QBrush());
+			} else if (tasks[task]->getTaskType() != Task::AnswersOnly &&
+			           contestant->getCompileState(task) != CompileSuccessfully) {
+				scoreItem->setBackground(contestant->getCompileState(task) == NoValidSourceFile
+				                             ? colors.getColorNf()
+				                             : colors.getColorCe());
+			} else {
+				scoreItem->setBackground(colors.getColorPer(score, tasks[task]->getTotalScore()));
+			}
+		}
+
+		if (auto *totalItem = item(row, 2)) {
+			const int score = contestant->getTotalScore();
+			totalItem->setBackground(
+			    score == -1 ? QBrush() : QBrush(colors.getColorGrand(score, curContest->getTotalScore())));
+		}
+	}
 }
 
 void ResultViewer::judgeSelected() {

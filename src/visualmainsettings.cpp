@@ -19,6 +19,14 @@
 VisualMainSettings::VisualMainSettings(QWidget *parent) : QWidget(parent), ui(new Ui::VisualMainSettings) {
 	ui->setupUi(this);
 
+	ui->colorSchemeComboBox->addItem(tr("System"), static_cast<int>(Qt::ColorScheme::Unknown));
+	ui->colorSchemeComboBox->addItem(tr("Light"), static_cast<int>(Qt::ColorScheme::Light));
+	ui->colorSchemeComboBox->addItem(tr("Dark"), static_cast<int>(Qt::ColorScheme::Dark));
+	connect(ui->colorSchemeComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, [this] {
+		editSettings->setColorScheme(
+		    static_cast<Qt::ColorScheme>(ui->colorSchemeComboBox->currentData().toInt()));
+	});
+
 	ui->splashTimeEdit->setValidator(new QIntValidator(0, 3000, this));
 
 	connect(ui->splashTimeEdit, &QLineEdit::textChanged, this, &VisualMainSettings::splashTimeChanged);
@@ -31,6 +39,8 @@ VisualMainSettings::VisualMainSettings(QWidget *parent) : QWidget(parent), ui(ne
 
 void VisualMainSettings::resetEditSettings(Settings *settings) {
 	editSettings = settings;
+	ui->colorSchemeComboBox->setCurrentIndex(
+	    ui->colorSchemeComboBox->findData(static_cast<int>(editSettings->getColorScheme())));
 	int index = editSettings->getCurrentColorThemeIndex();
 
 	ui->themeComboBox->clear();

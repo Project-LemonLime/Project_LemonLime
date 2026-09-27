@@ -12,7 +12,9 @@
 #include "base/settings.h" // TODO: Config Refactor
 //
 #include <QCommandLineParser>
+#include <QGuiApplication>
 #include <QLocale>
+#include <QStyleHints>
 
 //
 #define LEMON_MODULE_NAME "LemonBaseApplication"
@@ -36,6 +38,7 @@ auto LemonBaseApplication::Initialize() -> bool {
 	// Load Translations
 	Settings *settings = new Settings;
 	settings->loadSettings();
+	QGuiApplication::styleHints()->setColorScheme(settings->getColorScheme());
 	LemonLimeTranslator = std::make_unique<LemonTranslator>();
 	const auto allTranslations = LemonLimeTranslator->GetAvailableLanguages();
 	const auto osLanguage = QLocale::system().name();

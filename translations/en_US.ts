@@ -2702,6 +2702,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>VisualMainSettings</name>
     <message>
+        <source>Dark</source>
+        <translation>Dark</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Light</translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation>System</translation>
+    </message>
+    <message>
+        <source>Appearance</source>
+        <translation>Appearance</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation></translation>
     </message>

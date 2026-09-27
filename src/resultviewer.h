@@ -36,6 +36,7 @@ class ResultViewer : public QTableWidget {
 	QAction *detailInformationAction;
 	QAction *judgeSelectedAction;
 	QAction *deleteContestantKeyAction;
+	void refreshColors();
 	void clearPath(const QString &);
 
   private slots:

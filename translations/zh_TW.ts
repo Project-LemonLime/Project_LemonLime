@@ -2736,6 +2736,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>VisualMainSettings</name>
     <message>
+        <source>Dark</source>
+        <translation>深色</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>淺色</translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation>跟隨系統</translation>
+    </message>
+    <message>
+        <source>Appearance</source>
+        <translation>外觀模式</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>

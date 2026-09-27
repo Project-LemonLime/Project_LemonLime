@@ -96,6 +96,7 @@ class Settings {
 	const QString &getUiLanguage() const;
 	const QString &getDiffPath() const;
 	int getSplashTime() const;
+	Qt::ColorScheme getColorScheme() const;
 
 	void setDefaultFullScore(int);
 	void setDefaultTimeLimit(int);
@@ -113,6 +114,7 @@ class Settings {
 	void setRecentContest(const QStringList &);
 	void setUiLanguage(const QString &);
 	void setSplashTime(int);
+	void setColorScheme(Qt::ColorScheme);
 
 	void addCompiler(Compiler *);
 	void deleteCompiler(int);
@@ -166,4 +168,5 @@ class Settings {
 	int currentColorTheme{};
 
 	int splashTime{};
+	Qt::ColorScheme colorScheme = Qt::ColorScheme::Unknown;
 };
