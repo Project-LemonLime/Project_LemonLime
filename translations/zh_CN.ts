@@ -1090,6 +1090,10 @@ Depends: </source>
 <context>
     <name>GeneralSettings</name>
     <message>
+        <source>Prevent system sleep while judging</source>
+        <translation>评测时阻止系统休眠</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation>Form</translation>
     </message>
@@ -2828,6 +2832,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>New</source>
         <translation>新建</translation>
+    </message>
+</context>
+<context>
+    <name>JudgingController</name>
+    <message>
+        <source>Judging submissions</source>
+        <translation>正在评测提交程序</translation>
     </message>
 </context>
 </TS>

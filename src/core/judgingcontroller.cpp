@@ -7,6 +7,7 @@
 
 #include "judgingcontroller.h"
 #include "core/contestant.h"
+#include "sleepinhibitor.h"
 
 #include <QtMath>
 
@@ -15,7 +16,10 @@
 JudgingController::JudgingController(Settings *settings, QObject *parent) : QObject(parent) {
 	isJudging = false;
 	maxThreads = qMax(1, settings->getMaxJudgingThreads());
+	preventSleepWhileJudging = settings->getPreventSleepWhileJudging();
 }
+
+JudgingController::~JudgingController() = default;
 
 void JudgingController::assign() {
 	if (! isJudging) {
@@ -49,6 +53,7 @@ void JudgingController::taskFinished() {
 	assign();
 	if (runningTasks.empty()) {
 		isJudging = false;
+		sleepInhibitor.reset();
 		emit judgeFinished();
 	}
 }
@@ -57,6 +62,8 @@ void JudgingController::start() {
 		emit judgeFinished();
 		return;
 	}
+	if (preventSleepWhileJudging && ! sleepInhibitor)
+		sleepInhibitor = std::make_unique<SleepInhibitor>(tr("Judging submissions"));
 	isJudging = true;
 	while (! queuingTasks.empty() && runningTasks.size() < maxThreads) {
 		assign();

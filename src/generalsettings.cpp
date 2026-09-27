@@ -63,6 +63,8 @@ GeneralSettings::GeneralSettings(QWidget *parent) : QWidget(parent), ui(new Ui::
 	        &GeneralSettings::outputFileExtensionsChanged);
 	connect(ui->languageComboBox, qOverload<const QString &>(&QComboBox::currentTextChanged), this,
 	        &GeneralSettings::onLanguageComboBoxChanged);
+	connect(ui->preventSleepWhileJudging, &QCheckBox::toggled, this,
+	        [this](bool checked) { editSettings->setPreventSleepWhileJudging(checked); });
 }
 
 GeneralSettings::~GeneralSettings() { delete ui; }
@@ -81,6 +83,7 @@ void GeneralSettings::resetEditSettings(Settings *settings) {
 	ui->inputFileExtensions->setText(editSettings->getInputFileExtensions().join(";"));
 	ui->outputFileExtensions->setText(editSettings->getOutputFileExtensions().join(";"));
 	ui->languageComboBox->setCurrentText(editSettings->getUiLanguage());
+	ui->preventSleepWhileJudging->setChecked(editSettings->getPreventSleepWhileJudging());
 }
 
 void GeneralSettings::onLanguageComboBoxChanged(const QString &arg) { editSettings->setUiLanguage(arg); }

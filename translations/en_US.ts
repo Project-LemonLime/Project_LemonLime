@@ -1069,6 +1069,10 @@ Depends: </source>
 <context>
     <name>GeneralSettings</name>
     <message>
+        <source>Prevent system sleep while judging</source>
+        <translation>Prevent system sleep while judging</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation></translation>
     </message>
@@ -2794,6 +2798,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>New</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>JudgingController</name>
+    <message>
+        <source>Judging submissions</source>
+        <translation>Judging submissions</translation>
     </message>
 </context>
 </TS>

@@ -15,12 +15,16 @@
 #include <QObject>
 #include <QQueue>
 #include <QThread>
+#include <memory>
+
+class SleepInhibitor;
 
 class JudgingController : public QObject {
 	Q_OBJECT
 
   public:
 	explicit JudgingController(Settings *settings, QObject *parent = nullptr);
+	~JudgingController() override;
 	void addTask(TaskJudger *judger);
 
   private:
@@ -28,6 +32,8 @@ class JudgingController : public QObject {
 	QMap<TaskJudger *, QThread *> runningTasks;
 	bool isJudging;
 	int maxThreads;
+	bool preventSleepWhileJudging;
+	std::unique_ptr<SleepInhibitor> sleepInhibitor;
   public slots:
 	void stop();
 	void taskFinished();

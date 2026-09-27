@@ -21,6 +21,13 @@ target_link_libraries(lemon-core
 
 if(WIN32)
     target_link_libraries(lemon-core userenv advapi32 psapi)
+elseif(APPLE)
+    find_library(LEMON_IOKIT_FRAMEWORK IOKit)
+    find_library(LEMON_COREFOUNDATION_FRAMEWORK CoreFoundation)
+    target_link_libraries(lemon-core ${LEMON_IOKIT_FRAMEWORK} ${LEMON_COREFOUNDATION_FRAMEWORK})
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(${LEMON_QT_LIBNAME} ${LEMON_QT_MIN_VERSION} COMPONENTS DBus REQUIRED)
+    target_link_libraries(lemon-core ${LEMON_QT_LIBNAME}::DBus)
 endif()
 
 target_include_directories(lemon-core PUBLIC

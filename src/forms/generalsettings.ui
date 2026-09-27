@@ -32,6 +32,13 @@
    <property name="verticalSpacing">
     <number>10</number>
    </property>
+   <item row="10" column="2" rowspan="2" colspan="2">
+    <widget class="QCheckBox" name="preventSleepWhileJudging">
+     <property name="text">
+      <string>Prevent system sleep while judging</string>
+     </property>
+    </widget>
+   </item>
    <item row="7" column="0">
     <widget class="QLabel" name="label_10">
      <property name="sizePolicy">
@@ -790,6 +797,7 @@
   <tabstop>inputFileExtensions</tabstop>
   <tabstop>outputFileExtensions</tabstop>
   <tabstop>languageComboBox</tabstop>
+  <tabstop>preventSleepWhileJudging</tabstop>
  </tabstops>
  <resources/>
  <connections/>

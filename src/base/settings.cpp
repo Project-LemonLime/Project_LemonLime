@@ -124,6 +124,8 @@ auto Settings::getRejudgeTimes() const -> int { return rejudgeTimes; }
 
 auto Settings::getMaxJudgingThreads() const -> int { return maxJudgingThreads; }
 
+bool Settings::getPreventSleepWhileJudging() const { return preventSleepWhileJudging; }
+
 auto Settings::getDefaultExtraTimeRatio() const -> double { return defaultExtraTimeRatio; }
 
 auto Settings::getDefaultInputFileExtension() const -> const QString & { return defaultInputFileExtension; }
@@ -193,6 +195,8 @@ void Settings::setMaxJudgingThreads(int number) {
 	maxJudgingThreads = number;
 	DEBUG("Set Max Judging Threads to " + QString::number(number));
 }
+
+void Settings::setPreventSleepWhileJudging(bool enabled) { preventSleepWhileJudging = enabled; }
 
 void Settings::setColorScheme(Qt::ColorScheme scheme) {
 	switch (scheme) {
@@ -392,6 +396,7 @@ void Settings::copyFrom(Settings *other) {
 	setFileSizeLimit(other->getFileSizeLimit());
 	setRejudgeTimes(other->getRejudgeTimes());
 	setMaxJudgingThreads(other->getMaxJudgingThreads());
+	setPreventSleepWhileJudging(other->getPreventSleepWhileJudging());
 	setDefaultInputFileExtension(other->getDefaultInputFileExtension());
 	setDefaultOutputFileExtension(other->getDefaultOutputFileExtension());
 	setInputFileExtensions(other->getInputFileExtensions().join(";"));
@@ -442,6 +447,7 @@ void Settings::saveSettings() {
 	settings.setValue("FileSizeLimit", fileSizeLimit);
 	settings.setValue("MaximumRejudgeTimes", rejudgeTimes);
 	settings.setValue("MaximumJudgingThreads", maxJudgingThreads);
+	settings.setValue("PreventSleepWhileJudging", preventSleepWhileJudging);
 	settings.setValue("DefaultInputFileExtension", defaultInputFileExtension);
 	settings.setValue("DefaultOutputFileExtension", defaultOutputFileExtension);
 	settings.setValue("InputFileExtensions", inputFileExtensions);
@@ -555,6 +561,7 @@ void Settings::loadSettings() {
 	fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();
 	rejudgeTimes = settings.value("MaximumRejudgeTimes", 1).toInt();
 	maxJudgingThreads = settings.value("MaximumJudgingThreads", 1).toInt();
+	preventSleepWhileJudging = settings.value("PreventSleepWhileJudging", true).toBool();
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOutputFileExtension", "out").toString();
 	inputFileExtensions = settings.value("InputFileExtensions", QStringList() << "in").toStringList();
