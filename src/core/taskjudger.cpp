@@ -440,18 +440,25 @@ int TaskJudger::judge() {
 				break;
 			}
 
-			auto *thread = new JudgingThread();
-			thread->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 			QString workingDirectory =
 			    QDir::toNativeSeparators(QDir(QDir::toNativeSeparators(temporaryDir.path()) +
 			                                  QDir::separator() + QString("_%1.%2").arg(i).arg(j))
 			                                 .absolutePath()) +
 			    QDir::separator();
+			if (! QDir(temporaryDir.path()).mkdir(QString("_%1.%2").arg(i).arg(j))) {
+				result[i][j] = FileError;
+				message[i][j] = tr("Cannot create testcase working directory: %1").arg(workingDirectory);
+				overallStatus[i] = -1;
+				testCaseScore[i] = 0;
+				emit singleCaseFinished(contestantName, curTestCase->getTimeLimit(), i, j, int(FileError), 0,
+				                        timeUsed[i][j], memoryUsed[i][j]);
+				continue;
+			}
+			auto *thread = new JudgingThread();
+			thread->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 			thread->setWorkingDirectory(workingDirectory);
 			thread->setSandboxConfiguration(sandboxSettings, runtimeExecutable, runtimeEnvironment,
 			                                sandboxSession);
-			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator())
-			    .mkdir(QString("_%1.%2").arg(i).arg(j));
 			QStringList entryList =
 			    QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator() + contestantName)
 			        .entryList(QDir::Files);

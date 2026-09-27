@@ -2602,6 +2602,10 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TaskJudger</name>
     <message>
+        <source>Cannot create testcase working directory: %1</source>
+        <translation>无法创建测试点工作目录：%1</translation>
+    </message>
+    <message>
         <source>Preparing...</source>
         <translation>准备中…</translation>
     </message>

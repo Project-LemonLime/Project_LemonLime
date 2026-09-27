@@ -6,7 +6,13 @@
  */
 
 #include "base/LemonLog.hpp"
+#include "base/compiler.h"
+#include "base/settings.h"
+#include "core/contestant.h"
 #include "core/processrunner.h"
+#include "core/task.h"
+#include "core/taskjudger.h"
+#include "core/testcase.h"
 #include "core/windowsprocessutils.h"
 #include "core/windowssandbox.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -19,6 +25,7 @@
 #include <QJsonDocument>
 #include <QProcess>
 #include <QRegularExpression>
+#include <QScopeGuard>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QtTest>
@@ -223,6 +230,90 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
 		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 		QVERIFY(result.memoryUsed > 0);
+	}
+
+	void testcaseDirectoryCreationFailure_data() {
+		QTest::addColumn<bool>("enabled");
+		QTest::newRow("ordinary") << false;
+		QTest::newRow("sandbox") << true;
+	}
+
+	void testcaseDirectoryCreationFailure() {
+		QFETCH(bool, enabled);
+		const auto contestDirectory = root.path() + QString("/directory-failure-%1").arg(++sequence);
+		QVERIFY(QDir().mkpath(contestDirectory + "/source/_0.0"));
+		QVERIFY(QDir().mkpath(contestDirectory + "/data"));
+		QVERIFY(QDir().mkpath(contestDirectory + "/runtime"));
+		QVERIFY(write(contestDirectory + "/source/_0.0/program.dummy", "source"));
+		QVERIFY(write(contestDirectory + "/data/input.txt", ""));
+		QVERIFY(write(contestDirectory + "/data/output.txt", ""));
+		const auto helper = contestDirectory + "/runtime/helper.exe";
+		QVERIFY(QFile::copy(QDir::currentPath() + "/sandbox-helper.exe", helper));
+		const auto originalDirectory = QDir::currentPath();
+		const auto restoreDirectory = qScopeGuard([&] { QDir::setCurrent(originalDirectory); });
+		QVERIFY(QDir::setCurrent(contestDirectory));
+
+		Compiler compiler;
+		compiler.setCompilerName("helper");
+		compiler.setCompilerType(Compiler::InterpretiveWithoutByteCode);
+		compiler.setSourceExtensions("dummy");
+		compiler.setInterpreterLocation(helper);
+		compiler.addConfiguration("default", "", "work-files");
+		SandboxSettings sandbox;
+		sandbox.enabled = enabled;
+		sandbox.runtime = SandboxSettings::Native;
+		compiler.setSandboxSettings(sandbox);
+		Settings settings;
+		settings.setFileSizeLimit(50);
+		settings.setDefaultExtraTimeRatio(0.2);
+		settings.setSpecialJudgeTimeLimit(10000);
+		settings.setRejudgeTimes(0);
+		settings.addCompiler(&compiler);
+
+		Task task;
+		task.setSourceFileName("program");
+		task.setCompilerConfiguration("helper", "default");
+		task.setStandardInputCheck(true);
+		task.setStandardOutputCheck(true);
+		TestCase failed, dependent, independent;
+		for (auto *testCase : {&failed, &dependent, &independent}) {
+			testCase->setFullScore(100);
+			testCase->setTimeLimit(3000);
+			testCase->setMemoryLimit(256);
+			testCase->addSingleCase("input.txt", "output.txt");
+			task.addTestCase(testCase);
+		}
+		failed.addSingleCase("input.txt", "output.txt");
+		dependent.setDependenceSubtask(QList<int>{1});
+		Contestant contestant;
+		// Source preparation occupies the first testcase directory before mkdir() is called.
+		contestant.setContestantName("_0.0");
+		contestant.addTask();
+		TaskJudger judger;
+		judger.setSettings(&settings);
+		judger.setTask(&task);
+		judger.setTaskId(0);
+		judger.setContestant(&contestant);
+		QSignalSpy finished(&judger, &TaskJudger::singleCaseFinished);
+		judger.judgeIt();
+
+		QVERIFY(contestant.getCheckJudged(0));
+		QCOMPARE(contestant.getCompileState(0), CompileSuccessfully);
+		QCOMPARE(contestant.getResult(0)[0], QList<ResultState>({FileError, Skipped}));
+		QCOMPARE(contestant.getResult(0)[1][0], Skipped);
+		QCOMPARE(contestant.getResult(0)[2][0], CorrectAnswer);
+		QCOMPARE(contestant.getScore(0)[0][0], 0);
+		QCOMPARE(contestant.getTimeUsed(0)[0][0], -1);
+		QCOMPARE(contestant.getMemoryUsed(0)[0][0], -1);
+		QCOMPARE(finished.size(), 3);
+		QCOMPARE(finished[0][4].toInt(), int(FileError));
+		const QString prefix = "Cannot create testcase working directory: ";
+		const auto error = contestant.getMessage(0)[0][0];
+		QVERIFY2(error.startsWith(prefix), qPrintable(error));
+		const QDir workingDirectory(error.mid(prefix.size()));
+		QVERIFY(workingDirectory.exists("program.dummy"));
+		QVERIFY(! workingDirectory.exists("created"));
+		QCOMPARE(read(workingDirectory.filePath("../_2.0/created/nested/data.txt")), QByteArray("created"));
 	}
 
 	void commandLineArguments_data() {

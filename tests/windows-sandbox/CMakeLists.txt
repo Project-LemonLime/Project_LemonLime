@@ -10,7 +10,7 @@ find_package(Qt${LEMON_QT_MAJOR_VERSION} ${LEMON_QT_MIN_VERSION} COMPONENTS Test
 add_executable(windows-sandbox-tests main.cpp)
 target_compile_definitions(windows-sandbox-tests PRIVATE WIN32_LEAN_AND_MEAN)
 target_include_directories(windows-sandbox-tests PRIVATE ${CMAKE_SOURCE_DIR}/src ${spdlog_DIR}/include)
-target_link_libraries(windows-sandbox-tests PRIVATE lemon-core ${LEMON_QT_LIBNAME}::Test spdlog::spdlog ws2_32)
+target_link_libraries(windows-sandbox-tests PRIVATE lemon-core SingleApplication::SingleApplication ${LEMON_QT_LIBNAME}::Test spdlog::spdlog ws2_32)
 add_dependencies(windows-sandbox-tests sandbox-helper)
 add_test(NAME windows-sandbox COMMAND windows-sandbox-tests -o sandbox-results.txt,txt -o -,txt)
 set_tests_properties(windows-sandbox PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} TIMEOUT 180)

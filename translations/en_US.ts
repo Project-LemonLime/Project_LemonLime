@@ -2569,6 +2569,10 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TaskJudger</name>
     <message>
+        <source>Cannot create testcase working directory: %1</source>
+        <translation>Cannot create testcase working directory: %1</translation>
+    </message>
+    <message>
         <source>Preparing...</source>
         <translation></translation>
     </message>
