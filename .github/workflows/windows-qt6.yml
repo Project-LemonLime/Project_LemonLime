@@ -63,6 +63,7 @@ jobs:
           cache: true
           setup-python: "false"
           modules: "qtactiveqt"
+          aqtsource: "git+https://github.com/miurahr/aqtinstall.git@076e1659807d0b362a3ed684d54c2e9c775eb9c7"
 
       - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
