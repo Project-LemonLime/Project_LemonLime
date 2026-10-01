@@ -19,6 +19,10 @@ target_link_libraries(lemon-core
     ${SINGLEAPPLICATION_LIBRARY}
     )
 
+if(WIN32)
+    target_link_libraries(lemon-core userenv advapi32 psapi)
+endif()
+
 target_include_directories(lemon-core PUBLIC
     ${CMAKE_BINARY_DIR}
     ${LEMON_BASEDIR_CORE}

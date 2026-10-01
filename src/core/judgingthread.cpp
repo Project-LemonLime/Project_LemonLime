@@ -80,6 +80,15 @@ void JudgingThread::setRawMemoryLimit(int limit) { rawMemoryLimit = limit; }
 
 void JudgingThread::setInterpreterAsWatcher(bool use) { interpreterAsWatcher = use; }
 
+void JudgingThread::setSandboxConfiguration(const SandboxSettings &settings, const QString &executable,
+                                            const QProcessEnvironment &environment,
+                                            const std::shared_ptr<WindowsSandboxSession> &session) {
+	sandboxSettings = settings;
+	runtimeExecutable = executable;
+	runtimeEnvironment = environment;
+	sandboxSession = session;
+}
+
 auto JudgingThread::getTimeUsed() const -> int { return timeUsed; }
 
 auto JudgingThread::getMemoryUsed() const -> qint64 { return memoryUsed; }
@@ -95,8 +104,6 @@ auto JudgingThread::getResult() const -> ResultState { return result; }
 auto JudgingThread::getMessage() const -> const QString & { return message; }
 
 auto JudgingThread::getNeedRejudge() const -> bool { return needRejudge; }
-
-void JudgingThread::stopJudgingSlot() { stopJudging = true; }
 
 // Chunked file reader used by the line/space comparators below.
 //
@@ -772,6 +779,10 @@ void JudgingThread::judgeTraditionalTask() {
 	cfg.inputFileName = task->getInputFileName();
 	cfg.outputFileName = task->getOutputFileName();
 	cfg.interpreterAsWatcher = interpreterAsWatcher;
+	cfg.sandboxSettings = sandboxSettings;
+	cfg.runtimeExecutable = runtimeExecutable;
+	cfg.runtimeEnvironment = runtimeEnvironment;
+	cfg.sandboxSession = sandboxSession;
 
 	auto processRunner = ProcessRunner::create(cfg, stopJudging);
 	auto runResult = processRunner->run();

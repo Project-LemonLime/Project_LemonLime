@@ -504,6 +504,50 @@
         <source>New configuration %1</source>
         <translation></translation>
     </message>
+    <message>
+        <source> s</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <source>Additional read-only directories</source>
+        <translation>Additional read-only directories</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>Automatic</translation>
+    </message>
+    <message>
+        <source>C / C++ and native programs</source>
+        <translation>C / C++ and native programs</translation>
+    </message>
+    <message>
+        <source>Java</source>
+        <translation>Java</translation>
+    </message>
+    <message>
+        <source>Optional; one directory per line</source>
+        <translation>Optional; one directory per line</translation>
+    </message>
+    <message>
+        <source>Preparation time limit</source>
+        <translation>Preparation time limit</translation>
+    </message>
+    <message>
+        <source>Python</source>
+        <translation>Python</translation>
+    </message>
+    <message>
+        <source>Runtime policy</source>
+        <translation>Runtime policy</translation>
+    </message>
+    <message>
+        <source>Disabled by default. Temporary runtime permissions are removed after judging. Each run has private files and no network access.</source>
+        <translation>Disabled by default. Temporary runtime permissions are removed after judging. Each run has private files and no network access.</translation>
+    </message>
+    <message>
+        <source>Experimental Windows sandbox</source>
+        <translation>Experimental Windows sandbox</translation>
+    </message>
 </context>
 <context>
     <name>CompilerSettings</name>
@@ -1951,6 +1995,44 @@ Depends: </source>
     <message>
         <source>LemonLime - A tiny judging environment for OI contest.</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>A private local working directory is required for the Windows sandbox.</source>
+        <translation>A private local working directory is required for the Windows sandbox.</translation>
+    </message>
+    <message>
+        <source>Cannot discover the Python runtime: %1
+%2</source>
+        <translation>Cannot discover the Python runtime: %1
+%2</translation>
+    </message>
+    <message>
+        <source>Python runtime discovery produced excessive output.</source>
+        <translation>Python runtime discovery produced excessive output.</translation>
+    </message>
+    <message>
+        <source>Sandbox files must not be reparse points or hard links: %1</source>
+        <translation>Sandbox files must not be reparse points or hard links: %1</translation>
+    </message>
+    <message>
+        <source>Select java.exe inside a Java runtime installation: %1</source>
+        <translation>Select java.exe inside a Java runtime installation: %1</translation>
+    </message>
+    <message>
+        <source>The configured sandbox runtime executable does not exist: %1</source>
+        <translation>The configured sandbox runtime executable does not exist: %1</translation>
+    </message>
+    <message>
+        <source>Windows sandbox preparation exceeded %1 seconds. Increase the preparation limit in compiler settings.</source>
+        <translation>Windows sandbox preparation exceeded %1 seconds. Increase the preparation limit in compiler settings.</translation>
+    </message>
+    <message>
+        <source>Internal error (See log for further information)</source>
+        <translation>Internal error (See log for further information)</translation>
+    </message>
+    <message>
+        <source>Windows sandbox preparation failed. See the log for details.</source>
+        <translation>Windows sandbox preparation failed. See the log for details.</translation>
     </message>
 </context>
 <context>

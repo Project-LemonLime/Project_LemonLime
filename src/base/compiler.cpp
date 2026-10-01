@@ -47,6 +47,10 @@ auto Compiler::getDisableMemoryLimitCheck() const -> bool { return disableMemory
 
 auto Compiler::getInterpreterAsWatcher() const -> bool { return interpreterAsWatcher; }
 
+const SandboxSettings &Compiler::getSandboxSettings() const { return sandboxSettings; }
+
+void Compiler::setSandboxSettings(const SandboxSettings &value) { sandboxSettings = value; }
+
 void Compiler::setCompilerType(Compiler::CompilerType type) { compilerType = type; }
 
 void Compiler::setCompilerName(const QString &name) { compilerName = name; }
@@ -120,6 +124,7 @@ void Compiler::copyFrom(Compiler *other) {
 	memoryLimitRatio = other->getMemoryLimitRatio();
 	disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
 	interpreterAsWatcher = other->getInterpreterAsWatcher();
+	sandboxSettings = other->getSandboxSettings();
 }
 
 int Compiler::read(const QJsonObject &json) {
@@ -151,6 +156,7 @@ int Compiler::read(const QJsonObject &json) {
 	READ_JSON(json, memoryLimitRatio);
 	READ_JSON(json, disableMemoryLimitCheck);
 	READ_JSON(json, interpreterAsWatcher);
+	sandboxSettings.read(json.value("windowsSandbox").toObject());
 	return 0;
 }
 
@@ -172,4 +178,7 @@ void Compiler::write(QJsonObject &json) const {
 	WRITE_JSON(json, memoryLimitRatio);        // double
 	WRITE_JSON(json, disableMemoryLimitCheck); // bool
 	WRITE_JSON(json, interpreterAsWatcher);    // bool
+	QJsonObject sandbox;
+	sandboxSettings.write(sandbox);
+	json["windowsSandbox"] = sandbox;
 }

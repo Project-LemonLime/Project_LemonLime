@@ -14,6 +14,9 @@
 #include "core/subtaskdependencelib.h"
 #include "core/task.h"
 #include "core/testcase.h"
+#ifdef Q_OS_WIN
+#include "core/windowssandbox.h"
+#endif
 
 #include <QSysInfo>
 #include <QTimer>
@@ -149,6 +152,18 @@ auto TaskJudger::traditionalTaskPrepare() -> bool {
 		compilerMemoryLimitRatio = i->getMemoryLimitRatio();
 		disableMemoryLimitCheck = i->getDisableMemoryLimitCheck();
 		interpreterAsWatcher = i->getInterpreterAsWatcher();
+		sandboxSettings = i->getSandboxSettings();
+		runtimeEnvironment = i->getEnvironment();
+		runtimeExecutable = i->getCompilerType() == Compiler::Typical ? i->getCompilerLocation()
+		                                                              : i->getInterpreterLocation();
+		if (sandboxSettings.runtime == SandboxSettings::Automatic) {
+			if (i->getCompilerType() == Compiler::Typical)
+				sandboxSettings.runtime = SandboxSettings::Native;
+			else if (i->getSourceExtensions().contains("py"))
+				sandboxSettings.runtime = SandboxSettings::Python;
+			else if (i->getSourceExtensions().contains("java"))
+				sandboxSettings.runtime = SandboxSettings::Java;
+		}
 		environment = i->getEnvironment();
 		QStringList values = QProcessEnvironment::systemEnvironment().toStringList();
 
@@ -357,6 +372,12 @@ int TaskJudger::judge() {
 		if (! traditionalTaskPrepare())
 			return 1;
 
+	std::shared_ptr<WindowsSandboxSession> sandboxSession;
+#ifdef Q_OS_WIN
+	if (sandboxSettings.enabled)
+		sandboxSession = WindowsSandbox::createSession();
+#endif
+
 	for (int i = 0; i < task->getTestCaseList().size(); i++) {
 		timeUsed.append(QList<int>());
 		memoryUsed.append(QList<qint64>());
@@ -427,6 +448,8 @@ int TaskJudger::judge() {
 			                                 .absolutePath()) +
 			    QDir::separator();
 			thread->setWorkingDirectory(workingDirectory);
+			thread->setSandboxConfiguration(sandboxSettings, runtimeExecutable, runtimeEnvironment,
+			                                sandboxSession);
 			QDir(QDir::toNativeSeparators(temporaryDir.path()) + QDir::separator())
 			    .mkdir(QString("_%1.%2").arg(i).arg(j));
 			QStringList entryList =
@@ -468,7 +491,6 @@ int TaskJudger::judge() {
 			}
 
 			thread->setTask(task);
-			connect(this, &TaskJudger::stopJudgingSignal, thread, &JudgingThread::stopJudgingSlot);
 			thread->setInputFile(Settings::dataPath() + curTestCase->getInputFiles().at(j));
 			thread->setOutputFile(Settings::dataPath() + curTestCase->getOutputFiles().at(j));
 			thread->setFullScore(curTestCase->getFullScore());
