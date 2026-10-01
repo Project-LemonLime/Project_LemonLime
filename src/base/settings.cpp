@@ -484,9 +484,13 @@ void Settings::saveSettings() {
 		settings.setValue("MemoryLimitRatio", compilerList[i]->getMemoryLimitRatio());
 		settings.setValue("DisableMemoryLimitCheck", compilerList[i]->getDisableMemoryLimitCheck());
 		settings.setValue("InterpreterAsWatcher", compilerList[i]->getInterpreterAsWatcher());
-		QJsonObject sandbox;
-		compilerList[i]->getSandboxSettings().write(sandbox);
-		settings.setValue("WindowsSandbox", QJsonDocument(sandbox).toJson(QJsonDocument::Compact));
+		const auto &sandbox = compilerList[i]->getSandboxSettings();
+		settings.beginGroup("WindowsSandbox");
+		settings.setValue("Enabled", sandbox.enabled);
+		settings.setValue("Runtime", int(sandbox.runtime));
+		settings.setValue("ReadOnlyDirectories", sandbox.readOnlyDirectories);
+		settings.setValue("PreparationTimeLimit", sandbox.preparationTimeLimit);
+		settings.endGroup();
 		QStringList configurationNames = compilerList[i]->getConfigurationNames();
 		QStringList compilerArguments = compilerList[i]->getCompilerArguments();
 		QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
@@ -613,7 +617,14 @@ void Settings::loadSettings() {
 		compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
 		compiler->setInterpreterAsWatcher(settings.value("InterpreterAsWatcher").toBool());
 		SandboxSettings sandbox;
-		sandbox.read(QJsonDocument::fromJson(settings.value("WindowsSandbox").toByteArray()).object());
+		settings.beginGroup("WindowsSandbox");
+		sandbox.enabled = settings.value("Enabled", sandbox.enabled).toBool();
+		sandbox.runtime =
+		    static_cast<SandboxSettings::Runtime>(settings.value("Runtime", int(sandbox.runtime)).toInt());
+		sandbox.readOnlyDirectories = settings.value("ReadOnlyDirectories").toStringList();
+		sandbox.preparationTimeLimit =
+		    settings.value("PreparationTimeLimit", sandbox.preparationTimeLimit).toInt();
+		settings.endGroup();
 		compiler->setSandboxSettings(sandbox);
 		int configurationCount = settings.beginReadArray("Configuration");
 
