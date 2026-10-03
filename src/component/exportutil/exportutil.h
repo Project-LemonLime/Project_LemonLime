@@ -11,11 +11,8 @@
 //
 
 #include "base/LemonType.hpp"
+#include <QJsonObject>
 #include <QObject>
-
-#ifdef ENABLE_XLS_EXPORT
-#include <QAxObject>
-#endif
 
 class Contest;
 class Contestant;
@@ -27,14 +24,9 @@ class ExportUtil : public QObject {
 	static void exportResult(QWidget *, Contest *);
 
   private:
-	static QString getContestantHtmlCode(Contest *, Contestant *, int);
-	static QString getSmallerContestantHtmlCode(Contest *, Contestant *);
+	static QJsonObject buildExportJson(Contest *);
 	static void exportHtml(QWidget *, Contest *, const QString &);
-	static void exportSmallerHtml(QWidget *, Contest *, const QString &);
 	static void exportCsv(QWidget *, Contest *, const QString &);
-#ifdef ENABLE_XLS_EXPORT
-	static void exportXls(QWidget *, Contest *, const QString &);
-#endif
   signals:
 
   public slots:

@@ -1,0 +1,307 @@
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+    <style>
+        table {
+            border-style: solid;
+        }
+        th, td {
+            padding-left: 1em;
+            padding-right: 1em;
+            white-space: nowrap;
+            text-align: center;
+            vertical-align: middle;
+        }
+        th {
+            border-style: none solid solid none;
+            border-width: 3px 3px;
+            border-color: #000;
+        }
+        td:not(.score) {
+            border-style: none solid solid none;
+            border-width: 1px 3px;
+            border-color: #ccc;
+        }
+        td.score {
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        a {
+            text-decoration: none;
+        }
+        td > a:not(.info) {
+            color: black;
+        }
+        hr {
+            margin: 15px 0;
+        }
+    </style>
+    <script>
+        const data = %%DATA%%;
+
+        // 确定唯一 id
+        data.contestants.forEach((c, i) => c._id = `c${i}`);
+
+        document.title = `${data.name} : ${data.i18n.rank_list}`;
+
+        const desc = document.createElement('p');
+        desc.innerText = `${data.name} : ${data.i18n.rank_list}`;
+        document.body.append(desc);
+
+        const hint = document.createElement('p');
+        hint.innerText = data.i18n.hint;
+        document.body.append(hint);
+
+        const topAnchor = document.createElement('a');
+        topAnchor.name = 'top';
+        document.body.append(topAnchor);
+
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const headerTr = document.createElement('tr');
+
+        // 默认按总分降序
+        let sortState = { key: 'total', taskIndex: null, asc: false };
+
+        const headers = [data.i18n.rank, data.i18n.name, data.i18n.total, ...data.task_names];
+
+        headers.forEach((text, idx) => {
+            const th = document.createElement('th');
+            th.innerText = text;
+
+            // 总分和每题列可点击排序
+            if (idx >= 2) {
+                const indicator = document.createElement('span');
+                indicator.className = 'sort-indicator';
+                indicator.style.visibility = 'hidden';
+                indicator.textContent = '▾';
+                th.appendChild(indicator);
+
+                th.style.cursor = 'pointer';
+                th.dataset.col = idx === 2 ? 'total' : 'task';
+                if (idx > 2) th.dataset.taskIndex = idx - 3;
+                th.onclick = () => {
+                    const col = th.dataset.col;
+                    if (col === 'total') {
+                        if (sortState.key === 'total') sortState.asc = !sortState.asc;
+                        else { sortState.key = 'total'; sortState.taskIndex = null; sortState.asc = false; }
+                    } else {
+                        const ti = parseInt(th.dataset.taskIndex, 10);
+                        if (sortState.key === 'task' && sortState.taskIndex === ti) sortState.asc = !sortState.asc;
+                        else { sortState.key = 'task'; sortState.taskIndex = ti; sortState.asc = false; }
+                    }
+                    renderTable();
+                };
+            }
+            headerTr.append(th);
+        });
+        thead.append(headerTr);
+        table.append(thead);
+
+        const tbody = document.createElement('tbody');
+        table.append(tbody);
+        document.body.append(table);
+
+        function clearChildren(el) {
+            while (el.firstChild) el.removeChild(el.firstChild);
+        }
+
+        function updateHeaderIndicators() {
+            const ths = thead.querySelectorAll('th');
+            ths.forEach((th) => {
+                const indicator = th.querySelector('.sort-indicator');
+                if (!indicator) return;
+
+                const isActive =
+                    (sortState.key === 'total' && th.dataset.col === 'total') ||
+                    (sortState.key === 'task' && th.dataset.col === 'task' &&
+                     parseInt(th.dataset.taskIndex, 10) === sortState.taskIndex);
+
+                indicator.textContent = sortState.asc ? '▴' : '▾';
+                indicator.style.visibility = isActive ? 'visible' : 'hidden';
+            });
+        }
+
+        function compareBy(a, b) {
+            let va, vb;
+            if (sortState.key === 'total') {
+                va = a.total_score || 0;
+                vb = b.total_score || 0;
+            } else {
+                const ti = sortState.taskIndex;
+                va = (a.tasks && a.tasks[ti]) ? (a.tasks[ti].score || 0) : 0;
+                vb = (b.tasks && b.tasks[ti]) ? (b.tasks[ti].score || 0) : 0;
+            }
+            if (va !== vb) return sortState.asc ? va - vb : vb - va;
+            if ((a.total_score || 0) !== (b.total_score || 0)) return (b.total_score || 0) - (a.total_score || 0);
+            return (a.rank || 0) - (b.rank || 0);
+        }
+
+        function renderTable() {
+            clearChildren(tbody);
+            updateHeaderIndicators();
+
+            const sorted = data.contestants.slice().sort(compareBy);
+
+            sorted.forEach((c) => {
+                const tr = document.createElement('tr');
+
+                // 排名
+                const rankTd = document.createElement('td');
+                const rankA = document.createElement('a');
+                rankA.innerText = c.rank;
+                rankA.href = `#${c._id}`;
+                rankTd.append(rankA);
+                tr.append(rankTd);
+
+                // 名称
+                const nameTd = document.createElement('td');
+                const nameA = document.createElement('a');
+                nameA.innerText = c.name;
+                nameA.href = `#${c._id}`;
+                nameTd.append(nameA);
+                tr.append(nameTd);
+
+                // 总分
+                const totalTd = document.createElement('td');
+                const aTotal = document.createElement('a');
+                aTotal.innerText = c.total_score;
+                aTotal.href = `#${c._id}`;
+                totalTd.append(aTotal);
+                totalTd.classList.add('score');
+                if (c.total_bg) totalTd.style.background = `hsl(${c.total_bg})`;
+                if (c.total_border) totalTd.style.border = `2px solid hsl(${c.total_border})`;
+                tr.append(totalTd);
+
+                // 每题分数
+                (c.tasks || []).forEach((t, j) => {
+                    const td = document.createElement('td');
+                    const a = document.createElement('a');
+                    a.innerText = t.score;
+                    a.href = `#${c._id}t${j}`;
+                    td.append(a);
+                    td.classList.add('score');
+                    if (t.bg) td.style.background = `hsl(${t.bg})`;
+                    tr.append(td);
+                });
+
+                tbody.append(tr);
+            });
+        }
+
+        // 详情区
+        data.contestants.forEach((c, i) => {
+            const hr = document.createElement('hr');
+            hr.id = c._id;
+            document.body.append(hr);
+
+            const contestantP = document.createElement('p');
+            contestantP.innerText = `${data.i18n.contestant} : ${c.name}`;
+            document.body.append(contestantP);
+
+            (c.tasks || []).forEach((t, j) => {
+                const taskContainer = document.createElement('div');
+                taskContainer.id = `${c._id}t${j}`;
+
+                const taskH3 = document.createElement('h3');
+                taskH3.innerText = `${data.i18n.task} ${data.task_names[j]}`;
+                taskContainer.append(taskH3);
+
+                if (t.info) {
+                    const fileP = document.createElement('p');
+                    fileP.innerText = t.info;
+                    taskContainer.append(fileP);
+                }
+
+                if (t.compile_message) {
+                    const msgPre = document.createElement('pre');
+                    msgPre.textContent = t.compile_message;
+                    msgPre.style.textAlign = 'left';
+                    taskContainer.append(msgPre);
+                }
+
+                if (t.details && t.details.length > 0) {
+                    const detailTable = document.createElement('table');
+                    const dThead = document.createElement('thead');
+                    const dHeaderTr = document.createElement('tr');
+                    [data.i18n.testcase, data.i18n.input, data.i18n.result, data.i18n.time, data.i18n.memory, data.i18n.score].forEach(text => {
+                        const th = document.createElement('th');
+                        th.innerText = text;
+                        dHeaderTr.append(th);
+                    });
+                    dThead.append(dHeaderTr);
+                    detailTable.append(dThead);
+
+                    const dTbody = document.createElement('tbody');
+                    t.details.forEach(d => {
+                        const dTr = document.createElement('tr');
+                        if (d.row_span > 0) {
+                            const labelTd = document.createElement('td');
+                            labelTd.rowSpan = d.row_span;
+                            labelTd.innerHTML = d.label;
+                            dTr.append(labelTd);
+                        }
+                        const inputTd = document.createElement('td');
+                        inputTd.innerText = d.input;
+                        dTr.append(inputTd);
+
+                        const resultTd = document.createElement('td');
+                        resultTd.innerText = d.result;
+                        resultTd.style.background = d.bg;
+                        if (d.info) {
+                            const a = document.createElement('a');
+                            a.innerText = " (...)";
+                            a.href = "javascript:void(0)";
+                            a.classList.add('info');
+                            a.onclick = () => {
+                                alert(d.info);
+                            };
+                            resultTd.append(a);
+                        }
+                        dTr.append(resultTd);
+
+                        [d.time, d.memory].forEach(val => {
+                            const td = document.createElement('td');
+                            td.innerText = val;
+                            dTr.append(td);
+                        });
+
+                        if (d.row_span > 0) {
+                            const scoreTd = document.createElement('td');
+                            scoreTd.rowSpan = d.row_span;
+                            scoreTd.style.background = d.bg;
+                            const scoreSpan = document.createElement('span');
+                            scoreSpan.style.fontWeight = 'bold';
+                            scoreSpan.style.fontSize = 'large';
+                            scoreSpan.textContent = d.score;
+                            scoreTd.appendChild(scoreSpan);
+                            scoreTd.appendChild(document.createTextNode(` / ${d.full_score}`));
+                            dTr.append(scoreTd);
+                        }
+                        dTbody.append(dTr);
+                    });
+                    detailTable.append(dTbody);
+                    taskContainer.append(detailTable);
+                }
+                document.body.append(taskContainer);
+            });
+
+            const returnP = document.createElement('p');
+            const returnA = document.createElement('a');
+            returnA.href = '#top';
+            returnA.innerText = data.i18n.return_to_top;
+            returnP.append(returnA);
+            document.body.append(returnP);
+        });
+
+        const versionP = document.createElement('p');
+        versionP.innerText = data.version;
+        versionP.style.fontStyle = 'italic';
+        document.body.append(versionP);
+
+        renderTable();
+    </script>
+</body>
+</html>
