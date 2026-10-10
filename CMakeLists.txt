@@ -19,8 +19,6 @@ option(EMBED_TRANSLATIONS "Embed translations" ON)
 LEMONLOG(EMBED_TRANSLATIONS)
 option(EMBED_DOCS "Embed documents" ON)
 LEMONLOG(EMBED_DOCS)
-option(ENABLE_XLS_EXPORT "XLS Result Export Support (Windows Only)" OFF)
-LEMONLOG(ENABLE_XLS_EXPORT)
 option(BUILD_DEB "Build deb format package" OFF)
 LEMONLOG(BUILD_DEB)
 option(BUILD_RPM "Build rpm format package" OFF)
@@ -286,12 +284,6 @@ else()
 endif()
 
 target_include_directories(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src)
-
-if(WIN32 AND ENABLE_XLS_EXPORT)
-    find_package(${LEMON_QT_LIBNAME} COMPONENTS AxContainer REQUIRED)
-    list(APPEND LEMON_QT_LIBS ${LEMON_QT_LIBNAME}::AxContainer)
-    add_definitions(-DENABLE_XLS_EXPORT)
-endif()
 
 target_precompile_headers(lemon PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
