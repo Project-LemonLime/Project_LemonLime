@@ -208,7 +208,7 @@ void Task::refreshCompilerConfiguration(Settings *settings) {
 			const QString &config = compilerConfiguration.value(i->getCompilerName());
 			const QStringList &configurationNames = i->getConfigurationNames();
 
-			if (! configurationNames.contains(config)) {
+			if (config != "disable" && ! configurationNames.contains(config)) {
 				compilerConfiguration.insert(i->getCompilerName(), "default");
 			}
 		} else {

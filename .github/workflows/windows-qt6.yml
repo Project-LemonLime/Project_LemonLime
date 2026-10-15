@@ -84,7 +84,7 @@ jobs:
           cmake --build . --parallel $(nproc)
       - name: Deploy Qt for tests
         shell: pwsh
-        run: windeployqt tests\test1\test1.exe
+        run: windeployqt tests\integrated-test\integrated-test.exe
       - name: Run tests
         shell: bash
         env:

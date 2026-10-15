@@ -6,7 +6,6 @@ if(MSVC)
 endif()
 target_link_libraries(sandbox-helper PRIVATE advapi32 ws2_32)
 
-find_package(Qt${LEMON_QT_MAJOR_VERSION} ${LEMON_QT_MIN_VERSION} COMPONENTS Test REQUIRED)
 add_executable(windows-sandbox-tests main.cpp)
 target_compile_definitions(windows-sandbox-tests PRIVATE WIN32_LEAN_AND_MEAN)
 target_include_directories(windows-sandbox-tests PRIVATE ${CMAKE_SOURCE_DIR}/src ${spdlog_DIR}/include)

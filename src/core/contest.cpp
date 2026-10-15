@@ -287,6 +287,7 @@ int Contest::readFromJson(const QJsonObject &in) {
 		Task *newTask = new Task();
 		if (newTask->readFromJson(task.toObject()) == -1)
 			return -1;
+		newTask->refreshCompilerConfiguration(settings);
 		taskList.append(newTask);
 	}
 

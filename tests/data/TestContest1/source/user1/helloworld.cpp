@@ -1,15 +1,9 @@
+#include <csignal>
 #include <cstring>
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
-int f(int n) {
-	vector<int> a(1);
-	for (int i = 0; i < n; i++) {
-		a[i] = 100;
-	}
-}
 int *p;
 int main() {
 	int s;
@@ -30,7 +24,7 @@ int main() {
 				;
 			break;
 		case 5:
-			f(100);
+			std::raise(SIGSEGV);
 			break;
 		default:
 			break;

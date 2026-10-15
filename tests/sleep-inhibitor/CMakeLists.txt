@@ -1,5 +1,3 @@
-find_package(Qt${LEMON_QT_MAJOR_VERSION} ${LEMON_QT_MIN_VERSION} COMPONENTS Test REQUIRED)
-
 add_executable(sleep-inhibitor-test main.cpp)
 target_link_libraries(sleep-inhibitor-test PRIVATE
     lemon-core
