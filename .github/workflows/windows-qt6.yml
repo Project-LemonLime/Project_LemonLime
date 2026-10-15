@@ -35,10 +35,6 @@ jobs:
       targetName: lemon.exe
     # 步骤
     steps:
-      - name: Get the version
-        id: get_version
-        shell: bash
-        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
       - name: Checking out sources
         uses: actions/checkout@v6
         with:
@@ -64,6 +60,14 @@ jobs:
           setup-python: "false"
           modules: "qtactiveqt"
           aqtsource: "git+https://github.com/miurahr/aqtinstall.git@076e1659807d0b362a3ed684d54c2e9c775eb9c7"
+
+      - name: Prepare artifact name
+        id: artifact_name
+        uses: ./.github/actions/artifact-name
+        with:
+          platform: win
+          arch: ${{ matrix.arch }}
+          build-type: ${{ matrix.build_type }}
 
       - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
@@ -91,32 +95,29 @@ jobs:
           ctest --test-dir . -V --timeout 120
       - name: package
         env:
-          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ steps.artifact_name.outputs.name }}
         shell: pwsh
         run: |
           # 创建文件夹
-          New-Item -ItemType Directory ${{ env.archiveName }}
+          New-Item -ItemType Directory -Path $env:archiveName
           # 拷贝exe
-          Copy-Item ${{ env.targetName }} ${{ env.archiveName}}\
+          Copy-Item -LiteralPath $env:targetName -Destination $env:archiveName
           # 拷贝依赖
-          windeployqt --qmldir . ${{ env.archiveName }}\${{ env.targetName }}
+          windeployqt --qmldir . "$env:archiveName\$env:targetName"
           # 打包zip
-          Compress-Archive -Path ${{ env.archiveName }} ${{ env.archiveName }}'.zip'
+          Compress-Archive -Path $env:archiveName -DestinationPath "$env:archiveName.zip"
       - name: Upload artifact
         uses: actions/upload-artifact@v7
-        env:
-          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: lemon-win-qt6-x64-${{ matrix.build_type }}.zip
-          path: ${{ env.archiveName }}.zip
+          path: ${{ steps.artifact_name.outputs.name }}.zip
+          archive: false
+          if-no-files-found: error
       - name: uploadRelease
-        if: startsWith(github.event.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
-        env:
-          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.archiveName }}.zip
-          asset_name: lemon-win-qt6-x64-${{ matrix.build_type }}.zip
+          file: ${{ steps.artifact_name.outputs.name }}.zip
+          asset_name: ${{ steps.artifact_name.outputs.name }}.zip
           tag: ${{ github.ref }}
           overwrite: true

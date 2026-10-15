@@ -1,0 +1,52 @@
+name: Artifact name
+description: Generate a shared file name for Actions and Release artifacts
+
+inputs:
+  platform:
+    description: Target operating system (win, linux, or macos)
+    required: true
+  arch:
+    description: Target architecture
+    required: true
+  build-type:
+    description: CMake build type
+    required: true
+  qmake:
+    description: qmake executable used to query the installed Qt version
+    default: qmake
+  variant:
+    description: Optional package variant appended after the commit hash
+    default: ""
+
+outputs:
+  name:
+    description: Artifact file name without an extension
+    value: ${{ steps.name.outputs.name }}
+
+runs:
+  using: composite
+  steps:
+    - id: name
+      shell: bash
+      env:
+        ARTIFACT_PLATFORM: ${{ inputs.platform }}
+        ARTIFACT_ARCH: ${{ inputs.arch }}
+        ARTIFACT_BUILD_TYPE: ${{ inputs.build-type }}
+        ARTIFACT_QMAKE: ${{ inputs.qmake }}
+        ARTIFACT_VARIANT: ${{ inputs.variant }}
+      run: |
+        version="$(tr -d '\r\n' < makespec/VERSION)$(tr -d '\r\n' < makespec/VERSIONSUFFIX)"
+        commit_hash="$(git rev-parse --short HEAD)"
+        qt_version="$("$ARTIFACT_QMAKE" -query QT_VERSION | tr -d '\r\n')"
+        arch="$(printf '%s' "$ARTIFACT_ARCH" | tr '[:upper:]' '[:lower:]')"
+        case "$arch" in
+          x64|x86_64|amd64) arch=x64 ;;
+          arm64|aarch64) arch=arm64 ;;
+          *) echo "Unsupported architecture: $ARTIFACT_ARCH" >&2; exit 1 ;;
+        esac
+        build_type="$(printf '%s' "$ARTIFACT_BUILD_TYPE" | tr '[:upper:]' '[:lower:]')"
+        name="lemonlime-${version}-${ARTIFACT_PLATFORM}-${arch}-${build_type}-qt${qt_version}-${commit_hash}"
+        if [ -n "$ARTIFACT_VARIANT" ]; then
+          name="${name}-${ARTIFACT_VARIANT}"
+        fi
+        printf 'name=%s\n' "$name" >> "$GITHUB_OUTPUT"
