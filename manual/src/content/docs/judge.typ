@@ -1,6 +1,6 @@
-#import "../html.typ" : *
-#show : html-style
-#metadata(( title: "测试" ))<frontmatter>
+#import "../html.typ": *
+#show: html-style
+#metadata((title: "测试"))<frontmatter>
 
 = 测试
 
@@ -50,7 +50,7 @@
 
 == 多线程评测
 
-在工具\>选项\>常规中，你可以调整最大评测线程数量，默认为单线程评测，这个功能仍在测试阶段，小心使用!
+在工具\>选项\>常规中可以调整最大评测线程数量。首次使用时，具有 P-core 和 E-core 的异构 CPU 默认采用 P-core 数量；同构 CPU 默认采用全部物理核心数量的四分之三，向下取整且至少为 1。仅有 E-core 的 CPU 按同构计算，例如 N100 的 4 个 E-core 默认使用 3 个评测线程。
 
 == 导出成绩
 

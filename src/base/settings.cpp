@@ -11,6 +11,7 @@
 //
 #include "base/LemonLog.hpp"
 #include "base/compiler.h"
+#include "base/cputopology.h"
 //
 #include <cmath>
 //
@@ -560,7 +561,10 @@ void Settings::loadSettings() {
 	specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
 	fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();
 	rejudgeTimes = settings.value("MaximumRejudgeTimes", 1).toInt();
-	maxJudgingThreads = settings.value("MaximumJudgingThreads", 1).toInt();
+	maxJudgingThreads =
+	    settings.value("MaximumJudgingThreads", Lemon::getDefaultJudgingThreadCount()).toInt();
+	DEBUG("Loaded maximum judging threads:", maxJudgingThreads,
+	      "source:", settings.contains("MaximumJudgingThreads") ? "saved setting" : "CPU topology default");
 	preventSleepWhileJudging = settings.value("PreventSleepWhileJudging", true).toBool();
 	defaultInputFileExtension = settings.value("DefaultInputFileExtension", "in").toString();
 	defaultOutputFileExtension = settings.value("DefaultOutputFileExtension", "out").toString();

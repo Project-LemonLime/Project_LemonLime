@@ -38,7 +38,7 @@ git submodule update --init --recursive
 
 ## Windows
 
-安装 Visual Studio 的“使用 C++ 的桌面开发”组件、Windows SDK、CMake、Ninja，以及相应架构的 Qt MSVC 工具包。在 Visual Studio 的 **Developer PowerShell** 中执行：
+安装 Visual Studio 的“使用 C++ 的桌面开发”组件、Windows 10 SDK 或更新版本、CMake、Ninja，以及相应架构的 Qt MSVC 工具包。在 Visual Studio 的 **Developer PowerShell** 中执行：
 
 ```powershell
 cmake -S . -B build -G Ninja `
