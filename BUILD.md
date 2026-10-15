@@ -22,8 +22,8 @@ $ git clone https://github.com/Project-LemonLime/Project_LemonLime.git --recursi
 
 | 依赖           | 要求                                                  |
 | -------------- | ----------------------------------------------------- |
-| CMake          | 推荐 3.20 或更高；                                    |
-| C++ 编译器     | 支持 C++17，使用与 Qt 工具包匹配的编译器              |
+| CMake          | 3.20 或更高                                          |
+| C++ 编译器     | 支持 C++23，使用与 Qt 工具包匹配的编译器              |
 | Qt             | 6.8 或更高                                            |
 | Qt 模块        | Core、Gui、Widgets、Network、Svg、LinguistTools、Test |
 | Linux 附加模块 | Qt DBus，用于评测期间向系统申请阻止休眠               |
@@ -53,6 +53,8 @@ build 目录下会生成 lemon.exe。动态链接 Qt 时，使用 `windeployqt` 
 & "<your qt install path>/msvc2022_64/bin/windeployqt.exe" --release build/lemon.exe
 & ./build/lemon.exe
 ```
+
+Windows ARM64 使用 ARM64 MSVC 开发环境与 `msvc2022_arm64` Qt 工具包，构建和部署命令相同。CI 在 `windows-11-arm` 上原生构建 ARM64 主程序，并使用 Qt ActiveQt 保留 XLS 导出。
 
 ## Linux
 
@@ -92,6 +94,18 @@ sudo zypper in lsb-release rpm-build # RPM 依赖
 cmake . -DCMAKE_BUILD_TYPE=Release -GNinja -DBUILD_RPM=ON
 ninja
 
+```
+
+Ubuntu 26.04 ARM64 可使用系统 Qt 开发包生成 DEB，CI 使用同名 ARM64 runner：
+
+```bash
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_DEB=ON \
+    -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF \
+    -DCPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+cmake --build build --target package
 ```
 
 ## macOS

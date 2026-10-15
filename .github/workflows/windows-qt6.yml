@@ -18,16 +18,21 @@ on:
     types: [published]
 jobs:
   build:
-    name: Build
+    name: Windows ${{ matrix.arch }} ${{ matrix.build_type }}
     strategy:
       matrix:
         qt_version: [6.12.0]
         build_type: [Release, RelWithDebInfo, Debug]
-        platform: [windows-latest]
+        platform: [windows-latest, windows-11-arm]
         include:
           - platform: windows-latest
             arch: x64
+            qthost: windows
             qtarch: win64_msvc2022_64
+          - platform: windows-11-arm
+            arch: arm64
+            qthost: windows_arm64
+            qtarch: win64_msvc2022_arm64
       fail-fast: false
 
     runs-on: ${{ matrix.platform }}
@@ -43,18 +48,19 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-          architecture: x64
+          architecture: ${{ matrix.arch }}
       - name: Restoring submodules
         run: git submodule update --init
       # =========================================================================================================
       - name: Install MSVC compiler
         uses: TheMrMilchmann/setup-msvc-dev@v4.0.0
         with:
-          arch: x64
-      - name: Installing Qt - x64
+          arch: ${{ matrix.arch }}
+      - name: Installing Qt - ${{ matrix.arch }}
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qt_version }}
+          host: ${{ matrix.qthost }}
           arch: ${{ matrix.qtarch }}
           cache: true
           setup-python: "false"
@@ -69,7 +75,7 @@ jobs:
           arch: ${{ matrix.arch }}
           build-type: ${{ matrix.build_type }}
 
-      - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
+      - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
         shell: bash
         env:
           CC: cl.exe
@@ -79,12 +85,18 @@ jobs:
             -GNinja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DLEMON_BUILD_INFO="Build for Windows" \
-            -DLEMON_BUILD_EXTRA_INFO="Build on Windows x64" \
+            -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{ matrix.arch }}" \
             -DENABLE_XLS_EXPORT=ON
           cmake --build . --parallel $(nproc)
       - name: Deploy Qt for tests
         shell: pwsh
-        run: windeployqt tests\integrated-test\integrated-test.exe
+        run: |
+          Get-ChildItem tests -Recurse -Filter *.exe |
+            Where-Object { $_.Name -ne 'sandbox-helper.exe' } |
+            ForEach-Object {
+              windeployqt $_.FullName
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            }
       - name: Run tests
         shell: bash
         env:

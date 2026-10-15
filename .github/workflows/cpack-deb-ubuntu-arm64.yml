@@ -1,0 +1,81 @@
+name: CPack - DEB - Ubuntu ARM64
+
+on:
+  push:
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
+  pull_request:
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - "BUILD.md"
+  release:
+    types: [published]
+
+jobs:
+  linux:
+    name: Ubuntu 26.04 ARM64 ${{ matrix.build_type }}
+    runs-on: ubuntu-26.04-arm
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, RelWithDebInfo, Debug]
+
+    steps:
+      - name: Checking out sources
+        uses: actions/checkout@v6
+        with:
+          submodules: "recursive"
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build pkgconf lsb-release python3 \
+            qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools qt6-svg-dev \
+            qt6-image-formats-plugins qt6-translations-l10n
+      - name: Prepare artifact name
+        id: artifact_name
+        uses: ./.github/actions/artifact-name
+        with:
+          platform: linux
+          arch: arm64
+          build-type: ${{ matrix.build_type }}
+          qmake: qmake6
+          variant: ubuntu-26.04
+      - name: Build
+        run: |
+          cmake -S . -B build -GNinja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+            -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DBUILD_DEB=ON \
+            -DCPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON \
+            -DLEMON_BUILD_INFO="Build for Ubuntu 26.04 ARM64" \
+            -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake --build build --parallel $(nproc)
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure --timeout 120
+      - name: Package
+        run: cmake --build build --target package --parallel $(nproc)
+      - name: Rename and verify package
+        env:
+          PACKAGE_NAME: ${{ steps.artifact_name.outputs.name }}
+        run: |
+          mv build/LemonLime-*.deb "build/$PACKAGE_NAME.deb"
+          test "$(dpkg-deb --field "build/$PACKAGE_NAME.deb" Architecture)" = arm64
+          dpkg-deb --info "build/$PACKAGE_NAME.deb"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/${{ steps.artifact_name.outputs.name }}.deb
+          archive: false
+          if-no-files-found: error
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/${{ steps.artifact_name.outputs.name }}.deb
+          asset_name: ${{ steps.artifact_name.outputs.name }}.deb
+          tag: ${{ github.ref }}
+          overwrite: true

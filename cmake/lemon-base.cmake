@@ -38,7 +38,7 @@ target_precompile_headers(lemon-base PUBLIC ${CMAKE_SOURCE_DIR}/src/pch.h)
 
 target_link_libraries(lemon-base
     ${LEMON_QT_LIBS}
-    ${SINGLEAPPLICATION_LIBRARY}
+    SingleApplication::SingleApplication
     )
 
 target_include_directories(lemon-base PUBLIC
