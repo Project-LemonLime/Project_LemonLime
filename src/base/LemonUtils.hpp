@@ -10,11 +10,9 @@
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <concepts>
 #include <type_traits>
 
-/*
- * Use a lot of SFAINE tricks to support varied data and container types
- */
 namespace Lemon::detail {
 	inline int jsonReadHelper(QString &val, const QJsonValue &jval) {
 		if (jval.isString()) {
@@ -66,18 +64,13 @@ namespace Lemon::detail {
 		} else
 			return -1;
 	}
-	inline int jsonReadHelper(ResultState &val, const QJsonValue &jval) {
+	template <typename T>
+	    requires(std::same_as<T, ResultState> || std::same_as<T, CompileState>)
+	int jsonReadHelper(T &val, const QJsonValue &jval) {
 		int x;
 		if (jsonReadHelper(x, jval) == -1)
 			return -1;
-		val = static_cast<ResultState>(x);
-		return 0;
-	}
-	inline int jsonReadHelper(CompileState &val, const QJsonValue &jval) {
-		int x;
-		if (jsonReadHelper(x, jval) == -1)
-			return -1;
-		val = static_cast<CompileState>(x);
+		val = static_cast<T>(x);
 		return 0;
 	}
 	template <typename T> int jsonReadHelper(QList<T> &val, const QJsonArray &jval);
@@ -110,17 +103,15 @@ namespace Lemon::detail {
 	}
 
 	template <typename T>
-	std::enable_if_t<std::is_integral_v<T> || std::is_floating_point_v<T> ||
-	                     std::is_same_v<std::remove_cv_t<T>, QString> ||
-	                     std::is_same_v<std::remove_cv_t<T>, QJsonArray> ||
-	                     std::is_same_v<std::remove_cv_t<T>, QJsonValue> ||
-	                     std::is_same_v<std::remove_cv_t<T>, QJsonObject>,
-	                 void>
-	jsonWriteHelper(const T &val, QJsonValue &jval) {
-		jval = val;
-	}
+	concept JsonValueType =
+	    std::integral<T> || std::floating_point<T> || std::same_as<std::remove_cv_t<T>, QString> ||
+	    std::same_as<std::remove_cv_t<T>, QJsonArray> || std::same_as<std::remove_cv_t<T>, QJsonValue> ||
+	    std::same_as<std::remove_cv_t<T>, QJsonObject>;
+
+	template <JsonValueType T> void jsonWriteHelper(const T &val, QJsonValue &jval) { jval = val; }
 	template <typename T>
-	std::enable_if_t<std::is_enum_v<T>, void> jsonWriteHelper(const T &val, QJsonValue &jval) {
+	    requires std::is_enum_v<T>
+	void jsonWriteHelper(const T &val, QJsonValue &jval) {
 		jval = static_cast<int>(val);
 	}
 	template <typename T> void jsonWriteHelper(const QList<T> &val, QJsonValue &jval) {
@@ -158,5 +149,7 @@ namespace Lemon::common {
 	QStringList GetFileList(const QDir &dir);
 
 	bool FileExistsIn(const QDir &dir, const QString &fileName);
+
+	bool lessFileName(const QString &a, const QString &b);
 
 } // namespace Lemon::common

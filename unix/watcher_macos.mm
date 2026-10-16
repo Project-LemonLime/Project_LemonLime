@@ -101,7 +101,7 @@ static std::string getCpuBrandString() {
 
 int isAppleSilicon;
 
-void initWatcher() { isAppleSilicon = getCpuBrandString().find("Apple") != std::string::npos; }
+void initWatcher() { isAppleSilicon = getCpuBrandString().contains("Apple"); }
 
 ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	uint32_t magic;

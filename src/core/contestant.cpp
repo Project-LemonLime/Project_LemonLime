@@ -12,6 +12,7 @@
 #include "base/LemonUtils.hpp"
 #include "core/contest.h"
 #include <QTimeZone>
+#include <ranges>
 #include <utility>
 
 Contestant::Contestant(QObject *parent) : QObject(parent) {}
@@ -166,13 +167,9 @@ auto Contestant::getTotalUsedTime() const -> int {
 
 	int total = 0;
 
-	for (const auto &i : timeUsed) {
-		for (const auto &j : i) {
-			for (int k : j) {
-				if (k >= 0)
-					total += k;
-			}
-		}
+	for (int time : timeUsed | std::views::join | std::views::join) {
+		if (time >= 0)
+			total += time;
 	}
 
 	return total;

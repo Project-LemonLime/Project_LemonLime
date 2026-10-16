@@ -50,7 +50,6 @@ class AddTestCasesWizard : public QWizard {
 	QStringList getMatchedPart(const QString &, const QString &);
 	void searchMatchedFiles();
 	bool validateCurrentPage();
-	static bool compareFileName(const QString &, const QString &);
 
   private slots:
 	void fullScoreChanged(const QString &);

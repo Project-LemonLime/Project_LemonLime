@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <ranges>
 
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
@@ -179,12 +180,8 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 				htmlCode += "</td>";
 
 				if (k == 0) {
-					int minv = 2147483647;
+					const int minv = std::ranges::min(score[j] | std::views::take(inputFiles[j].size()));
 					int maxv = testCases[j]->getFullScore();
-
-					for (int t = 0; t < inputFiles[j].size(); t++)
-						if (score[j][t] < minv)
-							minv = score[j][t];
 
 					QString bgClass = "zero-score";
 
@@ -547,12 +544,8 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 				htmlCode += "</td>";
 
 				if (k == 0) {
-					int minv = 2147483647;
+					const int minv = std::ranges::min(score[j] | std::views::take(inputFiles[j].size()));
 					int maxv = testCases[j]->getFullScore();
-
-					for (int t = 0; t < inputFiles[j].size(); t++)
-						if (score[j][t] < minv)
-							minv = score[j][t];
 
 					htmlCode += QString(R"(<td rowspan="%1"><span class="c">%2</span> / %3</td>)")
 					                .arg(inputFiles[j].size())

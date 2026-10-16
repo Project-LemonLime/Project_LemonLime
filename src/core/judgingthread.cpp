@@ -763,26 +763,27 @@ void JudgingThread::judgeTraditionalTask() {
 		QFile::remove(workingDirectory + "_tmperr");
 	});
 
-	ProcessRunnerConfig cfg;
-	cfg.executableFile = executableFile;
-	cfg.arguments = arguments;
-	cfg.workingDirectory = workingDirectory;
-	cfg.inputFile = inputFile;
-	cfg.environment = environment;
-	cfg.timeLimit = timeLimit;
-	cfg.rawTimeLimit = rawTimeLimit;
-	cfg.memoryLimit = memoryLimit;
-	cfg.rawMemoryLimit = rawMemoryLimit;
-	cfg.extraTimeRatio = extraTimeRatio;
-	cfg.standardInputCheck = task->getStandardInputCheck();
-	cfg.standardOutputCheck = task->getStandardOutputCheck();
-	cfg.inputFileName = task->getInputFileName();
-	cfg.outputFileName = task->getOutputFileName();
-	cfg.interpreterAsWatcher = interpreterAsWatcher;
-	cfg.sandboxSettings = sandboxSettings;
-	cfg.runtimeExecutable = runtimeExecutable;
-	cfg.runtimeEnvironment = runtimeEnvironment;
-	cfg.sandboxSession = sandboxSession;
+	ProcessRunnerConfig cfg{
+	    .executableFile = executableFile,
+	    .arguments = arguments,
+	    .workingDirectory = workingDirectory,
+	    .inputFile = inputFile,
+	    .environment = environment,
+	    .timeLimit = timeLimit,
+	    .rawTimeLimit = rawTimeLimit,
+	    .memoryLimit = memoryLimit,
+	    .rawMemoryLimit = rawMemoryLimit,
+	    .extraTimeRatio = extraTimeRatio,
+	    .standardInputCheck = task->getStandardInputCheck(),
+	    .standardOutputCheck = task->getStandardOutputCheck(),
+	    .inputFileName = task->getInputFileName(),
+	    .outputFileName = task->getOutputFileName(),
+	    .interpreterAsWatcher = interpreterAsWatcher,
+	    .sandboxSettings = sandboxSettings,
+	    .runtimeExecutable = runtimeExecutable,
+	    .runtimeEnvironment = runtimeEnvironment,
+	    .sandboxSession = sandboxSession,
+	};
 
 	auto processRunner = ProcessRunner::create(cfg, stopJudging);
 	auto runResult = processRunner->run();

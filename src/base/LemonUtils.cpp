@@ -18,4 +18,8 @@ namespace Lemon::common {
 		return GetFileList(dir).contains(fileName);
 	}
 
+	bool lessFileName(const QString &a, const QString &b) {
+		return a.length() < b.length() || (a.length() == b.length() && QString::localeAwareCompare(a, b) < 0);
+	}
+
 } // namespace Lemon::common

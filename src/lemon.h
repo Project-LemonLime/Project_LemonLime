@@ -51,7 +51,6 @@ class LemonLime : public QMainWindow {
 	static void getFiles(const QString &, const QStringList &, QMap<QString, QString> &);
 	void addTask(const QString &, const QList<std::pair<QString, QString>> &, int, int, int);
 	void addTaskWithScoreScale(const QString &, const QList<std::pair<QString, QString>> &, int, int, int);
-	static bool compareFileName(const std::pair<QString, QString> &, const std::pair<QString, QString> &);
 
   private slots:
 	void summarySelectionChanged();

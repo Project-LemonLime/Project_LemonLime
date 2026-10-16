@@ -10,6 +10,7 @@
 #include "addtestcaseswizard.h"
 #include "ui_addtestcaseswizard.h"
 //
+#include "base/LemonUtils.hpp"
 #include "base/settings.h"
 //
 #include <QDir>
@@ -204,30 +205,16 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	QStringList outputFiles;
 	getFiles(Settings::dataPath(), "", inputFiles);
 	getFiles(Settings::dataPath(), "", outputFiles);
-	QString regExp = getFullRegExp(inputFilesPattern);
+	const QRegularExpression inputExpression(
+	    QRegularExpression::anchoredPattern(getFullRegExp(inputFilesPattern)));
+	inputFiles.removeIf([&](const QString &file) { return ! inputExpression.match(file).hasMatch(); });
 
-	for (int i = 0; i < inputFiles.size(); i++) {
-		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
-		          .match(inputFiles[i])
-		          .hasMatch()) {
-			inputFiles.removeAt(i);
-			i--;
-		}
-	}
+	const QRegularExpression outputExpression(
+	    QRegularExpression::anchoredPattern(getFullRegExp(outputFilesPattern)));
+	outputFiles.removeIf([&](const QString &file) { return ! outputExpression.match(file).hasMatch(); });
 
-	regExp = getFullRegExp(outputFilesPattern);
-
-	for (int i = 0; i < outputFiles.size(); i++) {
-		if (! QRegularExpression(QRegularExpression::anchoredPattern(regExp))
-		          .match(outputFiles[i])
-		          .hasMatch()) {
-			outputFiles.removeAt(i);
-			i--;
-		}
-	}
-
-	std::sort(inputFiles.begin(), inputFiles.end(), compareFileName);
-	std::sort(outputFiles.begin(), outputFiles.end(), compareFileName);
+	std::ranges::sort(inputFiles, Lemon::common::lessFileName);
+	std::ranges::sort(outputFiles, Lemon::common::lessFileName);
 	QList<QStringList> inputFilesMatchedPart;
 	QList<QStringList> outputFilesMatchedPart;
 
@@ -280,11 +267,11 @@ void AddTestCasesWizard::searchMatchedFiles() {
 	matchedOutputFiles.clear();
 	ui->testCasesViewer->clear();
 	QList<QString> keys = loc.uniqueKeys();
-	std::sort(keys.begin(), keys.end(), compareFileName);
+	std::ranges::sort(keys, Lemon::common::lessFileName);
 
 	for (int i = 0; i < keys.size(); i++) {
 		QList<int> values = loc.values(keys[i]);
-		std::sort(values.begin(), values.end());
+		std::ranges::sort(values);
 		QStringList inputFiles;
 		QStringList outputFiles;
 		auto *item = new QTreeWidgetItem(ui->testCasesViewer);
@@ -377,8 +364,4 @@ auto AddTestCasesWizard::validateCurrentPage() -> bool {
 	}
 
 	return true;
-}
-
-auto AddTestCasesWizard::compareFileName(const QString &a, const QString &b) -> bool {
-	return a.length() < b.length() || (a.length() == b.length() && QString::localeAwareCompare(a, b) < 0);
 }
