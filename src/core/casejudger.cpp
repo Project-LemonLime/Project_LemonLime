@@ -28,6 +28,17 @@
 
 #define LEMON_MODULE_NAME "CaseJudger"
 
+namespace {
+
+	// Keep the checker's score/message files outside the contestant-writable
+	// working directory so the contestant cannot tamper with them.
+	auto sandboxExternalFilePath(const QString &workingDirectory, const QString &suffix) -> QString {
+		const QFileInfo directory(QDir::cleanPath(workingDirectory));
+		return directory.dir().filePath(directory.fileName() + suffix);
+	}
+
+} // namespace
+
 CaseJudger::CaseJudger() {
 	needRejudge = false;
 	timeUsed = -1;
@@ -479,11 +490,14 @@ void CaseJudger::lemonSpecialJudge(const QString &fileName) {
 		return;
 	}
 
+	const QString scorePath = sandboxExternalFilePath(workingDirectory, "_score");
+	const QString messagePath = sandboxExternalFilePath(workingDirectory, "_message");
+
 	QProcess judge;
 	QStringList arguments;
 	arguments << inputFile << fileName << outputFile << QString("%1").arg(fullScore);
-	arguments << workingDirectory + "_score";
-	arguments << workingDirectory + "_message";
+	arguments << scorePath;
+	arguments << messagePath;
 	judge.start(Settings::dataPath() + task->getSpecialJudge(), arguments);
 
 	if (! judge.waitForStarted(-1)) {
@@ -492,8 +506,8 @@ void CaseJudger::lemonSpecialJudge(const QString &fileName) {
 		return;
 	}
 
-	QFile scoreFile(workingDirectory + "_score");
-	QFile messageFile(workingDirectory + "_message");
+	QFile scoreFile(scorePath);
+	QFile messageFile(messagePath);
 
 	auto removeTempFiles = qScopeGuard([&] {
 		scoreFile.remove();
@@ -592,10 +606,12 @@ void CaseJudger::testlibSpecialJudge(const QString &fileName) {
 		return;
 	}
 
+	const QString scorePath = sandboxExternalFilePath(workingDirectory, "_score");
+
 	QProcess judge;
 	QStringList arguments;
 	arguments << inputFile << fileName << outputFile;
-	judge.setStandardErrorFile(workingDirectory + "_score");
+	judge.setStandardErrorFile(scorePath);
 	judge.start(Settings::dataPath() + task->getSpecialJudge(), arguments);
 
 	if (! judge.waitForStarted(-1)) {
@@ -604,7 +620,7 @@ void CaseJudger::testlibSpecialJudge(const QString &fileName) {
 		return;
 	}
 
-	QFile scoreFile(workingDirectory + "_score");
+	QFile scoreFile(scorePath);
 
 	auto removeTempFiles = qScopeGuard([&] { scoreFile.remove(); });
 
