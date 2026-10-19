@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QProcess>
+#include <QPromise>
 #include <QRegularExpression>
 #include <QScopeGuard>
 #include <QStandardPaths>
@@ -155,8 +156,9 @@ class WindowsSandboxTests : public QObject {
 	}
 
 	ProcessRunnerResult run(ProcessRunnerConfig cfg) {
-		std::atomic<bool> stop{false};
-		return ProcessRunner::create(std::move(cfg), stop)->run();
+		QPromise<void> promise;
+		promise.start();
+		return ProcessRunner::create(std::move(cfg), promise.future())->run();
 	}
 
 	void configureRuntimeFixture(ProcessRunnerConfig &cfg, SandboxSettings::Runtime runtime) {
@@ -292,10 +294,12 @@ class WindowsSandboxTests : public QObject {
 		TaskJudger judger;
 		judger.setSettings(&settings);
 		judger.setTask(&task);
-		judger.setTaskId(0);
-		judger.setContestant(&contestant);
+		judger.setContestantName(contestant.getContestantName());
 		QSignalSpy finished(&judger, &TaskJudger::singleCaseFinished);
-		judger.judgeIt();
+		QPromise<TaskResult> promise;
+		promise.start();
+		contestant.applyResult(0, judger.judgeIt(promise));
+		promise.finish();
 
 		QVERIFY(contestant.getCheckJudged(0));
 		QCOMPARE(contestant.getCompileState(0), CompileSuccessfully);
@@ -793,7 +797,8 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(write(resource, "runtime resource"));
 		cfg.sandboxSettings.readOnlyDirectories = {directory};
 		const auto beforeRuntime = permissions(resource);
-		std::atomic<bool> stop{false};
+		QPromise<void> promise;
+		promise.start();
 		Handle primary;
 		std::thread cancel([&] {
 			QElapsedTimer timer;
@@ -806,9 +811,9 @@ class WindowsSandboxTests : public QObject {
 				if (! primary)
 					QThread::msleep(10);
 			}
-			stop = true;
+			promise.future().cancel();
 		});
-		const auto result = ProcessRunner::create(cfg, stop)->run();
+		const auto result = ProcessRunner::create(cfg, promise.future())->run();
 		cancel.join();
 		QVERIFY(bool(primary));
 		QCOMPARE(WaitForSingleObject(primary.get(), 0), DWORD(WAIT_OBJECT_0));
@@ -856,7 +861,8 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(limited.message.contains("preparation exceeded"));
 		const auto marker = cfg.runtimeExecutable + ".started";
 		QVERIFY(! QFileInfo::exists(marker) || QFile::remove(marker));
-		std::atomic<bool> stop{false};
+		QPromise<void> promise;
+		promise.start();
 		cfg.sandboxSettings.preparationTimeLimit = 1000;
 		DWORD probeId = 0;
 		std::thread cancel([&] {
@@ -867,9 +873,9 @@ class WindowsSandboxTests : public QObject {
 				if (! probeId)
 					QThread::msleep(10);
 			}
-			stop = true;
+			promise.future().cancel();
 		});
-		const auto limitedWithStop = ProcessRunner::create(cfg, stop)->run();
+		const auto limitedWithStop = ProcessRunner::create(cfg, promise.future())->run();
 		cancel.join();
 		QVERIFY(probeId != 0);
 		QCOMPARE(limitedWithStop.result, CannotStartProgram);

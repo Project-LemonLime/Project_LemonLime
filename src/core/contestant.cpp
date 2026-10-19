@@ -11,6 +11,8 @@
 
 #include "base/LemonUtils.hpp"
 #include "core/contest.h"
+#include "core/taskresult.h"
+#include <QThread>
 #include <QTimeZone>
 #include <ranges>
 #include <utility>
@@ -66,6 +68,22 @@ void Contestant::setMemoryUsed(int index, const QList<QList<qint64>> &_memoryUse
 }
 
 void Contestant::setJudgingTime(QDateTime time) { judgingTime = std::move(time); }
+
+void Contestant::applyResult(int index, const TaskResult &taskResult) {
+	Q_ASSERT(QThread::currentThread() == thread());
+	if (taskResult.judged) {
+		compileState[index] = taskResult.compileState;
+		compileMesaage[index] = taskResult.compileMessage;
+		sourceFile[index] = taskResult.sourceFile;
+		inputFiles[index] = taskResult.inputFiles;
+		result[index] = taskResult.result;
+		message[index] = taskResult.message;
+		score[index] = taskResult.score;
+		timeUsed[index] = taskResult.timeUsed;
+		memoryUsed[index] = taskResult.memoryUsed;
+	}
+	checkJudged[index] = taskResult.judged;
+}
 
 void Contestant::addTask() {
 	checkJudged.append(false);

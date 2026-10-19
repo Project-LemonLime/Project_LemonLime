@@ -13,14 +13,14 @@
 #include "processrunner_unix.h"
 #endif
 
-ProcessRunner::ProcessRunner(ProcessRunnerConfig cfg, const std::atomic<bool> &stop)
-    : config(std::move(cfg)), stopFlag(stop) {}
+ProcessRunner::ProcessRunner(ProcessRunnerConfig cfg, QFuture<void> cancelFuture)
+    : config(std::move(cfg)), cancellation(std::move(cancelFuture)) {}
 
-auto ProcessRunner::create(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag)
+auto ProcessRunner::create(ProcessRunnerConfig config, QFuture<void> cancellation)
     -> std::unique_ptr<ProcessRunner> {
 #ifdef Q_OS_WIN32
-	return std::make_unique<WinProcessRunner>(std::move(config), stopFlag);
+	return std::make_unique<WinProcessRunner>(std::move(config), std::move(cancellation));
 #else
-	return std::make_unique<UnixProcessRunner>(std::move(config), stopFlag);
+	return std::make_unique<UnixProcessRunner>(std::move(config), std::move(cancellation));
 #endif
 }

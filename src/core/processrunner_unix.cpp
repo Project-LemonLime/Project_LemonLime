@@ -12,7 +12,6 @@
 #include "processrunner_unix.h"
 #include "base/LemonLog.hpp"
 
-#include <QCoreApplication>
 #include <QDebug>
 #include <QElapsedTimer>
 #include <QFile>
@@ -20,7 +19,6 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QTextStream>
-#include <QThread>
 #include <QUuid>
 #include <QtMath>
 
@@ -191,9 +189,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 			break;
 		}
 
-		QCoreApplication::processEvents();
-
-		if (stopFlag) {
+		if (cancellation.isCanceled()) {
 			runner->terminate();
 			runner->waitForFinished(-1);
 			delete runner;

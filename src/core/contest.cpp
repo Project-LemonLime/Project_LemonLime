@@ -15,7 +15,6 @@
 #include "base/settings.h"
 #include "core/contestant.h"
 #include "core/judgingcontroller.h"
-#include "core/judgingthread.h"
 #include "core/task.h"
 #include "core/taskjudger.h"
 #include "core/testcase.h"
@@ -172,27 +171,18 @@ void Contest::clearPath(const QString &curDir) {
 
 void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	LOG("Start Judging");
-	stopJudging = false;
 	controller = new JudgingController(settings);
+	connect(controller, &JudgingController::taskJudged, this, &Contest::taskJudgingFinished);
 
-	// connect(controller, &JudgingController::judgeFinished, this, &Contest::judgeFinished);
 	for (auto [contestant, i] : judgingTasks) {
 		TaskJudger *taskJudger = new TaskJudger();
 		connect(taskJudger, &TaskJudger::singleCaseFinished, this, &Contest::singleCaseFinished);
 		connect(taskJudger, &TaskJudger::compileError, this, &Contest::compileError);
 		connect(taskJudger, &TaskJudger::judgingStarted, this, &Contest::taskJudgingStarted);
-		connect(taskJudger, &TaskJudger::judgingFinished, this, &Contest::taskJudgingFinished);
 		taskJudger->setTask(taskList[i]);
-		taskJudger->setTaskId(i);
 		taskJudger->setSettings(settings);
-		taskJudger->setContestant(contestant);
-		controller->addTask(taskJudger);
-		/*
-		connect(thread, &AssignmentThread::dialogAlert, this, &Contest::dialogAlert);
-		connect(thread, &AssignmentThread::singleSubtaskDependenceFinished, this,
-		        &Contest::singleSubtaskDependenceFinished);
-		connect(this, &Contest::stopJudgingSignal, thread, &AssignmentThread::stopJudgingSlot);
-		*/
+		taskJudger->setContestantName(contestant->getContestantName());
+		controller->addTask(taskJudger, contestant, i);
 		contestant->setJudgingTime(QDateTime::currentDateTime());
 	}
 
@@ -207,7 +197,6 @@ void Contest::judge(const QVector<std::pair<Contestant *, int>> &judgingTasks) {
 	delete eventLoop;
 	delete controller;
 	controller = nullptr;
-	std::atomic_thread_fence(std::memory_order_seq_cst);
 	LOG("Judging Finished");
 }
 
@@ -232,8 +221,8 @@ void Contest::judgeAll() {
 }
 
 void Contest::stopJudgingSlot() {
-	stopJudging = true;
-	QMetaObject::invokeMethod(controller, "stop");
+	if (controller)
+		controller->stop();
 }
 
 void Contest::writeToJson(QJsonObject &out) {

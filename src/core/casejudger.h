@@ -8,21 +8,21 @@
  */
 
 #pragma once
-//
 
 #include "base/LemonType.hpp"
 #include "processrunner.h"
+#include <QCoreApplication>
+#include <QFuture>
 #include <QProcessEnvironment>
-#include <QThread>
-#include <atomic>
 
 class Task;
 
-class JudgingThread : public QThread {
-	Q_OBJECT
+class CaseJudger {
+	// Keep the existing translation context after removing QThread.
+	Q_DECLARE_TR_FUNCTIONS(JudgingThread)
   public:
-	explicit JudgingThread(QObject *parent = nullptr);
-	// void setCheckRejudgeMode(bool);
+	CaseJudger();
+	void setCancellation(QFuture<void>);
 	void setExtraTimeRatio(double);
 	void setEnvironment(const QProcessEnvironment &);
 	void setWorkingDirectory(const QString &);
@@ -33,7 +33,7 @@ class JudgingThread : public QThread {
 	void setInputFile(const QString &);
 	void setOutputFile(const QString &);
 	void setDiffPath(const QString &);
-	void setTask(Task *);
+	void setTask(const Task *);
 	void setFullScore(int);
 	void setTimeLimit(int);
 	void setRawTimeLimit(int);
@@ -53,8 +53,6 @@ class JudgingThread : public QThread {
 	void run();
 
   private:
-	// bool checkRejudgeMode;
-
 	bool needRejudge;
 	// Control some extra time program used, like kernel time, judge system fluctuation
 	double extraTimeRatio{};
@@ -66,7 +64,7 @@ class JudgingThread : public QThread {
 	QString inputFile;
 	QString outputFile;
 	QString diffPath;
-	Task *task{};
+	const Task *task{};
 	int specialJudgeTimeLimit{};
 	int fullScore{};
 	int timeLimit{};
@@ -79,7 +77,7 @@ class JudgingThread : public QThread {
 	int judgedTimes;
 	ResultState result;
 	QString message;
-	std::atomic<bool> stopJudging{false};
+	QFuture<void> cancellation;
 	bool interpreterAsWatcher{};
 	SandboxSettings sandboxSettings;
 	QString runtimeExecutable;
@@ -95,5 +93,4 @@ class JudgingThread : public QThread {
 	void judgeOutput();
 	void judgeTraditionalTask();
 	void judgeAnswersOnlyTask();
-	// void judgeInteractionTask();
 };

@@ -15,6 +15,8 @@
 #include <QJsonObject>
 #include <QObject>
 
+struct TaskResult;
+
 class Contestant : public QObject {
 	Q_OBJECT
   public:
@@ -48,6 +50,7 @@ class Contestant : public QObject {
 	void setTimeUsed(int, const QList<QList<int>> &);
 	void setMemoryUsed(int, const QList<QList<qint64>> &);
 	void setJudgingTime(QDateTime);
+	void applyResult(int index, const TaskResult &taskResult);
 
 	int writeToJson(QJsonObject &);
 	int readFromJson(const QJsonObject &);

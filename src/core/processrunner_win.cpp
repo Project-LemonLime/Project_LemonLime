@@ -14,7 +14,6 @@
 #include "windowsprocessutils.h"
 #include "windowssandbox.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFile>
@@ -168,11 +167,8 @@ ProcessRunnerResult WinProcessRunner::run() {
 			}
 		}
 
-		QCoreApplication::processEvents();
-
-		if (stopFlag) {
+		if (cancellation.isCanceled()) {
 			TerminateProcess(pi.hProcess, 0);
-
 			return res;
 		}
 

@@ -6,76 +6,78 @@
  */
 
 #include "judgingcontroller.h"
+#include "base/settings.h"
 #include "core/contestant.h"
+#include "core/taskjudger.h"
 #include "sleepinhibitor.h"
 
-#include <QtMath>
+#include <QtConcurrent/QtConcurrentRun>
 
-#define LEMON_MODULE_NAME "JudgingController"
-
-JudgingController::JudgingController(Settings *settings, QObject *parent) : QObject(parent) {
-	isJudging = false;
-	maxThreads = qMax(1, settings->getMaxJudgingThreads());
-	preventSleepWhileJudging = settings->getPreventSleepWhileJudging();
+JudgingController::JudgingController(const Settings *settings, QObject *parent)
+    : QObject(parent), preventSleepWhileJudging(settings->getPreventSleepWhileJudging()) {
+	threadPool.setMaxThreadCount(qMax(1, settings->getMaxJudgingThreads()));
 }
 
-JudgingController::~JudgingController() = default;
+JudgingController::~JudgingController() {
+	stop();
+	threadPool.waitForDone();
+}
+
+void JudgingController::addTask(TaskJudger *judger, Contestant *contestant, int taskId) {
+	judger->setParent(this);
+	queuingTasks.enqueue({judger, contestant, taskId});
+}
 
 void JudgingController::assign() {
-	if (! isJudging) {
-		return;
+	while (isJudging && ! queuingTasks.isEmpty() && runningTasks.size() < threadPool.maxThreadCount()) {
+		const auto task = queuingTasks.dequeue();
+		auto *watcher = new QFutureWatcher<TaskResult>(this);
+		connect(watcher, &QFutureWatcher<TaskResult>::finished, this,
+		        [this, watcher] { finishTask(watcher); });
+		runningTasks.insert(watcher, task);
+		watcher->setFuture(
+		    QtConcurrent::run(&threadPool, [judger = task.judger](QPromise<TaskResult> &promise) {
+			    promise.addResult(judger->judgeIt(promise));
+		    }));
 	}
-	if (queuingTasks.empty())
-		return;
-	QThread *thread = new QThread;
-	auto *taskJudger = queuingTasks.front();
-	queuingTasks.pop_front();
-	taskJudger->moveToThread(thread);
-	connect(taskJudger, &TaskJudger::judgingFinished, this, &JudgingController::taskFinished);
-	runningTasks[taskJudger] = thread;
-	thread->start();
-	QMetaObject::invokeMethod(taskJudger, &TaskJudger::judgeIt);
 }
 
-void JudgingController::taskFinished() {
-	auto *taskJudger = qobject_cast<TaskJudger *>(sender());
-	if (taskJudger == nullptr) {
-		return;
+void JudgingController::finishTask(QFutureWatcher<TaskResult> *watcher) {
+	const auto task = runningTasks.take(watcher);
+	if (watcher->isCanceled()) {
+		task.contestant->setCheckJudged(task.taskId, false);
+	} else {
+		task.contestant->applyResult(task.taskId, watcher->result());
 	}
-	if (runningTasks.count(taskJudger)) {
-		auto *thread = runningTasks[taskJudger];
-		thread->quit();
-		thread->wait();
-		delete thread;
-		runningTasks.remove(taskJudger);
-		delete taskJudger;
-	}
+	delete task.judger;
+	watcher->deleteLater();
+	emit taskJudged();
 	assign();
-	if (runningTasks.empty()) {
+	if (runningTasks.isEmpty() && queuingTasks.isEmpty()) {
 		isJudging = false;
 		sleepInhibitor.reset();
 		emit judgeFinished();
 	}
 }
+
 void JudgingController::start() {
-	if (queuingTasks.size() == 0) {
+	if (queuingTasks.isEmpty()) {
 		emit judgeFinished();
 		return;
 	}
-	if (preventSleepWhileJudging && ! sleepInhibitor)
+	if (preventSleepWhileJudging)
 		sleepInhibitor = std::make_unique<SleepInhibitor>(tr("Judging submissions"));
 	isJudging = true;
-	while (! queuingTasks.empty() && runningTasks.size() < maxThreads) {
-		assign();
-	}
+	assign();
 }
+
 void JudgingController::stop() {
-	if (! isJudging)
-		return;
 	isJudging = false;
-	for (auto [taskJudger, thread] : runningTasks.toStdMap()) {
-		QMetaObject::invokeMethod(taskJudger, &TaskJudger::stop);
+	while (! queuingTasks.isEmpty())
+		delete queuingTasks.dequeue().judger;
+	for (auto *watcher : runningTasks.keys()) {
+		// Preserve results that finished before the stop request reached the GUI.
+		if (! watcher->isFinished())
+			watcher->cancel();
 	}
-	// emit judgeFinished();
 }
-void JudgingController::addTask(TaskJudger *taskJudger) { queuingTasks.push_back(taskJudger); }

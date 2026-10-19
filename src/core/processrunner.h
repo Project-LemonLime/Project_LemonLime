@@ -9,10 +9,10 @@
 
 #include "base/LemonType.hpp"
 #include "base/sandboxsettings.h"
+#include <QFuture>
 #include <QProcessEnvironment>
 #include <QString>
 #include <QtGlobal>
-#include <atomic>
 #include <memory>
 
 class WindowsSandboxSession;
@@ -53,15 +53,14 @@ struct ProcessRunnerResult {
 
 class ProcessRunner {
   public:
-	ProcessRunner(ProcessRunnerConfig config, const std::atomic<bool> &stopFlag);
+	ProcessRunner(ProcessRunnerConfig config, QFuture<void> cancellation);
 	virtual ~ProcessRunner() = default;
 
 	virtual ProcessRunnerResult run() = 0;
 
-	static std::unique_ptr<ProcessRunner> create(ProcessRunnerConfig config,
-	                                             const std::atomic<bool> &stopFlag);
+	static std::unique_ptr<ProcessRunner> create(ProcessRunnerConfig config, QFuture<void> cancellation);
 
   protected:
 	ProcessRunnerConfig config;
-	const std::atomic<bool> &stopFlag;
+	QFuture<void> cancellation;
 };

@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QtTest>
+#include <atomic>
 
 class IntegratedTest : public QObject {
 	Q_OBJECT
@@ -118,7 +119,14 @@ class IntegratedTest : public QObject {
 		}
 	}
 
+	void judgeAll_data() {
+		QTest::addColumn<int>("maxThreads");
+		QTest::newRow("single-thread") << 1;
+		QTest::newRow("three-threads") << 3;
+	}
+
 	void judgeAll() {
+		QFETCH(int, maxThreads);
 		const QString cppPath = QStandardPaths::findExecutable("g++");
 		QVERIFY2(! cppPath.isEmpty(), "g++ must be available on PATH");
 		QString pythonPath = QStandardPaths::findExecutable("python3");
@@ -145,7 +153,7 @@ class IntegratedTest : public QObject {
 		settings.setSpecialJudgeTimeLimit(10000);
 		settings.setFileSizeLimit(50);
 		settings.setRejudgeTimes(1);
-		settings.setMaxJudgingThreads(1);
+		settings.setMaxJudgingThreads(maxThreads);
 		settings.setDefaultExtraTimeRatio(0.2);
 		settings.setPreventSleepWhileJudging(false);
 		settings.addCompiler(&cpp);
@@ -173,7 +181,19 @@ class IntegratedTest : public QObject {
 		QCOMPARE(contest.getTask(0)->getProblemTitle(), QString("aplusb"));
 		QCOMPARE(contest.getTask(1)->getProblemTitle(), QString("helloworld"));
 		QCOMPARE(contest.getContestantList().size(), 2);
+		std::atomic_int finishedTasks = 0;
+		std::atomic_bool finishedOnMainThread = true;
+		connect(
+		    &contest, &Contest::taskJudgingFinished, this,
+		    [&] {
+			    ++finishedTasks;
+			    if (QThread::currentThread() != thread())
+				    finishedOnMainThread = false;
+		    },
+		    Qt::DirectConnection);
 		contest.judgeAll();
+		QCOMPARE(finishedTasks.load(), 4);
+		QVERIFY(finishedOnMainThread);
 
 		struct Expected {
 			const char *contestant;
