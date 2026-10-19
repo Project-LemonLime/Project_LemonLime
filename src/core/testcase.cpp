@@ -101,7 +101,7 @@ void TestCase::deleteSingleCase(int index) {
 	outputFiles.removeAt(index);
 }
 
-int TestCase::writeToJson(QJsonObject &out) {
+int TestCase::writeToJson(QJsonObject &out) const {
 	WRITE_JSON(out, fullScore);
 	WRITE_JSON(out, timeLimit);
 	WRITE_JSON(out, memoryLimit);

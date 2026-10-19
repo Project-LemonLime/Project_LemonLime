@@ -33,7 +33,7 @@ class TestCase {
 	bool checkDependenceSubtask(const QStringList &) const;
 	void addSingleCase(const QString &, const QString &);
 	void deleteSingleCase(int);
-	int writeToJson(QJsonObject &out);
+	int writeToJson(QJsonObject &out) const;
 	void readFromStream(QDataStream &);
 	int readFromJson(const QJsonObject &);
 	void clearDependenceSubtask();
