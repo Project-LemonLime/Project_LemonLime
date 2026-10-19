@@ -253,8 +253,6 @@ set(QRC_RESOURCES
     )
 
 set(LEMON_FULL_SOURCES
-    ${LEMON_BASE_SOURCES}
-    ${LEMON_CORE_SOURCES}
     ${LEMON_UI_SOURCES}
     assets/lemon.rc
     ${LEMON_UI_FORMS}
@@ -313,7 +311,7 @@ if(ENABLE_LTO)
     check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
 
     if(LTO_SUPPORTED)
-        set_property(TARGET lemon PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+        set_property(TARGET lemon lemon-base lemon-core PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
     else()
         message(STATUS "IPO / LTO not supported, disabled")
     endif()

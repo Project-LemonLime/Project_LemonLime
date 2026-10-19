@@ -7,6 +7,11 @@ endif()
 include(${CMAKE_SOURCE_DIR}/cmake/enable-asan.cmake)
 
 target_precompile_headers(integrated-test REUSE_FROM lemon-core)
+get_target_property(LEMON_CORE_IPO lemon-core INTERPROCEDURAL_OPTIMIZATION)
+if(LEMON_CORE_IPO)
+    set_property(TARGET integrated-test PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
 target_link_libraries(integrated-test PRIVATE
     lemon-core
     SingleApplication::SingleApplication
