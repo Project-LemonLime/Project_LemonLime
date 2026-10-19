@@ -40,7 +40,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	}
 
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
-	auto *runner = new QProcess();
+	QProcess runner;
 	QStringList argumentsList;
 
 	argumentsList << "--dev" << "/dev";
@@ -105,13 +105,12 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		res.score = 0;
 		res.result = CannotStartProgram;
 		res.message = QObject::tr("bwrap not found. Please install bubblewrap.");
-		delete runner;
 		return res;
 	}
 
-	runner->setProcessEnvironment(config.environment);
-	runner->setWorkingDirectory(config.workingDirectory);
-	runner->start(bwrapPath, argumentsList);
+	runner.setProcessEnvironment(config.environment);
+	runner.setWorkingDirectory(config.workingDirectory);
+	runner.start(bwrapPath, argumentsList);
 
 #else
 
@@ -124,7 +123,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	}
 
 	watcher.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
-	auto *runner = new QProcess();
+	QProcess runner;
 	QStringList argumentsList;
 
 	argumentsList << config.executableFile;
@@ -162,14 +161,13 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 	qDebug() << argumentsList;
 
-	runner->setProcessEnvironment(config.environment);
-	runner->setWorkingDirectory(config.workingDirectory);
-	runner->start(watcher.fileName(), argumentsList);
+	runner.setProcessEnvironment(config.environment);
+	runner.setWorkingDirectory(config.workingDirectory);
+	runner.start(watcher.fileName(), argumentsList);
 
 #endif
 
-	if (! runner->waitForStarted(-1)) {
-		delete runner;
+	if (! runner.waitForStarted(-1)) {
 		res.score = 0;
 		res.result = CannotStartProgram;
 		res.message = "Start runner failed";
@@ -184,24 +182,22 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	// so here it is rounded up to an integer second.
 	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime;
 	while (timer.elapsed() <= killTimeLimit) {
-		if (runner->waitForFinished(10)) {
+		if (runner.waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;
 			break;
 		}
 
 		if (cancellation.isCanceled()) {
-			runner->terminate();
-			runner->waitForFinished(-1);
-			delete runner;
+			runner.terminate();
+			runner.waitForFinished(-1);
 
 			return res;
 		}
 	}
 
 	if (! isProgramFinishedInExtraTimeLimit) {
-		runner->terminate();
-		runner->waitForFinished(-1);
-		delete runner;
+		runner.terminate();
+		runner.waitForFinished(-1);
 		res.score = 0;
 		res.timeUsed = res.memoryUsed = -1;
 		// Watcher usually needs to handle the situation of program timeout and kill it. Therefore, it is
@@ -212,12 +208,12 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	}
 
 	{
-		QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().constData());
+		QString out = QString::fromLocal8Bit(runner.readAllStandardOutput().constData());
 		QTextStream stream(&out, QIODevice::ReadOnly);
 		stream >> res.timeUsed >> res.memoryUsed;
 	}
 
-	res.message = QString::fromLocal8Bit(runner->readAllStandardError().constData());
+	res.message = QString::fromLocal8Bit(runner.readAllStandardError().constData());
 
 	enum : int {
 		RS_AC = 0,
@@ -227,7 +223,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		RS_MLE = 4,
 	};
 
-	int code = runner->exitCode();
+	int code = runner.exitCode();
 
 	switch (code) {
 		case RS_RE:
@@ -259,8 +255,6 @@ ProcessRunnerResult UnixProcessRunner::run() {
 			res.message = QString("Watcher reported an invalid result: %1").arg(code);
 			break;
 	}
-
-	delete runner;
 
 	return res;
 }
