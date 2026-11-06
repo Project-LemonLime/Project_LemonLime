@@ -19,6 +19,9 @@
 #include <QScrollBar>
 
 JudgingDialog::JudgingDialog(QWidget *parent) : QDialog(parent), ui(new Ui::JudgingDialog) {
+	setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
+	               Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+	setWindowModality(Qt::NonModal);
 	ui->setupUi(this);
 	ui->progressBar->setValue(0);
 	cursor = new QTextCursor(ui->logViewer->document());
@@ -53,6 +56,7 @@ void JudgingDialog::setContest(Contest *contest) {
 	connect(curContest, &Contest::contestantJudgedDisplay, this, &JudgingDialog::contestantJudgedDisplay);
 	connect(curContest, &Contest::compileError, this, &JudgingDialog::compileError);
 	connect(this, &JudgingDialog::stopJudgingSignal, curContest, &Contest::stopJudgingSlot);
+	connect(curContest, &Contest::judgingFinished, this, &JudgingDialog::judgingFinishedSlot);
 }
 
 void JudgingDialog::judge(const QList<std::pair<QString, QVector<int>>> &lists) {
@@ -79,7 +83,6 @@ void JudgingDialog::judgeAll() {
 	curContest->judgeAll();
 
 	sendNotify(tr("Judge All: Finished"), tr("Judge Finished - LemonLime"));
-	accept();
 }
 
 void JudgingDialog::singleCaseFinished(QString contestantName, int progress, int x, int y, int result,
@@ -437,8 +440,23 @@ void JudgingDialog::compileError(int progress, int compileState) {
 }
 
 void JudgingDialog::stopJudgingSlot() {
+	if (stopJudging)
+		return;
 	stopJudging = true;
+	ui->cancelButton->setEnabled(false);
+	ui->cancelButton->setText(tr("Stopping..."));
 	emit stopJudgingSignal();
+}
+
+void JudgingDialog::judgingFinishedSlot() { close(); }
+
+void JudgingDialog::closeEvent(QCloseEvent *event) {
+	if (curContest && curContest->isJudging()) {
+		stopJudgingSlot();
+		event->ignore();
+		return;
+	}
+	event->accept();
 }
 
 void JudgingDialog::reject() { stopJudgingSlot(); }

@@ -18,10 +18,9 @@
 #include "core/task.h"
 #include "core/testcase.h"
 #include "judgingdialog.h"
-//
 #include <QMessageBox>
 #include <QScrollBar>
-
+#include <QTimer>
 DetailDialog::DetailDialog(QWidget *parent) : QDialog(parent), ui(new Ui::DetailDialog) {
 	ui->setupUi(this);
 	connect(ui->detailViewer, &QTextBrowser::anchorClicked, this, &DetailDialog::anchorClicked);
@@ -262,14 +261,18 @@ void DetailDialog::anchorClicked(const QUrl &url) {
 	QStringList list = url.path().split(' ', Qt::SkipEmptyParts);
 
 	if (list[0] == "Rejudge") {
-		auto *dialog = new JudgingDialog(this);
-		dialog->setModal(true);
+		auto *dialog = new JudgingDialog();
+		dialog->setAttribute(Qt::WA_DeleteOnClose);
+		dialog->setWindowModality(Qt::NonModal);
 		dialog->setContest(contest);
+		connect(dialog, &QDialog::finished, this, &DetailDialog::rejudgeSignal);
+		connect(dialog, &QDialog::finished, this, [this] { refreshViewer(contest, contestant); });
 		dialog->show();
-		dialog->judge({{contestant->getContestantName(), {list[1].toInt()}}});
-		delete dialog;
-		emit rejudgeSignal();
-		refreshViewer(contest, contestant);
+		const auto contestantName = contestant->getContestantName();
+		const int taskIndex = list[1].toInt();
+		QTimer::singleShot(0, dialog, [dialog, contestantName, taskIndex] {
+			dialog->judge({{contestantName, {taskIndex}}});
+		});
 	}
 
 	if (list[0] == "CompileMessage") {

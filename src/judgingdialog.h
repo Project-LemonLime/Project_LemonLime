@@ -11,8 +11,8 @@
 //
 
 #include "base/LemonType.hpp"
+#include <QCloseEvent>
 #include <QDialog>
-#include <QTextCursor>
 
 class Contest;
 
@@ -29,11 +29,15 @@ class JudgingDialog : public QDialog {
 	void setContest(Contest *);
 	void judge(const QList<std::pair<QString, QVector<int>>> &);
 	void judgeAll();
-	void reject();
+	void reject() override;
+
+  protected:
+	void closeEvent(QCloseEvent *) override;
 
   private slots:
 	void stopJudgingSlot();
 	void sendNotify(QString, QString);
+	void judgingFinishedSlot();
 
   private:
 	Ui::JudgingDialog *ui;

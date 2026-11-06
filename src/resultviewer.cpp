@@ -17,7 +17,6 @@
 #include "core/task.h"
 #include "detaildialog.h"
 #include "judgingdialog.h"
-//
 #include <QApplication>
 #include <QCheckBox>
 #include <QDir>
@@ -25,6 +24,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QMessageBox>
+#include <QTimer>
 #include <QtGlobal>
 #include <algorithm>
 
@@ -102,6 +102,8 @@ void ResultViewer::setContest(Contest *contest) {
 	connect(curContest, &Contest::taskDeletedForViewer, this, &ResultViewer::refreshViewer);
 	connect(curContest, &Contest::problemTitleChanged, this, &ResultViewer::refreshViewer);
 	connect(curContest, &Contest::taskJudgingFinished, this, &ResultViewer::refreshViewer);
+	connect(curContest, &Contest::judgingStarted, this, [this] { judgeSelectedAction->setEnabled(false); });
+	connect(curContest, &Contest::judgingFinished, this, [this] { judgeSelectedAction->setEnabled(true); });
 }
 
 void ResultViewer::refreshViewer() {
@@ -224,7 +226,7 @@ void ResultViewer::refreshColors() {
 			           contestant->getCompileState(task) != CompileSuccessfully) {
 				scoreItem->setBackground(contestant->getCompileState(task) == NoValidSourceFile
 				                             ? colors.getColorNf()
-				                             : colors.getColorCe());
+											 : colors.getColorCe());
 			} else {
 				scoreItem->setBackground(colors.getColorPer(score, tasks[task]->getTotalScore()));
 			}
@@ -238,7 +240,35 @@ void ResultViewer::refreshColors() {
 	}
 }
 
+void ResultViewer::startJudging(const QList<std::pair<QString, QVector<int>>> &lists) {
+	if (! curContest || curContest->isJudging())
+		return;
+
+	auto *dialog = new JudgingDialog();
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	dialog->setWindowModality(Qt::NonModal);
+	dialog->setContest(curContest);
+	dialog->show();
+	connect(dialog, &QDialog::finished, this, &ResultViewer::refreshViewer);
+	QTimer::singleShot(0, dialog, [dialog, lists] { dialog->judge(lists); });
+}
+
+void ResultViewer::startJudgingAll() {
+	if (! curContest || curContest->isJudging())
+		return;
+
+	auto *dialog = new JudgingDialog();
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	dialog->setWindowModality(Qt::NonModal);
+	dialog->setContest(curContest);
+	dialog->show();
+	connect(dialog, &QDialog::finished, this, &ResultViewer::refreshViewer);
+	QTimer::singleShot(0, dialog, [dialog] { dialog->judgeAll(); });
+}
+
 void ResultViewer::judgeSelected() {
+	if (! curContest || curContest->isJudging())
+		return;
 	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
 	QMap<QString, QSet<int>> mapping;
 	QList<Task *> taskList = curContest->getTaskList();
@@ -263,26 +293,14 @@ void ResultViewer::judgeSelected() {
 		judgeList.append(std::make_pair(i.key(), QVector<int>(i.value().constBegin(), i.value().constEnd())));
 	}
 
-	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
-	dialog->setContest(curContest);
-	dialog->show();
-	dialog->judge(judgeList);
-	delete dialog;
-	refreshViewer();
+	startJudging(judgeList);
 }
 
-void ResultViewer::judgeAll() {
-	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
-	dialog->setContest(curContest);
-	dialog->show();
-	dialog->judgeAll();
-	delete dialog;
-	refreshViewer();
-}
+void ResultViewer::judgeAll() { startJudgingAll(); }
 
 void ResultViewer::judgeUnjudged() {
+	if (! curContest || curContest->isJudging())
+		return;
 	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -303,16 +321,11 @@ void ResultViewer::judgeUnjudged() {
 		judgeList.push_back({i.key(), i.value()});
 	}
 
-	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
-	dialog->setContest(curContest);
-	dialog->show();
-	dialog->judge(judgeList);
-	delete dialog;
-	refreshViewer();
+	startJudging(judgeList);
 }
-
 void ResultViewer::judgeGrey() {
+	if (! curContest || curContest->isJudging())
+		return;
 	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -333,16 +346,12 @@ void ResultViewer::judgeGrey() {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
-	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
-	dialog->setContest(curContest);
-	dialog->show();
-	dialog->judge(judgeList);
-	delete dialog;
-	refreshViewer();
+	startJudging(judgeList);
 }
 
 void ResultViewer::judgeMagenta() {
+	if (! curContest || curContest->isJudging())
+		return;
 	QMap<QString, QVector<int>> mapping;
 	QList<Contestant *> contestantList = curContest->getContestantList();
 	QList<Task *> taskList = curContest->getTaskList();
@@ -366,13 +375,7 @@ void ResultViewer::judgeMagenta() {
 		judgeList.append(std::make_pair(i.key(), i.value()));
 	}
 
-	auto *dialog = new JudgingDialog(this);
-	dialog->setModal(true);
-	dialog->setContest(curContest);
-	dialog->show();
-	dialog->judge(judgeList);
-	delete dialog;
-	refreshViewer();
+	startJudging(judgeList);
 }
 
 void ResultViewer::clearPath(const QString &curDir) {

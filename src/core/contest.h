@@ -56,12 +56,14 @@ class Contest : public QObject {
 	void judge(const QVector<std::pair<Contestant *, int>> &);
 	void clearPath(const QString &);
 	JudgingController *controller{};
+	bool judging{};
 
   public slots:
 	void judge(const QList<std::pair<QString, QVector<int>>> &);
 	void judgeAll();
-	// void judgeFinished();
 	void stopJudgingSlot();
+
+	bool isJudging() const;
 
   signals:
 	void taskAddedForContestant();
@@ -80,4 +82,6 @@ class Contest : public QObject {
 	void contestantJudgedDisplay(const QString &, const int, const int);
 	void compileError(int, int);
 	void stopJudgingSignal();
+	void judgingStarted();
+	void judgingFinished();
 };

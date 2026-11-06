@@ -122,7 +122,12 @@ void LemonLime::changeEvent(QEvent *event) {
 	}
 }
 
-void LemonLime::closeEvent(QCloseEvent * /*event*/) {
+void LemonLime::closeEvent(QCloseEvent *event) {
+	if (judging) {
+		event->ignore();
+		return;
+	}
+
 	if (curContest)
 		saveContest(curFile);
 
@@ -247,12 +252,24 @@ void LemonLime::showOptionsDialog() {
 }
 
 void LemonLime::judgeExtButtonFlip(bool stat) {
+	stat = stat && ! judging;
 	ui->judgeAllButton->setEnabled(stat);
 	ui->judgeAllAction->setEnabled(stat);
 	ui->judgeUnjudgedButton->setEnabled(stat);
 	ui->judgeUnjudgedAction->setEnabled(stat);
 	ui->judgeGreyAction->setEnabled(stat);
 	ui->judgeMagentaAction->setEnabled(stat);
+}
+
+void LemonLime::setJudging(bool state) {
+	judging = state;
+	if (state) {
+		ui->judgeButton->setEnabled(false);
+		ui->judgeAction->setEnabled(false);
+		judgeExtButtonFlip(false);
+	} else {
+		tabIndexChanged(ui->tabWidget->currentIndex());
+	}
 }
 
 void LemonLime::refreshButtonClicked() {
@@ -315,7 +332,7 @@ void LemonLime::cleanupButtonClicked() {
 	text += tr("Reading guide are recommended.") + "<br>";
 	QMessageBox::StandardButton res =
 	    QMessageBox::warning(this, tr("Clean up Files"), text,
-	                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::No);
+		                     QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort, QMessageBox::No);
 
 	if (res == QMessageBox::Yes) {
 		QDir basDir(Settings::sourcePath());
@@ -583,6 +600,12 @@ void LemonLime::moveDownTask() {
 }
 
 void LemonLime::viewerSelectionChanged() {
+	if (judging) {
+		ui->judgeButton->setEnabled(false);
+		ui->judgeAction->setEnabled(false);
+		return;
+	}
+
 	QList<QTableWidgetSelectionRange> selectionRange = ui->resultViewer->selectedRanges();
 
 	if (! selectionRange.empty()) {
@@ -631,7 +654,8 @@ void LemonLime::loadContest(const QString &filePath) {
 		closeAction();
 
 	curContest = new Contest(this);
-
+	connect(curContest, &Contest::judgingStarted, this, [this] { setJudging(true); });
+	connect(curContest, &Contest::judgingFinished, this, [this] { setJudging(false); });
 	QFile file(filePath);
 
 	if (! file.open(QFile::ReadOnly)) {
@@ -732,7 +756,8 @@ void LemonLime::newContest(const QString &title, const QString &savingName, cons
 		closeAction();
 
 	curContest = new Contest(this);
-	curContest->setSettings(settings);
+	connect(curContest, &Contest::judgingStarted, this, [this] { setJudging(true); });
+	connect(curContest, &Contest::judgingFinished, this, [this] { setJudging(false); });
 	curContest->setContestTitle(title);
 	setWindowTitle(tr("LemonLime - %1").arg(title));
 	QDir::setCurrent(path);
@@ -774,6 +799,8 @@ void LemonLime::newAction() {
 }
 
 void LemonLime::closeAction() {
+	if (judging)
+		return;
 	saveContest(curFile);
 	ui->summary->setContest(nullptr);
 	ui->taskEdit->setEditTask(nullptr);

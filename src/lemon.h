@@ -42,7 +42,9 @@ class LemonLime : public QMainWindow {
 	QMenu *TaskMenu;
 	QList<QAction *> TaskList;
 	QTimer autoSaveTimer;
+	bool judging{};
 	void judgeExtButtonFlip(bool);
+	void setJudging(bool);
 	void loadUiLanguage();
 	void insertWatchPath(const QString &, QFileSystemWatcher *);
 	void newContest(const QString &, const QString &, const QString &);

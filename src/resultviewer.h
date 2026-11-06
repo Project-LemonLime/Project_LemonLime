@@ -36,6 +36,8 @@ class ResultViewer : public QTableWidget {
 	QAction *detailInformationAction;
 	QAction *judgeSelectedAction;
 	QAction *deleteContestantKeyAction;
+	void startJudging(const QList<std::pair<QString, QVector<int>>> &);
+	void startJudgingAll();
 	void refreshColors();
 	void clearPath(const QString &);
 
