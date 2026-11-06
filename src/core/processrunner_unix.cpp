@@ -98,6 +98,8 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		argumentsList << config.outputFileName;
 	}
 
+	argumentsList << QString("%1").arg(extraTime);
+
 	qDebug() << argumentsList;
 
 	QString bwrapPath = QStandardPaths::findExecutable("bwrap");
@@ -159,6 +161,8 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		argumentsList << config.outputFileName;
 	}
 
+	argumentsList << QString("%1").arg(extraTime);
+
 	qDebug() << argumentsList;
 
 	runner.setProcessEnvironment(config.environment);
@@ -178,9 +182,9 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	QElapsedTimer timer;
 	timer.start();
 
-	// Using rlimit to limit CPU time can only be accurate to seconds,
-	// so here it is rounded up to an integer second.
-	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime;
+	// The watcher itself enforces the wall clock (timeLimit + extraTime) and exits shortly
+	// after the timer fires; this loop only guards against a hung watcher, with 1s of slack.
+	long long killTimeLimit = 1LL * config.timeLimit + extraTime + 1000;
 	while (timer.elapsed() <= killTimeLimit) {
 		if (runner.waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;
