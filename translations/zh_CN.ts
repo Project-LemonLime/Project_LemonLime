@@ -1218,6 +1218,10 @@ Depends: </source>
         <translation>停止测试</translation>
     </message>
     <message>
+        <source>Stopping...</source>
+        <translation>正在停止...</translation>
+    </message>
+    <message>
         <source>Correct answer</source>
         <translation>答案正确</translation>
     </message>

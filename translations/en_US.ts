@@ -1196,6 +1196,10 @@ Depends: </source>
         <translation></translation>
     </message>
     <message>
+        <source>Stopping...</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Correct answer</source>
         <translation></translation>
     </message>
