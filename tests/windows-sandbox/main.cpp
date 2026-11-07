@@ -317,7 +317,8 @@ class WindowsSandboxTests : public QObject {
 		const QDir workingDirectory(error.mid(prefix.size()));
 		QVERIFY(workingDirectory.exists("program.dummy"));
 		QVERIFY(! workingDirectory.exists("created"));
-		QCOMPARE(readFile(workingDirectory.filePath("../_2.0/created/nested/data.txt")), QByteArray("created"));
+		QCOMPARE(readFile(workingDirectory.filePath("../_2.0/created/nested/data.txt")),
+		         QByteArray("created"));
 	}
 
 	void commandLineArguments_data() {
