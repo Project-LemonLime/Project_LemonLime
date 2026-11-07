@@ -98,7 +98,7 @@ namespace {
 		}
 		HANDLE file =
 		    CreateFileW(wide(nativePath), access, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-		                nullptr, OPEN_EXISTING, flags, nullptr);
+			            nullptr, OPEN_EXISTING, flags, nullptr);
 		if (file == INVALID_HANDLE_VALUE && ! directory && ! privateFile &&
 		    GetLastError() == ERROR_ACCESS_DENIED) {
 			file = CreateFileW(wide(nativePath), READ_CONTROL | FILE_READ_ATTRIBUTES,
@@ -232,7 +232,7 @@ struct WindowsSandbox::Data {
 
 	std::vector<SID_AND_ATTRIBUTES> capabilityList;
 	std::vector<LocalMemory<PSID>> capabilitySids;
-	Handle job;
+
 	std::vector<BYTE> attributeBuffer;
 	LPPROC_THREAD_ATTRIBUTE_LIST attributeList = nullptr;
 	SECURITY_CAPABILITIES processCapabilities{};
@@ -248,7 +248,6 @@ struct WindowsSandbox::Data {
 	      session(config.sandboxSession ? config.sandboxSession : WindowsSandbox::createSession()) {}
 
 	~Data() {
-		job.reset();
 
 		if (! workingDirectory.isEmpty()) {
 			QMutexLocker lock(&permissionsMutex);
@@ -295,7 +294,7 @@ struct WindowsSandbox::Data {
 		return false;
 	}
 
-	bool prepareProcess(STARTUPINFOEXW &startup) {
+	bool prepareProcess(STARTUPINFOEXW &startup, HANDLE job) {
 		DWORD handleCount = 0;
 		for (HANDLE handle :
 		     {startup.StartupInfo.hStdInput, startup.StartupInfo.hStdOutput, startup.StartupInfo.hStdError}) {
@@ -305,24 +304,12 @@ struct WindowsSandbox::Data {
 		for (DWORD i = 0; i < handleCount; ++i)
 			if (! inheritedHandles[i] || inheritedHandles[i] == INVALID_HANDLE_VALUE)
 				return processFailure("Cannot open sandbox standard streams.", ERROR_INVALID_HANDLE);
-
-		job.reset(CreateJobObjectW(nullptr, nullptr));
-		if (! job)
-			return processFailure("Cannot create sandbox job.");
-		JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
-		limits.BasicLimitInformation.LimitFlags =
-		    JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
-		// Use the job limit because the child-process creation
-		// attribute can fail AppContainer DLL initialization on Windows.
-		limits.BasicLimitInformation.ActiveProcessLimit = 1;
-		if (! SetInformationJobObject(job.get(), JobObjectExtendedLimitInformation, &limits, sizeof(limits)))
-			return processFailure("Cannot set sandbox process limits.");
 		JOBOBJECT_BASIC_UI_RESTRICTIONS uiLimits{};
 		uiLimits.UIRestrictionsClass =
 		    JOB_OBJECT_UILIMIT_DESKTOP | JOB_OBJECT_UILIMIT_DISPLAYSETTINGS | JOB_OBJECT_UILIMIT_EXITWINDOWS |
 		    JOB_OBJECT_UILIMIT_GLOBALATOMS | JOB_OBJECT_UILIMIT_HANDLES | JOB_OBJECT_UILIMIT_READCLIPBOARD |
 		    JOB_OBJECT_UILIMIT_SYSTEMPARAMETERS | JOB_OBJECT_UILIMIT_WRITECLIPBOARD;
-		if (! SetInformationJobObject(job.get(), JobObjectBasicUIRestrictions, &uiLimits, sizeof(uiLimits)))
+		if (! SetInformationJobObject(job, JobObjectBasicUIRestrictions, &uiLimits, sizeof(uiLimits)))
 			return processFailure("Cannot restrict sandbox desktop access.");
 		SIZE_T attributeSize = 0;
 		InitializeProcThreadAttributeList(nullptr, 3, 0, &attributeSize);
@@ -333,7 +320,7 @@ struct WindowsSandbox::Data {
 		attributeList = list;
 		startup.lpAttributeList = attributeList;
 		processCapabilities = {packageSid, capabilityList.data(), DWORD(capabilityList.size()), 0};
-		jobs[0] = job.get();
+		jobs[0] = job;
 		if (! UpdateProcThreadAttribute(attributeList, 0, PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES,
 		                                &processCapabilities, sizeof(processCapabilities), nullptr,
 		                                nullptr) ||
@@ -686,8 +673,8 @@ bool WindowsSandbox::prepare(QString &error) {
 	return result;
 }
 
-bool WindowsSandbox::prepareProcess(STARTUPINFOEXW &startup, QString &error) {
-	const bool result = data->prepareProcess(startup);
+bool WindowsSandbox::prepareProcess(STARTUPINFOEXW &startup, HANDLE job, QString &error) {
+	const bool result = data->prepareProcess(startup, job);
 	error = data->error;
 	return result;
 }
