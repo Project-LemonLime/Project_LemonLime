@@ -25,6 +25,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 
 #define LEMON_MODULE_NAME "CaseJudger"
 
@@ -117,13 +118,13 @@ auto CaseJudger::getNeedRejudge() const -> bool { return needRejudge; }
 class BufferedStreamReader {
 
   public:
-	static const int BUFFER_SIZE = 1 << 18; // 128 KiB
-	explicit BufferedStreamReader(const char *filename) : file(fopen(filename, "r")) {
+	static const int BUFFER_SIZE = 1 << 18; // 256 KiB
+	explicit BufferedStreamReader(const char *filename) : buffer(new char[BUFFER_SIZE]), file(fopen(filename, "r")) {
 		result.reserve(32);
 		// Start with bufPos == bufEnd so the first peekChar() triggers an
 		// fread; avoids a separate "primed?" flag.
-		bufPos = buffer + BUFFER_SIZE;
-		bufEnd = buffer + BUFFER_SIZE;
+		bufPos = buffer.get() + BUFFER_SIZE;
+		bufEnd = buffer.get() + BUFFER_SIZE;
 		lineNumber = 1;
 		isEof = 0;
 	}
@@ -137,8 +138,9 @@ class BufferedStreamReader {
 	}
 
   private:
+	std::unique_ptr<char[]> buffer;
 	FILE *file;
-	char buffer[BUFFER_SIZE], *bufEnd, *bufPos;
+	char *bufEnd, *bufPos;
 	bool isEof;
 	int lineNumber;
 	std::string result; // Fixed Length String,Optimize for speed
@@ -160,8 +162,8 @@ auto BufferedStreamReader::peekChar() -> char {
 	if (bufPos == bufEnd) {
 		// Buffer drained -- refill. fread returning 0 means real EOF; latch it
 		// so further peekChar() calls short-circuit without touching the FILE*.
-		bufPos = buffer;
-		bufEnd = buffer + fread(buffer, 1, BUFFER_SIZE, file);
+		bufPos = buffer.get();
+		bufEnd = buffer.get() + fread(buffer.get(), 1, BUFFER_SIZE, file);
 		if (bufPos == bufEnd) {
 			isEof = true;
 			return '\0';
