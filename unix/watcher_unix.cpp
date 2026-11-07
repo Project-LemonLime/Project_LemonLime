@@ -27,6 +27,12 @@ namespace {
 				rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
 				if (setrlimit(RLIMIT_AS, &memory) != 0)
 					return false;
+				rlimit stack{};
+				if (getrlimit(RLIMIT_STACK, &stack) != 0)
+					return false;
+				stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit));
+				if (setrlimit(RLIMIT_STACK, &stack) != 0)
+					return false;
 			}
 #else
 			(void)limit; // macOS intentionally has no memory prelimit.
@@ -47,7 +53,12 @@ namespace {
 		int status = 0;
 		rusage usage{};
 		bool reaped = false;
+		bool cleaned = false;
 		explicit UnixProcess(pid_t pid) : pid(pid) {}
+		~UnixProcess() override {
+			if (! cleaned)
+				killAndReap();
+		}
 		// Do not destroy the exit information until all final samples are consumed.
 		int poll() {
 			if (reaped)
@@ -62,6 +73,9 @@ namespace {
 			return 0;
 		}
 		bool killAndReap() override {
+			if (cleaned)
+				return reaped;
+			cleaned = true;
 			kill(-pid, SIGKILL);
 			if (! reaped)
 				kill(pid, SIGKILL);
@@ -88,7 +102,7 @@ int main(int argc, char **argv) {
 	try {
 		long long timeLimit = std::stoll(argv[6]);
 		Bytes limit;
-		if (! memoryBytes(std::stoll(argv[7]), limit) || timeLimit < 0) {
+		if (! memoryBytes(std::stoll(argv[7]), limit) || timeLimit < 0 || timeLimit > 86400000LL) {
 			printf("-1\n-1\n");
 			return RS_FAIL;
 		}
@@ -132,6 +146,9 @@ int main(int argc, char **argv) {
 			if (prctl(PR_SET_DUMPABLE, 0) != 0)
 				fail(6);
 #endif
+			rlimit core{0, 0};
+			if (setrlimit(RLIMIT_CORE, &core) != 0)
+				fail(7);
 			UnixPrelimit prelimit;
 			if (! prelimit.apply(limit))
 				fail(3);
@@ -208,12 +225,27 @@ int main(int argc, char **argv) {
 			limiter.observe({-1, rss});
 #endif
 			if (verdict == RS_AC) {
-				if (limiter.isExceeded())
-					verdict = RS_MLE;
-				else if (WIFSIGNALED(process.status))
-					verdict = WTERMSIG(process.status) == SIGXCPU ? RS_TLE : RS_RE;
+				ExitKind exit = ExitKind::Normal;
+				if (WIFSIGNALED(process.status))
+					exit = WTERMSIG(process.status) == SIGXCPU ? ExitKind::TimeLimit : ExitKind::RuntimeError;
 				else if (! WIFEXITED(process.status) || WEXITSTATUS(process.status) != 0)
-					verdict = RS_RE;
+					exit = ExitKind::RuntimeError;
+				switch (limiter.finish(exit).reason) {
+					case RunReason::MemoryLimit:
+						verdict = RS_MLE;
+						break;
+					case RunReason::TimeLimit:
+						verdict = RS_TLE;
+						break;
+					case RunReason::RuntimeError:
+						verdict = RS_RE;
+						break;
+					case RunReason::InternalError:
+						verdict = RS_FAIL;
+						break;
+					case RunReason::Accepted:
+						break;
+				}
 			}
 		}
 		long long elapsed =

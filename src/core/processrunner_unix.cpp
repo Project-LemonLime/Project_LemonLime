@@ -178,8 +178,8 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	QElapsedTimer timer;
 	timer.start();
 
-	// Using rlimit to limit CPU time can only be accurate to seconds,
-	// so here it is rounded up to an integer second.
+	// Leave room for the watcher's explicit wall deadline and bounded reaping.
+	// Custom watchers retain the same outer watchdog protection.
 	long long killTimeLimit = qMax(2000LL, 3LL * config.timeLimit) + 5000LL + extraTime;
 	while (timer.elapsed() <= killTimeLimit) {
 		if (runner.waitForFinished(10)) {

@@ -129,8 +129,6 @@ ProcessRunnerResult WinProcessRunner::run() {
 	}
 
 	auto closeProcessHandle = qScopeGuard([&] {
-		if (sandbox)
-			WaitForSingleObject(pi.hProcess, 5000);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	});
@@ -188,7 +186,10 @@ ProcessRunnerResult WinProcessRunner::run() {
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
-	if (exitCode != 0) {
+	if (limiter
+	        .finish(exitCode == 0 ? Lemon::Execution::ExitKind::Normal
+	                              : Lemon::Execution::ExitKind::RuntimeError)
+	        .reason == Lemon::Execution::RunReason::RuntimeError) {
 
 		res.score = 0;
 		res.result = RunTimeError;

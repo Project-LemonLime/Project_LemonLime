@@ -12,7 +12,12 @@ int main() {
 	check(limited.peaks().declared == 100 && limited.peaks().actual == 90);
 	check(limited.observe({-1, 101}));
 	check(limited.observe({0, 0}) && limited.usage() == 101);
+	check(limited.finish(ExitKind::RuntimeError).reason == RunReason::MemoryLimit);
+	check(limited.finish(ExitKind::StartError).reason == RunReason::InternalError);
 	Limiter unlimited(-1);
+	check(unlimited.finish(ExitKind::RuntimeError).reason == RunReason::RuntimeError);
+	check(unlimited.finish(ExitKind::Normal).reason == RunReason::Accepted);
+	check(unlimited.finish(ExitKind::TimeLimit).reason == RunReason::TimeLimit);
 	check(unlimited.usage() == -1);
 	check(! unlimited.observe({1000, 2000}));
 	Bytes bytes;
