@@ -13,11 +13,12 @@ void check(bool value) {
 }
 int main() {
 	Limiter limited(100);
-	check(! limited.observe({100, 10}));
-	check(! limited.observe({20, 90}));
-	check(limited.peaks().declared == 100 && limited.peaks().actual == 90);
-	check(limited.observe({-1, 101}));
-	check(limited.observe({0, 0}) && limited.usage() == 101);
+	check(! limited.observe(100));
+	check(! limited.observe(20));
+	check(limited.usage() == 100);
+	check(! limited.observe(-1) && limited.usage() == 100);
+	check(limited.observe(101));
+	check(limited.observe(0) && limited.usage() == 101);
 	check(limited.finish(ExitKind::RuntimeError).reason == RunReason::MemoryLimit);
 	check(limited.finish(ExitKind::StartError).reason == RunReason::InternalError);
 	Limiter unlimited(-1);
@@ -25,7 +26,8 @@ int main() {
 	check(unlimited.finish(ExitKind::Normal).reason == RunReason::Accepted);
 	check(unlimited.finish(ExitKind::TimeLimit).reason == RunReason::TimeLimit);
 	check(unlimited.usage() == -1);
-	check(! unlimited.observe({1000, 2000}));
+	check(! unlimited.observe(1000));
+	check(unlimited.finish(ExitKind::Normal).usage == 1000);
 	Bytes bytes;
 	check(memoryBytes(-1, bytes) && bytes == -1);
 	check(memoryBytes(4096, bytes) && bytes == 4294967296LL);

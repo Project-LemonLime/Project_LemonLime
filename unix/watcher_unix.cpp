@@ -45,7 +45,7 @@ namespace {
 
 	  public:
 		explicit UnixUsage(pid_t pid) : pid(pid) {}
-		MemorySample sample() override { return sampleMemory(pid); }
+		Bytes sample() override { return sampleMemory(pid); }
 	};
 	class UnixProcess : public Killer {
 	  public:
@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
 				verdict = RS_FAIL;
 				break;
 			}
-			missing = sample.declared < 0 || sample.actual < 0 ? missing + 1 : 0;
+			missing = sample < 0 ? missing + 1 : 0;
 			if (missing >= 10) {
 				fprintf(stderr, "Memory statistics unavailable\n");
 				verdict = RS_FAIL;
@@ -222,11 +222,9 @@ int main(int argc, char **argv) {
 			verdict = RS_FAIL;
 		}
 		if (process.reaped) {
-			Bytes rss = maxRSSBytes(process.usage.ru_maxrss);
 #ifdef __APPLE__
-			limiter.observe({rss, rss});
-#else
-			limiter.observe({-1, rss});
+			// Only macOS defines DeclaredUsage as RSS. Linux must not use RSS as a VSS fallback.
+			limiter.observe(maxRSSBytes(process.usage.ru_maxrss));
 #endif
 			if (verdict == RS_AC) {
 				ExitKind exit = ExitKind::Normal;

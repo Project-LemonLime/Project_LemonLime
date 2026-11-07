@@ -145,7 +145,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 		res.message = "Cannot attach or resume process";
 		return res;
 	}
-	ProcessUsage provider(pi.hProcess, job);
+	ProcessUsage provider(pi.hProcess);
 	Lemon::Execution::Limiter limiter(memoryLimit);
 	QElapsedTimer timer;
 	timer.start();
@@ -160,7 +160,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 		}
 		DWORD state = WaitForSingleObject(pi.hProcess, 0);
 		if (state == WAIT_OBJECT_0) {
-			limiter.observe({job.peakCommit(), -1});
+			limiter.observe(provider.sample());
 			res.memoryUsed = limiter.usage();
 			if (limiter.isExceeded()) {
 				res.result = MemoryLimitExceeded;
@@ -168,7 +168,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 			}
 			break;
 		}
-		missing = sample.declared < 0 || sample.actual < 0 ? missing + 1 : 0;
+		missing = sample < 0 ? missing + 1 : 0;
 		if (state == WAIT_FAILED || missing >= 10) {
 			res.result = CannotStartProgram;
 			res.message = "Process statistics unavailable";

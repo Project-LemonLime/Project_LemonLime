@@ -7,10 +7,6 @@
 
 namespace Lemon::Execution {
 	using Bytes = std::int64_t;
-	struct MemorySample {
-		Bytes declared = -1;
-		Bytes actual = -1;
-	};
 
 	inline bool memoryBytes(std::int64_t mib, Bytes &bytes) {
 		if (mib < 0) {
@@ -26,7 +22,8 @@ namespace Lemon::Execution {
 	class UsageProvider {
 	  public:
 		virtual ~UsageProvider() = default;
-		virtual MemorySample sample() = 0;
+		// DeclaredUsage in bytes; negative means unavailable.
+		virtual Bytes sample() = 0;
 	};
 	class Prelimit {
 	  public:
@@ -44,7 +41,6 @@ namespace Lemon::Execution {
 	enum class RunReason { Accepted, RuntimeError, TimeLimit, MemoryLimit, InternalError };
 	struct RunOutcome {
 		RunReason reason;
-		MemorySample peaks;
 		Bytes usage;
 	};
 
@@ -52,9 +48,8 @@ namespace Lemon::Execution {
 	class Limiter {
 	  public:
 		explicit Limiter(Bytes limit) : limit(limit) {}
-		bool observe(MemorySample sample) {
-			peak.declared = (std::max)(peak.declared, sample.declared);
-			peak.actual = (std::max)(peak.actual, sample.actual);
+		bool observe(Bytes declaredUsage) {
+			peak = (std::max)(peak, declaredUsage);
 			exceeded = exceeded || (limit >= 0 && usage() > limit);
 			return exceeded;
 		}
@@ -68,15 +63,14 @@ namespace Lemon::Execution {
 				reason = RunReason::TimeLimit;
 			else if (exit == ExitKind::RuntimeError)
 				reason = RunReason::RuntimeError;
-			return {reason, peak, usage()};
+			return {reason, usage()};
 		}
-		Bytes usage() const { return (std::max)(peak.declared, peak.actual); }
-		MemorySample peaks() const { return peak; }
+		Bytes usage() const { return peak; }
 		bool isExceeded() const { return exceeded; }
 
 	  private:
 		Bytes limit;
-		MemorySample peak;
+		Bytes peak = -1;
 		bool exceeded = false;
 	};
 } // namespace Lemon::Execution

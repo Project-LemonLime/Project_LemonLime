@@ -34,28 +34,20 @@ namespace Lemon::Windows {
 			info.BasicLimitInformation.ActiveProcessLimit = 1;
 			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
 		}
-		Execution::Bytes peakCommit() const {
-			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
-			if (! QueryInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info),
-			                                nullptr))
-				return -1;
-			return static_cast<Execution::Bytes>(info.PeakProcessMemoryUsed);
-		}
 	};
 	class ProcessUsage : public Execution::UsageProvider {
 		HANDLE process;
-		const ExecutionJob &job;
 
 	  public:
-		ProcessUsage(HANDLE process, const ExecutionJob &job) : process(process), job(job) {}
-		Execution::MemorySample sample() override {
+		explicit ProcessUsage(HANDLE process) : process(process) {}
+		Execution::Bytes sample() override {
 			PROCESS_MEMORY_COUNTERS_EX info{};
 			info.cb = sizeof(info);
 			if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info),
 			                           sizeof(info)))
-				return {};
-			return {(std::max)(static_cast<Execution::Bytes>(info.PrivateUsage), job.peakCommit()),
-			        static_cast<Execution::Bytes>((std::max)(info.WorkingSetSize, info.PeakWorkingSetSize))};
+				return -1;
+			// PeakPagefileUsage is the process lifetime peak of private committed memory.
+			return static_cast<Execution::Bytes>(info.PeakPagefileUsage);
 		}
 	};
 	class ProcessKiller : public Execution::Killer {
