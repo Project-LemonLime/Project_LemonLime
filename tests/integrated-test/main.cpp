@@ -211,13 +211,13 @@ class IntegratedTest : public QObject {
 		    {"user1", 0, CompileSuccessfully, {CorrectAnswer}},
 		    {"user2", 0, NoValidSourceFile, {}},
 		    {"user1",
-			 1,
-			 CompileSuccessfully,
-			 {CorrectAnswer, TimeLimitExceeded, allocationVerdict, WrongAnswer, RunTimeError, WrongAnswer}},
+		     1,
+		     CompileSuccessfully,
+		     {CorrectAnswer, TimeLimitExceeded, allocationVerdict, WrongAnswer, RunTimeError, WrongAnswer}},
 		    {"user2",
-			 1,
-			 CompileSuccessfully,
-			 {CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer}},
+		     1,
+		     CompileSuccessfully,
+		     {CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer, CorrectAnswer}},
 		};
 		for (const Expected &row : expected) {
 			const Contestant *contestant = contest.getContestant(row.contestant);

@@ -76,14 +76,14 @@ ProcessRunnerResult WinProcessRunner::run() {
 	if (config.standardOutputCheck) {
 		siex.StartupInfo.hStdOutput =
 		    CreateFileW((const WCHAR *)((config.workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-			            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-			            FILE_ATTRIBUTE_NORMAL, NULL);
+		                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+		                FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	siex.StartupInfo.hStdError =
 	    CreateFileW((const WCHAR *)((config.workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-		            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-		            FILE_ATTRIBUTE_NORMAL, NULL);
+	                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+	                FILE_ATTRIBUTE_NORMAL, NULL);
 
 	auto closeStdIO = qScopeGuard([&] {
 		if (config.standardInputCheck)
