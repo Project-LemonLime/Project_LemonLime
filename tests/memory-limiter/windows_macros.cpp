@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "../../src/core/windowsprocessutils.h"
-#include <psapi.h>
 #include <algorithm>
 #include <cstdint>
 #include <limits>
+#include <psapi.h>
 
 // Define after dependency headers so their macro cleanup cannot hide the regression.
 #ifdef max
