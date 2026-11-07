@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
 			return argc == 6 && strcmp(argv[3], "space value") == 0 && argv[4][0] == '\0' &&
 			               strcmp(argv[5], "$literal") == 0
 			           ? 0
-					   : 11;
+			           : 11;
 		return fixture(argv[2]);
 	}
 	char *self = realpath(argv[0], nullptr);
