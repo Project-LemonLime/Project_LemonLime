@@ -1,0 +1,6 @@
+add_executable(watcher-limits-test main.cpp)
+set_target_properties(watcher-limits-test PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF)
+add_dependencies(watcher-limits-test watcher_unix)
+target_compile_definitions(watcher-limits-test PRIVATE WATCHER_PATH="$<TARGET_FILE:watcher_unix>")
+add_test(NAME watcher-limits COMMAND watcher-limits-test)
+set_tests_properties(watcher-limits PROPERTIES TIMEOUT 35)

@@ -13,13 +13,13 @@
 #include <cstdlib>
 #include <cstring>
 #include <errno.h>
+#include <libproc.h>
 #include <mach-o/fat.h>
 #include <mach-o/loader.h>
 #include <mach-o/utils.h>
 #include <string>
 #include <sys/fcntl.h>
 #include <sys/resource.h>
-#include <sys/sysctl.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -92,17 +92,6 @@ template <typename header> static ssize_t calculateStaticMemoryUsage(int fd, int
 	return res;
 }
 
-static std::string getCpuBrandString() {
-	char buf[1024];
-	size_t buflen = 1024;
-	sysctlbyname("machdep.cpu.brand_string", &buf, &buflen, NULL, 0);
-	return std::string(buf, buflen);
-}
-
-int isAppleSilicon;
-
-void initWatcher() { isAppleSilicon = getCpuBrandString().contains("Apple"); }
-
 ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	uint32_t magic;
 	ssize_t staticMemoryUsage = 0;
@@ -143,6 +132,18 @@ ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	return staticMemoryUsage;
 }
 
-ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024 * (isAppleSilicon ? 4 : 1); }
+ssize_t getResidentMemoryInByte(pid_t child) {
+	proc_taskinfo info{};
+	const int size = proc_pidinfo(child, PROC_PIDTASKINFO, 0, &info, sizeof(info));
+	if (size == 0 && errno == ESRCH)
+		return 0;
+	if (size != sizeof(info)) {
+		if (size != 0)
+			errno = EIO;
+		return -1;
+	}
+	return static_cast<ssize_t>(info.pti_resident_size);
+}
 
-size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss / (isAppleSilicon ? 4 : 1); }
+// Darwin reports ru_maxrss in bytes, on both Intel and Apple Silicon.
+size_t getMaxRSSInByte(long ru_maxrss) { return static_cast<size_t>(ru_maxrss); }

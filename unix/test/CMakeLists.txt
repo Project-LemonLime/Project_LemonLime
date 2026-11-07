@@ -22,6 +22,8 @@ add_executable(re re.c)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 enable_testing()
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../tests/watcher-limits
+    ${CMAKE_CURRENT_BINARY_DIR}/watcher-limits)
 add_test(NAME watcher_run_c_test COMMAND python3 scripts/run.py)
 add_test(NAME watcher_run_sh_test COMMAND python3 scripts/run_sh.py)
 add_test(NAME watcher_MLE_static_test COMMAND python3 scripts/mle_static.py)

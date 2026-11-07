@@ -7,6 +7,7 @@
  */
 
 #include <cassert>
+#include <cerrno>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -68,8 +69,6 @@ template <typename Ehdr, typename Phdr> static auto calculateStaticMemoryUsage(i
 	return res;
 }
 
-void initWatcher() { return; }
-
 ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	char e_ident[EI_NIDENT];
 	ssize_t staticMemoryUsage = 0;
@@ -93,6 +92,32 @@ ssize_t calculateStaticMemoryUsage(const std::string &fileName) {
 	return staticMemoryUsage;
 }
 
-ssize_t getMemoryRLimit(ssize_t memoryLimitInMB) { return memoryLimitInMB * 1024 * 1024; }
+ssize_t getResidentMemoryInByte(pid_t child) {
+	char path[64];
+	snprintf(path, sizeof(path), "/proc/%d/statm", static_cast<int>(child));
+	const int fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return errno == ENOENT || errno == ESRCH ? 0 : -1;
+	char data[256];
+	const auto size = read(fd, data, sizeof(data) - 1);
+	const int error = errno;
+	close(fd);
+	if (size < 0) {
+		errno = error;
+		return -1;
+	}
+	data[size] = '\0';
+	unsigned long virtualPages = 0, residentPages = 0;
+	if (sscanf(data, "%lu %lu", &virtualPages, &residentPages) != 2) {
+		errno = EIO;
+		return -1;
+	}
+	static const long pageSize = sysconf(_SC_PAGESIZE);
+	if (pageSize <= 0) {
+		errno = EINVAL;
+		return -1;
+	}
+	return static_cast<ssize_t>(residentPages * pageSize);
+}
 
 size_t getMaxRSSInByte(long ru_maxrss) { return ru_maxrss * 1024; }
