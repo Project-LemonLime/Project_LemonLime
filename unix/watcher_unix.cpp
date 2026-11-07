@@ -1,189 +1,231 @@
-/*
- * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
- * SPDX-FileCopyrightText: 2019-2023 Project LemonLime
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
- *
- */
-
-#include <cassert>
+// SPDX-License-Identifier: GPL-3.0-or-later
+#include "memoryusage.h"
+#include <cerrno>
+#include <chrono>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
-#include <sstream>
+#include <fcntl.h>
 #include <string>
-#include <sys/fcntl.h>
 #include <sys/resource.h>
-#include <sys/time.h>
-#include <sys/types.h>
 #include <sys/wait.h>
+#include <thread>
 #include <unistd.h>
+#ifdef __linux__
+#include <sys/prctl.h>
+#endif
+using namespace Lemon::Execution;
+namespace {
+	enum { RS_AC, RS_FAIL, RS_RE, RS_TLE, RS_MLE };
+	volatile sig_atomic_t stopped = 0;
+	void stop(int) { stopped = 1; }
+	class UnixPrelimit : public Prelimit {
+	  public:
+		bool apply(Bytes limit) override {
+#ifdef __linux__
+			if (limit >= 0) {
+				rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
+				if (setrlimit(RLIMIT_AS, &memory) != 0)
+					return false;
+			}
+#else
+			(void)limit; // macOS intentionally has no memory prelimit.
+#endif
+			return true;
+		}
+	};
+	class UnixUsage : public UsageProvider {
+		pid_t pid;
 
-int pid;
-
-void cleanUp(int /*dummy*/) {
-	kill(pid, SIGKILL);
-	exit(0);
-}
-
-extern void initWatcher();
-extern ssize_t calculateStaticMemoryUsage(const std::string &);
-extern ssize_t getMemoryRLimit(ssize_t memoryLimitInMB);
-extern size_t getMaxRSSInByte(long ru_maxrss);
-
-enum : int {
-	RS_AC = 0,
-	RS_FAIL = 1,
-	RS_RE = 2,
-	RS_TLE = 3,
-	RS_MLE = 4,
-};
-
-/**
- * argv[1]: executable file path
- * argv[2]: 执行选手程序时，传递的命令行参数，但不包含 argv0
- * argv[3]: 重定向输入文件（如果有）
- * argv[4]: 重定向输出文件（如果有）
- * argv[5]: 重定向错误流文件（如果有）
- * argv[6]: 时间限制（毫秒）
- * argv[7]: 空间限制（MiB），若为负数表示无限制
- * argv[8]: 原始（未经语言设置缩放的）时间限制（毫秒）
- * argv[9]: 原始（未经语言设置缩放的）空间限制（MiB）
- * argv[10]: 选手程序只读的文件
- * argv[11]: 选手程序只写的文件
- */
-auto main(int argc, char *argv[]) -> int {
+	  public:
+		explicit UnixUsage(pid_t pid) : pid(pid) {}
+		MemorySample sample() override { return sampleMemory(pid); }
+	};
+	class UnixProcess : public Killer {
+	  public:
+		pid_t pid;
+		int status = 0;
+		rusage usage{};
+		bool reaped = false;
+		explicit UnixProcess(pid_t pid) : pid(pid) {}
+		// Do not destroy the exit information until all final samples are consumed.
+		int poll() {
+			if (reaped)
+				return 1;
+			pid_t result = wait4(pid, &status, WNOHANG, &usage);
+			if (result == pid) {
+				reaped = true;
+				return 1;
+			}
+			if (result < 0 && errno != EINTR)
+				return -1;
+			return 0;
+		}
+		bool killAndReap() override {
+			kill(-pid, SIGKILL);
+			if (! reaped)
+				kill(pid, SIGKILL);
+			auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+			while (! reaped && std::chrono::steady_clock::now() < deadline) {
+				if (poll() < 0)
+					return false;
+				if (! reaped)
+					std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			}
+			return reaped;
+		}
+	};
+	struct ChildError {
+		int stage;
+		int error;
+	};
+} // namespace
+int main(int argc, char **argv) {
 	if (argc != 12) {
 		printf("-1\n-1\n");
-		fprintf(stderr, "Expected 11 arguments, found %d\n", argc);
 		return RS_FAIL;
 	}
-	std::string fileName = argv[1];
-	std::string runArgs = argv[2];
-	std::string stdinRedirect = argv[3];
-	std::string stdoutRedirect = argv[4];
-	std::string stderrRedirect = argv[5];
-	long long timeLimitMs = std::stoll(argv[6]);
-	long long memoryLimitMib = std::stoll(argv[7]);
-	[[maybe_unused]] long long rawTimeLimitMs = std::stoll(argv[8]);
-	[[maybe_unused]] long long rawMemoryLimitMib = std::stoll(argv[9]);
-	[[maybe_unused]] std::string readableFile = argv[10];
-	[[maybe_unused]] std::string writableFile = argv[11];
-
-	initWatcher();
-
-	std::ostringstream ss;
-	ss << '"';
-	ss << fileName;
-	ss << "\" ";
-	ss << runArgs;
-	std::string runCmd = ss.str();
-
-	if (memoryLimitMib > 0) {
-		ssize_t staticMemoryUsageByte = calculateStaticMemoryUsage(fileName);
-		if (staticMemoryUsageByte == -1) {
+	try {
+		long long timeLimit = std::stoll(argv[6]);
+		Bytes limit;
+		if (! memoryBytes(std::stoll(argv[7]), limit) || timeLimit < 0) {
 			printf("-1\n-1\n");
-			fprintf(stderr, "Error in calculating static memory usage\n");
 			return RS_FAIL;
 		}
-		if (staticMemoryUsageByte > memoryLimitMib * 1024 * 1024) {
-			// If static memory usage exceeds the limit, it's an MLE.
-			printf("0\n%zd\n", staticMemoryUsageByte);
-			fprintf(stderr, "Static memory usage exceeds the limit\n");
-			return RS_MLE;
-		}
-	}
-
-	ssize_t actualMemoryRLimit = getMemoryRLimit(memoryLimitMib);
-
-	pid = fork();
-
-	if (pid > 0) {
-		// Parent process
-		signal(SIGINT, cleanUp);
-		signal(SIGABRT, cleanUp);
-		signal(SIGTERM, cleanUp);
-		struct rusage usage{};
-		int status = 0;
-
-		if (wait4(pid, &status, 0, &usage) == -1) {
+		int errors[2];
+		if (pipe(errors) != 0) {
+			perror("pipe");
 			printf("-1\n-1\n");
-			perror("wait4");
 			return RS_FAIL;
 		}
-
-		if (WIFEXITED(status)) {
-			long long timeUsedMs =
-			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
-			size_t memoryUsed = getMaxRSSInByte(usage.ru_maxrss);
-			printf("%lld\n%zu\n", timeUsedMs, memoryUsed);
-			if (WEXITSTATUS(status) != 0) {
-				// Any non-zero exit status indicates a runtime error.
-				return RS_RE;
+		if (fcntl(errors[1], F_SETFD, FD_CLOEXEC) < 0 || fcntl(errors[0], F_SETFL, O_NONBLOCK) < 0) {
+			perror("fcntl");
+			close(errors[0]);
+			close(errors[1]);
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
+		pid_t pid = fork();
+		if (pid < 0) {
+			perror("fork");
+			close(errors[0]);
+			close(errors[1]);
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
+		if (pid == 0) {
+			close(errors[0]);
+			auto fail = [&](int stage) {
+				ChildError error{stage, errno};
+				(void)write(errors[1], &error, sizeof(error));
+				_exit(127);
+			};
+			if (setpgid(0, 0) != 0)
+				fail(1);
+			const char *modes[] = {"r", "w", "w"};
+			FILE *streams[] = {stdin, stdout, stderr};
+			for (int i = 0; i < 3; ++i)
+				if (! freopen(*argv[3 + i] ? argv[3 + i] : "/dev/null", modes[i], streams[i]))
+					fail(2);
+#ifdef __linux__
+			// Disable dump generation, including piped core handlers.
+			if (prctl(PR_SET_DUMPABLE, 0) != 0)
+				fail(6);
+#endif
+			UnixPrelimit prelimit;
+			if (! prelimit.apply(limit))
+				fail(3);
+			rlim_t seconds = static_cast<rlim_t>((timeLimit + 999) / 1000);
+			rlimit cpu{seconds, seconds + 1};
+			if (setrlimit(RLIMIT_CPU, &cpu) != 0)
+				fail(4);
+			// The shell replaces itself, so pid continues to identify the submission.
+			std::string command = "exec \"" + std::string(argv[1]) + "\" " + argv[2];
+			execlp("bash", "bash", "-c", command.c_str(), static_cast<char *>(nullptr));
+			fail(5);
+		}
+		close(errors[1]);
+		(void)setpgid(pid, pid);
+		signal(SIGTERM, stop);
+		signal(SIGINT, stop);
+		signal(SIGABRT, stop);
+		UnixProcess process(pid);
+		UnixUsage provider(pid);
+		Limiter limiter(limit);
+		auto deadline =
+		    std::chrono::steady_clock::now() + std::chrono::milliseconds(std::max(2000LL, 3LL * timeLimit));
+		int verdict = RS_AC;
+		int missing = 0;
+		ChildError childError{};
+		bool setupFailed = false;
+		for (;;) {
+			auto sample = provider.sample();
+			limiter.observe(sample);
+			if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
+				setupFailed = true;
+			int finished = process.poll();
+			if (setupFailed || finished < 0) {
+				verdict = RS_FAIL;
+				break;
 			}
-			if (timeUsedMs > timeLimitMs) {
-				return RS_TLE;
+			if (limiter.isExceeded()) {
+				verdict = RS_MLE;
+				break;
 			}
-			if (memoryUsed > memoryLimitMib * 1024 * 1024) {
-				return RS_MLE;
+			if (finished)
+				break;
+			if (std::chrono::steady_clock::now() >= deadline) {
+				verdict = RS_TLE;
+				break;
 			}
-			return RS_AC;
-		}
-
-		if (WIFSIGNALED(status)) {
-			long long timeUsedMs =
-			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
-			printf("%lld\n-1\n", timeUsedMs);
-			if (WTERMSIG(status) == SIGXCPU) {
-				return RS_TLE;
+			if (stopped) {
+				verdict = RS_FAIL;
+				break;
 			}
-			if (WTERMSIG(status) == SIGKILL || WTERMSIG(status) == SIGABRT) {
-				return RS_MLE;
+			missing = sample.declared < 0 || sample.actual < 0 ? missing + 1 : 0;
+			if (missing >= 10) {
+				fprintf(stderr, "Memory statistics unavailable\n");
+				verdict = RS_FAIL;
+				break;
 			}
-			return RS_RE;
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
-	} else {
-		std::string finalStdinRedirect = stdinRedirect.empty() ? "/dev/null" : stdinRedirect;
-		if (freopen(finalStdinRedirect.c_str(), "r", stdin) == NULL) {
-			perror("freopen stdin");
-			exit(RS_FAIL);
+		// Catch setup errors delivered concurrently with the final wait.
+		if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
+			setupFailed = true;
+		close(errors[0]);
+		if (! process.killAndReap())
+			fprintf(stderr, "Process reaping deadline exceeded\n");
+		if (setupFailed) {
+			fprintf(stderr, "Child setup stage %d failed: errno %d\n", childError.stage, childError.error);
+			verdict = RS_FAIL;
 		}
-		std::string finalStdoutRedirect = stdoutRedirect.empty() ? "/dev/null" : stdoutRedirect;
-		if (freopen(finalStdoutRedirect.c_str(), "w", stdout) == NULL) {
-			perror("freopen stdout");
-			exit(RS_FAIL);
+		if (process.reaped) {
+			Bytes rss = maxRSSBytes(process.usage.ru_maxrss);
+#ifdef __APPLE__
+			limiter.observe({rss, rss});
+#else
+			limiter.observe({-1, rss});
+#endif
+			if (verdict == RS_AC) {
+				if (limiter.isExceeded())
+					verdict = RS_MLE;
+				else if (WIFSIGNALED(process.status))
+					verdict = WTERMSIG(process.status) == SIGXCPU ? RS_TLE : RS_RE;
+				else if (! WIFEXITED(process.status) || WEXITSTATUS(process.status) != 0)
+					verdict = RS_RE;
+			}
 		}
-		std::string finalStderrRedirect = stderrRedirect.empty() ? "/dev/null" : stderrRedirect;
-		if (freopen(finalStderrRedirect.c_str(), "w", stderr) == NULL) {
-			perror("freopen stderr");
-			exit(RS_FAIL);
-		}
-
-		rlimit memlim{}, stalim{}, timlim{};
-
-		if (memoryLimitMib > 0) {
-			memlim = (rlimit){(rlim_t)actualMemoryRLimit, (rlim_t)actualMemoryRLimit};
-			stalim = (rlimit){(rlim_t)actualMemoryRLimit, (rlim_t)actualMemoryRLimit};
-		} else {
-			// No memory limit specified, set to infinity
-			memlim = (rlimit){RLIM_INFINITY, RLIM_INFINITY};
-			stalim = (rlimit){(rlim_t)2147483647LL, (rlim_t)2147483647LL};
-		}
-
-		// Calculate time limit in seconds, rounding up
-		rlim_t soft_time_limit_sec = (timeLimitMs + 999) / 1000;
-		timlim = (rlimit){soft_time_limit_sec, soft_time_limit_sec + 1}; // Soft limit + 1 for hard limit
-
-		setrlimit(RLIMIT_AS, &memlim);
-		setrlimit(RLIMIT_STACK, &stalim);
-		setrlimit(RLIMIT_CPU, &timlim);
-
-		if (execlp("bash", "bash", "-c", runCmd.c_str(), NULL) == -1) {
-			perror("execlp");
-			exit(RS_FAIL);
-		}
+		long long elapsed =
+		    process.reaped ? process.usage.ru_utime.tv_sec * 1000LL + process.usage.ru_utime.tv_usec / 1000
+			               : -1;
+		if (verdict == RS_AC && elapsed > timeLimit)
+			verdict = RS_TLE;
+		printf("%lld\n%lld\n", elapsed, static_cast<long long>(limiter.usage()));
+		return verdict;
+	} catch (...) {
+		printf("-1\n-1\n");
+		fprintf(stderr, "Invalid watcher arguments\n");
+		return RS_FAIL;
 	}
-
-	return 0;
 }
