@@ -10,7 +10,7 @@ if(MINGW)
         target_compile_options(sandbox-helper PRIVATE -fms-extensions)
     endif()
 endif()
-target_link_libraries(sandbox-helper PRIVATE advapi32 ws2_32)
+target_link_libraries(sandbox-helper PRIVATE advapi32 ws2_32 psapi)
 
 add_executable(windows-sandbox-tests main.cpp)
 target_compile_definitions(windows-sandbox-tests PRIVATE WIN32_LEAN_AND_MEAN)
