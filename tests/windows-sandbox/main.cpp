@@ -761,11 +761,27 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(userTicks > 0);
 		QVERIFY(kernelTicks > 0);
 		QCOMPARE(result.timeUsed, int(userTicks / 10000));
-		PROCESS_MEMORY_COUNTERS memory{};
+		PROCESS_MEMORY_COUNTERS_EX memory{};
 		memory.cb = sizeof(memory);
-		QVERIFY(GetProcessMemoryInfo(primary.get(), &memory, sizeof(memory)));
-		QVERIFY(result.memoryUsed >= qint64(memory.PeakWorkingSetSize));
+		QVERIFY(GetProcessMemoryInfo(primary.get(), reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&memory),
+		                             sizeof(memory)));
+		QCOMPARE(result.memoryUsed, qint64(memory.PeakPagefileUsage));
 		QVERIFY(result.memoryUsed >= 64ll * 1024 * 1024);
+	}
+
+	void workingSetDoesNotLimitPrivateCommit_data() { primaryProcessAccounting_data(); }
+	void workingSetDoesNotLimitPrivateCommit() {
+		QFETCH(bool, enabled);
+		auto cfg = config("mapped-working-set");
+		cfg.sandboxSettings.enabled = enabled;
+		cfg.memoryLimit = 32;
+		auto result = run(cfg);
+		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
+		QVERIFY(result.memoryUsed > 0 && result.memoryUsed <= 32ll * 1024 * 1024);
+		auto output = QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout"));
+		auto match = QRegularExpression("working-set-peak=(\\d+)").match(output);
+		QVERIFY(match.hasMatch());
+		QVERIFY(match.captured(1).toLongLong() > 32ll * 1024 * 1024);
 	}
 
 	void memoryPrelimit_data() { primaryProcessAccounting_data(); }
