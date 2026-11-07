@@ -1,4 +1,10 @@
+#include <algorithm>
+#include <cstdint>
+#include <limits>
+// Reproduce the Windows SDK function-like macro, including with a PCH.
+#define max(a, b) windows_max_macro_must_not_expand(a, b)
 #include "../../src/core/memorylimiter.h"
+#undef max
 #include <cstdlib>
 using namespace Lemon::Execution;
 void check(bool value) {
