@@ -5,7 +5,7 @@ if(MSVC)
     set_property(TARGET sandbox-helper PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 if(MINGW)
-    target_link_options(sandbox-helper PRIVATE -municode)
+    target_link_options(sandbox-helper PRIVATE -municode -static)
 endif()
 target_link_libraries(sandbox-helper PRIVATE advapi32 ws2_32)
 
