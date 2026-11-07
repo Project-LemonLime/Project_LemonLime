@@ -12,18 +12,18 @@
 #include <winsock2.h>
 
 static bool readsSecret(HANDLE handle) {
-	// Parent handle values can be invalid or reused for a different object in the child.
-	DWORD flags = 0;
-	if (! GetHandleInformation(handle, &flags) || GetFileType(handle) != FILE_TYPE_DISK)
-		return false;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__clang__)
 	__try {
 #endif
+		// Queries on a missing parent handle can raise STATUS_INVALID_HANDLE too.
+		DWORD flags = 0;
+		if (! GetHandleInformation(handle, &flags) || GetFileType(handle) != FILE_TYPE_DISK)
+			return false;
 		char buffer[64]{};
 		DWORD length = 0;
 		return ReadFile(handle, buffer, sizeof(buffer), &length, nullptr) && length >= 6 &&
 		       memcmp(buffer, "secret", 6) == 0;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__clang__)
 	} __except (EXCEPTION_EXECUTE_HANDLER) {
 		return false;
 	}
