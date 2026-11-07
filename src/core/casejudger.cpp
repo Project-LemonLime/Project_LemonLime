@@ -119,7 +119,8 @@ class BufferedStreamReader {
 
   public:
 	static const int BUFFER_SIZE = 1 << 18; // 256 KiB
-	explicit BufferedStreamReader(const char *filename) : buffer(new char[BUFFER_SIZE]), file(fopen(filename, "r")) {
+	explicit BufferedStreamReader(const char *filename)
+	    : buffer(new char[BUFFER_SIZE]), file(fopen(filename, "r")) {
 		result.reserve(32);
 		// Start with bufPos == bufEnd so the first peekChar() triggers an
 		// fread; avoids a separate "primed?" flag.
