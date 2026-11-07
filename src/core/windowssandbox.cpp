@@ -98,7 +98,7 @@ namespace {
 		}
 		HANDLE file =
 		    CreateFileW(wide(nativePath), access, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-			            nullptr, OPEN_EXISTING, flags, nullptr);
+		                nullptr, OPEN_EXISTING, flags, nullptr);
 		if (file == INVALID_HANDLE_VALUE && ! directory && ! privateFile &&
 		    GetLastError() == ERROR_ACCESS_DENIED) {
 			file = CreateFileW(wide(nativePath), READ_CONTROL | FILE_READ_ATTRIBUTES,

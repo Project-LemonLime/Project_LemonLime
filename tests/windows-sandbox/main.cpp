@@ -942,7 +942,7 @@ class WindowsSandboxTests : public QObject {
 		    source,
 		    extension == "c"
 		        ? "#include <stdio.h>\nint main(void){int a,b;scanf(\"%d%d\",&a,&b);printf(\"%d\\n\",a+b);}"
-				: "#include <iostream>\nint main(){int a,b;std::cin>>a>>b;std::cout<<a+b<<'\\n';}"));
+		        : "#include <iostream>\nint main(){int a,b;std::cin>>a>>b;std::cout<<a+b<<'\\n';}"));
 		QProcess compile;
 		compile.start(tool, {source, "-O2", "-o", cfg.executableFile});
 		QVERIFY(compile.waitForFinished(20000));
@@ -1097,12 +1097,12 @@ class WindowsSandboxTests : public QObject {
 		cfg.memoryLimit = 512;
 		QVERIFY(
 		    write(cfg.workingDirectory + "Main.java",
-			      "import java.io.*; class Main { public static void main(String[] args) throws Exception { "
-			      "Process child; try { child = new ProcessBuilder("
-			      "new File(\"helper.exe\").getAbsolutePath(), \"burn\", \"100\").start(); } "
-			      "catch (IOException e) { System.out.println(\"denied\"); return; } "
-			      "if (child.waitFor() != 0) throw new AssertionError(\"Child failed\"); "
-			      "System.out.println(\"allowed\"); }}"));
+		          "import java.io.*; class Main { public static void main(String[] args) throws Exception { "
+		          "Process child; try { child = new ProcessBuilder("
+		          "new File(\"helper.exe\").getAbsolutePath(), \"burn\", \"100\").start(); } "
+		          "catch (IOException e) { System.out.println(\"denied\"); return; } "
+		          "if (child.waitFor() != 0) throw new AssertionError(\"Child failed\"); "
+		          "System.out.println(\"allowed\"); }}"));
 		QProcess compile;
 		compile.start(javac, {cfg.workingDirectory + "Main.java"});
 		QVERIFY(compile.waitForFinished(20000));
