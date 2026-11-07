@@ -17,7 +17,7 @@ namespace Lemon::Execution {
 			bytes = -1;
 			return true;
 		}
-		if (mib > std::numeric_limits<Bytes>::max() / (1024 * 1024))
+		if (mib > (std::numeric_limits<Bytes>::max)() / (1024 * 1024))
 			return false;
 		bytes = mib * 1024 * 1024;
 		return true;
@@ -53,8 +53,8 @@ namespace Lemon::Execution {
 	  public:
 		explicit Limiter(Bytes limit) : limit(limit) {}
 		bool observe(MemorySample sample) {
-			peak.declared = std::max(peak.declared, sample.declared);
-			peak.actual = std::max(peak.actual, sample.actual);
+			peak.declared = (std::max)(peak.declared, sample.declared);
+			peak.actual = (std::max)(peak.actual, sample.actual);
 			exceeded = exceeded || (limit >= 0 && usage() > limit);
 			return exceeded;
 		}
@@ -70,7 +70,7 @@ namespace Lemon::Execution {
 				reason = RunReason::RuntimeError;
 			return {reason, peak, usage()};
 		}
-		Bytes usage() const { return std::max(peak.declared, peak.actual); }
+		Bytes usage() const { return (std::max)(peak.declared, peak.actual); }
 		MemorySample peaks() const { return peak; }
 		bool isExceeded() const { return exceeded; }
 

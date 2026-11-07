@@ -1,2 +1,6 @@
 add_executable(memory-limiter-test main.cpp)
+if(WIN32)
+    target_sources(memory-limiter-test PRIVATE windows_macros.cpp)
+    target_link_libraries(memory-limiter-test PRIVATE ${LEMON_QT_LIBNAME}::Core)
+endif()
 add_test(NAME memory-limiter COMMAND memory-limiter-test)

@@ -54,8 +54,8 @@ namespace Lemon::Windows {
 			if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info),
 			                           sizeof(info)))
 				return {};
-			return {std::max(static_cast<Execution::Bytes>(info.PrivateUsage), job.peakCommit()),
-			        static_cast<Execution::Bytes>(std::max(info.WorkingSetSize, info.PeakWorkingSetSize))};
+			return {(std::max)(static_cast<Execution::Bytes>(info.PrivateUsage), job.peakCommit()),
+			        static_cast<Execution::Bytes>((std::max)(info.WorkingSetSize, info.PeakWorkingSetSize))};
 		}
 	};
 	class ProcessKiller : public Execution::Killer {
