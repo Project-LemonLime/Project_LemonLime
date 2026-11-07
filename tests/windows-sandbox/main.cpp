@@ -763,8 +763,23 @@ class WindowsSandboxTests : public QObject {
 		PROCESS_MEMORY_COUNTERS memory{};
 		memory.cb = sizeof(memory);
 		QVERIFY(GetProcessMemoryInfo(primary.get(), &memory, sizeof(memory)));
-		QCOMPARE(result.memoryUsed, qint64(memory.PeakWorkingSetSize));
-		QVERIFY(result.memoryUsed < 64ll * 1024 * 1024);
+		QVERIFY(result.memoryUsed >= qint64(memory.PeakWorkingSetSize));
+		QVERIFY(result.memoryUsed >= 64ll * 1024 * 1024);
+	}
+
+	void memoryPrelimit_data() { primaryProcessAccounting_data(); }
+	void memoryPrelimit() {
+		QFETCH(bool, enabled);
+		for (const auto &mode : {"reserve", "commit-caught", "commit-rejected"}) {
+			auto cfg = config(mode);
+			cfg.sandboxSettings.enabled = enabled;
+			cfg.memoryLimit = 32;
+			auto result = run(cfg);
+			QCOMPARE(result.result, QString(mode) == "commit-rejected" ? RunTimeError : CorrectAnswer);
+			QVERIFY(result.memoryUsed > 0);
+			QVERIFY(result.memoryUsed <= 32ll * 1024 * 1024);
+			QVERIFY(read(cfg.workingDirectory + "_tmpout").contains("expected"));
+		}
 	}
 
 	void runtimeErrorDetails_data() { primaryProcessAccounting_data(); }
@@ -776,7 +791,7 @@ class WindowsSandboxTests : public QObject {
 		const auto result = run(cfg);
 		QCOMPARE(result.result, RunTimeError);
 		QCOMPARE(result.timeUsed, -1);
-		QCOMPARE(result.memoryUsed, -1);
+		QVERIFY(result.memoryUsed > 0);
 		QCOMPARE(result.message, QString(1020, 'a') + "tail");
 	}
 
@@ -784,9 +799,10 @@ class WindowsSandboxTests : public QObject {
 		auto cpu = config("burn 3000");
 		cpu.timeLimit = 100;
 		QCOMPARE(run(cpu).result, TimeLimitExceeded);
-		auto memory = config("memory");
+		auto memory = config("commit-rejected");
 		memory.memoryLimit = 24;
-		QCOMPARE(run(memory).result, MemoryLimitExceeded);
+		// The Job refuses the next commit; helper exits nonzero without exceeding the limit.
+		QCOMPARE(run(memory).result, RunTimeError);
 	}
 
 	void cancellation() {
@@ -821,7 +837,7 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(! permissions(cfg.workingDirectory).contains("S-1-15-2-"));
 		QCOMPARE(result.result, CorrectAnswer);
 		QCOMPARE(result.timeUsed, -1);
-		QCOMPARE(result.memoryUsed, -1);
+		QVERIFY(result.memoryUsed > 0);
 	}
 
 	void runtimeDirectoryWithInput() {
@@ -926,7 +942,7 @@ class WindowsSandboxTests : public QObject {
 		    source,
 		    extension == "c"
 		        ? "#include <stdio.h>\nint main(void){int a,b;scanf(\"%d%d\",&a,&b);printf(\"%d\\n\",a+b);}"
-		        : "#include <iostream>\nint main(){int a,b;std::cin>>a>>b;std::cout<<a+b<<'\\n';}"));
+				: "#include <iostream>\nint main(){int a,b;std::cin>>a>>b;std::cout<<a+b<<'\\n';}"));
 		QProcess compile;
 		compile.start(tool, {source, "-O2", "-o", cfg.executableFile});
 		QVERIFY(compile.waitForFinished(20000));
@@ -1081,12 +1097,12 @@ class WindowsSandboxTests : public QObject {
 		cfg.memoryLimit = 512;
 		QVERIFY(
 		    write(cfg.workingDirectory + "Main.java",
-		          "import java.io.*; class Main { public static void main(String[] args) throws Exception { "
-		          "Process child; try { child = new ProcessBuilder("
-		          "new File(\"helper.exe\").getAbsolutePath(), \"burn\", \"100\").start(); } "
-		          "catch (IOException e) { System.out.println(\"denied\"); return; } "
-		          "if (child.waitFor() != 0) throw new AssertionError(\"Child failed\"); "
-		          "System.out.println(\"allowed\"); }}"));
+			      "import java.io.*; class Main { public static void main(String[] args) throws Exception { "
+			      "Process child; try { child = new ProcessBuilder("
+			      "new File(\"helper.exe\").getAbsolutePath(), \"burn\", \"100\").start(); } "
+			      "catch (IOException e) { System.out.println(\"denied\"); return; } "
+			      "if (child.waitFor() != 0) throw new AssertionError(\"Child failed\"); "
+			      "System.out.println(\"allowed\"); }}"));
 		QProcess compile;
 		compile.start(javac, {cfg.workingDirectory + "Main.java"});
 		QVERIFY(compile.waitForFinished(20000));

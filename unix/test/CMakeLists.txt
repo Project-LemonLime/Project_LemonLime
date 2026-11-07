@@ -36,3 +36,6 @@ add_test(NAME watcher_RE_test COMMAND python3 scripts/runtimeerr.py)
 add_executable(memory_cases memory_cases.cpp)
 add_test(NAME watcher_memory_policy COMMAND python3 scripts/memory.py)
 set_tests_properties(watcher_memory_policy PROPERTIES TIMEOUT 30)
+
+add_executable(memory-limiter-test ../../tests/memory-limiter/main.cpp)
+add_test(NAME memory-limiter COMMAND memory-limiter-test)

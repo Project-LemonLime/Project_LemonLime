@@ -12,6 +12,10 @@
 #include <winsock2.h>
 
 static bool readsSecret(HANDLE handle) {
+	// Parent handle values can be invalid or reused for a different object in the child.
+	DWORD flags = 0;
+	if (! GetHandleInformation(handle, &flags) || GetFileType(handle) != FILE_TYPE_DISK)
+		return false;
 #ifdef _MSC_VER
 	__try {
 #endif
@@ -288,6 +292,19 @@ int wmain(int argc, wchar_t **argv) {
 		return int(code);
 	}
 
+	if (mode == L"reserve" || mode == L"commit-caught" || mode == L"commit-rejected") {
+		const bool reserve = mode == L"reserve";
+		void *p = VirtualAlloc(nullptr, 128 * 1024 * 1024, reserve ? MEM_RESERVE : (MEM_RESERVE | MEM_COMMIT),
+		                       PAGE_READWRITE);
+		if ((p != nullptr) != reserve)
+			return 37;
+		puts("expected");
+		fflush(stdout);
+		Sleep(100);
+		if (p)
+			VirtualFree(p, 0, MEM_RELEASE);
+		return mode == L"commit-rejected" ? 12 : 0;
+	}
 	if (mode == L"memory") {
 		for (int i = 0; i < 256; ++i) {
 			auto *memory = static_cast<volatile char *>(

@@ -3,10 +3,10 @@ name: Watcher for MacOS Test
 on:
   push:
     branches: ["master"]
-    paths: ["unix/**"]
+    paths: ["unix/**", "src/core/memorylimiter.h", "tests/memory-limiter/**"]
   pull_request:
     branches: ["master"]
-    paths: ["unix/**"]
+    paths: ["unix/**", "src/core/memorylimiter.h", "tests/memory-limiter/**"]
   workflow_dispatch:
 
 env:
