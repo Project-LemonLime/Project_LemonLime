@@ -19,7 +19,7 @@ class WindowsSandbox {
 	WindowsSandbox(const WindowsSandbox &) = delete;
 	WindowsSandbox &operator=(const WindowsSandbox &) = delete;
 	bool prepare(QString &error);
-	bool prepareProcess(STARTUPINFOEXW &startup, QString &error);
+	bool prepareProcess(STARTUPINFOEXW &startup, HANDLE job, QString &error);
 	const QProcessEnvironment &environment() const;
 	int aclUpdates() const;
 	bool cacheHit() const;

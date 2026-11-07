@@ -11,6 +11,7 @@
 
 #include "processrunner_win.h"
 #include "base/LemonLog.hpp"
+#include "windowsmemory.h"
 #include "windowsprocessutils.h"
 #include "windowssandbox.h"
 
@@ -94,7 +95,15 @@ ProcessRunnerResult WinProcessRunner::run() {
 		CloseHandle(siex.StartupInfo.hStdError);
 	});
 
-	if (sandbox && ! sandbox->prepareProcess(siex, res.message)) {
+	Lemon::Execution::Bytes memoryLimit;
+	ExecutionJob job;
+	if (! Lemon::Execution::memoryBytes(config.memoryLimit, memoryLimit) || ! job.apply(memoryLimit) ||
+	    (sandbox && ! job.restrictToOneProcess())) {
+		res.result = CannotStartProgram;
+		res.message = "Cannot configure memory prelimit";
+		return res;
+	}
+	if (sandbox && ! sandbox->prepareProcess(siex, job.get(), res.message)) {
 		res.result = CannotStartProgram;
 		return res;
 	}
@@ -106,8 +115,8 @@ ProcessRunnerResult WinProcessRunner::run() {
 
 	QString commandLine = QString(R"("%1" %2)").arg(config.executableFile).arg(config.arguments);
 	if (! CreateProcessW(nullptr, reinterpret_cast<WCHAR *>(commandLine.data()), nullptr, &sa, TRUE,
-	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS |
-	                         CREATE_UNICODE_ENVIRONMENT,
+	                     CREATE_SUSPENDED | HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT |
+	                         DETACHED_PROCESS | CREATE_UNICODE_ENVIRONMENT,
 	                     (LPVOID)(environmentValues.utf16()),
 	                     (const WCHAR *)(config.workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		const DWORD code = GetLastError();
@@ -120,74 +129,67 @@ ProcessRunnerResult WinProcessRunner::run() {
 	}
 
 	auto closeProcessHandle = qScopeGuard([&] {
-		if (sandbox)
-			WaitForSingleObject(pi.hProcess, 5000);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	});
 
-	PROCESS_MEMORY_COUNTERS_EX memoryInfo;
-	ZeroMemory(&memoryInfo, sizeof(memoryInfo));
-	memoryInfo.cb = sizeof(memoryInfo);
-
-	if (config.memoryLimit != -1) {
-		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-
-		if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) >
-		    1ll * config.memoryLimit * 1024 * 1024) {
-			TerminateProcess(pi.hProcess, 0);
-
-			res.score = 0;
-			res.result = MemoryLimitExceeded;
-			res.memoryUsed = res.timeUsed = -1;
-			return res;
-		}
-	}
-
-	bool isProgramFinishedInExtraTimeLimit = false;
-	QElapsedTimer timer;
-	timer.start();
-
-	while (timer.elapsed() <= config.timeLimit + extraTime) {
-		if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0) {
-			isProgramFinishedInExtraTimeLimit = true;
-			break;
-		}
-
-		if (config.memoryLimit != -1) {
-			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-
-			if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) >
-			    1ll * config.memoryLimit * 1024 * 1024) {
-				TerminateProcess(pi.hProcess, 0);
-				res.score = 0;
-				res.result = MemoryLimitExceeded;
-				res.memoryUsed = res.timeUsed = -1;
-				return res;
-			}
-		}
-
-		if (cancellation.isCanceled()) {
-			TerminateProcess(pi.hProcess, 0);
-			return res;
-		}
-
-		QThread::msleep(10);
-	}
-
-	if (! isProgramFinishedInExtraTimeLimit) {
-		TerminateProcess(pi.hProcess, 0);
-
-		res.score = 0;
-		res.result = TimeLimitExceeded;
-		res.timeUsed = -1;
+	ProcessKiller killer(pi.hProcess, job.get());
+	auto reap = qScopeGuard([&] {
+		if (! killer.killAndReap())
+			WARN("Process reaping deadline exceeded");
+	});
+	if ((! sandbox && ! AssignProcessToJobObject(job.get(), pi.hProcess)) ||
+	    ResumeThread(pi.hThread) == DWORD(-1)) {
+		TerminateProcess(pi.hProcess, 1);
+		res.result = CannotStartProgram;
+		res.message = "Cannot attach or resume process";
 		return res;
 	}
-
+	ProcessUsage provider(pi.hProcess);
+	Lemon::Execution::Limiter limiter(memoryLimit);
+	QElapsedTimer timer;
+	timer.start();
+	int missing = 0;
+	for (;;) {
+		auto sample = provider.sample();
+		limiter.observe(sample);
+		res.memoryUsed = limiter.usage();
+		if (limiter.isExceeded()) {
+			res.result = MemoryLimitExceeded;
+			return res;
+		}
+		DWORD state = WaitForSingleObject(pi.hProcess, 0);
+		if (state == WAIT_OBJECT_0) {
+			limiter.observe(provider.sample());
+			res.memoryUsed = limiter.usage();
+			if (limiter.isExceeded()) {
+				res.result = MemoryLimitExceeded;
+				return res;
+			}
+			break;
+		}
+		missing = sample < 0 ? missing + 1 : 0;
+		if (state == WAIT_FAILED || missing >= 10) {
+			res.result = CannotStartProgram;
+			res.message = "Process statistics unavailable";
+			return res;
+		}
+		if (cancellation.isCanceled())
+			return res;
+		if (timer.elapsed() > config.timeLimit + extraTime) {
+			res.result = TimeLimitExceeded;
+			res.timeUsed = -1;
+			return res;
+		}
+		QThread::msleep(10);
+	}
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
-	if (exitCode != 0) {
+	if (limiter
+	        .finish(exitCode == 0 ? Lemon::Execution::ExitKind::Normal
+	                              : Lemon::Execution::ExitKind::RuntimeError)
+	        .reason == Lemon::Execution::RunReason::RuntimeError) {
 
 		res.score = 0;
 		res.result = RunTimeError;
@@ -199,7 +201,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 			file.close();
 		}
 
-		res.memoryUsed = res.timeUsed = -1;
+		res.timeUsed = -1;
 		LOG(config.executableFile, "Unexpectedly exited.");
 		LOG("Exit code", exitCode);
 		return res;
@@ -214,8 +216,6 @@ ProcessRunnerResult WinProcessRunner::run() {
 	               realUserTime.wMinute * 60 * 1000 + realUserTime.wHour * 60 * 60 * 1000;
 	int kernelTimeUsed = realKernelTime.wMilliseconds + realKernelTime.wSecond * 1000 +
 	                     realKernelTime.wMinute * 60 * 1000 + realKernelTime.wHour * 60 * 60 * 1000;
-	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-	res.memoryUsed = memoryInfo.PeakWorkingSetSize;
 	if (sandbox) {
 		const QDir work(config.workingDirectory);
 		const auto outputPath =

@@ -167,7 +167,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 #endif
 
-	if (! runner.waitForStarted(-1)) {
+	if (! runner.waitForStarted(5000)) {
 		res.score = 0;
 		res.result = CannotStartProgram;
 		res.message = "Start runner failed";
@@ -178,9 +178,9 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	QElapsedTimer timer;
 	timer.start();
 
-	// Using rlimit to limit CPU time can only be accurate to seconds,
-	// so here it is rounded up to an integer second.
-	long long killTimeLimit = (config.timeLimit + 999) / 1000 * 1000 + extraTime;
+	// Leave room for the watcher's explicit wall deadline and bounded reaping.
+	// Custom watchers retain the same outer watchdog protection.
+	long long killTimeLimit = qMax(2000LL, 3LL * config.timeLimit) + 5000LL + extraTime;
 	while (timer.elapsed() <= killTimeLimit) {
 		if (runner.waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;
@@ -189,7 +189,10 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 		if (cancellation.isCanceled()) {
 			runner.terminate();
-			runner.waitForFinished(-1);
+			if (! runner.waitForFinished(2500)) {
+				runner.kill();
+				runner.waitForFinished(2000);
+			}
 
 			return res;
 		}
@@ -197,7 +200,10 @@ ProcessRunnerResult UnixProcessRunner::run() {
 
 	if (! isProgramFinishedInExtraTimeLimit) {
 		runner.terminate();
-		runner.waitForFinished(-1);
+		if (! runner.waitForFinished(2500)) {
+			runner.kill();
+			runner.waitForFinished(2000);
+		}
 		res.score = 0;
 		res.timeUsed = res.memoryUsed = -1;
 		// Watcher usually needs to handle the situation of program timeout and kill it. Therefore, it is
@@ -223,7 +229,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		RS_MLE = 4,
 	};
 
-	int code = runner.exitCode();
+	int code = runner.exitStatus() == QProcess::NormalExit ? runner.exitCode() : -1;
 
 	switch (code) {
 		case RS_RE:
