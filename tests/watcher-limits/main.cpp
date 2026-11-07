@@ -13,10 +13,17 @@
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <unistd.h>
 
 namespace {
 	constexpr size_t MiB = 1024 * 1024;
+
+	void sleepNanoseconds(long nanoseconds) {
+		timespec delay{0, nanoseconds};
+		while (nanosleep(&delay, &delay) == -1 && errno == EINTR) {
+		}
+	}
 
 	int fixture(const char *mode) {
 		if (strcmp(mode, "normal") == 0)
@@ -56,7 +63,7 @@ namespace {
 				pause();
 		}
 		if (! fast)
-			usleep(30000);
+			sleepNanoseconds(30000000);
 		return munmap(memory, size) == 0 ? 0 : 10;
 	}
 
@@ -101,7 +108,7 @@ namespace {
 			}
 			if (waited == -1 && errno != EINTR)
 				break;
-			usleep(10000);
+			sleepNanoseconds(10000000);
 		}
 		if (! finished) {
 			kill(-child, SIGKILL);
@@ -112,13 +119,26 @@ namespace {
 			return false;
 		}
 		char buffer[256];
-		const auto count = read(output[0], buffer, sizeof(buffer) - 1);
+		size_t used = 0;
+		while (used < sizeof(buffer) - 1) {
+			const auto count = read(output[0], buffer + used, sizeof(buffer) - 1 - used);
+			if (count == -1 && errno == EINTR)
+				continue;
+			if (count == -1) {
+				perror("read watcher output");
+				close(output[0]);
+				return false;
+			}
+			if (count == 0)
+				break;
+			used += static_cast<size_t>(count);
+		}
 		close(output[0]);
-		if (count < 0) {
-			perror("read watcher output");
+		buffer[used] = '\0';
+		if (used == sizeof(buffer) - 1) {
+			fprintf(stderr, "%s: watcher output exceeded protocol buffer\n", mode);
 			return false;
 		}
-		buffer[count] = '\0';
 		std::istringstream stream(buffer);
 		long long timeUsed = -2, memoryUsed = -2;
 		std::string extra;

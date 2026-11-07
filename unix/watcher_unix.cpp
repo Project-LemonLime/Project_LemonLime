@@ -19,6 +19,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <unistd.h>
 
 int pid;
@@ -178,16 +179,30 @@ auto main(int argc, char *argv[]) -> int {
 					}
 				}
 			}
-			usleep(1000);
+			timespec delay{0, 1000000};
+			while (nanosleep(&delay, &delay) == -1 && errno == EINTR) {
+			}
 		}
 
 		ChildError childError{};
-		ssize_t errorSize;
-		do {
-			errorSize = read(errorPipe[0], &childError, sizeof(childError));
-		} while (errorSize == -1 && errno == EINTR);
+		size_t errorSize = 0;
+		bool readFailed = false;
+		while (errorSize < sizeof(childError)) {
+			const auto count = read(errorPipe[0], reinterpret_cast<char *>(&childError) + errorSize,
+			                        sizeof(childError) - errorSize);
+			if (count == -1 && errno == EINTR)
+				continue;
+			if (count == -1) {
+				perror("read child setup error");
+				readFailed = true;
+				break;
+			}
+			if (count == 0)
+				break;
+			errorSize += static_cast<size_t>(count);
+		}
 		close(errorPipe[0]);
-		if (errorSize != 0 || monitoringFailed) {
+		if (errorSize != 0 || readFailed || monitoringFailed) {
 			printf("-1\n-1\n");
 			if (errorSize == sizeof(childError))
 				fprintf(stderr, "%s: %s\n", childError.operation, strerror(childError.error));

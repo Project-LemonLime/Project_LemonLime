@@ -99,7 +99,10 @@ ssize_t getResidentMemoryInByte(pid_t child) {
 	if (fd == -1)
 		return errno == ENOENT || errno == ESRCH ? 0 : -1;
 	char data[256];
-	const auto size = read(fd, data, sizeof(data) - 1);
+	ssize_t size;
+	do {
+		size = read(fd, data, sizeof(data) - 1);
+	} while (size == -1 && errno == EINTR);
 	const int error = errno;
 	close(fd);
 	if (size < 0) {
