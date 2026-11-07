@@ -296,9 +296,6 @@ auto main(int argc, char *argv[]) -> int {
 			long long timeUsedMs =
 			    static_cast<long long>(usage.ru_utime.tv_sec * 1000 + usage.ru_utime.tv_usec / 1000);
 			printf("%lld\n-1\n", timeUsedMs);
-			if (WTERMSIG(status) == SIGXCPU) {
-				return RS_TLE;
-			}
 			if (WTERMSIG(status) == SIGKILL || WTERMSIG(status) == SIGABRT) {
 				return RS_MLE;
 			}
