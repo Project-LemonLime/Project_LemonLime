@@ -178,6 +178,8 @@ int main(int argc, char **argv) {
 		for (;;) {
 			auto sample = provider.sample();
 			limiter.observe(sample);
+			// The fixed-size read is bounded by the destination object on every iteration.
+			/* Flawfinder: ignore */
 			if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 				setupFailed = true;
 			int finished = process.poll();
@@ -208,6 +210,8 @@ int main(int argc, char **argv) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
 		// Catch setup errors delivered concurrently with the final wait.
+		// The final read uses the same destination-size bound.
+		/* Flawfinder: ignore */
 		if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 			setupFailed = true;
 		close(errors[0]);
