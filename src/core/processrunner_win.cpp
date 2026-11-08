@@ -19,7 +19,6 @@
 #include <QElapsedTimer>
 #include <QFile>
 #include <QTextStream>
-#include <QThread>
 #include <QtMath>
 
 #include <windows.h>
@@ -76,14 +75,14 @@ ProcessRunnerResult WinProcessRunner::run() {
 	if (config.standardOutputCheck) {
 		siex.StartupInfo.hStdOutput =
 		    CreateFileW((const WCHAR *)((config.workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-		                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-		                FILE_ATTRIBUTE_NORMAL, NULL);
+			            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+			            FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	siex.StartupInfo.hStdError =
 	    CreateFileW((const WCHAR *)((config.workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-	                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
-	                FILE_ATTRIBUTE_NORMAL, NULL);
+		            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa, CREATE_ALWAYS,
+		            FILE_ATTRIBUTE_NORMAL, NULL);
 
 	auto closeStdIO = qScopeGuard([&] {
 		if (config.standardInputCheck)
@@ -145,8 +144,24 @@ ProcessRunnerResult WinProcessRunner::run() {
 		return res;
 	}
 	Lemon::Execution::Limiter limiter(memoryLimit);
-	QElapsedTimer timer;
-	timer.start();
+	Handle deadline(CreateWaitableTimerW(nullptr, TRUE, nullptr));
+	Handle sampling(CreateWaitableTimerW(nullptr, FALSE, nullptr));
+	LARGE_INTEGER due{};
+	// Negative values specify a relative interval in 100 ns units.
+	due.QuadPart = -qMax(1LL, (static_cast<long long>(config.timeLimit) + extraTime) * 10000LL);
+	LARGE_INTEGER sampleDue{};
+	sampleDue.QuadPart = -100000;
+	if (! deadline || ! sampling || ! SetWaitableTimer(deadline.get(), &due, 0, nullptr, nullptr, FALSE) ||
+	    ! SetWaitableTimer(sampling.get(), &sampleDue, 10, nullptr, nullptr, FALSE)) {
+		const DWORD code = GetLastError();
+		res.result = CannotStartProgram;
+		res.message = "Cannot configure execution timers";
+		WARN("Last Error code:", code);
+		return res;
+	}
+	HANDLE handles[] = {pi.hProcess, deadline.get(), sampling.get()};
+	// Take the initial sample before entering the blocking event wait.
+	DWORD state = WAIT_OBJECT_0 + 2;
 	int missing = 0;
 	for (;;) {
 		auto sample = sampleMemory(pi.hProcess);
@@ -156,30 +171,30 @@ ProcessRunnerResult WinProcessRunner::run() {
 			res.result = MemoryLimitExceeded;
 			return res;
 		}
-		DWORD state = WaitForSingleObject(pi.hProcess, 0);
 		if (state == WAIT_OBJECT_0) {
-			limiter.observe(sampleMemory(pi.hProcess));
-			res.memoryUsed = limiter.usage();
-			if (limiter.isExceeded()) {
-				res.result = MemoryLimitExceeded;
-				return res;
-			}
 			break;
 		}
 		missing = sample < 0 ? missing + 1 : 0;
-		if (state == WAIT_FAILED || missing >= 10) {
+		if (missing >= 10) {
 			res.result = CannotStartProgram;
 			res.message = "Process statistics unavailable";
 			return res;
 		}
 		if (cancellation.isCanceled())
 			return res;
-		if (timer.elapsed() > config.timeLimit + extraTime) {
+		if (state == WAIT_OBJECT_0 + 1) {
 			res.result = TimeLimitExceeded;
 			res.timeUsed = -1;
 			return res;
 		}
-		QThread::msleep(10);
+		state = WaitForMultipleObjects(3, handles, FALSE, INFINITE);
+		if (state == WAIT_FAILED) {
+			const DWORD code = GetLastError();
+			res.result = CannotStartProgram;
+			res.message = "Cannot wait for process events";
+			WARN("Last Error code:", code);
+			return res;
+		}
 	}
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
