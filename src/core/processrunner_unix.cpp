@@ -252,6 +252,7 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		default:
 			res.result = CannotStartProgram;
 			res.score = 0;
+			WARN("Watcher reported an invalid result:", code, res.message);
 			res.message = QString("Watcher reported an invalid result: %1").arg(code);
 			break;
 	}
