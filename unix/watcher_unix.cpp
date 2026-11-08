@@ -207,7 +207,10 @@ auto main(int argc, char *argv[]) -> int {
 		close(childPfd);
 		close(timerFd);
 
-		if (timedOut) {
+		// If the watcher is scheduled late, the pidfd and the timer may become readable in
+		// the same poll round. Since the child has already exited, classify it normally
+		// instead of reporting a false TLE; the normal path still checks the measured time.
+		if (timedOut && ! childExited) {
 			printf("-1\n-1\n");
 			return RS_TLE;
 		}
@@ -262,7 +265,7 @@ auto main(int argc, char *argv[]) -> int {
 
 		close(kq);
 
-		if (timedOut) {
+		if (timedOut && ! childExited) {
 			printf("-1\n-1\n");
 			return RS_TLE;
 		}
