@@ -19,15 +19,10 @@ int main() {
 	check(! limited.observe(-1) && limited.usage() == 100);
 	check(limited.observe(101));
 	check(limited.observe(0) && limited.usage() == 101);
-	check(limited.finish(ExitKind::RuntimeError).reason == RunReason::MemoryLimit);
-	check(limited.finish(ExitKind::StartError).reason == RunReason::InternalError);
 	Limiter unlimited(-1);
-	check(unlimited.finish(ExitKind::RuntimeError).reason == RunReason::RuntimeError);
-	check(unlimited.finish(ExitKind::Normal).reason == RunReason::Accepted);
-	check(unlimited.finish(ExitKind::TimeLimit).reason == RunReason::TimeLimit);
 	check(unlimited.usage() == -1);
 	check(! unlimited.observe(1000));
-	check(unlimited.finish(ExitKind::Normal).usage == 1000);
+	check(unlimited.usage() == 1000);
 	Bytes bytes;
 	check(memoryBytes(-1, bytes) && bytes == -1);
 	check(memoryBytes(4096, bytes) && bytes == 4294967296LL);

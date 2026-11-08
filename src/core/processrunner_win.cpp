@@ -186,10 +186,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
-	if (limiter
-	        .finish(exitCode == 0 ? Lemon::Execution::ExitKind::Normal
-	                              : Lemon::Execution::ExitKind::RuntimeError)
-	        .reason == Lemon::Execution::RunReason::RuntimeError) {
+	if (exitCode != 0) {
 
 		res.score = 0;
 		res.result = RunTimeError;

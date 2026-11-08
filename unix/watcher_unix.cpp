@@ -227,27 +227,12 @@ int main(int argc, char **argv) {
 			limiter.observe(maxRSSBytes(process.usage.ru_maxrss));
 #endif
 			if (verdict == RS_AC) {
-				ExitKind exit = ExitKind::Normal;
-				if (WIFSIGNALED(process.status))
-					exit = WTERMSIG(process.status) == SIGXCPU ? ExitKind::TimeLimit : ExitKind::RuntimeError;
+				if (limiter.isExceeded())
+					verdict = RS_MLE;
+				else if (WIFSIGNALED(process.status))
+					verdict = WTERMSIG(process.status) == SIGXCPU ? RS_TLE : RS_RE;
 				else if (! WIFEXITED(process.status) || WEXITSTATUS(process.status) != 0)
-					exit = ExitKind::RuntimeError;
-				switch (limiter.finish(exit).reason) {
-					case RunReason::MemoryLimit:
-						verdict = RS_MLE;
-						break;
-					case RunReason::TimeLimit:
-						verdict = RS_TLE;
-						break;
-					case RunReason::RuntimeError:
-						verdict = RS_RE;
-						break;
-					case RunReason::InternalError:
-						verdict = RS_FAIL;
-						break;
-					case RunReason::Accepted:
-						break;
-				}
+					verdict = RS_RE;
 			}
 		}
 		long long elapsed =

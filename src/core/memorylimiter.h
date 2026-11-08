@@ -37,13 +37,6 @@ namespace Lemon::Execution {
 		virtual bool killAndReap() = 0;
 	};
 
-	enum class ExitKind { Normal, RuntimeError, TimeLimit, StartError };
-	enum class RunReason { Accepted, RuntimeError, TimeLimit, MemoryLimit, InternalError };
-	struct RunOutcome {
-		RunReason reason;
-		Bytes usage;
-	};
-
 	// Pure policy: OS operations and process exit classification belong to adapters.
 	class Limiter {
 	  public:
@@ -52,18 +45,6 @@ namespace Lemon::Execution {
 			peak = (std::max)(peak, declaredUsage);
 			exceeded = exceeded || (limit >= 0 && usage() > limit);
 			return exceeded;
-		}
-		RunOutcome finish(ExitKind exit) const {
-			RunReason reason = RunReason::Accepted;
-			if (exit == ExitKind::StartError)
-				reason = RunReason::InternalError;
-			else if (exceeded)
-				reason = RunReason::MemoryLimit;
-			else if (exit == ExitKind::TimeLimit)
-				reason = RunReason::TimeLimit;
-			else if (exit == ExitKind::RuntimeError)
-				reason = RunReason::RuntimeError;
-			return {reason, usage()};
 		}
 		Bytes usage() const { return peak; }
 		bool isExceeded() const { return exceeded; }
