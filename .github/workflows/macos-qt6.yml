@@ -53,8 +53,8 @@ jobs:
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DLEMON_BUILD_INFO="Build for macOS" \
             -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
-            -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}" 
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}"
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       - name: Run tests
         run: |
