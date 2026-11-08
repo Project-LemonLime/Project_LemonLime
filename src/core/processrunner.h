@@ -14,10 +14,12 @@
 #include <QString>
 #include <QtGlobal>
 #include <memory>
+#include <stop_token>
 
 class WindowsSandboxSession;
 
 struct ProcessRunnerConfig {
+	std::stop_token stopToken;
 	QString executableFile;
 	QString arguments;
 	QString workingDirectory;

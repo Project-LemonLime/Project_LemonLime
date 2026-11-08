@@ -20,6 +20,7 @@
 #include <QString>
 #include <QStringList>
 #include <QTemporaryDir>
+#include <stop_token>
 
 class Settings;
 class Task;
@@ -45,6 +46,7 @@ class TaskJudger : public QObject {
 	const Task *task{};
 	QString contestantName;
 	QFuture<void> cancellation;
+	std::stop_source stopSource;
 	CompileState compileState;
 	QString compileMessage;
 	QString sourceFile;
@@ -78,6 +80,7 @@ class TaskJudger : public QObject {
 
   public:
 	TaskResult judgeIt(QPromise<TaskResult> &promise);
+	void requestStop() { stopSource.request_stop(); }
   signals:
 	void judgingStarted(QString);
 	void dialogAlert(QString);

@@ -433,8 +433,8 @@ int TaskJudger::judge() {
 
 			QString workingDirectory =
 			    QDir::toNativeSeparators(QDir(QDir::toNativeSeparators(temporaryDir.path()) +
-			                                  QDir::separator() + QString("_%1.%2").arg(i).arg(j))
-			                                 .absolutePath()) +
+				                              QDir::separator() + QString("_%1.%2").arg(i).arg(j))
+				                             .absolutePath()) +
 			    QDir::separator();
 			if (! QDir(temporaryDir.path()).mkdir(QString("_%1.%2").arg(i).arg(j))) {
 				result[i][j] = FileError;
@@ -447,6 +447,7 @@ int TaskJudger::judge() {
 			}
 			auto caseJudger = std::make_unique<CaseJudger>();
 			caseJudger->setCancellation(cancellation);
+			caseJudger->stopToken = stopSource.get_token();
 			caseJudger->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 			caseJudger->setWorkingDirectory(workingDirectory);
 			caseJudger->setSandboxConfiguration(sandboxSettings, runtimeExecutable, runtimeEnvironment,
@@ -528,7 +529,7 @@ int TaskJudger::judge() {
 			result[i][j] = caseJudger->getResult();
 			overallStatus[i] =
 			    qMin(overallStatus[i], stateToStatus(caseJudger->getResult(), caseJudger->getScore(),
-			                                         caseJudger->getFullScore()));
+				                                     caseJudger->getFullScore()));
 			message[i][j] = caseJudger->getMessage();
 			caseJudger.reset();
 			int nowScore = score[i][j];

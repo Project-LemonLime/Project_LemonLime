@@ -77,7 +77,9 @@ void JudgingController::stop() {
 		delete queuingTasks.dequeue().judger;
 	for (auto *watcher : runningTasks.keys()) {
 		// Preserve results that finished before the stop request reached the GUI.
-		if (! watcher->isFinished())
+		if (! watcher->isFinished()) {
 			watcher->cancel();
+			runningTasks.value(watcher).judger->requestStop();
+		}
 	}
 }

@@ -11,7 +11,9 @@
 #include <unistd.h>
 #ifdef __linux__
 #include <poll.h>
+#include <set>
 #include <sys/prctl.h>
+#include <sys/ptrace.h>
 #include <sys/signalfd.h>
 #include <sys/timerfd.h>
 #elif defined(__APPLE__)
@@ -25,7 +27,7 @@ namespace {
 		sigset_t previous{};
 		bool masked = false;
 #ifdef __linux__
-		int descriptors[3] = {-1, -1, -1};
+		int descriptors[2] = {-1, -1};
 #else
 		int queue = -1;
 		struct sigaction actions[4]{};
@@ -68,9 +70,8 @@ namespace {
 			masked = true;
 #ifdef __linux__
 			descriptors[0] = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC | TFD_NONBLOCK);
-			descriptors[1] = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC | TFD_NONBLOCK);
-			descriptors[2] = signalfd(-1, &mask, SFD_CLOEXEC | SFD_NONBLOCK);
-			return descriptors[0] >= 0 && descriptors[1] >= 0 && descriptors[2] >= 0;
+			descriptors[1] = signalfd(-1, &mask, SFD_CLOEXEC | SFD_NONBLOCK);
+			return descriptors[0] >= 0 && descriptors[1] >= 0;
 #else
 			queue = kqueue();
 			if (queue < 0 || fcntl(queue, F_SETFD, FD_CLOEXEC) < 0)
@@ -92,16 +93,10 @@ namespace {
 		}
 		bool arm(long long milliseconds, bool sampling) {
 #ifdef __linux__
-			for (int i = 0; i < 2; ++i) {
-				long long delay = i == 0 ? milliseconds : (sampling ? 10 : 0);
-				itimerspec spec{};
-				spec.it_value = {delay / 1000, (delay % 1000) * 1000000};
-				if (i == 1)
-					spec.it_interval = spec.it_value;
-				if (timerfd_settime(descriptors[i], 0, &spec, nullptr) < 0)
-					return false;
-			}
-			return true;
+			(void)sampling;
+			itimerspec spec{};
+			spec.it_value = {milliseconds / 1000, (milliseconds % 1000) * 1000000};
+			return timerfd_settime(descriptors[0], 0, &spec, nullptr) == 0;
 #else
 			struct kevent changes[2]{};
 			EV_SET(&changes[0], Deadline, EVFILT_TIMER, EV_ADD | EV_ONESHOT, 0, milliseconds, nullptr);
@@ -113,25 +108,24 @@ namespace {
 		int wait() {
 			int events = 0;
 #ifdef __linux__
-			pollfd ready[3] = {
-			    {descriptors[0], POLLIN, 0}, {descriptors[1], POLLIN, 0}, {descriptors[2], POLLIN, 0}};
-			if (::poll(ready, 3, -1) < 0)
+			pollfd ready[2] = {{descriptors[0], POLLIN, 0}, {descriptors[1], POLLIN, 0}};
+			if (::poll(ready, 2, -1) < 0)
 				return errno == EINTR ? 0 : -1;
-			for (int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 2; ++i) {
 				if (ready[i].revents & (POLLERR | POLLHUP | POLLNVAL)) {
 					errno = EIO;
 					return -1;
 				}
 				if (! (ready[i].revents & POLLIN))
 					continue;
-				if (i < 2) {
+				if (i == 0) {
 					uint64_t count;
 					if (read(descriptors[i], &count, sizeof(count)) != sizeof(count))
 						return -1;
-					events |= i == 0 ? Deadline : Sample;
+					events |= Deadline;
 				} else {
 					signalfd_siginfo info;
-					while (read(descriptors[2], &info, sizeof(info)) == sizeof(info))
+					while (read(descriptors[1], &info, sizeof(info)) == sizeof(info))
 						events |= info.ssi_signo == SIGCHLD ? Child : Stop;
 					if (errno != EAGAIN && errno != EINTR)
 						return -1;
@@ -162,15 +156,124 @@ namespace {
 		bool reaped = false;
 		bool cleaned = false;
 		Events &events;
-		explicit UnixProcess(pid_t pid, Events &events) : pid(pid), events(events) {}
+		Bytes peak = -1;
+#ifdef __linux__
+		std::set<pid_t> traced;
+		std::set<pid_t> newborn;
+		bool initialized = false;
+#endif
+		explicit UnixProcess(pid_t pid, Events &events) : pid(pid), events(events) {
+#ifdef __linux__
+			traced.insert(pid);
+#endif
+		}
 		~UnixProcess() {
 			if (! cleaned)
 				killAndReap();
 		}
 		// Do not destroy the exit information until all final samples are consumed.
 		int poll() {
-			if (reaped)
+			if (reaped
+#ifdef __linux__
+			    && traced.empty()
+#endif
+			)
 				return 1;
+#ifdef __linux__
+			for (;;) {
+				bool progress = false;
+				for (auto it = traced.begin(); it != traced.end();) {
+					pid_t tid = *it;
+					int state = 0;
+					rusage sample{};
+					pid_t result = wait4(tid, &state, WNOHANG | __WALL, &sample);
+					if (result < 0) {
+						if (errno == EINTR)
+							return 0;
+						return -1;
+					}
+					if (result == 0) {
+						++it;
+						continue;
+					}
+					progress = true;
+					if (WIFEXITED(state) || WIFSIGNALED(state)) {
+						if (tid == pid) {
+							status = state;
+							usage = sample;
+							reaped = true;
+						}
+						it = traced.erase(it);
+						continue;
+					}
+					unsigned event = static_cast<unsigned>(state) >> 16;
+					int signal = WSTOPSIG(state);
+					if (! initialized && tid == pid) {
+						if (signal != SIGSTOP || ptrace(PTRACE_SETOPTIONS, pid, nullptr,
+						                                PTRACE_O_TRACEEXIT | PTRACE_O_TRACEEXEC |
+						                                    PTRACE_O_TRACECLONE | PTRACE_O_EXITKILL) < 0)
+							return -1;
+						initialized = true;
+						signal = 0;
+					} else if (event == PTRACE_EVENT_EXIT) {
+						auto memory = sampleMemory(tid);
+						if (memory < 0)
+							return -1;
+						peak = std::max(peak, memory);
+						signal = 0;
+					} else if (event == PTRACE_EVENT_CLONE) {
+						unsigned long child = 0;
+						if (ptrace(PTRACE_GETEVENTMSG, tid, nullptr, &child) < 0)
+							return -1;
+						traced.insert(static_cast<pid_t>(child));
+						newborn.insert(static_cast<pid_t>(child));
+						signal = 0;
+					} else if (event == PTRACE_EVENT_EXEC) {
+						unsigned long oldTid = 0;
+						if (ptrace(PTRACE_GETEVENTMSG, tid, nullptr, &oldTid) < 0)
+							return -1;
+						if (static_cast<pid_t>(oldTid) != tid)
+							traced.erase(static_cast<pid_t>(oldTid));
+						signal = 0;
+					} else if (newborn.erase(tid)) {
+						int group = -1;
+						auto path = "/proc/" + std::to_string(tid) + "/status";
+						FILE *file = fopen(path.c_str(), "r");
+						if (! file)
+							return -1;
+						char line[512];
+						while (fgets(line, sizeof(line), file))
+							if (sscanf(line, "Tgid: %d", &group) == 1)
+								break;
+						fclose(file);
+						if (group < 0)
+							return -1;
+						if (group != pid) {
+							if (ptrace(PTRACE_DETACH, tid, nullptr, nullptr) < 0)
+								return -1;
+							it = traced.erase(it);
+							continue;
+						}
+						signal = 0;
+					} else if (! event) {
+						siginfo_t info{};
+						if (ptrace(PTRACE_GETSIGINFO, tid, nullptr, &info) < 0) {
+							if (errno != EINVAL)
+								return -1;
+							// A group stop remains stopped until SIGCONT or cleanup.
+							++it;
+							continue;
+						}
+					} else
+						signal = 0;
+					if (ptrace(PTRACE_CONT, tid, nullptr, signal) < 0 && errno != ESRCH)
+						return -1;
+					++it;
+				}
+				if (! progress)
+					return reaped && traced.empty() ? 1 : 0;
+			}
+#else
 			pid_t result = wait4(pid, &status, WNOHANG, &usage);
 			if (result == pid) {
 				reaped = true;
@@ -179,15 +282,24 @@ namespace {
 			if (result < 0 && errno != EINTR)
 				return -1;
 			return 0;
+#endif
 		}
 		bool killAndReap() {
 			if (cleaned)
-				return reaped;
+				return reaped
+#ifdef __linux__
+				       && traced.empty()
+#endif
+				    ;
 			cleaned = true;
 			kill(-pid, SIGKILL);
 			if (! reaped)
 				kill(pid, SIGKILL);
-			if (reaped)
+			if (reaped
+#ifdef __linux__
+			    && traced.empty()
+#endif
+			)
 				return true;
 			if (! events.arm(2000, false)) {
 				perror("reaping events");
@@ -196,7 +308,11 @@ namespace {
 			for (;;) {
 				if (poll() < 0)
 					return false;
-				if (reaped)
+				if (reaped
+#ifdef __linux__
+				    && traced.empty()
+#endif
+				)
 					break;
 				int event = events.wait();
 				if (event < 0) {
@@ -209,7 +325,11 @@ namespace {
 					break;
 				}
 			}
-			return reaped;
+			return reaped
+#ifdef __linux__
+			       && traced.empty()
+#endif
+			    ;
 		}
 	};
 	struct ChildError {
@@ -274,6 +394,10 @@ int main(int argc, char **argv) {
 				if (! freopen(*argv[3 + i] ? argv[3 + i] : "/dev/null", modes[i], streams[i]))
 					fail(2);
 #ifdef __linux__
+			if (ptrace(PTRACE_TRACEME, 0, nullptr, nullptr) < 0)
+				fail(8);
+			if (raise(SIGSTOP) != 0)
+				fail(8);
 			// Disable dump generation, including piped core handlers.
 			if (prctl(PR_SET_DUMPABLE, 0) != 0)
 				fail(6);
@@ -301,7 +425,10 @@ int main(int argc, char **argv) {
 			perror("events arm");
 		int event = Events::Sample;
 		int verdict = RS_AC;
+
+#ifdef __APPLE__
 		int missing = 0;
+#endif
 		ChildError childError{};
 		bool setupFailed = false;
 		for (;;) {
@@ -309,13 +436,20 @@ int main(int argc, char **argv) {
 				verdict = RS_FAIL;
 				break;
 			}
+#ifdef __linux__
+			auto sample = Bytes(-1);
+#else
 			auto sample = event & Events::Sample ? sampleMemory(pid) : Bytes(-1);
+#endif
 			limiter.observe(sample);
 			// The fixed-size read is bounded by the destination object on every iteration.
 			/* Flawfinder: ignore */
 			if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 				setupFailed = true;
 			int finished = process.poll();
+#ifdef __linux__
+			limiter.observe(process.peak);
+#endif
 			if (setupFailed || finished < 0) {
 				verdict = RS_FAIL;
 				break;
@@ -334,6 +468,7 @@ int main(int argc, char **argv) {
 				verdict = RS_FAIL;
 				break;
 			}
+#ifdef __APPLE__
 			if (event & Events::Sample)
 				missing = sample < 0 ? missing + 1 : 0;
 			if (missing >= 10) {
@@ -341,6 +476,7 @@ int main(int argc, char **argv) {
 				verdict = RS_FAIL;
 				break;
 			}
+#endif
 			event = events.wait();
 			if (event < 0) {
 				perror("events wait");
@@ -356,6 +492,9 @@ int main(int argc, char **argv) {
 		close(errors[0]);
 		if (! process.killAndReap())
 			fprintf(stderr, "Process reaping deadline exceeded\n");
+#ifdef __linux__
+		limiter.observe(process.peak);
+#endif
 		if (setupFailed) {
 			fprintf(stderr, "Child setup stage %d failed: errno %d\n", childError.stage, childError.error);
 			verdict = RS_FAIL;
@@ -376,7 +515,7 @@ int main(int argc, char **argv) {
 		}
 		long long elapsed =
 		    process.reaped ? process.usage.ru_utime.tv_sec * 1000LL + process.usage.ru_utime.tv_usec / 1000
-		                   : -1;
+			               : -1;
 		if (verdict == RS_AC && elapsed > timeLimit)
 			verdict = RS_TLE;
 		printf("%lld\n%lld\n", elapsed, static_cast<long long>(limiter.usage()));

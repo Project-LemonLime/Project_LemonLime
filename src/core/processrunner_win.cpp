@@ -136,65 +136,68 @@ ProcessRunnerResult WinProcessRunner::run() {
 		if (! killAndReap(pi.hProcess, job.get()))
 			WARN("Process reaping deadline exceeded");
 	});
+	std::stop_callback stopCallback(config.stopToken, [&] {
+		TerminateJobObject(job.get(), 1);
+		// Also cover cancellation before the suspended process joins the Job.
+		TerminateProcess(pi.hProcess, 1);
+	});
+	if (config.stopToken.stop_requested() || cancellation.isCanceled())
+		return res;
 	if ((! sandbox && ! AssignProcessToJobObject(job.get(), pi.hProcess)) ||
 	    ResumeThread(pi.hThread) == DWORD(-1)) {
 		TerminateProcess(pi.hProcess, 1);
 		res.result = CannotStartProgram;
 		res.message = "Cannot attach or resume process";
+		if (config.stopToken.stop_requested()) {
+			res.result = CorrectAnswer;
+			res.message.clear();
+		}
 		return res;
 	}
 	Lemon::Execution::Limiter limiter(memoryLimit);
 	Handle deadline(CreateWaitableTimerW(nullptr, TRUE, nullptr));
-	Handle sampling(CreateWaitableTimerW(nullptr, FALSE, nullptr));
 	LARGE_INTEGER due{};
 	// Negative values specify a relative interval in 100 ns units.
 	due.QuadPart = -qMax(1LL, (static_cast<long long>(config.timeLimit) + extraTime) * 10000LL);
-	LARGE_INTEGER sampleDue{};
-	sampleDue.QuadPart = -100000;
-	if (! deadline || ! sampling || ! SetWaitableTimer(deadline.get(), &due, 0, nullptr, nullptr, FALSE) ||
-	    ! SetWaitableTimer(sampling.get(), &sampleDue, 10, nullptr, nullptr, FALSE)) {
+	if (! deadline || ! SetWaitableTimer(deadline.get(), &due, 0, nullptr, nullptr, FALSE)) {
 		const DWORD code = GetLastError();
 		res.result = CannotStartProgram;
 		res.message = "Cannot configure execution timers";
 		WARN("Last Error code:", code);
 		return res;
 	}
-	HANDLE handles[] = {pi.hProcess, deadline.get(), sampling.get()};
-	// Take the initial sample before entering the blocking event wait.
-	DWORD state = WAIT_OBJECT_0 + 2;
-	int missing = 0;
-	for (;;) {
-		auto sample = sampleMemory(pi.hProcess);
-		limiter.observe(sample);
-		res.memoryUsed = limiter.usage();
-		if (limiter.isExceeded()) {
-			res.result = MemoryLimitExceeded;
-			return res;
-		}
-		if (state == WAIT_OBJECT_0) {
-			break;
-		}
-		missing = sample < 0 ? missing + 1 : 0;
-		if (missing >= 10) {
-			res.result = CannotStartProgram;
-			res.message = "Process statistics unavailable";
-			return res;
-		}
-		if (cancellation.isCanceled())
-			return res;
-		if (state == WAIT_OBJECT_0 + 1) {
-			res.result = TimeLimitExceeded;
-			res.timeUsed = -1;
-			return res;
-		}
-		state = WaitForMultipleObjects(3, handles, FALSE, INFINITE);
-		if (state == WAIT_FAILED) {
-			const DWORD code = GetLastError();
-			res.result = CannotStartProgram;
-			res.message = "Cannot wait for process events";
-			WARN("Last Error code:", code);
-			return res;
-		}
+	HANDLE handles[] = {pi.hProcess, deadline.get()};
+	DWORD state = WaitForMultipleObjects(2, handles, FALSE, INFINITE);
+	if (config.stopToken.stop_requested() || cancellation.isCanceled()) {
+		if (! killAndReap(pi.hProcess, job.get()))
+			WARN("Process reaping deadline exceeded");
+		res.memoryUsed = sampleMemory(pi.hProcess);
+		return res;
+	}
+	if (state == WAIT_FAILED) {
+		WARN("Last Error code:", GetLastError());
+		res.result = CannotStartProgram;
+		res.message = "Cannot wait for process events";
+		return res;
+	}
+	if (state == WAIT_OBJECT_0 + 1) {
+		if (! killAndReap(pi.hProcess, job.get()))
+			WARN("Process reaping deadline exceeded");
+		res.result = TimeLimitExceeded;
+	}
+	auto sample = sampleMemory(pi.hProcess);
+	limiter.observe(sample);
+	res.memoryUsed = limiter.usage();
+	if (res.result == TimeLimitExceeded)
+		return res;
+	if (sample < 0) {
+		res.result = CannotStartProgram;
+		res.message = "Process statistics unavailable";
+		return res;
+	}
+	if (limiter.isExceeded()) {
+		res.result = MemoryLimitExceeded;
+		return res;
 	}
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
