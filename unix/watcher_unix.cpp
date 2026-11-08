@@ -515,7 +515,7 @@ int main(int argc, char **argv) {
 		}
 		long long elapsed =
 		    process.reaped ? process.usage.ru_utime.tv_sec * 1000LL + process.usage.ru_utime.tv_usec / 1000
-			               : -1;
+		                   : -1;
 		if (verdict == RS_AC && elapsed > timeLimit)
 			verdict = RS_TLE;
 		printf("%lld\n%lld\n", elapsed, static_cast<long long>(limiter.usage()));
