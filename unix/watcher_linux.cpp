@@ -1,5 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
+ * SPDX-FileCopyrightText: 2019-2023 Project LemonLime
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ */
 #include "memoryusage.h"
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -15,7 +22,7 @@ Bytes sampleMemory(pid_t pid) {
 	while (fgets(line, sizeof(line), file)) {
 		long long kib = 0;
 		if (sscanf(line, "VmSize: %lld kB", &kib) == 1 || sscanf(line, "VmPeak: %lld kB", &kib) == 1)
-			result = std::max(result, Bytes(kib) * 1024);
+			result = std::max(result, Bytes(kib) * KiB);
 	}
 	fclose(file);
 	return result;
@@ -25,11 +32,11 @@ bool applyMemoryLimit(Bytes limit) {
 	if (limit >= 0) {
 		rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
 		if (setrlimit(RLIMIT_AS, &memory) != 0)
-			return false;
+		return false;
 	}
 	rlimit stack{};
 	if (getrlimit(RLIMIT_STACK, &stack) != 0)
 		return false;
 	stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit < 0 ? 2147483647LL : limit));
 	return setrlimit(RLIMIT_STACK, &stack) == 0;
-}
+	}

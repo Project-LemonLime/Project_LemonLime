@@ -38,6 +38,3 @@ add_test(NAME watcher_memory_policy COMMAND python3 scripts/memory.py)
 set_tests_properties(watcher_memory_policy PROPERTIES TIMEOUT 30)
 add_test(NAME watcher_memory_accuracy COMMAND python3 scripts/memory_accuracy.py)
 set_tests_properties(watcher_memory_accuracy PROPERTIES TIMEOUT 30)
-
-add_executable(memory-limiter-test ../../tests/memory-limiter/main.cpp)
-add_test(NAME memory-limiter COMMAND memory-limiter-test)

@@ -1,5 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * SPDX-FileCopyrightText: 2011-2019 Project Lemon, Zhipeng Jia
+ * SPDX-FileCopyrightText: 2019-2023 Project LemonLime
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ */
 #include "memoryusage.h"
+#include <algorithm>
 #include <cerrno>
 #include <csignal>
 #include <cstdio>
@@ -419,7 +426,7 @@ int main(int argc, char **argv) {
 		close(errors[1]);
 		(void)setpgid(pid, pid);
 		UnixProcess process(pid, events);
-		Limiter limiter(limit);
+		Bytes peak = -1;
 		bool ready = events.arm(std::max(2000LL, 3LL * timeLimit), true);
 		if (! ready)
 			perror("events arm");
@@ -441,20 +448,20 @@ int main(int argc, char **argv) {
 #else
 			auto sample = event & Events::Sample ? sampleMemory(pid) : Bytes(-1);
 #endif
-			limiter.observe(sample);
+			peak = std::max(peak, sample);
 			// The fixed-size read is bounded by the destination object on every iteration.
 			/* Flawfinder: ignore */
 			if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 				setupFailed = true;
 			int finished = process.poll();
 #ifdef __linux__
-			limiter.observe(process.peak);
+			peak = std::max(peak, process.peak);
 #endif
 			if (setupFailed || finished < 0) {
 				verdict = RS_FAIL;
 				break;
 			}
-			if (limiter.isExceeded()) {
+			if (limit >= 0 && peak > limit) {
 				verdict = RS_MLE;
 				break;
 			}
@@ -482,7 +489,7 @@ int main(int argc, char **argv) {
 				perror("events wait");
 				verdict = RS_FAIL;
 				break;
-			}
+		}
 		}
 		// Catch setup errors delivered concurrently with the final wait.
 		// The final read uses the same destination-size bound.
@@ -493,7 +500,7 @@ int main(int argc, char **argv) {
 		if (! process.killAndReap())
 			fprintf(stderr, "Process reaping deadline exceeded\n");
 #ifdef __linux__
-		limiter.observe(process.peak);
+		peak = std::max(peak, process.peak);
 #endif
 		if (setupFailed) {
 			fprintf(stderr, "Child setup stage %d failed: errno %d\n", childError.stage, childError.error);
@@ -502,10 +509,10 @@ int main(int argc, char **argv) {
 		if (process.reaped) {
 #ifdef __APPLE__
 			// Only macOS defines DeclaredUsage as RSS. Linux must not use RSS as a VSS fallback.
-			limiter.observe(static_cast<Bytes>(process.usage.ru_maxrss));
+			peak = std::max(peak, static_cast<Bytes>(process.usage.ru_maxrss));
 #endif
 			if (verdict == RS_AC) {
-				if (limiter.isExceeded())
+				if (limit >= 0 && peak > limit)
 					verdict = RS_MLE;
 				else if (WIFSIGNALED(process.status))
 					verdict = WTERMSIG(process.status) == SIGXCPU ? RS_TLE : RS_RE;
@@ -518,7 +525,7 @@ int main(int argc, char **argv) {
 		                   : -1;
 		if (verdict == RS_AC && elapsed > timeLimit)
 			verdict = RS_TLE;
-		printf("%lld\n%lld\n", elapsed, static_cast<long long>(limiter.usage()));
+		printf("%lld\n%lld\n", elapsed, static_cast<long long>(peak));
 		return verdict;
 	} catch (...) {
 		printf("-1\n-1\n");

@@ -91,9 +91,9 @@ jobs:
       - name: Deploy Qt for tests
         shell: pwsh
         run: |
-          # These helpers do not import Qt at runtime.
+          # This helper does not import Qt at runtime.
           Get-ChildItem tests -Recurse -Filter *.exe |
-            Where-Object { $_.Name -notin @('sandbox-helper.exe', 'memory-limiter-test.exe') } |
+            Where-Object { $_.Name -ne 'sandbox-helper.exe' } |
             ForEach-Object {
               windeployqt $_.FullName
               if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

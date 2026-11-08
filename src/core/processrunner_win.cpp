@@ -11,7 +11,7 @@
 
 #include "processrunner_win.h"
 #include "base/LemonLog.hpp"
-#include "windowsmemory.h"
+#include "memoryunits.h"
 #include "windowsprocessutils.h"
 #include "windowssandbox.h"
 
@@ -29,6 +29,53 @@
 #define LEMON_MODULE_NAME "ProcessRunner"
 
 using namespace Lemon::Windows;
+
+namespace {
+	class ExecutionJob {
+		Handle handle{CreateJobObjectW(nullptr, nullptr)};
+
+	  public:
+		HANDLE get() const { return handle.get(); }
+		bool apply(Lemon::Execution::Bytes limit) {
+			if (! handle)
+				return false;
+			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+			info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+			if (limit >= 0) {
+				if (static_cast<unsigned long long>(limit) > SIZE_MAX) {
+					SetLastError(ERROR_INVALID_PARAMETER);
+					return false;
+				}
+				info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY;
+				info.ProcessMemoryLimit = static_cast<SIZE_T>(limit);
+			}
+			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
+		}
+		bool restrictToOneProcess() {
+			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+			if (! QueryInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info),
+			                                nullptr))
+				return false;
+			info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
+			info.BasicLimitInformation.ActiveProcessLimit = 1;
+			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
+		}
+	};
+	Lemon::Execution::Bytes sampleMemory(HANDLE process) {
+		PROCESS_MEMORY_COUNTERS_EX info{};
+		info.cb = sizeof(info);
+		if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info), sizeof(info)))
+			return -1;
+		// PeakPagefileUsage is the process lifetime peak of private committed memory.
+		return static_cast<Lemon::Execution::Bytes>(info.PeakPagefileUsage);
+	}
+
+	bool killAndReap(HANDLE process, HANDLE job) {
+		if (! TerminateJobObject(job, 1) && WaitForSingleObject(process, 0) != WAIT_OBJECT_0)
+			return false;
+		return WaitForSingleObject(process, 2000) == WAIT_OBJECT_0;
+	}
+} // namespace
 
 ProcessRunnerResult WinProcessRunner::run() {
 	ProcessRunnerResult res;
@@ -154,7 +201,6 @@ ProcessRunnerResult WinProcessRunner::run() {
 		}
 		return res;
 	}
-	Lemon::Execution::Limiter limiter(memoryLimit);
 	Handle deadline(CreateWaitableTimerW(nullptr, TRUE, nullptr));
 	LARGE_INTEGER due{};
 	// Negative values specify a relative interval in 100 ns units.
@@ -186,8 +232,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 		res.result = TimeLimitExceeded;
 	}
 	auto sample = sampleMemory(pi.hProcess);
-	limiter.observe(sample);
-	res.memoryUsed = limiter.usage();
+	res.memoryUsed = sample;
 	if (res.result == TimeLimitExceeded)
 		return res;
 	if (sample < 0) {
@@ -195,7 +240,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 		res.message = "Process statistics unavailable";
 		return res;
 	}
-	if (limiter.isExceeded()) {
+	if (memoryLimit >= 0 && res.memoryUsed > memoryLimit) {
 		res.result = MemoryLimitExceeded;
 		return res;
 	}
