@@ -302,7 +302,6 @@ int wmain(int argc, wchar_t **argv) {
 			return 37;
 		puts("expected");
 		fflush(stdout);
-		Sleep(100);
 		if (p)
 			VirtualFree(p, 0, MEM_RELEASE);
 		return mode == L"commit-rejected" ? 12 : 0;
@@ -327,7 +326,6 @@ int wmain(int argc, wchar_t **argv) {
 		       static_cast<unsigned long long>(counters.PeakPagefileUsage),
 		       static_cast<unsigned long long>(bytes));
 		fflush(stdout);
-		Sleep(500);
 		VirtualFree(allocation, 0, MEM_RELEASE);
 		return 0;
 	}
@@ -362,7 +360,6 @@ int wmain(int argc, wchar_t **argv) {
 		printf("working-set-peak=%llu sum=%u\n", static_cast<unsigned long long>(counters.PeakWorkingSetSize),
 		       sum);
 		fflush(stdout);
-		Sleep(200);
 		UnmapViewOfFile(const_cast<const char *>(pages));
 		CloseHandle(mapping);
 		return measured ? 0 : 42;
@@ -372,7 +369,6 @@ int wmain(int argc, wchar_t **argv) {
 			auto *memory = static_cast<volatile char *>(
 			    VirtualAlloc(nullptr, 1024 * 1024, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
 			if (! memory) {
-				Sleep(100);
 				return 12;
 			}
 			for (int j = 0; j < 1024 * 1024; j += 4096)

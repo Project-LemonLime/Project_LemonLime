@@ -51,8 +51,6 @@ int main(int argc, char **argv) {
 		printf("reference-bytes=%llu allocation-bytes=%llu\n", reference,
 		       static_cast<unsigned long long>(bytes));
 		fflush(stdout);
-		// Leave the allocation visible across many watcher sampling intervals.
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		munmap(mapping, bytes);
 		return 0;
 	}
@@ -77,13 +75,11 @@ int main(int argc, char **argv) {
 			return 7;
 		for (int i = 0; i < 96 * 1024 * 1024; i += 4096)
 			p[i] = 1;
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		return 0;
 	}
 	if (! strcmp(argv[1], "reserve")) {
 		void *p = mmap(nullptr, 128 * 1024 * 1024, PROT_NONE, MAP_PRIVATE | MAP_ANON, -1, 0);
 		puts(p == MAP_FAILED ? "denied" : "reserved");
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		return 0;
 	}
 	if (! strcmp(argv[1], "sleep")) {
