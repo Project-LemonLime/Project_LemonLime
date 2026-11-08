@@ -191,9 +191,8 @@ ProcessRunnerResult UnixProcessRunner::run() {
 			runner.terminate();
 			if (! runner.waitForFinished(2500)) {
 				runner.kill();
-				runner.waitForFinished(2000);
+				runner.waitForFinished(-1);
 			}
-
 			return res;
 		}
 	}
