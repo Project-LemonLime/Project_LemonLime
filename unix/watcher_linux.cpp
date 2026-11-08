@@ -22,14 +22,14 @@ Bytes sampleMemory(pid_t pid) {
 }
 
 bool applyMemoryLimit(Bytes limit) {
-	if (limit < 0)
-		return true;
-	rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
-	if (setrlimit(RLIMIT_AS, &memory) != 0)
-		return false;
+	if (limit >= 0) {
+		rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
+		if (setrlimit(RLIMIT_AS, &memory) != 0)
+			return false;
+	}
 	rlimit stack{};
 	if (getrlimit(RLIMIT_STACK, &stack) != 0)
 		return false;
-	stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit));
+	stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit < 0 ? 2147483647LL : limit));
 	return setrlimit(RLIMIT_STACK, &stack) == 0;
 }
