@@ -489,7 +489,7 @@ int main(int argc, char **argv) {
 				perror("events wait");
 				verdict = RS_FAIL;
 				break;
-		}
+			}
 		}
 		// Catch setup errors delivered concurrently with the final wait.
 		// The final read uses the same destination-size bound.
