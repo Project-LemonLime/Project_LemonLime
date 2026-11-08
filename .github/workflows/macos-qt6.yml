@@ -19,11 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
         build_type: [Release, RelWithDebInfo, Debug]
         arch: [x86_64, arm64]
         qt_ver: [6.12.0]
-        qt_arch: [clang_64]
+        include:
+          - arch: x86_64
+            os: macos-26-intel
+          - arch: arm64
+            os: macos-latest
     env:
       targetName: lemon
     steps:
@@ -54,18 +57,12 @@ jobs:
             -DCMAKE_OSX_ARCHITECTURES="${{ matrix.arch }}" 
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
       - name: Run tests
-        if: ${{ false }}
         run: |
           ctest --test-dir . --output-on-failure --timeout 120
       # tag 打包
       - name: package
-        env:
-          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
-          # 拷贝依赖
-          #mv ${targetName} ${targetName}.app
-          export PATH=$Qt6_DIR/bin:$PATH
-          macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt "${targetName}.app" -qmldir=. -verbose=1 -dmg
           mv "${targetName}.dmg" "${{ steps.artifact_name.outputs.name }}.dmg"
       - name: Upload artifact
         uses: actions/upload-artifact@v7
