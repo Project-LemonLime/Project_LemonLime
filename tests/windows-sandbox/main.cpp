@@ -769,6 +769,34 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(result.memoryUsed >= 64ll * 1024 * 1024);
 	}
 
+	void memoryUsageAccuracy_data() {
+		QTest::addColumn<bool>("enabled");
+		QTest::addColumn<int>("mib");
+		QTest::newRow("ordinary-16MiB") << false << 16;
+		QTest::newRow("ordinary-64MiB") << false << 64;
+		QTest::newRow("sandbox-16MiB") << true << 16;
+		QTest::newRow("sandbox-64MiB") << true << 64;
+	}
+	void memoryUsageAccuracy() {
+		QFETCH(bool, enabled);
+		QFETCH(int, mib);
+		auto cfg = config(QString("memory-accuracy %1").arg(mib));
+		cfg.sandboxSettings.enabled = enabled;
+		auto result = run(cfg);
+		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
+		const auto output = QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout"));
+		const auto match = QRegularExpression("reference-bytes=(\\d+) allocation-bytes=(\\d+)").match(output);
+		QVERIFY2(match.hasMatch(), qPrintable(output));
+		const qint64 reference = match.captured(1).toLongLong();
+		const qint64 allocation = qint64(mib) * 1024 * 1024;
+		QCOMPARE(match.captured(2).toLongLong(), allocation);
+		QVERIFY(reference >= allocation);
+		const qint64 tolerance = qMax(qint64(1024 * 1024), reference / 100);
+		qInfo() << "Private commit accuracy: allocation" << allocation << "reference" << reference << "usage"
+		        << result.memoryUsed << "tolerance" << tolerance;
+		QVERIFY(qAbs(result.memoryUsed - reference) <= tolerance);
+	}
+
 	void workingSetDoesNotLimitPrivateCommit_data() { primaryProcessAccounting_data(); }
 	void workingSetDoesNotLimitPrivateCommit() {
 		QFETCH(bool, enabled);

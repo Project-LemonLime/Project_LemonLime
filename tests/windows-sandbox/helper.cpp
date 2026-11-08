@@ -307,6 +307,30 @@ int wmain(int argc, wchar_t **argv) {
 			VirtualFree(p, 0, MEM_RELEASE);
 		return mode == L"commit-rejected" ? 12 : 0;
 	}
+	if (mode == L"memory-accuracy") {
+		const auto mib = argc == 3 ? _wtoi(argv[2]) : 0;
+		if (mib != 16 && mib != 64)
+			return 43;
+		const SIZE_T bytes = SIZE_T(mib) * 1024 * 1024;
+		void *allocation = VirtualAlloc(nullptr, bytes, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+		if (! allocation)
+			return 44;
+		PROCESS_MEMORY_COUNTERS_EX counters{};
+		counters.cb = sizeof(counters);
+		if (! GetProcessMemoryInfo(GetCurrentProcess(),
+		                           reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&counters),
+		                           sizeof(counters))) {
+			VirtualFree(allocation, 0, MEM_RELEASE);
+			return 45;
+		}
+		printf("reference-bytes=%llu allocation-bytes=%llu\n",
+		       static_cast<unsigned long long>(counters.PeakPagefileUsage),
+		       static_cast<unsigned long long>(bytes));
+		fflush(stdout);
+		Sleep(500);
+		VirtualFree(allocation, 0, MEM_RELEASE);
+		return 0;
+	}
 	if (mode == L"mapped-working-set") {
 		// Read-only file-backed pages grow the working set without private commitment.
 		HANDLE file = CreateFileW(L"mapped.dat", GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
