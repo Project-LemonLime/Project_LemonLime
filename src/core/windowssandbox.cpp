@@ -248,7 +248,6 @@ struct WindowsSandbox::Data {
 	      session(config.sandboxSession ? config.sandboxSession : WindowsSandbox::createSession()) {}
 
 	~Data() {
-
 		if (! workingDirectory.isEmpty()) {
 			QMutexLocker lock(&permissionsMutex);
 			revokeSid(workingDirectory, packageSid, true);

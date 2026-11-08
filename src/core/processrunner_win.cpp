@@ -31,36 +31,29 @@
 using namespace Lemon::Windows;
 
 namespace {
-	class ExecutionJob {
-		Handle handle{CreateJobObjectW(nullptr, nullptr)};
-
-	  public:
-		HANDLE get() const { return handle.get(); }
-		bool apply(Lemon::Execution::Bytes limit) {
-			if (! handle)
+	bool configureJob(HANDLE job, Lemon::Execution::Bytes limit) {
+		if (! job)
+			return false;
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+		info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+		if (limit >= 0) {
+			if (static_cast<unsigned long long>(limit) > SIZE_MAX) {
+				SetLastError(ERROR_INVALID_PARAMETER);
 				return false;
-			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
-			info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
-			if (limit >= 0) {
-				if (static_cast<unsigned long long>(limit) > SIZE_MAX) {
-					SetLastError(ERROR_INVALID_PARAMETER);
-					return false;
-				}
-				info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY;
-				info.ProcessMemoryLimit = static_cast<SIZE_T>(limit);
 			}
-			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
+			info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY;
+			info.ProcessMemoryLimit = static_cast<SIZE_T>(limit);
 		}
-		bool restrictToOneProcess() {
-			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
-			if (! QueryInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info),
-			                                nullptr))
-				return false;
-			info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
-			info.BasicLimitInformation.ActiveProcessLimit = 1;
-			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
-		}
-	};
+		return SetInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info));
+	}
+	bool restrictToOneProcess(HANDLE job) {
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+		if (! QueryInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info), nullptr))
+			return false;
+		info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
+		info.BasicLimitInformation.ActiveProcessLimit = 1;
+		return SetInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info));
+	}
 	Lemon::Execution::Bytes sampleMemory(HANDLE process) {
 		PROCESS_MEMORY_COUNTERS_EX info{};
 		info.cb = sizeof(info);
@@ -142,9 +135,9 @@ ProcessRunnerResult WinProcessRunner::run() {
 	});
 
 	Lemon::Execution::Bytes memoryLimit;
-	ExecutionJob job;
-	if (! Lemon::Execution::memoryBytes(config.memoryLimit, memoryLimit) || ! job.apply(memoryLimit) ||
-	    (sandbox && ! job.restrictToOneProcess())) {
+	Handle job(CreateJobObjectW(nullptr, nullptr));
+	if (! Lemon::Execution::memoryBytes(config.memoryLimit, memoryLimit) ||
+	    ! configureJob(job.get(), memoryLimit) || (sandbox && ! restrictToOneProcess(job.get()))) {
 		res.result = CannotStartProgram;
 		res.message = "Cannot configure memory prelimit";
 		return res;

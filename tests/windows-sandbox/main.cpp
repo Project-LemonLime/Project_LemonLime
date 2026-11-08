@@ -100,7 +100,7 @@ class WindowsSandboxTests : public QObject {
 		return file.open(QIODevice::WriteOnly) && file.write(bytes) == bytes.size();
 	}
 
-	static QByteArray readFile(const QString &path) {
+	static QByteArray read(const QString &path) {
 		QFile file(path);
 		if (! file.open(QIODevice::ReadOnly))
 			return {};
@@ -215,7 +215,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("host"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("host"));
 		QCOMPARE(result.preparationTime, 0);
 		QCOMPARE(result.runtimeAclUpdates, 0);
 		QVERIFY(! cfg.sandboxSession);
@@ -230,7 +230,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 		QVERIFY(result.memoryUsed > 0);
 	}
 
@@ -317,8 +317,7 @@ class WindowsSandboxTests : public QObject {
 		const QDir workingDirectory(error.mid(prefix.size()));
 		QVERIFY(workingDirectory.exists("program.dummy"));
 		QVERIFY(! workingDirectory.exists("created"));
-		QCOMPARE(readFile(workingDirectory.filePath("../_2.0/created/nested/data.txt")),
-		         QByteArray("created"));
+		QCOMPARE(read(workingDirectory.filePath("../_2.0/created/nested/data.txt")), QByteArray("created"));
 	}
 
 	void commandLineArguments_data() {
@@ -346,7 +345,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").replace("\r\n", "\n"),
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").replace("\r\n", "\n"),
 		         arguments.join('\n').toUtf8() + '\n');
 	}
 
@@ -420,7 +419,7 @@ class WindowsSandboxTests : public QObject {
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
 		const auto output = cfg.standardOutputCheck ? QString("_tmpout") : cfg.outputFileName;
-		QCOMPARE(readFile(cfg.workingDirectory + output).trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + output).trimmed(), QByteArray("42"));
 	}
 
 	void isolationAndHandles() {
@@ -433,7 +432,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
 		QVERIFY(QFileInfo::exists(cfg.workingDirectory + "own.txt"));
 	}
 
@@ -529,7 +528,7 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
 		for (int i = 0; i < existing.size(); ++i)
 			QCOMPARE(permissions(existing[i]), before[i]);
-		QCOMPARE(readFile(cfg.workingDirectory + "created/nested/data.txt"), QByteArray("created"));
+		QCOMPARE(read(cfg.workingDirectory + "created/nested/data.txt"), QByteArray("created"));
 		for (const auto &name :
 		     {"created", "created/nested", "created/nested/data.txt", "_tmpout", "_tmperr"}) {
 			const auto acl = permissions(cfg.workingDirectory + name);
@@ -561,7 +560,7 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
 		QVERIFY(result.runtimeCacheHit);
 		QCOMPARE(result.runtimeAclUpdates, 0);
-		QCOMPARE(readFile(second.workingDirectory + "_tmpout").trimmed(), QByteArray("readonly"));
+		QCOMPARE(read(second.workingDirectory + "_tmpout").trimmed(), QByteArray("readonly"));
 		two.reset();
 		first.sandboxSession.reset();
 		second.sandboxSession.reset();
@@ -723,7 +722,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QVERIFY(readFile(cfg.workingDirectory + "_tmpout").startsWith("child-denied="));
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").startsWith("child-denied="));
 	}
 
 	void primaryProcessAccounting_data() {
@@ -743,7 +742,7 @@ class WindowsSandboxTests : public QObject {
 		timer.start();
 		while (! primary && timer.elapsed() < 5000) {
 			const auto match = QRegularExpression("process=(\\d+)")
-			                       .match(QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout")));
+			                       .match(QString::fromUtf8(read(cfg.workingDirectory + "_tmpout")));
 			if (match.hasMatch()) {
 				primary.reset(OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | SYNCHRONIZE, FALSE,
 				                          match.captured(1).toULong()));
@@ -784,7 +783,7 @@ class WindowsSandboxTests : public QObject {
 		cfg.sandboxSettings.enabled = enabled;
 		auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		const auto output = QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout"));
+		const auto output = QString::fromUtf8(read(cfg.workingDirectory + "_tmpout"));
 		const auto match = QRegularExpression("reference-bytes=(\\d+) allocation-bytes=(\\d+)").match(output);
 		QVERIFY2(match.hasMatch(), qPrintable(output));
 		const qint64 reference = match.captured(1).toLongLong();
@@ -806,7 +805,7 @@ class WindowsSandboxTests : public QObject {
 		auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
 		QVERIFY(result.memoryUsed > 0 && result.memoryUsed <= 32ll * 1024 * 1024);
-		auto output = QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout"));
+		auto output = QString::fromUtf8(read(cfg.workingDirectory + "_tmpout"));
 		auto match = QRegularExpression("working-set-peak=(\\d+)").match(output);
 		QVERIFY(match.hasMatch());
 		QVERIFY(match.captured(1).toLongLong() > 32ll * 1024 * 1024);
@@ -823,7 +822,7 @@ class WindowsSandboxTests : public QObject {
 			QCOMPARE(result.result, QString(mode) == "commit-rejected" ? RunTimeError : CorrectAnswer);
 			QVERIFY(result.memoryUsed > 0);
 			QVERIFY(result.memoryUsed <= 32ll * 1024 * 1024);
-			QVERIFY(readFile(cfg.workingDirectory + "_tmpout").contains("expected"));
+			QVERIFY(read(cfg.workingDirectory + "_tmpout").contains("expected"));
 		}
 	}
 
@@ -844,10 +843,6 @@ class WindowsSandboxTests : public QObject {
 		auto cpu = config("burn 3000");
 		cpu.timeLimit = 100;
 		QCOMPARE(run(cpu).result, TimeLimitExceeded);
-		auto memory = config("commit-rejected");
-		memory.memoryLimit = 24;
-		// The Job refuses the next commit; helper exits nonzero without exceeding the limit.
-		QCOMPARE(run(memory).result, RunTimeError);
 	}
 
 	void cancellation() {
@@ -868,7 +863,7 @@ class WindowsSandboxTests : public QObject {
 			timer.start();
 			while (! primary && timer.elapsed() < 5000) {
 				const auto match = QRegularExpression("process=(\\d+)")
-				                       .match(QString::fromUtf8(readFile(cfg.workingDirectory + "_tmpout")));
+				                       .match(QString::fromUtf8(read(cfg.workingDirectory + "_tmpout")));
 				if (match.hasMatch())
 					primary.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(1).toULong()));
 				if (! primary)
@@ -896,7 +891,7 @@ class WindowsSandboxTests : public QObject {
 		cfg.inputFile = directory + "/input.txt";
 		cfg.sandboxSettings.readOnlyDirectories = {directory};
 		QCOMPARE(run(cfg).result, CorrectAnswer);
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 	}
 
 	void rejectHardLinkedWorkFile() {
@@ -908,7 +903,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QCOMPARE(result.result, CannotStartProgram);
-		QCOMPARE(readFile(target), QByteArray("secret answer\n"));
+		QCOMPARE(read(target), QByteArray("secret answer\n"));
 		QCOMPARE(permissions(cfg.workingDirectory), beforeDirectory);
 		QCOMPARE(permissions(cfg.executableFile), beforeExecutable);
 	}
@@ -935,7 +930,7 @@ class WindowsSandboxTests : public QObject {
 			QElapsedTimer timer;
 			timer.start();
 			while (! probeId && timer.elapsed() < 5000) {
-				probeId = readFile(marker).trimmed().toULong();
+				probeId = read(marker).trimmed().toULong();
 				if (! probeId)
 					QThread::msleep(10);
 			}
@@ -968,8 +963,8 @@ class WindowsSandboxTests : public QObject {
 		worker.join();
 		QVERIFY2(one.result == CorrectAnswer, qPrintable(one.message));
 		QVERIFY2(two.result == CorrectAnswer, qPrintable(two.message));
-		QCOMPARE(readFile(first.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
-		QCOMPARE(readFile(second.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
+		QCOMPARE(read(first.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
+		QCOMPARE(read(second.workingDirectory + "_tmpout").trimmed(), QByteArray("isolated"));
 	}
 
 	void nativeCompiler_data() {
@@ -1001,7 +996,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto result = run(cfg);
 		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 	}
 
 	void settingsRoundTrip() {
@@ -1047,7 +1042,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto first = run(cfg);
 		QVERIFY2(first.result == CorrectAnswer, qPrintable(first.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout"), QByteArray("42 \xe9"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout"), QByteArray("42 \xe9"));
 
 		const auto second = run(cfg);
 		QVERIFY2(second.result == CorrectAnswer, qPrintable(second.message));
@@ -1077,12 +1072,12 @@ class WindowsSandboxTests : public QObject {
 
 		const auto ordinary = run(cfg);
 		QVERIFY2(ordinary.result == CorrectAnswer, qPrintable(ordinary.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("allowed"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("allowed"));
 		cfg.sandboxSettings.enabled = true;
 
 		const auto restricted = run(cfg);
 		QVERIFY2(restricted.result == CorrectAnswer, qPrintable(restricted.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("denied"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("denied"));
 	}
 
 	void pythonVenv() {
@@ -1102,14 +1097,14 @@ class WindowsSandboxTests : public QObject {
 
 		const auto ordinary = run(cfg);
 		QVERIFY2(ordinary.result == CorrectAnswer, qPrintable(ordinary.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 		cfg.sandboxSettings.enabled = true;
 
 		const auto restricted = run(cfg);
 		QCOMPARE(restricted.result, RunTimeError);
 		QVERIFY2(restricted.message.contains("Unable to create process", Qt::CaseInsensitive),
 		         qPrintable(restricted.message));
-		QVERIFY(readFile(cfg.workingDirectory + "_tmpout").isEmpty());
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").isEmpty());
 	}
 
 	void javaRuntime() {
@@ -1131,7 +1126,7 @@ class WindowsSandboxTests : public QObject {
 
 		const auto first = run(cfg);
 		QVERIFY2(first.result == CorrectAnswer, qPrintable(first.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("42"));
 
 		const auto second = run(cfg);
 		QVERIFY2(second.result == CorrectAnswer, qPrintable(second.message));
@@ -1162,12 +1157,12 @@ class WindowsSandboxTests : public QObject {
 
 		const auto ordinary = run(cfg);
 		QVERIFY2(ordinary.result == CorrectAnswer, qPrintable(ordinary.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("allowed"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("allowed"));
 		cfg.sandboxSettings.enabled = true;
 
 		const auto restricted = run(cfg);
 		QVERIFY2(restricted.result == CorrectAnswer, qPrintable(restricted.message));
-		QCOMPARE(readFile(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("denied"));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("denied"));
 	}
 };
 

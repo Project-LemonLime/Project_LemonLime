@@ -174,17 +174,16 @@ namespace {
 			traced.insert(pid);
 #endif
 		}
-		~UnixProcess() {
-			if (! cleaned)
-				killAndReap();
-		}
-		// Do not destroy the exit information until all final samples are consumed.
-		int poll() {
-			if (reaped
+		~UnixProcess() { killAndReap(); }
+		bool finished() const {
 #ifdef __linux__
-			    && traced.empty()
+			return reaped && traced.empty();
+#else
+			return reaped;
 #endif
-			)
+		}
+		int poll() {
+			if (finished())
 				return 1;
 #ifdef __linux__
 			for (;;) {
@@ -278,7 +277,7 @@ namespace {
 					++it;
 				}
 				if (! progress)
-					return reaped && traced.empty() ? 1 : 0;
+					return finished() ? 1 : 0;
 			}
 #else
 			pid_t result = wait4(pid, &status, WNOHANG, &usage);
@@ -293,20 +292,12 @@ namespace {
 		}
 		bool killAndReap() {
 			if (cleaned)
-				return reaped
-#ifdef __linux__
-				       && traced.empty()
-#endif
-				    ;
+				return finished();
 			cleaned = true;
 			kill(-pid, SIGKILL);
 			if (! reaped)
 				kill(pid, SIGKILL);
-			if (reaped
-#ifdef __linux__
-			    && traced.empty()
-#endif
-			)
+			if (finished())
 				return true;
 			if (! events.arm(2000, false)) {
 				perror("reaping events");
@@ -315,11 +306,7 @@ namespace {
 			for (;;) {
 				if (poll() < 0)
 					return false;
-				if (reaped
-#ifdef __linux__
-				    && traced.empty()
-#endif
-				)
+				if (finished())
 					break;
 				int event = events.wait();
 				if (event < 0) {
@@ -332,11 +319,7 @@ namespace {
 					break;
 				}
 			}
-			return reaped
-#ifdef __linux__
-			       && traced.empty()
-#endif
-			    ;
+			return finished();
 		}
 	};
 	struct ChildError {
@@ -426,14 +409,15 @@ int main(int argc, char **argv) {
 		close(errors[1]);
 		(void)setpgid(pid, pid);
 		UnixProcess process(pid, events);
-		Bytes peak = -1;
+		Bytes &peak = process.peak;
 		bool ready = events.arm(std::max(2000LL, 3LL * timeLimit), true);
 		if (! ready)
 			perror("events arm");
-		int event = Events::Sample;
+		int event = 0;
 		int verdict = RS_AC;
 
 #ifdef __APPLE__
+		event = Events::Sample;
 		int missing = 0;
 #endif
 		ChildError childError{};
@@ -443,20 +427,14 @@ int main(int argc, char **argv) {
 				verdict = RS_FAIL;
 				break;
 			}
-#ifdef __linux__
-			auto sample = Bytes(-1);
-#else
+#ifdef __APPLE__
 			auto sample = event & Events::Sample ? sampleMemory(pid) : Bytes(-1);
-#endif
 			peak = std::max(peak, sample);
-			// The fixed-size read is bounded by the destination object on every iteration.
+#endif
 			/* Flawfinder: ignore */
 			if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 				setupFailed = true;
 			int finished = process.poll();
-#ifdef __linux__
-			peak = std::max(peak, process.peak);
-#endif
 			if (setupFailed || finished < 0) {
 				verdict = RS_FAIL;
 				break;
@@ -492,23 +470,18 @@ int main(int argc, char **argv) {
 			}
 		}
 		// Catch setup errors delivered concurrently with the final wait.
-		// The final read uses the same destination-size bound.
 		/* Flawfinder: ignore */
 		if (read(errors[0], &childError, sizeof(childError)) == sizeof(childError))
 			setupFailed = true;
 		close(errors[0]);
 		if (! process.killAndReap())
 			fprintf(stderr, "Process reaping deadline exceeded\n");
-#ifdef __linux__
-		peak = std::max(peak, process.peak);
-#endif
 		if (setupFailed) {
 			fprintf(stderr, "Child setup stage %d failed: errno %d\n", childError.stage, childError.error);
 			verdict = RS_FAIL;
 		}
 		if (process.reaped) {
 #ifdef __APPLE__
-			// Only macOS defines DeclaredUsage as RSS. Linux must not use RSS as a VSS fallback.
 			peak = std::max(peak, static_cast<Bytes>(process.usage.ru_maxrss));
 #endif
 			if (verdict == RS_AC) {

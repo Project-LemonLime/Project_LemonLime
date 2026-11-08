@@ -91,7 +91,6 @@ jobs:
       - name: Deploy Qt for tests
         shell: pwsh
         run: |
-          # This helper does not import Qt at runtime.
           Get-ChildItem tests -Recurse -Filter *.exe |
             Where-Object { $_.Name -ne 'sandbox-helper.exe' } |
             ForEach-Object {

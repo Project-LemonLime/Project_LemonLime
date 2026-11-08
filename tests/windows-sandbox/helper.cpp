@@ -364,17 +364,5 @@ int wmain(int argc, wchar_t **argv) {
 		CloseHandle(mapping);
 		return measured ? 0 : 42;
 	}
-	if (mode == L"memory") {
-		for (int i = 0; i < 256; ++i) {
-			auto *memory = static_cast<volatile char *>(
-			    VirtualAlloc(nullptr, 1024 * 1024, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-			if (! memory) {
-				return 12;
-			}
-			for (int j = 0; j < 1024 * 1024; j += 4096)
-				memory[j] = 1;
-		}
-		return 13;
-	}
 	return 14;
 }

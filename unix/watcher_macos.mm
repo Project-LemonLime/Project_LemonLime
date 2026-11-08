@@ -14,6 +14,6 @@ Bytes sampleMemory(pid_t pid) {
 	if (proc_pidinfo(pid, PROC_PIDTASKINFO, 0, &info, sizeof(info)) != sizeof(info))
 		return -1;
 	return static_cast<Bytes>(info.pti_resident_size);
-	}
+}
 // macOS intentionally has no memory prelimit.
 bool applyMemoryLimit(Bytes) { return true; }

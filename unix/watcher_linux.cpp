@@ -8,7 +8,6 @@
 #include "memoryusage.h"
 #include <algorithm>
 #include <cstdio>
-#include <cstring>
 #include <string>
 #include <sys/resource.h>
 using namespace Lemon::Execution;
