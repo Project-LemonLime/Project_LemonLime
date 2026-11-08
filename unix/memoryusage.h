@@ -3,6 +3,4 @@
 #include "../src/core/memorylimiter.h"
 #include <sys/types.h>
 Lemon::Execution::Bytes sampleMemory(pid_t pid);
-#ifdef __APPLE__
-Lemon::Execution::Bytes maxRSSBytes(long value);
-#endif
+bool applyMemoryLimit(Lemon::Execution::Bytes limit);

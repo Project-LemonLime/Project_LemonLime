@@ -133,9 +133,8 @@ ProcessRunnerResult WinProcessRunner::run() {
 		CloseHandle(pi.hThread);
 	});
 
-	ProcessKiller killer(pi.hProcess, job.get());
 	auto reap = qScopeGuard([&] {
-		if (! killer.killAndReap())
+		if (! killAndReap(pi.hProcess, job.get()))
 			WARN("Process reaping deadline exceeded");
 	});
 	if ((! sandbox && ! AssignProcessToJobObject(job.get(), pi.hProcess)) ||
@@ -145,13 +144,12 @@ ProcessRunnerResult WinProcessRunner::run() {
 		res.message = "Cannot attach or resume process";
 		return res;
 	}
-	ProcessUsage provider(pi.hProcess);
 	Lemon::Execution::Limiter limiter(memoryLimit);
 	QElapsedTimer timer;
 	timer.start();
 	int missing = 0;
 	for (;;) {
-		auto sample = provider.sample();
+		auto sample = sampleMemory(pi.hProcess);
 		limiter.observe(sample);
 		res.memoryUsed = limiter.usage();
 		if (limiter.isExceeded()) {
@@ -160,7 +158,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 		}
 		DWORD state = WaitForSingleObject(pi.hProcess, 0);
 		if (state == WAIT_OBJECT_0) {
-			limiter.observe(provider.sample());
+			limiter.observe(sampleMemory(pi.hProcess));
 			res.memoryUsed = limiter.usage();
 			if (limiter.isExceeded()) {
 				res.result = MemoryLimitExceeded;

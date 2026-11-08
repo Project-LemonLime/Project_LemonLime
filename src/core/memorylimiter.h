@@ -19,39 +19,19 @@ namespace Lemon::Execution {
 		return true;
 	}
 
-	class UsageProvider {
-	  public:
-		virtual ~UsageProvider() = default;
-		// DeclaredUsage in bytes; negative means unavailable.
-		virtual Bytes sample() = 0;
-	};
-	class Prelimit {
-	  public:
-		virtual ~Prelimit() = default;
-		virtual bool apply(Bytes limit) = 0;
-	};
-	class Killer {
-	  public:
-		virtual ~Killer() = default;
-		// Must terminate the execution unit and perform bounded reaping.
-		virtual bool killAndReap() = 0;
-	};
-
-	// Pure policy: OS operations and process exit classification belong to adapters.
+	// Tracks memory usage only; platform code owns process operations and exit statuses.
 	class Limiter {
 	  public:
 		explicit Limiter(Bytes limit) : limit(limit) {}
 		bool observe(Bytes declaredUsage) {
 			peak = (std::max)(peak, declaredUsage);
-			exceeded = exceeded || (limit >= 0 && usage() > limit);
-			return exceeded;
+			return isExceeded();
 		}
 		Bytes usage() const { return peak; }
-		bool isExceeded() const { return exceeded; }
+		bool isExceeded() const { return limit >= 0 && peak > limit; }
 
 	  private:
 		Bytes limit;
 		Bytes peak = -1;
-		bool exceeded = false;
 	};
 } // namespace Lemon::Execution

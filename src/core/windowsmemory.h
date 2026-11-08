@@ -5,12 +5,12 @@
 #ifdef Q_OS_WIN
 #include <psapi.h>
 namespace Lemon::Windows {
-	class ExecutionJob : public Execution::Prelimit {
+	class ExecutionJob {
 		Handle handle{CreateJobObjectW(nullptr, nullptr)};
 
 	  public:
 		HANDLE get() const { return handle.get(); }
-		bool apply(Execution::Bytes limit) override {
+		bool apply(Execution::Bytes limit) {
 			if (! handle)
 				return false;
 			JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
@@ -35,32 +35,20 @@ namespace Lemon::Windows {
 			return SetInformationJobObject(get(), JobObjectExtendedLimitInformation, &info, sizeof(info));
 		}
 	};
-	class ProcessUsage : public Execution::UsageProvider {
-		HANDLE process;
+	// Platform operations stay separate from the shared memory-limit policy.
+	inline Execution::Bytes sampleMemory(HANDLE process) {
+		PROCESS_MEMORY_COUNTERS_EX info{};
+		info.cb = sizeof(info);
+		if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info), sizeof(info)))
+			return -1;
+		// PeakPagefileUsage is the process lifetime peak of private committed memory.
+		return static_cast<Execution::Bytes>(info.PeakPagefileUsage);
+	}
 
-	  public:
-		explicit ProcessUsage(HANDLE process) : process(process) {}
-		Execution::Bytes sample() override {
-			PROCESS_MEMORY_COUNTERS_EX info{};
-			info.cb = sizeof(info);
-			if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info),
-			                           sizeof(info)))
-				return -1;
-			// PeakPagefileUsage is the process lifetime peak of private committed memory.
-			return static_cast<Execution::Bytes>(info.PeakPagefileUsage);
-		}
-	};
-	class ProcessKiller : public Execution::Killer {
-		HANDLE process;
-		HANDLE job;
-
-	  public:
-		ProcessKiller(HANDLE process, HANDLE job) : process(process), job(job) {}
-		bool killAndReap() override {
-			if (! TerminateJobObject(job, 1) && WaitForSingleObject(process, 0) != WAIT_OBJECT_0)
-				return false;
-			return WaitForSingleObject(process, 2000) == WAIT_OBJECT_0;
-		}
-	};
+	inline bool killAndReap(HANDLE process, HANDLE job) {
+		if (! TerminateJobObject(job, 1) && WaitForSingleObject(process, 0) != WAIT_OBJECT_0)
+			return false;
+		return WaitForSingleObject(process, 2000) == WAIT_OBJECT_0;
+	}
 } // namespace Lemon::Windows
 #endif

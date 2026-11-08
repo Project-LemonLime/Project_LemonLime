@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
+#include <sys/resource.h>
 using namespace Lemon::Execution;
 Bytes sampleMemory(pid_t pid) {
 	Bytes result = -1;
@@ -18,4 +19,17 @@ Bytes sampleMemory(pid_t pid) {
 	}
 	fclose(file);
 	return result;
+}
+
+bool applyMemoryLimit(Bytes limit) {
+	if (limit < 0)
+		return true;
+	rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
+	if (setrlimit(RLIMIT_AS, &memory) != 0)
+		return false;
+	rlimit stack{};
+	if (getrlimit(RLIMIT_STACK, &stack) != 0)
+		return false;
+	stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit));
+	return setrlimit(RLIMIT_STACK, &stack) == 0;
 }

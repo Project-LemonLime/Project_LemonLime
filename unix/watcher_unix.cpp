@@ -19,35 +19,7 @@ namespace {
 	enum { RS_AC, RS_FAIL, RS_RE, RS_TLE, RS_MLE };
 	volatile sig_atomic_t stopped = 0;
 	void stop(int) { stopped = 1; }
-	class UnixPrelimit : public Prelimit {
-	  public:
-		bool apply(Bytes limit) override {
-#ifdef __linux__
-			if (limit >= 0) {
-				rlimit memory{static_cast<rlim_t>(limit), static_cast<rlim_t>(limit)};
-				if (setrlimit(RLIMIT_AS, &memory) != 0)
-					return false;
-				rlimit stack{};
-				if (getrlimit(RLIMIT_STACK, &stack) != 0)
-					return false;
-				stack.rlim_cur = std::min(stack.rlim_max, static_cast<rlim_t>(limit));
-				if (setrlimit(RLIMIT_STACK, &stack) != 0)
-					return false;
-			}
-#else
-			(void)limit; // macOS intentionally has no memory prelimit.
-#endif
-			return true;
-		}
-	};
-	class UnixUsage : public UsageProvider {
-		pid_t pid;
-
-	  public:
-		explicit UnixUsage(pid_t pid) : pid(pid) {}
-		Bytes sample() override { return sampleMemory(pid); }
-	};
-	class UnixProcess : public Killer {
+	class UnixProcess {
 	  public:
 		pid_t pid;
 		int status = 0;
@@ -55,7 +27,7 @@ namespace {
 		bool reaped = false;
 		bool cleaned = false;
 		explicit UnixProcess(pid_t pid) : pid(pid) {}
-		~UnixProcess() override {
+		~UnixProcess() {
 			if (! cleaned)
 				killAndReap();
 		}
@@ -72,7 +44,7 @@ namespace {
 				return -1;
 			return 0;
 		}
-		bool killAndReap() override {
+		bool killAndReap() {
 			if (cleaned)
 				return reaped;
 			cleaned = true;
@@ -149,8 +121,7 @@ int main(int argc, char **argv) {
 			rlimit core{0, 0};
 			if (setrlimit(RLIMIT_CORE, &core) != 0)
 				fail(7);
-			UnixPrelimit prelimit;
-			if (! prelimit.apply(limit))
+			if (! applyMemoryLimit(limit))
 				fail(3);
 			rlim_t seconds = static_cast<rlim_t>((timeLimit + 999) / 1000);
 			rlimit cpu{seconds, seconds + 1};
@@ -167,7 +138,6 @@ int main(int argc, char **argv) {
 		signal(SIGINT, stop);
 		signal(SIGABRT, stop);
 		UnixProcess process(pid);
-		UnixUsage provider(pid);
 		Limiter limiter(limit);
 		auto deadline =
 		    std::chrono::steady_clock::now() + std::chrono::milliseconds(std::max(2000LL, 3LL * timeLimit));
@@ -176,7 +146,7 @@ int main(int argc, char **argv) {
 		ChildError childError{};
 		bool setupFailed = false;
 		for (;;) {
-			auto sample = provider.sample();
+			auto sample = sampleMemory(pid);
 			limiter.observe(sample);
 			// The fixed-size read is bounded by the destination object on every iteration.
 			/* Flawfinder: ignore */
@@ -224,7 +194,7 @@ int main(int argc, char **argv) {
 		if (process.reaped) {
 #ifdef __APPLE__
 			// Only macOS defines DeclaredUsage as RSS. Linux must not use RSS as a VSS fallback.
-			limiter.observe(maxRSSBytes(process.usage.ru_maxrss));
+			limiter.observe(static_cast<Bytes>(process.usage.ru_maxrss));
 #endif
 			if (verdict == RS_AC) {
 				if (limiter.isExceeded())
