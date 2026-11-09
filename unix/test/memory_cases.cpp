@@ -9,8 +9,8 @@
 #ifdef __APPLE__
 #include <mach/mach.h>
 #else
-#include <fstream>
 #include <csignal>
+#include <fstream>
 #include <unistd.h>
 #endif
 #ifdef __linux__
@@ -24,36 +24,36 @@
 extern char **environ;
 
 namespace {
-char executable[4096];
-// Keep these mappings alive until exec/exit: Linux accuracy measures VSS, not RSS.
-bool mapAndReport(size_t mib, const char *label = "reference-bytes") {
-	const size_t bytes = mib * 1024 * 1024;
-	if (mmap(nullptr, bytes, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0) == MAP_FAILED)
-		return false;
-	unsigned long long pages = 0;
-	std::ifstream statm("/proc/thread-self/statm");
-	const auto pageSize = sysconf(_SC_PAGESIZE);
-	if (! (statm >> pages) || pageSize <= 0)
-		return false;
-	printf("%s=%llu\n", label, pages * static_cast<unsigned long long>(pageSize));
-	return fflush(stdout) == 0;
-}
+	char executable[4096];
+	// Keep these mappings alive until exec/exit: Linux accuracy measures VSS, not RSS.
+	bool mapAndReport(size_t mib, const char *label = "reference-bytes") {
+		const size_t bytes = mib * 1024 * 1024;
+		if (mmap(nullptr, bytes, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0) == MAP_FAILED)
+			return false;
+		unsigned long long pages = 0;
+		std::ifstream statm("/proc/thread-self/statm");
+		const auto pageSize = sysconf(_SC_PAGESIZE);
+		if (! (statm >> pages) || pageSize <= 0)
+			return false;
+		printf("%s=%llu\n", label, pages * static_cast<unsigned long long>(pageSize));
+		return fflush(stdout) == 0;
+	}
 
-int execSelf(const char *mode) {
-	execl(executable, "memory_cases", mode, static_cast<char *>(nullptr));
-	return 31;
-}
+	int execSelf(const char *mode) {
+		execl(executable, "memory_cases", mode, static_cast<char *>(nullptr));
+		return 31;
+	}
 
-pthread_t leader;
+	pthread_t leader;
 
-void *execFromWorker(void *) {
-	if (pthread_join(leader, nullptr) != 0)
-		std::exit(32);
-	if (! mapAndReport(64))
-		std::exit(33);
-	std::exit(execSelf("exec-sink"));
-}
-}
+	void *execFromWorker(void *) {
+		if (pthread_join(leader, nullptr) != 0)
+			std::exit(32);
+		if (! mapAndReport(64))
+			std::exit(33);
+		std::exit(execSelf("exec-sink"));
+	}
+} // namespace
 #endif
 int main(int argc, char **argv) {
 	const bool accuracy = argc == 3 && ! strcmp(argv[1], "accuracy");
@@ -153,7 +153,8 @@ int main(int argc, char **argv) {
 		if (pthread_attr_init(&attributes) != 0)
 			return 40;
 		const int sized = pthread_attr_setstacksize(&attributes, 1024 * 1024);
-		const int created = sized == 0 ? pthread_create(&worker, &attributes, execFromWorker, nullptr) : sized;
+		const int created =
+		    sized == 0 ? pthread_create(&worker, &attributes, execFromWorker, nullptr) : sized;
 		pthread_attr_destroy(&attributes);
 		if (created != 0)
 			return 40;
@@ -211,7 +212,8 @@ int main(int argc, char **argv) {
 		close(ready[0]);
 		if (received != 1 || token != 1) {
 			kill(child, SIGKILL);
-			while (waitpid(child, nullptr, 0) < 0 && errno == EINTR) {}
+			while (waitpid(child, nullptr, 0) < 0 && errno == EINTR) {
+			}
 			return 49;
 		}
 		printf("child-pid=%ld\n", static_cast<long>(child));

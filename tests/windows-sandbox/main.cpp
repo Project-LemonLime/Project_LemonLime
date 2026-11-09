@@ -98,10 +98,11 @@ namespace {
 		BOOL found = Process32FirstW(snapshot.get(), &entry);
 		while (found) {
 			if (entry.th32ParentProcessID == GetCurrentProcessId() &&
-			    QString::fromWCharArray(entry.szExeFile).compare(QFileInfo(executable).fileName(),
-			                                                    Qt::CaseInsensitive) == 0) {
-				Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE |
-				                               PROCESS_TERMINATE, FALSE, entry.th32ProcessID));
+			    QString::fromWCharArray(entry.szExeFile)
+			            .compare(QFileInfo(executable).fileName(), Qt::CaseInsensitive) == 0) {
+				Handle process(
+				    OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE | PROCESS_TERMINATE, FALSE,
+				                entry.th32ProcessID));
 				if (! process) {
 					if (GetLastError() != ERROR_INVALID_PARAMETER)
 						error = "Cannot open candidate testcase process";
@@ -111,8 +112,9 @@ namespace {
 					if (! QueryFullProcessImageNameW(process.get(), 0, image, &size)) {
 						if (GetLastError() != ERROR_INVALID_PARAMETER)
 							error = "Cannot query candidate testcase process";
-					} else if (QDir::cleanPath(QDir::fromNativeSeparators(
-					               QString::fromWCharArray(image, size))).compare(expected, Qt::CaseInsensitive) == 0) {
+					} else if (QDir::cleanPath(
+					               QDir::fromNativeSeparators(QString::fromWCharArray(image, size)))
+					               .compare(expected, Qt::CaseInsensitive) == 0) {
 						const DWORD state = WaitForSingleObject(process.get(), 0);
 						if (state == WAIT_TIMEOUT) {
 							error = QString("Live testcase process %1").arg(entry.th32ProcessID);
@@ -184,7 +186,8 @@ class WindowsSandboxTests : public QObject {
 		return process.waitForFinished(5000) && process.exitCode() == 0;
 	}
 
-	ProcessRunnerConfig config(const QString &arguments, const QString &helper = QStringLiteral("sandbox-helper.exe")) {
+	ProcessRunnerConfig config(const QString &arguments,
+	                           const QString &helper = QStringLiteral("sandbox-helper.exe")) {
 		ProcessRunnerConfig cfg;
 		cfg.workingDirectory = root.path() + QString("/case-%1/").arg(++sequence);
 		QDir().mkpath(cfg.workingDirectory);
@@ -899,8 +902,8 @@ class WindowsSandboxTests : public QObject {
 		startup.cb = sizeof(startup);
 		PROCESS_INFORMATION pi{};
 		QString command = quoteArgument(cfg.executableFile) + " static-memory";
-		QVERIFY(CreateProcessW(nullptr, reinterpret_cast<wchar_t *>(command.data()), nullptr, nullptr,
-		                       FALSE, CREATE_SUSPENDED, nullptr, nullptr, &startup, &pi));
+		QVERIFY(CreateProcessW(nullptr, reinterpret_cast<wchar_t *>(command.data()), nullptr, nullptr, FALSE,
+		                       CREATE_SUSPENDED, nullptr, nullptr, &startup, &pi));
 		const auto cleanup = qScopeGuard([&] {
 			TerminateProcess(pi.hProcess, 1);
 			WaitForSingleObject(pi.hProcess, 2000);

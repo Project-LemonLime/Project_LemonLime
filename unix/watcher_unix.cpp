@@ -17,17 +17,17 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #ifdef __linux__
-#include <poll.h>
-#include <map>
 #include <cstddef>
 #include <linux/audit.h>
 #include <linux/filter.h>
 #include <linux/seccomp.h>
-#include <sys/syscall.h>
+#include <map>
+#include <poll.h>
 #include <sys/prctl.h>
 #include <sys/ptrace.h>
 #include <sys/signalfd.h>
 #include <sys/socket.h>
+#include <sys/syscall.h>
 #include <sys/timerfd.h>
 #elif defined(__APPLE__)
 #include <sys/event.h>
@@ -74,7 +74,7 @@ namespace {
 		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 387, 1, 0),
 		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
 		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
-#if !defined(__x86_64__) && !defined(__i386__) && !defined(__aarch64__) && !defined(__arm__)
+#if ! defined(__x86_64__) && ! defined(__i386__) && ! defined(__aarch64__) && ! defined(__arm__)
 		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
 #ifdef SYS_execveat
 		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execve, 2, 0),
@@ -327,7 +327,8 @@ namespace {
 					terminateTracee(tid, traced.at(tid));
 					signal = 0;
 				} else if (event == PTRACE_EVENT_STOP && ! newborn &&
-				           (signal == SIGSTOP || signal == SIGTSTP || signal == SIGTTIN || signal == SIGTTOU)) {
+				           (signal == SIGSTOP || signal == SIGTSTP || signal == SIGTTIN ||
+				            signal == SIGTTOU)) {
 					if (ptrace(PTRACE_LISTEN, tid, nullptr, nullptr) < 0 && errno != ESRCH)
 						return -1;
 					continue;
@@ -504,10 +505,10 @@ int main(int argc, char **argv) {
 		if (! ready)
 			perror("events arm");
 #ifdef __linux__
-		if (ready && ptrace(PTRACE_SEIZE, pid, nullptr,
-		                    PTRACE_O_TRACEFORK | PTRACE_O_TRACEVFORK | PTRACE_O_TRACECLONE |
-		                        PTRACE_O_TRACEEXEC | PTRACE_O_TRACEEXIT | PTRACE_O_TRACESECCOMP |
-		                        PTRACE_O_EXITKILL) < 0) {
+		if (ready &&
+		    ptrace(PTRACE_SEIZE, pid, nullptr,
+		           PTRACE_O_TRACEFORK | PTRACE_O_TRACEVFORK | PTRACE_O_TRACECLONE | PTRACE_O_TRACEEXEC |
+		               PTRACE_O_TRACEEXIT | PTRACE_O_TRACESECCOMP | PTRACE_O_EXITKILL) < 0) {
 			perror("ptrace seize");
 			ready = false;
 		}
