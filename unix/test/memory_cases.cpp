@@ -13,10 +13,59 @@
 #include <csignal>
 #include <unistd.h>
 #endif
+#ifdef __linux__
+#include <cerrno>
+#include <fcntl.h>
+#include <malloc.h>
+#include <pthread.h>
+#include <sys/syscall.h>
+#include <sys/wait.h>
+
+extern char **environ;
+
+namespace {
+char executable[4096];
+// Keep these mappings alive until exec/exit: Linux accuracy measures VSS, not RSS.
+bool mapAndReport(size_t mib, const char *label = "reference-bytes") {
+	const size_t bytes = mib * 1024 * 1024;
+	if (mmap(nullptr, bytes, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0) == MAP_FAILED)
+		return false;
+	unsigned long long pages = 0;
+	std::ifstream statm("/proc/thread-self/statm");
+	const auto pageSize = sysconf(_SC_PAGESIZE);
+	if (! (statm >> pages) || pageSize <= 0)
+		return false;
+	printf("%s=%llu\n", label, pages * static_cast<unsigned long long>(pageSize));
+	return fflush(stdout) == 0;
+}
+
+int execSelf(const char *mode) {
+	execl(executable, "memory_cases", mode, static_cast<char *>(nullptr));
+	return 31;
+}
+
+pthread_t leader;
+
+void *execFromWorker(void *) {
+	if (pthread_join(leader, nullptr) != 0)
+		std::exit(32);
+	if (! mapAndReport(64))
+		std::exit(33);
+	std::exit(execSelf("exec-sink"));
+}
+}
+#endif
 int main(int argc, char **argv) {
 	const bool accuracy = argc == 3 && ! strcmp(argv[1], "accuracy");
 	if (argc != 2 && ! accuracy)
 		return 1;
+#ifdef __linux__
+	// /proc/self/exe and /proc/self/statm cease to describe a dead leader.
+	const auto length = readlink("/proc/self/exe", executable, sizeof(executable) - 1);
+	if (length <= 0 || static_cast<size_t>(length) >= sizeof(executable) - 1)
+		return 30;
+	executable[length] = '\0';
+#endif
 	if (accuracy) {
 		const auto mib = std::strtoul(argv[2], nullptr, 10);
 		if (mib != 16 && mib != 64)
@@ -56,6 +105,134 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 #ifdef __linux__
+	if (! strcmp(argv[1], "exec-sink")) {
+		puts("exec-ok=1");
+		return 0;
+	}
+	if (! strcmp(argv[1], "exec-chain") || ! strcmp(argv[1], "exec-chain-next")) {
+		const bool first = ! strcmp(argv[1], "exec-chain");
+		if (! mapAndReport(first ? 128 : 64))
+			return 34;
+		return execSelf(first ? "exec-chain-next" : "exec-sink");
+	}
+	if (! strcmp(argv[1], "exec-failed")) {
+		if (! mapAndReport(64))
+			return 35;
+		execl("/proc/self/lemon-watcher-no-such-executable", "missing", static_cast<char *>(nullptr));
+		const int error = errno;
+		printf("failed-exec-errno=%d\n", error);
+		if (error != ENOENT)
+			return 36;
+		puts("failed-exec-handled=1");
+		fflush(stdout);
+		return execSelf("exec-sink");
+	}
+	if (! strcmp(argv[1], "execveat-peak")) {
+		if (! mapAndReport(64))
+			return 37;
+		const int fd = open("/proc/self/exe", O_RDONLY | O_CLOEXEC);
+		if (fd < 0)
+			return 38;
+		char name[] = "memory_cases";
+		char mode[] = "exec-sink";
+		char *arguments[] = {name, mode, nullptr};
+		// Deliberately no libc fallback: the execveat notification is under test.
+		syscall(SYS_execveat, fd, "", arguments, environ, AT_EMPTY_PATH);
+		close(fd);
+		return 39;
+	}
+	if (! strcmp(argv[1], "nonleader-exec")) {
+#ifdef __GLIBC__
+		// Avoid glibc's transient arena reservation obscuring this fixture's mapping peak.
+		if (! mallopt(M_ARENA_MAX, 1))
+			return 40;
+#endif
+		leader = pthread_self();
+		pthread_t worker;
+		pthread_attr_t attributes;
+		if (pthread_attr_init(&attributes) != 0)
+			return 40;
+		const int sized = pthread_attr_setstacksize(&attributes, 1024 * 1024);
+		const int created = sized == 0 ? pthread_create(&worker, &attributes, execFromWorker, nullptr) : sized;
+		pthread_attr_destroy(&attributes);
+		if (created != 0)
+			return 40;
+		pthread_exit(nullptr);
+	}
+	if (! strcmp(argv[1], "fork-exec")) {
+		if (! mapAndReport(16, "root-reference-bytes"))
+			return 41;
+		const pid_t child = fork();
+		if (child < 0)
+			return 42;
+		if (child == 0) {
+			if (! mapAndReport(128, "child-reference-bytes"))
+				_exit(43);
+			_exit(execSelf("exec-sink"));
+		}
+		int status = 0;
+		pid_t result;
+		do {
+			result = waitpid(child, &status, 0);
+		} while (result < 0 && errno == EINTR);
+		return result == child && WIFEXITED(status) && WEXITSTATUS(status) == 0 ? 0 : 44;
+	}
+	if (! strcmp(argv[1], "background-child")) {
+		int ready[2];
+		if (pipe(ready) != 0)
+			return 45;
+		const pid_t child = fork();
+		if (child < 0) {
+			close(ready[0]);
+			close(ready[1]);
+			return 46;
+		}
+		if (child == 0) {
+			close(ready[0]);
+			if (setsid() < 0)
+				_exit(47);
+			const char token = 1;
+			ssize_t sent;
+			do {
+				sent = write(ready[1], &token, 1);
+			} while (sent < 0 && errno == EINTR);
+			close(ready[1]);
+			if (sent != 1)
+				_exit(48);
+			for (;;)
+				pause();
+		}
+		close(ready[1]);
+		char token = 0;
+		ssize_t received;
+		do {
+			received = read(ready[0], &token, 1);
+		} while (received < 0 && errno == EINTR);
+		close(ready[0]);
+		if (received != 1 || token != 1) {
+			kill(child, SIGKILL);
+			while (waitpid(child, nullptr, 0) < 0 && errno == EINTR) {}
+			return 49;
+		}
+		printf("child-pid=%ld\n", static_cast<long>(child));
+		fflush(stdout);
+		return 0;
+	}
+	if (! strcmp(argv[1], "syscall-burst")) {
+		unsigned long long checksum = 0;
+		const auto expected = static_cast<unsigned long long>(getpid()) * 100000;
+		for (int i = 0; i < 100000; ++i) {
+			const long pid = syscall(SYS_getpid);
+			if (pid <= 0)
+				return 50;
+			checksum += static_cast<unsigned long long>(pid);
+		}
+		if (checksum != expected)
+			return 51;
+		printf("syscall-checksum=%llu\n", checksum);
+		puts("syscall-burst-ok=1");
+		return 0;
+	}
 	if (! strcmp(argv[1], "stop-continue")) {
 		printf("pid=%ld\n", static_cast<long>(getpid()));
 		fflush(stdout);

@@ -18,7 +18,12 @@
 #include <unistd.h>
 #ifdef __linux__
 #include <poll.h>
-#include <set>
+#include <map>
+#include <cstddef>
+#include <linux/audit.h>
+#include <linux/filter.h>
+#include <linux/seccomp.h>
+#include <sys/syscall.h>
 #include <sys/prctl.h>
 #include <sys/ptrace.h>
 #include <sys/signalfd.h>
@@ -29,6 +34,64 @@
 #endif
 using namespace Lemon::Execution;
 namespace {
+#ifdef __linux__
+	bool installExecTrace() {
+		sock_filter filter[] = {
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, arch)),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, AUDIT_ARCH_X86_64, 6 - 1 - 1, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, AUDIT_ARCH_I386, 17 - 2 - 1, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, AUDIT_ARCH_AARCH64, 22 - 3 - 1, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, AUDIT_ARCH_ARM, 27 - 4 - 1, 0),
+#if defined(__x86_64__) || defined(__i386__) || defined(__aarch64__) || defined(__arm__)
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+#else
+		    // Other builds retain native SYS numbers, not guessed compat ABIs.
+		    BPF_STMT(BPF_JMP | BPF_JA, 32 - 5 - 1),
+#endif
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 59, 8, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 322, 7, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 0x40000208, 6, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 0x40000221, 5, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 520, 4, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 545, 3, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 0x4000003b, 2, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 0x40000142, 1, 0),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 11, 2, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 358, 1, 0),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 221, 2, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 281, 1, 0),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 11, 2, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, 387, 1, 0),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
+#if !defined(__x86_64__) && !defined(__i386__) && !defined(__aarch64__) && !defined(__arm__)
+		    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(seccomp_data, nr)),
+#ifdef SYS_execveat
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execve, 2, 0),
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execveat, 1, 0),
+#else
+		    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_execve, 1, 0),
+#endif
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
+		    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRACE),
+#endif
+		};
+		sock_fprog program{static_cast<unsigned short>(sizeof(filter) / sizeof(filter[0])), filter};
+		// Inherited NNP forbids exec privilege gains; only exec syscalls notify the tracer.
+		return prctl(PR_SET_NO_NEW_PRIVS, 1L, 0L, 0L, 0L) == 0 &&
+		       prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &program, 0L, 0L) == 0;
+	}
+#endif
 	enum { RS_AC, RS_FAIL, RS_RE, RS_TLE, RS_MLE };
 	class Events {
 		int signals[4] = {SIGCHLD, SIGTERM, SIGINT, SIGABRT};
@@ -166,110 +229,112 @@ namespace {
 		Events &events;
 		Bytes peak = -1;
 #ifdef __linux__
-		std::set<pid_t> traced;
-		std::set<pid_t> newborn;
+		std::map<pid_t, pid_t> traced; // tid -> tgid, zero until identified.
+		bool drained = false;
 #endif
 		explicit UnixProcess(pid_t pid, Events &events) : pid(pid), events(events) {
 #ifdef __linux__
-			traced.insert(pid);
+			traced.emplace(pid, pid);
 #endif
 		}
 		~UnixProcess() { killAndReap(); }
-		bool finished() const {
+		bool finished() const { return reaped; }
+		bool allReaped() const {
 #ifdef __linux__
-			return reaped && traced.empty();
+			return drained && traced.empty() && reaped;
 #else
 			return reaped;
 #endif
 		}
-		int poll() {
-			if (finished())
+#ifdef __linux__
+		void terminateTracee(pid_t tid, pid_t group) {
+			if (group)
+				(void)syscall(SYS_tgkill, group, tid, SIGKILL);
+			else
+				(void)syscall(SYS_tkill, tid, SIGKILL);
+		}
+#endif
+		int poll(bool cleanup = false) {
+			if (! cleanup && finished())
 				return 1;
 #ifdef __linux__
 			for (;;) {
-				bool progress = false;
-				for (auto it = traced.begin(); it != traced.end();) {
-					pid_t tid = *it;
-					int state = 0;
-					rusage sample{};
-					pid_t result = wait4(tid, &state, WNOHANG | __WALL, &sample);
-					if (result < 0) {
-						if (errno == EINTR)
-							return 0;
-						return -1;
-					}
-					if (result == 0) {
-						++it;
+				int state = 0;
+				rusage sample{};
+				const pid_t tid = wait4(-1, &state, WNOHANG | __WALL, &sample);
+				if (tid < 0) {
+					if (errno == EINTR)
 						continue;
+					if (errno == ECHILD && traced.empty() && reaped) {
+						drained = true;
+						return 1;
 					}
-					progress = true;
-					if (WIFEXITED(state) || WIFSIGNALED(state)) {
-						if (tid == pid) {
-							status = state;
-							usage = sample;
-							reaped = true;
-						}
-						it = traced.erase(it);
-						continue;
+					return -1;
+				}
+				if (! tid)
+					return ! cleanup && finished() ? 1 : 0;
+				if (WIFEXITED(state) || WIFSIGNALED(state)) {
+					traced.erase(tid);
+					if (tid == pid) {
+						status = state;
+						usage = sample;
+						reaped = true;
+						if (! cleanup)
+							return 1;
 					}
-					unsigned event = static_cast<unsigned>(state) >> 16;
-					int signal = WSTOPSIG(state);
-					if (event == PTRACE_EVENT_EXIT) {
-						auto memory = sampleMemory(tid);
-						if (memory < 0)
-							return -1;
-						peak = std::max(peak, memory);
-						signal = 0;
-					} else if (event == PTRACE_EVENT_CLONE) {
-						unsigned long child = 0;
-						if (ptrace(PTRACE_GETEVENTMSG, tid, nullptr, &child) < 0)
-							return -1;
-						traced.insert(static_cast<pid_t>(child));
-						newborn.insert(static_cast<pid_t>(child));
-						signal = 0;
-					} else if (event == PTRACE_EVENT_EXEC) {
-						unsigned long oldTid = 0;
-						if (ptrace(PTRACE_GETEVENTMSG, tid, nullptr, &oldTid) < 0)
-							return -1;
-						if (static_cast<pid_t>(oldTid) != tid)
-							traced.erase(static_cast<pid_t>(oldTid));
-						signal = 0;
-					} else if (newborn.erase(tid)) {
-						int group = -1;
-						auto path = "/proc/" + std::to_string(tid) + "/status";
-						FILE *file = fopen(path.c_str(), "r");
-						if (! file)
-							return -1;
+					continue;
+				}
+				if (! WIFSTOPPED(state))
+					continue;
+				auto [it, newborn] = traced.try_emplace(tid, 0);
+				unsigned event = static_cast<unsigned>(state) >> 16;
+				int signal = WSTOPSIG(state);
+				if (! it->second) {
+					int group = 0;
+					const auto path = "/proc/" + std::to_string(tid) + "/status";
+					FILE *file = fopen(path.c_str(), "r");
+					if (file) {
 						char line[512];
 						while (fgets(line, sizeof(line), file))
 							if (sscanf(line, "Tgid: %d", &group) == 1)
 								break;
 						fclose(file);
-						if (group < 0)
-							return -1;
-						if (group != pid) {
-							if (ptrace(PTRACE_DETACH, tid, nullptr, nullptr) < 0)
-								return -1;
-							it = traced.erase(it);
-							continue;
-						}
-						signal = 0;
-					} else if (event == PTRACE_EVENT_STOP) {
-						if (signal == SIGSTOP || signal == SIGTSTP || signal == SIGTTIN || signal == SIGTTOU) {
-							if (ptrace(PTRACE_LISTEN, tid, nullptr, nullptr) < 0 && errno != ESRCH)
-								return -1;
-							++it;
-							continue;
-						}
-						signal = 0;
-					} else if (event)
-						signal = 0;
-					if (ptrace(PTRACE_CONT, tid, nullptr, signal) < 0 && errno != ESRCH)
+					}
+					if (group <= 0 && ! cleanup)
 						return -1;
-					++it;
+					it->second = group > 0 ? group : 0;
 				}
-				if (! progress)
-					return finished() ? 1 : 0;
+				if ((event == PTRACE_EVENT_SECCOMP || event == PTRACE_EVENT_EXIT) && it->second == pid) {
+					const auto memory = sampleMemory(tid);
+					if (memory < 0 && ! cleanup)
+						return -1;
+					peak = std::max(peak, memory);
+				}
+				if (event == PTRACE_EVENT_EXEC) {
+					unsigned long oldTid = 0;
+					if (ptrace(PTRACE_GETEVENTMSG, tid, nullptr, &oldTid) < 0 && ! cleanup)
+						return -1;
+					// Exec replaces this thread group, including its former leader.
+					for (auto entry = traced.begin(); entry != traced.end();) {
+						if (entry->second == tid || entry->first == static_cast<pid_t>(oldTid))
+							entry = traced.erase(entry);
+						else
+							++entry;
+					}
+					traced[tid] = tid;
+				}
+				if (cleanup) {
+					terminateTracee(tid, traced.at(tid));
+					signal = 0;
+				} else if (event == PTRACE_EVENT_STOP && ! newborn &&
+				           (signal == SIGSTOP || signal == SIGTSTP || signal == SIGTTIN || signal == SIGTTOU)) {
+					if (ptrace(PTRACE_LISTEN, tid, nullptr, nullptr) < 0 && errno != ESRCH)
+						return -1;
+					continue;
+				} else if (event)
+					signal = 0;
+				if (ptrace(PTRACE_CONT, tid, nullptr, signal) < 0 && errno != ESRCH)
+					return -1;
 			}
 #else
 			pid_t result = wait4(pid, &status, WNOHANG, &usage);
@@ -284,21 +349,25 @@ namespace {
 		}
 		bool killAndReap() {
 			if (cleaned)
-				return finished();
+				return allReaped();
 			cleaned = true;
 			kill(-pid, SIGKILL);
 			if (! reaped)
 				kill(pid, SIGKILL);
-			if (finished())
+#ifdef __linux__
+			for (const auto &[tid, group] : traced)
+				terminateTracee(tid, group);
+#endif
+			if (allReaped())
 				return true;
 			if (! events.arm(2000, false)) {
 				perror("reaping events");
 				return false;
 			}
 			for (;;) {
-				if (poll() < 0)
+				if (poll(true) < 0)
 					return false;
-				if (finished())
+				if (allReaped())
 					break;
 				int event = events.wait();
 				if (event < 0) {
@@ -306,12 +375,12 @@ namespace {
 					return false;
 				}
 				if (event & Events::Deadline) {
-					if (poll() < 0)
+					if (poll(true) < 0)
 						return false;
 					break;
 				}
 			}
-			return finished();
+			return allReaped();
 		}
 	};
 	struct ChildError {
@@ -404,6 +473,8 @@ int main(int argc, char **argv) {
 				fail(8);
 			}
 			close(startup[1]);
+			if (! installExecTrace())
+				fail(9);
 			// Disable dump generation, including piped core handlers.
 			if (prctl(PR_SET_DUMPABLE, 0) != 0)
 				fail(6);
@@ -434,7 +505,8 @@ int main(int argc, char **argv) {
 			perror("events arm");
 #ifdef __linux__
 		if (ready && ptrace(PTRACE_SEIZE, pid, nullptr,
-		                    PTRACE_O_TRACEEXIT | PTRACE_O_TRACEEXEC | PTRACE_O_TRACECLONE |
+		                    PTRACE_O_TRACEFORK | PTRACE_O_TRACEVFORK | PTRACE_O_TRACECLONE |
+		                        PTRACE_O_TRACEEXEC | PTRACE_O_TRACEEXIT | PTRACE_O_TRACESECCOMP |
 		                        PTRACE_O_EXITKILL) < 0) {
 			perror("ptrace seize");
 			ready = false;
