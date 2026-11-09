@@ -184,12 +184,12 @@ class WindowsSandboxTests : public QObject {
 		return process.waitForFinished(5000) && process.exitCode() == 0;
 	}
 
-	ProcessRunnerConfig config(const QString &arguments) {
+	ProcessRunnerConfig config(const QString &arguments, const QString &helper = QStringLiteral("sandbox-helper.exe")) {
 		ProcessRunnerConfig cfg;
 		cfg.workingDirectory = root.path() + QString("/case-%1/").arg(++sequence);
 		QDir().mkpath(cfg.workingDirectory);
 		cfg.executableFile = cfg.workingDirectory + "helper.exe";
-		if (! QFile::copy(QDir::currentPath() + "/sandbox-helper.exe", cfg.executableFile))
+		if (! QFile::copy(QDir::currentPath() + "/" + helper, cfg.executableFile))
 			qFatal("Cannot copy sandbox helper");
 		cfg.arguments = arguments;
 		cfg.standardInputCheck = cfg.standardOutputCheck = true;
@@ -890,6 +890,41 @@ class WindowsSandboxTests : public QObject {
 		auto cpu = config("burn 3000");
 		cpu.timeLimit = 100;
 		QCOMPARE(run(cpu).result, TimeLimitExceeded);
+	}
+
+	void initialImageMemoryLimit() {
+		auto cfg = config("static-memory", "sandbox-static-memory-helper.exe");
+		cfg.sandboxSettings.enabled = false;
+		STARTUPINFOW startup{};
+		startup.cb = sizeof(startup);
+		PROCESS_INFORMATION pi{};
+		QString command = quoteArgument(cfg.executableFile) + " static-memory";
+		QVERIFY(CreateProcessW(nullptr, reinterpret_cast<wchar_t *>(command.data()), nullptr, nullptr,
+		                       FALSE, CREATE_SUSPENDED, nullptr, nullptr, &startup, &pi));
+		const auto cleanup = qScopeGuard([&] {
+			TerminateProcess(pi.hProcess, 1);
+			WaitForSingleObject(pi.hProcess, 2000);
+			CloseHandle(pi.hThread);
+			CloseHandle(pi.hProcess);
+		});
+		PROCESS_MEMORY_COUNTERS counters{};
+		counters.cb = sizeof(counters);
+		QVERIFY(GetProcessMemoryInfo(pi.hProcess, &counters, sizeof(counters)));
+		QVERIFY(counters.PeakPagefileUsage > 32 * 1024 * 1024);
+		TerminateProcess(pi.hProcess, 1);
+		QCOMPARE(WaitForSingleObject(pi.hProcess, 2000), DWORD(WAIT_OBJECT_0));
+		const auto control = run(cfg);
+		QVERIFY2(control.result == CorrectAnswer, qPrintable(control.message));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("main-executed"));
+		cfg.memoryLimit = cfg.rawMemoryLimit = 32;
+		const auto limited = run(cfg);
+		QString error;
+		const bool reaped = noLiveCaseProcess(cfg.executableFile, error);
+		QVERIFY2(reaped, qPrintable(error));
+		QCOMPARE(limited.result, MemoryLimitExceeded);
+		QCOMPARE(limited.timeUsed, -1);
+		QVERIFY(limited.memoryUsed > 32 * 1024 * 1024);
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").isEmpty());
 	}
 
 	void preStartCancellation_data() {

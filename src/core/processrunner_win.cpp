@@ -188,6 +188,17 @@ ProcessRunnerResult WinProcessRunner::run() {
 	});
 	if (config.stopToken.stop_requested() || cancellation.isCanceled())
 		return res;
+	const auto initialMemory = sampleMemory(pi.hProcess);
+	if (initialMemory < 0) {
+		res.result = CannotStartProgram;
+		res.message = "Process statistics unavailable";
+		return res;
+	}
+	res.memoryUsed = initialMemory;
+	if (memoryLimit >= 0 && initialMemory > memoryLimit) {
+		res.result = MemoryLimitExceeded;
+		return res;
+	}
 	if ((! sandbox && ! AssignProcessToJobObject(job.get(), pi.hProcess)) ||
 	    ResumeThread(pi.hThread) == DWORD(-1)) {
 		TerminateProcess(pi.hProcess, 1);

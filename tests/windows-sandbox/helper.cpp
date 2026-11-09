@@ -13,6 +13,10 @@
 // psapi.h requires Windows types to be declared first.
 #include <psapi.h>
 
+#ifdef LEMON_TEST_STATIC_MEMORY
+static volatile unsigned char staticMemory[64 * 1024 * 1024];
+#endif
+
 static bool readsSecret(HANDLE handle) {
 #if defined(_MSC_VER) || defined(__clang__)
 	__try {
@@ -48,6 +52,16 @@ int wmain(int argc, wchar_t **argv) {
 	if (argc < 2)
 		return 1;
 	const std::wstring mode = argv[1];
+#ifdef LEMON_TEST_STATIC_MEMORY
+	if (mode == L"static-memory") {
+		staticMemory[0] = 1;
+		staticMemory[sizeof(staticMemory) - 1] = 2;
+		if (staticMemory[0] != 1 || staticMemory[sizeof(staticMemory) - 1] != 2)
+			return 37;
+		puts("main-executed");
+		return 0;
+	}
+#endif
 	if (mode == L"arguments") {
 		for (int i = 2; i < argc; ++i)
 			wprintf(L"%ls\n", argv[i]);
