@@ -18,6 +18,7 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include <aclapi.h>
 #include <sddl.h>
+#include <tlhelp32.h>
 
 #include <Psapi.h>
 #include <QDir>
@@ -85,6 +86,52 @@ namespace {
 		                                                 : UNPROTECTED_DACL_SECURITY_INFORMATION),
 		                               nullptr, nullptr, acl, nullptr) == ERROR_SUCCESS;
 	}
+	bool noLiveCaseProcess(const QString &executable, QString &error) {
+		Handle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+		if (snapshot.get() == INVALID_HANDLE_VALUE) {
+			error = "Cannot enumerate testcase processes";
+			return false;
+		}
+		const auto expected = QDir::cleanPath(QDir::fromNativeSeparators(executable));
+		PROCESSENTRY32W entry{};
+		entry.dwSize = sizeof(entry);
+		BOOL found = Process32FirstW(snapshot.get(), &entry);
+		while (found) {
+			if (entry.th32ParentProcessID == GetCurrentProcessId() &&
+			    QString::fromWCharArray(entry.szExeFile).compare(QFileInfo(executable).fileName(),
+			                                                    Qt::CaseInsensitive) == 0) {
+				Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE |
+				                               PROCESS_TERMINATE, FALSE, entry.th32ProcessID));
+				if (! process) {
+					if (GetLastError() != ERROR_INVALID_PARAMETER)
+						error = "Cannot open candidate testcase process";
+				} else {
+					wchar_t image[32768];
+					DWORD size = DWORD(std::size(image));
+					if (! QueryFullProcessImageNameW(process.get(), 0, image, &size)) {
+						if (GetLastError() != ERROR_INVALID_PARAMETER)
+							error = "Cannot query candidate testcase process";
+					} else if (QDir::cleanPath(QDir::fromNativeSeparators(
+					               QString::fromWCharArray(image, size))).compare(expected, Qt::CaseInsensitive) == 0) {
+						const DWORD state = WaitForSingleObject(process.get(), 0);
+						if (state == WAIT_TIMEOUT) {
+							error = QString("Live testcase process %1").arg(entry.th32ProcessID);
+							TerminateProcess(process.get(), 1);
+							if (WaitForSingleObject(process.get(), 2000) != WAIT_OBJECT_0)
+								error += " (reaping failed)";
+						} else if (state != WAIT_OBJECT_0) {
+							error = "Cannot wait for candidate testcase process";
+						}
+					}
+				}
+			}
+			found = Process32NextW(snapshot.get(), &entry);
+		}
+		if (GetLastError() != ERROR_NO_MORE_FILES)
+			error = "Testcase process enumeration failed";
+		return error.isEmpty();
+	}
+
 } // namespace
 
 class WindowsSandboxTests : public QObject {
@@ -845,9 +892,49 @@ class WindowsSandboxTests : public QObject {
 		QCOMPARE(run(cpu).result, TimeLimitExceeded);
 	}
 
-	void cancellation() {
+	void preStartCancellation_data() {
+		QTest::addColumn<bool>("stop");
+		QTest::newRow("ordinary-future") << false;
+		QTest::newRow("ordinary-stop") << true;
+	}
+
+	void preStartCancellation() {
+		QFETCH(bool, stop);
 		auto cfg = config("burn 10000");
-		const auto directory = root.path() + "/cancellation-runtime";
+		cfg.sandboxSettings.enabled = false;
+		QPromise<void> promise;
+		promise.start();
+		std::stop_source source;
+		if (stop) {
+			cfg.stopToken = source.get_token();
+			source.request_stop();
+		} else {
+			promise.future().cancel();
+		}
+		const auto result = ProcessRunner::create(cfg, promise.future())->run();
+		QString error;
+		const bool reaped = noLiveCaseProcess(cfg.executableFile, error);
+		QVERIFY2(reaped, qPrintable(error));
+		QCOMPARE(result.result, CorrectAnswer);
+		QVERIFY(result.message.isEmpty());
+		QCOMPARE(result.timeUsed, -1);
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").isEmpty());
+	}
+
+	void cancellation_data() {
+		QTest::addColumn<bool>("sandbox");
+		QTest::addColumn<bool>("tree");
+		QTest::newRow("ordinary-primary") << false << false;
+		QTest::newRow("sandbox-primary") << true << false;
+		QTest::newRow("ordinary-tree") << false << true;
+	}
+
+	void cancellation() {
+		QFETCH(bool, sandbox);
+		QFETCH(bool, tree);
+		auto cfg = config(tree ? "spawn 10000" : "burn 10000");
+		cfg.sandboxSettings.enabled = sandbox;
+		const auto directory = root.path() + QString("/cancellation-runtime-%1").arg(sequence);
 		QVERIFY(QDir().mkpath(directory));
 		const auto resource = directory + "/resource.txt";
 		QVERIFY(write(resource, "runtime resource"));
@@ -855,18 +942,22 @@ class WindowsSandboxTests : public QObject {
 		const auto beforeRuntime = permissions(resource);
 		QPromise<void> promise;
 		promise.start();
-		Handle primary;
+		Handle primary, child;
 		std::stop_source stopSource;
 		cfg.stopToken = stopSource.get_token();
 		std::thread cancel([&] {
 			QElapsedTimer timer;
 			timer.start();
-			while (! primary && timer.elapsed() < 5000) {
-				const auto match = QRegularExpression("process=(\\d+)")
+			while ((! primary || (tree && ! child)) && timer.elapsed() < 5000) {
+				const auto match = QRegularExpression(tree ? "parent=(\\d+) child=(\\d+)" : "process=(\\d+)")
 				                       .match(QString::fromUtf8(read(cfg.workingDirectory + "_tmpout")));
-				if (match.hasMatch())
-					primary.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(1).toULong()));
-				if (! primary)
+				if (match.hasMatch()) {
+					if (! primary)
+						primary.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(1).toULong()));
+					if (tree && ! child)
+						child.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(2).toULong()));
+				}
+				if (! primary || (tree && ! child))
 					QThread::msleep(10);
 			}
 			promise.future().cancel();
@@ -876,6 +967,10 @@ class WindowsSandboxTests : public QObject {
 		cancel.join();
 		QVERIFY(bool(primary));
 		QCOMPARE(WaitForSingleObject(primary.get(), 0), DWORD(WAIT_OBJECT_0));
+		if (tree) {
+			QVERIFY(bool(child));
+			QCOMPARE(WaitForSingleObject(child.get(), 2000), DWORD(WAIT_OBJECT_0));
+		}
 		QCOMPARE(permissions(resource), beforeRuntime);
 		QVERIFY(! permissions(cfg.workingDirectory).contains("S-1-15-2-"));
 		QCOMPARE(result.result, CorrectAnswer);

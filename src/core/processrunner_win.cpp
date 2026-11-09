@@ -64,8 +64,13 @@ namespace {
 	}
 
 	bool killAndReap(HANDLE process, HANDLE job) {
-		if (! TerminateJobObject(job, 1) && WaitForSingleObject(process, 0) != WAIT_OBJECT_0)
+		TerminateJobObject(job, 1);
+		const DWORD state = WaitForSingleObject(process, 0);
+		if (state == WAIT_OBJECT_0)
+			return true;
+		if (state != WAIT_TIMEOUT)
 			return false;
+		TerminateProcess(process, 1);
 		return WaitForSingleObject(process, 2000) == WAIT_OBJECT_0;
 	}
 } // namespace
