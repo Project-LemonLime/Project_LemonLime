@@ -22,6 +22,7 @@
 #include <sys/prctl.h>
 #include <sys/ptrace.h>
 #include <sys/signalfd.h>
+#include <sys/socket.h>
 #include <sys/timerfd.h>
 #elif defined(__APPLE__)
 #include <sys/event.h>
@@ -167,7 +168,6 @@ namespace {
 #ifdef __linux__
 		std::set<pid_t> traced;
 		std::set<pid_t> newborn;
-		bool initialized = false;
 #endif
 		explicit UnixProcess(pid_t pid, Events &events) : pid(pid), events(events) {
 #ifdef __linux__
@@ -214,14 +214,7 @@ namespace {
 					}
 					unsigned event = static_cast<unsigned>(state) >> 16;
 					int signal = WSTOPSIG(state);
-					if (! initialized && tid == pid) {
-						if (signal != SIGSTOP || ptrace(PTRACE_SETOPTIONS, pid, nullptr,
-						                                PTRACE_O_TRACEEXIT | PTRACE_O_TRACEEXEC |
-						                                    PTRACE_O_TRACECLONE | PTRACE_O_EXITKILL) < 0)
-							return -1;
-						initialized = true;
-						signal = 0;
-					} else if (event == PTRACE_EVENT_EXIT) {
+					if (event == PTRACE_EVENT_EXIT) {
 						auto memory = sampleMemory(tid);
 						if (memory < 0)
 							return -1;
@@ -261,16 +254,15 @@ namespace {
 							continue;
 						}
 						signal = 0;
-					} else if (! event) {
-						siginfo_t info{};
-						if (ptrace(PTRACE_GETSIGINFO, tid, nullptr, &info) < 0) {
-							if (errno != EINVAL)
+					} else if (event == PTRACE_EVENT_STOP) {
+						if (signal == SIGSTOP || signal == SIGTSTP || signal == SIGTTIN || signal == SIGTTOU) {
+							if (ptrace(PTRACE_LISTEN, tid, nullptr, nullptr) < 0 && errno != ESRCH)
 								return -1;
-							// A group stop remains stopped until SIGCONT or cleanup.
 							++it;
 							continue;
 						}
-					} else
+						signal = 0;
+					} else if (event)
 						signal = 0;
 					if (ptrace(PTRACE_CONT, tid, nullptr, signal) < 0 && errno != ESRCH)
 						return -1;
@@ -360,15 +352,32 @@ int main(int argc, char **argv) {
 			printf("-1\n-1\n");
 			return RS_FAIL;
 		}
+#ifdef __linux__
+		int startup[2];
+		if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, startup) != 0) {
+			perror("socketpair");
+			close(errors[0]);
+			close(errors[1]);
+			printf("-1\n-1\n");
+			return RS_FAIL;
+		}
+#endif
 		pid_t pid = fork();
 		if (pid < 0) {
 			perror("fork");
+#ifdef __linux__
+			close(startup[0]);
+			close(startup[1]);
+#endif
 			close(errors[0]);
 			close(errors[1]);
 			printf("-1\n-1\n");
 			return RS_FAIL;
 		}
 		if (pid == 0) {
+#ifdef __linux__
+			close(startup[0]);
+#endif
 			events.restore();
 			close(errors[0]);
 			auto fail = [&](int stage) {
@@ -384,10 +393,17 @@ int main(int argc, char **argv) {
 				if (! freopen(*argv[3 + i] ? argv[3 + i] : "/dev/null", modes[i], streams[i]))
 					fail(2);
 #ifdef __linux__
-			if (ptrace(PTRACE_TRACEME, 0, nullptr, nullptr) < 0)
+			char token = 0;
+			ssize_t received;
+			do {
+				received = recv(startup[1], &token, 1, 0);
+			} while (received < 0 && errno == EINTR);
+			if (received != 1 || token != 1) {
+				if (received >= 0)
+					errno = EPROTO;
 				fail(8);
-			if (raise(SIGSTOP) != 0)
-				fail(8);
+			}
+			close(startup[1]);
 			// Disable dump generation, including piped core handlers.
 			if (prctl(PR_SET_DUMPABLE, 0) != 0)
 				fail(6);
@@ -407,12 +423,35 @@ int main(int argc, char **argv) {
 			fail(5);
 		}
 		close(errors[1]);
+#ifdef __linux__
+		close(startup[1]);
+#endif
 		(void)setpgid(pid, pid);
 		UnixProcess process(pid, events);
 		Bytes &peak = process.peak;
 		bool ready = events.arm(std::max(2000LL, 3LL * timeLimit), true);
 		if (! ready)
 			perror("events arm");
+#ifdef __linux__
+		if (ready && ptrace(PTRACE_SEIZE, pid, nullptr,
+		                    PTRACE_O_TRACEEXIT | PTRACE_O_TRACEEXEC | PTRACE_O_TRACECLONE |
+		                        PTRACE_O_EXITKILL) < 0) {
+			perror("ptrace seize");
+			ready = false;
+		}
+		if (ready) {
+			const char token = 1;
+			ssize_t sent;
+			do {
+				sent = send(startup[0], &token, 1, MSG_NOSIGNAL);
+			} while (sent < 0 && errno == EINTR);
+			if (sent != 1) {
+				perror("startup send");
+				ready = false;
+			}
+		}
+		close(startup[0]);
+#endif
 		int event = 0;
 		int verdict = RS_AC;
 

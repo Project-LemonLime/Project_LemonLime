@@ -10,6 +10,7 @@
 #include <mach/mach.h>
 #else
 #include <fstream>
+#include <csignal>
 #include <unistd.h>
 #endif
 int main(int argc, char **argv) {
@@ -54,6 +55,15 @@ int main(int argc, char **argv) {
 		munmap(mapping, bytes);
 		return 0;
 	}
+#ifdef __linux__
+	if (! strcmp(argv[1], "stop-continue")) {
+		printf("pid=%ld\n", static_cast<long>(getpid()));
+		fflush(stdout);
+		raise(SIGSTOP);
+		puts("resumed");
+		return 0;
+	}
+#endif
 	if (! strcmp(argv[1], "abort"))
 		std::abort();
 	if (! strcmp(argv[1], "caught") || ! strcmp(argv[1], "uncaught")) {
