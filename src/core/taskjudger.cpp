@@ -447,6 +447,7 @@ int TaskJudger::judge() {
 			}
 			auto caseJudger = std::make_unique<CaseJudger>();
 			caseJudger->setCancellation(cancellation);
+			caseJudger->stopToken = stopSource.get_token();
 			caseJudger->setExtraTimeRatio(settings->getDefaultExtraTimeRatio());
 			caseJudger->setWorkingDirectory(workingDirectory);
 			caseJudger->setSandboxConfiguration(sandboxSettings, runtimeExecutable, runtimeEnvironment,

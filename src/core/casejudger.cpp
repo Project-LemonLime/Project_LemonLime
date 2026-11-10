@@ -774,6 +774,7 @@ void CaseJudger::judgeTraditionalTask() {
 	});
 
 	ProcessRunnerConfig cfg{
+	    .stopToken = stopToken,
 	    .executableFile = executableFile,
 	    .arguments = arguments,
 	    .workingDirectory = workingDirectory,

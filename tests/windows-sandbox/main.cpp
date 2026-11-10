@@ -18,6 +18,7 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include <aclapi.h>
 #include <sddl.h>
+#include <tlhelp32.h>
 
 #include <Psapi.h>
 #include <QDir>
@@ -85,6 +86,54 @@ namespace {
 		                                                 : UNPROTECTED_DACL_SECURITY_INFORMATION),
 		                               nullptr, nullptr, acl, nullptr) == ERROR_SUCCESS;
 	}
+	bool noLiveCaseProcess(const QString &executable, QString &error) {
+		Handle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+		if (snapshot.get() == INVALID_HANDLE_VALUE) {
+			error = "Cannot enumerate testcase processes";
+			return false;
+		}
+		const auto expected = QDir::cleanPath(QDir::fromNativeSeparators(executable));
+		PROCESSENTRY32W entry{};
+		entry.dwSize = sizeof(entry);
+		BOOL found = Process32FirstW(snapshot.get(), &entry);
+		while (found) {
+			if (entry.th32ParentProcessID == GetCurrentProcessId() &&
+			    QString::fromWCharArray(entry.szExeFile)
+			            .compare(QFileInfo(executable).fileName(), Qt::CaseInsensitive) == 0) {
+				Handle process(
+				    OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE | PROCESS_TERMINATE, FALSE,
+				                entry.th32ProcessID));
+				if (! process) {
+					if (GetLastError() != ERROR_INVALID_PARAMETER)
+						error = "Cannot open candidate testcase process";
+				} else {
+					wchar_t image[32768];
+					DWORD size = DWORD(std::size(image));
+					if (! QueryFullProcessImageNameW(process.get(), 0, image, &size)) {
+						if (GetLastError() != ERROR_INVALID_PARAMETER)
+							error = "Cannot query candidate testcase process";
+					} else if (QDir::cleanPath(
+					               QDir::fromNativeSeparators(QString::fromWCharArray(image, size)))
+					               .compare(expected, Qt::CaseInsensitive) == 0) {
+						const DWORD state = WaitForSingleObject(process.get(), 0);
+						if (state == WAIT_TIMEOUT) {
+							error = QString("Live testcase process %1").arg(entry.th32ProcessID);
+							TerminateProcess(process.get(), 1);
+							if (WaitForSingleObject(process.get(), 2000) != WAIT_OBJECT_0)
+								error += " (reaping failed)";
+						} else if (state != WAIT_OBJECT_0) {
+							error = "Cannot wait for candidate testcase process";
+						}
+					}
+				}
+			}
+			found = Process32NextW(snapshot.get(), &entry);
+		}
+		if (GetLastError() != ERROR_NO_MORE_FILES)
+			error = "Testcase process enumeration failed";
+		return error.isEmpty();
+	}
+
 } // namespace
 
 class WindowsSandboxTests : public QObject {
@@ -137,12 +186,13 @@ class WindowsSandboxTests : public QObject {
 		return process.waitForFinished(5000) && process.exitCode() == 0;
 	}
 
-	ProcessRunnerConfig config(const QString &arguments) {
+	ProcessRunnerConfig config(const QString &arguments,
+	                           const QString &helper = QStringLiteral("sandbox-helper.exe")) {
 		ProcessRunnerConfig cfg;
 		cfg.workingDirectory = root.path() + QString("/case-%1/").arg(++sequence);
 		QDir().mkpath(cfg.workingDirectory);
 		cfg.executableFile = cfg.workingDirectory + "helper.exe";
-		if (! QFile::copy(QDir::currentPath() + "/sandbox-helper.exe", cfg.executableFile))
+		if (! QFile::copy(QDir::currentPath() + "/" + helper, cfg.executableFile))
 			qFatal("Cannot copy sandbox helper");
 		cfg.arguments = arguments;
 		cfg.standardInputCheck = cfg.standardOutputCheck = true;
@@ -760,11 +810,70 @@ class WindowsSandboxTests : public QObject {
 		QVERIFY(userTicks > 0);
 		QVERIFY(kernelTicks > 0);
 		QCOMPARE(result.timeUsed, int(userTicks / 10000));
-		PROCESS_MEMORY_COUNTERS memory{};
+		PROCESS_MEMORY_COUNTERS_EX memory{};
 		memory.cb = sizeof(memory);
-		QVERIFY(GetProcessMemoryInfo(primary.get(), &memory, sizeof(memory)));
-		QCOMPARE(result.memoryUsed, qint64(memory.PeakWorkingSetSize));
-		QVERIFY(result.memoryUsed < 64ll * 1024 * 1024);
+		QVERIFY(GetProcessMemoryInfo(primary.get(), reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&memory),
+		                             sizeof(memory)));
+		QCOMPARE(result.memoryUsed, qint64(memory.PeakPagefileUsage));
+		QVERIFY(result.memoryUsed >= 64ll * 1024 * 1024);
+	}
+
+	void memoryUsageAccuracy_data() {
+		QTest::addColumn<bool>("enabled");
+		QTest::addColumn<int>("mib");
+		QTest::newRow("ordinary-16MiB") << false << 16;
+		QTest::newRow("ordinary-64MiB") << false << 64;
+		QTest::newRow("sandbox-16MiB") << true << 16;
+		QTest::newRow("sandbox-64MiB") << true << 64;
+	}
+	void memoryUsageAccuracy() {
+		QFETCH(bool, enabled);
+		QFETCH(int, mib);
+		auto cfg = config(QString("memory-accuracy %1").arg(mib));
+		cfg.sandboxSettings.enabled = enabled;
+		auto result = run(cfg);
+		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
+		const auto output = QString::fromUtf8(read(cfg.workingDirectory + "_tmpout"));
+		const auto match = QRegularExpression("reference-bytes=(\\d+) allocation-bytes=(\\d+)").match(output);
+		QVERIFY2(match.hasMatch(), qPrintable(output));
+		const qint64 reference = match.captured(1).toLongLong();
+		const qint64 allocation = qint64(mib) * 1024 * 1024;
+		QCOMPARE(match.captured(2).toLongLong(), allocation);
+		QVERIFY(reference >= allocation);
+		const qint64 tolerance = qMax(qint64(1024 * 1024), reference / 100);
+		qInfo() << "Private commit accuracy: allocation" << allocation << "reference" << reference << "usage"
+		        << result.memoryUsed << "tolerance" << tolerance;
+		QVERIFY(qAbs(result.memoryUsed - reference) <= tolerance);
+	}
+
+	void workingSetDoesNotLimitPrivateCommit_data() { primaryProcessAccounting_data(); }
+	void workingSetDoesNotLimitPrivateCommit() {
+		QFETCH(bool, enabled);
+		auto cfg = config("mapped-working-set");
+		cfg.sandboxSettings.enabled = enabled;
+		cfg.memoryLimit = 32;
+		auto result = run(cfg);
+		QVERIFY2(result.result == CorrectAnswer, qPrintable(result.message));
+		QVERIFY(result.memoryUsed > 0 && result.memoryUsed <= 32ll * 1024 * 1024);
+		auto output = QString::fromUtf8(read(cfg.workingDirectory + "_tmpout"));
+		auto match = QRegularExpression("working-set-peak=(\\d+)").match(output);
+		QVERIFY(match.hasMatch());
+		QVERIFY(match.captured(1).toLongLong() > 32ll * 1024 * 1024);
+	}
+
+	void memoryPrelimit_data() { primaryProcessAccounting_data(); }
+	void memoryPrelimit() {
+		QFETCH(bool, enabled);
+		for (const auto &mode : {"reserve", "commit-caught", "commit-rejected"}) {
+			auto cfg = config(mode);
+			cfg.sandboxSettings.enabled = enabled;
+			cfg.memoryLimit = 32;
+			auto result = run(cfg);
+			QCOMPARE(result.result, QString(mode) == "commit-rejected" ? RunTimeError : CorrectAnswer);
+			QVERIFY(result.memoryUsed > 0);
+			QVERIFY(result.memoryUsed <= 32ll * 1024 * 1024);
+			QVERIFY(read(cfg.workingDirectory + "_tmpout").contains("expected"));
+		}
 	}
 
 	void runtimeErrorDetails_data() { primaryProcessAccounting_data(); }
@@ -776,7 +885,7 @@ class WindowsSandboxTests : public QObject {
 		const auto result = run(cfg);
 		QCOMPARE(result.result, RunTimeError);
 		QCOMPARE(result.timeUsed, -1);
-		QCOMPARE(result.memoryUsed, -1);
+		QVERIFY(result.memoryUsed > 0);
 		QCOMPARE(result.message, QString(1020, 'a') + "tail");
 	}
 
@@ -784,14 +893,86 @@ class WindowsSandboxTests : public QObject {
 		auto cpu = config("burn 3000");
 		cpu.timeLimit = 100;
 		QCOMPARE(run(cpu).result, TimeLimitExceeded);
-		auto memory = config("memory");
-		memory.memoryLimit = 24;
-		QCOMPARE(run(memory).result, MemoryLimitExceeded);
+	}
+
+	void initialImageMemoryLimit() {
+		auto cfg = config("static-memory", "sandbox-static-memory-helper.exe");
+		cfg.sandboxSettings.enabled = false;
+		STARTUPINFOW startup{};
+		startup.cb = sizeof(startup);
+		PROCESS_INFORMATION pi{};
+		QString command = quoteArgument(cfg.executableFile) + " static-memory";
+		QVERIFY(CreateProcessW(nullptr, reinterpret_cast<wchar_t *>(command.data()), nullptr, nullptr, FALSE,
+		                       CREATE_SUSPENDED, nullptr, nullptr, &startup, &pi));
+		const auto cleanup = qScopeGuard([&] {
+			TerminateProcess(pi.hProcess, 1);
+			WaitForSingleObject(pi.hProcess, 2000);
+			CloseHandle(pi.hThread);
+			CloseHandle(pi.hProcess);
+		});
+		PROCESS_MEMORY_COUNTERS counters{};
+		counters.cb = sizeof(counters);
+		QVERIFY(GetProcessMemoryInfo(pi.hProcess, &counters, sizeof(counters)));
+		QVERIFY(counters.PeakPagefileUsage > 32 * 1024 * 1024);
+		TerminateProcess(pi.hProcess, 1);
+		QCOMPARE(WaitForSingleObject(pi.hProcess, 2000), DWORD(WAIT_OBJECT_0));
+		const auto control = run(cfg);
+		QVERIFY2(control.result == CorrectAnswer, qPrintable(control.message));
+		QCOMPARE(read(cfg.workingDirectory + "_tmpout").trimmed(), QByteArray("main-executed"));
+		cfg.memoryLimit = cfg.rawMemoryLimit = 32;
+		const auto limited = run(cfg);
+		QString error;
+		const bool reaped = noLiveCaseProcess(cfg.executableFile, error);
+		QVERIFY2(reaped, qPrintable(error));
+		QCOMPARE(limited.result, MemoryLimitExceeded);
+		QCOMPARE(limited.timeUsed, -1);
+		QVERIFY(limited.memoryUsed > 32 * 1024 * 1024);
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").isEmpty());
+	}
+
+	void preStartCancellation_data() {
+		QTest::addColumn<bool>("stop");
+		QTest::newRow("ordinary-future") << false;
+		QTest::newRow("ordinary-stop") << true;
+	}
+
+	void preStartCancellation() {
+		QFETCH(bool, stop);
+		auto cfg = config("burn 10000");
+		cfg.sandboxSettings.enabled = false;
+		QPromise<void> promise;
+		promise.start();
+		std::stop_source source;
+		if (stop) {
+			cfg.stopToken = source.get_token();
+			source.request_stop();
+		} else {
+			promise.future().cancel();
+		}
+		const auto result = ProcessRunner::create(cfg, promise.future())->run();
+		QString error;
+		const bool reaped = noLiveCaseProcess(cfg.executableFile, error);
+		QVERIFY2(reaped, qPrintable(error));
+		QCOMPARE(result.result, CorrectAnswer);
+		QVERIFY(result.message.isEmpty());
+		QCOMPARE(result.timeUsed, -1);
+		QVERIFY(read(cfg.workingDirectory + "_tmpout").isEmpty());
+	}
+
+	void cancellation_data() {
+		QTest::addColumn<bool>("sandbox");
+		QTest::addColumn<bool>("tree");
+		QTest::newRow("ordinary-primary") << false << false;
+		QTest::newRow("sandbox-primary") << true << false;
+		QTest::newRow("ordinary-tree") << false << true;
 	}
 
 	void cancellation() {
-		auto cfg = config("burn 10000");
-		const auto directory = root.path() + "/cancellation-runtime";
+		QFETCH(bool, sandbox);
+		QFETCH(bool, tree);
+		auto cfg = config(tree ? "spawn 10000" : "burn 10000");
+		cfg.sandboxSettings.enabled = sandbox;
+		const auto directory = root.path() + QString("/cancellation-runtime-%1").arg(sequence);
 		QVERIFY(QDir().mkpath(directory));
 		const auto resource = directory + "/resource.txt";
 		QVERIFY(write(resource, "runtime resource"));
@@ -799,29 +980,40 @@ class WindowsSandboxTests : public QObject {
 		const auto beforeRuntime = permissions(resource);
 		QPromise<void> promise;
 		promise.start();
-		Handle primary;
+		Handle primary, child;
+		std::stop_source stopSource;
+		cfg.stopToken = stopSource.get_token();
 		std::thread cancel([&] {
 			QElapsedTimer timer;
 			timer.start();
-			while (! primary && timer.elapsed() < 5000) {
-				const auto match = QRegularExpression("process=(\\d+)")
+			while ((! primary || (tree && ! child)) && timer.elapsed() < 5000) {
+				const auto match = QRegularExpression(tree ? "parent=(\\d+) child=(\\d+)" : "process=(\\d+)")
 				                       .match(QString::fromUtf8(read(cfg.workingDirectory + "_tmpout")));
-				if (match.hasMatch())
-					primary.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(1).toULong()));
-				if (! primary)
+				if (match.hasMatch()) {
+					if (! primary)
+						primary.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(1).toULong()));
+					if (tree && ! child)
+						child.reset(OpenProcess(SYNCHRONIZE, FALSE, match.captured(2).toULong()));
+				}
+				if (! primary || (tree && ! child))
 					QThread::msleep(10);
 			}
 			promise.future().cancel();
+			stopSource.request_stop();
 		});
 		const auto result = ProcessRunner::create(cfg, promise.future())->run();
 		cancel.join();
 		QVERIFY(bool(primary));
 		QCOMPARE(WaitForSingleObject(primary.get(), 0), DWORD(WAIT_OBJECT_0));
+		if (tree) {
+			QVERIFY(bool(child));
+			QCOMPARE(WaitForSingleObject(child.get(), 2000), DWORD(WAIT_OBJECT_0));
+		}
 		QCOMPARE(permissions(resource), beforeRuntime);
 		QVERIFY(! permissions(cfg.workingDirectory).contains("S-1-15-2-"));
 		QCOMPARE(result.result, CorrectAnswer);
 		QCOMPARE(result.timeUsed, -1);
-		QCOMPARE(result.memoryUsed, -1);
+		QVERIFY(result.memoryUsed > 0);
 	}
 
 	void runtimeDirectoryWithInput() {
@@ -865,6 +1057,8 @@ class WindowsSandboxTests : public QObject {
 		promise.start();
 		cfg.sandboxSettings.preparationTimeLimit = 1000;
 		DWORD probeId = 0;
+		std::stop_source stopSource;
+		cfg.stopToken = stopSource.get_token();
 		std::thread cancel([&] {
 			QElapsedTimer timer;
 			timer.start();
@@ -874,6 +1068,7 @@ class WindowsSandboxTests : public QObject {
 					QThread::msleep(10);
 			}
 			promise.future().cancel();
+			stopSource.request_stop();
 		});
 		const auto limitedWithStop = ProcessRunner::create(cfg, promise.future())->run();
 		cancel.join();

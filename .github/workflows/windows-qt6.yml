@@ -92,7 +92,7 @@ jobs:
         shell: pwsh
         run: |
           Get-ChildItem tests -Recurse -Filter *.exe |
-            Where-Object { $_.Name -ne 'sandbox-helper.exe' } |
+            Where-Object { $_.Name -notin @('sandbox-helper.exe', 'sandbox-static-memory-helper.exe') } |
             ForEach-Object {
               windeployqt $_.FullName
               if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

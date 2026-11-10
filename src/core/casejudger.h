@@ -23,6 +23,7 @@ class CaseJudger {
   public:
 	CaseJudger();
 	void setCancellation(QFuture<void>);
+	std::stop_token stopToken;
 	void setExtraTimeRatio(double);
 	void setEnvironment(const QProcessEnvironment &);
 	void setWorkingDirectory(const QString &);

@@ -11,6 +11,7 @@
 
 #include "processrunner_win.h"
 #include "base/LemonLog.hpp"
+#include "memoryunits.h"
 #include "windowsprocessutils.h"
 #include "windowssandbox.h"
 
@@ -18,7 +19,6 @@
 #include <QElapsedTimer>
 #include <QFile>
 #include <QTextStream>
-#include <QThread>
 #include <QtMath>
 
 #include <windows.h>
@@ -29,6 +29,51 @@
 #define LEMON_MODULE_NAME "ProcessRunner"
 
 using namespace Lemon::Windows;
+
+namespace {
+	bool configureJob(HANDLE job, Lemon::Execution::Bytes limit) {
+		if (! job)
+			return false;
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+		info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+		if (limit >= 0) {
+			if (static_cast<unsigned long long>(limit) > SIZE_MAX) {
+				SetLastError(ERROR_INVALID_PARAMETER);
+				return false;
+			}
+			info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY;
+			info.ProcessMemoryLimit = static_cast<SIZE_T>(limit);
+		}
+		return SetInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info));
+	}
+	bool restrictToOneProcess(HANDLE job) {
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION info{};
+		if (! QueryInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info), nullptr))
+			return false;
+		info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
+		info.BasicLimitInformation.ActiveProcessLimit = 1;
+		return SetInformationJobObject(job, JobObjectExtendedLimitInformation, &info, sizeof(info));
+	}
+	Lemon::Execution::Bytes sampleMemory(HANDLE process) {
+		PROCESS_MEMORY_COUNTERS_EX info{};
+		info.cb = sizeof(info);
+		if (! GetProcessMemoryInfo(process, reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&info), sizeof(info)))
+			return -1;
+		// PeakPagefileUsage is the process lifetime peak of private committed memory.
+		return static_cast<Lemon::Execution::Bytes>(info.PeakPagefileUsage);
+	}
+
+	bool killAndReap(HANDLE process, HANDLE job) {
+		TerminateJobObject(job, 1);
+		const DWORD state = WaitForSingleObject(process, 0);
+		if (state == WAIT_OBJECT_0)
+			return true;
+		if (state != WAIT_TIMEOUT)
+			return false;
+		TerminateProcess(process, 1);
+		return WaitForSingleObject(process, 2000) == WAIT_OBJECT_0;
+	}
+} // namespace
 
 ProcessRunnerResult WinProcessRunner::run() {
 	ProcessRunnerResult res;
@@ -94,7 +139,15 @@ ProcessRunnerResult WinProcessRunner::run() {
 		CloseHandle(siex.StartupInfo.hStdError);
 	});
 
-	if (sandbox && ! sandbox->prepareProcess(siex, res.message)) {
+	Lemon::Execution::Bytes memoryLimit;
+	Handle job(CreateJobObjectW(nullptr, nullptr));
+	if (! Lemon::Execution::memoryBytes(config.memoryLimit, memoryLimit) ||
+	    ! configureJob(job.get(), memoryLimit) || (sandbox && ! restrictToOneProcess(job.get()))) {
+		res.result = CannotStartProgram;
+		res.message = "Cannot configure memory prelimit";
+		return res;
+	}
+	if (sandbox && ! sandbox->prepareProcess(siex, job.get(), res.message)) {
 		res.result = CannotStartProgram;
 		return res;
 	}
@@ -106,8 +159,8 @@ ProcessRunnerResult WinProcessRunner::run() {
 
 	QString commandLine = QString(R"("%1" %2)").arg(config.executableFile).arg(config.arguments);
 	if (! CreateProcessW(nullptr, reinterpret_cast<WCHAR *>(commandLine.data()), nullptr, &sa, TRUE,
-	                     HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT | DETACHED_PROCESS |
-	                         CREATE_UNICODE_ENVIRONMENT,
+	                     CREATE_SUSPENDED | HIGH_PRIORITY_CLASS | EXTENDED_STARTUPINFO_PRESENT |
+	                         DETACHED_PROCESS | CREATE_UNICODE_ENVIRONMENT,
 	                     (LPVOID)(environmentValues.utf16()),
 	                     (const WCHAR *)(config.workingDirectory.utf16()), (STARTUPINFO *)(&siex), &pi)) {
 		const DWORD code = GetLastError();
@@ -120,70 +173,86 @@ ProcessRunnerResult WinProcessRunner::run() {
 	}
 
 	auto closeProcessHandle = qScopeGuard([&] {
-		if (sandbox)
-			WaitForSingleObject(pi.hProcess, 5000);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	});
 
-	PROCESS_MEMORY_COUNTERS_EX memoryInfo;
-	ZeroMemory(&memoryInfo, sizeof(memoryInfo));
-	memoryInfo.cb = sizeof(memoryInfo);
-
-	if (config.memoryLimit != -1) {
-		GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-
-		if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) >
-		    1ll * config.memoryLimit * 1024 * 1024) {
-			TerminateProcess(pi.hProcess, 0);
-
-			res.score = 0;
-			res.result = MemoryLimitExceeded;
-			res.memoryUsed = res.timeUsed = -1;
-			return res;
-		}
-	}
-
-	bool isProgramFinishedInExtraTimeLimit = false;
-	QElapsedTimer timer;
-	timer.start();
-
-	while (timer.elapsed() <= config.timeLimit + extraTime) {
-		if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0) {
-			isProgramFinishedInExtraTimeLimit = true;
-			break;
-		}
-
-		if (config.memoryLimit != -1) {
-			GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-
-			if (qMax(memoryInfo.PrivateUsage, memoryInfo.PeakWorkingSetSize) >
-			    1ll * config.memoryLimit * 1024 * 1024) {
-				TerminateProcess(pi.hProcess, 0);
-				res.score = 0;
-				res.result = MemoryLimitExceeded;
-				res.memoryUsed = res.timeUsed = -1;
-				return res;
-			}
-		}
-
-		if (cancellation.isCanceled()) {
-			TerminateProcess(pi.hProcess, 0);
-			return res;
-		}
-
-		QThread::msleep(10);
-	}
-
-	if (! isProgramFinishedInExtraTimeLimit) {
-		TerminateProcess(pi.hProcess, 0);
-
-		res.score = 0;
-		res.result = TimeLimitExceeded;
-		res.timeUsed = -1;
+	auto reap = qScopeGuard([&] {
+		if (! killAndReap(pi.hProcess, job.get()))
+			WARN("Process reaping deadline exceeded");
+	});
+	std::stop_callback stopCallback(config.stopToken, [&] {
+		TerminateJobObject(job.get(), 1);
+		// Also cover cancellation before the suspended process joins the Job.
+		TerminateProcess(pi.hProcess, 1);
+	});
+	if (config.stopToken.stop_requested() || cancellation.isCanceled())
+		return res;
+	const auto initialMemory = sampleMemory(pi.hProcess);
+	if (initialMemory < 0) {
+		res.result = CannotStartProgram;
+		res.message = "Process statistics unavailable";
 		return res;
 	}
-
+	res.memoryUsed = initialMemory;
+	if (memoryLimit >= 0 && initialMemory > memoryLimit) {
+		res.result = MemoryLimitExceeded;
+		return res;
+	}
+	if ((! sandbox && ! AssignProcessToJobObject(job.get(), pi.hProcess)) ||
+	    ResumeThread(pi.hThread) == DWORD(-1)) {
+		TerminateProcess(pi.hProcess, 1);
+		res.result = CannotStartProgram;
+		res.message = "Cannot attach or resume process";
+		if (config.stopToken.stop_requested()) {
+			res.result = CorrectAnswer;
+			res.message.clear();
+		}
+		return res;
+	}
+	Handle deadline(CreateWaitableTimerW(nullptr, TRUE, nullptr));
+	LARGE_INTEGER due{};
+	// Negative values specify a relative interval in 100 ns units.
+	due.QuadPart = -qMax(1LL, (static_cast<long long>(config.timeLimit) + extraTime) * 10000LL);
+	if (! deadline || ! SetWaitableTimer(deadline.get(), &due, 0, nullptr, nullptr, FALSE)) {
+		const DWORD code = GetLastError();
+		res.result = CannotStartProgram;
+		res.message = "Cannot configure execution timers";
+		WARN("Last Error code:", code);
+		return res;
+	}
+	HANDLE handles[] = {pi.hProcess, deadline.get()};
+	DWORD state = WaitForMultipleObjects(2, handles, FALSE, INFINITE);
+	if (config.stopToken.stop_requested() || cancellation.isCanceled()) {
+		if (! killAndReap(pi.hProcess, job.get()))
+			WARN("Process reaping deadline exceeded");
+		res.memoryUsed = sampleMemory(pi.hProcess);
+		return res;
+	}
+	if (state == WAIT_FAILED) {
+		WARN("Last Error code:", GetLastError());
+		res.result = CannotStartProgram;
+		res.message = "Cannot wait for process events";
+		return res;
+	}
+	if (state == WAIT_OBJECT_0 + 1) {
+		if (! killAndReap(pi.hProcess, job.get()))
+			WARN("Process reaping deadline exceeded");
+		res.result = TimeLimitExceeded;
+	}
+	auto sample = sampleMemory(pi.hProcess);
+	res.memoryUsed = sample;
+	if (res.result == TimeLimitExceeded)
+		return res;
+	if (sample < 0) {
+		res.result = CannotStartProgram;
+		res.message = "Process statistics unavailable";
+		return res;
+	}
+	if (memoryLimit >= 0 && res.memoryUsed > memoryLimit) {
+		res.result = MemoryLimitExceeded;
+		return res;
+	}
 	unsigned long exitCode;
 	GetExitCodeProcess(pi.hProcess, &exitCode);
 
@@ -199,7 +268,7 @@ ProcessRunnerResult WinProcessRunner::run() {
 			file.close();
 		}
 
-		res.memoryUsed = res.timeUsed = -1;
+		res.timeUsed = -1;
 		LOG(config.executableFile, "Unexpectedly exited.");
 		LOG("Exit code", exitCode);
 		return res;
@@ -214,8 +283,6 @@ ProcessRunnerResult WinProcessRunner::run() {
 	               realUserTime.wMinute * 60 * 1000 + realUserTime.wHour * 60 * 60 * 1000;
 	int kernelTimeUsed = realKernelTime.wMilliseconds + realKernelTime.wSecond * 1000 +
 	                     realKernelTime.wMinute * 60 * 1000 + realKernelTime.wHour * 60 * 60 * 1000;
-	GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS *)&memoryInfo, sizeof(memoryInfo));
-	res.memoryUsed = memoryInfo.PeakWorkingSetSize;
 	if (sandbox) {
 		const QDir work(config.workingDirectory);
 		const auto outputPath =

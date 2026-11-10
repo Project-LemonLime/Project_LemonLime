@@ -10,16 +10,26 @@
 #include <string>
 #include <windows.h>
 #include <winsock2.h>
+// psapi.h requires Windows types to be declared first.
+#include <psapi.h>
+
+#ifdef LEMON_TEST_STATIC_MEMORY
+static volatile unsigned char staticMemory[64 * 1024 * 1024];
+#endif
 
 static bool readsSecret(HANDLE handle) {
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__clang__)
 	__try {
 #endif
+		// Queries on a missing parent handle can raise STATUS_INVALID_HANDLE too.
+		DWORD flags = 0;
+		if (! GetHandleInformation(handle, &flags) || GetFileType(handle) != FILE_TYPE_DISK)
+			return false;
 		char buffer[64]{};
 		DWORD length = 0;
 		return ReadFile(handle, buffer, sizeof(buffer), &length, nullptr) && length >= 6 &&
 		       memcmp(buffer, "secret", 6) == 0;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__clang__)
 	} __except (EXCEPTION_EXECUTE_HANDLER) {
 		return false;
 	}
@@ -42,6 +52,16 @@ int wmain(int argc, wchar_t **argv) {
 	if (argc < 2)
 		return 1;
 	const std::wstring mode = argv[1];
+#ifdef LEMON_TEST_STATIC_MEMORY
+	if (mode == L"static-memory") {
+		staticMemory[0] = 1;
+		staticMemory[sizeof(staticMemory) - 1] = 2;
+		if (staticMemory[0] != 1 || staticMemory[sizeof(staticMemory) - 1] != 2)
+			return 37;
+		puts("main-executed");
+		return 0;
+	}
+#endif
 	if (mode == L"arguments") {
 		for (int i = 2; i < argc; ++i)
 			wprintf(L"%ls\n", argv[i]);
@@ -288,18 +308,75 @@ int wmain(int argc, wchar_t **argv) {
 		return int(code);
 	}
 
-	if (mode == L"memory") {
-		for (int i = 0; i < 256; ++i) {
-			auto *memory = static_cast<volatile char *>(
-			    VirtualAlloc(nullptr, 1024 * 1024, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-			if (! memory) {
-				Sleep(100);
-				return 12;
-			}
-			for (int j = 0; j < 1024 * 1024; j += 4096)
-				memory[j] = 1;
+	if (mode == L"reserve" || mode == L"commit-caught" || mode == L"commit-rejected") {
+		const bool reserve = mode == L"reserve";
+		void *p = VirtualAlloc(nullptr, 128 * 1024 * 1024, reserve ? MEM_RESERVE : (MEM_RESERVE | MEM_COMMIT),
+		                       PAGE_READWRITE);
+		if ((p != nullptr) != reserve)
+			return 37;
+		puts("expected");
+		fflush(stdout);
+		if (p)
+			VirtualFree(p, 0, MEM_RELEASE);
+		return mode == L"commit-rejected" ? 12 : 0;
+	}
+	if (mode == L"memory-accuracy") {
+		const auto mib = argc == 3 ? _wtoi(argv[2]) : 0;
+		if (mib != 16 && mib != 64)
+			return 43;
+		const SIZE_T bytes = SIZE_T(mib) * 1024 * 1024;
+		void *allocation = VirtualAlloc(nullptr, bytes, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+		if (! allocation)
+			return 44;
+		PROCESS_MEMORY_COUNTERS_EX counters{};
+		counters.cb = sizeof(counters);
+		if (! GetProcessMemoryInfo(GetCurrentProcess(),
+		                           reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&counters),
+		                           sizeof(counters))) {
+			VirtualFree(allocation, 0, MEM_RELEASE);
+			return 45;
 		}
-		return 13;
+		printf("reference-bytes=%llu allocation-bytes=%llu\n",
+		       static_cast<unsigned long long>(counters.PeakPagefileUsage),
+		       static_cast<unsigned long long>(bytes));
+		fflush(stdout);
+		VirtualFree(allocation, 0, MEM_RELEASE);
+		return 0;
+	}
+	if (mode == L"mapped-working-set") {
+		// Read-only file-backed pages grow the working set without private commitment.
+		HANDLE file = CreateFileW(L"mapped.dat", GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+		                          FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (file == INVALID_HANDLE_VALUE)
+			return 38;
+		LARGE_INTEGER size{};
+		size.QuadPart = 64 * 1024 * 1024;
+		if (! SetFilePointerEx(file, size, nullptr, FILE_BEGIN) || ! SetEndOfFile(file)) {
+			CloseHandle(file);
+			return 39;
+		}
+		HANDLE mapping = CreateFileMappingW(file, nullptr, PAGE_READONLY, 0, 0, nullptr);
+		CloseHandle(file);
+		if (! mapping)
+			return 40;
+		auto *pages = static_cast<const volatile char *>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
+		if (! pages) {
+			CloseHandle(mapping);
+			return 41;
+		}
+		unsigned int sum = 0;
+		for (int i = 0; i < size.QuadPart; i += 4096)
+			sum += pages[i];
+		PROCESS_MEMORY_COUNTERS_EX counters{};
+		counters.cb = sizeof(counters);
+		const bool measured = GetProcessMemoryInfo(
+		    GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS *>(&counters), sizeof(counters));
+		printf("working-set-peak=%llu sum=%u\n", static_cast<unsigned long long>(counters.PeakWorkingSetSize),
+		       sum);
+		fflush(stdout);
+		UnmapViewOfFile(const_cast<const char *>(pages));
+		CloseHandle(mapping);
+		return measured ? 0 : 42;
 	}
 	return 14;
 }

@@ -3,10 +3,10 @@ name: Watcher for Linux Test
 on:
   push:
     branches: ["master"]
-    paths: ["unix/**"]
+    paths: ["unix/**", "src/core/memoryunits.h"]
   pull_request:
     branches: ["master"]
-    paths: ["unix/**"]
+    paths: ["unix/**", "src/core/memoryunits.h"]
   workflow_dispatch:
 
 env:
