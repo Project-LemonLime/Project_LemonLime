@@ -64,6 +64,17 @@ namespace {
 	};
 
 #ifdef Q_OS_WIN
+	// mingw v11 doesn't have EfficiencyClass
+	template <typename T>
+	concept HasEfficiencyClass = requires(const T &processor) { processor.EfficiencyClass; };
+
+	template <typename T> BYTE processorEfficiencyClass(const T &processor) {
+		if constexpr (HasEfficiencyClass<T>)
+			return processor.EfficiencyClass;
+		else
+			return reinterpret_cast<const BYTE *>(&processor)[1];
+	}
+
 	Lemon::CpuTopology detectWindowsCpuTopology() {
 		DWORD size = 0;
 		GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &size);
@@ -87,7 +98,7 @@ namespace {
 			    reinterpret_cast<const SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX *>(buffer.data() + offset);
 			if (record->Relationship == RelationProcessorCore) {
 				++topology.physicalCores;
-				const int performanceClass = record->Processor.EfficiencyClass;
+				const int performanceClass = processorEfficiencyClass(record->Processor);
 				if (performanceClass > highestClass) {
 					highestClass = performanceClass;
 					topology.performanceCores = 1;
