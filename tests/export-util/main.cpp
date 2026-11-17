@@ -14,13 +14,12 @@
 #include "core/testcase.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QFile>
 #include <QJsonArray>
-#include <QMessageBox>
 #include <QRegularExpression>
 #include <QTemporaryDir>
-#include <QTimer>
+#include <QTextStream>
 #include <QtTest>
 #include <memory>
 
@@ -40,8 +39,14 @@ class ExportUtilTests : public QObject {
 	Contestant *contestant = nullptr;
 
 	QString render(bool smaller) const {
-		return smaller ? ExportUtil::getSmallerContestantHtmlCode(contest.get(), contestant)
-		               : ExportUtil::getContestantHtmlCode(contest.get(), contestant, 0);
+		QString html;
+		QTextStream out(&html);
+		if (smaller)
+			ExportUtil::writeSmallerHtml(out, contest.get());
+		else
+			ExportUtil::writeHtml(out, contest.get());
+		out.flush();
+		return html;
 	}
 
 	static void addFormats() {
@@ -182,23 +187,16 @@ class ExportUtilTests : public QObject {
 		QFETCH(bool, smaller);
 		QTemporaryDir directory;
 		QVERIFY(directory.isValid());
-		const QString fileName = directory.filePath("result.html");
-		QString notification;
-		QTimer closeMessageBox;
-		connect(&closeMessageBox, &QTimer::timeout, this, [&] {
-			if (auto *messageBox = qobject_cast<QMessageBox *>(QApplication::activeModalWidget())) {
-				notification = messageBox->text();
-				messageBox->accept();
-			}
-		});
-		closeMessageBox.start(0);
-		if (smaller)
-			ExportUtil::exportSmallerHtml(nullptr, contest.get(), fileName);
-		else
-			ExportUtil::exportHtml(nullptr, contest.get(), fileName);
-		closeMessageBox.stop();
-		QCOMPARE(notification, QString("Export is done"));
-		QFile file(fileName);
+		QFile file(directory.filePath("result.html"));
+		QVERIFY2(file.open(QIODevice::WriteOnly), qPrintable(file.errorString()));
+		{
+			QTextStream out(&file);
+			if (smaller)
+				ExportUtil::writeSmallerHtml(out, contest.get());
+			else
+				ExportUtil::writeHtml(out, contest.get());
+		}
+		file.close();
 		QVERIFY2(file.open(QIODevice::ReadOnly), qPrintable(file.errorString()));
 		const QString html = QString::fromUtf8(file.readAll());
 		QCOMPARE(html.count("contest" + escapedText), 2);
@@ -209,5 +207,5 @@ class ExportUtilTests : public QObject {
 	}
 };
 
-QTEST_MAIN(ExportUtilTests)
+QTEST_GUILESS_MAIN(ExportUtilTests)
 #include "main.moc"

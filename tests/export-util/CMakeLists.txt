@@ -26,6 +26,5 @@ endif()
 add_test(NAME export-util COMMAND export-util-tests)
 set_tests_properties(export-util PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    ENVIRONMENT "QT_QPA_PLATFORM=offscreen"
     TIMEOUT 30
 )

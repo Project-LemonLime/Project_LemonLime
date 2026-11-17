@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTextStream>
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -214,10 +215,6 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
  * Use Javascript to shrink the filesize
  */
 void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fileName) {
-	Settings settings;
-	contest->copySettings(settings);
-	ColorTheme colors = settings.getCurrentColorTheme();
-
 	QFile file(fileName);
 
 	if (! file.open(QFile::WriteOnly)) {
@@ -228,6 +225,15 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
+	writeHtml(out, contest);
+	QApplication::restoreOverrideCursor();
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
+}
+
+void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
+	Settings settings;
+	contest->copySettings(settings);
+	ColorTheme colors = settings.getCurrentColorTheme();
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
 	out << "<html><head>";
@@ -403,8 +409,6 @@ void ExportUtil::exportHtml(QWidget *widget, Contest *contest, const QString &fi
 	)";
 	out << "</body>";
 	out << "</html>";
-	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
 auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *contestant) -> QString {
@@ -579,6 +583,12 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
+	writeSmallerHtml(out, contest);
+	QApplication::restoreOverrideCursor();
+	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
+}
+
+void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
 	out << "<html><head>";
@@ -673,8 +683,6 @@ void ExportUtil::exportSmallerHtml(QWidget *widget, Contest *contest, const QStr
 	}
 
 	out << "</body></html>";
-	QApplication::restoreOverrideCursor();
-	QMessageBox::information(widget, tr("LemonLime"), tr("Export is done"), QMessageBox::Ok);
 }
 
 void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fileName) {
