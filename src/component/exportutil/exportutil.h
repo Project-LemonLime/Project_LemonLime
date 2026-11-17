@@ -27,6 +27,8 @@ class ExportUtil : public QObject {
 	static void exportResult(QWidget *, Contest *);
 
   private:
+	friend class ExportUtilTests;
+
 	static QString getContestantHtmlCode(Contest *, Contestant *, int);
 	static QString getSmallerContestantHtmlCode(Contest *, Contestant *);
 	static void exportHtml(QWidget *, Contest *, const QString &);
