@@ -38,13 +38,13 @@ class ExportUtilTests : public QObject {
 	std::unique_ptr<TestCase> testCase;
 	Contestant *contestant = nullptr;
 
-	QString render(bool smaller) const {
+	static QString render(Contest &contest, bool smaller) {
 		QString html;
 		QTextStream out(&html);
 		if (smaller)
-			ExportUtil::writeSmallerHtml(out, contest.get());
+			ExportUtil::writeSmallerHtml(out, &contest);
 		else
-			ExportUtil::writeHtml(out, contest.get());
+			ExportUtil::writeHtml(out, &contest);
 		out.flush();
 		return html;
 	}
@@ -55,6 +55,25 @@ class ExportUtilTests : public QObject {
 		QTest::newRow("smaller-html") << true;
 	}
 
+	static void loadContestants(Contest &contest, const QStringList &names) {
+		QJsonArray contestants;
+		for (const auto &name : names) {
+			Contestant saved;
+			saved.setContestantName(name);
+			saved.setJudgingTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0)));
+			QJsonObject row;
+			QCOMPARE(saved.writeToJson(row), 0);
+			contestants.append(row);
+		}
+		QCOMPARE(contest.readFromJson({{"version", "1.0"},
+		                               {"contestTitle", "contest" + specialText},
+		                               {"tasks", QJsonArray{}},
+		                               {"contestants", contestants}}),
+		         0);
+		for (auto *entry : contest.getContestantList())
+			entry->setParent(&contest);
+	}
+
   private slots:
 	void initTestCase() {
 		Lemon::base::logger = spdlog::stdout_color_mt("export-util-tests");
@@ -63,21 +82,11 @@ class ExportUtilTests : public QObject {
 	}
 
 	void init() {
-		Contestant savedContestant;
-		savedContestant.setContestantName("contestant" + specialText);
-		savedContestant.setJudgingTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0)));
-		QJsonObject contestantJson;
-		QCOMPARE(savedContestant.writeToJson(contestantJson), 0);
 		contest = std::make_unique<Contest>();
 		contest->setSettings(&settings);
-		QCOMPARE(contest->readFromJson({{"version", "1.0"},
-		                                {"contestTitle", "contest" + specialText},
-		                                {"tasks", QJsonArray{}},
-		                                {"contestants", QJsonArray{contestantJson}}}),
-		         0);
-		contestant = contest->getContestant(savedContestant.getContestantName());
+		loadContestants(*contest, {"contestant" + specialText});
+		contestant = contest->getContestant("contestant" + specialText);
 		QVERIFY(contestant);
-		contestant->setParent(contest.get());
 
 		auto *task = new Task(contest.get());
 		task->setProblemTitle("task" + specialText);
@@ -128,7 +137,7 @@ class ExportUtilTests : public QObject {
 		QFETCH(QString, expected);
 		contestant->setCompileState(0, CompileError);
 		contestant->setCompileMessage(0, message);
-		const QString html = render(smaller);
+		const QString html = render(*contest, smaller);
 		const auto match = QRegularExpression("<code>(.*?)</code>").match(html);
 		QCOMPARE(match.hasMatch(), ! message.isEmpty());
 		QCOMPARE(match.captured(1), expected);
@@ -151,7 +160,7 @@ class ExportUtilTests : public QObject {
 		QFETCH(bool, smaller);
 		QFETCH(int, compileState);
 		contestant->setCompileState(0, static_cast<CompileState>(compileState));
-		const QString html = render(smaller);
+		const QString html = render(*contest, smaller);
 		QVERIFY(html.contains("task" + escapedText));
 		QVERIFY(html.contains("source" + escapedText + ".cpp"));
 		QVERIFY(! html.contains("<img"));
@@ -172,13 +181,46 @@ class ExportUtilTests : public QObject {
 		    "quote: &quot;; slash: \\; entity: &amp;quot;);alert(1);// percent: %22 &lt;img src=x&gt;"
 		    "\r\nnext\nlast\r";
 		contestant->setMessage(0, {{message}});
-		const QString html = render(smaller);
+		const QString html = render(*contest, smaller);
 		QVERIFY(html.contains("data-message=\"" + expected + "\""));
 		QVERIFY(html.contains("onclick=\"alert(this.dataset.message); return false;\""));
 		QVERIFY(html.contains("> (...)</a>"));
 		QVERIFY(! html.contains("javascript:"));
 		QVERIFY(! html.contains("<img"));
 		QCOMPARE(contestant->getMessage(0)[0][0], message);
+	}
+
+	void rankings_data() { addFormats(); }
+
+	void rankings() {
+		QFETCH(bool, smaller);
+		Contest rankedContest;
+		rankedContest.setSettings(&settings);
+		loadContestants(rankedContest, {"Eve", "Cal", "Bea", "Dee", "Amy"});
+		Task task;
+		task.addTestCase(testCase.get());
+		rankedContest.addTask(&task);
+		for (const QString &name : QStringList{"Amy", "Bea", "Cal"}) {
+			auto *entry = rankedContest.getContestant(name);
+			QVERIFY(entry);
+			entry->setCheckJudged(0, true);
+			entry->setScore(0, {{name == "Amy" ? 0 : 100}});
+		}
+
+		const QString html = render(rankedContest, smaller);
+		const QRegularExpression rankAndName(
+		    "<tr><td[^>]*>(\\d+)</td><td[^>]*><a href=\"#c(\\d+)\"[^>]*>([^<]+)</a>");
+		QList<QStringList> rows;
+		for (const auto &match : rankAndName.globalMatch(html))
+			rows.append(match.capturedTexts().mid(1));
+		// Rank, original detail index, and name in displayed order.
+		const QList<QStringList> expected{
+		    {"1", "1", "Bea"}, {"1", "2", "Cal"}, {"3", "0", "Amy"}, {"4", "3", "Dee"}, {"4", "4", "Eve"}};
+		QCOMPARE(rows, expected);
+		if (! smaller) {
+			QVERIFY(html.contains("href=\"#c1p0\" class=\"a-0\">100</a>"));
+			QVERIFY(html.contains("Contestant: Bea</span><div id=\"c1p0\">"));
+		}
 	}
 
 	void fullExport_data() { addFormats(); }

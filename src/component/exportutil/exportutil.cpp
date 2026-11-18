@@ -29,6 +29,35 @@
 #include <iostream>
 #include <ranges>
 
+namespace {
+
+	struct RankedContestant {
+		const Contestant *contestant;
+		int totalScore;
+		int sourceIndex;
+		int rank = 0;
+	};
+
+	QList<RankedContestant> rankContestants(const QList<Contestant *> &contestants) {
+		QList<RankedContestant> entries;
+		entries.reserve(contestants.size());
+		for (int i = 0; i < contestants.size(); ++i)
+			entries.append({contestants[i], contestants[i]->getTotalScore(), i});
+
+		std::ranges::sort(entries, [](const auto &left, const auto &right) {
+			if (left.totalScore != right.totalScore)
+				return left.totalScore > right.totalScore;
+			return left.contestant->getContestantName() < right.contestant->getContestantName();
+		});
+		for (int i = 0; i < entries.size(); ++i) {
+			entries[i].rank =
+			    i > 0 && entries[i].totalScore == entries[i - 1].totalScore ? entries[i - 1].rank : i + 1;
+		}
+		return entries;
+	}
+
+} // namespace
+
 ExportUtil::ExportUtil(QObject *parent) : QObject(parent) {}
 
 const auto resultStateMap = []() {
@@ -261,34 +290,6 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
 	out << "</head><body>";
-	QList<std::pair<int, QString>> sortList;
-
-	for (auto &i : contestantList) {
-		int totalScore = i->getTotalScore();
-
-		if (totalScore != -1) {
-			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
-		} else {
-			sortList.append(std::make_pair(1, i->getContestantName()));
-		}
-	}
-
-	std::sort(sortList.begin(), sortList.end());
-	QMap<QString, int> rankList;
-
-	for (int i = 0; i < sortList.size(); i++) {
-		if (i > 0 && sortList[i].first == sortList[i - 1].first) {
-			rankList.insert(sortList[i].second, rankList[sortList[i - 1].second]);
-		} else {
-			rankList.insert(sortList[i].second, i);
-		}
-	}
-
-	QHash<Contestant *, int> loc;
-
-	for (int i = 0; i < contestantList.size(); i++) {
-		loc.insert(contestantList[i], i);
-	}
 
 	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Rank List")
@@ -310,14 +311,12 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 		fullScore.append(i->getTotalScore());
 	}
 
-	for (auto &i : sortList) {
-		Contestant *contestant = contest->getContestant(i.second);
+	for (const auto &[contestant, allScore, sourceIndex, rank] : rankContestants(contestantList)) {
 		out << "<tr>";
-		out << QString("<td class=\"td-0\">%1</td>").arg(rankList[contestant->getContestantName()] + 1);
+		out << QString("<td class=\"td-0\">%1</td>").arg(rank);
 		out << QString(R"(<td class="td-0"><a href="#c%1" class="a-0">%2</a></td>)")
-		           .arg(loc[contestant])
-		           .arg(i.second.toHtmlEscaped());
-		int allScore = contestant->getTotalScore();
+		           .arg(sourceIndex)
+		           .arg(contestant->getContestantName().toHtmlEscaped());
 
 		if (allScore >= 0) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -374,12 +373,12 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 				           .arg(h)
 				           .arg(s)
 				           .arg(l)
-				           .arg(loc[contestant])
+				           .arg(sourceIndex)
 				           .arg(j);
 			} else {
 				out << QString(R"(<td class="td-3"><a href="#c%2p%3" class="a-0">%1</a></td>)")
 				           .arg(tr("Invalid"))
-				           .arg(loc[contestant])
+				           .arg(sourceIndex)
 				           .arg(j);
 			}
 		}
@@ -602,34 +601,6 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
 	out << "</head><body>";
-	QList<std::pair<int, QString>> sortList;
-
-	for (auto &i : contestantList) {
-		int totalScore = i->getTotalScore();
-
-		if (totalScore != -1) {
-			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
-		} else {
-			sortList.append(std::make_pair(1, i->getContestantName()));
-		}
-	}
-
-	std::sort(sortList.begin(), sortList.end());
-	QMap<QString, int> rankList;
-
-	for (int i = 0; i < sortList.size(); i++) {
-		if (i > 0 && sortList[i].first == sortList[i - 1].first) {
-			rankList.insert(sortList[i].second, rankList[sortList[i - 1].second]);
-		} else {
-			rankList.insert(sortList[i].second, i);
-		}
-	}
-
-	QHash<Contestant *, int> loc;
-
-	for (int i = 0; i < contestantList.size(); i++) {
-		loc.insert(contestantList[i], i);
-	}
 
 	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Rank List")
@@ -644,18 +615,11 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 		out << QString("<th scope=\"col\">%1</th>").arg(i->getProblemTitle().toHtmlEscaped());
 
 	out << QString("</tr>");
-	QList<int> fullScore;
-
-	for (auto &i : taskList) {
-		int a = i->getTotalScore();
-		fullScore.append(a);
-	}
-
-	for (auto &i : sortList) {
-		Contestant *contestant = contest->getContestant(i.second);
-		out << QString("<tr><td>%1</td>").arg(rankList[contestant->getContestantName()] + 1);
-		out << QString("<td><a href=\"#c%1\">%2</a></td>").arg(loc[contestant]).arg(i.second.toHtmlEscaped());
-		int allScore = contestant->getTotalScore();
+	for (const auto &[contestant, allScore, sourceIndex, rank] : rankContestants(contestantList)) {
+		out << QString("<tr><td>%1</td>").arg(rank);
+		out << QString("<td><a href=\"#c%1\">%2</a></td>")
+		           .arg(sourceIndex)
+		           .arg(contestant->getContestantName().toHtmlEscaped());
 
 		if (allScore != -1) {
 			out << QString("<td class=\"f\">%1</td>").arg(allScore);
@@ -696,36 +660,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	QTextStream out(&file);
-	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList<std::pair<int, QString>> sortList;
-
-	for (auto &i : contestantList) {
-		int totalScore = i->getTotalScore();
-
-		if (totalScore != -1) {
-			sortList.append(std::make_pair(-totalScore, i->getContestantName()));
-		} else {
-			sortList.append(std::make_pair(1, i->getContestantName()));
-		}
-	}
-
-	std::sort(sortList.begin(), sortList.end());
-	QMap<QString, int> rankList;
-
-	for (int i = 0; i < sortList.size(); i++) {
-		if (i > 0 && sortList[i].first == sortList[i - 1].first) {
-			rankList.insert(sortList[i].second, rankList[sortList[i - 1].second]);
-		} else {
-			rankList.insert(sortList[i].second, i);
-		}
-	}
-
-	QHash<Contestant *, int> loc;
-
-	for (int i = 0; i < contestantList.size(); i++) {
-		loc.insert(contestantList[i], i);
-	}
 
 	out << "\"" << tr("Rank") << "\"" << "," << "\"" << tr("Name") << "\"" << ",";
 
@@ -735,13 +670,12 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 
 	out << "\"" << tr("Total Score") << "\"" << Qt::endl;
 
-	for (auto &i : sortList) {
-		Contestant *contestant = contest->getContestant(i.second);
-		out << "\"" << rankList[contestant->getContestantName()] + 1 << "\"" << ",";
-		out << "\"" << i.second << "\"" << ",";
+	for (const auto &entry : rankContestants(contest->getContestantList())) {
+		out << "\"" << entry.rank << "\"" << ",";
+		out << "\"" << entry.contestant->getContestantName() << "\"" << ",";
 
 		for (int j = 0; j < taskList.size(); j++) {
-			int score = contestant->getTaskScore(j);
+			int score = entry.contestant->getTaskScore(j);
 
 			if (score != -1) {
 				out << "\"" << score << "\"" << ",";
@@ -750,7 +684,7 @@ void ExportUtil::exportCsv(QWidget *widget, Contest *contest, const QString &fil
 			}
 		}
 
-		int score = contestant->getTotalScore();
+		int score = entry.totalScore;
 
 		if (score != -1) {
 			out << "\"" << score << "\"" << Qt::endl;
@@ -776,36 +710,8 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	}
 
 	QApplication::setOverrideCursor(Qt::WaitCursor);
-	QList<Contestant *> contestantList = contest->getContestantList();
 	QList<Task *> taskList = contest->getTaskList();
-	QList<std::pair<int, QString>> sortList;
-
-	for (int i = 0; i < contestantList.size(); i++) {
-		int totalScore = contestantList[i]->getTotalScore();
-
-		if (totalScore != -1) {
-			sortList.append(std::make_pair(-totalScore, contestantList[i]->getContestantName()));
-		} else {
-			sortList.append(std::make_pair(1, contestantList[i]->getContestantName()));
-		}
-	}
-
-	std::sort(sortList.begin(), sortList.end());
-	QMap<QString, int> rankList;
-
-	for (int i = 0; i < sortList.size(); i++) {
-		if (i > 0 && sortList[i].first == sortList[i - 1].first) {
-			rankList.insert(sortList[i].second, rankList[sortList[i - 1].second]);
-		} else {
-			rankList.insert(sortList[i].second, i);
-		}
-	}
-
-	QMap<Contestant *, int> loc;
-
-	for (int i = 0; i < contestantList.size(); i++) {
-		loc.insert(contestantList[i], i);
-	}
+	const auto standings = rankContestants(contest->getContestantList());
 
 	QAxObject *excel = new QAxObject("Excel.Application", widget);
 	QAxObject *workbook = excel->querySubObject("Workbooks")->querySubObject("Add");
@@ -823,14 +729,14 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 	for (int i = 0; i < taskList.size() + 3; i++)
 		sheet->querySubObject("Cells(int, int)", 1, i + 1)->querySubObject("Font")->setProperty("Bold", true);
 
-	for (int i = 0; i < sortList.size(); i++) {
-		Contestant *contestant = contest->getContestant(sortList[i].second);
-		sheet->querySubObject("Cells(int, int)", 2 + i, 1)
-		    ->setProperty("Value", rankList[contestant->getContestantName()] + 1);
-		sheet->querySubObject("Cells(int, int)", 2 + i, 2)->setProperty("Value", sortList[i].second);
+	for (int i = 0; i < standings.size(); i++) {
+		const auto &entry = standings[i];
+		sheet->querySubObject("Cells(int, int)", 2 + i, 1)->setProperty("Value", entry.rank);
+		sheet->querySubObject("Cells(int, int)", 2 + i, 2)
+		    ->setProperty("Value", entry.contestant->getContestantName());
 
 		for (int j = 0; j < taskList.size(); j++) {
-			int score = contestant->getTaskScore(j);
+			int score = entry.contestant->getTaskScore(j);
 
 			if (score != -1) {
 				sheet->querySubObject("Cells(int, int)", 2 + i, 3 + j)->setProperty("Value", score);
@@ -839,7 +745,7 @@ void ExportUtil::exportXls(QWidget *widget, Contest *contest, const QString &fil
 			}
 		}
 
-		int score = contestant->getTotalScore();
+		int score = entry.totalScore;
 
 		if (score != -1) {
 			sheet->querySubObject("Cells(int, int)", 2 + i, 3 + taskList.size())->setProperty("Value", score);
