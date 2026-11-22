@@ -18,6 +18,7 @@
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QMessageBox>
+#include <QPainter>
 #include <QPalette>
 #include <QPlainTextEdit>
 #include <QSet>
@@ -33,26 +34,40 @@ namespace {
 
 enum class Language { CLike, Pascal };
 
-struct HighlightPalette {
+// A self-contained color scheme so the viewer stays readable in both the
+// application's light and dark themes (VS Code-inspired palettes). The
+// editor's base/text colors are set explicitly instead of inheriting the
+// application palette, which keeps identifiers, keywords and comments
+// clearly apart on any theme.
+struct EditorTheme {
+	QColor background;
+	QColor text;
+	QColor currentLine;
+	QColor selection;
 	QColor keyword;
 	QColor number;
 	QColor string;
 	QColor comment;
 	QColor preprocessor;
+	QColor lineNumberText;
 };
 
-HighlightPalette highlightPalette() {
+EditorTheme editorTheme() {
 	const QPalette &palette = QApplication::palette();
+	const bool darkTheme = palette.color(QPalette::WindowText).lightness() >
+	                        palette.color(QPalette::Window).lightness();
 
-	if (palette.color(QPalette::WindowText).lightness() < palette.color(QPalette::Window).lightness()) {
-		// Dark background
-		return {QColor(0x6f, 0xa8, 0xff), QColor(0xe8, 0x7c, 0xb4), QColor(0x7c, 0xd6, 0x7c),
-		        QColor(0x8a, 0x8a, 0x8a), QColor(0xe0, 0xa0, 0x60)};
+	if (darkTheme) {
+		return {QColor(0x1e, 0x1e, 0x1e), QColor(0xd4, 0xd4, 0xd4), QColor(0x28, 0x2c, 0x34),
+		        QColor(0x26, 0x4f, 0x78), QColor(0x56, 0x9c, 0xd6), QColor(0xb5, 0xce, 0xa8),
+		        QColor(0xce, 0x91, 0x78), QColor(0x6a, 0x99, 0x55), QColor(0xc5, 0x86, 0xc0),
+		        QColor(0x85, 0x85, 0x85)};
 	}
 
-	// Light background
-	return {QColor(0x00, 0x00, 0xc0), QColor(0xb0, 0x00, 0x60), QColor(0x00, 0x70, 0x00),
-	        QColor(0x80, 0x80, 0x80), QColor(0x80, 0x40, 0x00)};
+	return {QColor(0xff, 0xff, 0xff), QColor(0x1e, 0x1e, 0x1e), QColor(0xf3, 0xf3, 0xf3),
+	        QColor(0xad, 0xd6, 0xff), QColor(0x00, 0x00, 0xff), QColor(0x09, 0x86, 0x58),
+	        QColor(0xa3, 0x15, 0x15), QColor(0x00, 0x80, 0x00), QColor(0xaf, 0x00, 0xdb),
+	        QColor(0x76, 0x76, 0x76)};
 }
 
 QTextCharFormat makeFormat(const QColor &color) {
@@ -65,20 +80,19 @@ QTextCharFormat makeFormat(const QColor &color) {
 
 class SourceHighlighter final : public QSyntaxHighlighter {
   public:
-	explicit SourceHighlighter(QTextDocument *document) : QSyntaxHighlighter(document) {
-		const HighlightPalette palette = highlightPalette();
-		keywordFormat = makeFormat(palette.keyword);
-		numberFormat = makeFormat(palette.number);
-		stringFormat = makeFormat(palette.string);
-		commentFormat = makeFormat(palette.comment);
-		preprocessorFormat = makeFormat(palette.preprocessor);
+	explicit SourceHighlighter(QTextDocument *document, const EditorTheme &theme)
+	    : QSyntaxHighlighter(document) {
+		keywordFormat = makeFormat(theme.keyword);
+		numberFormat = makeFormat(theme.number);
+		stringFormat = makeFormat(theme.string);
+		commentFormat = makeFormat(theme.comment);
+		preprocessorFormat = makeFormat(theme.preprocessor);
 	}
 
 	void setLanguage(Language newLanguage) { language = newLanguage; }
 
   protected:
 	void highlightBlock(const QString &text) override {
-
 		const QSet<QString> &keywords = (language == Language::Pascal) ? pascalKeywords() : cKeywords();
 
 		int index = 0;
@@ -274,6 +288,103 @@ class SourceHighlighter final : public QSyntaxHighlighter {
 	QTextCharFormat preprocessorFormat;
 };
 
+class LineNumberArea;
+
+// A read-only code editor pane with a line-number gutter and a subtle
+// current-line highlight.
+class CodeEditor final : public QPlainTextEdit {
+  public:
+	CodeEditor(const EditorTheme &editorTheme, QWidget *parent = nullptr);
+
+	int lineNumberAreaWidth() const {
+		int digits = 1;
+
+		for (int max = qMax(1, blockCount()); max > 9; max /= 10)
+			++digits;
+
+		return 14 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+	}
+
+	void lineNumberAreaPaintEvent(QPaintEvent *event) {
+		QPainter painter(lineNumberArea);
+		painter.fillRect(event->rect(), theme.background);
+		QTextBlock block = firstVisibleBlock();
+		int blockNumber = block.blockNumber();
+		int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+		int bottom = top + qRound(blockBoundingRect(block).height());
+
+		while (block.isValid() && top <= event->rect().bottom()) {
+			if (block.isVisible() && bottom >= event->rect().top()) {
+				painter.setPen(theme.lineNumberText);
+				painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight,
+				                 QString::number(blockNumber + 1));
+			}
+
+			block = block.next();
+			top = bottom;
+			bottom = top + qRound(blockBoundingRect(block).height());
+			++blockNumber;
+		}
+	}
+
+  protected:
+	void resizeEvent(QResizeEvent *event) override {
+		QPlainTextEdit::resizeEvent(event);
+		const QRect contents = contentsRect();
+		lineNumberArea->setGeometry(contents.left(), contents.top(), lineNumberAreaWidth(),
+		                            contents.height());
+	}
+
+  private:
+	void updateLineNumberAreaWidth(int) { setViewportMargins(lineNumberAreaWidth(), 0, 0, 0); }
+
+	void updateLineNumberArea(const QRect &rect, int dy) {
+		if (dy)
+			lineNumberArea->scroll(0, dy);
+		else
+			lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+
+		if (rect.contains(viewport()->rect()))
+			updateLineNumberAreaWidth(0);
+	}
+
+	void highlightCurrentLine() {
+		QList<QTextEdit::ExtraSelection> selections;
+		QTextEdit::ExtraSelection selection;
+		selection.format.setBackground(theme.currentLine);
+		selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+		selection.cursor = textCursor();
+		selections.append(selection);
+		setExtraSelections(selections);
+	}
+
+	QWidget *lineNumberArea;
+	EditorTheme theme;
+};
+
+class LineNumberArea final : public QWidget {
+  public:
+	explicit LineNumberArea(CodeEditor *editor) : QWidget(editor), editor(editor) {}
+
+	QSize sizeHint() const override { return {editor->lineNumberAreaWidth(), 0}; }
+
+  protected:
+	void paintEvent(QPaintEvent *event) override { editor->lineNumberAreaPaintEvent(event); }
+
+  private:
+	CodeEditor *editor;
+};
+
+CodeEditor::CodeEditor(const EditorTheme &editorTheme, QWidget *parent)
+    : QPlainTextEdit(parent), theme(editorTheme) {
+	lineNumberArea = new LineNumberArea(this);
+	connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
+	connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
+	connect(this, &CodeEditor::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
+	updateLineNumberAreaWidth(0);
+	highlightCurrentLine();
+}
+
 QString SourceViewerDialog::contestantSourceFilePath(Contest *contest, Contestant *contestant, int taskIndex,
                                                      int fileIndex) {
 	const Task *task = contest->getTask(taskIndex);
@@ -322,10 +433,26 @@ SourceViewerDialog::SourceViewerDialog(QWidget *parent, const QStringList &fileP
 }
 
 void SourceViewerDialog::addEditorTab(const QString &filePath) {
-	auto *editor = new QPlainTextEdit(tabWidget);
+	const EditorTheme theme = editorTheme();
+	auto *editor = new CodeEditor(theme, tabWidget);
 	editor->setReadOnly(true);
 	editor->setLineWrapMode(QPlainTextEdit::NoWrap);
-	editor->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
+	QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+	font.setPointSizeF(qMax(font.pointSizeF(), 10.5));
+	editor->setFont(font);
+	editor->setTabStopDistance(4 * QFontMetricsF(font).horizontalAdvance(QLatin1Char(' ')));
+
+	// Explicit editor colors: do not inherit the application's text color, which
+	// may be too dim against the editor background. A stylesheet is used because
+	// it takes precedence over the platform style's palette handling.
+	QPalette editorPalette = editor->palette();
+	editorPalette.setColor(QPalette::Base, theme.background);
+	editorPalette.setColor(QPalette::Text, theme.text);
+	editor->setPalette(editorPalette);
+	editor->setStyleSheet(
+	    QStringLiteral("QPlainTextEdit { background-color: %1; color: %2; selection-background-color: %3; }")
+	        .arg(theme.background.name(), theme.text.name(), theme.selection.name()));
 
 	QFile file(filePath);
 
@@ -342,7 +469,7 @@ void SourceViewerDialog::addEditorTab(const QString &filePath) {
 		editor->setPlainText(content);
 	}
 
-	auto *highlighter = new SourceHighlighter(editor->document());
+	auto *highlighter = new SourceHighlighter(editor->document(), theme);
 	const QString suffix = QFileInfo(filePath).suffix().toLower();
 	highlighter->setLanguage(suffix == "pas" || suffix == "pp" || suffix == "dpr" ? Language::Pascal
 	                                                                              : Language::CLike);
