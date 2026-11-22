@@ -69,3 +69,7 @@ build-debug/
 .idea/
 cmake-build-debug/
 .vscode/
+
+# Local tooling
+.mimosa
+.zcode/
