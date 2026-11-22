@@ -418,11 +418,15 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 			const template = document.getElementById("c" + contestantIndex);
 			if (!template)
 				return false;
-			const popup = window.open("", "_blank");
+			// The "popup" feature plus a stable window name opens a real popup
+			// window (not a browser tab) and reuses it across contestants
+			const popup = window.open("", "LemonDetail",
+				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
 			if (!popup) {
 				alert(document.body.dataset.popupBlocked || "Popup blocked");
 				return false;
 			}
+			popup.document.open();
 			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
 				document.getElementById("lemon-style").textContent +
 				"</style></head><body>" + template.textContent + "</body></html>");
@@ -694,11 +698,15 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 			const template = document.getElementById("c" + contestantIndex);
 			if (!template)
 				return false;
-			const popup = window.open("", "_blank");
+			// The "popup" feature plus a stable window name opens a real popup
+			// window (not a browser tab) and reuses it across contestants
+			const popup = window.open("", "LemonDetail",
+				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
 			if (!popup) {
 				alert(document.body.dataset.popupBlocked || "Popup blocked");
 				return false;
 			}
+			popup.document.open();
 			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
 				document.getElementById("lemon-style").textContent +
 				"</style></head><body>" + template.textContent + "</body></html>");
