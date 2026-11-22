@@ -13,6 +13,19 @@
 #include "base/compiler.h"
 #include "base/settings.h"
 #include "core/task.h"
+#include <array>
+#include <initializer_list>
+#include <utility>
+
+namespace {
+	auto taskTypeButtons(const Ui::TaskEditWidget &ui) {
+		return std::array{std::pair{ui.traditionalButton, Task::Traditional},
+		                  std::pair{ui.answersOnlyButton, Task::AnswersOnly},
+		                  std::pair{ui.interactionButton, Task::Interaction},
+		                  std::pair{ui.communicationButton, Task::Communication},
+		                  std::pair{ui.communicationExecButton, Task::CommunicationExec}};
+	}
+} // namespace
 
 TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::TaskEditWidget) {
 	ui->setupUi(this);
@@ -36,37 +49,47 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ta
 	ui->sourceFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->graderFilesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	// ui->interactionButton->setVisible(false); //rebuilding interaction, remove it temporarily
-	connect(ui->problemTitle, &QLineEdit::textChanged, this, &TaskEditWidget::problemTitleChanged);
-	connect(ui->traditionalButton, &QRadioButton::toggled, this, &TaskEditWidget::setToTraditional);
-	connect(ui->answersOnlyButton, &QRadioButton::toggled, this, &TaskEditWidget::setToAnswersOnly);
-	connect(ui->interactionButton, &QRadioButton::toggled, this, &TaskEditWidget::setToInteraction);
-	connect(ui->communicationButton, &QRadioButton::toggled, this, &TaskEditWidget::setToCommunication);
-	connect(ui->communicationExecButton, &QRadioButton::toggled, this,
-	        &TaskEditWidget::setToCommunicationExec);
+	for (const auto &[button, type] : taskTypeButtons(*ui)) {
+		connect(button, &QRadioButton::toggled, this, [this, type](bool checked) {
+			if (checked && editTask) {
+				// Changing the task type preserves the standard I/O settings.
+				editTask->setTaskType(type);
+				refreshWidgetState();
+			}
+		});
+	}
+
+	const auto bindText = [this](QLineEdit *field, auto setter) {
+		connect(field, &QLineEdit::textChanged, this, [this, setter](const QString &text) {
+			if (editTask)
+				(editTask->*setter)(text);
+		});
+	};
+	bindText(ui->problemTitle, &Task::setProblemTitle);
+	bindText(ui->inputFileName, &Task::setInputFileName);
+	bindText(ui->outputFileName, &Task::setOutputFileName);
+	bindText(ui->diffArguments, &Task::setDiffArguments);
+	bindText(ui->lemonSpecialJudge, &Task::setSpecialJudge);
+	bindText(ui->testlibSpecialJudge, &Task::setSpecialJudge);
+	bindText(ui->interactorPath, &Task::setInteractor);
+	bindText(ui->interactorName, &Task::setInteractorName);
+	bindText(ui->graderPath, &Task::setGrader);
+	bindText(ui->answerFileExtension, &Task::setAnswerFileExtension);
+
 	connect(ui->sourceFileName, &QLineEdit::textChanged, this, &TaskEditWidget::sourceFileNameChanged);
 	connect(ui->subFolderCheck, &QCheckBox::checkStateChanged, this, &TaskEditWidget::subFolderCheckChanged);
-	connect(ui->inputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::inputFileNameChanged);
-	connect(ui->outputFileName, &QLineEdit::textChanged, this, &TaskEditWidget::outputFileNameChanged);
 	connect(ui->standardInputCheck, &QCheckBox::checkStateChanged, this,
 	        &TaskEditWidget::standardInputCheckChanged);
 	connect(ui->standardOutputCheck, &QCheckBox::checkStateChanged, this,
 	        &TaskEditWidget::standardOutputCheckChanged);
 	connect(ui->comparisonMode, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &TaskEditWidget::comparisonModeChanged);
-	connect(ui->diffArguments, &QLineEdit::textChanged, this, &TaskEditWidget::diffArgumentsChanged);
 	connect(ui->realPrecision, qOverload<int>(&QSpinBox::valueChanged), this,
 	        &TaskEditWidget::realPrecisionChanged);
-	connect(ui->lemonSpecialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
-	connect(ui->testlibSpecialJudge, &QLineEdit::textChanged, this, &TaskEditWidget::specialJudgeChanged);
-	connect(ui->interactorPath, &QLineEdit::textChanged, this, &TaskEditWidget::interactorChanged);
-	connect(ui->interactorName, &QLineEdit::textChanged, this, &TaskEditWidget::interactorNameChanged);
-	connect(ui->graderPath, &QLineEdit::textChanged, this, &TaskEditWidget::graderChanged);
 	connect(ui->compilersList, &QListWidget::currentRowChanged, this,
 	        &TaskEditWidget::compilerSelectionChanged);
 	connect(ui->configurationSelect, qOverload<int>(&QComboBox::currentIndexChanged), this,
 	        &TaskEditWidget::configurationSelectionChanged);
-	connect(ui->answerFileExtension, &QLineEdit::textChanged, this,
-	        &TaskEditWidget::answerFileExtensionChanged);
 	connect(ui->sourceFilesAppendButton, &QPushButton::clicked, this, &TaskEditWidget::addSourceFileClicked);
 	connect(ui->graderFilesAppendButton, &QPushButton::clicked, this, &TaskEditWidget::addGraderFileClicked);
 	connect(ui->sourceFilesRemoveButton, &QPushButton::clicked, this, &TaskEditWidget::rmSourceFileClicked);
@@ -127,24 +150,9 @@ void TaskEditWidget::setEditTask(Task *task) {
 	ui->answerFileExtension->setText(editTask->getAnswerFileExtension());
 	refreshCompilerConfiguration();
 
-	if (editTask->getTaskType() == Task::Traditional) {
-		ui->traditionalButton->setChecked(true);
-	}
-
-	if (editTask->getTaskType() == Task::AnswersOnly) {
-		ui->answersOnlyButton->setChecked(true);
-	}
-
-	if (editTask->getTaskType() == Task::Interaction) {
-		ui->interactionButton->setChecked(true);
-	}
-
-	if (editTask->getTaskType() == Task::Communication) {
-		ui->communicationButton->setChecked(true);
-	}
-
-	if (editTask->getTaskType() == Task::CommunicationExec) {
-		ui->communicationExecButton->setChecked(true);
+	for (const auto &[button, type] : taskTypeButtons(*ui)) {
+		if (editTask->getTaskType() == type)
+			button->setChecked(true);
 	}
 
 	refreshWidgetState();
@@ -156,124 +164,35 @@ void TaskEditWidget::refreshWidgetState() {
 	if (! editTask)
 		return;
 
-	int types = editTask->getTaskType();
-	ui->interactorPathLabel->setVisible(types == Task::Interaction);
-	ui->interactorPath->setVisible(types == Task::Interaction);
-	ui->graderPathLabel->setVisible(types == Task::Interaction);
-	ui->graderPath->setVisible(types == Task::Interaction);
-	ui->interactorNameLabel->setVisible(types == Task::Interaction);
-	ui->interactorName->setVisible(types == Task::Interaction);
-	// ui->comparisonSetting->setVisible(types != Task::Interaction);
-	ui->sourceFileName->setEnabled(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication ||
-	                               types == Task::CommunicationExec);
-	ui->sourceFileNameLabel->setEnabled(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::AnswersOnly || types == Task::Communication ||
-	                                    types == Task::CommunicationExec);
-	ui->sourceFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication ||
-	                               types == Task::CommunicationExec);
-	ui->sourceFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::AnswersOnly || types == Task::Communication ||
-	                                    types == Task::CommunicationExec);
-	ui->subFolderCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::AnswersOnly || types == Task::Communication ||
-	                               types == Task::CommunicationExec);
-	ui->inputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::Communication || types == Task::CommunicationExec) &&
-	                              ! editTask->getStandardInputCheck());
-	ui->inputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                              types == Task::Communication || types == Task::CommunicationExec);
-	ui->inputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication || types == Task::CommunicationExec);
-	ui->standardInputCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication || types == Task::CommunicationExec);
-	ui->outputFileName->setEnabled((types == Task::Traditional || types == Task::Interaction ||
-	                                types == Task::Communication || types == Task::CommunicationExec) &&
-	                               ! editTask->getStandardOutputCheck());
-	ui->outputFileName->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                               types == Task::Communication || types == Task::CommunicationExec);
-	ui->outputFileNameLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication || types == Task::CommunicationExec);
-	ui->standardOutputCheck->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication || types == Task::CommunicationExec);
-	ui->compilerSettingsLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                      types == Task::Communication || types == Task::CommunicationExec);
-	ui->compilersList->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                              types == Task::Communication || types == Task::CommunicationExec);
-	ui->configurationLabel->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                   types == Task::Communication || types == Task::CommunicationExec);
-	ui->configurationSelect->setVisible(types == Task::Traditional || types == Task::Interaction ||
-	                                    types == Task::Communication || types == Task::CommunicationExec);
-	// ui->comparisonMode->setEnabled(types == Task::Traditional || types == Task::AnswersOnly);
-	ui->answerFileExtension->setVisible(types == Task::AnswersOnly);
-	ui->answerFileExtensionLabel->setVisible(types == Task::AnswersOnly);
+	const auto type = editTask->getTaskType();
+	const bool communication = type == Task::Communication || type == Task::CommunicationExec;
+	const bool hasProgram = type == Task::Traditional || type == Task::Interaction || communication;
+	const bool hasSourceName = hasProgram || type == Task::AnswersOnly;
+	const auto setVisible = [](bool visible, std::initializer_list<QWidget *> widgets) {
+		for (auto *widget : widgets)
+			widget->setVisible(visible);
+	};
+
+	setVisible(type == Task::Interaction, {ui->interactorPathLabel, ui->interactorPath, ui->graderPathLabel,
+	                                       ui->graderPath, ui->interactorNameLabel, ui->interactorName});
+	ui->sourceFileName->setEnabled(hasSourceName);
+	ui->sourceFileNameLabel->setEnabled(hasSourceName);
+	setVisible(hasSourceName, {ui->sourceFileName, ui->sourceFileNameLabel, ui->subFolderCheck});
+	ui->inputFileName->setEnabled(hasProgram && ! editTask->getStandardInputCheck());
+	setVisible(hasProgram, {ui->inputFileName, ui->inputFileNameLabel, ui->standardInputCheck});
+	ui->outputFileName->setEnabled(hasProgram && ! editTask->getStandardOutputCheck());
+	setVisible(hasProgram, {ui->outputFileName, ui->outputFileNameLabel, ui->standardOutputCheck,
+	                        ui->compilerSettingsLabel, ui->compilersList, ui->configurationLabel,
+	                        ui->configurationSelect});
+	// The comparison mode remains available for all task types.
+	setVisible(type == Task::AnswersOnly, {ui->answerFileExtension, ui->answerFileExtensionLabel});
 	ui->comparisonSetting->setCurrentIndex(ui->comparisonMode->currentIndex());
-	ui->sourceFilesLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->sourceFilesTable->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->graderFilesLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->graderFilesTable->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->sourceFilesAppendButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->graderFilesAppendButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->sourceFilesRemoveButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->graderFilesRemoveButton->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->multiFilesPathLineEdit->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->multiFilesNameLineEdit->setVisible(types == Task::Communication || types == Task::CommunicationExec);
-	ui->multiFilesPathNameLabel->setVisible(types == Task::Communication || types == Task::CommunicationExec);
+	setVisible(communication,
+	           {ui->sourceFilesLabel, ui->sourceFilesTable, ui->graderFilesLabel, ui->graderFilesTable,
+	            ui->sourceFilesAppendButton, ui->graderFilesAppendButton, ui->sourceFilesRemoveButton,
+	            ui->graderFilesRemoveButton, ui->multiFilesPathLineEdit, ui->multiFilesNameLineEdit,
+	            ui->multiFilesPathNameLabel});
 	multiFilesRefresh();
-}
-
-void TaskEditWidget::problemTitleChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setProblemTitle(text);
-}
-
-void TaskEditWidget::setToTraditional(bool check) {
-	if (! check || ! editTask)
-		return;
-
-	editTask->setTaskType(Task::Traditional);
-	// editTask->setStandardOutputCheck(false); //fix stdout not save
-	// ui->standardOutputCheck->setCheckState(Qt::Unchecked);
-	refreshWidgetState();
-}
-
-void TaskEditWidget::setToAnswersOnly(bool check) {
-	if (! check || ! editTask)
-		return;
-
-	editTask->setTaskType(Task::AnswersOnly);
-	// editTask->setStandardOutputCheck(false);
-	// ui->standardOutputCheck->setCheckState(Qt::Unchecked);
-	refreshWidgetState();
-}
-
-void TaskEditWidget::setToInteraction(bool check) {
-	if (! check || ! editTask)
-		return;
-
-	editTask->setTaskType(Task::Interaction);
-	// editTask->setStandardOutputCheck(true);
-	// ui->standardOutputCheck->setCheckState(Qt::Checked);
-	refreshWidgetState();
-}
-
-void TaskEditWidget::setToCommunication(bool check) {
-	if (! check || ! editTask)
-		return;
-
-	editTask->setTaskType(Task::Communication);
-	refreshWidgetState();
-}
-
-void TaskEditWidget::setToCommunicationExec(bool check) {
-	if (! check || ! editTask)
-		return;
-
-	editTask->setTaskType(Task::CommunicationExec);
-	refreshWidgetState();
 }
 
 void TaskEditWidget::sourceFileNameChanged(const QString &text) {
@@ -307,20 +226,6 @@ void TaskEditWidget::subFolderCheckChanged() {
 	editTask->setSubFolderCheck(check);
 }
 
-void TaskEditWidget::inputFileNameChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setInputFileName(text);
-}
-
-void TaskEditWidget::outputFileNameChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setOutputFileName(text);
-}
-
 void TaskEditWidget::standardInputCheckChanged() {
 	if (! editTask)
 		return;
@@ -346,46 +251,11 @@ void TaskEditWidget::comparisonModeChanged() {
 	editTask->setComparisonMode(Task::ComparisonMode(ui->comparisonMode->currentIndex()));
 }
 
-void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList) {
-	if (! editTask)
-		return;
-
-	editTask->setDiffArguments(argumentsList);
-}
-
 void TaskEditWidget::realPrecisionChanged(int precision) {
 	if (! editTask)
 		return;
 
 	editTask->setRealPrecision(precision);
-}
-
-void TaskEditWidget::specialJudgeChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setSpecialJudge(text);
-}
-
-void TaskEditWidget::interactorChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setInteractor(text);
-}
-
-void TaskEditWidget::interactorNameChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setInteractorName(text);
-}
-
-void TaskEditWidget::graderChanged(const QString &text) {
-	if (! editTask)
-		return;
-
-	editTask->setGrader(text);
 }
 
 void TaskEditWidget::refreshProblemTitle(const QString &title) {
@@ -452,13 +322,6 @@ void TaskEditWidget::configurationSelectionChanged() {
 
 	editTask->setCompilerConfiguration(ui->compilersList->currentItem()->text(),
 	                                   ui->configurationSelect->currentText());
-}
-
-void TaskEditWidget::answerFileExtensionChanged(const QString &extension) {
-	if (! editTask)
-		return;
-
-	editTask->setAnswerFileExtension(extension);
 }
 
 void TaskEditWidget::multiFilesRefresh() {

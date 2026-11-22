@@ -41,30 +41,16 @@ class TaskEditWidget : public QWidget {
 	void multiFilesRefresh();
 
   private slots:
-	void problemTitleChanged(const QString &);
-	void setToTraditional(bool);
-	void setToAnswersOnly(bool);
-	void setToInteraction(bool);
-	void setToCommunication(bool);
-	void setToCommunicationExec(bool);
 	void sourceFileNameChanged(const QString &);
 	void subFolderCheckChanged();
-	void inputFileNameChanged(const QString &);
-	void outputFileNameChanged(const QString &);
 	void standardInputCheckChanged();
 	void standardOutputCheckChanged();
 	void comparisonModeChanged();
-	void diffArgumentsChanged(const QString &);
 	void realPrecisionChanged(int);
-	void specialJudgeChanged(const QString &);
-	void interactorChanged(const QString &);
-	void interactorNameChanged(const QString &);
-	void graderChanged(const QString &);
 	void refreshProblemTitle(const QString &);
 	void refreshCompilerConfiguration();
 	void compilerSelectionChanged();
 	void configurationSelectionChanged();
-	void answerFileExtensionChanged(const QString &);
 	void addSourceFileClicked();
 	void addGraderFileClicked();
 	void rmSourceFileClicked();

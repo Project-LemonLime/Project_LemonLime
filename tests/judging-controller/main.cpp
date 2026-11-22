@@ -98,7 +98,7 @@ class JudgingControllerTests : public QObject {
 		QVERIFY(QDir().mkpath("data"));
 		QVERIFY(QDir().mkpath("control"));
 		QVERIFY(writeFile("data/input.txt", ""));
-		QVERIFY(writeFile("data/output.txt", "42\n"));
+		QVERIFY(writeFile("data/output.txt", "0 42\n"));
 	}
 
 	void cleanup() {
@@ -119,11 +119,33 @@ class JudgingControllerTests : public QObject {
 		QCOMPARE(taskJudged.size(), 0);
 	}
 
+	void answersOnlyRepeatedBatches_data() {
+		QTest::addColumn<Task::ComparisonMode>("mode");
+		QTest::addColumn<QByteArray>("acceptedOutput");
+		QTest::addColumn<QByteArray>("rejectedOutput");
+		QTest::addColumn<ResultState>("rejectedVerdict");
+		const QByteArray exact = "0 42\n", spaced = "0\t42\n", rounded = "0.0009 42.02\n";
+		QTest::newRow("line-by-line") << Task::LineByLineMode << exact << spaced << WrongAnswer;
+		QTest::newRow("ignore-spaces")
+		    << Task::IgnoreSpacesMode << spaced << QByteArray("0 17\n") << WrongAnswer;
+		QTest::newRow("real-absolute-tolerance")
+		    << Task::RealNumberMode << rounded << QByteArray("0.002 42\n") << WrongAnswer;
+		QTest::newRow("real-relative-tolerance")
+		    << Task::RealNumberMode << rounded << QByteArray("0 42.05\n") << WrongAnswer;
+		QTest::newRow("real-extra-output")
+		    << Task::RealNumberMode << exact << QByteArray("0 42 17\n") << OutputLimitExceeded;
+	}
+
 	void answersOnlyRepeatedBatches() {
+		QFETCH(Task::ComparisonMode, mode);
+		QFETCH(QByteArray, acceptedOutput);
+		QFETCH(QByteArray, rejectedOutput);
+		QFETCH(ResultState, rejectedVerdict);
 		QVERIFY(QDir().mkpath("source/user"));
 		Settings settings;
 		configureSettings(settings);
-		Task task(nullptr, Task::AnswersOnly);
+		Task task(nullptr, Task::AnswersOnly, mode);
+		task.setRealPrecision(3);
 		TestCase testCase;
 		configureTask(task, testCase);
 		Contestant contestant;
@@ -149,8 +171,8 @@ class JudgingControllerTests : public QObject {
 		    },
 		    Qt::DirectConnection);
 		for (int batch = 1; batch <= 2; ++batch) {
-			expected = batch == 1 ? CorrectAnswer : WrongAnswer;
-			QVERIFY(writeFile("source/user/input.out", batch == 1 ? "42\n" : "17\n"));
+			expected = batch == 1 ? CorrectAnswer : rejectedVerdict;
+			QVERIFY(writeFile("source/user/input.out", batch == 1 ? acceptedOutput : rejectedOutput));
 			auto *judger = new TaskJudger;
 			judger->setSettings(&settings);
 			judger->setTask(&task);
