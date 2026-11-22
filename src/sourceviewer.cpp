@@ -7,6 +7,7 @@
 
 #include "sourceviewer.h"
 //
+#include "base/LemonBase.hpp"
 #include "base/settings.h"
 #include "core/contest.h"
 #include "core/contestant.h"
@@ -437,11 +438,10 @@ void SourceViewerDialog::addEditorTab(const QString &filePath) {
 	editor->setReadOnly(true);
 	editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 
-	// Microsoft YaHei renders CJK comments in contestant code far better than
-	// the monospace system font, whose CJK glyphs fall back to an ugly bitmap face
-	QFont font;
-	font.setFamilies({QStringLiteral("Microsoft YaHei"), QStringLiteral("Microsoft JhengHei"),
-	                  QStringLiteral("PingFang SC"), QStringLiteral("Noto Sans CJK SC")});
+	// The application-wide CJK font renders CJK comments in contestant code far
+	// better than the monospace system font, whose CJK glyphs fall back to an
+	// ugly bitmap face
+	QFont font = Lemon::uiFont();
 	font.setPointSizeF(10.5);
 	editor->setFont(font);
 	editor->setTabStopDistance(4 * QFontMetricsF(font).horizontalAdvance(QLatin1Char(' ')));

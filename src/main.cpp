@@ -52,18 +52,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-#ifdef Q_OS_LINUX
-	// fonts.setFamily("Noto Sans CJK SC");
-#endif
-#ifdef Q_OS_WIN32
-	QFont fonts;
-	fonts.setFamily("Microsoft YaHei");
-	fonts.setHintingPreference(QFont::PreferNoHinting);
-	SingleApplication::setFont(fonts);
-#endif
-#ifdef Q_OS_MAC
-	// fonts.setFamily("PingFangSC-Regular");
-#endif
+	SingleApplication::setFont(Lemon::uiFont());
 	Q_INIT_RESOURCE(resource);
 	QPixmap pixmap(":/logo/splash2.png");
 	QSplashScreen screen(pixmap.scaled(450, 191, Qt::KeepAspectRatio, Qt::SmoothTransformation));
