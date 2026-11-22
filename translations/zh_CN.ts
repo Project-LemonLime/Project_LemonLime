@@ -851,6 +851,10 @@
         <translation>浏览器拦截了弹出窗口，请允许此页面弹窗后重试。</translation>
     </message>
     <message>
+        <source>The details are still loading. Please try again in a moment.</source>
+        <translation>详情仍在加载中，请稍候重试。</translation>
+    </message>
+    <message>
         <source>Rank</source>
         <translation>排名</translation>
     </message>

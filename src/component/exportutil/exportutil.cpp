@@ -286,10 +286,66 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 	}
 	out << "</style>";
 
+	// The popup helper is emitted in <head> so that it is already defined while
+	// the rest of a large (tens of MB) document is still parsing; everything it
+	// touches at call time (style sheet, templates, body dataset) is looked up
+	// lazily. Clicking a link before the per-contestant templates have been
+	// parsed shows a "still loading" alert instead of doing nothing silently.
+	out << R"LEMONJS(
+	<script>
+	(function () {
+		"use strict";
+		function styleDetailDocument(doc) {
+			doc.querySelectorAll("div[id^='c'] th").forEach(e => e.classList.add("td-0"));
+			doc.querySelectorAll("div[id^='c'] td").forEach(e => e.classList.add("td-0"));
+			doc.querySelectorAll("div[id^='c']>p>span").forEach(e => {e.style.fontWeight = "bold"; e.style.fontSize = "large";});
+			doc.querySelectorAll("div[id^='c']>p>table").forEach(e => e.style.border = "solid");
+			doc.querySelectorAll("div[id^='c']>p>table th").forEach(e => e.setAttribute("scope", "col"));
+		}
+		window.lemonOpenDetail = function (contestantIndex, taskIndex) {
+			const template = document.getElementById("c" + contestantIndex);
+			if (!template) {
+				alert(document.body.dataset.popupLoading || "The details are still loading.");
+				return false;
+			}
+			// The "popup" feature plus a stable window name opens a real popup
+			// window (not a browser tab) and reuses it across contestants
+			const popup = window.open("", "LemonDetail",
+				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
+			if (!popup) {
+				alert(document.body.dataset.popupBlocked || "Popup blocked");
+				return false;
+			}
+			popup.document.open();
+			// The inline window.focus() raises the popup while it parses; the
+			// opener-side focus() alone is not enough on Chromium-based browsers.
+			// Note: the closing tag is written as <\/script> so the exported
+			// page's own script block is not terminated early.
+			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
+				document.getElementById("lemon-style").textContent +
+				"</style></head><body>" + template.textContent +
+				"<script>window.focus()<\/script></body></html>");
+			popup.document.close();
+			popup.document.title = document.title;
+			styleDetailDocument(popup.document);
+			if (typeof taskIndex === "number") {
+				const target = popup.document.getElementById("c" + contestantIndex + "p" + taskIndex);
+				if (target)
+					target.scrollIntoView();
+			}
+			popup.focus();
+			return false;
+		};
+	})();
+	</script>
+	)LEMONJS";
+
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
-	out << QString(R"(</head><body data-popup-blocked="%1">)")
+	out << QString(R"(</head><body data-popup-blocked="%1" data-popup-loading="%2">)")
 	           .arg(tr("The browser blocked the popup window. Please allow popups for this page and try again.")
+	                    .toHtmlEscaped(),
+	                tr("The details are still loading. Please try again in a moment.")
 	                    .toHtmlEscaped());
 
 	out << "<p><span class=\"d\">";
@@ -403,52 +459,6 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 	           .arg(LEMON_VERSION_STRING)
 	           .arg(LEMON_VERSION_BUILD);
 
-	out << R"LEMONJS(
-	<script>
-	(function () {
-		"use strict";
-		function styleDetailDocument(doc) {
-			doc.querySelectorAll("div[id^='c'] th").forEach(e => e.classList.add("td-0"));
-			doc.querySelectorAll("div[id^='c'] td").forEach(e => e.classList.add("td-0"));
-			doc.querySelectorAll("div[id^='c']>p>span").forEach(e => {e.style.fontWeight = "bold"; e.style.fontSize = "large";});
-			doc.querySelectorAll("div[id^='c']>p>table").forEach(e => e.style.border = "solid");
-			doc.querySelectorAll("div[id^='c']>p>table th").forEach(e => e.setAttribute("scope", "col"));
-		}
-		window.lemonOpenDetail = function (contestantIndex, taskIndex) {
-			const template = document.getElementById("c" + contestantIndex);
-			if (!template)
-				return false;
-			// The "popup" feature plus a stable window name opens a real popup
-			// window (not a browser tab) and reuses it across contestants
-			const popup = window.open("", "LemonDetail",
-				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
-			if (!popup) {
-				alert(document.body.dataset.popupBlocked || "Popup blocked");
-				return false;
-			}
-			popup.document.open();
-			// The inline window.focus() raises the popup while it parses; the
-			// opener-side focus() alone is not enough on Chromium-based browsers.
-			// Note: the closing tag is written as <\/script> so the exported
-			// page's own script block is not terminated early.
-			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
-				document.getElementById("lemon-style").textContent +
-				"</style></head><body>" + template.textContent +
-				"<script>window.focus()<\/script></body></html>");
-			popup.document.close();
-			popup.document.title = document.title;
-			styleDetailDocument(popup.document);
-			if (typeof taskIndex === "number") {
-				const target = popup.document.getElementById("c" + contestantIndex + "p" + taskIndex);
-				if (target)
-					target.scrollIntoView();
-			}
-			popup.focus();
-			return false;
-		};
-	})();
-	</script>
-	)LEMONJS";
 	out << "</body>";
 	out << "</html>";
 }
@@ -640,10 +650,46 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	       "border-width: 3px 3px; border-color: #000;} .c {font-weight: bold; font-size: large;} "
 	       ".d {font-size:x-large; font-weight:bold;} .e {font-size: small;} .f {font-weight: bold;}"
 	       ".g {border-style: none solid solid none; border-width: 3px 2px; border-color: #000;}</style>";
+
+	// Same rationale as in writeHtml(): define the popup helper in <head>
+	out << R"LEMONJS(
+	<script>
+	(function () {
+		"use strict";
+		window.lemonOpenDetail = function (contestantIndex) {
+			const template = document.getElementById("c" + contestantIndex);
+			if (!template) {
+				alert(document.body.dataset.popupLoading || "The details are still loading.");
+				return false;
+			}
+			// The "popup" feature plus a stable window name opens a real popup
+			// window (not a browser tab) and reuses it across contestants
+			const popup = window.open("", "LemonDetail",
+				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
+			if (!popup) {
+				alert(document.body.dataset.popupBlocked || "Popup blocked");
+				return false;
+			}
+			popup.document.open();
+			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
+				document.getElementById("lemon-style").textContent +
+				"</style></head><body>" + template.textContent +
+				"<script>window.focus()<\/script></body></html>");
+			popup.document.close();
+			popup.document.title = document.title;
+			popup.focus();
+			return false;
+		};
+	})();
+	</script>
+	)LEMONJS";
+
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
-	out << QString(R"(</head><body data-popup-blocked="%1">)")
+	out << QString(R"(</head><body data-popup-blocked="%1" data-popup-loading="%2">)")
 	           .arg(tr("The browser blocked the popup window. Please allow popups for this page and try again.")
+	                    .toHtmlEscaped(),
+	                tr("The details are still loading. Please try again in a moment.")
 	                    .toHtmlEscaped());
 
 	out << "<p><span class=\"d\">";
@@ -695,35 +741,6 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 		out << "</script>";
 	}
 
-	out << R"LEMONJS(
-	<script>
-	(function () {
-		"use strict";
-		window.lemonOpenDetail = function (contestantIndex) {
-			const template = document.getElementById("c" + contestantIndex);
-			if (!template)
-				return false;
-			// The "popup" feature plus a stable window name opens a real popup
-			// window (not a browser tab) and reuses it across contestants
-			const popup = window.open("", "LemonDetail",
-				"popup=yes,width=960,height=760,scrollbars=yes,resizable=yes");
-			if (!popup) {
-				alert(document.body.dataset.popupBlocked || "Popup blocked");
-				return false;
-			}
-			popup.document.open();
-			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
-				document.getElementById("lemon-style").textContent +
-				"</style></head><body>" + template.textContent +
-				"<script>window.focus()<\/script></body></html>");
-			popup.document.close();
-			popup.document.title = document.title;
-			popup.focus();
-			return false;
-		};
-	})();
-	</script>
-	)LEMONJS";
 	out << "</body></html>";
 }
 

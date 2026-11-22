@@ -851,6 +851,10 @@
         <translation>瀏覽器攔截了彈出視窗，請允許此頁面彈窗後重試。</translation>
     </message>
     <message>
+        <source>The details are still loading. Please try again in a moment.</source>
+        <translation>詳情仍在載入中，請稍候重試。</translation>
+    </message>
+    <message>
         <source>Rank</source>
         <translation>排名</translation>
     </message>
