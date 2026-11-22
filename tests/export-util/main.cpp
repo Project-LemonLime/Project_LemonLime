@@ -209,7 +209,7 @@ class ExportUtilTests : public QObject {
 
 		const QString html = render(rankedContest, smaller);
 		const QRegularExpression rankAndName(
-		    "<tr><td[^>]*>(\\d+)</td><td[^>]*><a href=\"#c(\\d+)\"[^>]*>([^<]+)</a>");
+		    "<tr><td[^>]*>(\\d+)</td><td[^>]*><a href=\"#\" onclick=\"return lemonOpenDetail\\((\\d+)\\)\"[^>]*>([^<]+)</a>");
 		QList<QStringList> rows;
 		for (const auto &match : rankAndName.globalMatch(html))
 			rows.append(match.capturedTexts().mid(1));
@@ -218,9 +218,28 @@ class ExportUtilTests : public QObject {
 		    {"1", "1", "Bea"}, {"1", "2", "Cal"}, {"3", "0", "Amy"}, {"4", "3", "Dee"}, {"4", "4", "Eve"}};
 		QCOMPARE(rows, expected);
 		if (! smaller) {
-			QVERIFY(html.contains("href=\"#c1p0\" class=\"a-0\">100</a>"));
+			QVERIFY(html.contains("onclick=\"return lemonOpenDetail(1,0)\" class=\"a-0\">100</a>"));
 			QVERIFY(html.contains("Contestant: Bea</span><div id=\"c1p0\">"));
 		}
+	}
+
+	void scriptTagInjection_data() { addFormats(); }
+
+	void scriptTagInjection() {
+		QFETCH(bool, smaller);
+		Contest injectedContest;
+		injectedContest.setSettings(&settings);
+		loadContestants(injectedContest, {"</script>alert(1)//"});
+		Task task;
+		task.addTestCase(testCase.get());
+		injectedContest.addTask(&task);
+
+		const QString html = render(injectedContest, smaller);
+		// The escaped contestant name must never terminate a text/template block early:
+		// exactly one template close and one export script close are expected.
+		QCOMPARE(html.count("</script>"), 2);
+		QVERIFY(html.contains("&lt;/script&gt;alert(1)//"));
+		QVERIFY(html.contains("onclick=\"return lemonOpenDetail("));
 	}
 
 	void fullExport_data() { addFormats(); }
@@ -245,7 +264,11 @@ class ExportUtilTests : public QObject {
 		QCOMPARE(html.count("contestant" + escapedText), 2);
 		QCOMPARE(html.count("task" + escapedText), 2);
 		QVERIFY(! html.contains("<img"));
-		QVERIFY(html.contains("href=\"#c0\""));
+		// Details live in text templates opened through lemonOpenDetail, not in anchors
+		QVERIFY(! html.contains("href=\"#c"));
+		QVERIFY(html.contains("onclick=\"return lemonOpenDetail(0)\""));
+		QVERIFY(html.contains(R"(<script type="text/template" id="c0">)"));
+		QVERIFY(html.contains("lemon-style"));
 	}
 };
 

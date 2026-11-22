@@ -235,7 +235,6 @@ auto ExportUtil::getContestantHtmlCode(Contest *contest, Contestant *contestant,
 		htmlCode += "</table><br></p></div>";
 	}
 
-	htmlCode += QString("<p><a href=\"#top\">%1</a></p>").arg(tr("Return to top"));
 	return htmlCode;
 }
 /*
@@ -269,7 +268,7 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
 
 	// Style sheet
-	out << "<style type=\"text/css\">"
+	out << R"(<style type="text/css" id="lemon-style">)"
 	       "th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
 	       "text-align: center; verticle-align: middle;}"
 	       ".td-0 {border-style: none solid solid none; border-width: 1px 3px; border-color: #ccc;}"
@@ -289,12 +288,15 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
-	out << "</head><body>";
+	out << QString(R"(</head><body data-popup-blocked="%1">)")
+	           .arg(tr("The browser blocked the popup window. Please allow popups for this page and try again.")
+	                    .toHtmlEscaped());
 
 	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Rank List")
 	    << "</span></p>";
-	out << "<p>" << tr("Click names or task scores to jump to details. Judged By LemonLime") << "</p>";
+	out << "<p>"
+	    << tr("Click names or task scores to view details in a popup window. Judged By LemonLime") << "</p>";
 	out << R"(<p><table cellpadding="1" style="border-style: solid;"><tr>)";
 	out << QString(R"(<th class="th-0" scope="col">%1</th>)").arg(tr("Rank"));
 	out << QString(R"(<th class="th-0" scope="col">%1</th>)").arg(tr("Name"));
@@ -314,7 +316,7 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 	for (const auto &[contestant, allScore, sourceIndex, rank] : rankContestants(contestantList)) {
 		out << "<tr>";
 		out << QString("<td class=\"td-0\">%1</td>").arg(rank);
-		out << QString(R"(<td class="td-0"><a href="#c%1" class="a-0">%2</a></td>)")
+		out << QString(R"LEMON(<td class="td-0"><a href="#" onclick="return lemonOpenDetail(%1)" class="a-0">%2</a></td>)LEMON")
 		           .arg(sourceIndex)
 		           .arg(contestant->getContestantName().toHtmlEscaped());
 
@@ -368,7 +370,7 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 
 				h *= 360, s *= 100, l *= 100;
 				out << QString(
-				           R"(<td class="td-3" style="background: hsl(%2,%3%,%4%);"><a href="#c%5p%6" class="a-0">%1</a></td>)")
+				           R"LEMON(<td class="td-3" style="background: hsl(%2,%3%,%4%);"><a href="#" onclick="return lemonOpenDetail(%5,%6)" class="a-0">%1</a></td>)LEMON")
 				           .arg(score)
 				           .arg(h)
 				           .arg(s)
@@ -376,7 +378,7 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 				           .arg(sourceIndex)
 				           .arg(j);
 			} else {
-				out << QString(R"(<td class="td-3"><a href="#c%2p%3" class="a-0">%1</a></td>)")
+				out << QString(R"LEMON(<td class="td-3"><a href="#" onclick="return lemonOpenDetail(%2,%3)" class="a-0">%1</a></td>)LEMON")
 				           .arg(tr("Invalid"))
 				           .arg(sourceIndex)
 				           .arg(j);
@@ -387,25 +389,57 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 
 	out << "</table></p>";
 
+	// Contestant details are stored as text templates instead of DOM nodes, so that
+	// browsers only render the details actually opened in a popup window (#235)
 	for (int i = 0; i < contestantList.size(); i++) {
-		out << QString("<a name=\"c%1\"><hr></a>").arg(i) << "<span class=\"d\">";
+		out << QString(R"(<script type="text/template" id="c%1">)").arg(i);
+		out << "<span class=\"d\">";
 		out << tr("Contestant: %1").arg(contestantList[i]->getContestantName().toHtmlEscaped()) << "</span>";
 		out << getContestantHtmlCode(contest, contestantList[i], i);
+		out << "</script>";
 	}
 
 	out << QString(R"(<footer><p><i>Lemonlime Version %1:%2</i></p></footer>)")
 	           .arg(LEMON_VERSION_STRING)
 	           .arg(LEMON_VERSION_BUILD);
 
-	out << R"(
+	out << R"LEMONJS(
 	<script>
-		document.querySelectorAll("div[id^='c'] th").forEach(e=>e.classList.add("td-0"));
-		document.querySelectorAll("div[id^='c'] td").forEach(e=>e.classList.add("td-0"));
-		document.querySelectorAll("div[id^='c']>p>span").forEach(e=>{e.style.fontWeight="bold";e.style.fontSize="large";});
-		document.querySelectorAll("div[id^='c']>p>table").forEach(e=>e.style.border="solid");
-		document.querySelectorAll("div[id^='c']>p>table th").forEach(e=>e.setAttribute("scope","col"));
+	(function () {
+		"use strict";
+		function styleDetailDocument(doc) {
+			doc.querySelectorAll("div[id^='c'] th").forEach(e => e.classList.add("td-0"));
+			doc.querySelectorAll("div[id^='c'] td").forEach(e => e.classList.add("td-0"));
+			doc.querySelectorAll("div[id^='c']>p>span").forEach(e => {e.style.fontWeight = "bold"; e.style.fontSize = "large";});
+			doc.querySelectorAll("div[id^='c']>p>table").forEach(e => e.style.border = "solid");
+			doc.querySelectorAll("div[id^='c']>p>table th").forEach(e => e.setAttribute("scope", "col"));
+		}
+		window.lemonOpenDetail = function (contestantIndex, taskIndex) {
+			const template = document.getElementById("c" + contestantIndex);
+			if (!template)
+				return false;
+			const popup = window.open("", "_blank");
+			if (!popup) {
+				alert(document.body.dataset.popupBlocked || "Popup blocked");
+				return false;
+			}
+			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
+				document.getElementById("lemon-style").textContent +
+				"</style></head><body>" + template.textContent + "</body></html>");
+			popup.document.close();
+			popup.document.title = document.title;
+			styleDetailDocument(popup.document);
+			if (typeof taskIndex === "number") {
+				const target = popup.document.getElementById("c" + contestantIndex + "p" + taskIndex);
+				if (target)
+					target.scrollIntoView();
+			}
+			popup.focus();
+			return false;
+		};
+	})();
 	</script>
-	)";
+	)LEMONJS";
 	out << "</body>";
 	out << "</html>";
 }
@@ -431,7 +465,7 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 			if (contestant->getCompileState(i) != CompileSuccessfully) {
 				switch (contestant->getCompileState(i)) {
 					case NoValidGraderFile:
-						htmlCode += QString("&nbsp;&nbsp;%1</p></a>")
+						htmlCode += QString("&nbsp;&nbsp;%1</p>")
 						                .arg(tr("Main grader (grader.*) cannot be found"));
 						break;
 
@@ -567,7 +601,6 @@ auto ExportUtil::getSmallerContestantHtmlCode(Contest *contest, Contestant *cont
 		htmlCode += "</table><br></p>";
 	}
 
-	htmlCode += QString("<p><a href=\"#top\">%1</a></p>").arg(tr("Return to top"));
 	return htmlCode;
 }
 
@@ -592,7 +625,7 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	QList<Task *> taskList = contest->getTaskList();
 	out << "<html><head>";
 	out << R"(<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />)";
-	out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
+	out << "<style type=\"text/css\" id=\"lemon-style\">th, td {padding-left: 1em; padding-right: 1em; white-space: nowrap; "
 	       "text-align: center; verticle-align: middle;} .a {border-style: none solid solid none; "
 	       "border-width: 1px 3px; border-color: #ccc;} .b {border-style: none solid solid none; "
 	       "border-width: 3px 3px; border-color: #000;} .c {font-weight: bold; font-size: large;} "
@@ -600,12 +633,15 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	       ".g {border-style: none solid solid none; border-width: 3px 2px; border-color: #000;}</style>";
 	out << "<title>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Contest Result")
 	    << "</title>";
-	out << "</head><body>";
+	out << QString(R"(</head><body data-popup-blocked="%1">)")
+	           .arg(tr("The browser blocked the popup window. Please allow popups for this page and try again.")
+	                    .toHtmlEscaped());
 
 	out << "<p><span class=\"d\">";
 	out << "<a name=\"top\"></a>" << contest->getContestTitle().toHtmlEscaped() << " : " << tr("Rank List")
 	    << "</span></p>";
-	out << "<p class=\"e\">" << tr("Judged By LemonLime") << "</p>";
+	out << "<p class=\"e\">"
+	    << tr("Click names to view details in a popup window. Judged By LemonLime") << "</p>";
 	out << R"(<p><table border="1" cellpadding="1"><tr>)";
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Rank"));
 	out << QString("<th scope=\"col\">%1</th>").arg(tr("Name"));
@@ -617,7 +653,7 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 	out << QString("</tr>");
 	for (const auto &[contestant, allScore, sourceIndex, rank] : rankContestants(contestantList)) {
 		out << QString("<tr><td>%1</td>").arg(rank);
-		out << QString("<td><a href=\"#c%1\">%2</a></td>")
+		out << QString(R"LEMON(<td><a href="#" onclick="return lemonOpenDetail(%1)">%2</a></td>)LEMON")
 		           .arg(sourceIndex)
 		           .arg(contestant->getContestantName().toHtmlEscaped());
 
@@ -640,12 +676,40 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 
 	out << "</table></p>";
 
+	// Contestant details are stored as text templates instead of DOM nodes, so that
+	// browsers only render the details actually opened in a popup window (#235)
 	for (int i = 0; i < contestantList.size(); i++) {
-		out << QString("<a name=\"c%1\"><hr><a>").arg(i) << "<span class=\"d\">";
+		out << QString(R"(<script type="text/template" id="c%1">)").arg(i);
+		out << "<span class=\"d\">";
 		out << tr("Contestant: %1").arg(contestantList[i]->getContestantName().toHtmlEscaped()) << "</span>";
 		out << getSmallerContestantHtmlCode(contest, contestantList[i]);
+		out << "</script>";
 	}
 
+	out << R"LEMONJS(
+	<script>
+	(function () {
+		"use strict";
+		window.lemonOpenDetail = function (contestantIndex) {
+			const template = document.getElementById("c" + contestantIndex);
+			if (!template)
+				return false;
+			const popup = window.open("", "_blank");
+			if (!popup) {
+				alert(document.body.dataset.popupBlocked || "Popup blocked");
+				return false;
+			}
+			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
+				document.getElementById("lemon-style").textContent +
+				"</style></head><body>" + template.textContent + "</body></html>");
+			popup.document.close();
+			popup.document.title = document.title;
+			popup.focus();
+			return false;
+		};
+	})();
+	</script>
+	)LEMONJS";
 	out << "</body></html>";
 }
 

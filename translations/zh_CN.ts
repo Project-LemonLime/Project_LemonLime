@@ -839,8 +839,16 @@
         <translation>排名表</translation>
     </message>
     <message>
-        <source>Click names or task scores to jump to details. Judged By LemonLime</source>
-        <translation>点击名字或单题分数跳转到详细信息。使用 LemonLime 评测</translation>
+        <source>Click names or task scores to view details in a popup window. Judged By LemonLime</source>
+        <translation>点击名字或单题分数在弹出窗口中查看详细信息。使用 LemonLime 评测</translation>
+    </message>
+    <message>
+        <source>Click names to view details in a popup window. Judged By LemonLime</source>
+        <translation>点击名字在弹出窗口中查看详细信息。使用 LemonLime 评测</translation>
+    </message>
+    <message>
+        <source>The browser blocked the popup window. Please allow popups for this page and try again.</source>
+        <translation>浏览器拦截了弹出窗口，请允许此页面弹窗后重试。</translation>
     </message>
     <message>
         <source>Rank</source>
