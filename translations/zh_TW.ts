@@ -2075,6 +2075,10 @@ Depends: </source>
         <translation>詳情</translation>
     </message>
     <message>
+        <source>View Source</source>
+        <translation>查看原始碼</translation>
+    </message>
+    <message>
         <source>Judge</source>
         <translation>測試</translation>
     </message>
@@ -2186,6 +2190,25 @@ Depends: </source>
     <message>
         <source>mock joi2020</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SourceViewerDialog</name>
+    <message>
+        <source>View Source</source>
+        <translation>查看原始碼</translation>
+    </message>
+    <message>
+        <source>Cannot find the source file of this task.</source>
+        <translation>找不到該任務的原始碼檔案。</translation>
+    </message>
+    <message>
+        <source>Source file %1 does not exist.</source>
+        <translation>原始碼檔案 %1 不存在。</translation>
+    </message>
+    <message>
+        <source>Source Code: %1 - %2</source>
+        <translation>原始碼：%1 - %2</translation>
     </message>
 </context>
 <context>

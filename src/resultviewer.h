@@ -42,6 +42,7 @@ class ResultViewer : public QTableWidget {
   private slots:
 	void deleteContestant();
 	void detailInformation();
+	void viewSource(int taskIndex);
 
   signals:
 	void contestantDeleted();
