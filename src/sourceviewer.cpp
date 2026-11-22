@@ -21,6 +21,10 @@
 #include <QPalette>
 #include <QPlainTextEdit>
 #include <QSet>
+#include <QString>
+#include <QStringConverter>
+#include <QStringDecoder>
+#include <QTabBar>
 #include <QTabWidget>
 #include <QTextCharFormat>
 #include <QVBoxLayout>
@@ -330,8 +334,10 @@ void SourceViewerDialog::addEditorTab(const QString &filePath) {
 		QString content = QString::fromUtf8(data);
 
 		// Fall back to the system's local encoding when the file is not valid UTF-8
-		if (content.contains(QChar(0xfffd)))
-			content = QString::fromLocal8bit(data);
+		if (content.contains(QChar(0xfffd))) {
+			QStringDecoder decoder(QStringConverter::System);
+			content = decoder(data);
+		}
 
 		editor->setPlainText(content);
 	}
