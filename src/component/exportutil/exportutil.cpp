@@ -427,9 +427,14 @@ void ExportUtil::writeHtml(QTextStream &out, Contest *contest) {
 				return false;
 			}
 			popup.document.open();
+			// The inline window.focus() raises the popup while it parses; the
+			// opener-side focus() alone is not enough on Chromium-based browsers.
+			// Note: the closing tag is written as <\/script> so the exported
+			// page's own script block is not terminated early.
 			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
 				document.getElementById("lemon-style").textContent +
-				"</style></head><body>" + template.textContent + "</body></html>");
+				"</style></head><body>" + template.textContent +
+				"<script>window.focus()<\/script></body></html>");
 			popup.document.close();
 			popup.document.title = document.title;
 			styleDetailDocument(popup.document);
@@ -709,7 +714,8 @@ void ExportUtil::writeSmallerHtml(QTextStream &out, Contest *contest) {
 			popup.document.open();
 			popup.document.write("<html><head><meta charset=\"utf-8\"><style>" +
 				document.getElementById("lemon-style").textContent +
-				"</style></head><body>" + template.textContent + "</body></html>");
+				"</style></head><body>" + template.textContent +
+				"<script>window.focus()<\/script></body></html>");
 			popup.document.close();
 			popup.document.title = document.title;
 			popup.focus();
