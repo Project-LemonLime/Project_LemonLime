@@ -16,7 +16,6 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QFontDatabase>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPalette>
@@ -438,8 +437,12 @@ void SourceViewerDialog::addEditorTab(const QString &filePath) {
 	editor->setReadOnly(true);
 	editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 
-	QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-	font.setPointSizeF(qMax(font.pointSizeF(), 10.5));
+	// Microsoft YaHei renders CJK comments in contestant code far better than
+	// the monospace system font, whose CJK glyphs fall back to an ugly bitmap face
+	QFont font;
+	font.setFamilies({QStringLiteral("Microsoft YaHei"), QStringLiteral("Microsoft JhengHei"),
+	                  QStringLiteral("PingFang SC"), QStringLiteral("Noto Sans CJK SC")});
+	font.setPointSizeF(10.5);
 	editor->setFont(font);
 	editor->setTabStopDistance(4 * QFontMetricsF(font).horizontalAdvance(QLatin1Char(' ')));
 
