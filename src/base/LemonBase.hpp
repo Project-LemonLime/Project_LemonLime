@@ -39,6 +39,23 @@ namespace Lemon {
 		return font;
 	}
 
+	// Monospace font for code/program text. The first family is genuinely
+	// fixed-pitch and is followed by a CJK fallback so Chinese comments still
+	// render instead of falling back to tofu. Missing families fall back to
+	// the platform default monospaced font.
+	inline QFont codeFont() {
+		QFont font;
+#ifdef Q_OS_WIN32
+		font.setFamilies({"Consolas", "Microsoft YaHei"});
+#elif defined(Q_OS_LINUX)
+		font.setFamilies({"DejaVu Sans Mono", "Noto Sans Mono CJK SC"});
+#elif defined(Q_OS_MAC)
+		font.setFamilies({"Menlo", "PingFang SC"});
+#endif
+		font.setStyleHint(QFont::Monospace);
+		return font;
+	}
+
 	inline QStringList LemonAssetsPaths(const QString &dirName) {
 #define makeAbs(p) QDir(p).absolutePath()
 		// Configuration Path

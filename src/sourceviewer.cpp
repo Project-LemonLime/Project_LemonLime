@@ -438,10 +438,9 @@ void SourceViewerDialog::addEditorTab(const QString &filePath) {
 	editor->setReadOnly(true);
 	editor->setLineWrapMode(QPlainTextEdit::NoWrap);
 
-	// The application-wide CJK font renders CJK comments in contestant code far
-	// better than the monospace system font, whose CJK glyphs fall back to an
-	// ugly bitmap face
-	QFont font = Lemon::uiFont();
+	// Use a fixed-pitch font so code columns align; the CJK fallback family
+	// keeps Chinese comments legible instead of showing tofu boxes
+	QFont font = Lemon::codeFont();
 	font.setPointSizeF(10.5);
 	editor->setFont(font);
 	editor->setTabStopDistance(4 * QFontMetricsF(font).horizontalAdvance(QLatin1Char(' ')));
