@@ -14,7 +14,7 @@ with tempfile.TemporaryDirectory() as directory:
         error = output.with_suffix(".err")
         process = subprocess.Popen(  # nosec B603
             ["./watcher_unix", "./memory_cases", mode, "", str(output), str(error),
-             "2000", "512", "2000", "512", "", ""],
+             "2000", "512", "2000", "512", "", "", "0"],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True,
         )
         try:

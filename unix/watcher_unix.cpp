@@ -390,14 +390,17 @@ namespace {
 	};
 } // namespace
 int main(int argc, char **argv) {
-	if (argc != 12) {
+	if (argc != 13) {
 		printf("-1\n-1\n");
+		fprintf(stderr, "Expected 12 arguments, found %d\n", argc - 1);
 		return RS_FAIL;
 	}
 	try {
 		long long timeLimit = std::stoll(argv[6]);
+		int extraTime = std::stoi(argv[12]);
 		Bytes limit;
-		if (! memoryBytes(std::stoll(argv[7]), limit) || timeLimit < 0 || timeLimit > 86400000LL) {
+		if (! memoryBytes(std::stoll(argv[7]), limit) || timeLimit < 0 || timeLimit > 86400000LL ||
+		    extraTime < 0) {
 			printf("-1\n-1\n");
 			return RS_FAIL;
 		}
@@ -485,10 +488,6 @@ int main(int argc, char **argv) {
 				fail(7);
 			if (! applyMemoryLimit(limit))
 				fail(3);
-			rlim_t seconds = static_cast<rlim_t>((timeLimit + 999) / 1000);
-			rlimit cpu{seconds, seconds + 1};
-			if (setrlimit(RLIMIT_CPU, &cpu) != 0)
-				fail(4);
 			// The shell replaces itself, so pid continues to identify the submission.
 			std::string command = "exec \"" + std::string(argv[1]) + "\" " + argv[2];
 			execlp("bash", "bash", "-c", command.c_str(), static_cast<char *>(nullptr));
@@ -501,7 +500,7 @@ int main(int argc, char **argv) {
 		(void)setpgid(pid, pid);
 		UnixProcess process(pid, events);
 		Bytes &peak = process.peak;
-		bool ready = events.arm(std::max(2000LL, 3LL * timeLimit), true);
+		bool ready = events.arm(std::max(1LL, timeLimit + extraTime), true);
 		if (! ready)
 			perror("events arm");
 #ifdef __linux__
@@ -599,8 +598,6 @@ int main(int argc, char **argv) {
 			if (verdict == RS_AC) {
 				if (limit >= 0 && peak > limit)
 					verdict = RS_MLE;
-				else if (WIFSIGNALED(process.status))
-					verdict = WTERMSIG(process.status) == SIGXCPU ? RS_TLE : RS_RE;
 				else if (! WIFEXITED(process.status) || WEXITSTATUS(process.status) != 0)
 					verdict = RS_RE;
 			}

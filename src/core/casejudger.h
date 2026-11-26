@@ -88,10 +88,10 @@ class CaseJudger {
 	void compareIgnoreSpaces(const QString &);
 	void compareWithDiff(const QString &);
 	void compareRealNumbers(const QString &);
+	bool checkSpecialJudgeFiles(const QString &);
 	void lemonSpecialJudge(const QString &);
 	void testlibSpecialJudge(const QString &);
 
-	void judgeOutput();
+	void judgeOutput(const QString &);
 	void judgeTraditionalTask();
-	void judgeAnswersOnlyTask();
 };

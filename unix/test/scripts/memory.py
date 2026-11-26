@@ -24,7 +24,7 @@ with tempfile.TemporaryDirectory() as directory:
         pathlib.Path(error).write_text('')
         # Fixed local binaries and test-controlled arguments; no shell is involved.
         p = subprocess.Popen(['./watcher_unix', './memory_cases', mode, '', output, error,  # nosec B603
-                              '1000', str(limit), '1000', str(limit), '', ''],
+                              '1000', str(limit), '1000', str(limit), '', '', '0'],
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              start_new_session=True)
         try:

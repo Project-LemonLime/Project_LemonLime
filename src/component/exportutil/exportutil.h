@@ -19,12 +19,15 @@
 
 class Contest;
 class Contestant;
+class QTextStream;
 
 class ExportUtil : public QObject {
 	Q_OBJECT
   public:
 	explicit ExportUtil(QObject *parent = nullptr);
 	static void exportResult(QWidget *, Contest *);
+	static void writeHtml(QTextStream &, Contest *);
+	static void writeSmallerHtml(QTextStream &, Contest *);
 
   private:
 	static QString getContestantHtmlCode(Contest *, Contestant *, int);

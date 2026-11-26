@@ -11,7 +11,7 @@ with tempfile.TemporaryDirectory() as directory:
     error = pathlib.Path(directory) / 'err'
     watcher = subprocess.Popen(  # nosec B603
         ['./watcher_unix', './memory_cases', 'stop-continue', '', str(output), str(error),
-         '3000', '512', '3000', '512', '', ''],
+         '3000', '512', '3000', '512', '', '', '0'],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pid = None
     try:

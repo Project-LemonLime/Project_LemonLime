@@ -98,6 +98,9 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		argumentsList << config.outputFileName;
 	}
 
+	if (! config.interpreterAsWatcher)
+		argumentsList << QString("%1").arg(extraTime);
+
 	qDebug() << argumentsList;
 
 	QString bwrapPath = QStandardPaths::findExecutable("bwrap");
@@ -159,6 +162,9 @@ ProcessRunnerResult UnixProcessRunner::run() {
 		argumentsList << config.outputFileName;
 	}
 
+	if (! config.interpreterAsWatcher)
+		argumentsList << QString("%1").arg(extraTime);
+
 	qDebug() << argumentsList;
 
 	runner.setProcessEnvironment(config.environment);
@@ -179,8 +185,9 @@ ProcessRunnerResult UnixProcessRunner::run() {
 	timer.start();
 
 	// Leave room for the watcher's explicit wall deadline and bounded reaping.
-	// Custom watchers retain the same outer watchdog protection.
-	long long killTimeLimit = qMax(2000LL, 3LL * config.timeLimit) + 5000LL + extraTime;
+	long long killTimeLimit = 1LL * config.timeLimit + extraTime + 5000LL;
+	if (config.interpreterAsWatcher)
+		killTimeLimit = qMax(2000LL, 3LL * config.timeLimit) + extraTime + 5000LL;
 	while (timer.elapsed() <= killTimeLimit) {
 		if (runner.waitForFinished(10)) {
 			isProgramFinishedInExtraTimeLimit = true;

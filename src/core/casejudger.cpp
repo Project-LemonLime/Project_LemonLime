@@ -31,6 +31,18 @@
 
 namespace {
 
+	using OutputFile = std::unique_ptr<FILE, decltype(&fclose)>;
+
+	auto openOutputFile(const QString &fileName) -> OutputFile {
+		return {fopen(fileName.toLocal8Bit().constData(), "r"), &fclose};
+	}
+
+	auto specialJudgeResult(int score, int fullScore) -> ResultState {
+		if (score >= fullScore)
+			return CorrectAnswer;
+		return score == 0 ? WrongAnswer : PartlyCorrect;
+	}
+
 	// Keep the checker's score/message files outside the contestant-writable
 	// working directory so the contestant cannot tamper with them.
 	auto sandboxExternalFilePath(const QString &workingDirectory, const QString &suffix) -> QString {
@@ -119,8 +131,8 @@ class BufferedStreamReader {
 
   public:
 	static const int BUFFER_SIZE = 1 << 18; // 256 KiB
-	explicit BufferedStreamReader(const char *filename)
-	    : buffer(new char[BUFFER_SIZE]), file(fopen(filename, "r")) {
+	explicit BufferedStreamReader(const QString &filename)
+	    : buffer(new char[BUFFER_SIZE]), file(openOutputFile(filename)) {
 		result.reserve(32);
 		// Start with bufPos == bufEnd so the first peekChar() triggers an
 		// fread; avoids a separate "primed?" flag.
@@ -133,14 +145,9 @@ class BufferedStreamReader {
 	BufferedStreamReader(const BufferedStreamReader &) = delete;
 	BufferedStreamReader &operator=(const BufferedStreamReader &) = delete;
 
-	~BufferedStreamReader() {
-		if (file)
-			fclose(file);
-	}
-
   private:
 	std::unique_ptr<char[]> buffer;
-	FILE *file;
+	OutputFile file;
 	char *bufEnd, *bufPos;
 	bool isEof;
 	int lineNumber;
@@ -164,7 +171,7 @@ auto BufferedStreamReader::peekChar() -> char {
 		// Buffer drained -- refill. fread returning 0 means real EOF; latch it
 		// so further peekChar() calls short-circuit without touching the FILE*.
 		bufPos = buffer.get();
-		bufEnd = buffer.get() + fread(buffer.get(), 1, BUFFER_SIZE, file);
+		bufEnd = buffer.get() + fread(buffer.get(), 1, BUFFER_SIZE, file.get());
 		if (bufPos == bufEnd) {
 			isEof = true;
 			return '\0';
@@ -230,8 +237,8 @@ auto BufferedStreamReader::nextUntilSpace() -> std::string_view {
 }
 
 void CaseJudger::compareLineByLine(const QString &contestantOutput) {
-	BufferedStreamReader contestantReader(contestantOutput.toLocal8Bit().data());
-	BufferedStreamReader standardOutputReader(outputFile.toLocal8Bit().data());
+	BufferedStreamReader contestantReader(contestantOutput);
+	BufferedStreamReader standardOutputReader(outputFile);
 
 	if (! contestantReader.valid()) {
 		score = 0;
@@ -288,8 +295,8 @@ void CaseJudger::compareLineByLine(const QString &contestantOutput) {
 }
 
 void CaseJudger::compareIgnoreSpaces(const QString &contestantOutput) {
-	BufferedStreamReader contestantReader(contestantOutput.toLocal8Bit().data());
-	BufferedStreamReader standardOutputReader(outputFile.toLocal8Bit().data());
+	BufferedStreamReader contestantReader(contestantOutput);
+	BufferedStreamReader standardOutputReader(outputFile);
 
 	if (! contestantReader.valid()) {
 		score = 0;
@@ -369,7 +376,7 @@ void CaseJudger::compareWithDiff(const QString &contestantOutput) {
 }
 
 void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
-	FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
+	auto contestantOutputFile = openOutputFile(contestantOutput);
 
 	if (contestantOutputFile == nullptr) {
 		score = 0;
@@ -378,13 +385,12 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 		return;
 	}
 
-	FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
+	auto standardOutputFile = openOutputFile(outputFile);
 
 	if (standardOutputFile == nullptr) {
 		score = 0;
 		result = FileError;
 		message = tr(R"(Cannot open standard output file)");
-		fclose(contestantOutputFile);
 		return;
 	}
 
@@ -398,17 +404,15 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 	int nowRow = 1;
 
 	while (true) {
-		int cnt1 = fscanf(contestantOutputFile, "%Lf", &a);
-		int cnt2 = fscanf(standardOutputFile, "%Lf", &b);
+		int cnt1 = fscanf(contestantOutputFile.get(), "%Lf", &a);
+		int cnt2 = fscanf(standardOutputFile.get(), "%Lf", &b);
 
-		char temps = fgetc(standardOutputFile);
+		char temps = fgetc(standardOutputFile.get());
 
 		if (cnt1 == 0) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %1, Invalid characters in contestant's output file)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
 			return;
 		}
 
@@ -416,8 +420,6 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 			score = 0;
 			result = FileError;
 			message = tr(R"(On line %1, Invalid characters in standard output file)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
 			return;
 		}
 
@@ -428,8 +430,6 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 			score = 0;
 			result = WrongAnswer;
 			message = tr(R"(On line %1, Contestant's Output has less contents)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
 			return;
 		}
 
@@ -437,8 +437,6 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 			score = 0;
 			result = OutputLimitExceeded;
 			message = tr(R"(On line %1, Contestant's Output has too much contents)").arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
 			return;
 		}
 
@@ -450,16 +448,11 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 			              .arg(a, 0, 'g', 18)
 			              .arg(b, 0, 'g', 18)
 			              .arg(nowRow);
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
 			return;
 		}
 
-		if (cancellation.isCanceled()) {
-			fclose(contestantOutputFile);
-			fclose(standardOutputFile);
+		if (cancellation.isCanceled())
 			return;
-		}
 
 		if (temps == '\r' || temps == '\n')
 			nowRow++;
@@ -467,31 +460,26 @@ void CaseJudger::compareRealNumbers(const QString &contestantOutput) {
 
 	score = fullScore;
 	result = CorrectAnswer;
-	fclose(contestantOutputFile);
-	fclose(standardOutputFile);
+}
+
+auto CaseJudger::checkSpecialJudgeFiles(const QString &contestantOutput) -> bool {
+	if (! QFileInfo::exists(inputFile))
+		message = tr("Cannot find standard input file");
+	else if (! QFileInfo::exists(contestantOutput))
+		message = tr(R"(Cannot find contestant's output file)");
+	else if (! QFileInfo::exists(outputFile))
+		message = tr("Cannot find standard output file");
+	else
+		return true;
+
+	score = 0;
+	result = FileError;
+	return false;
 }
 
 void CaseJudger::lemonSpecialJudge(const QString &fileName) {
-	if (! QFileInfo::exists(inputFile)) {
-		score = 0;
-		result = FileError;
-		message = tr("Cannot find standard input file");
+	if (! checkSpecialJudgeFiles(fileName))
 		return;
-	}
-
-	if (! QFileInfo::exists(fileName)) {
-		score = 0;
-		result = FileError;
-		message = tr(R"(Cannot find contestant's output file)");
-		return;
-	}
-
-	if (! QFileInfo::exists(outputFile)) {
-		score = 0;
-		result = FileError;
-		message = tr("Cannot find standard output file");
-		return;
-	}
 
 	const QString scorePath = sandboxExternalFilePath(workingDirectory, "_score");
 	const QString messagePath = sandboxExternalFilePath(workingDirectory, "_message");
@@ -577,37 +565,12 @@ void CaseJudger::lemonSpecialJudge(const QString &fileName) {
 		messageFile.close();
 	}
 
-	if (score == 0)
-		result = WrongAnswer;
-
-	if (0 < score && score < fullScore)
-		result = PartlyCorrect;
-
-	if (score >= fullScore)
-		result = CorrectAnswer;
+	result = specialJudgeResult(score, fullScore);
 }
 
 void CaseJudger::testlibSpecialJudge(const QString &fileName) {
-	if (! QFileInfo::exists(inputFile)) {
-		score = 0;
-		result = FileError;
-		message = tr("Cannot find standard input file");
+	if (! checkSpecialJudgeFiles(fileName))
 		return;
-	}
-
-	if (! QFileInfo::exists(fileName)) {
-		score = 0;
-		result = FileError;
-		message = tr(R"(Cannot find contestant's output file)");
-		return;
-	}
-
-	if (! QFileInfo::exists(outputFile)) {
-		score = 0;
-		result = FileError;
-		message = tr("Cannot find standard output file");
-		return;
-	}
 
 	const QString scorePath = sandboxExternalFilePath(workingDirectory, "_score");
 
@@ -697,25 +660,10 @@ void CaseJudger::testlibSpecialJudge(const QString &fileName) {
 		return;
 	}
 
-	if (score == 0)
-		result = WrongAnswer;
-
-	if (0 < score && score < fullScore)
-		result = PartlyCorrect;
-
-	if (score >= fullScore)
-		result = CorrectAnswer;
+	result = specialJudgeResult(score, fullScore);
 }
 
-void CaseJudger::judgeOutput() {
-	QString fileName;
-
-	if (task->getStandardOutputCheck()) {
-		fileName = workingDirectory + "_tmpout";
-	} else {
-		fileName = workingDirectory + task->getOutputFileName();
-	}
-
+void CaseJudger::judgeOutput(const QString &fileName) {
 	switch (task->getComparisonMode()) {
 		case Task::LineByLineMode:
 			compareLineByLine(fileName);
@@ -760,16 +708,15 @@ void CaseJudger::judgeTraditionalTask() {
 		}
 	}
 
+	const QString contestantOutput =
+	    workingDirectory +
+	    (task->getStandardOutputCheck() ? QStringLiteral("_tmpout") : task->getOutputFileName());
 	auto cleanupTempFiles = qScopeGuard([&] {
 		if (! task->getStandardInputCheck()) {
 			QFile::remove(workingDirectory + task->getInputFileName());
 		}
 
-		if (! task->getStandardOutputCheck()) {
-			QFile::remove(workingDirectory + task->getOutputFileName());
-		} else {
-			QFile::remove(workingDirectory + "_tmpout");
-		}
+		QFile::remove(contestantOutput);
 		QFile::remove(workingDirectory + "_tmperr");
 	});
 
@@ -820,35 +767,7 @@ void CaseJudger::judgeTraditionalTask() {
 	if (result != CorrectAnswer)
 		return;
 
-	judgeOutput();
-}
-
-void CaseJudger::judgeAnswersOnlyTask() {
-	switch (task->getComparisonMode()) {
-		case Task::LineByLineMode:
-			compareLineByLine(answerFile);
-			break;
-
-		case Task::IgnoreSpacesMode:
-			compareIgnoreSpaces(answerFile);
-			break;
-
-		case Task::ExternalToolMode:
-			compareWithDiff(answerFile);
-			break;
-
-		case Task::RealNumberMode:
-			compareRealNumbers(answerFile);
-			break;
-
-		case Task::LemonSpecialJudgeMode:
-			lemonSpecialJudge(answerFile);
-			break;
-
-		case Task::TestlibSpecialJudgeMode:
-			testlibSpecialJudge(answerFile);
-			break;
-	}
+	judgeOutput(contestantOutput);
 }
 
 void CaseJudger::run() {
@@ -870,7 +789,7 @@ void CaseJudger::run() {
 			break;
 
 		case Task::AnswersOnly:
-			judgeAnswersOnlyTask();
+			judgeOutput(answerFile);
 			break;
 	}
 }
