@@ -282,7 +282,7 @@ void DetailDialog::anchorClicked(const QUrl &url) {
 	}
 
 	if (list[0] == "Source") {
-		SourceViewerDialog::viewSource(this, contest, contestant, list[1].toInt());
+		SourceViewer::viewSource(this, contest, contestant, list[1].toInt());
 	}
 
 	if (list[0] == "Message") {

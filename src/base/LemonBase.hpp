@@ -10,7 +10,6 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFont>
-#include <QFontDatabase>
 #include <QMap>
 #include <QStandardPaths>
 
@@ -32,15 +31,6 @@ namespace Lemon {
 		QFont font;
 		font.setStyleHint(QFont::System);
 		return font;
-	}
-
-	// Fixed-pitch font for program text. QFontDatabase::FixedFont asks the
-	// platform font database (Fontconfig on Linux, DirectWrite on Windows,
-	// Core Text on macOS) for the user's preferred monospaced font, without
-	// assuming any specific family name. CJK glyphs are handled by the
-	// platform's font fallback mechanism.
-	inline QFont codeFont() {
-		return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 	}
 
 	inline QStringList LemonAssetsPaths(const QString &dirName) {

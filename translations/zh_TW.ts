@@ -2193,7 +2193,7 @@ Depends: </source>
     </message>
 </context>
 <context>
-    <name>SourceViewerDialog</name>
+    <name>SourceViewer</name>
     <message>
         <source>View Source</source>
         <translation>查看原始碼</translation>
@@ -2205,10 +2205,6 @@ Depends: </source>
     <message>
         <source>Source file %1 does not exist.</source>
         <translation>原始碼檔案 %1 不存在。</translation>
-    </message>
-    <message>
-        <source>Source Code: %1 - %2</source>
-        <translation>原始碼：%1 - %2</translation>
     </message>
 </context>
 <context>

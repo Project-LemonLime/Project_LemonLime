@@ -8,28 +8,18 @@
 #pragma once
 //
 
-#include <QDialog>
-#include <QSyntaxHighlighter>
+#include <QObject>
 
 class Contest;
 class Contestant;
-class SourceHighlighter;
-class QTabWidget;
+class QWidget;
 
-class SourceViewerDialog : public QDialog {
+// Opens a contestant's submitted sources with the user's own editor via the
+// platform file association, instead of embedding a syntax-highlighting viewer.
+class SourceViewer final : public QObject {
 	Q_OBJECT
 
   public:
-	/** Resolve the path of one submitted source file, mirroring TaskJudger's layout. */
-	static QString contestantSourceFilePath(Contest *contest, Contestant *contestant, int taskIndex,
-	                                        int fileIndex);
-	/** Resolve, load and display the source files of contestant's taskIndex-th task. */
+	/** Open the source file(s) of the contestant's taskIndex-th task in the system editor. */
 	static void viewSource(QWidget *parent, Contest *contest, Contestant *contestant, int taskIndex);
-
-  private:
-	explicit SourceViewerDialog(QWidget *parent, const QStringList &filePaths, const QString &heading);
-	void addEditorTab(const QString &filePath);
-
-	QTabWidget *tabWidget{};
-	QList<SourceHighlighter *> highlighters;
 };

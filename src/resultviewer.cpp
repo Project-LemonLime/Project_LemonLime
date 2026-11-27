@@ -76,7 +76,7 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent * /*event*/) {
 		contextMenu->addAction(detailInformationAction);
 		contextMenu->setDefaultAction(detailInformationAction);
 
-		// View the source code of the selected contestant (issue #225)
+		// Open the source code of the selected contestant (issue #225)
 		const QList<Task *> taskList = curContest->getTaskList();
 		QList<int> sourceTaskIndices;
 
@@ -468,5 +468,5 @@ void ResultViewer::viewSource(int taskIndex) {
 	if (contestant == nullptr)
 		return;
 
-	SourceViewerDialog::viewSource(this, curContest, contestant, taskIndex);
+	SourceViewer::viewSource(this, curContest, contestant, taskIndex);
 }
