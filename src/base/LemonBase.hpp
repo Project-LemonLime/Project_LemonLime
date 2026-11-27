@@ -10,6 +10,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFont>
+#include <QFontDatabase>
 #include <QMap>
 #include <QStandardPaths>
 
@@ -23,37 +24,23 @@
 #define LEMON_BUILD_EXTRA_INFO QString(LEMON_BUILD_EXTRA_INFO_STR)
 
 namespace Lemon {
-	// The CJK-capable UI font of the application, shared by the main window
-	// (main.cpp) and the source code viewer. Missing families fall back to the
-	// platform default font, so listing them unconditionally is safe.
+	// The UI font follows the platform/user preference. No family is hard-coded:
+	// the system font fallback (Fontconfig on Linux, DirectWrite on Windows,
+	// Core Text on macOS) resolves the user's chosen font and supplies CJK
+	// glyphs automatically.
 	inline QFont uiFont() {
 		QFont font;
-#ifdef Q_OS_WIN32
-		font.setFamilies({"Microsoft YaHei"});
-		font.setHintingPreference(QFont::PreferNoHinting);
-#elif defined(Q_OS_LINUX)
-		font.setFamilies({"Noto Sans CJK SC", "WenQuanYi Micro Hei"});
-#elif defined(Q_OS_MAC)
-		font.setFamilies({"PingFang SC"});
-#endif
+		font.setStyleHint(QFont::System);
 		return font;
 	}
 
-	// Monospace font for code/program text. The first family is genuinely
-	// fixed-pitch and is followed by a CJK fallback so Chinese comments still
-	// render instead of falling back to tofu. Missing families fall back to
-	// the platform default monospaced font.
+	// Fixed-pitch font for program text. QFontDatabase::FixedFont asks the
+	// platform font database (Fontconfig on Linux, DirectWrite on Windows,
+	// Core Text on macOS) for the user's preferred monospaced font, without
+	// assuming any specific family name. CJK glyphs are handled by the
+	// platform's font fallback mechanism.
 	inline QFont codeFont() {
-		QFont font;
-#ifdef Q_OS_WIN32
-		font.setFamilies({"Consolas", "Microsoft YaHei"});
-#elif defined(Q_OS_LINUX)
-		font.setFamilies({"DejaVu Sans Mono", "Noto Sans Mono CJK SC"});
-#elif defined(Q_OS_MAC)
-		font.setFamilies({"Menlo", "PingFang SC"});
-#endif
-		font.setStyleHint(QFont::Monospace);
-		return font;
+		return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 	}
 
 	inline QStringList LemonAssetsPaths(const QString &dirName) {
