@@ -9,7 +9,6 @@
 //
 #include <QCoreApplication>
 #include <QDir>
-#include <QFont>
 #include <QMap>
 #include <QStandardPaths>
 
@@ -23,16 +22,6 @@
 #define LEMON_BUILD_EXTRA_INFO QString(LEMON_BUILD_EXTRA_INFO_STR)
 
 namespace Lemon {
-	// The UI font follows the platform/user preference. No family is hard-coded:
-	// the system font fallback (Fontconfig on Linux, DirectWrite on Windows,
-	// Core Text on macOS) resolves the user's chosen font and supplies CJK
-	// glyphs automatically.
-	inline QFont uiFont() {
-		QFont font;
-		font.setStyleHint(QFont::System);
-		return font;
-	}
-
 	inline QStringList LemonAssetsPaths(const QString &dirName) {
 #define makeAbs(p) QDir(p).absolutePath()
 		// Configuration Path

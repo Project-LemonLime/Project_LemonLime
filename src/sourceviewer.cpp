@@ -20,46 +20,47 @@
 
 namespace {
 
-// Resolve one submitted source file, mirroring TaskJudger's layout (including
-// the sub-folder layout used by tasks with SubFolderCheck enabled).
-QString contestantSourceFilePath(Contest *contest, Contestant *contestant, int taskIndex, int fileIndex) {
+// Mirror TaskJudger::traditionalTaskPrepare()'s layout: the contestant's
+// source directory gains the task's source-file-name sub-folder only when
+// SubFolderCheck is enabled.
+QString contestantSourceDir(Contest *contest, Contestant *contestant, int taskIndex) {
 	const Task *task = contest->getTask(taskIndex);
-
-	if (task == nullptr || task->getTaskType() == Task::AnswersOnly)
-		return {};
-
-	// Communication tasks store a space-separated list of submitted files
-	const QStringList files = contestant->getSourceFile(taskIndex).split(' ', Qt::SkipEmptyParts);
-
-	if (fileIndex < 0 || fileIndex >= files.size())
-		return {};
-
-	const QString &fileName = files[fileIndex];
-
-	if (fileName.isEmpty())
-		return {};
-
-	QString path = Settings::sourcePath() + contestant->getContestantName();
+	QString dir = Settings::sourcePath() + contestant->getContestantName();
 
 	if (task->getSubFolderCheck())
-		path += QDir::separator() + task->getSourceFileName();
+		dir += QDir::separator() + task->getSourceFileName();
 
-	path += QDir::separator() + fileName;
-	return path;
+	return dir;
 }
 
 } // namespace
 
 void SourceViewer::viewSource(QWidget *parent, Contest *contest, Contestant *contestant, int taskIndex) {
+	const Task *task = contest->getTask(taskIndex);
+
+	if (task == nullptr || task->getTaskType() == Task::AnswersOnly) {
+		QMessageBox::information(parent, tr("View Source"), tr("Cannot find the source file of this task."));
+		return;
+	}
+
+	const QString dir = contestantSourceDir(contest, contestant, taskIndex);
+
+	// Communication tasks: getSourceFile() holds the compiled names (e.g.
+	// send.cpp), while getSourceFilesPath() holds the actual submitted files.
+	// Ordinary tasks: getSourceFile() is one complete file name, which must not
+	// be split on spaces.
+	QStringList fileNames;
+
+	if (task->getTaskType() == Task::Communication || task->getTaskType() == Task::CommunicationExec)
+		fileNames = task->getSourceFilesPath();
+	else
+		fileNames = {contestant->getSourceFile(taskIndex)};
+
 	QStringList filePaths;
 
-	for (int i = 0;; i++) {
-		const QString path = contestantSourceFilePath(contest, contestant, taskIndex, i);
-
-		if (path.isEmpty())
-			break;
-
-		filePaths.append(path);
+	for (const QString &fileName : fileNames) {
+		if (! fileName.isEmpty())
+			filePaths.append(dir + QDir::separator() + fileName);
 	}
 
 	if (filePaths.isEmpty()) {
