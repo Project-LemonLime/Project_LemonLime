@@ -18,6 +18,7 @@
 #include "core/task.h"
 #include "core/testcase.h"
 #include "judgingdialog.h"
+#include "sourceviewer.h"
 //
 #include <QMessageBox>
 #include <QScrollBar>
@@ -86,9 +87,9 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 						break;
 
 					case CompileTimeLimitExceeded:
-						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
-						                .arg(tr("Source file: "))
-						                .arg(contestant->getSourceFile(i));
+						htmlCode += QString(R"(&nbsp;&nbsp;%1<a href="Source %3" style="text-decoration: none">%2</a><br>)")
+						                .arg(tr("Source file: "), contestant->getSourceFile(i).toHtmlEscaped(),
+						                     QString::number(i));
 						htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
 						break;
 
@@ -97,9 +98,9 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 						break;
 
 					case CompileError:
-						htmlCode += QString("&nbsp;&nbsp;%1%2<br>")
-						                .arg(tr("Source file: "))
-						                .arg(contestant->getSourceFile(i));
+						htmlCode += QString(R"(&nbsp;&nbsp;%1<a href="Source %3" style="text-decoration: none">%2</a><br>)")
+						                .arg(tr("Source file: "), contestant->getSourceFile(i).toHtmlEscaped(),
+						                     QString::number(i));
 						htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
 
 						if (! contestant->getCompileMessage(i).isEmpty())
@@ -118,7 +119,8 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant) {
 			}
 
 			htmlCode +=
-			    QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+			    QString(R"(&nbsp;&nbsp;%1<a href="Source %3" style="text-decoration: none">%2</a>)")
+			        .arg(tr("Source file: "), contestant->getSourceFile(i).toHtmlEscaped(), QString::number(i));
 		}
 
 		htmlCode += R"(<table width="100%" cellpadding="1" border="1"><tr>)";
@@ -277,6 +279,10 @@ void DetailDialog::anchorClicked(const QUrl &url) {
 		            QString("<code>%1</code>").arg(contestant->getCompileMessage(list[1].toInt())),
 		            QMessageBox::Close, this)
 		    .exec();
+	}
+
+	if (list[0] == "Source") {
+		SourceViewer::viewSource(this, contest, contestant, list[1].toInt());
 	}
 
 	if (list[0] == "Message") {

@@ -2075,6 +2075,10 @@ Depends: </source>
         <translation>详情</translation>
     </message>
     <message>
+        <source>View Source</source>
+        <translation>查看源代码</translation>
+    </message>
+    <message>
         <source>Judge</source>
         <translation>测试</translation>
     </message>
@@ -2186,6 +2190,21 @@ Depends: </source>
     <message>
         <source>mock joi2020</source>
         <translation>仿 joi2020</translation>
+    </message>
+</context>
+<context>
+    <name>SourceViewer</name>
+    <message>
+        <source>View Source</source>
+        <translation>查看源代码</translation>
+    </message>
+    <message>
+        <source>Cannot find the source file of this task.</source>
+        <translation>找不到该任务的源文件。</translation>
+    </message>
+    <message>
+        <source>Source file %1 does not exist.</source>
+        <translation>源文件 %1 不存在。</translation>
     </message>
 </context>
 <context>

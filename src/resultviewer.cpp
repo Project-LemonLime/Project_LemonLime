@@ -17,6 +17,7 @@
 #include "core/task.h"
 #include "detaildialog.h"
 #include "judgingdialog.h"
+#include "sourceviewer.h"
 //
 #include <QApplication>
 #include <QCheckBox>
@@ -71,9 +72,27 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent * /*event*/) {
 
 	auto *contextMenu = new QMenu(this);
 
-	if (selectionRange.size() == 1 && selectionRange[0].rowCount() == 1) {
+	if (curContest && selectionRange.size() == 1 && selectionRange[0].rowCount() == 1) {
 		contextMenu->addAction(detailInformationAction);
 		contextMenu->setDefaultAction(detailInformationAction);
+
+		// Open the source code of the selected contestant (issue #225)
+		const QList<Task *> taskList = curContest->getTaskList();
+		QList<int> sourceTaskIndices;
+
+		for (int i = 0; i < taskList.size(); i++) {
+			if (taskList[i]->getTaskType() != Task::AnswersOnly)
+				sourceTaskIndices.append(i);
+		}
+
+		if (! sourceTaskIndices.empty()) {
+			QMenu *viewSourceMenu = contextMenu->addMenu(tr("View Source"));
+
+			for (int i : sourceTaskIndices) {
+				QAction *viewSourceAction = viewSourceMenu->addAction(taskList[i]->getProblemTitle());
+				connect(viewSourceAction, &QAction::triggered, this, [this, i]() { viewSource(i); });
+			}
+		}
 	}
 
 	if (! selectionRange.empty()) {
@@ -435,4 +454,19 @@ void ResultViewer::detailInformation() {
 	connect(dialog, &DetailDialog::rejudgeSignal, this, &ResultViewer::refreshViewer);
 	dialog->showDialog();
 	delete dialog;
+}
+
+void ResultViewer::viewSource(int taskIndex) {
+	QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
+
+	if (selectionRange.empty() || ! curContest)
+		return;
+
+	int index = selectionRange[0].topRow();
+	Contestant *contestant = curContest->getContestant(item(index, 1)->text());
+
+	if (contestant == nullptr)
+		return;
+
+	SourceViewer::viewSource(this, curContest, contestant, taskIndex);
 }
